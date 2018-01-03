@@ -1,3 +1,4 @@
+const path = require('path');
 const env = require('var');
 
 /**
@@ -17,20 +18,20 @@ module.exports = {
 		corsOptions: {
 			maxAge: 86400
 		},
-		// ssl: {
-		// 	key: path.resolve('./src/key.pem'),
-		// 	cert: path.resolve('./src/cert.pem')
-		// }
+		ssl: {
+			key: path.resolve(env.SSL_KEY),
+			cert: path.resolve(env.SSL_CERT)
+		}
 	},
 	logging: {
 		level: env.LOGGING_LEVEL
 	},
 	profiles: {
 		patient: {
-			service: './src/services/patient/patient.service.js'
+			service: path.resolve('./src/services/patient/patient.service.js')
 		},
 		observation: {
-			service: './src/services/observation/observation.service.js'
+			service: path.resolve('./src/services/observation/observation.service.js')
 		}
 	}
 };
