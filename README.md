@@ -20,6 +20,14 @@ There are some temporary steps to do before developing until this is published o
 ## Usage
 Coming soon...
 
+## Deployment
+This package uses an env.json to define some values for local development and they should be used for local development only. You need to make sure these are overridden before deploying `@asymmetrik/fhir-server-mongo`. The following environment variables must be set before deploying:
+
+```shell
+MONGO_HOSTNAME
+MONGO_DB_NAME
+```
+
 ## Having trouble with something?
 If you have questions specific to Node or Mongo, please consider asking on Stack Overflow, they already have a lot of support on these topics. If your questions is related to the FHIR specification, please review that documentation at [https://www.hl7.org/fhir/](https://www.hl7.org/fhir/). Any questions related to this specific package, please ask in the issues section. Also, if you think you are experiencing a bug or see something incorrect with the spec, please file an issue so we can help you as soon as we can.
 

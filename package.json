@@ -13,7 +13,7 @@
   },
   "scripts": {
     "start": "export NODE_ENV=production; node src/index.js;",
-		"nodemon": "export NODE_ENV=development; node scripts/nodemon;",
+    "nodemon": "export NODE_ENV=development; node scripts/nodemon;",
     "test": "npm run test:lint; npm run test:jest;",
     "test:lint": "eslint \"src/**/*.js\"",
     "test:jest": "jest src"
@@ -26,6 +26,10 @@
       "lcov",
       "json"
     ]
+  },
+  "dependencies": {
+    "mongodb": "^3.0.1",
+    "var": "^0.3.2"
   },
   "devDependencies": {
     "eslint": "^4.14.0",
