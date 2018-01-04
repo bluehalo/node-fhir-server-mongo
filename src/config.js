@@ -2,10 +2,22 @@ const path = require('path');
 const env = require('var');
 
 /**
- * @name exports
+ * @name mongoConfig
+ * @summary Configurations for our Mongo instance
+ */
+module.exports.mongoConfig = {
+	connection: `mongodb://${env.MONGO_HOSTNAME}`,
+	db_name: env.MONGO_DB_NAME,
+	options: {
+		auto_reconnect: true
+	}
+};
+
+/**
+ * @name fhirServerConfig
  * @summary @asymmetrik/fhir-server-core configurations.
  */
-module.exports = {
+module.exports.fhirServerConfig = {
 	auth: {
 		clientId: 'client_id',
 		secret: 'secret',
