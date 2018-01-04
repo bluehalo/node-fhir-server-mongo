@@ -9,7 +9,9 @@ const {
 
 let main = async function () {
 	// Connect to mongo and pass any options here
-	let [ mongoErr, client ] = await asyncHandler(mongoClient(mongoConfig.connection, mongoConfig.options));
+	let [ mongoErr, client ] = await asyncHandler(
+		mongoClient(mongoConfig.connection, mongoConfig.options)
+	);
 
 	if (mongoErr) {
 		console.error(mongoErr.message);
