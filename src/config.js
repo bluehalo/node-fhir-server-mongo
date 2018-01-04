@@ -44,6 +44,9 @@ module.exports.fhirServerConfig = {
 		},
 		observation: {
 			service: path.resolve('./src/services/observation/observation.service.js')
+		},
+		oauth: {
+			service: path.resolve('./src/services/oauth/oauth.service.js')
 		}
 	}
 };
