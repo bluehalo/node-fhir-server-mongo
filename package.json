@@ -28,6 +28,7 @@
     ]
   },
   "dependencies": {
+    "moment-timezone": "^0.5.14",
     "mongodb": "^3.0.1",
     "var": "^0.3.2"
   },
