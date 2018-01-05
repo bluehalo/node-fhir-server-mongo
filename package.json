@@ -26,9 +26,9 @@
       "lcov",
       "json"
     ],
-		"coveragePathIgnorePatterns": [
-			"<rootDir>/src/testutils/"
-		]
+    "coveragePathIgnorePatterns": [
+      "<rootDir>/src/testutils/"
+    ]
   },
   "dependencies": {
     "jsonwebtoken": "^8.1.0",
