@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  server:
+    depends_on:
+      - mongo
+    build:
+      context: server
+      dockerfile: Dockerfile
+    environment:
+      MONGO_HOSTNAME: mongo
+      MONGO_DB_NAME: mongo_on_fhir
+      SERVER_PORT: 3000
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./server/scripts:/srv/src/scripts
+      - ./server/src:/srv/src/src
+    command: yarn nodemon
+  mongo:
+    image: mongo:3.6.1
+    ports:
+      - "27017"
+    volumes:
+      - mongo_data:/data/db
+volumes:
+  mongo_data:
