@@ -6,5 +6,5 @@
  *	if (err) console.error('Something happened')
  */
 module.exports = promise => promise
-	.then(data => [null, data])
+	.then(data => [undefined, data])
 	.catch(err => [err]);

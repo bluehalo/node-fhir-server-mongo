@@ -443,6 +443,10 @@ bser@^2.0.0:
   dependencies:
     node-int64 "^0.4.0"
 
+bson-objectid@^1.1.4:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/bson-objectid/-/bson-objectid-1.2.2.tgz#f7d5dbc0d5fc1e810e4fefc9e0ef08e18534b7f2"
+
 bson@~1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/bson/-/bson-1.0.4.tgz#93c10d39eaa5b58415cbc4052f3e53e562b0b72c"
@@ -680,7 +684,7 @@ dashdash@^1.12.0:
   dependencies:
     assert-plus "^1.0.0"
 
-debug@^2.2.0, debug@^2.6.8:
+debug@^2.1.3, debug@^2.2.0, debug@^2.6.8:
   version "2.6.9"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.9.tgz#5d128515df134ff327e90a4c93f4e077a536341f"
   dependencies:
@@ -2127,6 +2131,10 @@ lodash.sortby@^4.7.0:
   version "4.7.0"
   resolved "https://registry.yarnpkg.com/lodash.sortby/-/lodash.sortby-4.7.0.tgz#edd14c824e2cc9c1e0b0a1b42bb5210516a42438"
 
+lodash@^3.6.0:
+  version "3.10.1"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-3.10.1.tgz#5bf45e8e49ba4189e17d482789dfd15bd140b7b6"
+
 lodash@^4.13.1, lodash@^4.14.0, lodash@^4.17.4, lodash@^4.3.0:
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
@@ -2249,6 +2257,15 @@ moment-timezone@^0.5.14:
 "moment@>= 2.9.0":
   version "2.20.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.20.1.tgz#d6eb1a46cbcc14a2b2f9434112c1ff8907f313fd"
+
+mongo-mock@^2.8.0:
+  version "2.8.0"
+  resolved "https://registry.yarnpkg.com/mongo-mock/-/mongo-mock-2.8.0.tgz#cb879e8bc69d505f11555baba55174c3f93ac4ba"
+  dependencies:
+    bson-objectid "^1.1.4"
+    debug "^2.1.3"
+    lodash "^3.6.0"
+    sift "^3.1.1"
 
 mongodb-core@3.0.1:
   version "3.0.1"
@@ -2925,6 +2942,10 @@ shebang-regex@^1.0.0:
 shellwords@^0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/shellwords/-/shellwords-0.1.1.tgz#d6b9181c1a48d397324c84871efbcfc73fc0654b"
+
+sift@^3.1.1:
+  version "3.3.12"
+  resolved "https://registry.yarnpkg.com/sift/-/sift-3.3.12.tgz#4f5cdf16af3db32afa04ab25297b0e20ad98294a"
 
 signal-exit@^3.0.0, signal-exit@^3.0.2:
   version "3.0.2"
