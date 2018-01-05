@@ -1,5 +1,5 @@
 {
-  "name": "@asymmetrik/fhir-server-mongo",
+  "name": "@asymmetrik/node-fhir-server-mongo",
   "version": "0.0.1",
   "description": "Mongo Server implementing @asymmetrik/fhir-server-core",
   "main": "src/index.js",
