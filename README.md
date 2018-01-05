@@ -1,5 +1,5 @@
-@asymmetrik/fhir-server-mongo
-=============================
+@asymmetrik/node-fhir-server-mongo
+==================================
 
 ## Intro
 
@@ -11,7 +11,7 @@
 
 ## Getting Started
 
-There are some temporary steps to do before developing until this is published on Github and npm. You must currently clone https://bitbucket.org/asymmetrik/asy-fhir-server and run `npm link` inside that directory. Once you do, return to this directory, and link-install it with `npm link @asymmetrik/fhir-server-core`.
+There are some temporary steps to do before developing until this is published on Github and npm. You must currently clone https://bitbucket.org/asymmetrik/asy-fhir-server and run `npm link` inside that directory. Once you do, return to this directory, and link-install it with `npm link @asymmetrik/node-fhir-server-core`.
 
 1. Run `npm install`.  If you prefer yarn, you can also run `yarn`.
 2. Start your mongo server.

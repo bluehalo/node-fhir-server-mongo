@@ -1,4 +1,4 @@
-const fhirServerCore = require('@asymmetrik/fhir-server-core');
+const fhirServerCore = require('@asymmetrik/node-fhir-server-core');
 const asyncHandler = require('./lib/async-handler');
 const mongoClient = require('./lib/mongo');
 const globals = require('./globals');
@@ -14,7 +14,6 @@ const {
 } = require('./constants');
 
 let main = async function () {
-	console.log(fhirServerConfig);
 
 	// Connect to mongo and pass any options here
 	let [ mongoErr, client ] = await asyncHandler(

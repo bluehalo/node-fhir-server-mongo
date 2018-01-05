@@ -8,4 +8,4 @@
 
 **What are the steps to reproduce?**
 
-**What OS are you using and what version of node.js, @asymmetrik/fhir-server-core, and @asymmetrik/fhir-server-mongo are you running?**
+**What OS are you using and what version of node.js, @asymmetrik/node-fhir-server-core, and @asymmetrik/node-fhir-server-mongo are you running?**
