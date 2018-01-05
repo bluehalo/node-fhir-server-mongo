@@ -9,10 +9,10 @@ charset = utf-8
 [*.md]
 trim_trailing_whitespace = false
 
-[*.{js,json}]
+[*.{js}]
 indent_style = tab
 indent_size = 2
 
-[*.yml]
+[*.{yml,json}]
 indent_style = space
 indent_size = 2
