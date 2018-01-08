@@ -1,12 +1,12 @@
 Contributing
 ============
 
-The `@asymmetrik/fhir-server-mongo` is designed to be a wrapper around `@asymmetrik/fhir-server-core` which provides a mongo based backend to it.  
+The `@asymmetrik/node-fhir-server-mongo` is designed to be a wrapper around `@asymmetrik/node-fhir-server-core` which provides a mongo based backend to it.  
 
-General guidelines for contributing to `@asymmetrik/fhir-server-mongo` are listed below.
+General guidelines for contributing to `@asymmetrik/node-fhir-server-mongo` are listed below.
 
 ## Filing Issues
-Try to explain the current behavior, expected behavior, provide a reproducible case demonstrating your problem, and your versions of node, `@asymmetrik/fhir-server-core`, `@asymmetrik/fhir-server-mongo`, and your OS so I and/or others can provide assistance to you as best as possible.
+Try to explain the current behavior, expected behavior, provide a reproducible case demonstrating your problem, and your versions of node, `@asymmetrik/node-fhir-server-core`, `@asymmetrik/node-fhir-server-mongo`, and your OS so I and/or others can provide assistance to you as best as possible.
 
 ## Submitting pull requests
 If you want to submit a pull request, please adhere to the following guidelines.

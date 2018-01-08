@@ -15,7 +15,7 @@ module.exports.getCount = (req, logger) => new Promise((resolve, reject) => {
 	let db = globals.get(CLIENT_DB);
 	let collection = db.collection(COLLECTION.OBSERVATION);
 	// Query all documents in this collection
-	collection.find({}).count((err, count) => {
+	collection.count((err, count) => {
 		if (err) {
 			logger.error('Error with Observation.getCount: ', err);
 			return reject(err);

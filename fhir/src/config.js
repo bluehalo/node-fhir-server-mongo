@@ -15,7 +15,7 @@ module.exports.mongoConfig = {
 
 /**
  * @name fhirServerConfig
- * @summary @asymmetrik/fhir-server-core configurations.
+ * @summary @asymmetrik/node-fhir-server-core configurations.
  */
 module.exports.fhirServerConfig = {
 	auth: {
