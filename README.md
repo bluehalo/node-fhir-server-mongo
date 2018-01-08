@@ -14,9 +14,9 @@
 ## Usage
 There are several other commands that may be useful. You can run all of them through `docker-compose run <service>` or `docker-compose exec <service>`. Use `docker-compose exec` if you already have the app running, otherwise use `docker-compose run` to run it once. The available scripts are:
 
-* `docker-compose exec server test` - lint the src directory and use jest to run all of our tests
-* `docker-compose exec server test:lint` - only lint your src directory
-* `docker-compose exec server test:jest` - only use jest to run all the tests
+* `docker-compose exec fhir test` - lint the src directory and use jest to run all of our tests
+* `docker-compose exec fhir test:lint` - only lint your src directory
+* `docker-compose exec fhir test:jest` - only use jest to run all the tests
 
 The two other npm scripts available are `start` and `nodemon`. `nodemon` is used when you run `docker-compose up` and if you ever deploy, you should use the `start` command.
 
