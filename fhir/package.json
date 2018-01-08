@@ -16,7 +16,8 @@
     "nodemon": "export NODE_ENV=development; node scripts/nodemon;",
     "test": "set -e; npm run test:lint; npm run test:jest;",
     "test:lint": "eslint \"src/**/*.js\"",
-    "test:jest": "jest src"
+    "test:jest": "jest src",
+    "populate": "node scripts/populate"
   },
   "jest": {
     "verbose": true,

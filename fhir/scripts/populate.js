@@ -39,16 +39,17 @@ let loadProfiles = async profiles => {
 		let documents = profiles[name];
 
 		// Add a validator for the schemas
-		let [ schemaErr, collection ] = await asyncHandler(db.createCollection(name, {
-			validator: { $jsonSchema: SCHEMA_MAP[name] }
-		}));
-
-		// Skip this iteration if there was an error creating the schema
-		if (schemaErr) {
-			console.warn(`Unable to create collection for ${name} profile. Skipping.`);
-			console.error(schemaErr);
-			return;
-		}
+		// let [ schemaErr, collection ] = await asyncHandler(db.createCollection(name, {
+		// 	validator: { $jsonSchema: SCHEMA_MAP[name] }
+		// }));
+    //
+		// // Skip this iteration if there was an error creating the schema
+		// if (schemaErr) {
+		// 	console.warn(`Unable to create collection for ${name} profile. Skipping.`);
+		// 	console.error(schemaErr);
+		// 	return;
+		// }
+		let collection = db.collection(name);
 
 		// Insert all of our documents
 		console.log(`Inserting documents for the ${name} profile.`);
@@ -59,12 +60,12 @@ let loadProfiles = async profiles => {
 			console.error(insertErr);
 		}
 		else {
-			console.log(`Successfully inserted ${documents.length} documents into the ${name} profile.`);
-			console.log(results);
+			console.log(`Status: ${results.result.ok}. Inserted ${results.result.n} documents in ${name} profile.`);
 		}
 	}
 
 	// Close our connection
+	console.log('Close our connection');
 	client.close();
 };
 
@@ -87,7 +88,8 @@ let findProfiles = profile_name => {
  * @function parseArgs
  * @summary Parse profiles from commmand line that we want to seed mongo with
  * @TODO: We should use something like commander later to make this cleaner
- * and force only profiles that we know are valid
+ * and force only profiles that we know are valid. Maybe add a flag for
+ * clearing current collection first
  */
 let parseArgs = () => {
 	let args = process.argv.slice(2)

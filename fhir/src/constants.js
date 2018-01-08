@@ -6,7 +6,7 @@ module.exports = {
 	CLIENT: 'client',
 	CLIENT_DB: 'client_db',
 	COLLECTION: {
-		PATIENT: 'patient',
-		OBSERVATION: 'observation'
+		PATIENT: 'Patient',
+		OBSERVATION: 'Observation'
 	}
 };
