@@ -15,6 +15,7 @@ services:
       - "3000:3000"
     volumes:
       - ./server/scripts:/srv/src/scripts
+      - ./.eslintrc:/srv/src/.eslintrc
       - ./server/src:/srv/src/src
     command: yarn nodemon
   mongo:
