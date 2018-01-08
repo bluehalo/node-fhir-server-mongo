@@ -1,4 +1,4 @@
-`@asymmetrik/node-fhir-server-mongo`
+`@asymmetrik/node-fhir-server-mongo` [![Build Status](https://travis-ci.org/Asymmetrik/node-fhir-server-mongo.svg?branch=develop)](https://travis-ci.org/Asymmetrik/node-fhir-server-mongo)
 ====================================
 
 ## Intro

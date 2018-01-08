@@ -21,7 +21,7 @@ describe('Observation Service Test', () => {
 
 		// Clear out the collection if there are any documents in it
 		if (count) {
-				collection.drop();
+			collection.drop();
 		}
 
 		await asyncHandler(collection.insert({ id: 1, type: 'observation' }));
