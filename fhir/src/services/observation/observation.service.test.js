@@ -15,10 +15,15 @@ describe('Observation Service Test', () => {
 			mongoClient(mongoConfig.connection, mongoConfig.options)
 		);
 
-		let db = client.db(mongoConfig.db_name);
+		let db = client.db(`${mongoConfig.db_name}_test`);
 		let collection = db.collection(COLLECTION.OBSERVATION);
+		let count = await collection.count();
 
-		collection.drop();
+		// Clear out the collection if there are any documents in it
+		if (count) {
+				collection.drop();
+		}
+
 		await asyncHandler(collection.insert({ id: 1, type: 'observation' }));
 
 		globals.set(CLIENT, client);

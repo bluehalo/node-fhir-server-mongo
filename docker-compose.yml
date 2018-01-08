@@ -5,7 +5,7 @@ services:
     depends_on:
       - mongo
     build:
-      context: server
+      context: fhir
       dockerfile: Dockerfile
     environment:
       MONGO_HOSTNAME: mongo
@@ -14,9 +14,9 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./server/scripts:/srv/src/scripts
+      - ./fhir/scripts:/srv/src/scripts
       - ./.eslintrc:/srv/src/.eslintrc
-      - ./server/src:/srv/src/src
+      - ./fhir/src:/srv/src/src
     command: yarn nodemon
   mongo:
     image: mongo:3.6.1
