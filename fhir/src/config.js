@@ -19,11 +19,11 @@ module.exports.mongoConfig = {
  */
 module.exports.fhirServerConfig = {
 	auth: {
-		clientId: 'client_id',
-		secret: 'secret',
-		issuer: {
-			discoveryUrl: 'https://sb-auth.smarthealthit.org/.well-known/openid-configuration',
-		}
+		clientId: env.AUTH_CLIENT_ID,
+		secret: env.AUTH_CLIENT_SECRET,
+		discoveryUrl: env.AUTH_DISCOVERY_URL,
+		protectedResourceClientId: env.AUTH_PROTECTED_CLIENT_ID,
+		protectedResourceClientSecret: env.AUTH_PROTECTED_CLIENT_SECRET
 	},
 	server: {
 		port: env.SERVER_PORT,
