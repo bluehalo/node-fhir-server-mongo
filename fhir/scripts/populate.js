@@ -17,10 +17,7 @@ const glob = require('glob');
 // 	'Observation': ObservationSchema
 // };
 
-const VALID_PROFILE_NAMES = [
-	COLLECTION.OBSERVATION,
-	COLLECTION.PATIENT
-];
+const VALID_PROFILE_NAMES = Object.values(COLLECTION);
 
 /**
  * @function loadProfiles
@@ -111,6 +108,7 @@ let parseArgs = () => {
 	program
 		.version(version)
 		.option('-p, --profiles [profile]', `Comma separated list of profiles. Valid ones are ${VALID_PROFILE_NAMES.join(',')}`)
+		.option('-a, --all', 'Insert all profiles')
 		.option('-r, --reset', 'Reset the collection you are insertng documents into.');
 
 	program.on('--help', () => {
@@ -129,16 +127,18 @@ let parseArgs = () => {
 	}
 
 	return {
-		profileKeys: program.profiles.split(','),
-		reset: program.reset
+		profileKeys: program.profiles ? program.profiles.split(',') : [],
+		reset: program.reset,
+		all: program.all
 	};
 };
 
 let main = () => {
 	// Validate and Parse Arguments
 	let args = parseArgs();
+	let keys = args.all ? VALID_PROFILE_NAMES : args.profileKeys;
 	// Generate a dictionary of profiles to seed
-	args.profiles = args.profileKeys.reduce((all_profiles, key) => {
+	args.profiles = keys.reduce((all_profiles, key) => {
 		all_profiles[key] = loadDocumentsForProfile(key);
 		return all_profiles;
 	}, {});

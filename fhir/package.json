@@ -17,6 +17,7 @@
     "test": "set -e; npm run test:lint; npm run test:jest;",
     "test:lint": "eslint \"src/**/*.js\"",
     "test:jest": "jest src",
+    "test:prepare-db": "node scripts/populate",
     "populate": "node scripts/populate"
   },
   "jest": {
