@@ -28,10 +28,9 @@ let loadProfiles = async args => {
 	// Connect to Mongo
 	let [ err, client ] = await asyncHandler(mongo(mongoConfig.connection, mongoConfig.options));
 
-	// Fail if ther is an error
+	// Fail if there is an error
 	if (err) {
-		console.error(err);
-		process.exit(err);
+		throw err;
 	}
 
 	// Connect to our Database
@@ -97,9 +96,6 @@ let loadDocumentsForProfile = profile_name => {
 /**
  * @function parseArgs
  * @summary Parse profiles from commmand line that we want to seed mongo with
- * @TODO: We should use something like commander later to make this cleaner
- * and force only profiles that we know are valid. Maybe add a flag for
- * clearing current collection first
  */
 let parseArgs = () => {
 	let { version } = package.version;
@@ -114,8 +110,9 @@ let parseArgs = () => {
 	program.on('--help', () => {
 		console.log();
 		console.log('  Examples:\n');
-		console.log('    $ docker-compose exec fhir yarn populate -p \'Patient,Observation\' -r');
-		console.log('    $ node scripts/populate -p \'Patient,Observation\' -r');
+		console.log('    $ docker-compose exec fhir yarn populate -p Patient,Observation -r');
+		console.log('    $ node scripts/populate -p Patient,Observation -r');
+		console.log('    $ node scripts/populate -a -r');
 		console.log();
 	});
 
@@ -123,7 +120,7 @@ let parseArgs = () => {
 
 	if (!process.argv.slice(2).length) {
 		program.outputHelp();
-		process.exit();
+		process.exit(0);
 	}
 
 	return {
