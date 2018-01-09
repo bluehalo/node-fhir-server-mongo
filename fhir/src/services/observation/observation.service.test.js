@@ -45,14 +45,16 @@ describe('Observation Service Test', () => {
 	describe('Method: getObservation', () => {
 
 		test('should correctly return a document', async () => {
-			// Set the results for our global client
-			// let query = { patient: 2, category: 'foo', code: 'bar', date: new Date().toISOString() };
-			let [ err, docs ] = await asyncHandler(
-				observationService.getObservation({ query: {} }, logger)
+			let query = { patient: 1, category: 'laboratory' };
+			let [ err, doc ] = await asyncHandler(
+				observationService.getObservation({ query }, logger)
 			);
 
 			expect(err).toBeUndefined();
-			// expect(docs.id).toEqual(observation.id);
+			expect(doc.id).toEqual('2');
+			expect(doc.subject.reference).toEqual(`Patient/${query.patient}`);
+			expect(doc.category.coding[0].code).toEqual(query.category);
+
 		});
 
 	});
@@ -60,14 +62,13 @@ describe('Observation Service Test', () => {
 	describe('Method: getObservationByID', () => {
 
 		test('should correctly return a document', async () => {
-			// Set the results for our global client
 			let params = { id: '8' };
-			let [ err, docs ] = await asyncHandler(
+			let [ err, doc ] = await asyncHandler(
 				observationService.getObservationByID({ params }, logger)
 			);
 
 			expect(err).toBeUndefined();
-			expect(docs.id).toEqual(params.id);
+			expect(doc.id).toEqual(params.id);
 		});
 
 	});
