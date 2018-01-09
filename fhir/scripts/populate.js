@@ -1,26 +1,33 @@
 const asyncHandler = require('../src/lib/async-handler');
+const { COLLECTION } = require('../src/constants');
 const { mongoConfig } = require('../src/config');
+const package = require('../package.json');
 const mongo = require('../src/lib/mongo');
+const program = require('commander');
 const path = require('path');
 const glob = require('glob');
 
-const {
-	PatientSchema,
-	ObservationSchema
-} = require('fhir-schemas');
+// const {
+// 	PatientSchema,
+// 	ObservationSchema
+// } = require('fhir-schemas');
 
-const SCHEMA_MAP = {
-	'Patient': PatientSchema,
-	'Observation': ObservationSchema
-};
+// const SCHEMA_MAP = {
+// 	'Patient': PatientSchema,
+// 	'Observation': ObservationSchema
+// };
 
-const VALID_PROFILE_NAMES = Object.keys(SCHEMA_MAP);
+const VALID_PROFILE_NAMES = [
+	COLLECTION.OBSERVATION,
+	COLLECTION.PATIENT
+];
 
 /**
  * @function loadProfiles
  * @summary Load the profiles into Mongo and log status as we go
  */
-let loadProfiles = async profiles => {
+let loadProfiles = async args => {
+	let { profiles, reset } = args;
 	// Connect to Mongo
 	let [ err, client ] = await asyncHandler(mongo(mongoConfig.connection, mongoConfig.options));
 
@@ -32,6 +39,8 @@ let loadProfiles = async profiles => {
 
 	// Connect to our Database
 	let db = client.db(mongoConfig.db_name);
+	let collectionList = await db.listCollections().toArray();
+	let currentCollections = collectionList.map(coll => coll.name);
 
 	// Iterate over our profiles and insert  all of our documents
 	let profile_names = Object.keys(profiles);
@@ -51,8 +60,12 @@ let loadProfiles = async profiles => {
 		// }
 		let collection = db.collection(name);
 
+		if (reset && currentCollections.indexOf(name) > -1) {
+			await asyncHandler(collection.drop());
+		}
+
 		// Insert all of our documents
-		console.log(`Inserting documents for the ${name} profile.`);
+		console.log(`\nInserting documents for the ${name} profile.`);
 		let [insertErr, results] = await asyncHandler(collection.insertMany(documents));
 
 		if (insertErr) {
@@ -60,20 +73,20 @@ let loadProfiles = async profiles => {
 			console.error(insertErr);
 		}
 		else {
-			console.log(`Status: ${results.result.ok}. Inserted ${results.result.n} documents in ${name} profile.`);
+			console.log(`Success. Inserted ${results.result.n} documents in ${name} profile.`);
 		}
 	}
 
 	// Close our connection
-	console.log('Close our connection');
+	console.log('\nClosing connection\n');
 	client.close();
 };
 
 /**
- * @function findProfiles
+ * @function loadDocumentsForProfile
  * @summary Search the fixtures directory and find matching files
  */
-let findProfiles = profile_name => {
+let loadDocumentsForProfile = profile_name => {
 	// Get a list of json files in fixtures
 	let basePath = path.join(__dirname, '../fixtures');
 	let profiles = glob.sync(path.join(basePath, '**/*.json'));
@@ -92,29 +105,45 @@ let findProfiles = profile_name => {
  * clearing current collection first
  */
 let parseArgs = () => {
-	let args = process.argv.slice(2)
-		.filter(arg => VALID_PROFILE_NAMES.indexOf(arg) > -1);
+	let { version } = package.version;
 
-	if (args.length === 0) {
-		console.log('[-] Please provide valid profile names for your arguments.');
-		console.log('[-] Ex. node populate.js Patient Observation <other_profile>');
-		console.log(`[-] Valid profile names include ${VALID_PROFILE_NAMES.join(',')}`);
+	// Setup the CLI and parse arguments
+	program
+		.version(version)
+		.option('-p, --profiles [profile]', `Comma separated list of profiles. Valid ones are ${VALID_PROFILE_NAMES.join(',')}`)
+		.option('-r, --reset', 'Reset the collection you are insertng documents into.');
+
+	program.on('--help', () => {
+		console.log();
+		console.log('  Examples:\n');
+		console.log('    $ docker-compose exec fhir yarn populate -p \'Patient,Observation\' -r');
+		console.log('    $ node scripts/populate -p \'Patient,Observation\' -r');
+		console.log();
+	});
+
+	program.parse(process.argv);
+
+	if (!process.argv.slice(2).length) {
+		program.outputHelp();
 		process.exit();
 	}
 
-	return args;
+	return {
+		profileKeys: program.profiles.split(','),
+		reset: program.reset
+	};
 };
 
 let main = () => {
 	// Validate and Parse Arguments
 	let args = parseArgs();
 	// Generate a dictionary of profiles to seed
-	let profiles = args.reduce((all_profiles, arg) => {
-		all_profiles[arg] = findProfiles(arg);
+	args.profiles = args.profileKeys.reduce((all_profiles, key) => {
+		all_profiles[key] = loadDocumentsForProfile(key);
 		return all_profiles;
 	}, {});
 	// Load all of our profiles into mongo
-	loadProfiles(profiles);
+	loadProfiles(args);
 };
 
 main();
