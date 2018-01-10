@@ -2,7 +2,7 @@
 ====================================
 
 ## Intro
-This project is an example project built on `@asymmetrik/node-fhir-server-core` and has a MongoDB back end storing sample data. This is built with the ability to run it in docker or run it normally via node.js. To get started developing in Docker, see [Getting Started with Docker](#getting-started-with-docker). To get started developing with Node.js and Mongo, see [Getting Started with Node](#getting-started-with-node)
+This project is an example project built on `@asymmetrik/node-fhir-server-core` and has a MongoDB back end storing sample data. It's built with the ability to run in docker or node.js. To get started developing in Docker, see [Getting Started with Docker](#getting-started-with-docker). To get started developing with Node.js and Mongo, see [Getting Started with Node](#getting-started-with-node)
 
 ## Getting Started with Docker
 
