@@ -39,14 +39,16 @@ module.exports.fhirServerConfig = {
 		level: env.LOGGING_LEVEL
 	},
 	profiles: {
-		patient: {
-			service: path.resolve('./src/services/patient/patient.service.js')
-		},
-		observation: {
-			service: path.resolve('./src/services/observation/observation.service.js')
-		},
-		oauth: {
-			service: path.resolve('./src/services/oauth/oauth.service.js')
+		dstu2: {
+			patient: {
+				service: path.resolve('./src/services/patient/patient.service.js')
+			},
+			observation: {
+				service: path.resolve('./src/services/observation/observation.service.js')
+			},
+			oauth: {
+				service: path.resolve('./src/services/oauth/oauth.service.js')
+			}
 		}
 	}
 };
