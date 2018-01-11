@@ -59,12 +59,12 @@ describe('Observation Service Test', () => {
 
 	});
 
-	describe('Method: getObservationByID', () => {
+	describe('Method: getObservationById', () => {
 
 		test('should correctly return a document', async () => {
 			let params = { id: '8' };
 			let [ err, doc ] = await asyncHandler(
-				observationService.getObservationByID({ params }, logger)
+				observationService.getObservationById({ params }, logger)
 			);
 
 			expect(err).toBeUndefined();
