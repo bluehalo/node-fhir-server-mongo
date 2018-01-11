@@ -14,10 +14,11 @@
   "scripts": {
     "start": "export NODE_ENV=production; node src/index.js;",
     "nodemon": "export NODE_ENV=development; node scripts/nodemon;",
-    "test": "set -e; npm run test:lint; npm run test:jest;",
+    "test": "export NODE_ENV=test; set -e; npm run test:ci;",
+    "test:ci": "npm run test:prepare-db; npm run test:lint; npm run test:jest;",
     "test:lint": "eslint \"src/**/*.js\"",
     "test:jest": "jest",
-    "test:prepare-db": "node scripts/populate",
+    "test:prepare-db": "node scripts/populate -a -r",
     "populate": "node scripts/populate"
   },
   "jest": {

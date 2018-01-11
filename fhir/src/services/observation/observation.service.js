@@ -71,14 +71,14 @@ module.exports.getObservation = (req, logger) => new Promise((resolve, reject) =
 });
 
 /**
- * @name getObservationByID
+ * @name getObservationById
  * @description Get an observation from our database
  * @param {Express.req} req - Express request object
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.getObservationByID = (req, logger) => new Promise((resolve, reject) => {
-	logger.info('Observation >>> getObservationByID');
+module.exports.getObservationById = (req, logger) => new Promise((resolve, reject) => {
+	logger.info('Observation >>> getObservationById');
 	// Parse the required params, these are validated by sanitizeMiddleware in core
 	let { id } = req.params;
 	// Grab an instance of our DB and collection
