@@ -61,7 +61,7 @@ module.exports.getObservation = (req, logger) => new Promise((resolve, reject) =
 	let db = globals.get(CLIENT_DB);
 	let collection = db.collection(COLLECTION.OBSERVATION);
 	// Query our collection for this observation
-	collection.findOne(query, (err, observations) => {
+	collection.find(query, (err, observations) => {
 		if (err) {
 			logger.error('Error with Observation.getObservation: ', err);
 			return reject(err);

@@ -24,6 +24,7 @@ module.exports.fhirServerConfig = {
 		discoveryUrl: env.AUTH_DISCOVERY_URL,
 		protectedResourceClientId: env.AUTH_PROTECTED_CLIENT_ID,
 		protectedResourceClientSecret: env.AUTH_PROTECTED_CLIENT_SECRET
+		service: path.resolve('./src/services/oauth/oauth.service.js')
 	},
 	server: {
 		port: env.SERVER_PORT,
