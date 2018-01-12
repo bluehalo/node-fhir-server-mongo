@@ -11,12 +11,9 @@ const clients = require('./client.service');
  * @param {Object} options - Necessary options for generating the code
  * @return {Promise}
  */
-module.exports.getClient = (clientId) => new Promise((resolve, reject) => {
-	clients.findByClientId(clientId).then((client) => {
-		resolve(client);
-	})
-	.catch(reject);
-});
+module.exports.getClient = (clientId) => {
+	return clients.findByClientId(clientId);
+};
 
 /**
  * @name validateSignature
