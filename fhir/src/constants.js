@@ -11,6 +11,7 @@ module.exports = {
 		OBSERVATION: 'Observation',
 		IMMUNIZATION: 'Immunization',
 		ALLERGYINTOLERANCE: 'AllergyIntolerance',
-		MEDICATIONSTATEMENT: 'MedicationStatement'
+		MEDICATIONSTATEMENT: 'MedicationStatement',
+		CLIENT: 'Client'
 	}
 };
