@@ -1,9 +1,15 @@
-const jsonwebtoken = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 const oauthValidator = require('./oauth.validator');
-const clients = require('./clients');
-
 const UID = require('../../utils/uid.utils');
-let normalizedUrl = url => url.replace(/\/$/, '');
+
+// This is a stub for an OAUTH server.  This is not to be used for production.
+// This service is used mainly for testing and development.  This can be used
+// to test your server on the FHIR Conformance Test Tool.
+
+
+
+
+const normalizedUrl = url => url.replace(/\/$/, '');
 
 /**
  * @name generateCode
@@ -14,14 +20,11 @@ let normalizedUrl = url => url.replace(/\/$/, '');
  * @return {Promise}
  */
 
-module.exports.generateCode = (logger, config, options) => new Promise((resolve, reject) => {
-
-	// exameple
-	// ?client_id=1b2c4540-0d8a-42ab-858b-9f1409583e96&response_type=code&scope=patient/*.read openid profile launch&redirect_uri=http://127.0.0.1:9090/&aud=https%3A%2F%2Fsb-fhir-dstu2.smarthealthit.org%2Fsmartdstu2%2Fdata&launch=x5ferf&state=99899296
+module.exports.authorization = (req, logger, config, options) => new Promise((resolve, reject) => {
 
 	logger.info('OAuth >>> generateCode');
 	let { iss, launch, clientId, scope } = options;
-	let { resourceServer } = config;
+	let { resourceServer } = config.auth;
 
 	let incomingJwt = launch && launch.replace(/=/g, '');
 
@@ -31,22 +34,26 @@ module.exports.generateCode = (logger, config, options) => new Promise((resolve,
 		reject(new Error('Bad Audience'));
 	}
 
-	let client = await service.getClient(clientId);
+	return oauthValidator.getClient(clientId).then((client) => {
+		if (!client) {
+			reject(new Error('Invalid Client'));
+		}
 
-	if (!client){
-		return reject(new Error('Invalid Client'));
-	}
+		// Prepare our code object for signing
+		let code = {
+			context: incomingJwt && jwt.decode(incomingJwt) || {},
+			jti: UID.getUid(36),
+			aud: client.clientId,
+			iss: iss,
+			scope: scope
+		};
 
-	// Prepare our code object for signing
-	let code = {
-		context: incomingJwt && jwt.decode(incomingJwt) || {},
-		jti: UID.getUid(36),
-		aud: clientId,
-		iss: iss,
-		scope,
-	};
+		resolve(jwt.sign(code, client.clientSecret, { expiresIn: '5m' }));
 
-	return resolve(jsonwebtoken.sign(code, client.secret, { expiresIn: '5m' }));
+	})
+	.catch(reject);
+
+
 });
 
 /**
@@ -57,53 +64,52 @@ module.exports.generateCode = (logger, config, options) => new Promise((resolve,
  * @param {Object} code - Returns a JsonWebToken from a signed code
  * @return {Promise}
  */
-module.exports.generateToken = (logger, config, code, secret) => new Promise((resolve, reject) => {
+module.exports.token = (req, logger, config, code, secret) => new Promise((resolve, reject) => {
 	logger.info('OAuth >>> generateToken');
 
-
-
 	// decode token
-	const decodedToken = jwt.decode(bearerToken, { complete: true });
+	const decodedToken = jwt.decode(code, { complete: true });
 
-	// verify client
-	let client = await service.getClient(decodedToken.aud);
-
-	if (!client) {
-		return reject(new Error('Invalid Client'));
-	}
-
-	// public key
-	// secret is not provided
-	// TODO: Follow OAuth specification here
-	if (!secret && !client.isTrusted) {
-		secret = client.secret;
-	}
-
-	// Verify the token
-	jsonwebtoken.verify(code, secret, (err, decoded) => {
-		if (err) {
-			logger.error('Error verifying token in OAuth.generateToken: ', err);
-			reject(err);
+	return oauthValidator.getClient(decodedToken.payload.aud).then((client) => {
+		if (!client) {
+			reject(new Error('Invalid Client'));
 		}
 
-		// If offline, attach a refresh token
-		if (decoded.scope.indexOf('offline_access') >= -1) {
-			decoded.conetxt.refresh_token = jsonwebtoken.sign(decoded, secret);
+		// public key
+		// secret is not provided
+		// TODO: Follow OAuth specification here for validating public clients
+		if (!secret && client.isTrusted) {
+			secret = client.clientSecret;
 		}
 
-		// Create our token object
-		let token = Object.assign({}, decoded.context, {
-			token_type: 'bearer',
-			expires_in: 3600,
-			scope: decoded.scope,
-			aud: decoded.aud,
-			iss: decoded.iss,
-			jti: decoded.jti
+		// Verify the token
+		jwt.verify(code, secret, (err, decoded) => {
+			if (err) {
+				logger.error('Error verifying token in OAuth.generateToken: ', err);
+				reject(err);
+			}
+
+			// If offline, attach a refresh token
+			if (decoded.scope.indexOf('offline_access') >= -1) {
+				decoded.context.refresh_token = jwt.sign(decoded, secret);
+			}
+
+			// Create our token object
+			let token = Object.assign({}, decoded.context, {
+				token_type: 'bearer',
+				expires_in: 3600,
+				scope: decoded.scope,
+				aud: decoded.aud,
+				iss: decoded.iss,
+				jti: decoded.jti
+			});
+
+			// Create an access token that expires in one hour
+			token.access_token = jwt.sign(token, secret, { expiresIn: '1h' });
+
+			resolve(token);
 		});
 
-		// Create an access token that expires in one hour
-		token.access_token = jsonwebtoken.sign(token, secret, { expiresIn: '1h' });
-
-		resolve(token);
-	});
+	})
+	.catch(reject);
 });

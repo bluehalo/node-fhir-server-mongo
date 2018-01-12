@@ -19,12 +19,8 @@ module.exports.mongoConfig = {
  */
 module.exports.fhirServerConfig = {
 	auth: {
-		clientId: env.AUTH_CLIENT_ID,
-		secret: env.AUTH_CLIENT_SECRET,
-		discoveryUrl: env.AUTH_DISCOVERY_URL,
-		protectedResourceClientId: env.AUTH_PROTECTED_CLIENT_ID,
-		protectedResourceClientSecret: env.AUTH_PROTECTED_CLIENT_SECRET
-		service: path.resolve('./src/services/oauth/oauth.service.js')
+		resourceServer: 'http://localhost:3000',
+		service: path.resolve('./src/services/oauth/oauth.validator.js'),
 	},
 	server: {
 		port: env.SERVER_PORT,
