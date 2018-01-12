@@ -18,7 +18,7 @@ This project is an example project built on `@asymmetrik/node-fhir-server-core` 
 5. Run `yarn start` or `npm run start`.
 
 ## Commands
-There are several npm scripts setup that may be useful. You can run all of these commands regardless of the environment(docker or node), however, they are invoked slightly differently for each environment. If your using docker, the syntax should be `docker-compose run <service> yarn <command>` or `docker-compose exec <service> yarn <command>`. Use `docker-compose exec` if you already have the app running in another terminal instance, otherwise use `docker-compose run` to run it once. For node, the syntax for npm is `npm run <commmand>` and the syntax for yarn is `yarn <command>`. The commands are as follows:
+There are several npm scripts setup that may be useful. You can run all of these commands regardless of the environment(docker or node), however, they are invoked slightly differently for each environment. If you are using docker, the syntax should be `docker-compose run <service> yarn <command>` or `docker-compose exec <service> yarn <command>`. Use `docker-compose exec` if you already have the app running in another terminal instance, otherwise use `docker-compose run` to run it once. For node, the syntax for npm is `npm run <commmand>` and the syntax for yarn is `yarn <command>`. The commands are as follows:
 
 * `start` - Run in production mode with NODE_ENV set to `production`. Use this when deploying.
 * `nodemon` - Run in development mode with NODE_ENV set to `development`. This uses nodemon to restart the server when any js files in `src` are changed.
@@ -26,8 +26,8 @@ There are several npm scripts setup that may be useful. You can run all of these
 * `test:ci` - Convenience command which runs test:prepare-db, test:lint, and test:jest. You should not run this command, run the `test` command instead because it set's NODE_ENV correctly for testing.
 * `test:lint` - Runs eslint against `fhir/src` with rules defined in the `.eslintrc`.
 * `test:jest` - Runs tests using the [Jest](https://facebook.github.io/jest/) framework. It will run any tests in a `__tests__` directory or with the naming convention `<anything>.test.js`.
-* `test:prepare-db` - This will reset and reinsert all the sample data into Mongo. This way you have a decent amount of data to work with when running your tests.
-* `populate` - This allows you to populate the database. It also accepts some extra flags.
+* `test:prepare-db` - This will reset and reinsert all the sample data into Mongo. This way you have a decent amount of data to work with when running your tests. When this is run via the `test` command, it will set the NODE_ENV for you. If you are running it independently, set the NODE_ENV before using.
+* `populate` - This allows you to populate the database. One thing to keep in mind when using this, if the NODE_ENV is not set, it will default to the production db name. When you invoke this through docker, it will set NODE_ENV to `development` for you except when running tests, it will then use `test`. When running in node, you may need to manually set it to which ever environment you need it to be in. The db names are defined in the `env.json` file. This command also accepts some extra flags.
 	* `-h` or `--help` - Prints help to the console.
 	* `-p` or `--profiles` - Comma separated list of profiles to insert. For example, `-p Patient,Observation`.
 	* `-a` or `-all` - Insert all the sample data that we have.
@@ -37,11 +37,14 @@ There are several npm scripts setup that may be useful. You can run all of these
 
 ```shell
 # Docker
-docker-compose run fhir yarn test
-docker-compose run fhir yarn populate -r -p Patient,Observation
+docker-compose exec fhir yarn test
+docker-compose exec fhir yarn populate -r -a
 # Node
 npm run test:lint
 yarn start
+# Populating DB in node for development environment
+export NODE_ENV=development
+yarn populate -r -p Patient,Observation
 ```
 
 ## Deployment
