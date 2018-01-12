@@ -44,16 +44,19 @@ describe('Observation Service Test', () => {
 
 	describe('Method: getObservation', () => {
 
-		test('should correctly return a document', async () => {
+		test('should correctly return all laboratory documents for this patient', async () => {
 			let query = { patient: 1, category: 'laboratory' };
-			let [ err, doc ] = await asyncHandler(
+			let [ err, docs ] = await asyncHandler(
 				observationService.getObservation({ query }, logger)
 			);
 
 			expect(err).toBeUndefined();
-			expect(doc.id).toEqual('2');
-			expect(doc.subject.reference).toEqual(`Patient/${query.patient}`);
-			expect(doc.category.coding[0].code).toEqual(query.category);
+			expect(docs.length).toEqual(4);
+
+			 docs.forEach(doc => {
+				 expect(doc.subject.reference).toEqual(`Patient/${query.patient}`);
+				 expect(doc.category.coding[0].code).toEqual(query.category);
+			 });
 
 		});
 

@@ -66,7 +66,8 @@ module.exports.getObservation = (req, logger) => new Promise((resolve, reject) =
 			logger.error('Error with Observation.getObservation: ', err);
 			return reject(err);
 		}
-		resolve(observations);
+		// Observations is a cursor, grab the documents from that
+		observations.toArray().then(resolve, reject);
 	});
 });
 
@@ -85,7 +86,7 @@ module.exports.getObservationById = (req, logger) => new Promise((resolve, rejec
 	let db = globals.get(CLIENT_DB);
 	let collection = db.collection(COLLECTION.OBSERVATION);
 	// Query our collection for this observation
-	collection.findOne({ id }, (err, observation) => {
+	collection.findOne({ id: id.toString() }, (err, observation) => {
 		if (err) {
 			logger.error('Error with Observation.getObservationByID: ', err);
 			return reject(err);
