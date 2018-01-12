@@ -5,7 +5,7 @@ const env = require('var');
  * @name mongoConfig
  * @summary Configurations for our Mongo instance
  */
-module.exports.mongoConfig = {
+let mongoConfig = {
 	connection: `mongodb://${env.MONGO_HOSTNAME}`,
 	db_name: env.MONGO_DB_NAME,
 	options: {
@@ -17,7 +17,7 @@ module.exports.mongoConfig = {
  * @name fhirServerConfig
  * @summary @asymmetrik/node-fhir-server-core configurations.
  */
-module.exports.fhirServerConfig = {
+let fhirServerConfig = {
 	auth: {
 		resourceServer: 'http://localhost:3000',
 		service: path.resolve('./src/services/oauth/oauth.validator.js'),
@@ -26,10 +26,6 @@ module.exports.fhirServerConfig = {
 		port: env.SERVER_PORT,
 		corsOptions: {
 			maxAge: 86400
-		},
-		ssl: {
-			key: path.resolve(env.SSL_KEY),
-			cert: path.resolve(env.SSL_CERT)
 		}
 	},
 	logging: {
@@ -48,4 +44,16 @@ module.exports.fhirServerConfig = {
 			}
 		}
 	}
+};
+
+if (env.SSL_KEY && env.SSL_CERT) {
+	fhirServerConfig.server.ssl = {
+		key: path.resolve(env.SSL_KEY),
+		cert: path.resolve(env.SSL_CERT)
+	};
+}
+
+module.exports = {
+	fhirServerConfig,
+	mongoConfig
 };

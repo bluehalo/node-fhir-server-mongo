@@ -17,6 +17,31 @@ This project is an example project built on `@asymmetrik/node-fhir-server-core` 
 4. `cd` into the `fhir` directory and run `yarn` or `npm install`.
 5. Run `yarn start` or `npm run start`.
 
+## Next Steps
+Once you have this up and running. You should see the following output:
+
+```shell
+... - info: App listening on port: 3000 # or whichever port you used
+... - info: FHIR Server successfully started.
+```
+
+At this point you can now start testing the endpoints. Depending what profiles you opt into, certain routes will be available. You can view the routes enabled based on which service methods you provide over at [`@asymmetrik/node-fhir-server-core`](https://github.com/Asymmetrik/node-fhir-server-core#profiles). You may also want to populate the database with some sample data. You can use the populate command by running the following:
+
+```shell
+# In docker, if docker is not up and running
+docker-compose exec fhir yarn populate -a -r
+# If you are using docker but it is not running
+docker-compose run fhir yarn populate -a -r
+# In node, if your running the nodemon script, NODE_ENV is development
+# If your running the start script, NODE_ENV is production, in the first step export
+# the correct NODE_ENV based on which environment needs data
+# example is for nodemon script
+export NODE_ENV=development
+yarn scripts/populate -a -r
+```
+
+The url the server will be running at will partially depend on your configuration. For local development, the default is `http://localhost:3000`. You can of course change the port in the `docker-compose.yml` or the `env.json`. You can also enable https by providing SSL certs. If you want to do this you must first generate them, see [Generate self signed certs](https://github.com/Asymmetrik/node-fhir-server-core/blob/master/.github/CONTRIBUTING.md#generate-self-signed-certs). Then, add the path to them in your config by setting `SSL_KEY` and `SSL_CERT` as ENV variable's, adding them in `docker-compose.yml`, or adding them to `env.json`. This will allow the app to run on `https://localhost:3000`. Note the link is for generating self signed certs, you should not use those for production. You can verify the path is set correctly by logging out the fhirServerConfig in `index.js`.
+
 ## Commands
 There are several npm scripts setup that may be useful. You can run all of these commands regardless of the environment(docker or node), however, they are invoked slightly differently for each environment. If you are using docker, the syntax should be `docker-compose run <service> yarn <command>` or `docker-compose exec <service> yarn <command>`. Use `docker-compose exec` if you already have the app running in another terminal instance, otherwise use `docker-compose run` to run it once. For node, the syntax for npm is `npm run <commmand>` and the syntax for yarn is `yarn <command>`. The commands are as follows:
 
