@@ -1,6 +1,15 @@
-const jsonwebtoken = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
+const oauthValidator = require('./oauth.validator');
+const UID = require('../../utils/uid.utils');
 
-let normalizedUrl = url => url.replace(/\/$/, '');
+// This is a stub for an OAUTH server.  This is not to be used for production.
+// This service is used mainly for testing and development.  This can be used
+// to test your server on the FHIR Conformance Test Tool.
+
+
+
+
+const normalizedUrl = url => url.replace(/\/$/, '');
 
 /**
  * @name generateCode
@@ -10,28 +19,41 @@ let normalizedUrl = url => url.replace(/\/$/, '');
  * @param {Object} options - Necessary options for generating the code
  * @return {Promise}
  */
-module.exports.generateCode = (logger, config, options) => new Promise((resolve, reject) => {
+
+module.exports.authorization = (req, logger, config, options) => new Promise((resolve, reject) => {
+
 	logger.info('OAuth >>> generateCode');
-	let { aud, launch, clientId, scope } = options;
-	let { secret, resourceServer } = config;
-	let incomingToken = launch && launch.replace(/=/g, '');
+	let { iss, launch, clientId, scope } = options;
+	let { resourceServer } = config.auth;
+
+	let incomingJwt = launch && launch.replace(/=/g, '');
 
 	// @TODO: Follow OAuth specification here
-	if (normalizedUrl(aud) !== normalizedUrl(resourceServer)) {
+	if (normalizedUrl(iss) !== normalizedUrl(resourceServer)) {
 		logger.error('Bad Audience in OAuth.generateCode');
 		reject(new Error('Bad Audience'));
 	}
 
-	// Prepare our code object for signing
-	let code = {
-		context: incomingToken ? jsonwebtoken.decode(incomingToken) : {},
-		jti: '45fc543a-8ff4-4fbf-b1f8-9976aac7f7e0', // Generate this, maybe crypto.randomBytes(36).toString('hex')
-		aud: clientId,
-		iss: aud,
-		scope,
-	};
+	return oauthValidator.getClient(clientId).then((client) => {
+		if (!client) {
+			reject(new Error('Invalid Client'));
+		}
 
-	return resolve(jsonwebtoken.sign(code, secret, { expiresIn: '5m' }));
+		// Prepare our code object for signing
+		let code = {
+			context: incomingJwt && jwt.decode(incomingJwt) || {},
+			jti: UID.getUid(36),
+			aud: client.clientId,
+			iss: iss,
+			scope: scope
+		};
+
+		resolve(jwt.sign(code, client.clientSecret, { expiresIn: '5m' }));
+
+	})
+	.catch(reject);
+
+
 });
 
 /**
@@ -42,35 +64,52 @@ module.exports.generateCode = (logger, config, options) => new Promise((resolve,
  * @param {Object} code - Returns a JsonWebToken from a signed code
  * @return {Promise}
  */
-module.exports.generateToken = (logger, config, code) => new Promise((resolve, reject) => {
+module.exports.token = (req, logger, config, code, secret) => new Promise((resolve, reject) => {
 	logger.info('OAuth >>> generateToken');
-	let { secret } = config;
 
-	// Verify the token
-	jsonwebtoken.verify(code, secret, (err, decoded) => {
-		if (err) {
-			logger.error('Error verifying token in OAuth.generateToken: ', err);
-			reject(err);
+	// decode token
+	const decodedToken = jwt.decode(code, { complete: true });
+
+	return oauthValidator.getClient(decodedToken.payload.aud).then((client) => {
+		if (!client) {
+			reject(new Error('Invalid Client'));
 		}
 
-		// If offline, attach a refresh token
-		if (decoded.scope.indexOf('offline_access') >= -1) {
-			decoded.conetxt.refresh_token = jsonwebtoken.sign(decoded, secret);
+		// public key
+		// secret is not provided
+		// TODO: Follow OAuth specification here for validating public clients
+		if (!secret && client.isTrusted) {
+			secret = client.clientSecret;
 		}
 
-		// Create our token object
-		let token = Object.assign({}, decoded.context, {
-			token_type: 'bearer',
-			expires_in: 3600,
-			scope: decoded.scope,
-			aud: decoded.aud,
-			iss: decoded.iss,
-			jti: decoded.jti
+		// Verify the token
+		jwt.verify(code, secret, (err, decoded) => {
+			if (err) {
+				logger.error('Error verifying token in OAuth.generateToken: ', err);
+				reject(err);
+			}
+
+			// If offline, attach a refresh token
+			if (decoded.scope.indexOf('offline_access') >= -1) {
+				decoded.context.refresh_token = jwt.sign(decoded, secret);
+			}
+
+			// Create our token object
+			let token = Object.assign({}, decoded.context, {
+				token_type: 'bearer',
+				expires_in: 3600,
+				scope: decoded.scope,
+				aud: decoded.aud,
+				iss: decoded.iss,
+				jti: decoded.jti
+			});
+
+			// Create an access token that expires in one hour
+			token.access_token = jwt.sign(token, secret, { expiresIn: '1h' });
+
+			resolve(token);
 		});
 
-		// Create an access token that expires in one hour
-		token.access_token = jsonwebtoken.sign(token, secret, { expiresIn: '1h' });
-
-		resolve(token);
-	});
+	})
+	.catch(reject);
 });
