@@ -65,12 +65,13 @@ module.exports.getPatient = (req, logger) => new Promise((resolve, reject) => {
 	let db = globals.get(CLIENT_DB);
 	let collection = db.collection(COLLECTION.PATIENT);
 	// Query our collection for this observation
-	collection.findOne(query, (err, patient) => {
+	collection.find(query, (err, patient) => {
 		if (err) {
 			logger.error('Error with Patient.getPatient: ', err);
 			return reject(err);
 		}
-		resolve(patient);
+		// Patient is a patient cursor, pull documents out before resolving
+		patient.toArray().then(resolve, reject);
 	});
 });
 
