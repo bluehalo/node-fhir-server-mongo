@@ -90,7 +90,7 @@ module.exports.getPatientById = (req, logger) => new Promise((resolve, reject) =
 	let db = globals.get(CLIENT_DB);
 	let collection = db.collection(COLLECTION.PATIENT);
 	// Query our collection for this observation
-	collection.findOne({ id }, (err, patient) => {
+	collection.findOne({ id: id.toString() }, (err, patient) => {
 		if (err) {
 			logger.error('Error with Patient.getPatientById: ', err);
 			return reject(err);
