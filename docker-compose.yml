@@ -9,7 +9,6 @@ services:
       dockerfile: Dockerfile
     environment:
       MONGO_HOSTNAME: mongo
-      MONGO_DB_NAME: mongo_on_fhir
       SERVER_PORT: 3000
       # SSL_KEY: ./src/key.pem
       # SSL_CERT: ./src/cert.pem
