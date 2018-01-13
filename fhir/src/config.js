@@ -19,7 +19,7 @@ let mongoConfig = {
  */
 let fhirServerConfig = {
 	auth: {
-		resourceServer: 'http://localhost:3000',
+		resourceServer: env.RESOURCE_SERVER,
 		service: path.resolve('./src/services/oauth/oauth.validator.js'),
 	},
 	server: {

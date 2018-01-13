@@ -12,7 +12,6 @@
     "node": ">=8.6"
   },
   "scripts": {
-    "postinstall": "cd fhir && npm install",
-    "start": "export NODE_ENV=production; cd fhir && node src/index.js;"
+    "postinstall": "cd fhir && npm install"
   }
 }
