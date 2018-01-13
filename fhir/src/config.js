@@ -25,7 +25,8 @@ let fhirServerConfig = {
 	server: {
 		port: env.PORT || env.SERVER_PORT,
 		corsOptions: {
-			maxAge: 86400
+			maxAge: 86400,
+			origin: true
 		}
 	},
 	logging: {

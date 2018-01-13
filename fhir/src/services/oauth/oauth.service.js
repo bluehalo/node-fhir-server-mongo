@@ -106,8 +106,7 @@ module.exports.token = (req, logger, config, code, secret) => new Promise((resol
 			});
 
 			// Create an access token that expires in one hour
-			// token.access_token = jwt.sign(token, secret, { expiresIn: '1h' });
-			token.access_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYmVhcmVyIiwiZXhwaXJlc19pbiI6MzYwMCwic2NvcGUiOiJsYXVuY2gscGF0aWVudC8qLnJlYWQiLCJhdWQiOiJjbGllbnQgaWQiLCJpc3MiOiJodHRwczovL2xpdC1sYWtlLTcxNzg5Lmhlcm9rdWFwcC5jb20iLCJqdGkiOiI0NWZjNTQzYS04ZmY0LTRmYmYtYjFmOC05OTc2YWFjN2Y3ZTAiLCJpYXQiOjE1MTU4ODM4MTMsImV4cCI6MTUxNTg4NzQxM30.2fdVdz-uSsFcmS3J5ePMp8hnd5vws1w4Is2Wpk1PdcQ'
+			token.access_token = jwt.sign(token, secret, { expiresIn: '1h' });
 
 			console.log('returning token');
 			console.log(token);
