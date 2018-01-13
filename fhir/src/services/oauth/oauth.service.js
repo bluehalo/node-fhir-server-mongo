@@ -66,6 +66,7 @@ module.exports.authorization = (req, logger, config, options) => new Promise((re
  */
 module.exports.token = (req, logger, config, code, secret) => new Promise((resolve, reject) => {
 	logger.info('OAuth >>> generateToken');
+	console.log(req.body);
 
 	// decode token
 	const decodedToken = jwt.decode(code, { complete: true });
