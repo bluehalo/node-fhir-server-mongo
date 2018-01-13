@@ -13,5 +13,7 @@
   },
   "scripts": {
     "postinstall": "cd fhir && npm install"
-  }
+  },
+  "cacheDirectories": ["fhir/node_modules"]
+
 }
