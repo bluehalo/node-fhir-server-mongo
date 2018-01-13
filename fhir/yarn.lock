@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@asymmetrik/node-fhir-server-core@git+https://github.com/Asymmetrik/node-fhir-server-core.git#feature/conformant-errors":
+"@asymmetrik/node-fhir-server-core@git+https://github.com/Asymmetrik/node-fhir-server-core.git#develop":
   version "0.0.1"
-  resolved "git+https://github.com/Asymmetrik/node-fhir-server-core.git#62ad3db8437c249ff74340cf35f02cf0d33e8502"
+  resolved "git+https://github.com/Asymmetrik/node-fhir-server-core.git#7b54a11d7bdb82f27a147d3d87d048af85879d66"
   dependencies:
     body-parser "^1.18.2"
     compression "^1.7.1"
