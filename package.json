@@ -1,0 +1,17 @@
+{
+  "name": "@asymmetrik/node-fhir-server-mongo",
+  "version": "0.0.2",
+  "description": "Mongo Server implementing @asymmetrik/node-fhir-server-core",
+  "main": "src/index.js",
+  "repository": "https://github.com/Asymmetrik/node-fhir-server-mongo.git",
+  "contributors": [
+    "Robert Winterbottom <rwinterbottom@asymmetrik.com>"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=8.6"
+  },
+  "scripts": {
+    "postinstall": "cd fhir && npm install"
+  }
+}
