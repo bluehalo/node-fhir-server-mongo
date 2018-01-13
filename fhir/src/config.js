@@ -31,6 +31,17 @@ let fhirServerConfig = {
 	logging: {
 		level: env.LOGGING_LEVEL
 	},
+	security: [
+		{
+			url: 'authorize',
+			valueUri: 'https://still-ocean-59878.herokuapp.com/authorize'
+		},
+		{
+			url: 'token',
+			valueUri: 'https://still-ocean-59878.herokuapp.com/token'
+		}
+		// optional - registration
+	],
 	profiles: {
 		dstu2: {
 			patient: {
