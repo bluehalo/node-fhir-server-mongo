@@ -108,7 +108,10 @@ module.exports.token = (req, logger, config, code, secret) => new Promise((resol
 			// Create an access token that expires in one hour
 			token.access_token = jwt.sign(token, secret, { expiresIn: '1h' });
 
+			console.log('returning token');
+			console.log(token);
 			resolve(token);
+
 		});
 
 	})
