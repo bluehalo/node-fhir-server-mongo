@@ -23,7 +23,7 @@ let fhirServerConfig = {
 		service: path.resolve('./src/services/oauth/oauth.validator.js'),
 	},
 	server: {
-		port: env.SERVER_PORT,
+		port: env.PORT || env.SERVER_PORT,
 		corsOptions: {
 			maxAge: 86400
 		}
