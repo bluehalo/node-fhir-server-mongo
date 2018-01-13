@@ -12,6 +12,6 @@
     "node": ">=8.6"
   },
   "scripts": {
-    "postinstall": "cd fhir && npm install"
+    "postinstall": "cd fhir && yarn install"
   }
 }
