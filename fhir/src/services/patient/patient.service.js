@@ -45,12 +45,16 @@ module.exports.getPatient = (req, logger) => new Promise((resolve, reject) => {
 		query.identifier = [{ system, value }];
 	}
 
-	if (name || given || family) {
-		let nameOptions = {};
-		if (name) { nameOptions.family = [name]; }
-		if (given) { nameOptions.given = [given]; }
-		if (family) { nameOptions.family = [family]; }
-		query.name = [nameOptions];
+	if (name) {
+		query['name.family'] = name;
+	}
+
+	if (given) {
+		query['name.given'] = given;
+	}
+
+	if (family) {
+		query['name.family'] = family;
 	}
 
 	if (gender) {
