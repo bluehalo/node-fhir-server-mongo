@@ -1,9 +1,9 @@
 {
   "name": "@asymmetrik/node-fhir-server-mongo",
-  "version": "1.0.0",
-  "description": "Mongo Server implementing @asymmetrik/fhir-server-core",
+  "version": "0.0.5",
+  "description": "Mongo Server implementing @asymmetrik/node-fhir-server-core",
   "main": "src/index.js",
-  "repository": "git@bitbucket.org:asymmetrik/asy-fhir-server-mongo.git",
+  "repository": "https://github.com/Asymmetrik/node-fhir-server-mongo.git",
   "contributors": [
     "Robert Winterbottom <rwinterbottom@asymmetrik.com>"
   ],
@@ -12,28 +12,9 @@
     "node": ">=8.6"
   },
   "scripts": {
-    "start": "export NODE_ENV=production; node src/index.js;",
-    "nodemon": "export NODE_ENV=development; node scripts/nodemon;",
-    "test": "npm run test:lint; npm run test:jest;",
-    "test:lint": "eslint \"src/**/*.js\"",
-    "test:jest": "jest src"
+    "postinstall": "cd fhir && npm install",
+    "start": "export NODE_ENV=production; cd fhir && node src/index.js;"
   },
-  "jest": {
-    "verbose": true,
-    "collectCoverage": true,
-    "coverageReporters": [
-      "text",
-      "lcov",
-      "json"
-    ]
-  },
-  "dependencies": {
-    "mongodb": "^3.0.1",
-    "var": "^0.3.2"
-  },
-  "devDependencies": {
-    "eslint": "^4.14.0",
-    "jest": "^22.0.4",
-    "nodemon": "^1.14.7"
-  }
+  "cacheDirectories": ["fhir/node_modules"]
+
 }
