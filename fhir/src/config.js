@@ -13,6 +13,9 @@ let mongoConfig = {
 	}
 };
 
+// Set up whitelist
+let whitelist = env.WHITELIST.split(/(\s+)?,/);
+
 /**
  * @name fhirServerConfig
  * @summary @asymmetrik/node-fhir-server-core configurations.
@@ -23,10 +26,21 @@ let fhirServerConfig = {
 		service: path.resolve('./src/services/oauth/oauth.validator.js'),
 	},
 	server: {
+		// support various ENV that uses PORT vs SERVER_PORT
 		port: env.PORT || env.SERVER_PORT,
+		// allow Access-Control-Allow-Origin
 		corsOptions: {
 			maxAge: 86400,
-			origin: '*'
+			origin: function (origin, callback) {
+				console.log(whitelist);
+				console.log(origin);
+				if (whitelist.indexOf(origin) !== -1) {
+					console.log('treu');
+					callback(null, true);
+				} else {
+					callback(new Error('Not allowed by CORS'));
+				}
+			}
 		}
 	},
 	logging: {
@@ -35,11 +49,11 @@ let fhirServerConfig = {
 	security: [
 		{
 			url: 'authorize',
-			valueUri: 'https://still-ocean-59878.herokuapp.com/authorize'
+			valueUri: `${env.AUTH_SERVER_URI}/authorize`
 		},
 		{
 			url: 'token',
-			valueUri: 'https://still-ocean-59878.herokuapp.com/token'
+			valueUri: `${env.AUTH_SERVER_URI}/token`
 		}
 		// optional - registration
 	],

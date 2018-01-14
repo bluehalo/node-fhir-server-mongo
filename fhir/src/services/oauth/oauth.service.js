@@ -66,7 +66,6 @@ module.exports.authorization = (req, logger, config, options) => new Promise((re
  */
 module.exports.token = (req, logger, config, code, secret) => new Promise((resolve, reject) => {
 	logger.info('OAuth >>> generateToken');
-	console.log(req.body);
 
 	// decode token
 	const decodedToken = jwt.decode(code, { complete: true });
@@ -107,9 +106,6 @@ module.exports.token = (req, logger, config, code, secret) => new Promise((resol
 
 			// Create an access token that expires in one hour
 			token.access_token = jwt.sign(token, secret, { expiresIn: '1h' });
-
-			console.log('returning token');
-			console.log(token);
 
 			resolve(token);
 
