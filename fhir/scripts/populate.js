@@ -66,7 +66,7 @@ let loadProfiles = async args => {
 
 		if (insertErr) {
 			console.warn(`Unable to insert documents for ${name} profile.`);
-			console.error(insertErr);
+			throw insertErr;
 		}
 		else {
 			console.log(`Success. Inserted ${results.result.n} documents in ${name} profile.`);
@@ -130,7 +130,7 @@ let parseArgs = () => {
 	};
 };
 
-let main = () => {
+let main = async () => {
 	// Validate and Parse Arguments
 	let args = parseArgs();
 	let keys = args.all ? VALID_PROFILE_NAMES : args.profileKeys;
@@ -140,7 +140,14 @@ let main = () => {
 		return all_profiles;
 	}, {});
 	// Load all of our profiles into mongo
-	loadProfiles(args);
+	let [ err ] = await asyncHandler(loadProfiles(args));
+
+	if (err) {
+		console.error(err);
+	}
+	else {
+		console.log(`Finished populating ${mongoConfig.db_name}`);
+	}
 };
 
 main();

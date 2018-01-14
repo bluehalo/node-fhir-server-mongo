@@ -17,8 +17,36 @@ This project is an example project built on `@asymmetrik/node-fhir-server-core` 
 4. `cd` into the `fhir` directory and run `yarn` or `npm install`.
 5. Run `yarn start` or `npm run start`.
 
+## Next Steps
+Once you have this up and running. You should see the following output:
+
+```shell
+... - info: App listening on port: 3000 # or whichever port you used
+... - info: FHIR Server successfully started.
+```
+
+At this point you can now start testing the endpoints. Depending what profiles you opt into, certain routes will be available. You can view the routes enabled based on which service methods you provide over at [`@asymmetrik/node-fhir-server-core`](https://github.com/Asymmetrik/node-fhir-server-core#profiles). You may also want to populate the database with some sample data. You can use the populate command by running the following:
+
+```shell
+# If your running docker-compose up or yarn nodemon, NODE_ENV is development
+# If your running the start script, NODE_ENV is production, when running the
+# populate script, you need to use the correct NODE_ENV so it populates the
+# correct DB, examples are for the nodemon script
+# In docker, if docker is up and running
+docker-compose exec fhir env NODE_ENV=development yarn populate -a -r
+# If you are using docker but it is not running
+docker-compose run fhir env NODE_ENV=development yarn populate -a -r
+# In node
+export NODE_ENV=development
+yarn scripts/populate -a -r
+# or with npm
+npm run populate -- -a -r
+```
+
+The url the server will be running at will partially depend on your configuration. For local development, the default is `http://localhost:3000`. You can of course change the port in the `docker-compose.yml` or the `env.json`. You can also enable https by providing SSL certs. If you want to do this you must first generate them, see [Generate self signed certs](https://github.com/Asymmetrik/node-fhir-server-core/blob/master/.github/CONTRIBUTING.md#generate-self-signed-certs). Then, add the path to them in your config by setting `SSL_KEY` and `SSL_CERT` as ENV variable's, adding them in `docker-compose.yml`, or adding them to `env.json`. This will allow the app to run on `https://localhost:3000`. Note the link is for generating self signed certs, you should not use those for production. You can verify the path is set correctly by logging out the fhirServerConfig in `index.js`.
+
 ## Commands
-There are several npm scripts setup that may be useful. You can run all of these commands regardless of the environment(docker or node), however, they are invoked slightly differently for each environment. If your using docker, the syntax should be `docker-compose run <service> yarn <command>` or `docker-compose exec <service> yarn <command>`. Use `docker-compose exec` if you already have the app running in another terminal instance, otherwise use `docker-compose run` to run it once. For node, the syntax for npm is `npm run <commmand>` and the syntax for yarn is `yarn <command>`. The commands are as follows:
+There are several npm scripts setup that may be useful. You can run all of these commands regardless of the environment(docker or node), however, they are invoked slightly differently for each environment. If you are using docker, the syntax should be `docker-compose run <service> yarn <command>` or `docker-compose exec <service> yarn <command>`. Use `docker-compose exec` if you already have the app running in another terminal instance, otherwise use `docker-compose run` to run it once. For node, the syntax for npm is `npm run <commmand>` and the syntax for yarn is `yarn <command>`. The commands are as follows:
 
 * `start` - Run in production mode with NODE_ENV set to `production`. Use this when deploying.
 * `nodemon` - Run in development mode with NODE_ENV set to `development`. This uses nodemon to restart the server when any js files in `src` are changed.
@@ -26,8 +54,8 @@ There are several npm scripts setup that may be useful. You can run all of these
 * `test:ci` - Convenience command which runs test:prepare-db, test:lint, and test:jest. You should not run this command, run the `test` command instead because it set's NODE_ENV correctly for testing.
 * `test:lint` - Runs eslint against `fhir/src` with rules defined in the `.eslintrc`.
 * `test:jest` - Runs tests using the [Jest](https://facebook.github.io/jest/) framework. It will run any tests in a `__tests__` directory or with the naming convention `<anything>.test.js`.
-* `test:prepare-db` - This will reset and reinsert all the sample data into Mongo. This way you have a decent amount of data to work with when running your tests.
-* `populate` - This allows you to populate the database. It also accepts some extra flags.
+* `test:prepare-db` - This will reset and reinsert all the sample data into Mongo. This way you have a decent amount of data to work with when running your tests. When this is run via the `test` command, it will set the NODE_ENV for you. If you are running it independently, set the NODE_ENV before using.
+* `populate` - This allows you to populate the database. One thing to keep in mind when using this, if the NODE_ENV is not set, it will default to the production db name. When you invoke this through docker, it will set NODE_ENV to `development` for you except when running tests, it will then use `test`. When running in node, you may need to manually set it to which ever environment you need it to be in. The db names are defined in the `env.json` file. This command also accepts some extra flags.
 	* `-h` or `--help` - Prints help to the console.
 	* `-p` or `--profiles` - Comma separated list of profiles to insert. For example, `-p Patient,Observation`.
 	* `-a` or `-all` - Insert all the sample data that we have.
@@ -37,11 +65,14 @@ There are several npm scripts setup that may be useful. You can run all of these
 
 ```shell
 # Docker
-docker-compose run fhir yarn test
-docker-compose run fhir yarn populate -r -p Patient,Observation
+docker-compose exec fhir yarn test
+docker-compose exec fhir yarn populate -r -a
 # Node
 npm run test:lint
 yarn start
+# Populating DB in node for development environment
+export NODE_ENV=development
+yarn populate -r -p Patient,Observation
 ```
 
 ## Deployment
