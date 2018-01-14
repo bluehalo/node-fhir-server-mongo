@@ -31,16 +31,7 @@ let fhirServerConfig = {
 		// allow Access-Control-Allow-Origin
 		corsOptions: {
 			maxAge: 86400,
-			origin: function (origin, callback) {
-				console.log(whitelist);
-				console.log(origin);
-				if (whitelist.indexOf(origin) !== -1) {
-					console.log('treu');
-					callback(null, true);
-				} else {
-					callback(new Error('Not allowed by CORS'));
-				}
-			}
+			origin: whitelist
 		}
 	},
 	logging: {
