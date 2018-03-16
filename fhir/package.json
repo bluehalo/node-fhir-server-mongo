@@ -42,8 +42,8 @@
   },
   "devDependencies": {
     "eslint": "^4.14.0",
-    "jest": "^22.0.4",
-    "nodemon": "^1.14.7"
+    "jest": "^22.4.2",
+    "nodemon": "^1.17.2"
   },
   "private": false
 }
