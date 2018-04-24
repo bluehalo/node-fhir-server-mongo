@@ -41,36 +41,48 @@ let loadProfiles = async args => {
 	// Iterate over our profiles and insert  all of our documents
 	let profile_names = Object.keys(profiles);
 	for (let name of profile_names) {
-		let documents = profiles[name];
 
-		// Add a validator for the schemas
-		// let [ schemaErr, collection ] = await asyncHandler(db.createCollection(name, {
-		// 	validator: { $jsonSchema: SCHEMA_MAP[name] }
-		// }));
-    //
-		// // Skip this iteration if there was an error creating the schema
-		// if (schemaErr) {
-		// 	console.warn(`Unable to create collection for ${name} profile. Skipping.`);
-		// 	console.error(schemaErr);
-		// 	return;
-		// }
-		let collection = db.collection(name);
-
-		if (reset && currentCollections.indexOf(name) > -1) {
-			await asyncHandler(collection.drop());
-		}
-
-		// Insert all of our documents
-		console.log(`\nInserting documents for the ${name} profile.`);
-		let [insertErr, results] = await asyncHandler(collection.insertMany(documents));
-
-		if (insertErr) {
-			console.warn(`Unable to insert documents for ${name} profile.`);
-			throw insertErr;
-		}
-		else {
-			console.log(`Success. Inserted ${results.result.n} documents in ${name} profile.`);
-		}
+    let entries = profiles[name];//*****
+    //	console.log(entries)
+		//	let documents = profiles[name];//*****
+		//  console.log(documents)
+		
+    for (var i = 0; i < entries.entry.length; i++) {
+      var documents = entries.entry[i];
+      console.log(documents)
+  
+  
+      // Add a validator for the schemas
+      // let [ schemaErr, collection ] = await asyncHandler(db.createCollection(name, {
+      // 	validator: { $jsonSchema: SCHEMA_MAP[name] }
+      // }));
+      //
+      // // Skip this iteration if there was an error creating the schema
+      // if (schemaErr) {
+      // 	console.warn(`Unable to create collection for ${name} profile. Skipping.`);
+      // 	console.error(schemaErr);
+      // 	return;
+      // }
+      let collection = db.collection(name);
+  
+      if (reset && currentCollections.indexOf(name) > -1) {
+        await asyncHandler(collection.drop());
+      }
+  
+      // Insert all of our documents
+      console.log(`\nInserting documents for the ${name} profile.`);
+      let [insertErr, results] = await asyncHandler(collection.insertMany(documents));
+  
+      if (insertErr) {
+        console.warn(`Unable to insert documents for ${name} profile.`);
+        throw insertErr;
+      }
+      else {
+        console.log(`Success. Inserted ${results.result.n} documents in ${name} profile.`);
+      }
+  
+    }
+		
 	}
 
 	// Close our connection
