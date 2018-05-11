@@ -33,6 +33,12 @@ let loadProfiles = async args => {
   for (let name of profile_names) {
     let documents = profiles[name];
 
+    // If we have no documents for this type, skip to next iteration
+    if (!documents || documents.length === 0) {
+      console.log(`\nNo documents to insert for the ${name} profile.`);
+      continue;
+    }
+
     // Add a validator for the schemas
     // let [ schemaErr, collection ] = await asyncHandler(db.createCollection(name, {
     // 	validator: { $jsonSchema: SCHEMA_MAP[name] }
