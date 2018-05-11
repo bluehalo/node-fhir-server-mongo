@@ -7,16 +7,6 @@ const program = require('commander');
 const path = require('path');
 const glob = require('glob');
 
-// const {
-// 	PatientSchema,
-// 	ObservationSchema
-// } = require('fhir-schemas');
-
-// const SCHEMA_MAP = {
-// 	'Patient': PatientSchema,
-// 	'Observation': ObservationSchema
-// };
-
 const VALID_PROFILE_NAMES = Object.values(COLLECTION);
 
 /**
@@ -86,11 +76,18 @@ let loadDocumentsForProfile = profile_name => {
 	// Get a list of json files in fixtures
 	let basePath = path.join(__dirname, '../fixtures');
 	let profiles = glob.sync(path.join(basePath, '**/*.json'));
-	let modules = profiles
+	// Return a filtered list of documents for insertion
+	return profiles
+		// load all of our modules first
 		.map(profile_path => require(profile_path))
+		// Flatten out our modules into a single document list
+		.reduce((all, module) => {
+			return module.resourceType === 'Bundle' && module.entry
+				? all.concat(module.entry.map(entry => entry.resource))
+				: all.concat(module);
+		}, [])
+		// filter out any irrelevant module
 		.filter(module => module.resourceType === profile_name);
-
-	return modules;
 };
 
 /**
