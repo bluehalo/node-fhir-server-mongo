@@ -17,7 +17,7 @@
     "test": "cross-env NODE_ENV=test; set -e; npm run test:ci;",
     "test:ci": "npm run test:prepare-db; npm run test:lint; npm run test:jest;",
     "test:lint": "eslint \"src/**/*.js\"",
-    "test:jest": "jest",
+    "test:jest": "jest --forceExit",
     "test:prepare-db": "node scripts/populate -a -r",
     "populate": "node scripts/populate"
   },
@@ -44,8 +44,8 @@
   },
   "devDependencies": {
     "eslint": "^4.14.0",
-    "jest": "^22.0.4",
-    "nodemon": "^1.14.7"
+    "jest": "^22.4.2",
+    "nodemon": "^1.17.2"
   },
   "private": false
 }
