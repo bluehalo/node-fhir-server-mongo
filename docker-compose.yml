@@ -10,15 +10,21 @@ services:
     environment:
       MONGO_HOSTNAME: mongo
       SERVER_PORT: 3000
+      RESOURCE_SERVER: http://myserver.com
+      AUTH_SERVER_URI: https://afternoon-springs-39948.herokuapp.com/
+      AUTH_CLIENT_ID: client
+      AUTH_CLIENT_SECRET: secret
       # SSL_KEY: ./src/key.pem
       # SSL_CERT: ./src/cert.pem
     ports:
       - "3000:3000"
     volumes:
+      - ./fhir/node_modules:/srv/src/node_modules
       - ./fhir/scripts:/srv/src/scripts
       - ./.eslintrc:/srv/src/.eslintrc
       - ./fhir/src:/srv/src/src
     command: yarn nodemon
+
   mongo:
     image: mongo:3.6.1
     ports:
