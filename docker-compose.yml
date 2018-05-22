@@ -10,7 +10,7 @@ services:
     environment:
       MONGO_HOSTNAME: mongo
       SERVER_PORT: 3000
-      RESOURCE_SERVER: http://myserver.com
+      RESOURCE_SERVER: https://still-ocean-59878.herokuapp.com/stu3
       AUTH_SERVER_URI: https://afternoon-springs-39948.herokuapp.com/
       AUTH_CLIENT_ID: client
       AUTH_CLIENT_SECRET: secret

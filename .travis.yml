@@ -21,3 +21,10 @@ before_install:
 
 script:
   - docker-compose run fhir npm test
+
+deploy:
+  provider: heroku
+  api_key: $API_KEY
+  app: $APP
+  on:
+    branch: feature/update-core-env
