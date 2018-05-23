@@ -7,9 +7,13 @@ services:
     build:
       context: fhir
       dockerfile: Dockerfile
+    env_file:
+      - .local-secrets/auth.secrets
     environment:
       MONGO_HOSTNAME: mongo
       SERVER_PORT: 3000
+      RESOURCE_SERVER: http://myserver.com
+      AUTH_SERVER_URI: https://afternoon-springs-39948.herokuapp.com/
       # SSL_KEY: ./src/key.pem
       # SSL_CERT: ./src/cert.pem
     ports:
@@ -19,6 +23,7 @@ services:
       - ./.eslintrc:/srv/src/.eslintrc
       - ./fhir/src:/srv/src/src
     command: yarn nodemon
+
   mongo:
     image: mongo:3.6.1
     ports:

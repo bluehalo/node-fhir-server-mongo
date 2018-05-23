@@ -7,7 +7,8 @@ This project is an example project built on `@asymmetrik/node-fhir-server-core` 
 ## Getting Started with Docker
 
 1. Install the latest [Docker Community Edition](https://www.docker.com/community-edition) for your OS if you do not already have it installed.
-2. Run `docker-compose up`.
+2. Create a new file `.local-secrets/auth.secrets` and fill in the values from `.local-secrets/auth.example`.
+3. Run `docker-compose up`.
 
 ## Getting Started with Node
 
