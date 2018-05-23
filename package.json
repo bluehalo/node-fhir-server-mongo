@@ -12,7 +12,7 @@
     "node": ">=8.6"
   },
   "scripts": {
-    "postinstall": "cd fhir && yarn install",
+    "postinstall": "cd fhir && npm install",
     "start": "export NODE_ENV=production; cd fhir && node src/index.js;"
   },
   "cacheDirectories": ["fhir/node_modules"]
