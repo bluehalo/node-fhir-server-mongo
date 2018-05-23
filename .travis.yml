@@ -28,4 +28,4 @@ deploy:
   api_key: $API_KEY
   app: $APP
   on:
-    branch: feature/update-core-env
+    branch: master
