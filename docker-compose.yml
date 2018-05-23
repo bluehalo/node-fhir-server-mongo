@@ -7,13 +7,13 @@ services:
     build:
       context: fhir
       dockerfile: Dockerfile
+    env_file:
+      - .local-secrets/auth.secrets
     environment:
       MONGO_HOSTNAME: mongo
       SERVER_PORT: 3000
-      RESOURCE_SERVER: https://still-ocean-59878.herokuapp.com/stu3
+      RESOURCE_SERVER: http://myserver.com
       AUTH_SERVER_URI: https://afternoon-springs-39948.herokuapp.com/
-      AUTH_CLIENT_ID: client
-      AUTH_CLIENT_SECRET: secret
       # SSL_KEY: ./src/key.pem
       # SSL_CERT: ./src/cert.pem
     ports:
