@@ -10,3 +10,4 @@ coverage
 # Local Development Certs
 cert.pem
 key.pem
+/fhir/dockerclear.bat

@@ -13,8 +13,12 @@
   },
   "scripts": {
     "postinstall": "cd fhir && npm install",
-    "start": "export NODE_ENV=production; cd fhir && node src/index.js;"
+    "start": "cross-env NODE_ENV=production; cd fhir && node src/index.js;"
   },
-  "cacheDirectories": ["fhir/node_modules"]
-
+  "cacheDirectories": [
+    "fhir/node_modules"
+  ],
+  "dependencies": {
+    "cross-env": "^5.1.5"
+  }
 }
