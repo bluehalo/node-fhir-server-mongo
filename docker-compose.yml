@@ -19,7 +19,6 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./fhir/node_modules:/srv/src/node_modules
       - ./fhir/scripts:/srv/src/scripts
       - ./.eslintrc:/srv/src/.eslintrc
       - ./fhir/src:/srv/src/src
