@@ -26,7 +26,7 @@ Once you have this up and running. You should see the following output:
 ... - info: FHIR Server successfully started.
 ```
 
-Unzip Synthea data "\fhir\fixtures\data\shr\fhir.zip" in its current folder.
+Unzip Synthea data "\fhir\fixtures\data\data-shr.zip" into \fhir\fixtures\data\shr"
 
 At this point you can now start testing the endpoints. Depending what profiles you opt into, certain routes will be available. You can view the routes enabled based on which service methods you provide over at [`@asymmetrik/node-fhir-server-core`](https://github.com/Asymmetrik/node-fhir-server-core#profiles). You may also want to populate the database with some sample data. You can use the populate command by running the following:
 
