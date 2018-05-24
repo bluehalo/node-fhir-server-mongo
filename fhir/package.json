@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "@asymmetrik/node-fhir-server-core": "git+https://github.com/Asymmetrik/node-fhir-server-core.git#develop",
-    "cross-env": "^5.1.4",
+    "cross-env": "^5.1.6",
     "jsonwebtoken": "^8.1.0",
     "moment-timezone": "^0.5.14",
     "mongodb": "^3.0.1",

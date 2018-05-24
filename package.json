@@ -19,6 +19,6 @@
     "fhir/node_modules"
   ],
   "dependencies": {
-    "cross-env": "^5.1.5"
+    "cross-env": "^5.1.6"
   }
 }
