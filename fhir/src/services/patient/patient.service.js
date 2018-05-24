@@ -4,11 +4,11 @@ const globals = require('../../globals');
 /**
  * @name getCount
  * @description Get the number of patients in our database
- * @param {Express.req} req - Express request object
+ * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.getCount = (req, logger) => new Promise((resolve, reject) => {
+module.exports.getCount = (args, logger) => new Promise((resolve, reject) => {
 	logger.info('Patient >>> getCount');
 	// Grab an instance of our DB and collection
 	let db = globals.get(CLIENT_DB);
@@ -26,14 +26,14 @@ module.exports.getCount = (req, logger) => new Promise((resolve, reject) => {
 /**
  * @name getPatient
  * @description Get a patient from params
- * @param {Express.req} req - Express request object
+ * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.getPatient = (req, logger) => new Promise((resolve, reject) => {
+module.exports.getPatient = (args, logger) => new Promise((resolve, reject) => {
 	logger.info('Patient >>> getPatient');
 	// Parse the params
-	let { id, identifier, name, family, given, gender, birthDate } = req.query;
+	let { id, identifier, name, family, given, gender, birthDate } = args;
 	let query = {};
 
 	if (id) {
@@ -82,14 +82,14 @@ module.exports.getPatient = (req, logger) => new Promise((resolve, reject) => {
 /**
  * @name getPatientById
  * @description Get a patient by their unique identifier
- * @param {Express.req} req - Express request object
+ * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.getPatientById = (req, logger) => new Promise((resolve, reject) => {
+module.exports.getPatientById = (args, logger) => new Promise((resolve, reject) => {
 	logger.info('Patient >>> getPatientById');
 	// Parse the required params, these are validated by sanitizeMiddleware in core
-	let { id } = req.params;
+	let { id } = args;
 	// Grab an instance of our DB and collection
 	let db = globals.get(CLIENT_DB);
 	let collection = db.collection(COLLECTION.PATIENT);
@@ -101,4 +101,40 @@ module.exports.getPatientById = (req, logger) => new Promise((resolve, reject) =
 		}
 		resolve(patient);
 	});
+});
+
+/**
+ * @name createPatient
+ * @description Create a patient
+ * @param {Object} args - Any provided args
+ * @param {Winston} logger - Winston logger
+ * @return {Promise}
+ */
+module.exports.createPatient = (args, logger) => new Promise((resolve, reject) => {
+	logger.info('Patient >>> createPatient');
+	reject(new Error('Support coming soon'));
+});
+
+/**
+ * @name updatePatient
+ * @description Update a patient
+ * @param {Object} args - Any provided args
+ * @param {Winston} logger - Winston logger
+ * @return {Promise}
+ */
+module.exports.updatePatient = (args, logger) => new Promise((resolve, reject) => {
+	logger.info('Patient >>> updatePatient');
+	reject(new Error('Support coming soon'));
+});
+
+/**
+ * @name deletePatient
+ * @description Delete a patient
+ * @param {Object} args - Any provided args
+ * @param {Winston} logger - Winston logger
+ * @return {Promise}
+ */
+module.exports.deletePatient = (args, logger) => new Promise((resolve, reject) => {
+	logger.info('Patient >>> deletePatient');
+	reject(new Error('Support coming soon'));
 });

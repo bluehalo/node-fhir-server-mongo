@@ -14,7 +14,6 @@ const {
 } = require('./constants');
 
 let main = async function () {
-
 	// Connect to mongo and pass any options here
 	let [ mongoErr, client ] = await asyncHandler(
 		mongoClient(mongoConfig.connection, mongoConfig.options)
@@ -38,7 +37,6 @@ let main = async function () {
 	}
 
 	server.logger.info('FHIR Server successfully started.');
-
 };
 
 main();

@@ -18,6 +18,17 @@ before_install:
   - sudo mv docker-compose /usr/local/bin
   - sudo apt-get update
   - sudo apt-get -y install docker-ce
+  - yarn install
+
+before_script:
+  - cp .local-secrets/auth.example .local-secrets/auth.secrets
 
 script:
   - docker-compose run fhir npm test
+
+deploy:
+  provider: heroku
+  api_key: $API_KEY
+  app: $APP
+  on:
+    branch: master
