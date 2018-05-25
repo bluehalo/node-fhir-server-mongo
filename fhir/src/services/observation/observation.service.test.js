@@ -37,7 +37,7 @@ describe('Observation Service Test', () => {
 			);
 
 			expect(err).toBeUndefined();
-			expect(results).toEqual(3);
+			expect(results).toEqual(16);
 		});
 
 	});
@@ -51,7 +51,7 @@ describe('Observation Service Test', () => {
 			);
 
 			expect(err).toBeUndefined();
-			expect(docs.length).toEqual(3);
+			expect(docs.length).toEqual(4);
 
 			 docs.forEach(doc => {
 				 expect(doc.subject.reference).toEqual(`Patient/${query.patient}`);
