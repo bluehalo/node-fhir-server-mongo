@@ -104,7 +104,25 @@ module.exports.getObservationById = (args, logger) => new Promise((resolve, reje
  */
 module.exports.createObservation = (args, logger) => new Promise((resolve, reject) => {
 	logger.info('Observation >>> createObservation');
-	reject(new Error('Support coming soon'));
+	let { id, resource } = args;
+	// Grab an instance of our DB and collection
+	let db = globals.get(CLIENT_DB);
+	let collection = db.collection(COLLECTION.OBSERVATION);
+	// If there is an id, use it, otherwise let mongo generate it
+	if (id) {
+		resource._id = id;
+	}
+	// Insert our observation record
+	collection.insert(resource.toJSON(), (err, res) => {
+		if (err) {
+			logger.error('Error with Observation.createObservation: ', err);
+			return reject(err);
+		}
+		// Grab the observation record so we can pass back the id
+		let [ observation ] = res.ops;
+
+		return resolve({ id: observation.id });
+	});
 });
 
 /**
@@ -116,7 +134,22 @@ module.exports.createObservation = (args, logger) => new Promise((resolve, rejec
  */
 module.exports.updateObservation = (args, logger) => new Promise((resolve, reject) => {
 	logger.info('Observation >>> updateObservation');
-	reject(new Error('Support coming soon'));
+	let { id, resource } = args;
+	// Grab an instance of our DB and collection
+	let db = globals.get(CLIENT_DB);
+	let collection = db.collection(COLLECTION.OBSERVATION);
+	// Set the id of the resource
+	let doc = Object.assign(resource.toJSON(), { _id: id });
+	// Insert/update our observation record
+	collection.findOneAndUpdate({ _id: id }, doc, { upsert: true }, (err, res) => {
+		if (err) {
+			logger.error('Error with Observation.updateObservation: ', err);
+			return reject(err);
+		}
+		// If we support versioning, which we do not at the moment,
+		// we need to return a version
+		return resolve({ id: res.value && res.value._id });
+	});
 });
 
 /**
@@ -128,5 +161,23 @@ module.exports.updateObservation = (args, logger) => new Promise((resolve, rejec
  */
 module.exports.deleteObservation = (args, logger) => new Promise((resolve, reject) => {
 	logger.info('Observation >>> deleteObservation');
-	reject(new Error('Support coming soon'));
+	let { id } = args;
+	// Grab an instance of our DB and collection
+	let db = globals.get(CLIENT_DB);
+	let collection = db.collection(COLLECTION.OBSERVATION);
+	// Delete our observation record
+	collection.remove({ _id: id }, (err, _) => {
+		if (err) {
+			logger.error('Error with Observation.deleteObservation');
+			return reject({
+				// Must be 405 (Method Not Allowed) or 409 (Conflict)
+				// 405 if you do not want to allow the delete
+				// 409 if you can't delete because of referential
+				// integrity or some other reason
+				code: 409,
+				message: err.message
+			});
+		}
+		return resolve();
+	});
 });
