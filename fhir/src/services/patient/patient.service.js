@@ -112,7 +112,25 @@ module.exports.getPatientById = (args, logger) => new Promise((resolve, reject) 
  */
 module.exports.createPatient = (args, logger) => new Promise((resolve, reject) => {
 	logger.info('Patient >>> createPatient');
-	reject(new Error('Support coming soon'));
+	let { id, resource } = args;
+	// Grab an instance of our DB and collection
+	let db = globals.get(CLIENT_DB);
+	let collection = db.collection(COLLECTION.PATIENT);
+	// If there is an id, use it, otherwise let mongo generate it
+	if (id) {
+		resource._id = id;
+	}
+	// Insert our patient record
+	collection.insert(resource.toJSON(), (err, res) => {
+		if (err) {
+			logger.error('Error with Patient.createPatient: ', err);
+			return reject(err);
+		}
+		// Grab the patient recod so we can pass back the id
+		let [ patient ] = res.ops;
+
+		return resolve({ id: patient.id });
+	});
 });
 
 /**
@@ -136,5 +154,23 @@ module.exports.updatePatient = (args, logger) => new Promise((resolve, reject) =
  */
 module.exports.deletePatient = (args, logger) => new Promise((resolve, reject) => {
 	logger.info('Patient >>> deletePatient');
-	reject(new Error('Support coming soon'));
+	let { id } = args;
+	// Grab an instance of our DB and collection
+	let db = globals.get(CLIENT_DB);
+	let collection = db.collection(COLLECTION.PATIENT);
+	// Insert our patient record
+	collection.remove({ _id: id }, (err, _) => {
+		if (err) {
+			logger.error('Error with Patient.deletePatient');
+			return reject({
+				// Must be 405 (Method Not Allowed) or 409 (Conflict)
+				// 405 if you do not want to allow the delete
+				// 409 if you can't delete because of referential
+				// integrity or some other reason
+				code: 409,
+				message: 'Patient referenced in Observations and cannot be deleted. Please delete observations first.'
+			});
+		}
+		return resolve();
+	});
 });
