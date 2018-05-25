@@ -109,11 +109,9 @@ module.exports.createObservation = (args, logger) => new Promise((resolve, rejec
 	let db = globals.get(CLIENT_DB);
 	let collection = db.collection(COLLECTION.OBSERVATION);
 	// If there is an id, use it, otherwise let mongo generate it
-	if (id) {
-		resource._id = id;
-	}
+	let doc = Object.assign(resource.toJSON(), { _id: id });
 	// Insert our observation record
-	collection.insert(resource.toJSON(), (err, res) => {
+	collection.insert(doc, (err, res) => {
 		if (err) {
 			logger.error('Error with Observation.createObservation: ', err);
 			return reject(err);
@@ -141,14 +139,14 @@ module.exports.updateObservation = (args, logger) => new Promise((resolve, rejec
 	// Set the id of the resource
 	let doc = Object.assign(resource.toJSON(), { _id: id });
 	// Insert/update our observation record
-	collection.findOneAndUpdate({ _id: id }, doc, { upsert: true }, (err, res) => {
+	collection.findOneAndUpdate({ id: id }, doc, { upsert: true }, (err, res) => {
 		if (err) {
 			logger.error('Error with Observation.updateObservation: ', err);
 			return reject(err);
 		}
 		// If we support versioning, which we do not at the moment,
 		// we need to return a version
-		return resolve({ id: res.value && res.value._id });
+		return resolve({ id: res.value && res.value.id });
 	});
 });
 
@@ -166,7 +164,7 @@ module.exports.deleteObservation = (args, logger) => new Promise((resolve, rejec
 	let db = globals.get(CLIENT_DB);
 	let collection = db.collection(COLLECTION.OBSERVATION);
 	// Delete our observation record
-	collection.remove({ _id: id }, (err, _) => {
+	collection.remove({ id: id }, (err, _) => {
 		if (err) {
 			logger.error('Error with Observation.deleteObservation');
 			return reject({
