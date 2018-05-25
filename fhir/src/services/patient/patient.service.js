@@ -147,7 +147,7 @@ module.exports.updatePatient = (args, logger) => new Promise((resolve, reject) =
 	// Set the id of the resource
 	let doc = Object.assign(resource.toJSON(), { _id: id });
 	// Insert/update our patient record
-	collection.findOneAndUpdate({ _id: id }, doc, { upsert: true }, (err, res) => {
+	collection.findOneAndUpdate({ id: id }, doc, { upsert: true }, (err, res) => {
 		if (err) {
 			logger.error('Error with Patient.updatePatient: ', err);
 			return reject(err);
@@ -172,7 +172,7 @@ module.exports.deletePatient = (args, logger) => new Promise((resolve, reject) =
 	let db = globals.get(CLIENT_DB);
 	let collection = db.collection(COLLECTION.PATIENT);
 	// Delete our patient record
-	collection.remove({ _id: id }, (err, _) => {
+	collection.remove({ id: id }, (err, _) => {
 		if (err) {
 			logger.error('Error with Patient.deletePatient');
 			return reject({
