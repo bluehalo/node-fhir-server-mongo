@@ -170,7 +170,7 @@ describe('Observation Service Test', () => {
 		// 2. Update status
 		// 3. Query fixture for updated status
 
-		test('', async () => {
+		test('should successfully update a document', async () => {
 			// Update the status
 			ObservationFixture.status = 'preliminary';
 
