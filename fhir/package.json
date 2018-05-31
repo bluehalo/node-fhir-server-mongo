@@ -14,7 +14,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production; node src/index.js;",
     "nodemon": "cross-env NODE_ENV=development; node scripts/nodemon;",
-    "test": "cross-env-shell NODE_ENV=test \"npm run test:ci;\"",
+    "test": "cross-env-shell NODE_ENV=test \"set -e\" \"npm run test:ci;\"",
     "test:ci": "npm run test:prepare-db; npm run test:lint; npm run test:jest;",
     "test:lint": "eslint \"src/**/*.js\"",
     "test:jest": "jest --forceExit",
