@@ -57,8 +57,6 @@ module.exports.getObservation = (args, logger) => new Promise((resolve, reject) 
 		}
 	}
 
-	console.log(query);
-
 	// Grab an instance of our DB and collection
 	let db = globals.get(CLIENT_DB);
 	let collection = db.collection(COLLECTION.OBSERVATION);

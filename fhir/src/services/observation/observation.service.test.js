@@ -10,9 +10,6 @@ let globals = require('../../globals');
 describe('Observation Service Test', () => {
 
 	beforeAll(async () => {
-
-		console.log(mongoConfig);
-
 		let [ err, client ] = await asyncHandler(
 			mongoClient(mongoConfig.connection, mongoConfig.options)
 		);
@@ -39,7 +36,7 @@ describe('Observation Service Test', () => {
 			);
 
 			expect(err).toBeUndefined();
-			expect(results).toEqual(16);
+			expect(results).toEqual(60);
 		});
 
 	});
