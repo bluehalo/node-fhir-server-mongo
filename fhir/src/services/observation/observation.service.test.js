@@ -11,6 +11,8 @@ describe('Observation Service Test', () => {
 
 	beforeAll(async () => {
 
+		console.log(mongoConfig);
+
 		let [ err, client ] = await asyncHandler(
 			mongoClient(mongoConfig.connection, mongoConfig.options)
 		);
