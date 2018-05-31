@@ -7,6 +7,7 @@ package-lock.json
 .DS_Store
 coverage
 fhir/fixtures/data/shr
+fhir/fixtures/data/uscore
 
 # Local Development Certs
 cert.pem
