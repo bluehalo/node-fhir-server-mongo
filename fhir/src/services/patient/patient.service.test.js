@@ -1,14 +1,14 @@
 /* eslint-disable */
-const ObservationFixture = require('../../../fixtures/patient01/smokingstatus01.json');
+const PatientFixture = require('../../../fixtures/patient01/patient.json');
 const { CLIENT, CLIENT_DB } = require('../../constants');
-const observationService = require('./observation.service');
 const asyncHandler = require('../../lib/async-handler');
 const logger = require('../../testutils/logger.mock');
+const patientService = require('./patient.service');
 const { mongoConfig } = require('../../config');
 const mongoClient = require('../../lib/mongo');
 let globals = require('../../globals');
 
-describe('Observation Service Test', () => {
+describe('Patient Service Test', () => {
 
 	beforeAll(async () => {
 
@@ -34,41 +34,38 @@ describe('Observation Service Test', () => {
 
 		test('should correctly pass back the count', async () => {
 			let [ err, results ] = await asyncHandler(
-				observationService.getCount(null, logger)
+				patientService.getCount(null, logger)
 			);
 
 			expect(err).toBeUndefined();
-			expect(results).toEqual(16);
+			expect(results).toEqual(10);
 		});
 
 	});
 
-	describe('Method: getObservation', () => {
+	describe('Method: getPatient', () => {
 
 		test('should correctly return all laboratory documents for this patient', async () => {
-			let args = { patient: 1, category: 'laboratory' };
+			let args = { gender: 'male' };
 			let [ err, docs ] = await asyncHandler(
-				observationService.getObservation(args, logger)
+				patientService.getPatient(args, logger)
 			);
 
 			expect(err).toBeUndefined();
-			expect(docs.length).toEqual(4);
+			expect(docs.length).toEqual(6);
 
-			docs.forEach(doc => {
-			 expect(doc.subject.reference).toEqual(`Patient/${args.patient}`);
-			 expect(doc.category.coding[0].code).toEqual(args.category);
-			});
+			docs.forEach(doc => expect(doc.gender).toEqual('male'));
 
 		});
 
 	});
 
-	describe('Method: getObservationById', () => {
+	describe('Method: getPatientById', () => {
 
 		test('should correctly return a document', async () => {
-			let args = { id: '8' };
+			let args = { id: '1' };
 			let [ err, doc ] = await asyncHandler(
-				observationService.getObservationById(args, logger)
+				patientService.getPatientById(args, logger)
 			);
 
 			expect(err).toBeUndefined();
@@ -77,19 +74,19 @@ describe('Observation Service Test', () => {
 
 	});
 
-	describe('Method: deleteObservation', () => {
+	describe('Method: deletePatient', () => {
 
 		// For these tests, let's do it in 3 steps
-		// 1. Check the observation exists
-		// 2. Delete an observation and make sure it does not throw
-		// 3. Check the observation does not exist
+		// 1. Check the patient exists
+		// 2. Delete an patient and make sure it does not throw
+		// 3. Check the patient does not exist
 
 		test('should successfully delete a document', async () => {
 
 			// Look for this particular fixture
 			let args = { id: '1' };
 			let [ err, doc ] = await asyncHandler(
-				observationService.getObservationById(args, logger)
+				patientService.getPatientById(args, logger)
 			);
 
 			expect(err).toBeUndefined();
@@ -97,7 +94,7 @@ describe('Observation Service Test', () => {
 
 			// Now delete this fixture
 			let [ delete_err, _ ] = await asyncHandler(
-				observationService.deleteObservation(args, logger)
+				patientService.deletePatient(args, logger)
 			);
 
 			// There is no response resolved from this promise, so just check for an error
@@ -105,7 +102,7 @@ describe('Observation Service Test', () => {
 
 			// Now query for the fixture again, there should be no documents
 			let [ query_err, missing_doc ] = await asyncHandler(
-				observationService.getObservationById(args, logger)
+				patientService.getPatientById(args, logger)
 			);
 
 			expect(query_err).toBeUndefined();
@@ -115,7 +112,7 @@ describe('Observation Service Test', () => {
 
 	});
 
-	describe('Method: createObservation', () => {
+	describe('Method: createPatient', () => {
 
 		// This Fixture was previously deleted, we are going to ensure before creating it
 		// 1. Delete fixture
@@ -127,7 +124,7 @@ describe('Observation Service Test', () => {
 			// Look for this particular fixture
 			let args = {
 				resource: {
-					toJSON: () => ObservationFixture
+					toJSON: () => PatientFixture
 				},
 				id: '1'
 			};
@@ -135,7 +132,7 @@ describe('Observation Service Test', () => {
 			// Delete the fixture incase it exists,
 			// mongo won't throw if we delete something not there
 			let [ delete_err, _ ] = await asyncHandler(
-				observationService.deleteObservation(args, logger)
+				patientService.deletePatient(args, logger)
 			);
 
 			expect(delete_err).toBeUndefined();
@@ -143,7 +140,7 @@ describe('Observation Service Test', () => {
 			// Create the fixture, it expects two very specific args
 			// The resource arg must be a class/object with a toJSON method
 			let [ create_err, create_results ] = await asyncHandler(
-				observationService.createObservation(args, logger)
+				patientService.createPatient(args, logger)
 			);
 
 			expect(create_err).toBeUndefined();
@@ -153,7 +150,7 @@ describe('Observation Service Test', () => {
 
 			// Verify the new fixture exists
 			let [ query_err, doc ] = await asyncHandler(
-				observationService.getObservationById(args, logger)
+				patientService.getPatientById(args, logger)
 			);
 
 			expect(query_err).toBeUndefined();
@@ -163,35 +160,35 @@ describe('Observation Service Test', () => {
 
 	});
 
-	describe('Method: updateObservation', () => {
+	describe('Method: updatePatient', () => {
 
-		// Let's check for the fixture's status and then try to change it
-		// 1. Query fixture for status
-		// 2. Update status
-		// 3. Query fixture for updated status
+		// Let's check for the fixture's active property and then try to change it
+		// 1. Query fixture for active
+		// 2. Update active property
+		// 3. Query fixture for updated property
 
 		test('should successfully update a document', async () => {
 			// Update the status
-			ObservationFixture.status = 'preliminary';
+			PatientFixture.active = false;
 
 			let args = {
 				resource: {
-					toJSON: () => ObservationFixture
+					toJSON: () => PatientFixture
 				},
 				id: '1'
 			};
 
 			// Query for the original doc, this will ignore the resource arg
 			let [ query_err, doc ] = await asyncHandler(
-				observationService.getObservationById(args, logger)
+				patientService.getPatientById(args, logger)
 			);
 
 			expect(query_err).toBeUndefined();
-			expect(doc.status).toEqual('final');
+			expect(doc.active).toBeTruthy();
 
 			// Update the original doc
 			let [ update_err, update_results ] = await asyncHandler(
-				observationService.updateObservation(args, logger)
+				patientService.updatePatient(args, logger)
 			);
 
 			expect(update_err).toBeUndefined();
@@ -199,11 +196,11 @@ describe('Observation Service Test', () => {
 
 			// Query the newly updated doc and make sure the status is correct
 			let [ updated_err, updated_doc ] = await asyncHandler(
-				observationService.getObservationById(args, logger)
+				patientService.getPatientById(args, logger)
 			);
 
 			expect(updated_err).toBeUndefined();
-			expect(updated_doc.status).toEqual('preliminary');
+			expect(updated_doc.active).toBeFalsy();
 
 		});
 
