@@ -47,7 +47,7 @@ describe('Observation Service Test', () => {
 		test('should correctly return all laboratory documents for this patient', async () => {
 			let query = { patient: 1, category: 'laboratory' };
 			let [ err, docs ] = await asyncHandler(
-				observationService.getObservation({ query }, logger)
+				observationService.getObservation( query, logger)
 			);
 
 			expect(err).toBeUndefined();
@@ -67,7 +67,7 @@ describe('Observation Service Test', () => {
 		test('should correctly return a document', async () => {
 			let params = { id: '8' };
 			let [ err, doc ] = await asyncHandler(
-				observationService.getObservationById({ params }, logger)
+				observationService.getObservationById(params, logger)
 			);
 
 			expect(err).toBeUndefined();
