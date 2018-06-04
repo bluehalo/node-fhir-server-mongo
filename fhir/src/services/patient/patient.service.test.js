@@ -1,5 +1,5 @@
 /* eslint-disable */
-const PatientFixture = require('../../../fixtures/patient01/patient.json');
+const PatientFixture = require('../../../fixtures/data/patient01/patient.json');
 const { CLIENT, CLIENT_DB } = require('../../constants');
 const asyncHandler = require('../../lib/async-handler');
 const logger = require('../../testutils/logger.mock');
@@ -38,7 +38,7 @@ describe('Patient Service Test', () => {
 			);
 
 			expect(err).toBeUndefined();
-			expect(results).toEqual(10);
+			expect(results).toEqual(11);
 		});
 
 	});

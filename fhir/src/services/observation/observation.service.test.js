@@ -1,5 +1,5 @@
 /* eslint-disable */
-const ObservationFixture = require('../../../fixtures/patient01/smokingstatus01.json');
+const ObservationFixture = require('../../../fixtures/data/patient01/smokingstatus01.json');
 const { CLIENT, CLIENT_DB } = require('../../constants');
 const observationService = require('./observation.service');
 const asyncHandler = require('../../lib/async-handler');
@@ -11,7 +11,6 @@ let globals = require('../../globals');
 describe('Observation Service Test', () => {
 
 	beforeAll(async () => {
-
 		let [ err, client ] = await asyncHandler(
 			mongoClient(mongoConfig.connection, mongoConfig.options)
 		);
@@ -38,7 +37,7 @@ describe('Observation Service Test', () => {
 			);
 
 			expect(err).toBeUndefined();
-			expect(results).toEqual(16);
+			expect(results).toEqual(60);
 		});
 
 	});

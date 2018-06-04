@@ -26,7 +26,10 @@ Once you have this up and running. You should see the following output:
 ... - info: FHIR Server successfully started.
 ```
 
-At this point you can now start testing the endpoints. Depending what profiles you opt into, certain routes will be available. You can view the routes enabled based on which service methods you provide over at [`@asymmetrik/node-fhir-server-core`](https://github.com/Asymmetrik/node-fhir-server-core#profiles). You may also want to populate the database with some sample data. You can use the populate command by running the following:
+At this point you can now start testing the endpoints. Depending what profiles you opt into, certain routes will be available. You can view the routes enabled based on which service methods you provide over at [`@asymmetrik/node-fhir-server-core`](https://github.com/Asymmetrik/node-fhir-server-core#profiles). 
+
+
+You may also want to populate the database with some sample data.  There is some example standard health record data in the fixtures directory. Unzip the `shr.zip` file in the current directory.  Then you can use the populate command by running the following:
 
 ```shell
 # If your running docker-compose up or yarn nodemon, NODE_ENV is development
