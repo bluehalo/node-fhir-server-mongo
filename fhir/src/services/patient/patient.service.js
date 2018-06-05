@@ -42,7 +42,8 @@ module.exports.getPatient = (args, logger) => new Promise((resolve, reject) => {
 
 	if (identifier) {
 		let [ system, value ] = identifier.split('|');
-		query.identifier = [{ system, value }];
+
+		query.identifier = {$elemMatch: { system, value }};
 	}
 
 	if (name) {
