@@ -60,6 +60,24 @@ describe('Observation Service Test', () => {
 
 		});
 
+        test('should correctly return a specific laboratory document for this patient using all search parameters', async () => {
+            let args = { patient: 1, category: 'laboratory', code: '2951-2', date: '2005-07-04T00:00:00+00:00' };
+            let [ err, docs ] = await asyncHandler(
+                observationService.getObservation(args, logger)
+            );
+
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(1);
+
+            docs.forEach(doc => {
+                expect(doc.subject.reference).toEqual(`Patient/${args.patient}`);
+                expect(doc.category.coding[0].code).toEqual(args.category);
+                expect(doc.code.coding[0].code).toEqual(args.code);
+                expect(doc.effectiveDateTime).toEqual(args.date);
+            })
+
+        });
+
 	});
 
 	describe('Method: getObservationById', () => {

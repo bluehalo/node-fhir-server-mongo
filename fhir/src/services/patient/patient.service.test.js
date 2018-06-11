@@ -45,7 +45,7 @@ describe('Patient Service Test', () => {
 
 	describe('Method: getPatient', () => {
 
-		test('should correctly return all laboratory documents for this patient', async () => {
+		test('should correctly return all male patients', async () => {
 			let args = { gender: 'male' };
 			let [ err, docs ] = await asyncHandler(
 				patientService.getPatient(args, logger)
@@ -57,6 +57,25 @@ describe('Patient Service Test', () => {
 			docs.forEach(doc => expect(doc.gender).toEqual('male'));
 
 		});
+
+        test('should correctly return a specific patient using all search parameters', async () => {
+            let args = { id: '1', identifier: 'https://sitenv.org|211-778-2345', name: 'John', family: 'John', given: 'Doe', gender: 'male', birthDate: '1980-01-01' };
+            let [ err, docs ] = await asyncHandler(
+                patientService.getPatient(args, logger)
+            );
+
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(1);
+
+            docs.forEach(doc => expect(doc.id).toEqual('1'));
+            docs.forEach(doc => expect(doc.identifier[0].system).toEqual('https://sitenv.org'));
+            docs.forEach(doc => expect(doc.identifier[0].value).toEqual('211-778-2345'));
+            docs.forEach(doc => expect(doc.name[0].family[0]).toEqual('John'));
+            docs.forEach(doc => expect(doc.name[0].given[0]).toEqual('Doe'));
+            docs.forEach(doc => expect(doc.gender).toEqual('male'));
+            docs.forEach(doc => expect(doc.birthDate).toEqual('1980-01-01'));
+
+        });
 
 	});
 
