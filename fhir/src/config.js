@@ -71,7 +71,11 @@ let fhirServerConfig = {
         allergyintolerance: {
             service: path.resolve('./src/services/allergyintolerance/allergyintolerance.service.js'),
             versions: [ VERSIONS.STU3 ]
-		}
+		},
+        immunization: {
+            service: path.resolve('./src/services/immunization/immunization.service.js'),
+            versions: [ VERSIONS.STU3 ]
+        }
 	}
 };
 
