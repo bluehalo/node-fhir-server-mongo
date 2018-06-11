@@ -67,6 +67,10 @@ let fhirServerConfig = {
 		observation: {
 			service: path.resolve('./src/services/observation/observation.service.js'),
 			versions: [ VERSIONS.STU3 ]
+		},
+        allergyintolerance: {
+            service: path.resolve('./src/services/allergyintolerance/allergyintolerance.service.js'),
+            versions: [ VERSIONS.STU3 ]
 		}
 	}
 };
