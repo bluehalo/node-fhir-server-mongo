@@ -95,6 +95,10 @@ let fhirServerConfig = {
         device: {
             service: path.resolve('./src/services/device/device.service.js'),
             versions: [ VERSIONS.STU3 ]
+        },
+        diagnosticreport: {
+            service: path.resolve('./src/services/diagnosticreport/diagnosticreport.service.js'),
+            versions: [ VERSIONS.STU3 ]
         }
 	}
 };
