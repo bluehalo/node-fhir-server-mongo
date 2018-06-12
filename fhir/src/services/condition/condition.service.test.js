@@ -1,14 +1,14 @@
 /* eslint-disable */
-const MedicationstatementFixture = require('../../../fixtures/data/patient02/medicalstatement01.json');
+const ConditionFixture = require('../../../fixtures/data/patient01/problems01.json');
 const { CLIENT, CLIENT_DB } = require('../../constants');
 const asyncHandler = require('../../lib/async-handler');
 const logger = require('../../testutils/logger.mock');
-const medicationstatementService = require('./medicationstatement.service');
+const conditionService = require('./condition.service');
 const { mongoConfig } = require('../../config');
 const mongoClient = require('../../lib/mongo');
 let globals = require('../../globals');
 
-describe('Medicationstatement Service Test', () => {
+describe('Condition Service Test', () => {
 
     beforeAll(async () => {
 
@@ -36,21 +36,21 @@ describe('Medicationstatement Service Test', () => {
 
         test('should correctly pass back the count', async () => {
             let [err, results] = await asyncHandler(
-                medicationstatementService.getCount(null, logger)
+                conditionService.getCount(null, logger)
             );
 
             expect(err).toBeUndefined();
-            expect(results).toEqual(11);
+            expect(results).toEqual(52);
         });
 
     });
 
-    describe('Method: getMedicationstatementById', () => {
+    describe('Method: getConditionById', () => {
 
         test('should correctly return a document', async () => {
-            let args = { id: '2' };
-            let [ err, doc ] = await asyncHandler(
-                medicationstatementService.getMedicationstatementById(args, logger)
+            let args = {id: '1'};
+            let [err, doc] = await asyncHandler(
+                conditionService.getConditionById(args, logger)
             );
 
             expect(err).toBeUndefined();
@@ -59,19 +59,19 @@ describe('Medicationstatement Service Test', () => {
 
     });
 
-    describe('Method: deleteMedicationstatement', () => {
+    describe('Method: deleteCondition', () => {
 
         // For these tests, let's do it in 3 steps
-        // 1. Check the medicationstatement exists
-        // 2. Delete a medicationstatement and make sure it does not throw
-        // 3. Check the medicationstatement does not exist
+        // 1. Check the condition exists
+        // 2. Delete a condition and make sure it does not throw
+        // 3. Check the condition does not exist
 
         test('should successfully delete a document', async () => {
 
             // Look for this particular fixture
-            let args = { id: '2' };
+            let args = { id: '1' };
             let [ err, doc ] = await asyncHandler(
-                medicationstatementService.getMedicationstatementById(args, logger)
+                conditionService.getConditionById(args, logger)
             );
 
             expect(err).toBeUndefined();
@@ -79,7 +79,7 @@ describe('Medicationstatement Service Test', () => {
 
             // Now delete this fixture
             let [ delete_err, _ ] = await asyncHandler(
-                medicationstatementService.deleteMedicationstatement(args, logger)
+                conditionService.deleteCondition(args, logger)
             );
 
             // There is no response resolved from this promise, so just check for an error
@@ -87,7 +87,7 @@ describe('Medicationstatement Service Test', () => {
 
             // Now query for the fixture again, there should be no documents
             let [ query_err, missing_doc ] = await asyncHandler(
-                medicationstatementService.getMedicationstatementById(args, logger)
+                conditionService.getConditionById(args, logger)
             );
 
             expect(query_err).toBeUndefined();
@@ -97,7 +97,7 @@ describe('Medicationstatement Service Test', () => {
 
     });
 
-    describe('Method: createMedicationstatement', () => {
+    describe('Method: createCondition', () => {
 
         // This Fixture was previously deleted, we are going to ensure before creating it
         // 1. Delete fixture
@@ -109,15 +109,15 @@ describe('Medicationstatement Service Test', () => {
             // Look for this particular fixture
             let args = {
                 resource: {
-                    toJSON: () => MedicationstatementFixture
+                    toJSON: () => ConditionFixture
                 },
-                id: '2'
+                id: '1'
             };
 
             // Delete the fixture incase it exists,
             // mongo won't throw if we delete something not there
             let [ delete_err, _ ] = await asyncHandler(
-                medicationstatementService.deleteMedicationstatement(args, logger)
+                conditionService.deleteCondition(args, logger)
             );
 
             expect(delete_err).toBeUndefined();
@@ -125,7 +125,7 @@ describe('Medicationstatement Service Test', () => {
             // Create the fixture, it expects two very specific args
             // The resource arg must be a class/object with a toJSON method
             let [ create_err, create_results ] = await asyncHandler(
-                medicationstatementService.createMedicationstatement(args, logger)
+                conditionService.createCondition(args, logger)
             );
 
             expect(create_err).toBeUndefined();
@@ -135,7 +135,7 @@ describe('Medicationstatement Service Test', () => {
 
             // Verify the new fixture exists
             let [ query_err, doc ] = await asyncHandler(
-                medicationstatementService.getMedicationstatementById(args, logger)
+                conditionService.getConditionById(args, logger)
             );
 
             expect(query_err).toBeUndefined();
@@ -145,7 +145,7 @@ describe('Medicationstatement Service Test', () => {
 
     });
 
-    describe('Method: updateMedicationstatement', () => {
+    describe('Method: updateCondition', () => {
 
         // Let's check for the fixture's status and then try to change it
         // 1. Query fixture for status
@@ -154,26 +154,26 @@ describe('Medicationstatement Service Test', () => {
 
         test('should successfully update a document', async () => {
             // Update the status
-            MedicationstatementFixture.status = 'preliminary';
+            ConditionFixture.clinicalStatus = 'preliminary';
 
             let args = {
                 resource: {
-                    toJSON: () => MedicationstatementFixture
+                    toJSON: () => ConditionFixture
                 },
-                id: '2'
+                id: '1'
             };
 
             // Query for the original doc, this will ignore the resource arg
             let [query_err, doc] = await asyncHandler(
-                medicationstatementService.getMedicationstatementById(args, logger)
+                conditionService.getConditionById(args, logger)
             );
 
             expect(query_err).toBeUndefined();
-            expect(doc.status).toEqual('active');
+            expect(doc.clinicalStatus).toEqual('active');
 
             // Update the original doc
             let [update_err, update_results] = await asyncHandler(
-                medicationstatementService.updateMedicationstatement(args, logger)
+                conditionService.updateCondition(args, logger)
             );
 
             expect(update_err).toBeUndefined();
@@ -181,11 +181,11 @@ describe('Medicationstatement Service Test', () => {
 
             // Query the newly updated doc and make sure the status is correct
             let [updated_err, updated_doc] = await asyncHandler(
-                medicationstatementService.getMedicationstatementById(args, logger)
+                conditionService.getConditionById(args, logger)
             );
 
             expect(updated_err).toBeUndefined();
-            expect(updated_doc.status).toEqual('preliminary');
+            expect(updated_doc.clinicalStatus).toEqual('preliminary');
 
         });
 

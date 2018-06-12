@@ -81,7 +81,11 @@ let fhirServerConfig = {
             versions: [ VERSIONS.STU3 ]
         },
         careplan: {
-            service: path.resolve('./src/services/medicationstatement/careplan.service.js'),
+            service: path.resolve('./src/services/careplan/careplan.service.js'),
+            versions: [ VERSIONS.STU3 ]
+        },
+        condition: {
+            service: path.resolve('./src/services/condition/condition.service.js'),
             versions: [ VERSIONS.STU3 ]
         }
 	}
