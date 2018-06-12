@@ -91,6 +91,10 @@ let fhirServerConfig = {
         careteam: {
             service: path.resolve('./src/services/careteam/careteam.service.js'),
             versions: [ VERSIONS.STU3 ]
+        },
+        device: {
+            service: path.resolve('./src/services/device/device.service.js'),
+            versions: [ VERSIONS.STU3 ]
         }
 	}
 };
