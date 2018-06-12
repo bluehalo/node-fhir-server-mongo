@@ -87,6 +87,10 @@ let fhirServerConfig = {
         condition: {
             service: path.resolve('./src/services/condition/condition.service.js'),
             versions: [ VERSIONS.STU3 ]
+        },
+        careteam: {
+            service: path.resolve('./src/services/careteam/careteam.service.js'),
+            versions: [ VERSIONS.STU3 ]
         }
 	}
 };
