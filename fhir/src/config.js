@@ -75,6 +75,10 @@ let fhirServerConfig = {
         immunization: {
             service: path.resolve('./src/services/immunization/immunization.service.js'),
             versions: [ VERSIONS.STU3 ]
+        },
+        medicationstatement: {
+            service: path.resolve('./src/services/medicationstatement/medicationstatement.service.js'),
+            versions: [ VERSIONS.STU3 ]
         }
 	}
 };
