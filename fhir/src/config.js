@@ -103,6 +103,10 @@ let fhirServerConfig = {
         medicationrequest: {
             service: path.resolve('./src/services/medicationrequest/medicationrequest.service.js'),
             versions: [ VERSIONS.STU3 ]
+        },
+        organization: {
+            service: path.resolve('./src/services/organization/organization.service.js'),
+            versions: [ VERSIONS.STU3 ]
         }
 	}
 };
