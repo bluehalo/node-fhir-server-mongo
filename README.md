@@ -2,29 +2,51 @@
 ====================================
 
 ## Intro
-This project is an example project built on `@asymmetrik/node-fhir-server-core` and has a MongoDB back end storing sample data. It's built with the ability to run in docker or node.js. To get started developing in Docker, see [Getting Started with Docker](#getting-started-with-docker). To get started developing with Node.js and Mongo, see [Getting Started with Node](#getting-started-with-node)
+This project is a MongoDB back end connecting to `@asymmetrik/node-fhir-server-core`. 
 
-## Getting Started with Docker
 
-1. Install the latest [Docker Community Edition](https://www.docker.com/community-edition) for your OS if you do not already have it installed.
-2. Create a new file `.local-secrets/auth.secrets` and fill in the values from `.local-secrets/auth.example`.
-3. Run `docker-compose up`.
+## Getting Started
 
-## Getting Started with Node
+The project can be installed with either Docker or Nodejs.
 
-1. Install the latest LTS for [Node.js](https://nodejs.org/en/) if you do not already have it installed.
-2. Install the latest [Mongo Community Edition](https://docs.mongodb.com/manual/administration/install-community/) if you do not already have it installed.
-3. Make sure the default values defined in `fhir/env.json` are valid.
-4. `cd` into the `fhir` directory and run `yarn` or `npm install`.
-5. Run `yarn start` or `npm run start`.
+**With Docker**
 
-## Next Steps
-Once you have this up and running. You should see the following output:
+1. Install the Docker latest version at [Docker Community Edition](https://www.docker.com/community-edition)
+2. Create a new file `.local-secrets/auth.secrets`  
+  Fill in `AUTH_CLIENT_ID` and `AUTH_CLIENT_SECRET` (Example: `.local-secrets/auth.example`).
+3. Start server:
+```shell
+   docker-compose up
+```
 
+
+
+**With Node**
+
+1. Install [Nodejs and NPM](https://nodejs.org/en/) latest version.
+2. Optional: Install [Yarn](https://yarnpkg.com/lang/en/docs/install) latest version.
+3. Install the latest [Mongo Community Edition](https://docs.mongodb.com/manual/administration/install-community/).
+4. Go into `/fhir` folder and install initial modules with either NPM or Yarn. Default setting is in `/fhir/env.json`.
+```shell
+   npm install
+   #OR
+   yarn install  
+```
+
+5. Start server:
+```shell
+   npm run start
+   #OR
+   yarn start
+```
+
+## Confirmation
+The server is up and running with the following output:
 ```shell
 ... - info: App listening on port: 3000 # or whichever port you used
 ... - info: FHIR Server successfully started.
 ```
+
 
 At this point you can now start testing the endpoints. Depending what profiles you opt into, certain routes will be available. You can view the routes enabled based on which service methods you provide over at [`@asymmetrik/node-fhir-server-core`](https://github.com/Asymmetrik/node-fhir-server-core#profiles). 
 
