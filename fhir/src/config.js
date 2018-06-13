@@ -95,7 +95,27 @@ let fhirServerConfig = {
         device: {
             service: path.resolve('./src/services/device/device.service.js'),
             versions: [ VERSIONS.STU3 ]
-        }
+        },
+				goal: {
+						service: path.resolve('./src/services/goal/goal.service.js'),
+						versions: [ VERSIONS.STU3 ]
+				},
+				location: {
+						service: path.resolve('./src/services/location/location.service.js'),
+						versions: [ VERSIONS.STU3 ]
+				},
+				practitioner: {
+						service: path.resolve('./src/services/location/practitioner.service.js'),
+						versions: [ VERSIONS.STU3 ]
+				},
+				medication: {
+						service: path.resolve('./src/services/location/medication.service.js'),
+						versions: [ VERSIONS.STU3 ]
+				},
+				procedure: {
+						service: path.resolve('./src/services/location/procedure.service.js'),
+						versions: [ VERSIONS.STU3 ]
+				}
 	}
 };
 
