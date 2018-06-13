@@ -3,20 +3,20 @@ const globals = require('../../globals');
 
 /**
  * @name getCount
- * @description Get the number of careteams in our database
+ * @description Get the number of organizations in our database
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
 module.exports.getCount = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Careteam >>> getCount');
+    logger.info('Organization >>> getCount');
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
-    let collection = db.collection(COLLECTION.CARETEAM);
+    let collection = db.collection(COLLECTION.ORGANIZATION);
     // Query all documents in this collection
     collection.count((err, count) => {
         if (err) {
-            logger.error('Error with Careteam.getCount: ', err);
+            logger.error('Error with Organization.getCount: ', err);
             return reject(err);
         }
         return resolve(count);
@@ -24,88 +24,88 @@ module.exports.getCount = (args, logger) => new Promise((resolve, reject) => {
 });
 
 /**
- * @name getCareteam
- * @description Get getCareteam(s) from our database
+ * @name getOrganization
+ * @description Get getOrganization(s) from our database
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.getCareteam = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Careteam >>> getCareteam');
+module.exports.getOrganization = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('Organization >>> getOrganization');
     reject(new Error('Support coming soon'));
 });
 
 /**
- * @name getCareteamById
- * @description Get a careteam by their unique identifier
+ * @name getOrganizationById
+ * @description Get a organization by their unique identifier
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.getCareteamById = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Careteam >>> getCareteamById');
+module.exports.getOrganizationById = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('Organization >>> getOrganizationById');
     // Parse the required params, these are validated by sanitizeMiddleware in core
     let { id } = args;
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
-    let collection = db.collection(COLLECTION.CARETEAM);
+    let collection = db.collection(COLLECTION.ORGANIZATION);
     // Query our collection for this observation
-    collection.findOne({ id: id.toString() }, (err, careteam) => {
+    collection.findOne({ id: id.toString() }, (err, organization) => {
         if (err) {
-            logger.error('Error with Careteam.getCareteamById: ', err);
+            logger.error('Error with Organization.getOrganizationById: ', err);
             return reject(err);
         }
-        resolve(careteam);
+        resolve(organization);
     });
 });
 
 /**
- * @name createCareteam
- * @description Create a careteam
+ * @name createOrganization
+ * @description Create a organization
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.createCareteam = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Careteam >>> createCareteam');
+module.exports.createOrganization = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('Organization >>> createOrganization');
     let { id, resource } = args;
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
-    let collection = db.collection(COLLECTION.CARETEAM);
+    let collection = db.collection(COLLECTION.ORGANIZATION);
     // If there is an id, use it, otherwise let mongo generate it
     let doc = Object.assign(resource.toJSON(), { _id: id });
-    // Insert our careteam record
+    // Insert our organization record
     collection.insert(doc, (err, res) => {
         if (err) {
-            logger.error('Error with Careteam.createCareteam: ', err);
+            logger.error('Error with Organization.createOrganization: ', err);
             return reject(err);
         }
-        // Grab the careteam record so we can pass back the id
-        let [ careteam ] = res.ops;
+        // Grab the organization record so we can pass back the id
+        let [ organization ] = res.ops;
 
-        return resolve({ id: careteam.id });
+        return resolve({ id: organization.id });
     });
 });
 
 /**
- * @name updateCareteam
- * @description Update a careteam
+ * @name updateOrganization
+ * @description Update a organization
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.updateCareteam = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Careteam >>> updateCareteam');
+module.exports.updateOrganization = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('Organization >>> updateOrganization');
     let { id, resource } = args;
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
-    let collection = db.collection(COLLECTION.CARETEAM);
+    let collection = db.collection(COLLECTION.ORGANIZATION);
     // Set the id of the resource
     let doc = Object.assign(resource.toJSON(), { _id: id });
-    // Insert/update our careteam record
+    // Insert/update our organization record
     collection.findOneAndUpdate({ id: id }, doc, { upsert: true }, (err, res) => {
         if (err) {
-            logger.error('Error with Careteam.updateCareteam: ', err);
+            logger.error('Error with Organization.updateOrganization: ', err);
             return reject(err);
         }
         // If we support versioning, which we do not at the moment,
@@ -115,22 +115,22 @@ module.exports.updateCareteam = (args, logger) => new Promise((resolve, reject) 
 });
 
 /**
- * @name deleteCareteam
- * @description Delete a careteam
+ * @name deleteOrganization
+ * @description Delete a organization
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.deleteCareteam = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Careteam >>> deleteCareteam');
+module.exports.deleteOrganization = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('Organization >>> deleteOrganization');
     let { id } = args;
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
-    let collection = db.collection(COLLECTION.CARETEAM);
-    // Delete our careteam record
+    let collection = db.collection(COLLECTION.ORGANIZATION);
+    // Delete our organization record
     collection.remove({ id: id }, (err, _) => {
         if (err) {
-            logger.error('Error with Careteam.deleteCareteam');
+            logger.error('Error with Organization.deleteOrganization');
             return reject({
                 // Must be 405 (Method Not Allowed) or 409 (Conflict)
                 // 405 if you do not want to allow the delete

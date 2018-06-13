@@ -96,6 +96,7 @@ let fhirServerConfig = {
             service: path.resolve('./src/services/device/device.service.js'),
             versions: [ VERSIONS.STU3 ]
         },
+<<<<<<< .merge_file_wUojoF
 				goal: {
 						service: path.resolve('./src/services/goal/goal.service.js'),
 						versions: [ VERSIONS.STU3 ]
@@ -116,6 +117,20 @@ let fhirServerConfig = {
 						service: path.resolve('./src/services/location/procedure.service.js'),
 						versions: [ VERSIONS.STU3 ]
 				}
+=======
+        diagnosticreport: {
+            service: path.resolve('./src/services/diagnosticreport/diagnosticreport.service.js'),
+            versions: [ VERSIONS.STU3 ]
+        },
+        medicationrequest: {
+            service: path.resolve('./src/services/medicationrequest/medicationrequest.service.js'),
+            versions: [ VERSIONS.STU3 ]
+        },
+        organization: {
+            service: path.resolve('./src/services/organization/organization.service.js'),
+            versions: [ VERSIONS.STU3 ]
+        }
+>>>>>>> .merge_file_HROWyZ
 	}
 };
 
