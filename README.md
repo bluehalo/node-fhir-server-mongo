@@ -7,7 +7,7 @@ This project is a MongoDB back end connecting to `@asymmetrik/node-fhir-server-c
 
 ## Getting Started
 
-The project can be installed with either Docker or Nodejs.
+Install with either Docker or Nodejs.
 
 **With Docker**
 
@@ -15,8 +15,9 @@ The project can be installed with either Docker or Nodejs.
 2. Create a new file `.local-secrets/auth.secrets`  
   Fill in `AUTH_CLIENT_ID` and `AUTH_CLIENT_SECRET` (Example: `.local-secrets/auth.example`).
 3. Start server:
+
 ```shell
-   docker-compose up
+docker-compose up
 ```
 
 
@@ -27,24 +28,27 @@ The project can be installed with either Docker or Nodejs.
 2. Optional: Install [Yarn](https://yarnpkg.com/lang/en/docs/install) latest version.
 3. Install the latest [Mongo Community Edition](https://docs.mongodb.com/manual/administration/install-community/).
 4. Go into `/fhir` folder and install initial modules with either NPM or Yarn. Default setting is in `/fhir/env.json`.
+
 ```shell
-   npm install
-   #OR
-   yarn install  
+npm install
+#OR
+yarn install  
 ```
+
 
 5. Start server:
 ```shell
-   npm run start
-   #OR
-   yarn start
+npm run start
+#OR
+yarn start
 ```
 
-## Confirmation
-The server is up and running with the following output:
+
+## Installation Confirmation
+The server is running properly with the following output:
+
 ```shell
-... - info: App listening on port: 3000 # or whichever port you used
-... - info: FHIR Server successfully started.
+... - info: FHIR server successfully started.
 ```
 
 
