@@ -14,7 +14,10 @@ Install with either Docker or Nodejs.
 1. Install the Docker latest version at [Docker Community Edition](https://www.docker.com/community-edition)
 2. Create a new file `.local-secrets/auth.secrets`  
   Fill in `AUTH_CLIENT_ID` and `AUTH_CLIENT_SECRET` (Example: `.local-secrets/auth.example`).
-3. Start server:
+3. Run Docker
+Windows: Switch to Linux Containers and enable sharing C drive under Docker Settings
+Mac: No extra setting required
+4. Start server:
 
 ```shell
 docker-compose up
@@ -52,35 +55,38 @@ The server is running properly with the following output:
 ```
 
 
-At this point you can now start testing the endpoints. Depending what profiles you opt into, certain routes will be available. You can view the routes enabled based on which service methods you provide over at [`@asymmetrik/node-fhir-server-core`](https://github.com/Asymmetrik/node-fhir-server-core#profiles). 
+## Populate Database Data
 
+1. In "fhir/fixtures/data" unzip "shr.zip" or "uscore.zip" to its own folder.  
+2. Populating data depends on installation mode, Docker or Nodejs.
 
-You may also want to populate the database with some sample data.  There is some example standard health record data in the fixtures directory. Unzip the `shr.zip` file in the current directory.  Then you can use the populate command by running the following:
-
+**With Docker**
 ```shell
-# If your running docker-compose up or yarn nodemon, NODE_ENV is development
-# If your running the start script, NODE_ENV is production, when running the
-# populate script, you need to use the correct NODE_ENV so it populates the
-# correct DB, examples are for the nodemon script
-# In docker, if docker is up and running
 docker-compose exec fhir env NODE_ENV=development yarn populate -a -r
-# If you are using docker but it is not running
-docker-compose run fhir env NODE_ENV=development yarn populate -a -r
-# In node
-export NODE_ENV=development
-yarn scripts/populate -a -r
-# or with npm
+```
+
+**With Nodejs**
+```shell
 npm run populate -- -a -r
 ```
 
-The url the server will be running at will partially depend on your configuration. For local development, the default is `http://localhost:3000`. You can of course change the port in the `docker-compose.yml` or the `env.json`. You can also enable https by providing SSL certs. If you want to do this you must first generate them, see [Generate self signed certs](https://github.com/Asymmetrik/node-fhir-server-core/blob/master/.github/CONTRIBUTING.md#generate-self-signed-certs). Then, add the path to them in your config by setting `SSL_KEY` and `SSL_CERT` as ENV variable's, adding them in `docker-compose.yml`, or adding them to `env.json`. This will allow the app to run on `https://localhost:3000`. Note the link is for generating self signed certs, you should not use those for production. You can verify the path is set correctly by logging out the fhirServerConfig in `index.js`.
+
+## Testing Server Endpoints 
+
+Routes are available depending on enabled profiles. For more details on supported profiles and their configuration, check the [Profile Wiki[(https://github.com/Asymmetrik/node-fhir-server-core#profile). 
+
+Default URL: `http://localhost:3000`
+Port setting: in `docker-compose.yml` or `env.json`.
+ 
+HTTPS can be enabled with SSL cert, which needs to be generated  
+[(generate self signed certs)](https://github.com/Asymmetrik/node-fhir-server-core/blob/master/.github/CONTRIBUTING.md#generate-self-signed-certs), then added to the configuration files `docker-compose.yml` or `env.json` as `SSL_KEY` and `SSL_CERT` environment variables. Self-signed certificates should not be used for production. 
 
 
-## Getting Started with Authorization
+## Authorization and Token Generation
 
-All resource endpoints are secured.  You will need to supply a valid access token with valid scopes in order to view the resource.  In this project, we have added a stubbed EHR authorization server you can use to create an access token.  You will need to have access to an EHR authorization server for your live environment.
+All resource endpoints are secured. Valid access token with valid scopes is required for viewing access. A sample EHR authorization server is provided to create an access token. Users would need their own EHR authorization in a live environment.
 
-There are two endpoints you need to access to generate a token.  Please refer to the SMART Authorization Guide (http://docs.smarthealthit.org/authorization) for more information.
+Refer to the [SMART Authorization Guide](http://docs.smarthealthit.org/authorization) for more information.
 
 You will first need to be granted a code.  The EHR decides whether to grant or deny access.  This decision is communicated to the app when the EHR authorization server returns an authorization code.  Authorization codes are short-lived, usually expiring within around one minute.  The code is sent when the EHR authorization server redirects the browser to the app’s redirect_uri, with the following URL parameters:
 
