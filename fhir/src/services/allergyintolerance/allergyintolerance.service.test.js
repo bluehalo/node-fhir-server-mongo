@@ -1,5 +1,5 @@
 /* eslint-disable */
-const AllergyintoleranceFixture = require('../../../fixtures/data/patient01/allergyintolerance01.json');
+const AllergyIntoleranceFixture = require('../../../fixtures/data/patient01/allergyintolerance01.json');
 const { CLIENT, CLIENT_DB } = require('../../constants');
 const asyncHandler = require('../../lib/async-handler');
 const logger = require('../../testutils/logger.mock');
@@ -8,7 +8,7 @@ const { mongoConfig } = require('../../config');
 const mongoClient = require('../../lib/mongo');
 let globals = require('../../globals');
 
-describe('Allergyintolerance Service Test', () => {
+describe('AllergyIntolerance Service Test', () => {
 
     beforeAll(async () => {
 
@@ -40,17 +40,114 @@ describe('Allergyintolerance Service Test', () => {
             );
 
             expect(err).toBeUndefined();
-            expect(results).toEqual(51);
+            expect(results).toEqual(52);
         });
 
     });
 
-    describe('Method: getAllergyintoleranceById', () => {
+    describe('Method: getAllergyIntolerance', () => {
+
+        test('test only using required arguments', async () => {
+            let args = { patient: 'example', verificationStatus: 'confirmed'};
+            let [ err, docs ] = await asyncHandler(
+                allergyintoleranceService.getAllergyIntolerance(args, logger)
+            );
+
+            // console.log(JSON.stringify(args));
+
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(2);
+
+            docs.forEach(doc => {
+                expect(doc.patient.reference).toEqual(`Patient/${args.patient}`);
+                expect(doc.verificationStatus).toEqual(args.verificationStatus);
+            });
+
+        });
+
+        test('find all documents that use the same system for manifestation', async () => {
+            let args = { manifestation: 'http://snomed.info/sct|', patient: 'example', verificationStatus: 'confirmed'};
+            let [ err, docs ] = await asyncHandler(
+                allergyintoleranceService.getAllergyIntolerance(args, logger)
+            );
+
+            // console.log(JSON.stringify(args));
+
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(2);
+
+            docs.forEach(doc => {
+                expect(doc.reaction[0].manifestation[0].coding[0].system).toEqual('http://snomed.info/sct');
+            });
+
+        });
+
+        test('test all codeable concept arguments using only a code without a \'|\'', async () => {
+            let args = { code: 'N0000175503', identifier: '49476534', manifestation: '64305001', patient: 'example',
+                route: '34206005', verificationStatus: 'confirmed'};
+            let [ err, docs ] = await asyncHandler(
+                allergyintoleranceService.getAllergyIntolerance(args, logger)
+            );
+
+            // console.log(JSON.stringify(args));
+
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(1);
+
+            docs.forEach(doc => {
+                expect(doc.code.coding[1].code).toEqual('N0000175503');
+                expect(doc.identifier[0].value).toEqual('49476534');
+                expect(doc.reaction[1].manifestation[0].coding[0].code).toEqual('64305001');
+                expect(doc.reaction[0].exposureRoute.coding[0].code).toEqual('34206005');
+            });
+
+        });
+
+        test('test using all arguments', async () => {
+            let args = { category: 'medication', clinicalStatus: 'active', code: 'http://hl7.org/fhir/ndfrt|N0000175503',
+                criticality: 'low', date: '2014-10-09T14:58:00+11:00', identifier: 'http://acme.com/ids/patients/risks|49476534', lastDate: '2012-06',
+                manifestation: 'http://snomed.info/sct|64305001', onset: '2004', patient: 'example', recorder: 'example',
+                route: 'http://snomed.info/sct|34206005', severity: 'severe', type: 'allergy', verificationStatus: 'confirmed'};
+            let [ err, docs ] = await asyncHandler(
+                allergyintoleranceService.getAllergyIntolerance(args, logger)
+            );
+
+            // console.log(JSON.stringify(docs));
+
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(1);
+
+            docs.forEach(doc => {
+                expect(doc.category[1]).toEqual(args.category);
+                expect(doc.clinicalStatus).toEqual(args.clinicalStatus);
+                expect(doc.code.coding[1].system).toEqual('http://hl7.org/fhir/ndfrt');
+                expect(doc.code.coding[1].code).toEqual('N0000175503');
+                expect(doc.criticality).toEqual(args.criticality);
+                expect(doc.assertedDate).toEqual(args.date);
+                expect(doc.identifier[0].system).toEqual('http://acme.com/ids/patients/risks');
+                expect(doc.identifier[0].value).toEqual('49476534');
+                expect(doc.lastOccurrence).toEqual(args.lastDate);
+                expect(doc.reaction[1].manifestation[0].coding[0].system).toEqual('http://snomed.info/sct');
+                expect(doc.reaction[1].manifestation[0].coding[0].code).toEqual('64305001');
+                expect(doc.reaction[1].onset).toEqual(args.onset);
+                expect(doc.patient.reference).toEqual(`Patient/${args.patient}`);
+                expect(doc.reaction[0].exposureRoute.coding[0].system).toEqual('http://snomed.info/sct');
+                expect(doc.reaction[0].exposureRoute.coding[0].code).toEqual('34206005');
+                expect(doc.reaction[0].severity).toEqual(args.severity);
+                expect(doc.type).toEqual(args.type);
+                expect(doc.verificationStatus).toEqual(args.verificationStatus);
+            });
+
+        });
+
+    });
+
+    describe('Method: getAllergyIntoleranceById', () => {
 
         test('should correctly return a document', async () => {
             let args = { id: '8' };
             let [ err, doc ] = await asyncHandler(
-                allergyintoleranceService.getAllergyintoleranceById(args, logger)
+                allergyintoleranceService.getAllergyIntoleranceById(args, logger)
             );
 
             expect(err).toBeUndefined();
@@ -59,7 +156,7 @@ describe('Allergyintolerance Service Test', () => {
 
     });
 
-    describe('Method: deleteAllergyintolerance', () => {
+    describe('Method: deleteAllergyIntolerance', () => {
 
         // For these tests, let's do it in 3 steps
         // 1. Check the allergyintolerance exists
@@ -71,7 +168,7 @@ describe('Allergyintolerance Service Test', () => {
             // Look for this particular fixture
             let args = { id: '1' };
             let [ err, doc ] = await asyncHandler(
-                allergyintoleranceService.getAllergyintoleranceById(args, logger)
+                allergyintoleranceService.getAllergyIntoleranceById(args, logger)
             );
 
             expect(err).toBeUndefined();
@@ -79,7 +176,7 @@ describe('Allergyintolerance Service Test', () => {
 
             // Now delete this fixture
             let [ delete_err, _ ] = await asyncHandler(
-                allergyintoleranceService.deleteAllergyintolerance(args, logger)
+                allergyintoleranceService.deleteAllergyIntolerance(args, logger)
             );
 
             // There is no response resolved from this promise, so just check for an error
@@ -87,7 +184,7 @@ describe('Allergyintolerance Service Test', () => {
 
             // Now query for the fixture again, there should be no documents
             let [ query_err, missing_doc ] = await asyncHandler(
-                allergyintoleranceService.getAllergyintoleranceById(args, logger)
+                allergyintoleranceService.getAllergyIntoleranceById(args, logger)
             );
 
             expect(query_err).toBeUndefined();
@@ -97,7 +194,7 @@ describe('Allergyintolerance Service Test', () => {
 
     });
 
-    describe('Method: createAllergyintolerance', () => {
+    describe('Method: createAllergyIntolerance', () => {
 
         // This Fixture was previously deleted, we are going to ensure before creating it
         // 1. Delete fixture
@@ -109,7 +206,7 @@ describe('Allergyintolerance Service Test', () => {
             // Look for this particular fixture
             let args = {
                 resource: {
-                    toJSON: () => AllergyintoleranceFixture
+                    toJSON: () => AllergyIntoleranceFixture
                 },
                 id: '1'
             };
@@ -117,7 +214,7 @@ describe('Allergyintolerance Service Test', () => {
             // Delete the fixture incase it exists,
             // mongo won't throw if we delete something not there
             let [ delete_err, _ ] = await asyncHandler(
-                allergyintoleranceService.deleteAllergyintolerance(args, logger)
+                allergyintoleranceService.deleteAllergyIntolerance(args, logger)
             );
 
             expect(delete_err).toBeUndefined();
@@ -125,7 +222,7 @@ describe('Allergyintolerance Service Test', () => {
             // Create the fixture, it expects two very specific args
             // The resource arg must be a class/object with a toJSON method
             let [ create_err, create_results ] = await asyncHandler(
-                allergyintoleranceService.createAllergyintolerance(args, logger)
+                allergyintoleranceService.createAllergyIntolerance(args, logger)
             );
 
             expect(create_err).toBeUndefined();
@@ -135,7 +232,7 @@ describe('Allergyintolerance Service Test', () => {
 
             // Verify the new fixture exists
             let [ query_err, doc ] = await asyncHandler(
-                allergyintoleranceService.getAllergyintoleranceById(args, logger)
+                allergyintoleranceService.getAllergyIntoleranceById(args, logger)
             );
 
             expect(query_err).toBeUndefined();
@@ -145,7 +242,7 @@ describe('Allergyintolerance Service Test', () => {
 
     });
 
-    describe('Method: updateAllergyintolerance', () => {
+    describe('Method: updateAllergyIntolerance', () => {
 
         // Let's check for the fixture's status and then try to change it
         // 1. Query fixture for status
@@ -154,18 +251,18 @@ describe('Allergyintolerance Service Test', () => {
 
         test('should successfully update a document', async () => {
             // Update the status
-            AllergyintoleranceFixture.status = 'preliminary';
+            AllergyIntoleranceFixture.status = 'preliminary';
 
             let args = {
                 resource: {
-                    toJSON: () => AllergyintoleranceFixture
+                    toJSON: () => AllergyIntoleranceFixture
                 },
                 id: '1'
             };
 
             // Query for the original doc, this will ignore the resource arg
             let [query_err, doc] = await asyncHandler(
-                allergyintoleranceService.getAllergyintoleranceById(args, logger)
+                allergyintoleranceService.getAllergyIntoleranceById(args, logger)
             );
 
             expect(query_err).toBeUndefined();
@@ -173,7 +270,7 @@ describe('Allergyintolerance Service Test', () => {
 
             // Update the original doc
             let [update_err, update_results] = await asyncHandler(
-                allergyintoleranceService.updateAllergyintolerance(args, logger)
+                allergyintoleranceService.updateAllergyIntolerance(args, logger)
             );
 
             expect(update_err).toBeUndefined();
@@ -181,7 +278,7 @@ describe('Allergyintolerance Service Test', () => {
 
             // Query the newly updated doc and make sure the status is correct
             let [updated_err, updated_doc] = await asyncHandler(
-                allergyintoleranceService.getAllergyintoleranceById(args, logger)
+                allergyintoleranceService.getAllergyIntoleranceById(args, logger)
             );
 
             expect(updated_err).toBeUndefined();
