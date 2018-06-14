@@ -14,8 +14,8 @@ Install with either Docker or Nodejs.
 1. Install the Docker latest version at [Docker Community Edition](https://www.docker.com/community-edition)
 2. Create a new file `.local-secrets/auth.secrets`  
   Fill in `AUTH_CLIENT_ID` and `AUTH_CLIENT_SECRET` (Example: `.local-secrets/auth.example`).
-3. Run Docker
-Windows: Switch to Linux Containers and enable sharing C drive under Docker Settings
+3. Run Docker  
+Windows: Switch to Linux Containers and enable sharing C drive under Docker Settings  
 Mac: No extra setting required
 4. Start server:
 
@@ -48,16 +48,16 @@ yarn start
 
 
 ## Installation Confirmation
-The server is running properly with the following output:
+The server runs properly with the following output:
 
 ```shell
 ... - info: FHIR server successfully started.
 ```
 
 
-## Populate Database Data
+## Populate Database
 
-1. In "fhir/fixtures/data" unzip "shr.zip" or "uscore.zip" to its own folder.  
+1. In `fhir/fixtures/data` unzip "shr.zip" or "uscore.zip" to its own folder.  
 2. Populating data depends on installation mode, Docker or Nodejs.
 
 **With Docker**
@@ -73,13 +73,12 @@ npm run populate -- -a -r
 
 ## Testing Server Endpoints 
 
-Routes are available depending on enabled profiles. For more details on supported profiles and their configuration, check the [Profile Wiki[(https://github.com/Asymmetrik/node-fhir-server-core#profile). 
+Routes are available depending on enabled profiles. For more details on supported profiles and their configuration, check the [Profile Wiki](https://github.com/Asymmetrik/node-fhir-server-core#profile). 
 
 Default URL: `http://localhost:3000`
 Port setting: in `docker-compose.yml` or `env.json`.
  
-HTTPS can be enabled with SSL cert, which needs to be generated  
-[(generate self signed certs)](https://github.com/Asymmetrik/node-fhir-server-core/blob/master/.github/CONTRIBUTING.md#generate-self-signed-certs), then added to the configuration files `docker-compose.yml` or `env.json` as `SSL_KEY` and `SSL_CERT` environment variables. Self-signed certificates should not be used for production. 
+HTTPS can be enabled with SSL cert, which needs to be generated [(generate self signed certs)](https://github.com/Asymmetrik/node-fhir-server-core/blob/master/.github/CONTRIBUTING.md#generate-self-signed-certs), then added to the configuration files `docker-compose.yml` or `env.json` as `SSL_KEY` and `SSL_CERT` environment variables. Self-signed certificates should not be used for production. 
 
 
 ## Authorization and Token Generation
@@ -92,24 +91,29 @@ You will first need to be granted a code.  The EHR decides whether to grant or d
 
 ```
 Location: http://ehr/authorize?
-		response_type=code&
-		client_id=app-client-id&
-		redirect_uri=https://app/after-auth&
-		launch=xyz123&
-		scope=launch patient/Observation.read patient/Patient.read openid profile&
-		state=98wrghuwuogerg97&
-		aud=https://ehr/fhir
+response_type=code&
+client_id=app-client-id&
+redirect_uri=https://app/after-auth&
+launch=xyz123&
+scope=launch patient/Observation.read patient/Patient.read openid profile&
+state=98wrghuwuogerg97&
+aud=https://ehr/fhir
 ```
  
-Once the server is up and populated with our seed data, try this URL in your browser if you don't have a SMART client application.
-http://localhost:3000/authorize?client_id=xyz123&redirect_uri=http://localhost:3000/&response_type=code&state=43220320&scope=launch patient/*.read openid&aud=http://localhost:3000
 
-You should see your browser redirect you back to localhost with a code and state in your url.  This is how you know if you have been granted access to the resource.  The format should look like this.
+Seek authorization from the server with the following URL:
+
+```
+http://localhost:3000/authorize?client_id=xyz123&redirect_uri=http://localhost:3000/&response_type=code&state=43220320&scope=launch patient/*.read openid&aud=http://localhost:3000
+```
+
+
+The browser would redirect back to localhost with a code and state.  Granted access output would be similar to the following:
 
 ```
 Location: https://app/after-auth?
-		code=123abc&
-		state=98wrghuwuogerg97
+code=123abc&
+state=98wrghuwuogerg97
 ```
 
 After obtaining an authorization code, the app trades the code for an access token via HTTP POST to the EHR authorization server’s token endpoint URL, using content-type application/x-www-form-urlencoded.
