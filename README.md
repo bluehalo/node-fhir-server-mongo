@@ -108,7 +108,7 @@ http://localhost:3000/authorize?client_id=xyz123&redirect_uri=http://localhost:3
 ```
 
 
-The browser would redirect back to localhost with a code and state.  Granted access output would be similar to the following:
+The browser would redirect back to localhost with a code and state.  Granted access output would be as followed:
 
 ```
 Location: https://app/after-auth?
@@ -128,8 +128,8 @@ code=123abc
 redirect_uri=https://app/after-auth
 ```
 
-Lets give this a try on our server.
-Using any request builder (i.e. Postman), create a new POST request with the code you obtained during the previous step.  You have a short time to use that code so if it has expired, you will need to be granted a new one.
+
+Using any request builder (eg. Postman), create a POST request with the code obtained from the previous step. Code expiration time might be limited.
 
 ```
 POST http://localhost:3000
@@ -140,7 +140,9 @@ code=<code you obtained from previous step>
 redirect_uri=http://localhost:3000
 ```
 
-If granted access, you should now have a valid token you can use to view the resources.  Depending on the authorization service you use, the format may differ.  The response should look something like this:
+
+Depending on the authorization service, granted access token format might differ. Sample token is as followed:
+
 ```
 {
 	"access_token": "i8hweunweunweofiwweoijewiwe",
@@ -151,14 +153,17 @@ If granted access, you should now have a valid token you can use to view the res
 }
 ```
 
-Now you should have access to the Patient and Observation resources.  Using your request builder, create a new GET request with the required Authorization header.  For example:
+
+With the request builder, create a GET request with the required authorization header. Access scopes based on the above tokens are Patient and Observation resources.
 
 ```
 GET http://localhost:3000/dstu2/Patient/1
 Authorization: Bearer <access_token>
 ```
 
-You should get back the Patient record.
+
+Received Patient record:
+
 ```
 {
   "resourceType": "Patient",
@@ -166,7 +171,8 @@ You should get back the Patient record.
 }
 ```
 
-For more information regarding Authorization and scopes, please refer to http://docs.smarthealthit.org/.
+For more information regarding Authorization and Scopes, refer to http://docs.smarthealthit.org/.
+
 
 ## Commands
 There are several npm scripts setup that may be useful. You can run all of these commands regardless of the environment(docker or node), however, they are invoked slightly differently for each environment. If you are using docker, the syntax should be `docker-compose run <service> yarn <command>` or `docker-compose exec <service> yarn <command>`. Use `docker-compose exec` if you already have the app running in another terminal instance, otherwise use `docker-compose run` to run it once. For node, the syntax for npm is `npm run <commmand>` and the syntax for yarn is `yarn <command>`. The commands are as follows:
@@ -184,19 +190,23 @@ There are several npm scripts setup that may be useful. You can run all of these
 	* `-a` or `-all` - Insert all the sample data that we have.
 	* `-r` or `--reset` - Reset each collection before an insert. This will essentially drop the collection before creating it and inserting documents into it.
 	
+
 #### Example commands
 
 ```shell
 # Docker
 docker-compose exec fhir yarn test
 docker-compose exec fhir yarn populate -r -a
+
 # Node
 npm run test:lint
 yarn start
-# Populating DB in node for development environment
+
+# Populating DB in node for development environment in Mac (export is not supported in Windows) 
 export NODE_ENV=development
 yarn populate -r -p Patient,Observation
 ```
+
 
 ## Deployment
 This package uses an env.json to define some values for local development and they should be used for local development only. You need to make sure these are overridden before deploying `@asymmetrik/node-fhir-server-mongo`. The following environment variables must be set before deploying:
@@ -206,11 +216,14 @@ MONGO_HOSTNAME
 MONGO_DB_NAME
 ```
 
+
 ## Having trouble with something?
 If you have questions specific to Docker, Node, or Mongo, please consider asking on Stack Overflow.  They already have a lot of support on these topics. If your questions is related to the FHIR specification, please review that documentation at [https://www.hl7.org/fhir/](https://www.hl7.org/fhir/). Any questions related to this specific package, please ask in the issues section. Also, if you think you are experiencing a bug or see something incorrect with the spec, please file an issue so we can help you as soon as we can.
 
+
 ## Want to Contribute?
 Please see the [CONTRIBUTING.md](./.github/CONTRIBUTING.md) for contributing guidelines.
+
 
 ## License
 `@asymmetrik/fhir-server-mongo` is [MIT licensed](./LICENSE).
