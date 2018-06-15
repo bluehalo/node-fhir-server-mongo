@@ -1,5 +1,6 @@
 const { COLLECTION, CLIENT_DB } = require('../../constants');
 const globals = require('../../globals');
+const { stringQueryBuilder } = require('../../utils/serviceUtils');
 
 /**
  * @name count
@@ -48,25 +49,25 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         console.log('Not implemented');
     }
 
-    if (addressCity) {
-        query['address.city'] = addressCity;
-    }
-
-    if (addressCountry) {
-        query['address.country'] = addressCountry;
-    }
-
-    if (addressPostalCode) {
-        query['address.postalCode'] = addressPostalCode;
-    }
-
-    if (addressState) {
-        query['address.state'] = addressState;
-    }
-
-    if (addressUse) {
-        query['address.use'] = addressUse;
-    }
+    // if (addressCity) {
+    //     stringQueryBuilder(addressCity, query);
+    // }
+    //
+    // if (addressCountry) {
+    //     stringQueryBuilder(addressCountry, query);
+    // }
+    //
+    // if (addressPostalCode) {
+    //     stringQueryBuilder(addressPostalCode, query);
+    // }
+    //
+    // if (addressState) {
+    //     stringQueryBuilder(addressState, query);
+    // }
+    //
+    // if (addressUse) {
+    //     stringQueryBuilder(addressUse, query);
+    // }
 
     if (endpoint) {
         query['endpoint.reference'] = `Endpoint/${endpoint}`;
@@ -88,48 +89,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (name) {
-        // [base]/target?modifier=str
-        // let [ version, tail ] = name.split('/');
-        // let [ target, modifier ] = tail.split(('?'));
-        // let str = modifier.split('=')[1];
-
-        // target?modifier=str
-        let [ target, modifier ] = name.split(('?'));
-        let str = modifier.split('=')[1];
-        // console.log(target, modifier, str);
-        if (target === 'name') {
-            if (modifier.includes('contains')) {
-                query.name = {$regex: new RegExp(str, 'i')};
-            }
-            else if (modifier.includes('exact')) {
-                query.name = str;
-            }
-            // If no modifier was given, does given by default and modifier will hold the string
-            else if (str === undefined) {
-                query.name = {$regex: new RegExp('^' + modifier, 'i')};
-            }
-            // if modifier === given
-            else {
-                query.name = {$regex: new RegExp('^' + str, 'i')};
-            }
-        }
-        else if (target === 'alias') {
-            // query.alias = {$regex: str};
-            if (modifier.includes('contains')) {
-                query.alias = {$regex: new RegExp(str, 'i')};
-            }
-            else if (modifier.includes('exact')) {
-                query.alias = str;
-            }
-            // If no modifier was given, does given by default and modifier will hold the string
-            else if (str === undefined) {
-                query.alias = {$regex: new RegExp('^' + modifier, 'i')};
-            }
-            // if modifier === given
-            else {
-                query.alias = {$regex: new RegExp('^' + str, 'i')};
-            }
-        }
+        stringQueryBuilder(name, query);
     }
 
     if (partof) {

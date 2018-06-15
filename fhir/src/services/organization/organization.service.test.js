@@ -49,7 +49,7 @@ describe('Organization Service Test', () => {
     describe('Method: search', () => {
 
         test('Get an organization using all arguments', async () => {
-            let args = {active: 'false', addressCity: 'Ann Arbor', addressCountry: 'USA', addressPostalCode: '48104',
+            let args = {active: 'false', addressCity: 'name?Ann Arbor', addressCountry: 'USA', addressPostalCode: '48104',
                 addressState: 'MI', addressUse: 'work', endpoint: 'example', identifier: 'http://hl7.org.fhir/sid/us-npi|1144221847',
                 name: 'name?Health', partof: '1', type: 'http://hl7.org/fhir/organization-type|prov'};
             let [err, docs] = await asyncHandler(
@@ -64,8 +64,8 @@ describe('Organization Service Test', () => {
 
             docs.forEach(doc => {
                 expect(doc.active).toBeFalsy();
-                expect(doc.address[0].city).toEqual(args.addressCity);
-                expect(doc.address[0].country).toEqual(args.addressCountry);
+                expect(doc.address[0].city).toEqual('Ann Arbor');
+                expect(doc.address[0].country).toEqual('USA');
                 expect(doc.address[0].postalCode).toEqual(args.addressPostalCode);
                 expect(doc.address[0].state).toEqual(args.addressState);
                 expect(doc.address[0].use).toEqual(args.addressUse);
