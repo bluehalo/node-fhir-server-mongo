@@ -32,7 +32,58 @@ module.exports.getCount = (args, logger) => new Promise((resolve, reject) => {
  */
 module.exports.getProcedure = (args, logger) => new Promise((resolve, reject) => {
     logger.info('Procedure >>> getProcedure');
-    reject(new Error('Support coming soon'));
+    let { patient, basedOn, category, status, code } = args;
+    let query = {
+    };
+    query['subject.reference'] = `Patient/${patient}`;
+    if (basedOn) {
+      query['basedOn.reference'] = basedOn;
+    }
+    if (category) {
+      if (category.includes('|')) {
+          let [ system, code2 ] = category.split('|');
+          // console.log(('' === system) + ' *** ' + value);
+          if (system) {
+              query['category.coding.system'] = system;
+          }
+          if (code2) {
+              query['category.coding.code'] = code2;
+          }
+      }
+      else {
+          query['category.coding.code'] = category;
+      }
+    }
+    if (code) {
+      if (code.includes('|')) {
+          let [ system, code2 ] = code.split('|');
+          // console.log(('' === system) + ' *** ' + value);
+          if (system) {
+              query['code.coding.system'] = system;
+          }
+          if (code2) {
+              query['code.coding.code'] = code2;
+          }
+      }
+      else {
+          query['code.coding.code'] = category;
+      }
+    }
+    if (status) {
+      query.status = status;
+    }
+  // Grab an instance of our DB and collection
+  let db = globals.get(CLIENT_DB);
+  let collection = db.collection(COLLECTION.PROCEDURE);
+
+  collection.find(query, (err, procedures) => {
+    if (err) {
+      logger.error('Error with Procedure.getProcedure: ', err);
+      return reject(err);
+    }
+    // Observations is a cursor, grab the documents from that
+    procedures.toArray().then(resolve, reject);
+  });
 });
 
 /**

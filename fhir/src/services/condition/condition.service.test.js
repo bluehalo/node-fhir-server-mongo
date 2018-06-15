@@ -1,5 +1,5 @@
 /* eslint-disable */
-const ConditionFixture = require('../../../fixtures/data/patient01/problems01.json');
+const ConditionFixture = require('../../../fixtures/data/uscore/Condition-temp.json');
 const { CLIENT, CLIENT_DB } = require('../../constants');
 const asyncHandler = require('../../lib/async-handler');
 const logger = require('../../testutils/logger.mock');
@@ -40,15 +40,94 @@ describe('Condition Service Test', () => {
             );
 
             expect(err).toBeUndefined();
-            expect(results).toEqual(52);
+            expect(results).toEqual(53);
         });
 
+    });
+
+    describe('Method: getCondition', () => {
+
+      test('should return 3 patients', async () => {
+        let args = { patient: 'example', clinicalStatus: 'active', verificationStatus: 'confirmed' };
+        let [ err, docs ] = await asyncHandler(
+          conditionService.getCondition(args, logger)
+        );
+
+        expect(err).toBeUndefined();
+        expect(docs.length).toEqual(3);
+
+        docs.forEach(doc => {
+         expect(doc.subject.reference).toEqual(`Patient/${args.patient}`);
+         expect(doc.clinicalStatus).toEqual(args.clinicalStatus);
+         expect(doc.verificationStatus).toEqual(args.verificationStatus);
+        });
+
+      });
+
+          test('should return doc with specific code', async () => {
+              let args = { patient: 'example', category: 'problem', code: '442311008' };
+              let [ err, docs ] = await asyncHandler(
+                  conditionService.getCondition(args, logger)
+              );
+
+              expect(err).toBeUndefined();
+              expect(docs.length).toEqual(1);
+
+              docs.forEach(doc => {
+                  expect(doc.subject.reference).toEqual(`Patient/${args.patient}`);
+                  expect(doc.category[0].coding[0].code).toEqual(args.category);
+                  expect(doc.code.coding[0].code).toEqual(args.code);
+              })
+
+          });
+
+          test('testing some added search params', async () => {
+            let args = { patient: 'example', abatementAge: '56|http://snomed.info/sct|yr',
+          abatementString: 'around 8/10', abatementBoolean: true, bodySite: 'http://snomed.info/sct|51185008',
+        asserter: 'Practitioner/f223', context: 'Encounter/f203', evidence: 'http://snomed.info/sct|169068008',
+      detail: 'Observation/f202', identifier: '12345', onsetAge: '52|http://unitsofmeasure.org|a',
+    severity: 'http://snomed.info/sct|255604002', stage: 'http://snomed.info/sct|14803004',
+    subject: 'Patient/example' };
+            let [ err, docs ] = await asyncHandler(
+              conditionService.getCondition(args, logger)
+            );
+
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(1);
+
+            docs.forEach(doc => {
+             expect(doc.subject.reference).toEqual(`Patient/${args.patient}`);
+             expect(doc.abatementAge.value).toEqual(56);
+             expect(doc.abatementAge.code).toEqual('yr');
+             expect(doc.abatementAge.system).toEqual('http://snomed.info/sct');
+             expect(doc.abatementString).toEqual('around 8/10');
+             expect(doc.abatementBoolean).toEqual(true);
+             expect(doc.asserter.reference).toEqual(args.asserter);
+             expect(doc.bodySite[0].coding[0].system).toEqual('http://snomed.info/sct');
+             expect(doc.bodySite[0].coding[0].code).toEqual('51185008');
+             expect(doc.context.reference).toEqual('Encounter/f203');
+             expect(doc.evidence[0].code[0].coding[0].system).toEqual('http://snomed.info/sct');
+             expect(doc.evidence[0].code[0].coding[0].code).toEqual('169068008');
+             expect(doc.evidence[0].detail[0].reference).toEqual('Observation/f202');
+             expect(doc.identifier[0].value).toEqual(args.identifier)
+             expect(doc.onsetAge.value).toEqual(52);
+             expect(doc.onsetAge.code).toEqual('a');
+             expect(doc.onsetAge.system).toEqual('http://unitsofmeasure.org');
+             expect(doc.onsetString).toEqual('approximately November 2012');
+             expect(doc.severity.coding[0].system).toEqual('http://snomed.info/sct');
+             expect(doc.severity.coding[0].code).toEqual('255604002');
+             expect(doc.stage.summary.coding[0].system).toEqual('http://snomed.info/sct');
+             expect(doc.stage.summary.coding[0].code).toEqual('14803004');//ended
+             expect(doc.subject.reference).toEqual(args.subject);
+            });
+
+          });
     });
 
     describe('Method: getConditionById', () => {
 
         test('should correctly return a document', async () => {
-            let args = {id: '1'};
+            let args = {id: 'example'};
             let [err, doc] = await asyncHandler(
                 conditionService.getConditionById(args, logger)
             );
@@ -69,7 +148,7 @@ describe('Condition Service Test', () => {
         test('should successfully delete a document', async () => {
 
             // Look for this particular fixture
-            let args = { id: '1' };
+            let args = { id: 'example' };
             let [ err, doc ] = await asyncHandler(
                 conditionService.getConditionById(args, logger)
             );
@@ -111,7 +190,7 @@ describe('Condition Service Test', () => {
                 resource: {
                     toJSON: () => ConditionFixture
                 },
-                id: '1'
+                id: 'example'
             };
 
             // Delete the fixture incase it exists,
@@ -160,7 +239,7 @@ describe('Condition Service Test', () => {
                 resource: {
                     toJSON: () => ConditionFixture
                 },
-                id: '1'
+                id: 'example'
             };
 
             // Query for the original doc, this will ignore the resource arg
