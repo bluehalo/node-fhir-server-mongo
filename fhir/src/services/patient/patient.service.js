@@ -8,7 +8,7 @@ const globals = require('../../globals');
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.getCount = (args, logger) => new Promise((resolve, reject) => {
+module.exports.count = (args, logger) => new Promise((resolve, reject) => {
 	logger.info('Patient >>> getCount');
 	// Grab an instance of our DB and collection
 	let db = globals.get(CLIENT_DB);
@@ -30,7 +30,7 @@ module.exports.getCount = (args, logger) => new Promise((resolve, reject) => {
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.getPatient = (args, logger) => new Promise((resolve, reject) => {
+module.exports.search = (args, logger) => new Promise((resolve, reject) => {
 	logger.info('Patient >>> getPatient');
 	// Parse the params
 	let { id, identifier, name, family, given, gender, birthDate } = args;
@@ -87,7 +87,7 @@ module.exports.getPatient = (args, logger) => new Promise((resolve, reject) => {
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.getPatientById = (args, logger) => new Promise((resolve, reject) => {
+module.exports.searchById = (args, logger) => new Promise((resolve, reject) => {
 	logger.info('Patient >>> getPatientById');
 	// Parse the required params, these are validated by sanitizeMiddleware in core
 	let { id } = args;
@@ -111,7 +111,7 @@ module.exports.getPatientById = (args, logger) => new Promise((resolve, reject) 
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.createPatient = (args, logger) => new Promise((resolve, reject) => {
+module.exports.create = (args, logger) => new Promise((resolve, reject) => {
 	logger.info('Patient >>> createPatient');
 	let { id, resource } = args;
 	// Grab an instance of our DB and collection
@@ -139,7 +139,7 @@ module.exports.createPatient = (args, logger) => new Promise((resolve, reject) =
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.updatePatient = (args, logger) => new Promise((resolve, reject) => {
+module.exports.update = (args, logger) => new Promise((resolve, reject) => {
 	logger.info('Patient >>> updatePatient');
 	let { id, resource } = args;
 	// Grab an instance of our DB and collection
@@ -166,7 +166,7 @@ module.exports.updatePatient = (args, logger) => new Promise((resolve, reject) =
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.deletePatient = (args, logger) => new Promise((resolve, reject) => {
+module.exports.remove = (args, logger) => new Promise((resolve, reject) => {
 	logger.info('Patient >>> deletePatient');
 	let { id } = args;
 	// Grab an instance of our DB and collection

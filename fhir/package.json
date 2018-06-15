@@ -1,6 +1,6 @@
 {
   "name": "@asymmetrik/node-fhir-server-mongo",
-  "version": "1.0.4-rc1",
+  "version": "1.0.5-rc1",
   "description": "Mongo Server implementing @asymmetrik/node-fhir-server-core",
   "main": "src/index.js",
   "repository": "https://github.com/Asymmetrik/node-fhir-server-mongo.git",
