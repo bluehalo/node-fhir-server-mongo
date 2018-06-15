@@ -33,8 +33,9 @@ module.exports.count = (args, logger) => new Promise((resolve, reject) => {
 module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     logger.info('Organization >>> search');
     // Parse the params
-    let { active, addressCity } = args;
-    console.log(JSON.stringify(args));
+    let { active, address, addressCity, addressCountry, addressPostalCode, addressState, addressUse, endpoint, identifier,
+        name, partof, phonetic, type } = args;
+    // console.log(JSON.stringify(args));
 
     // Patient and verificationStatus are required and guaranteed to be provided
     let query = {};
@@ -43,11 +44,118 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         query.active = (active === 'true');
     }
 
-    if (addressCity) {
-        query.active = (active === 'true');
+    if (address) {
+        console.log('Not implemented');
     }
 
-    console.log(JSON.stringify(query));
+    if (addressCity) {
+        query['address.city'] = addressCity;
+    }
+
+    if (addressCountry) {
+        query['address.country'] = addressCountry;
+    }
+
+    if (addressPostalCode) {
+        query['address.postalCode'] = addressPostalCode;
+    }
+
+    if (addressState) {
+        query['address.state'] = addressState;
+    }
+
+    if (addressUse) {
+        query['address.use'] = addressUse;
+    }
+
+    if (endpoint) {
+        query['endpoint.reference'] = `Endpoint/${endpoint}`;
+    }
+
+    if (identifier) {
+        if (identifier.includes('|')) {
+            let [ system, value ] = identifier.split('|');
+            if (system) {
+                query['identifier.system'] = system;
+            }
+            if (value) {
+                query['identifier.value'] = value;
+            }
+        }
+        else {
+            query['identifier.value'] = identifier;
+        }
+    }
+
+    if (name) {
+        // [base]/target?modifier=str
+        // let [ version, tail ] = name.split('/');
+        // let [ target, modifier ] = tail.split(('?'));
+        // let str = modifier.split('=')[1];
+
+        // target?modifier=str
+        let [ target, modifier ] = name.split(('?'));
+        let str = modifier.split('=')[1];
+        // console.log(target, modifier, str);
+        if (target === 'name') {
+            if (modifier.includes('contains')) {
+                query.name = {$regex: new RegExp(str, 'i')};
+            }
+            else if (modifier.includes('exact')) {
+                query.name = str;
+            }
+            // If no modifier was given, does given by default and modifier will hold the string
+            else if (str === undefined) {
+                query.name = {$regex: new RegExp('^' + modifier, 'i')};
+            }
+            // if modifier === given
+            else {
+                query.name = {$regex: new RegExp('^' + str, 'i')};
+            }
+        }
+        else if (target === 'alias') {
+            // query.alias = {$regex: str};
+            if (modifier.includes('contains')) {
+                query.alias = {$regex: new RegExp(str, 'i')};
+            }
+            else if (modifier.includes('exact')) {
+                query.alias = str;
+            }
+            // If no modifier was given, does given by default and modifier will hold the string
+            else if (str === undefined) {
+                query.alias = {$regex: new RegExp('^' + modifier, 'i')};
+            }
+            // if modifier === given
+            else {
+                query.alias = {$regex: new RegExp('^' + str, 'i')};
+            }
+        }
+    }
+
+    if (partof) {
+        query['partOf.reference'] = `Organization/${partof}`;
+    }
+
+    if (phonetic) {
+        console.log('Not implemented');
+    }
+
+    if (type) {
+        if (type.includes('|')) {
+            let [ system, value ] = type.split('|');
+            if (system) {
+                query['type.coding.system'] = system;
+            }
+            if (value) {
+                query['type.coding.code'] = value;
+            }
+        }
+        else {
+            query['type.coding.code'] = { $in: type.split(',') };
+        }
+    }
+
+    // console.log(JSON.stringify(query));
 
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);

@@ -45,27 +45,118 @@ describe('Organization Service Test', () => {
 
     });
 
-    // describe('Method: search', () => {
-    //
-    //     test('Get all inactive organizations', async () => {
-    //         let args = {active: 'false', addressCity: 'Ann Arbor'};
-    //         let [err, docs] = await asyncHandler(
-    //             organizationService.search(args, logger)
-    //         );
-    //
-    //         // console.log(JSON.stringify(args));
-    //
-    //         expect(err).toBeUndefined();
-    //         expect(docs.length).toEqual(1);
-    //
-    //         docs.forEach(doc => {
-    //             expect(doc.active).toBeFalsy();
-    //             expect(doc.addressCity).toEqual('Ann Arbor');
-    //         });
-    //
-    //     });
-    //
-    // });
+    // Phonetic has not been implemented yet
+    describe('Method: search', () => {
+
+        test('Get an organization using all arguments', async () => {
+            let args = {active: 'false', addressCity: 'Ann Arbor', addressCountry: 'USA', addressPostalCode: '48104',
+                addressState: 'MI', addressUse: 'work', endpoint: 'example', identifier: 'http://hl7.org.fhir/sid/us-npi|1144221847',
+                name: 'name?Health', partof: '1', type: 'http://hl7.org/fhir/organization-type|prov'};
+            let [err, docs] = await asyncHandler(
+                organizationService.search(args, logger)
+            );
+
+            // console.log(JSON.stringify(args));
+            // console.log(JSON.stringify(docs));
+
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(1);
+
+            docs.forEach(doc => {
+                expect(doc.active).toBeFalsy();
+                expect(doc.address[0].city).toEqual(args.addressCity);
+                expect(doc.address[0].country).toEqual(args.addressCountry);
+                expect(doc.address[0].postalCode).toEqual(args.addressPostalCode);
+                expect(doc.address[0].state).toEqual(args.addressState);
+                expect(doc.address[0].use).toEqual(args.addressUse);
+                expect(doc.endpoint[0].reference).toEqual(`Endpoint/${args.endpoint}`);
+                expect(doc.identifier[0].system).toEqual('http://hl7.org.fhir/sid/us-npi');
+                expect(doc.identifier[0].value).toEqual('1144221847');
+                expect(doc.name).toEqual('Health Level Seven International');
+                expect(doc.partOf.reference).toEqual(`Organization/${args.partof}`);
+                expect(doc.type[0].coding[0].system).toEqual('http://hl7.org/fhir/organization-type');
+                expect(doc.type[0].coding[0].code).toEqual('prov');
+            });
+
+        });
+
+        test('should pass back the correct company based on portions of the name or alias', async () => {
+            // Default name case
+            let args = {name: 'name?Health'};
+            let [err, docs] = await asyncHandler(
+                organizationService.search(args, logger)
+            );
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(1);
+            expect(docs[0].name).toEqual('Health Level Seven International');
+
+            // given name case
+            args = {name: 'name?given=health'};
+            [err, docs] = await asyncHandler(
+                organizationService.search(args, logger)
+            );
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(1);
+            expect(docs[0].name).toEqual('Health Level Seven International');
+
+            // contains name case
+            args = {name: 'name?given:contains=EvEn'};
+            [err, docs] = await asyncHandler(
+                organizationService.search(args, logger)
+            );
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(1);
+            expect(docs[0].name).toEqual('Health Level Seven International');
+
+            // exact name case
+            args = {name: 'name?given:exact=Health Level Seven International'};
+            [err, docs] = await asyncHandler(
+                organizationService.search(args, logger)
+            );
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(1);
+            expect(docs[0].name).toEqual('Health Level Seven International');
+
+            // Default alias case
+            args = {name: 'alias?A'};
+            [err, docs] = await asyncHandler(
+                organizationService.search(args, logger)
+            );
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(1);
+            expect(docs[0].alias[1]).toEqual('A good test');
+
+            // given alias case
+            args = {name: 'alias?given=A G'};
+            [err, docs] = await asyncHandler(
+                organizationService.search(args, logger)
+            );
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(1);
+            expect(docs[0].alias[1]).toEqual('A good test');
+
+            // contains alias case
+            args = {name: 'alias?given:contains=s'};
+            [err, docs] = await asyncHandler(
+                organizationService.search(args, logger)
+            );
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(1);
+            expect(docs[0].alias[0]).toEqual('HLSI');
+            expect(docs[0].alias[1]).toEqual('A good test');
+
+            // exact alias case
+            args = {name: 'alias?given:exact=HLSI'};
+            [err, docs] = await asyncHandler(
+                organizationService.search(args, logger)
+            );
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(1);
+            expect(docs[0].alias[0]).toEqual('HLSI');
+
+        });
+
+    });
 
     describe('Method: searchById', () => {
 
