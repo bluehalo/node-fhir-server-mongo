@@ -32,11 +32,11 @@ describe('AllergyIntolerance Service Test', () => {
         client.close();
     });
 
-    describe('Method: getCount', () => {
+    describe('Method: count', () => {
 
         test('should correctly pass back the count', async () => {
             let [err, results] = await asyncHandler(
-                allergyintoleranceService.getCount(null, logger)
+                allergyintoleranceService.count(null, logger)
             );
 
             expect(err).toBeUndefined();
@@ -45,12 +45,12 @@ describe('AllergyIntolerance Service Test', () => {
 
     });
 
-    describe('Method: getAllergyIntolerance', () => {
+    describe('Method: search', () => {
 
         test('test only using required arguments', async () => {
             let args = { patient: 'example', verificationStatus: 'confirmed'};
             let [ err, docs ] = await asyncHandler(
-                allergyintoleranceService.getAllergyIntolerance(args, logger)
+                allergyintoleranceService.search(args, logger)
             );
 
             // console.log(JSON.stringify(args));
@@ -68,7 +68,7 @@ describe('AllergyIntolerance Service Test', () => {
         test('find all documents that use the same system for manifestation', async () => {
             let args = { manifestation: 'http://snomed.info/sct|', patient: 'example', verificationStatus: 'confirmed'};
             let [ err, docs ] = await asyncHandler(
-                allergyintoleranceService.getAllergyIntolerance(args, logger)
+                allergyintoleranceService.search(args, logger)
             );
 
             // console.log(JSON.stringify(args));
@@ -86,7 +86,7 @@ describe('AllergyIntolerance Service Test', () => {
             let args = { code: 'N0000175503', identifier: '49476534', manifestation: '64305001', patient: 'example',
                 route: '34206005', verificationStatus: 'confirmed'};
             let [ err, docs ] = await asyncHandler(
-                allergyintoleranceService.getAllergyIntolerance(args, logger)
+                allergyintoleranceService.search(args, logger)
             );
 
             // console.log(JSON.stringify(args));
@@ -109,7 +109,7 @@ describe('AllergyIntolerance Service Test', () => {
                 manifestation: 'http://snomed.info/sct|64305001', onset: '2004', patient: 'example', recorder: 'example',
                 route: 'http://snomed.info/sct|34206005', severity: 'severe', type: 'allergy', verificationStatus: 'confirmed'};
             let [ err, docs ] = await asyncHandler(
-                allergyintoleranceService.getAllergyIntolerance(args, logger)
+                allergyintoleranceService.search(args, logger)
             );
 
             // console.log(JSON.stringify(docs));
@@ -142,12 +142,12 @@ describe('AllergyIntolerance Service Test', () => {
 
     });
 
-    describe('Method: getAllergyIntoleranceById', () => {
+    describe('Method: searchById', () => {
 
         test('should correctly return a document', async () => {
             let args = { id: '8' };
             let [ err, doc ] = await asyncHandler(
-                allergyintoleranceService.getAllergyIntoleranceById(args, logger)
+                allergyintoleranceService.searchById(args, logger)
             );
 
             expect(err).toBeUndefined();
@@ -156,7 +156,7 @@ describe('AllergyIntolerance Service Test', () => {
 
     });
 
-    describe('Method: deleteAllergyIntolerance', () => {
+    describe('Method: remove', () => {
 
         // For these tests, let's do it in 3 steps
         // 1. Check the allergyintolerance exists
@@ -168,7 +168,7 @@ describe('AllergyIntolerance Service Test', () => {
             // Look for this particular fixture
             let args = { id: '1' };
             let [ err, doc ] = await asyncHandler(
-                allergyintoleranceService.getAllergyIntoleranceById(args, logger)
+                allergyintoleranceService.searchById(args, logger)
             );
 
             expect(err).toBeUndefined();
@@ -176,7 +176,7 @@ describe('AllergyIntolerance Service Test', () => {
 
             // Now delete this fixture
             let [ delete_err, _ ] = await asyncHandler(
-                allergyintoleranceService.deleteAllergyIntolerance(args, logger)
+                allergyintoleranceService.remove(args, logger)
             );
 
             // There is no response resolved from this promise, so just check for an error
@@ -184,7 +184,7 @@ describe('AllergyIntolerance Service Test', () => {
 
             // Now query for the fixture again, there should be no documents
             let [ query_err, missing_doc ] = await asyncHandler(
-                allergyintoleranceService.getAllergyIntoleranceById(args, logger)
+                allergyintoleranceService.searchById(args, logger)
             );
 
             expect(query_err).toBeUndefined();
@@ -194,7 +194,7 @@ describe('AllergyIntolerance Service Test', () => {
 
     });
 
-    describe('Method: createAllergyIntolerance', () => {
+    describe('Method: create', () => {
 
         // This Fixture was previously deleted, we are going to ensure before creating it
         // 1. Delete fixture
@@ -214,7 +214,7 @@ describe('AllergyIntolerance Service Test', () => {
             // Delete the fixture incase it exists,
             // mongo won't throw if we delete something not there
             let [ delete_err, _ ] = await asyncHandler(
-                allergyintoleranceService.deleteAllergyIntolerance(args, logger)
+                allergyintoleranceService.remove(args, logger)
             );
 
             expect(delete_err).toBeUndefined();
@@ -222,7 +222,7 @@ describe('AllergyIntolerance Service Test', () => {
             // Create the fixture, it expects two very specific args
             // The resource arg must be a class/object with a toJSON method
             let [ create_err, create_results ] = await asyncHandler(
-                allergyintoleranceService.createAllergyIntolerance(args, logger)
+                allergyintoleranceService.create(args, logger)
             );
 
             expect(create_err).toBeUndefined();
@@ -232,7 +232,7 @@ describe('AllergyIntolerance Service Test', () => {
 
             // Verify the new fixture exists
             let [ query_err, doc ] = await asyncHandler(
-                allergyintoleranceService.getAllergyIntoleranceById(args, logger)
+                allergyintoleranceService.searchById(args, logger)
             );
 
             expect(query_err).toBeUndefined();
@@ -242,7 +242,7 @@ describe('AllergyIntolerance Service Test', () => {
 
     });
 
-    describe('Method: updateAllergyIntolerance', () => {
+    describe('Method: update', () => {
 
         // Let's check for the fixture's status and then try to change it
         // 1. Query fixture for status
@@ -262,7 +262,7 @@ describe('AllergyIntolerance Service Test', () => {
 
             // Query for the original doc, this will ignore the resource arg
             let [query_err, doc] = await asyncHandler(
-                allergyintoleranceService.getAllergyIntoleranceById(args, logger)
+                allergyintoleranceService.searchById(args, logger)
             );
 
             expect(query_err).toBeUndefined();
@@ -270,7 +270,7 @@ describe('AllergyIntolerance Service Test', () => {
 
             // Update the original doc
             let [update_err, update_results] = await asyncHandler(
-                allergyintoleranceService.updateAllergyIntolerance(args, logger)
+                allergyintoleranceService.update(args, logger)
             );
 
             expect(update_err).toBeUndefined();
@@ -278,7 +278,7 @@ describe('AllergyIntolerance Service Test', () => {
 
             // Query the newly updated doc and make sure the status is correct
             let [updated_err, updated_doc] = await asyncHandler(
-                allergyintoleranceService.getAllergyIntoleranceById(args, logger)
+                allergyintoleranceService.searchById(args, logger)
             );
 
             expect(updated_err).toBeUndefined();

@@ -1,4 +1,4 @@
-const { VERSIONS } = require('@asymmetrik/node-fhir-server-core/src/constants');
+const { VERSIONS } = require('@asymmetrik/node-fhir-server-core').constants;
 const path = require('path');
 const env = require('var');
 

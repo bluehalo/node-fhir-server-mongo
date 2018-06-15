@@ -2,21 +2,21 @@ const { COLLECTION, CLIENT_DB } = require('../../constants');
 const globals = require('../../globals');
 
 /**
- * @name getCount
+ * @name count
  * @description Get the number of organizations in our database
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.getCount = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Organization >>> getCount');
+module.exports.count = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('Organization >>> count');
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
     let collection = db.collection(COLLECTION.ORGANIZATION);
     // Query all documents in this collection
     collection.count((err, count) => {
         if (err) {
-            logger.error('Error with Organization.getCount: ', err);
+            logger.error('Error with Organization.count: ', err);
             return reject(err);
         }
         return resolve(count);
@@ -24,26 +24,54 @@ module.exports.getCount = (args, logger) => new Promise((resolve, reject) => {
 });
 
 /**
- * @name getOrganization
- * @description Get getOrganization(s) from our database
+ * @name search
+ * @description Get search(s) from our database
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.getOrganization = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Organization >>> getOrganization');
-    reject(new Error('Support coming soon'));
+module.exports.search = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('Organization >>> search');
+    // Parse the params
+    let { active, addressCity } = args;
+    console.log(JSON.stringify(args));
+
+    // Patient and verificationStatus are required and guaranteed to be provided
+    let query = {};
+
+    if (active) {
+        query.active = (active === 'true');
+    }
+
+    if (addressCity) {
+        query.active = (active === 'true');
+    }
+
+    console.log(JSON.stringify(query));
+
+    // Grab an instance of our DB and collection
+    let db = globals.get(CLIENT_DB);
+    let collection = db.collection(COLLECTION.ORGANIZATION);
+    // Query our collection for this organization
+    collection.find(query, (err, organizations) => {
+        if (err) {
+            logger.error('Error with Organization.search: ', err);
+            return reject(err);
+        }
+        // Organizations is a cursor, grab the documents from that
+        organizations.toArray().then(resolve, reject);
+    });
 });
 
 /**
- * @name getOrganizationById
+ * @name searchById
  * @description Get a organization by their unique identifier
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.getOrganizationById = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Organization >>> getOrganizationById');
+module.exports.searchById = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('Organization >>> searchById');
     // Parse the required params, these are validated by sanitizeMiddleware in core
     let { id } = args;
     // Grab an instance of our DB and collection
@@ -52,7 +80,7 @@ module.exports.getOrganizationById = (args, logger) => new Promise((resolve, rej
     // Query our collection for this observation
     collection.findOne({ id: id.toString() }, (err, organization) => {
         if (err) {
-            logger.error('Error with Organization.getOrganizationById: ', err);
+            logger.error('Error with Organization.searchById: ', err);
             return reject(err);
         }
         resolve(organization);
@@ -60,14 +88,14 @@ module.exports.getOrganizationById = (args, logger) => new Promise((resolve, rej
 });
 
 /**
- * @name createOrganization
+ * @name create
  * @description Create a organization
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.createOrganization = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Organization >>> createOrganization');
+module.exports.create = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('Organization >>> create');
     let { id, resource } = args;
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
@@ -77,7 +105,7 @@ module.exports.createOrganization = (args, logger) => new Promise((resolve, reje
     // Insert our organization record
     collection.insert(doc, (err, res) => {
         if (err) {
-            logger.error('Error with Organization.createOrganization: ', err);
+            logger.error('Error with Organization.create: ', err);
             return reject(err);
         }
         // Grab the organization record so we can pass back the id
@@ -88,14 +116,14 @@ module.exports.createOrganization = (args, logger) => new Promise((resolve, reje
 });
 
 /**
- * @name updateOrganization
+ * @name update
  * @description Update a organization
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.updateOrganization = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Organization >>> updateOrganization');
+module.exports.update = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('Organization >>> update');
     let { id, resource } = args;
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
@@ -105,7 +133,7 @@ module.exports.updateOrganization = (args, logger) => new Promise((resolve, reje
     // Insert/update our organization record
     collection.findOneAndUpdate({ id: id }, doc, { upsert: true }, (err, res) => {
         if (err) {
-            logger.error('Error with Organization.updateOrganization: ', err);
+            logger.error('Error with Organization.update: ', err);
             return reject(err);
         }
         // If we support versioning, which we do not at the moment,
@@ -115,14 +143,14 @@ module.exports.updateOrganization = (args, logger) => new Promise((resolve, reje
 });
 
 /**
- * @name deleteOrganization
+ * @name remove
  * @description Delete a organization
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.deleteOrganization = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Organization >>> deleteOrganization');
+module.exports.remove = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('Organization >>> remove');
     let { id } = args;
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
@@ -130,7 +158,7 @@ module.exports.deleteOrganization = (args, logger) => new Promise((resolve, reje
     // Delete our organization record
     collection.remove({ id: id }, (err, _) => {
         if (err) {
-            logger.error('Error with Organization.deleteOrganization');
+            logger.error('Error with Organization.remove');
             return reject({
                 // Must be 405 (Method Not Allowed) or 409 (Conflict)
                 // 405 if you do not want to allow the delete
