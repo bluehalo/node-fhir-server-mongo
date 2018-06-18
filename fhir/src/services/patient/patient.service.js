@@ -2,7 +2,7 @@ const { COLLECTION, CLIENT_DB } = require('../../constants');
 const globals = require('../../globals');
 
 /**
- * @name getCount
+ * @name count
  * @description Get the number of patients in our database
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
@@ -16,7 +16,7 @@ module.exports.count = (args, logger) => new Promise((resolve, reject) => {
 	// Query all documents in this collection
 	collection.count((err, count) => {
 		if (err) {
-			logger.error('Error with Patient.getCount: ', err);
+			logger.error('Error with Patient.count: ', err);
 			return reject(err);
 		}
 		return resolve(count);

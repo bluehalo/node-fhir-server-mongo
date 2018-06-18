@@ -2,21 +2,21 @@ const { COLLECTION, CLIENT_DB } = require('../../constants');
 const globals = require('../../globals');
 
 /**
- * @name getCount
+ * @name count
  * @description Get the number of locations in our database
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.getCount = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Location >>> getCount');
+module.exports.count = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('Location >>> count');
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
     let collection = db.collection(COLLECTION.LOCATION);
     // Query all documents in this collection
     collection.count((err, count) => {
         if (err) {
-            logger.error('Error with Location.getCount: ', err);
+            logger.error('Error with Location.count: ', err);
             return reject(err);
         }
         return resolve(count);
@@ -24,26 +24,26 @@ module.exports.getCount = (args, logger) => new Promise((resolve, reject) => {
 });
 
 /**
- * @name getLocation
+ * @name search
  * @description Get location(s) from our database
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.getLocation = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Location >>> getLocation');
+module.exports.search = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('Location >>> search');
     reject(new Error('Support coming soon'));
 });
 
 /**
- * @name getLocationById
+ * @name searchById
  * @description Get a location from our database
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.getLocationById = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Location >>> getLocationById');
+module.exports.searchById = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('Location >>> searchById');
     // Parse the required params, these are validated by sanitizeMiddleware in core
     let { id } = args;
     // Grab an instance of our DB and collection
@@ -52,7 +52,7 @@ module.exports.getLocationById = (args, logger) => new Promise((resolve, reject)
     // Query our collection for this location
     collection.findOne({ id: id.toString() }, (err, location) => {
         if (err) {
-            logger.error('Error with Location.getLocationById: ', err);
+            logger.error('Error with Location.searchById: ', err);
             return reject(err);
         }
         resolve(location);
@@ -60,14 +60,14 @@ module.exports.getLocationById = (args, logger) => new Promise((resolve, reject)
 });
 
 /**
- * @name createLocation
+ * @name create
  * @description Create a location
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.createLocation = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Location >>> createLocation');
+module.exports.create = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('Location >>> create');
     let { id, resource } = args;
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
@@ -77,7 +77,7 @@ module.exports.createLocation = (args, logger) => new Promise((resolve, reject) 
     // Insert our location record
     collection.insert(doc, (err, res) => {
         if (err) {
-            logger.error('Error with Location.createLocation: ', err);
+            logger.error('Error with Location.create: ', err);
             return reject(err);
         }
         // Grab the location record so we can pass back the id
@@ -88,14 +88,14 @@ module.exports.createLocation = (args, logger) => new Promise((resolve, reject) 
 });
 
 /**
- * @name updateLocation
+ * @name update
  * @description Update a location
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.updateLocation = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Location >>> updateLocation');
+module.exports.update = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('Location >>> update');
     let { id, resource } = args;
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
@@ -105,7 +105,7 @@ module.exports.updateLocation = (args, logger) => new Promise((resolve, reject) 
     // Insert/update our location record
     collection.findOneAndUpdate({ id: id }, doc, { upsert: true }, (err, res) => {
         if (err) {
-            logger.error('Error with Location.updateLocation: ', err);
+            logger.error('Error with Location.update: ', err);
             return reject(err);
         }
         // If we support versioning, which we do not at the moment,
@@ -115,14 +115,14 @@ module.exports.updateLocation = (args, logger) => new Promise((resolve, reject) 
 });
 
 /**
- * @name deleteLocation
+ * @name remove
  * @description Delete a location
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.deleteLocation = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Location >>> deleteLocation');
+module.exports.remove = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('Location >>> remove');
     let { id } = args;
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
@@ -130,7 +130,7 @@ module.exports.deleteLocation = (args, logger) => new Promise((resolve, reject) 
     // Delete our location record
     collection.remove({ id: id }, (err, _) => {
         if (err) {
-            logger.error('Error with Location.deleteLocation');
+            logger.error('Error with Location.remove');
             return reject({
                 // Must be 405 (Method Not Allowed) or 409 (Conflict)
                 // 405 if you do not want to allow the delete

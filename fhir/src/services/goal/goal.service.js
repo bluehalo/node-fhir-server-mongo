@@ -2,21 +2,21 @@ const { COLLECTION, CLIENT_DB } = require('../../constants');
 const globals = require('../../globals');
 
 /**
- * @name getCount
+ * @name count
  * @description Get the number of goals in our database
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.getCount = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Goal >>> getCount');
+module.exports.count = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('Goal >>> count');
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
     let collection = db.collection(COLLECTION.GOAL);
     // Query all documents in this collection
     collection.count((err, count) => {
         if (err) {
-            logger.error('Error with Goal.getCount: ', err);
+            logger.error('Error with Goal.count: ', err);
             return reject(err);
         }
         return resolve(count);
@@ -24,26 +24,26 @@ module.exports.getCount = (args, logger) => new Promise((resolve, reject) => {
 });
 
 /**
- * @name getGoal
+ * @name search
  * @description Get goal(s) from our database
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.getGoal = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Goal >>> getGoal');
+module.exports.search = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('Goal >>> search');
     reject(new Error('Support coming soon'));
 });
 
 /**
- * @name getGoalById
+ * @name searchById
  * @description Get a goal from our database
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.getGoalById = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Goal >>> getGoalById');
+module.exports.searchById = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('Goal >>> searchById');
     // Parse the required params, these are validated by sanitizeMiddleware in core
     let { id } = args;
     // Grab an instance of our DB and collection
@@ -52,7 +52,7 @@ module.exports.getGoalById = (args, logger) => new Promise((resolve, reject) => 
     // Query our collection for this goal
     collection.findOne({ id: id.toString() }, (err, goal) => {
         if (err) {
-            logger.error('Error with Goal.getGoalById: ', err);
+            logger.error('Error with Goal.searchById: ', err);
             return reject(err);
         }
         resolve(goal);
@@ -60,14 +60,14 @@ module.exports.getGoalById = (args, logger) => new Promise((resolve, reject) => 
 });
 
 /**
- * @name createGoal
+ * @name create
  * @description Create a goal
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.createGoal = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Goal >>> createGoal');
+module.exports.create = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('Goal >>> create');
     let { id, resource } = args;
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
@@ -77,7 +77,7 @@ module.exports.createGoal = (args, logger) => new Promise((resolve, reject) => {
     // Insert our goal record
     collection.insert(doc, (err, res) => {
         if (err) {
-            logger.error('Error with Goal.createGoal: ', err);
+            logger.error('Error with Goal.create: ', err);
             return reject(err);
         }
         // Grab the goal record so we can pass back the id
@@ -88,14 +88,14 @@ module.exports.createGoal = (args, logger) => new Promise((resolve, reject) => {
 });
 
 /**
- * @name updateGoal
+ * @name update
  * @description Update a goal
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.updateGoal = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Goal >>> updateGoal');
+module.exports.update = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('Goal >>> update');
     let { id, resource } = args;
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
@@ -105,7 +105,7 @@ module.exports.updateGoal = (args, logger) => new Promise((resolve, reject) => {
     // Insert/update our goal record
     collection.findOneAndUpdate({ id: id }, doc, { upsert: true }, (err, res) => {
         if (err) {
-            logger.error('Error with Goal.updateGoal: ', err);
+            logger.error('Error with Goal.update: ', err);
             return reject(err);
         }
         // If we support versioning, which we do not at the moment,
@@ -115,14 +115,14 @@ module.exports.updateGoal = (args, logger) => new Promise((resolve, reject) => {
 });
 
 /**
- * @name deleteGoal
+ * @name remove
  * @description Delete a goal
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.deleteGoal = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Goal >>> deleteGoal');
+module.exports.remove = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('Goal >>> remove');
     let { id } = args;
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
@@ -130,7 +130,7 @@ module.exports.deleteGoal = (args, logger) => new Promise((resolve, reject) => {
     // Delete our goal record
     collection.remove({ id: id }, (err, _) => {
         if (err) {
-            logger.error('Error with Goal.deleteGoal');
+            logger.error('Error with Goal.remove');
             return reject({
                 // Must be 405 (Method Not Allowed) or 409 (Conflict)
                 // 405 if you do not want to allow the delete

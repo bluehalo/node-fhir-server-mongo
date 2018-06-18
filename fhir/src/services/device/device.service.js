@@ -2,21 +2,21 @@ const { COLLECTION, CLIENT_DB } = require('../../constants');
 const globals = require('../../globals');
 
 /**
- * @name getCount
+ * @name count
  * @description Get the number of devices in our database
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.getCount = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Device >>> getCount');
+module.exports.count = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('Device >>> count');
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
     let collection = db.collection(COLLECTION.DEVICE);
     // Query all documents in this collection
     collection.count((err, count) => {
         if (err) {
-            logger.error('Error with Device.getCount: ', err);
+            logger.error('Error with Device.count: ', err);
             return reject(err);
         }
         return resolve(count);
@@ -24,26 +24,26 @@ module.exports.getCount = (args, logger) => new Promise((resolve, reject) => {
 });
 
 /**
- * @name getDevice
- * @description Get medicationstatement(s) from our database
+ * @name search
+ * @description Get device(s) from our database
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.getMedicationstatement = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Device >>> getDevice');
+module.exports.search = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('Device >>> search');
     reject(new Error('Support coming soon'));
 });
 
 /**
- * @name getDeviceById
+ * @name searchById
  * @description Get a device by their unique identifier
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.getDeviceById = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Device >>> getDeviceById');
+module.exports.searchById = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('Device >>> searchById');
     // Parse the required params, these are validated by sanitizeMiddleware in core
     let { id } = args;
     // Grab an instance of our DB and collection
@@ -52,7 +52,7 @@ module.exports.getDeviceById = (args, logger) => new Promise((resolve, reject) =
     // Query our collection for this observation
     collection.findOne({ id: id.toString() }, (err, device) => {
         if (err) {
-            logger.error('Error with Device.getDeviceById: ', err);
+            logger.error('Error with Device.searchById: ', err);
             return reject(err);
         }
         resolve(device);
@@ -60,14 +60,14 @@ module.exports.getDeviceById = (args, logger) => new Promise((resolve, reject) =
 });
 
 /**
- * @name createDevice
+ * @name create
  * @description Create a device
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.createDevice = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Device >>> createDevice');
+module.exports.create = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('Device >>> create');
     let { id, resource } = args;
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
@@ -77,7 +77,7 @@ module.exports.createDevice = (args, logger) => new Promise((resolve, reject) =>
     // Insert our device record
     collection.insert(doc, (err, res) => {
         if (err) {
-            logger.error('Error with Device.createDevice: ', err);
+            logger.error('Error with Device.create: ', err);
             return reject(err);
         }
         // Grab the device record so we can pass back the id
@@ -88,14 +88,14 @@ module.exports.createDevice = (args, logger) => new Promise((resolve, reject) =>
 });
 
 /**
- * @name updateDevice
+ * @name update
  * @description Update a device
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.updateDevice = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Device >>> updateDevice');
+module.exports.update = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('Device >>> update');
     let { id, resource } = args;
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
@@ -105,7 +105,7 @@ module.exports.updateDevice = (args, logger) => new Promise((resolve, reject) =>
     // Insert/update our device record
     collection.findOneAndUpdate({ id: id }, doc, { upsert: true }, (err, res) => {
         if (err) {
-            logger.error('Error with Device.updateDevice: ', err);
+            logger.error('Error with Device.update: ', err);
             return reject(err);
         }
         // If we support versioning, which we do not at the moment,
@@ -115,14 +115,14 @@ module.exports.updateDevice = (args, logger) => new Promise((resolve, reject) =>
 });
 
 /**
- * @name deleteDevice
+ * @name remove
  * @description Delete a device
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.deleteDevice = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Device >>> deleteDevice');
+module.exports.remove = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('Device >>> remove');
     let { id } = args;
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
@@ -130,7 +130,7 @@ module.exports.deleteDevice = (args, logger) => new Promise((resolve, reject) =>
     // Delete our device record
     collection.remove({ id: id }, (err, _) => {
         if (err) {
-            logger.error('Error with Device.deleteDevice');
+            logger.error('Error with Device.remove');
             return reject({
                 // Must be 405 (Method Not Allowed) or 409 (Conflict)
                 // 405 if you do not want to allow the delete

@@ -2,21 +2,21 @@ const { COLLECTION, CLIENT_DB } = require('../../constants');
 const globals = require('../../globals');
 
 /**
- * @name getCount
+ * @name count
  * @description Get the number of medicationrequests in our database
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.getCount = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Medicationrequest >>> getCount');
+module.exports.count = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('MedicationRequest >>> count');
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
     let collection = db.collection(COLLECTION.MEDICATIONREQUEST);
     // Query all documents in this collection
     collection.count((err, count) => {
         if (err) {
-            logger.error('Error with Medicationrequest.getCount: ', err);
+            logger.error('Error with MedicationRequest.count: ', err);
             return reject(err);
         }
         return resolve(count);
@@ -24,26 +24,26 @@ module.exports.getCount = (args, logger) => new Promise((resolve, reject) => {
 });
 
 /**
- * @name getMedicationrequest
- * @description Get getMedicationrequest(s) from our database
+ * @name search
+ * @description Get medication requests(s) from our database
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.getMedicationrequest = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Medicationrequest >>> getMedicationrequest');
+module.exports.search = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('MedicationRequest >>> search');
     reject(new Error('Support coming soon'));
 });
 
 /**
- * @name getMedicationrequestById
+ * @name searchById
  * @description Get a medicationrequest by their unique identifier
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.getMedicationrequestById = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Medicationrequest >>> getMedicationrequestById');
+module.exports.searchById = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('MedicationRequest >>> searchById');
     // Parse the required params, these are validated by sanitizeMiddleware in core
     let { id } = args;
     // Grab an instance of our DB and collection
@@ -52,7 +52,7 @@ module.exports.getMedicationrequestById = (args, logger) => new Promise((resolve
     // Query our collection for this observation
     collection.findOne({ id: id.toString() }, (err, medicationrequest) => {
         if (err) {
-            logger.error('Error with Medicationrequest.getMedicationrequestById: ', err);
+            logger.error('Error with MedicationRequest.searchById: ', err);
             return reject(err);
         }
         resolve(medicationrequest);
@@ -60,14 +60,14 @@ module.exports.getMedicationrequestById = (args, logger) => new Promise((resolve
 });
 
 /**
- * @name createMedicationrequest
+ * @name create
  * @description Create a medicationrequest
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.createMedicationrequest = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Medicationrequest >>> createMedicationrequest');
+module.exports.create = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('MedicationRequest >>> create');
     let { id, resource } = args;
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
@@ -77,7 +77,7 @@ module.exports.createMedicationrequest = (args, logger) => new Promise((resolve,
     // Insert our medicationrequest record
     collection.insert(doc, (err, res) => {
         if (err) {
-            logger.error('Error with Medicationrequest.createMedicationrequest: ', err);
+            logger.error('Error with MedicationRequest.create: ', err);
             return reject(err);
         }
         // Grab the medicationrequest record so we can pass back the id
@@ -88,14 +88,14 @@ module.exports.createMedicationrequest = (args, logger) => new Promise((resolve,
 });
 
 /**
- * @name updateMedicationrequest
+ * @name update
  * @description Update a medicationrequest
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.updateMedicationrequest = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Medicationrequest >>> updateMedicationrequest');
+module.exports.update = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('MedicationRequest >>> update');
     let { id, resource } = args;
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
@@ -105,7 +105,7 @@ module.exports.updateMedicationrequest = (args, logger) => new Promise((resolve,
     // Insert/update our medicationrequest record
     collection.findOneAndUpdate({ id: id }, doc, { upsert: true }, (err, res) => {
         if (err) {
-            logger.error('Error with Medicationrequest.updateMedicationrequest: ', err);
+            logger.error('Error with MedicationRequest.update: ', err);
             return reject(err);
         }
         // If we support versioning, which we do not at the moment,
@@ -115,14 +115,14 @@ module.exports.updateMedicationrequest = (args, logger) => new Promise((resolve,
 });
 
 /**
- * @name deleteMedicationrequest
+ * @name remove
  * @description Delete a medicationrequest
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.deleteMedicationrequest = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Medicationrequest >>> deleteMedicationrequest');
+module.exports.remove = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('MedicationRequest >>> remove');
     let { id } = args;
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
@@ -130,7 +130,7 @@ module.exports.deleteMedicationrequest = (args, logger) => new Promise((resolve,
     // Delete our medicationrequest record
     collection.remove({ id: id }, (err, _) => {
         if (err) {
-            logger.error('Error with Medicationrequest.deleteMedicationrequest');
+            logger.error('Error with MedicationRequest.remove');
             return reject({
                 // Must be 405 (Method Not Allowed) or 409 (Conflict)
                 // 405 if you do not want to allow the delete

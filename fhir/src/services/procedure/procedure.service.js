@@ -2,21 +2,21 @@ const { COLLECTION, CLIENT_DB } = require('../../constants');
 const globals = require('../../globals');
 
 /**
- * @name getCount
+ * @name count
  * @description Get the number of procedures in our database
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.getCount = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Procedure >>> getCount');
+module.exports.count = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('Procedure >>> count');
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
     let collection = db.collection(COLLECTION.PROCEDURE);
     // Query all documents in this collection
     collection.count((err, count) => {
         if (err) {
-            logger.error('Error with Procedure.getCount: ', err);
+            logger.error('Error with Procedure.count: ', err);
             return reject(err);
         }
         return resolve(count);
@@ -24,14 +24,14 @@ module.exports.getCount = (args, logger) => new Promise((resolve, reject) => {
 });
 
 /**
- * @name getProcedure
+ * @name search
  * @description Get procedure(s) from our database
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.getProcedure = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Procedure >>> getProcedure');
+module.exports.search = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('Procedure >>> search');
     let { patient, basedOn, category, status, code } = args;
     let query = {
     };
@@ -78,23 +78,23 @@ module.exports.getProcedure = (args, logger) => new Promise((resolve, reject) =>
 
   collection.find(query, (err, procedures) => {
     if (err) {
-      logger.error('Error with Procedure.getProcedure: ', err);
+      logger.error('Error with Procedure.search: ', err);
       return reject(err);
     }
-    // Observations is a cursor, grab the documents from that
+    // Procedures is a cursor, grab the documents from that
     procedures.toArray().then(resolve, reject);
   });
 });
 
 /**
- * @name getProcedureById
+ * @name searchById
  * @description Get a procedure from our database
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.getProcedureById = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Procedure >>> getProcedureById');
+module.exports.searchById = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('Procedure >>> searchById');
     // Parse the required params, these are validated by sanitizeMiddleware in core
     let { id } = args;
     // Grab an instance of our DB and collection
@@ -103,7 +103,7 @@ module.exports.getProcedureById = (args, logger) => new Promise((resolve, reject
     // Query our collection for this procedure
     collection.findOne({ id: id.toString() }, (err, procedure) => {
         if (err) {
-            logger.error('Error with Procedure.getProcedureById: ', err);
+            logger.error('Error with Procedure.searchById: ', err);
             return reject(err);
         }
         resolve(procedure);
@@ -111,14 +111,14 @@ module.exports.getProcedureById = (args, logger) => new Promise((resolve, reject
 });
 
 /**
- * @name createProcedure
+ * @name create
  * @description Create a procedure
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.createProcedure = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Procedure >>> createProcedure');
+module.exports.create = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('Procedure >>> create');
     let { id, resource } = args;
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
@@ -128,7 +128,7 @@ module.exports.createProcedure = (args, logger) => new Promise((resolve, reject)
     // Insert our procedure record
     collection.insert(doc, (err, res) => {
         if (err) {
-            logger.error('Error with Procedure.createProcedure: ', err);
+            logger.error('Error with Procedure.create: ', err);
             return reject(err);
         }
         // Grab the procedure record so we can pass back the id
@@ -139,14 +139,14 @@ module.exports.createProcedure = (args, logger) => new Promise((resolve, reject)
 });
 
 /**
- * @name updateProcedure
+ * @name update
  * @description Update a procedure
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.updateProcedure = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Procedure >>> updateProcedure');
+module.exports.update = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('Procedure >>> update');
     let { id, resource } = args;
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
@@ -156,7 +156,7 @@ module.exports.updateProcedure = (args, logger) => new Promise((resolve, reject)
     // Insert/update our procedure record
     collection.findOneAndUpdate({ id: id }, doc, { upsert: true }, (err, res) => {
         if (err) {
-            logger.error('Error with Procedure.updateProcedure: ', err);
+            logger.error('Error with Procedure.update: ', err);
             return reject(err);
         }
         // If we support versioning, which we do not at the moment,
@@ -166,14 +166,14 @@ module.exports.updateProcedure = (args, logger) => new Promise((resolve, reject)
 });
 
 /**
- * @name deleteProcedure
+ * @name remove
  * @description Delete a procedure
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.deleteProcedure = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Procedure >>> deleteProcedure');
+module.exports.remove = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('Procedure >>> remove');
     let { id } = args;
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
@@ -181,7 +181,7 @@ module.exports.deleteProcedure = (args, logger) => new Promise((resolve, reject)
     // Delete our procedure record
     collection.remove({ id: id }, (err, _) => {
         if (err) {
-            logger.error('Error with Procedure.deleteProcedure');
+            logger.error('Error with Procedure.remove');
             return reject({
                 // Must be 405 (Method Not Allowed) or 409 (Conflict)
                 // 405 if you do not want to allow the delete

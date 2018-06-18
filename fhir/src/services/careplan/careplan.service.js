@@ -2,21 +2,21 @@ const { COLLECTION, CLIENT_DB } = require('../../constants');
 const globals = require('../../globals');
 
 /**
- * @name getCount
+ * @name count
  * @description Get the number of careplans in our database
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.getCount = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Careplan >>> getCount');
+module.exports.count = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('CarePlan >>> count');
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
     let collection = db.collection(COLLECTION.CAREPLAN);
     // Query all documents in this collection
     collection.count((err, count) => {
         if (err) {
-            logger.error('Error with Careplan.getCount: ', err);
+            logger.error('Error with CarePlan.count: ', err);
             return reject(err);
         }
         return resolve(count);
@@ -24,26 +24,26 @@ module.exports.getCount = (args, logger) => new Promise((resolve, reject) => {
 });
 
 /**
- * @name getCareplan
+ * @name search
  * @description Get careplan(s) from our database
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.getCareplan = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Careplan >>> getCareplan');
+module.exports.search = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('CarePlan >>> search');
     reject(new Error('Support coming soon'));
 });
 
 /**
- * @name getCareplanById
+ * @name searchById
  * @description Get a careplan from our database
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.getCareplanById = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Careplan >>> getCareplanById');
+module.exports.searchById = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('CarePlan >>> searchById');
     // Parse the required params, these are validated by sanitizeMiddleware in core
     let { id } = args;
     // Grab an instance of our DB and collection
@@ -52,7 +52,7 @@ module.exports.getCareplanById = (args, logger) => new Promise((resolve, reject)
     // Query our collection for this careplan
     collection.findOne({ id: id.toString() }, (err, careplan) => {
         if (err) {
-            logger.error('Error with Careplan.getCareplanById: ', err);
+            logger.error('Error with CarePlan.searchById: ', err);
             return reject(err);
         }
         resolve(careplan);
@@ -60,14 +60,14 @@ module.exports.getCareplanById = (args, logger) => new Promise((resolve, reject)
 });
 
 /**
- * @name createCareplan
+ * @name create
  * @description Create a careplan
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.createCareplan = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Careplan >>> createCareplan');
+module.exports.create = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('CarePlan >>> create');
     let { id, resource } = args;
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
@@ -77,7 +77,7 @@ module.exports.createCareplan = (args, logger) => new Promise((resolve, reject) 
     // Insert our careplan record
     collection.insert(doc, (err, res) => {
         if (err) {
-            logger.error('Error with Careplan.createCareplan: ', err);
+            logger.error('Error with CarePlan.create: ', err);
             return reject(err);
         }
         // Grab the careplan record so we can pass back the id
@@ -88,14 +88,14 @@ module.exports.createCareplan = (args, logger) => new Promise((resolve, reject) 
 });
 
 /**
- * @name updateCareplan
+ * @name update
  * @description Update a careplan
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.updateCareplan = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Careplan >>> updateCareplan');
+module.exports.update = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('CarePlan >>> update');
     let { id, resource } = args;
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
@@ -105,7 +105,7 @@ module.exports.updateCareplan = (args, logger) => new Promise((resolve, reject) 
     // Insert/update our careplan record
     collection.findOneAndUpdate({ id: id }, doc, { upsert: true }, (err, res) => {
         if (err) {
-            logger.error('Error with Careplan.updateCareplan: ', err);
+            logger.error('Error with CarePlan.update: ', err);
             return reject(err);
         }
         // If we support versioning, which we do not at the moment,
@@ -115,14 +115,14 @@ module.exports.updateCareplan = (args, logger) => new Promise((resolve, reject) 
 });
 
 /**
- * @name deleteCareplan
+ * @name remove
  * @description Delete a careplan
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.deleteCareplan = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Careplan >>> deleteCareplan');
+module.exports.remove = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('CarePlan >>> remove');
     let { id } = args;
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
@@ -130,7 +130,7 @@ module.exports.deleteCareplan = (args, logger) => new Promise((resolve, reject) 
     // Delete our careplan record
     collection.remove({ id: id }, (err, _) => {
         if (err) {
-            logger.error('Error with Careplan.deleteCareplan');
+            logger.error('Error with CarePlan.remove');
             return reject({
                 // Must be 405 (Method Not Allowed) or 409 (Conflict)
                 // 405 if you do not want to allow the delete

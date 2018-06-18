@@ -32,11 +32,11 @@ describe('Practitioner Service Test', () => {
         client.close();
     });
 
-    describe('Method: getCount', () => {
+    describe('Method: count', () => {
 
         test('should correctly pass back the count', async () => {
             let [err, results] = await asyncHandler(
-                practitionerService.getCount(null, logger)
+                practitionerService.count(null, logger)
             );
 
             expect(err).toBeUndefined();
@@ -45,12 +45,12 @@ describe('Practitioner Service Test', () => {
 
     });
 
-    describe('Method: getPractitionerById', () => {
+    describe('Method: searchById', () => {
 
         test('should correctly return a document', async () => {
             let args = {id: 'practitioner-1'};
             let [err, doc] = await asyncHandler(
-                practitionerService.getPractitionerById(args, logger)
+                practitionerService.searchById(args, logger)
             );
 
             expect(err).toBeUndefined();
@@ -59,7 +59,7 @@ describe('Practitioner Service Test', () => {
 
     });
 
-    describe('Method: deletePractitioner', () => {
+    describe('Method: remove', () => {
 
         // For these tests, let's do it in 3 steps
         // 1. Check the practitioner exists
@@ -71,7 +71,7 @@ describe('Practitioner Service Test', () => {
             // Look for this particular fixture
             let args = { id: 'practitioner-1' };
             let [ err, doc ] = await asyncHandler(
-                practitionerService.getPractitionerById(args, logger)
+                practitionerService.searchById(args, logger)
             );
 
             expect(err).toBeUndefined();
@@ -79,7 +79,7 @@ describe('Practitioner Service Test', () => {
 
             // Now delete this fixture
             let [ delete_err, _ ] = await asyncHandler(
-                practitionerService.deletePractitioner(args, logger)
+                practitionerService.remove(args, logger)
             );
 
             // There is no response resolved from this promise, so just check for an error
@@ -87,7 +87,7 @@ describe('Practitioner Service Test', () => {
 
             // Now query for the fixture again, there should be no documents
             let [ query_err, missing_doc ] = await asyncHandler(
-                practitionerService.getPractitionerById(args, logger)
+                practitionerService.searchById(args, logger)
             );
 
             expect(query_err).toBeUndefined();
@@ -97,7 +97,7 @@ describe('Practitioner Service Test', () => {
 
     });
 
-    describe('Method: createPractitioner', () => {
+    describe('Method: create', () => {
 
         // This Fixture was previously deleted, we are going to ensure before creating it
         // 1. Delete fixture
@@ -117,7 +117,7 @@ describe('Practitioner Service Test', () => {
             // Delete the fixture incase it exists,
             // mongo won't throw if we delete something not there
             let [ delete_err, _ ] = await asyncHandler(
-                practitionerService.deletePractitioner(args, logger)
+                practitionerService.remove(args, logger)
             );
 
             expect(delete_err).toBeUndefined();
@@ -125,7 +125,7 @@ describe('Practitioner Service Test', () => {
             // Create the fixture, it expects two very specific args
             // The resource arg must be a class/object with a toJSON method
             let [ create_err, create_results ] = await asyncHandler(
-                practitionerService.createPractitioner(args, logger)
+                practitionerService.create(args, logger)
             );
 
             expect(create_err).toBeUndefined();
@@ -135,7 +135,7 @@ describe('Practitioner Service Test', () => {
 
             // Verify the new fixture exists
             let [ query_err, doc ] = await asyncHandler(
-                practitionerService.getPractitionerById(args, logger)
+                practitionerService.searchById(args, logger)
             );
 
             expect(query_err).toBeUndefined();
@@ -145,7 +145,7 @@ describe('Practitioner Service Test', () => {
 
     });
 
-    describe('Method: updatePractitioner', () => {
+    describe('Method: update', () => {
 
         // Let's check for the fixture's text status and then try to change it
         // 1. Query fixture for text status
@@ -165,7 +165,7 @@ describe('Practitioner Service Test', () => {
 
             // Query for the original doc, this will ignore the resource arg
             let [query_err, doc] = await asyncHandler(
-                practitionerService.getPractitionerById(args, logger)
+                practitionerService.searchById(args, logger)
             );
 
             expect(query_err).toBeUndefined();
@@ -173,7 +173,7 @@ describe('Practitioner Service Test', () => {
 
             // Update the original doc
             let [update_err, update_results] = await asyncHandler(
-                practitionerService.updatePractitioner(args, logger)
+                practitionerService.update(args, logger)
             );
 
             expect(update_err).toBeUndefined();
@@ -181,7 +181,7 @@ describe('Practitioner Service Test', () => {
 
             // Query the newly updated doc and make sure the text status is correct
             let [updated_err, updated_doc] = await asyncHandler(
-                practitionerService.getPractitionerById(args, logger)
+                practitionerService.searchById(args, logger)
             );
 
             expect(updated_err).toBeUndefined();
