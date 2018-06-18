@@ -3,21 +3,21 @@ const { COLLECTION, CLIENT_DB } = require('../../constants');
 const globals = require('../../globals');
 
 /**
- * @name getCount
+ * @name count
  * @description Get the number of allergyintolerances in our database
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.getCount = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('AllergyIntolerance >>> getCount');
+module.exports.count = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('AllergyIntolerance >>> count');
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
     let collection = db.collection(COLLECTION.ALLERGYINTOLERANCE);
     // Query all documents in this collection
     collection.count((err, count) => {
         if (err) {
-            logger.error('Error with AllergyIntolerance.getCount: ', err);
+            logger.error('Error with AllergyIntolerance.count: ', err);
             return reject(err);
         }
         return resolve(count);
@@ -25,14 +25,14 @@ module.exports.getCount = (args, logger) => new Promise((resolve, reject) => {
 });
 
 /**
- * @name getAllergyIntolerance
+ * @name search
  * @description Get allergyintolerance(s) from our database
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.getAllergyIntolerance = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('AllergyIntolerance >>> getAllergyIntolerance');
+module.exports.search = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('AllergyIntolerance >>> search');
     // Parse the params
     let { category, clinicalStatus, code, criticality, date, identifier, lastDate, manifestation, onset, patient, recorder,
         route, severity, type, verificationStatus } = args;
@@ -156,9 +156,8 @@ module.exports.getAllergyIntolerance = (args, logger) => new Promise((resolve, r
     if (type) {
         query.type = type;
     }
-    /************************ ^^^ TESTED ^^^ ************************/
 
-    console.log(JSON.stringify(query));
+    // console.log(JSON.stringify(query));
 
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
@@ -166,7 +165,7 @@ module.exports.getAllergyIntolerance = (args, logger) => new Promise((resolve, r
     // Query our collection for this allergyintolerance
     collection.find(query, (err, allergyintolerances) => {
         if (err) {
-            logger.error('Error with AllergyIntolerance.getAllergyIntolerance: ', err);
+            logger.error('Error with AllergyIntolerance.search: ', err);
             return reject(err);
         }
         // AllergyIntolerances is a cursor, grab the documents from that
@@ -175,14 +174,14 @@ module.exports.getAllergyIntolerance = (args, logger) => new Promise((resolve, r
 });
 
 /**
- * @name getAllergyIntoleranceById
+ * @name searchById
  * @description Get an allergyintolerance from our database
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.getAllergyIntoleranceById = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('AllergyIntolerance >>> getAllergyIntoleranceById');
+module.exports.searchById = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('AllergyIntolerance >>> searchById');
     // Parse the required params, these are validated by sanitizeMiddleware in core
     let { id } = args;
     // Grab an instance of our DB and collection
@@ -191,7 +190,7 @@ module.exports.getAllergyIntoleranceById = (args, logger) => new Promise((resolv
     // Query our collection for this allergyintolerance
     collection.findOne({ id: id.toString() }, (err, allergyintolerance) => {
         if (err) {
-            logger.error('Error with AllergyIntolerance.getAllergyIntoleranceById: ', err);
+            logger.error('Error with AllergyIntolerance.searchById: ', err);
             return reject(err);
         }
         resolve(allergyintolerance);
@@ -199,14 +198,14 @@ module.exports.getAllergyIntoleranceById = (args, logger) => new Promise((resolv
 });
 
 /**
- * @name createAllergyIntolerance
+ * @name create
  * @description Create an allergyintolerance
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.createAllergyIntolerance = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('AllergyIntolerance >>> createAllergyIntolerance');
+module.exports.create = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('AllergyIntolerance >>> create');
     let { id, resource } = args;
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
@@ -216,7 +215,7 @@ module.exports.createAllergyIntolerance = (args, logger) => new Promise((resolve
     // Insert our allergyintolerance record
     collection.insert(doc, (err, res) => {
         if (err) {
-            logger.error('Error with AllergyIntolerance.createAllergyIntolerance: ', err);
+            logger.error('Error with AllergyIntolerance.create: ', err);
             return reject(err);
         }
         // Grab the allergyintolerance record so we can pass back the id
@@ -227,14 +226,14 @@ module.exports.createAllergyIntolerance = (args, logger) => new Promise((resolve
 });
 
 /**
- * @name updateAllergyIntolerance
+ * @name update
  * @description Update an allergyintolerance
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.updateAllergyIntolerance = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('AllergyIntolerance >>> updateAllergyIntolerance');
+module.exports.update = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('AllergyIntolerance >>> update');
     let { id, resource } = args;
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
@@ -244,7 +243,7 @@ module.exports.updateAllergyIntolerance = (args, logger) => new Promise((resolve
     // Insert/update our allergyintolerance record
     collection.findOneAndUpdate({ id: id }, doc, { upsert: true }, (err, res) => {
         if (err) {
-            logger.error('Error with AllergyIntolerance.updateAllergyIntolerance: ', err);
+            logger.error('Error with AllergyIntolerance.update: ', err);
             return reject(err);
         }
         // If we support versioning, which we do not at the moment,
@@ -254,14 +253,14 @@ module.exports.updateAllergyIntolerance = (args, logger) => new Promise((resolve
 });
 
 /**
- * @name deleteAllergyIntolerance
+ * @name remove
  * @description Delete an allergyintolerance
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.deleteAllergyIntolerance = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('AllergyIntolerance >>> deleteAllergyIntolerance');
+module.exports.remove = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('AllergyIntolerance >>> remove');
     let { id } = args;
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
@@ -269,7 +268,7 @@ module.exports.deleteAllergyIntolerance = (args, logger) => new Promise((resolve
     // Delete our allergyintolerance record
     collection.remove({ id: id }, (err, _) => {
         if (err) {
-            logger.error('Error with AllergyIntolerance.deleteAllergyIntolerance');
+            logger.error('Error with AllergyIntolerance.remove');
             return reject({
                 // Must be 405 (Method Not Allowed) or 409 (Conflict)
                 // 405 if you do not want to allow the delete

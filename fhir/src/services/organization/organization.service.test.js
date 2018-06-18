@@ -32,25 +32,138 @@ describe('Organization Service Test', () => {
         client.close();
     });
 
-    describe('Method: getCount', () => {
+    describe('Method: count', () => {
 
         test('should correctly pass back the count', async () => {
             let [err, results] = await asyncHandler(
-                organizationService.getCount(null, logger)
+                organizationService.count(null, logger)
             );
 
             expect(err).toBeUndefined();
-            expect(results).toEqual(1);
+            expect(results).toEqual(2);
         });
 
     });
 
-    describe('Method: getOrganizationById', () => {
+    // Phonetic has not been implemented yet
+    describe('Method: search', () => {
+
+        test('Get an organization using all arguments', async () => {
+            let args = {active: 'false', addressCity: 'name?Ann Arbor', addressCountry: 'USA', addressPostalCode: '48104',
+                addressState: 'MI', addressUse: 'work', endpoint: 'example', identifier: 'http://hl7.org.fhir/sid/us-npi|1144221847',
+                name: 'name?Health', partof: '1', type: 'http://hl7.org/fhir/organization-type|prov'};
+            let [err, docs] = await asyncHandler(
+                organizationService.search(args, logger)
+            );
+
+            // console.log(JSON.stringify(args));
+            // console.log(JSON.stringify(docs));
+
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(1);
+
+            docs.forEach(doc => {
+                expect(doc.active).toBeFalsy();
+                expect(doc.address[0].city).toEqual('Ann Arbor');
+                expect(doc.address[0].country).toEqual('USA');
+                expect(doc.address[0].postalCode).toEqual(args.addressPostalCode);
+                expect(doc.address[0].state).toEqual(args.addressState);
+                expect(doc.address[0].use).toEqual(args.addressUse);
+                expect(doc.endpoint[0].reference).toEqual(`Endpoint/${args.endpoint}`);
+                expect(doc.identifier[0].system).toEqual('http://hl7.org.fhir/sid/us-npi');
+                expect(doc.identifier[0].value).toEqual('1144221847');
+                expect(doc.name).toEqual('Health Level Seven International');
+                expect(doc.partOf.reference).toEqual(`Organization/${args.partof}`);
+                expect(doc.type[0].coding[0].system).toEqual('http://hl7.org/fhir/organization-type');
+                expect(doc.type[0].coding[0].code).toEqual('prov');
+            });
+
+        });
+
+        test('should pass back the correct company based on portions of the name or alias', async () => {
+            // Default name case
+            let args = {name: 'name?Health'};
+            let [err, docs] = await asyncHandler(
+                organizationService.search(args, logger)
+            );
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(1);
+            expect(docs[0].name).toEqual('Health Level Seven International');
+
+            // given name case
+            args = {name: 'name?given=health'};
+            [err, docs] = await asyncHandler(
+                organizationService.search(args, logger)
+            );
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(1);
+            expect(docs[0].name).toEqual('Health Level Seven International');
+
+            // contains name case
+            args = {name: 'name?given:contains=EvEn'};
+            [err, docs] = await asyncHandler(
+                organizationService.search(args, logger)
+            );
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(1);
+            expect(docs[0].name).toEqual('Health Level Seven International');
+
+            // exact name case
+            args = {name: 'name?given:exact=Health Level Seven International'};
+            [err, docs] = await asyncHandler(
+                organizationService.search(args, logger)
+            );
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(1);
+            expect(docs[0].name).toEqual('Health Level Seven International');
+
+            // Default alias case
+            args = {name: 'alias?A'};
+            [err, docs] = await asyncHandler(
+                organizationService.search(args, logger)
+            );
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(1);
+            expect(docs[0].alias[1]).toEqual('A good test');
+
+            // given alias case
+            args = {name: 'alias?given=A G'};
+            [err, docs] = await asyncHandler(
+                organizationService.search(args, logger)
+            );
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(1);
+            expect(docs[0].alias[1]).toEqual('A good test');
+
+            // contains alias case
+            args = {name: 'alias?given:contains=s'};
+            [err, docs] = await asyncHandler(
+                organizationService.search(args, logger)
+            );
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(1);
+            expect(docs[0].alias[0]).toEqual('HLSI');
+            expect(docs[0].alias[1]).toEqual('A good test');
+
+            // exact alias case
+            args = {name: 'alias?given:exact=HLSI'};
+            [err, docs] = await asyncHandler(
+                organizationService.search(args, logger)
+            );
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(1);
+            expect(docs[0].alias[0]).toEqual('HLSI');
+
+        });
+
+    });
+
+    describe('Method: searchById', () => {
 
         test('should correctly return a document', async () => {
             let args = { id: 'acme-lab' };
             let [ err, doc ] = await asyncHandler(
-                organizationService.getOrganizationById(args, logger)
+                organizationService.searchById(args, logger)
             );
 
             expect(err).toBeUndefined();
@@ -59,7 +172,7 @@ describe('Organization Service Test', () => {
 
     });
 
-    describe('Method: deleteOrganization', () => {
+    describe('Method: remove', () => {
 
         // For these tests, let's do it in 3 steps
         // 1. Check the organization exists
@@ -71,7 +184,7 @@ describe('Organization Service Test', () => {
             // Look for this particular fixture
             let args = { id: 'acme-lab' };
             let [ err, doc ] = await asyncHandler(
-                organizationService.getOrganizationById(args, logger)
+                organizationService.searchById(args, logger)
             );
 
             expect(err).toBeUndefined();
@@ -79,7 +192,7 @@ describe('Organization Service Test', () => {
 
             // Now delete this fixture
             let [ delete_err, _ ] = await asyncHandler(
-                organizationService.deleteOrganization(args, logger)
+                organizationService.remove(args, logger)
             );
 
             // There is no response resolved from this promise, so just check for an error
@@ -87,7 +200,7 @@ describe('Organization Service Test', () => {
 
             // Now query for the fixture again, there should be no documents
             let [ query_err, missing_doc ] = await asyncHandler(
-                organizationService.getOrganizationById(args, logger)
+                organizationService.searchById(args, logger)
             );
 
             expect(query_err).toBeUndefined();
@@ -97,7 +210,7 @@ describe('Organization Service Test', () => {
 
     });
 
-    describe('Method: createOrganization', () => {
+    describe('Method: create', () => {
 
         // This Fixture was previously deleted, we are going to ensure before creating it
         // 1. Delete fixture
@@ -117,7 +230,7 @@ describe('Organization Service Test', () => {
             // Delete the fixture incase it exists,
             // mongo won't throw if we delete something not there
             let [ delete_err, _ ] = await asyncHandler(
-                organizationService.deleteOrganization(args, logger)
+                organizationService.remove(args, logger)
             );
 
             expect(delete_err).toBeUndefined();
@@ -125,7 +238,7 @@ describe('Organization Service Test', () => {
             // Create the fixture, it expects two very specific args
             // The resource arg must be a class/object with a toJSON method
             let [ create_err, create_results ] = await asyncHandler(
-                organizationService.createOrganization(args, logger)
+                organizationService.create(args, logger)
             );
 
             expect(create_err).toBeUndefined();
@@ -135,7 +248,7 @@ describe('Organization Service Test', () => {
 
             // Verify the new fixture exists
             let [ query_err, doc ] = await asyncHandler(
-                organizationService.getOrganizationById(args, logger)
+                organizationService.searchById(args, logger)
             );
 
             expect(query_err).toBeUndefined();
@@ -145,7 +258,7 @@ describe('Organization Service Test', () => {
 
     });
 
-    describe('Method: updateOrganization', () => {
+    describe('Method: update', () => {
 
         // Let's check for the fixture's active property and then try to change it
         // 1. Query fixture for active
@@ -154,7 +267,7 @@ describe('Organization Service Test', () => {
 
         test('should successfully update a document', async () => {
             // Update the status
-            OrganizationFixture.active = false;
+            OrganizationFixture.text.status = 'preliminary';
 
             let args = {
                 resource: {
@@ -165,15 +278,15 @@ describe('Organization Service Test', () => {
 
             // Query for the original doc, this will ignore the resource arg
             let [ query_err, doc ] = await asyncHandler(
-                organizationService.getOrganizationById(args, logger)
+                organizationService.searchById(args, logger)
             );
 
             expect(query_err).toBeUndefined();
-            expect(doc.active).toBeTruthy();
+            expect(doc.text.status).toEqual('generated');
 
             // Update the original doc
             let [ update_err, update_results ] = await asyncHandler(
-                organizationService.updateOrganization(args, logger)
+                organizationService.update(args, logger)
             );
 
             expect(update_err).toBeUndefined();
@@ -181,11 +294,11 @@ describe('Organization Service Test', () => {
 
             // Query the newly updated doc and make sure the status is correct
             let [ updated_err, updated_doc ] = await asyncHandler(
-                organizationService.getOrganizationById(args, logger)
+                organizationService.searchById(args, logger)
             );
 
             expect(updated_err).toBeUndefined();
-            expect(updated_doc.status).toBeFalsy();
+            expect(updated_doc.text.status).toEqual('preliminary');
 
         });
 

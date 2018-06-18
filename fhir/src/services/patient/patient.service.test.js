@@ -30,11 +30,11 @@ describe('Patient Service Test', () => {
 		client.close();
 	});
 
-	describe('Method: getCount', () => {
+	describe('Method: count', () => {
 
 		test('should correctly pass back the count', async () => {
 			let [ err, results ] = await asyncHandler(
-				patientService.getCount(null, logger)
+				patientService.count(null, logger)
 			);
 
 			expect(err).toBeUndefined();
@@ -43,12 +43,12 @@ describe('Patient Service Test', () => {
 
 	});
 
-	describe('Method: getPatient', () => {
+	describe('Method: search', () => {
 
 		test('should correctly return all male patients', async () => {
 			let args = { gender: 'male' };
 			let [ err, docs ] = await asyncHandler(
-				patientService.getPatient(args, logger)
+				patientService.search(args, logger)
 			);
 
 			expect(err).toBeUndefined();
@@ -61,7 +61,7 @@ describe('Patient Service Test', () => {
         test('should correctly return a specific patient using all search parameters', async () => {
             let args = { id: '1', identifier: 'https://sitenv.org|211-778-2345', name: 'John', family: 'John', given: 'Doe', gender: 'male', birthDate: '1980-01-01' };
             let [ err, docs ] = await asyncHandler(
-                patientService.getPatient(args, logger)
+                patientService.search(args, logger)
             );
 
             expect(err).toBeUndefined();
@@ -79,12 +79,12 @@ describe('Patient Service Test', () => {
 
 	});
 
-	describe('Method: getPatientById', () => {
+	describe('Method: searchById', () => {
 
 		test('should correctly return a document', async () => {
 			let args = { id: '1' };
 			let [ err, doc ] = await asyncHandler(
-				patientService.getPatientById(args, logger)
+				patientService.searchById(args, logger)
 			);
 
 			expect(err).toBeUndefined();
@@ -93,7 +93,7 @@ describe('Patient Service Test', () => {
 
 	});
 
-	describe('Method: deletePatient', () => {
+	describe('Method: remove', () => {
 
 		// For these tests, let's do it in 3 steps
 		// 1. Check the patient exists
@@ -105,7 +105,7 @@ describe('Patient Service Test', () => {
 			// Look for this particular fixture
 			let args = { id: '1' };
 			let [ err, doc ] = await asyncHandler(
-				patientService.getPatientById(args, logger)
+				patientService.searchById(args, logger)
 			);
 
 			expect(err).toBeUndefined();
@@ -113,7 +113,7 @@ describe('Patient Service Test', () => {
 
 			// Now delete this fixture
 			let [ delete_err, _ ] = await asyncHandler(
-				patientService.deletePatient(args, logger)
+				patientService.remove(args, logger)
 			);
 
 			// There is no response resolved from this promise, so just check for an error
@@ -121,7 +121,7 @@ describe('Patient Service Test', () => {
 
 			// Now query for the fixture again, there should be no documents
 			let [ query_err, missing_doc ] = await asyncHandler(
-				patientService.getPatientById(args, logger)
+				patientService.searchById(args, logger)
 			);
 
 			expect(query_err).toBeUndefined();
@@ -131,7 +131,7 @@ describe('Patient Service Test', () => {
 
 	});
 
-	describe('Method: createPatient', () => {
+	describe('Method: create', () => {
 
 		// This Fixture was previously deleted, we are going to ensure before creating it
 		// 1. Delete fixture
@@ -151,7 +151,7 @@ describe('Patient Service Test', () => {
 			// Delete the fixture incase it exists,
 			// mongo won't throw if we delete something not there
 			let [ delete_err, _ ] = await asyncHandler(
-				patientService.deletePatient(args, logger)
+				patientService.remove(args, logger)
 			);
 
 			expect(delete_err).toBeUndefined();
@@ -159,7 +159,7 @@ describe('Patient Service Test', () => {
 			// Create the fixture, it expects two very specific args
 			// The resource arg must be a class/object with a toJSON method
 			let [ create_err, create_results ] = await asyncHandler(
-				patientService.createPatient(args, logger)
+				patientService.create(args, logger)
 			);
 
 			expect(create_err).toBeUndefined();
@@ -169,7 +169,7 @@ describe('Patient Service Test', () => {
 
 			// Verify the new fixture exists
 			let [ query_err, doc ] = await asyncHandler(
-				patientService.getPatientById(args, logger)
+				patientService.searchById(args, logger)
 			);
 
 			expect(query_err).toBeUndefined();
@@ -179,7 +179,7 @@ describe('Patient Service Test', () => {
 
 	});
 
-	describe('Method: updatePatient', () => {
+	describe('Method: update', () => {
 
 		// Let's check for the fixture's active property and then try to change it
 		// 1. Query fixture for active
@@ -199,7 +199,7 @@ describe('Patient Service Test', () => {
 
 			// Query for the original doc, this will ignore the resource arg
 			let [ query_err, doc ] = await asyncHandler(
-				patientService.getPatientById(args, logger)
+				patientService.searchById(args, logger)
 			);
 
 			expect(query_err).toBeUndefined();
@@ -207,7 +207,7 @@ describe('Patient Service Test', () => {
 
 			// Update the original doc
 			let [ update_err, update_results ] = await asyncHandler(
-				patientService.updatePatient(args, logger)
+				patientService.update(args, logger)
 			);
 
 			expect(update_err).toBeUndefined();
@@ -215,7 +215,7 @@ describe('Patient Service Test', () => {
 
 			// Query the newly updated doc and make sure the status is correct
 			let [ updated_err, updated_doc ] = await asyncHandler(
-				patientService.getPatientById(args, logger)
+				patientService.searchById(args, logger)
 			);
 
 			expect(updated_err).toBeUndefined();

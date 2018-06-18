@@ -9,7 +9,7 @@ const globals = require('../../globals');
  * @return {Promise}
  */
 module.exports.count = (args, logger) => new Promise((resolve, reject) => {
-	logger.info('Patient >>> getCount');
+	logger.info('Patient >>> count');
 	// Grab an instance of our DB and collection
 	let db = globals.get(CLIENT_DB);
 	let collection = db.collection(COLLECTION.PATIENT);
@@ -31,7 +31,7 @@ module.exports.count = (args, logger) => new Promise((resolve, reject) => {
  * @return {Promise}
  */
 module.exports.search = (args, logger) => new Promise((resolve, reject) => {
-	logger.info('Patient >>> getPatient');
+	logger.info('Patient >>> search');
 	// Parse the params
 	let { id, identifier, name, family, given, gender, birthDate } = args;
 	let query = {};
@@ -87,7 +87,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.searchById = (args, logger) => new Promise((resolve, reject) => {
+module.exports.getPatientById = (args, logger) => new Promise((resolve, reject) => {
 	logger.info('Patient >>> getPatientById');
 	// Parse the required params, these are validated by sanitizeMiddleware in core
 	let { id } = args;
@@ -111,7 +111,7 @@ module.exports.searchById = (args, logger) => new Promise((resolve, reject) => {
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.create = (args, logger) => new Promise((resolve, reject) => {
+module.exports.createPatient = (args, logger) => new Promise((resolve, reject) => {
 	logger.info('Patient >>> createPatient');
 	let { id, resource } = args;
 	// Grab an instance of our DB and collection
@@ -139,7 +139,7 @@ module.exports.create = (args, logger) => new Promise((resolve, reject) => {
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.update = (args, logger) => new Promise((resolve, reject) => {
+module.exports.updatePatient = (args, logger) => new Promise((resolve, reject) => {
 	logger.info('Patient >>> updatePatient');
 	let { id, resource } = args;
 	// Grab an instance of our DB and collection
@@ -166,7 +166,7 @@ module.exports.update = (args, logger) => new Promise((resolve, reject) => {
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.remove = (args, logger) => new Promise((resolve, reject) => {
+module.exports.deletePatient = (args, logger) => new Promise((resolve, reject) => {
 	logger.info('Patient >>> deletePatient');
 	let { id } = args;
 	// Grab an instance of our DB and collection
