@@ -1,6 +1,6 @@
 const { COLLECTION, CLIENT_DB } = require('../../constants');
 const globals = require('../../globals');
-const { stringQueryBuilder } = require('../../utils/serviceUtils');
+const { stringQueryBuilder } = require('../../utils/service.utils');
 
 /**
  * @name count
@@ -45,29 +45,30 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         query.active = (active === 'true');
     }
 
+    // How robust should this be and what is the input's format?
     if (address) {
         console.log('Not implemented');
     }
 
-    // if (addressCity) {
-    //     stringQueryBuilder(addressCity, query);
-    // }
-    //
-    // if (addressCountry) {
-    //     stringQueryBuilder(addressCountry, query);
-    // }
-    //
-    // if (addressPostalCode) {
-    //     stringQueryBuilder(addressPostalCode, query);
-    // }
-    //
-    // if (addressState) {
-    //     stringQueryBuilder(addressState, query);
-    // }
-    //
-    // if (addressUse) {
-    //     stringQueryBuilder(addressUse, query);
-    // }
+    if (addressCity) {
+        stringQueryBuilder(addressCity, query);
+    }
+
+    if (addressCountry) {
+        stringQueryBuilder(addressCountry, query);
+    }
+
+    if (addressPostalCode) {
+        stringQueryBuilder(addressPostalCode, query);
+    }
+
+    if (addressState) {
+        stringQueryBuilder(addressState, query);
+    }
+
+    if (addressUse) {
+        stringQueryBuilder(addressUse, query);
+    }
 
     if (endpoint) {
         query['endpoint.reference'] = `Endpoint/${endpoint}`;
