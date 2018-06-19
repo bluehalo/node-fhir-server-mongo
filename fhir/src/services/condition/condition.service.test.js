@@ -1,5 +1,5 @@
 /* eslint-disable */
-const ConditionFixture = require('../../../fixtures/data/uscore/Condition-example.json');
+const ConditionFixture = require('../../../fixtures/data/patient00/condition00.json');
 const { CLIENT, CLIENT_DB } = require('../../constants');
 const asyncHandler = require('../../lib/async-handler');
 const logger = require('../../testutils/logger.mock');
@@ -127,7 +127,7 @@ describe('Condition Service Test', () => {
     describe('Method: searchById', () => {
 
         test('should correctly return a document', async () => {
-            let args = {id: 'example'};
+            let args = {id: '0'};
             let [err, doc] = await asyncHandler(
                 conditionService.searchById(args, logger)
             );
@@ -148,7 +148,7 @@ describe('Condition Service Test', () => {
         test('should successfully delete a document', async () => {
 
             // Look for this particular fixture
-            let args = { id: 'example' };
+            let args = { id: '0' };
             let [ err, doc ] = await asyncHandler(
                 conditionService.searchById(args, logger)
             );
@@ -190,7 +190,7 @@ describe('Condition Service Test', () => {
                 resource: {
                     toJSON: () => ConditionFixture
                 },
-                id: 'example'
+                id: '0'
             };
 
             // Delete the fixture incase it exists,
@@ -233,13 +233,13 @@ describe('Condition Service Test', () => {
 
         test('should successfully update a document', async () => {
             // Update the status
-            ConditionFixture.clinicalStatus = 'preliminary';
+            ConditionFixture.text.status = 'preliminary';
 
             let args = {
                 resource: {
                     toJSON: () => ConditionFixture
                 },
-                id: 'example'
+                id: '0'
             };
 
             // Query for the original doc, this will ignore the resource arg
@@ -248,7 +248,7 @@ describe('Condition Service Test', () => {
             );
 
             expect(query_err).toBeUndefined();
-            expect(doc.clinicalStatus).toEqual('active');
+            expect(doc.text.status).toEqual('generated');
 
             // Update the original doc
             let [update_err, update_results] = await asyncHandler(
@@ -264,7 +264,7 @@ describe('Condition Service Test', () => {
             );
 
             expect(updated_err).toBeUndefined();
-            expect(updated_doc.clinicalStatus).toEqual('preliminary');
+            expect(updated_doc.text.status).toEqual('preliminary');
 
         });
 

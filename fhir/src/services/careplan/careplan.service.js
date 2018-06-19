@@ -30,9 +30,124 @@ module.exports.count = (args, logger) => new Promise((resolve, reject) => {
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
+// Not implemented: activityDate and date
 module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     logger.info('CarePlan >>> search');
-    reject(new Error('Support coming soon'));
+    // Parse the params
+    let { activityCode, activityDate, activityReference, basedOn, careTeam, category, condition, context, date, definition,
+        encounter, goal, identifier, intent, partOf, status, subject } = args;
+
+    // Status, intent, and subject are required and guaranteed to be provided
+    let query = {
+        'status': status,
+        'intent': intent,
+        'subject.reference': `Patient/${subject}`,
+    };
+
+    if (activityCode) {
+        if (activityCode.includes('|')) {
+            let [ system, value ] = activityCode.split('|');
+            if (system) {
+                query['activity.detail.code.coding.system'] = system;
+            }
+            if (value) {
+                query['activity.detail.code.coding.code'] = value;
+            }
+        }
+        else {
+            query['activity.detail.code.coding.code'] = { $in: activityCode.split(',') };
+        }
+    }
+
+    if (activityDate) {
+        console.log('Not implemented');
+    }
+
+    if (activityReference) {
+        query['activity.reference.reference'] = `Appointment/${activityReference}`;
+    }
+
+    if (basedOn) {
+        query['basedOn.reference'] = `CarePlan/${basedOn}`;
+    }
+
+    if (careTeam) {
+        query['careTeam.reference'] = `CareTeam/${careTeam}`;
+    }
+
+    if (category) {
+        if (category.includes('|')) {
+            let [ system, value ] = category.split('|');
+            if (system) {
+                query['category.coding.system'] = system;
+            }
+            if (value) {
+                query['category.coding.code'] = value;
+            }
+        }
+        else {
+            query['category.coding.code'] = { $in: category.split(',') };
+        }
+    }
+
+    if (condition) {
+        query['addresses.reference'] = condition;
+    }
+
+    if (context) {
+        query['context.reference'] = `Encounter/${context}`;
+    }
+
+    if (date) {
+        console.log('Not implemented');
+    }
+
+    if (definition) {
+        query['definition.reference'] = `Questionnaire/${definition}`;
+    }
+
+    if (encounter) {
+        query['context.reference'] = `Encounter/${encounter}`;
+    }
+
+    if (goal) {
+        query['goal.reference'] = `Goal/${goal}`;
+    }
+
+    if (identifier) {
+        if (identifier.includes('|')) {
+            let [ system, value ] = identifier.split('|');
+            // console.log(('' === system) + ' *** ' + value);
+            if (system) {
+                query['identifier.system'] = system;
+            }
+            if (value) {
+                query['identifier.value'] = value;
+            }
+        }
+        else {
+            query['identifier.value'] = identifier;
+        }
+    }
+
+    if (partOf) {
+        query['partOf.reference'] = `CarePlan/${partOf}`;
+    }
+
+    // console.log(JSON.stringify(query));
+
+    // Grab an instance of our DB and collection
+    let db = globals.get(CLIENT_DB);
+    let collection = db.collection(COLLECTION.CAREPLAN);
+    // Query our collection for this careplan
+    collection.find(query, (err, careplans) => {
+        if (err) {
+            logger.error('Error with CarePlan.search: ', err);
+            return reject(err);
+        }
+        // CarePlans is a cursor, grab the documents from that
+        careplans.toArray().then(resolve, reject);
+    });
 });
 
 /**
