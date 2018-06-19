@@ -32,11 +32,11 @@ describe('Immunization Service Test', () => {
         client.close();
     });
 
-    describe('Method: getCount', () => {
+    describe('Method: count', () => {
 
         test('should correctly pass back the count', async () => {
             let [err, results] = await asyncHandler(
-                immunizationService.getCount(null, logger)
+                immunizationService.count(null, logger)
             );
 
             expect(err).toBeUndefined();
@@ -45,12 +45,12 @@ describe('Immunization Service Test', () => {
 
     });
 
-    describe('Method: getImmunizationById', () => {
+    describe('Method: searchById', () => {
 
         test('should correctly return a document', async () => {
             let args = { id: '8' };
             let [ err, doc ] = await asyncHandler(
-                immunizationService.getImmunizationById(args, logger)
+                immunizationService.searchById(args, logger)
             );
 
             expect(err).toBeUndefined();
@@ -59,7 +59,7 @@ describe('Immunization Service Test', () => {
 
     });
 
-    describe('Method: deleteImmunization', () => {
+    describe('Method: remove', () => {
 
         // For these tests, let's do it in 3 steps
         // 1. Check the immunization exists
@@ -71,7 +71,7 @@ describe('Immunization Service Test', () => {
             // Look for this particular fixture
             let args = { id: '1' };
             let [ err, doc ] = await asyncHandler(
-                immunizationService.getImmunizationById(args, logger)
+                immunizationService.searchById(args, logger)
             );
 
             expect(err).toBeUndefined();
@@ -79,7 +79,7 @@ describe('Immunization Service Test', () => {
 
             // Now delete this fixture
             let [ delete_err, _ ] = await asyncHandler(
-                immunizationService.deleteImmunization(args, logger)
+                immunizationService.remove(args, logger)
             );
 
             // There is no response resolved from this promise, so just check for an error
@@ -87,7 +87,7 @@ describe('Immunization Service Test', () => {
 
             // Now query for the fixture again, there should be no documents
             let [ query_err, missing_doc ] = await asyncHandler(
-                immunizationService.getImmunizationById(args, logger)
+                immunizationService.searchById(args, logger)
             );
 
             expect(query_err).toBeUndefined();
@@ -97,7 +97,7 @@ describe('Immunization Service Test', () => {
 
     });
 
-    describe('Method: createImmunization', () => {
+    describe('Method: create', () => {
 
         // This Fixture was previously deleted, we are going to ensure before creating it
         // 1. Delete fixture
@@ -117,7 +117,7 @@ describe('Immunization Service Test', () => {
             // Delete the fixture incase it exists,
             // mongo won't throw if we delete something not there
             let [ delete_err, _ ] = await asyncHandler(
-                immunizationService.deleteImmunization(args, logger)
+                immunizationService.remove(args, logger)
             );
 
             expect(delete_err).toBeUndefined();
@@ -125,7 +125,7 @@ describe('Immunization Service Test', () => {
             // Create the fixture, it expects two very specific args
             // The resource arg must be a class/object with a toJSON method
             let [ create_err, create_results ] = await asyncHandler(
-                immunizationService.createImmunization(args, logger)
+                immunizationService.create(args, logger)
             );
 
             expect(create_err).toBeUndefined();
@@ -135,7 +135,7 @@ describe('Immunization Service Test', () => {
 
             // Verify the new fixture exists
             let [ query_err, doc ] = await asyncHandler(
-                immunizationService.getImmunizationById(args, logger)
+                immunizationService.searchById(args, logger)
             );
 
             expect(query_err).toBeUndefined();
@@ -145,7 +145,7 @@ describe('Immunization Service Test', () => {
 
     });
 
-    describe('Method: updateImmunization', () => {
+    describe('Method: update', () => {
 
         // Let's check for the fixture's status and then try to change it
         // 1. Query fixture for status
@@ -165,7 +165,7 @@ describe('Immunization Service Test', () => {
 
             // Query for the original doc, this will ignore the resource arg
             let [query_err, doc] = await asyncHandler(
-                immunizationService.getImmunizationById(args, logger)
+                immunizationService.searchById(args, logger)
             );
 
             expect(query_err).toBeUndefined();
@@ -173,7 +173,7 @@ describe('Immunization Service Test', () => {
 
             // Update the original doc
             let [update_err, update_results] = await asyncHandler(
-                immunizationService.updateImmunization(args, logger)
+                immunizationService.update(args, logger)
             );
 
             expect(update_err).toBeUndefined();
@@ -181,7 +181,7 @@ describe('Immunization Service Test', () => {
 
             // Query the newly updated doc and make sure the status is correct
             let [updated_err, updated_doc] = await asyncHandler(
-                immunizationService.getImmunizationById(args, logger)
+                immunizationService.searchById(args, logger)
             );
 
             expect(updated_err).toBeUndefined();

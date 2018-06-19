@@ -2,21 +2,21 @@ const { COLLECTION, CLIENT_DB } = require('../../constants');
 const globals = require('../../globals');
 
 /**
- * @name getCount
+ * @name count
  * @description Get the number of careteams in our database
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.getCount = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Careteam >>> getCount');
+module.exports.count = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('CareTeam >>> count');
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
     let collection = db.collection(COLLECTION.CARETEAM);
     // Query all documents in this collection
     collection.count((err, count) => {
         if (err) {
-            logger.error('Error with Careteam.getCount: ', err);
+            logger.error('Error with CareTeam.count: ', err);
             return reject(err);
         }
         return resolve(count);
@@ -24,26 +24,26 @@ module.exports.getCount = (args, logger) => new Promise((resolve, reject) => {
 });
 
 /**
- * @name getCareteam
- * @description Get getCareteam(s) from our database
+ * @name search
+ * @description Get search(s) from our database
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.getCareteam = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Careteam >>> getCareteam');
+module.exports.search = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('CareTeam >>> search');
     reject(new Error('Support coming soon'));
 });
 
 /**
- * @name getCareteamById
+ * @name searchById
  * @description Get a careteam by their unique identifier
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.getCareteamById = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Careteam >>> getCareteamById');
+module.exports.searchById = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('CareTeam >>> searchById');
     // Parse the required params, these are validated by sanitizeMiddleware in core
     let { id } = args;
     // Grab an instance of our DB and collection
@@ -52,7 +52,7 @@ module.exports.getCareteamById = (args, logger) => new Promise((resolve, reject)
     // Query our collection for this observation
     collection.findOne({ id: id.toString() }, (err, careteam) => {
         if (err) {
-            logger.error('Error with Careteam.getCareteamById: ', err);
+            logger.error('Error with CareTeam.searchById: ', err);
             return reject(err);
         }
         resolve(careteam);
@@ -60,14 +60,14 @@ module.exports.getCareteamById = (args, logger) => new Promise((resolve, reject)
 });
 
 /**
- * @name createCareteam
+ * @name create
  * @description Create a careteam
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.createCareteam = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Careteam >>> createCareteam');
+module.exports.create = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('CareTeam >>> create');
     let { id, resource } = args;
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
@@ -77,7 +77,7 @@ module.exports.createCareteam = (args, logger) => new Promise((resolve, reject) 
     // Insert our careteam record
     collection.insert(doc, (err, res) => {
         if (err) {
-            logger.error('Error with Careteam.createCareteam: ', err);
+            logger.error('Error with CareTeam.create: ', err);
             return reject(err);
         }
         // Grab the careteam record so we can pass back the id
@@ -88,14 +88,14 @@ module.exports.createCareteam = (args, logger) => new Promise((resolve, reject) 
 });
 
 /**
- * @name updateCareteam
+ * @name update
  * @description Update a careteam
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.updateCareteam = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Careteam >>> updateCareteam');
+module.exports.update = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('CareTeam >>> update');
     let { id, resource } = args;
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
@@ -105,7 +105,7 @@ module.exports.updateCareteam = (args, logger) => new Promise((resolve, reject) 
     // Insert/update our careteam record
     collection.findOneAndUpdate({ id: id }, doc, { upsert: true }, (err, res) => {
         if (err) {
-            logger.error('Error with Careteam.updateCareteam: ', err);
+            logger.error('Error with CareTeam.update: ', err);
             return reject(err);
         }
         // If we support versioning, which we do not at the moment,
@@ -115,14 +115,14 @@ module.exports.updateCareteam = (args, logger) => new Promise((resolve, reject) 
 });
 
 /**
- * @name deleteCareteam
+ * @name remove
  * @description Delete a careteam
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.deleteCareteam = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Careteam >>> deleteCareteam');
+module.exports.remove = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('CareTeam >>> remove');
     let { id } = args;
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
@@ -130,7 +130,7 @@ module.exports.deleteCareteam = (args, logger) => new Promise((resolve, reject) 
     // Delete our careteam record
     collection.remove({ id: id }, (err, _) => {
         if (err) {
-            logger.error('Error with Careteam.deleteCareteam');
+            logger.error('Error with CareTeam.remove');
             return reject({
                 // Must be 405 (Method Not Allowed) or 409 (Conflict)
                 // 405 if you do not want to allow the delete

@@ -29,11 +29,11 @@ describe('Observation Service Test', () => {
 		client.close();
 	});
 
-	describe('Method: getCount', () => {
+	describe('Method: count', () => {
 
 		test('should correctly pass back the count', async () => {
 			let [ err, results ] = await asyncHandler(
-				observationService.getCount(null, logger)
+				observationService.count(null, logger)
 			);
 
 			expect(err).toBeUndefined();
@@ -42,12 +42,12 @@ describe('Observation Service Test', () => {
 
 	});
 
-	describe('Method: getObservation', () => {
+	describe('Method: search', () => {
 
 		test('should correctly return all laboratory documents for this patient', async () => {
 			let args = { patient: 1, category: 'laboratory' };
 			let [ err, docs ] = await asyncHandler(
-				observationService.getObservation(args, logger)
+				observationService.search(args, logger)
 			);
 
 			expect(err).toBeUndefined();
@@ -63,7 +63,7 @@ describe('Observation Service Test', () => {
         test('should correctly return a specific laboratory document for this patient using all search parameters', async () => {
             let args = { patient: 1, category: 'laboratory', code: '2951-2', date: '2005-07-04T00:00:00+00:00' };
             let [ err, docs ] = await asyncHandler(
-                observationService.getObservation(args, logger)
+                observationService.search(args, logger)
             );
 
             expect(err).toBeUndefined();
@@ -80,12 +80,12 @@ describe('Observation Service Test', () => {
 
 	});
 
-	describe('Method: getObservationById', () => {
+	describe('Method: searchById', () => {
 
 		test('should correctly return a document', async () => {
 			let args = { id: '8' };
 			let [ err, doc ] = await asyncHandler(
-				observationService.getObservationById(args, logger)
+				observationService.searchById(args, logger)
 			);
 
 			expect(err).toBeUndefined();
@@ -94,7 +94,7 @@ describe('Observation Service Test', () => {
 
 	});
 
-	describe('Method: deleteObservation', () => {
+	describe('Method: remove', () => {
 
 		// For these tests, let's do it in 3 steps
 		// 1. Check the observation exists
@@ -106,7 +106,7 @@ describe('Observation Service Test', () => {
 			// Look for this particular fixture
 			let args = { id: '1' };
 			let [ err, doc ] = await asyncHandler(
-				observationService.getObservationById(args, logger)
+				observationService.searchById(args, logger)
 			);
 
 			expect(err).toBeUndefined();
@@ -114,7 +114,7 @@ describe('Observation Service Test', () => {
 
 			// Now delete this fixture
 			let [ delete_err, _ ] = await asyncHandler(
-				observationService.deleteObservation(args, logger)
+				observationService.remove(args, logger)
 			);
 
 			// There is no response resolved from this promise, so just check for an error
@@ -122,7 +122,7 @@ describe('Observation Service Test', () => {
 
 			// Now query for the fixture again, there should be no documents
 			let [ query_err, missing_doc ] = await asyncHandler(
-				observationService.getObservationById(args, logger)
+				observationService.searchById(args, logger)
 			);
 
 			expect(query_err).toBeUndefined();
@@ -132,7 +132,7 @@ describe('Observation Service Test', () => {
 
 	});
 
-	describe('Method: createObservation', () => {
+	describe('Method: create', () => {
 
 		// This Fixture was previously deleted, we are going to ensure before creating it
 		// 1. Delete fixture
@@ -152,7 +152,7 @@ describe('Observation Service Test', () => {
 			// Delete the fixture incase it exists,
 			// mongo won't throw if we delete something not there
 			let [ delete_err, _ ] = await asyncHandler(
-				observationService.deleteObservation(args, logger)
+				observationService.remove(args, logger)
 			);
 
 			expect(delete_err).toBeUndefined();
@@ -160,7 +160,7 @@ describe('Observation Service Test', () => {
 			// Create the fixture, it expects two very specific args
 			// The resource arg must be a class/object with a toJSON method
 			let [ create_err, create_results ] = await asyncHandler(
-				observationService.createObservation(args, logger)
+				observationService.create(args, logger)
 			);
 
 			expect(create_err).toBeUndefined();
@@ -170,7 +170,7 @@ describe('Observation Service Test', () => {
 
 			// Verify the new fixture exists
 			let [ query_err, doc ] = await asyncHandler(
-				observationService.getObservationById(args, logger)
+				observationService.searchById(args, logger)
 			);
 
 			expect(query_err).toBeUndefined();
@@ -180,7 +180,7 @@ describe('Observation Service Test', () => {
 
 	});
 
-	describe('Method: updateObservation', () => {
+	describe('Method: update', () => {
 
 		// Let's check for the fixture's status and then try to change it
 		// 1. Query fixture for status
@@ -200,7 +200,7 @@ describe('Observation Service Test', () => {
 
 			// Query for the original doc, this will ignore the resource arg
 			let [ query_err, doc ] = await asyncHandler(
-				observationService.getObservationById(args, logger)
+				observationService.searchById(args, logger)
 			);
 
 			expect(query_err).toBeUndefined();
@@ -208,7 +208,7 @@ describe('Observation Service Test', () => {
 
 			// Update the original doc
 			let [ update_err, update_results ] = await asyncHandler(
-				observationService.updateObservation(args, logger)
+				observationService.update(args, logger)
 			);
 
 			expect(update_err).toBeUndefined();
@@ -216,7 +216,7 @@ describe('Observation Service Test', () => {
 
 			// Query the newly updated doc and make sure the status is correct
 			let [ updated_err, updated_doc ] = await asyncHandler(
-				observationService.getObservationById(args, logger)
+				observationService.searchById(args, logger)
 			);
 
 			expect(updated_err).toBeUndefined();

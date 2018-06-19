@@ -3,21 +3,21 @@ const { COLLECTION, CLIENT_DB } = require('../../constants');
 const globals = require('../../globals');
 
 /**
- * @name getCount
+ * @name count
  * @description Get the number of observations in our database
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.getCount = (args, logger) => new Promise((resolve, reject) => {
-	logger.info('Observation >>> getCount');
+module.exports.count = (args, logger) => new Promise((resolve, reject) => {
+	logger.info('Observation >>> count');
 	// Grab an instance of our DB and collection
 	let db = globals.get(CLIENT_DB);
 	let collection = db.collection(COLLECTION.OBSERVATION);
 	// Query all documents in this collection
 	collection.count((err, count) => {
 		if (err) {
-			logger.error('Error with Observation.getCount: ', err);
+			logger.error('Error with Observation.count: ', err);
 			return reject(err);
 		}
 		return resolve(count);
@@ -25,14 +25,14 @@ module.exports.getCount = (args, logger) => new Promise((resolve, reject) => {
 });
 
 /**
- * @name getObservation
+ * @name search
  * @description Get observation(s) from our database
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.getObservation = (args, logger) => new Promise((resolve, reject) => {
-	logger.info('Observation >>> getObservation');
+module.exports.search = (args, logger) => new Promise((resolve, reject) => {
+	logger.info('Observation >>> search');
 	// Parse out all the params for this service and start building our query
 	let { patient, category, code, date } = args;
 	// Patient is required and guaranteed to be provided
@@ -63,7 +63,7 @@ module.exports.getObservation = (args, logger) => new Promise((resolve, reject) 
 	// Query our collection for this observation
 	collection.find(query, (err, observations) => {
 		if (err) {
-			logger.error('Error with Observation.getObservation: ', err);
+			logger.error('Error with Observation.search: ', err);
 			return reject(err);
 		}
 		// Observations is a cursor, grab the documents from that
@@ -72,14 +72,14 @@ module.exports.getObservation = (args, logger) => new Promise((resolve, reject) 
 });
 
 /**
- * @name getObservationById
+ * @name searchById
  * @description Get an observation from our database
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.getObservationById = (args, logger) => new Promise((resolve, reject) => {
-	logger.info('Observation >>> getObservationById');
+module.exports.searchById = (args, logger) => new Promise((resolve, reject) => {
+	logger.info('Observation >>> searchById');
 	// Parse the required params, these are validated by sanitizeMiddleware in core
 	let { id } = args;
 	// Grab an instance of our DB and collection
@@ -96,14 +96,14 @@ module.exports.getObservationById = (args, logger) => new Promise((resolve, reje
 });
 
 /**
- * @name createObservation
+ * @name create
  * @description Create a observation
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.createObservation = (args, logger) => new Promise((resolve, reject) => {
-	logger.info('Observation >>> createObservation');
+module.exports.create = (args, logger) => new Promise((resolve, reject) => {
+	logger.info('Observation >>> create');
 	let { id, resource } = args;
 	// Grab an instance of our DB and collection
 	let db = globals.get(CLIENT_DB);
@@ -113,7 +113,7 @@ module.exports.createObservation = (args, logger) => new Promise((resolve, rejec
 	// Insert our observation record
 	collection.insert(doc, (err, res) => {
 		if (err) {
-			logger.error('Error with Observation.createObservation: ', err);
+			logger.error('Error with Observation.create: ', err);
 			return reject(err);
 		}
 		// Grab the observation record so we can pass back the id
@@ -124,14 +124,14 @@ module.exports.createObservation = (args, logger) => new Promise((resolve, rejec
 });
 
 /**
- * @name updateObservation
+ * @name update
  * @description Update a observation
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.updateObservation = (args, logger) => new Promise((resolve, reject) => {
-	logger.info('Observation >>> updateObservation');
+module.exports.update = (args, logger) => new Promise((resolve, reject) => {
+	logger.info('Observation >>> update');
 	let { id, resource } = args;
 	// Grab an instance of our DB and collection
 	let db = globals.get(CLIENT_DB);
@@ -141,7 +141,7 @@ module.exports.updateObservation = (args, logger) => new Promise((resolve, rejec
 	// Insert/update our observation record
 	collection.findOneAndUpdate({ id: id }, doc, { upsert: true }, (err, res) => {
 		if (err) {
-			logger.error('Error with Observation.updateObservation: ', err);
+			logger.error('Error with Observation.update: ', err);
 			return reject(err);
 		}
 		// If we support versioning, which we do not at the moment,
@@ -151,14 +151,14 @@ module.exports.updateObservation = (args, logger) => new Promise((resolve, rejec
 });
 
 /**
- * @name deleteObservation
+ * @name remove
  * @description Delete a observation
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.deleteObservation = (args, logger) => new Promise((resolve, reject) => {
-	logger.info('Observation >>> deleteObservation');
+module.exports.remove = (args, logger) => new Promise((resolve, reject) => {
+	logger.info('Observation >>> remove');
 	let { id } = args;
 	// Grab an instance of our DB and collection
 	let db = globals.get(CLIENT_DB);
@@ -166,7 +166,7 @@ module.exports.deleteObservation = (args, logger) => new Promise((resolve, rejec
 	// Delete our observation record
 	collection.remove({ id: id }, (err, _) => {
 		if (err) {
-			logger.error('Error with Observation.deleteObservation');
+			logger.error('Error with Observation.remove');
 			return reject({
 				// Must be 405 (Method Not Allowed) or 409 (Conflict)
 				// 405 if you do not want to allow the delete

@@ -16,7 +16,7 @@ module.exports.count = (args, logger) => new Promise((resolve, reject) => {
     // Query all documents in this collection
     collection.count((err, count) => {
         if (err) {
-            logger.error('Error with Procedure.getCount: ', err);
+            logger.error('Error with Procedure.count: ', err);
             return reject(err);
         }
         return resolve(count);
@@ -119,10 +119,10 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
 
   collection.find(query, (err, procedures) => {
     if (err) {
-      logger.error('Error with Procedure.getProcedure: ', err);
+      logger.error('Error with Procedure.search: ', err);
       return reject(err);
     }
-    // Observations is a cursor, grab the documents from that
+    // Procedures is a cursor, grab the documents from that
     procedures.toArray().then(resolve, reject);
   });
 });
@@ -144,7 +144,7 @@ module.exports.searchById = (args, logger) => new Promise((resolve, reject) => {
     // Query our collection for this procedure
     collection.findOne({ id: id.toString() }, (err, procedure) => {
         if (err) {
-            logger.error('Error with Procedure.getProcedureById: ', err);
+            logger.error('Error with Procedure.searchById: ', err);
             return reject(err);
         }
         resolve(procedure);
@@ -169,7 +169,7 @@ module.exports.create = (args, logger) => new Promise((resolve, reject) => {
     // Insert our procedure record
     collection.insert(doc, (err, res) => {
         if (err) {
-            logger.error('Error with Procedure.createProcedure: ', err);
+            logger.error('Error with Procedure.create: ', err);
             return reject(err);
         }
         // Grab the procedure record so we can pass back the id
@@ -197,7 +197,7 @@ module.exports.update = (args, logger) => new Promise((resolve, reject) => {
     // Insert/update our procedure record
     collection.findOneAndUpdate({ id: id }, doc, { upsert: true }, (err, res) => {
         if (err) {
-            logger.error('Error with Procedure.updateProcedure: ', err);
+            logger.error('Error with Procedure.update: ', err);
             return reject(err);
         }
         // If we support versioning, which we do not at the moment,

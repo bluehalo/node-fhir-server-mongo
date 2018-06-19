@@ -2,21 +2,21 @@ const { COLLECTION, CLIENT_DB } = require('../../constants');
 const globals = require('../../globals');
 
 /**
- * @name getCount
+ * @name count
  * @description Get the number of practitioners in our database
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.getCount = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Practitioner >>> getCount');
+module.exports.count = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('Practitioner >>> count');
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
     let collection = db.collection(COLLECTION.PRACTITIONER);
     // Query all documents in this collection
     collection.count((err, count) => {
         if (err) {
-            logger.error('Error with Practitioner.getCount: ', err);
+            logger.error('Error with Practitioner.count: ', err);
             return reject(err);
         }
         return resolve(count);
@@ -24,26 +24,26 @@ module.exports.getCount = (args, logger) => new Promise((resolve, reject) => {
 });
 
 /**
- * @name getPractitioner
+ * @name search
  * @description Get practitioner(s) from our database
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.getPractitioner = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Practitioner >>> getPractitioner');
+module.exports.search = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('Practitioner >>> search');
     reject(new Error('Support coming soon'));
 });
 
 /**
- * @name getPractitionerById
+ * @name searchById
  * @description Get a practitioner from our database
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.getPractitionerById = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Practitioner >>> getPractitionerById');
+module.exports.searchById = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('Practitioner >>> searchById');
     // Parse the required params, these are validated by sanitizeMiddleware in core
     let { id } = args;
     // Grab an instance of our DB and collection
@@ -52,7 +52,7 @@ module.exports.getPractitionerById = (args, logger) => new Promise((resolve, rej
     // Query our collection for this practitioner
     collection.findOne({ id: id.toString() }, (err, practitioner) => {
         if (err) {
-            logger.error('Error with Practitioner.getPractitionerById: ', err);
+            logger.error('Error with Practitioner.searchById: ', err);
             return reject(err);
         }
         resolve(practitioner);
@@ -60,14 +60,14 @@ module.exports.getPractitionerById = (args, logger) => new Promise((resolve, rej
 });
 
 /**
- * @name createPractitioner
+ * @name create
  * @description Create a practitioner
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.createPractitioner = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Practitioner >>> createPractitioner');
+module.exports.create = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('Practitioner >>> create');
     let { id, resource } = args;
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
@@ -77,7 +77,7 @@ module.exports.createPractitioner = (args, logger) => new Promise((resolve, reje
     // Insert our practitioner record
     collection.insert(doc, (err, res) => {
         if (err) {
-            logger.error('Error with Practitioner.createPractitioner: ', err);
+            logger.error('Error with Practitioner.create: ', err);
             return reject(err);
         }
         // Grab the practitioner record so we can pass back the id
@@ -88,14 +88,14 @@ module.exports.createPractitioner = (args, logger) => new Promise((resolve, reje
 });
 
 /**
- * @name updatePractitioner
+ * @name update
  * @description Update a practitioner
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.updatePractitioner = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Practitioner >>> updatePractitioner');
+module.exports.update = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('Practitioner >>> update');
     let { id, resource } = args;
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
@@ -105,7 +105,7 @@ module.exports.updatePractitioner = (args, logger) => new Promise((resolve, reje
     // Insert/update our practitioner record
     collection.findOneAndUpdate({ id: id }, doc, { upsert: true }, (err, res) => {
         if (err) {
-            logger.error('Error with Practitioner.updatePractitioner: ', err);
+            logger.error('Error with Practitioner.update: ', err);
             return reject(err);
         }
         // If we support versioning, which we do not at the moment,
@@ -115,14 +115,14 @@ module.exports.updatePractitioner = (args, logger) => new Promise((resolve, reje
 });
 
 /**
- * @name deletePractitioner
+ * @name remove
  * @description Delete a practitioner
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.deletePractitioner = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Practitioner >>> deletePractitioner');
+module.exports.remove = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('Practitioner >>> remove');
     let { id } = args;
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
@@ -130,7 +130,7 @@ module.exports.deletePractitioner = (args, logger) => new Promise((resolve, reje
     // Delete our practitioner record
     collection.remove({ id: id }, (err, _) => {
         if (err) {
-            logger.error('Error with Practitioner.deletePractitioner');
+            logger.error('Error with Practitioner.remove');
             return reject({
                 // Must be 405 (Method Not Allowed) or 409 (Conflict)
                 // 405 if you do not want to allow the delete
