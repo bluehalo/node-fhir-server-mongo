@@ -2,14 +2,14 @@ const { COLLECTION, CLIENT_DB } = require('../../constants');
 const globals = require('../../globals');
 
 /**
- * @name getCount
+ * @name count
  * @description Get the number of procedures in our database
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.getCount = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Procedure >>> getCount');
+module.exports.count = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('Procedure >>> count');
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
     let collection = db.collection(COLLECTION.PROCEDURE);
@@ -24,15 +24,16 @@ module.exports.getCount = (args, logger) => new Promise((resolve, reject) => {
 });
 
 /**
- * @name getProcedure
+ * @name search
  * @description Get procedure(s) from our database
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.getProcedure = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Procedure >>> getProcedure');
-    let { patient, basedOn, category, status, code } = args;
+module.exports.search = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('Procedure >>> search');
+    let { patient, basedOn, category, status, code, context, date, definition, encounter,
+    identifier, location, partOf, performer, subject } = args;
     let query = {
     };
     query['subject.reference'] = `Patient/${patient}`;
@@ -66,12 +67,52 @@ module.exports.getProcedure = (args, logger) => new Promise((resolve, reject) =>
           }
       }
       else {
-          query['code.coding.code'] = category;
+          query['code.coding.code'] = code;
       }
     }
     if (status) {
       query.status = status;
     }
+    if (context) {
+      query['context.reference'] = context;
+    }
+    if (date) {
+      query.performedDateTime = date;
+    }
+    if (definition) {
+      query['definition.reference'] = definition;
+    }
+    if (encounter) {
+      query['context.reference'] = `Encounter/${encounter}`;
+    }
+    if (identifier) {
+      if (identifier.includes('|')) {
+          let [ system, value ] = identifier.split('|');
+          // console.log(('' === system) + ' *** ' + value);
+          if (system) {
+              query['identifier.system'] = system;
+          }
+          if (value) {
+              query['identifier.value'] = value;
+          }
+      }
+      else {
+          query['identifier.value'] = identifier;
+      }
+    }
+    if (location) {
+      query['location.reference'] = location;
+    }
+    if (partOf) {
+      query['partOf.reference'] = partOf;
+    }
+    if (performer) {
+      query['performer.actor.reference'] = performer;
+    }
+    if (subject) {
+      query['subject.reference'] = subject;
+    }
+
   // Grab an instance of our DB and collection
   let db = globals.get(CLIENT_DB);
   let collection = db.collection(COLLECTION.PROCEDURE);
@@ -87,14 +128,14 @@ module.exports.getProcedure = (args, logger) => new Promise((resolve, reject) =>
 });
 
 /**
- * @name getProcedureById
+ * @name searchById
  * @description Get a procedure from our database
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.getProcedureById = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Procedure >>> getProcedureById');
+module.exports.searchById = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('Procedure >>> searchById');
     // Parse the required params, these are validated by sanitizeMiddleware in core
     let { id } = args;
     // Grab an instance of our DB and collection
@@ -111,14 +152,14 @@ module.exports.getProcedureById = (args, logger) => new Promise((resolve, reject
 });
 
 /**
- * @name createProcedure
+ * @name create
  * @description Create a procedure
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.createProcedure = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Procedure >>> createProcedure');
+module.exports.create = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('Procedure >>> create');
     let { id, resource } = args;
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
@@ -139,14 +180,14 @@ module.exports.createProcedure = (args, logger) => new Promise((resolve, reject)
 });
 
 /**
- * @name updateProcedure
+ * @name update
  * @description Update a procedure
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.updateProcedure = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Procedure >>> updateProcedure');
+module.exports.update = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('Procedure >>> update');
     let { id, resource } = args;
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
@@ -166,14 +207,14 @@ module.exports.updateProcedure = (args, logger) => new Promise((resolve, reject)
 });
 
 /**
- * @name deleteProcedure
+ * @name remove
  * @description Delete a procedure
  * @param {Object} args - Any provided args
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.deleteProcedure = (args, logger) => new Promise((resolve, reject) => {
-    logger.info('Procedure >>> deleteProcedure');
+module.exports.remove = (args, logger) => new Promise((resolve, reject) => {
+    logger.info('Procedure >>> remove');
     let { id } = args;
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
@@ -181,7 +222,7 @@ module.exports.deleteProcedure = (args, logger) => new Promise((resolve, reject)
     // Delete our procedure record
     collection.remove({ id: id }, (err, _) => {
         if (err) {
-            logger.error('Error with Procedure.deleteProcedure');
+            logger.error('Error with Procedure.remove');
             return reject({
                 // Must be 405 (Method Not Allowed) or 409 (Conflict)
                 // 405 if you do not want to allow the delete

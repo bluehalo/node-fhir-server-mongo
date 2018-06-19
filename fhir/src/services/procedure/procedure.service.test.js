@@ -1,5 +1,5 @@
 /* eslint-disable */
-const ProcedureFixture = require('../../../fixtures/data/uscore/Procedure-temp.json');
+const ProcedureFixture = require('../../../fixtures/data/patient00/Procedure00.json');
 const { CLIENT, CLIENT_DB } = require('../../constants');
 const asyncHandler = require('../../lib/async-handler');
 const logger = require('../../testutils/logger.mock');
@@ -32,11 +32,11 @@ describe('Procedure Service Test', () => {
         client.close();
     });
 
-    describe('Method: getCount', () => {
+    describe('Method: count', () => {
 
         test('should correctly pass back the count', async () => {
             let [err, results] = await asyncHandler(
-                procedureService.getCount(null, logger)
+                procedureService.count(null, logger)
             );
 
             expect(err).toBeUndefined();
@@ -45,12 +45,13 @@ describe('Procedure Service Test', () => {
 
     });
 
-    describe('Method: getProcedure', () => {
+    describe('Method: search', () => {
 
       test('should return 2 procedures', async () => {
-        let args = { patient: 'example', status: 'completed', code: 'http://snomed.info/sct|35637008' };
+        let args = { patient: 'example', status: 'completed', code: 'http://snomed.info/sct|35637008',
+      date: '2002-05-23', subject: 'Patient/example' };
         let [ err, docs ] = await asyncHandler(
-          procedureService.getProcedure(args, logger)
+          procedureService.search(args, logger)
         );
 
         expect(err).toBeUndefined();
@@ -61,14 +62,19 @@ describe('Procedure Service Test', () => {
          expect(doc.status).toEqual(args.status);
          expect(doc.code.coding[0].system).toEqual('http://snomed.info/sct');
          expect(doc.code.coding[0].code).toEqual('35637008');
+         expect(doc.performedDateTime).toEqual('2002-05-23');
+         expect(doc.subject.reference).toEqual(args.subject);
         });
 
       });
 
       test('testing some added search params', async () => {
-        let args = { patient: 'example', category: '103693007', code: };
+        let args = { patient: 'example', category: '103693007', code: 'HZ30ZZZ1',
+        context: 'Encounter/f202', definition: 'PlanDefinition/f201', encounter: 'f202',
+      identifier: '12345', location: 'Location/1', partOf: 'Procedure/colonoscopy',
+    performer: 'Practitioner/example' };
         let [ err, docs ] = await asyncHandler(
-          procedureService.getProcedure(args, logger)
+          procedureService.search(args, logger)
         );
 
         expect(err).toBeUndefined();
@@ -77,16 +83,24 @@ describe('Procedure Service Test', () => {
         docs.forEach(doc => {
           expect(doc.subject.reference).toEqual(`Patient/${args.patient}`);
           expect(doc.category.coding[0].code).toEqual(args.category);
+          expect(doc.code.coding[1].code).toEqual(args.code);
+          expect(doc.context.reference).toEqual(args.context);
+          expect(doc.definition[0].reference).toEqual(args.definition);
+          expect(doc.context.reference).toEqual(`Encounter/${args.encounter}`);
+          expect(doc.identifier[0].value).toEqual(args.identifier);
+          expect(doc.location.reference).toEqual(args.location);
+          expect(doc.partOf[0].reference).toEqual(args.partOf);
+          expect(doc.performer[0].actor.reference).toEqual(args.performer);//
         });
       });
     });
 
-    describe('Method: getProcedureById', () => {
+    describe('Method: searchById', () => {
 
         test('should correctly return a document', async () => {
             let args = {id: 'rehab'};
             let [err, doc] = await asyncHandler(
-                procedureService.getProcedureById(args, logger)
+                procedureService.searchById(args, logger)
             );
 
             expect(err).toBeUndefined();
@@ -95,7 +109,7 @@ describe('Procedure Service Test', () => {
 
     });
 
-    describe('Method: deleteProcedure', () => {
+    describe('Method: remove', () => {
 
         // For these tests, let's do it in 3 steps
         // 1. Check the procedure exists
@@ -107,7 +121,7 @@ describe('Procedure Service Test', () => {
             // Look for this particular fixture
             let args = { id: 'rehab' };
             let [ err, doc ] = await asyncHandler(
-                procedureService.getProcedureById(args, logger)
+                procedureService.searchById(args, logger)
             );
 
             expect(err).toBeUndefined();
@@ -115,7 +129,7 @@ describe('Procedure Service Test', () => {
 
             // Now delete this fixture
             let [ delete_err, _ ] = await asyncHandler(
-                procedureService.deleteProcedure(args, logger)
+                procedureService.remove(args, logger)
             );
 
             // There is no response resolved from this promise, so just check for an error
@@ -123,7 +137,7 @@ describe('Procedure Service Test', () => {
 
             // Now query for the fixture again, there should be no documents
             let [ query_err, missing_doc ] = await asyncHandler(
-                procedureService.getProcedureById(args, logger)
+                procedureService.searchById(args, logger)
             );
 
             expect(query_err).toBeUndefined();
@@ -133,7 +147,7 @@ describe('Procedure Service Test', () => {
 
     });
 
-    describe('Method: createProcedure', () => {
+    describe('Method: create', () => {
 
         // This Fixture was previously deleted, we are going to ensure before creating it
         // 1. Delete fixture
@@ -153,7 +167,7 @@ describe('Procedure Service Test', () => {
             // Delete the fixture incase it exists,
             // mongo won't throw if we delete something not there
             let [ delete_err, _ ] = await asyncHandler(
-                procedureService.deleteProcedure(args, logger)
+                procedureService.remove(args, logger)
             );
 
             expect(delete_err).toBeUndefined();
@@ -161,7 +175,7 @@ describe('Procedure Service Test', () => {
             // Create the fixture, it expects two very specific args
             // The resource arg must be a class/object with a toJSON method
             let [ create_err, create_results ] = await asyncHandler(
-                procedureService.createProcedure(args, logger)
+                procedureService.create(args, logger)
             );
 
             expect(create_err).toBeUndefined();
@@ -171,7 +185,7 @@ describe('Procedure Service Test', () => {
 
             // Verify the new fixture exists
             let [ query_err, doc ] = await asyncHandler(
-                procedureService.getProcedureById(args, logger)
+                procedureService.searchById(args, logger)
             );
 
             expect(query_err).toBeUndefined();
@@ -181,7 +195,7 @@ describe('Procedure Service Test', () => {
 
     });
 
-    describe('Method: updateProcedure', () => {
+    describe('Method: update', () => {
 
         // Let's check for the fixture's status and then try to change it
         // 1. Query fixture for status
@@ -201,7 +215,7 @@ describe('Procedure Service Test', () => {
 
             // Query for the original doc, this will ignore the resource arg
             let [query_err, doc] = await asyncHandler(
-                procedureService.getProcedureById(args, logger)
+                procedureService.searchById(args, logger)
             );
 
             expect(query_err).toBeUndefined();
@@ -209,7 +223,7 @@ describe('Procedure Service Test', () => {
 
             // Update the original doc
             let [update_err, update_results] = await asyncHandler(
-                procedureService.updateProcedure(args, logger)
+                procedureService.update(args, logger)
             );
 
             expect(update_err).toBeUndefined();
@@ -217,7 +231,7 @@ describe('Procedure Service Test', () => {
 
             // Query the newly updated doc and make sure the status is correct
             let [updated_err, updated_doc] = await asyncHandler(
-                procedureService.getProcedureById(args, logger)
+                procedureService.searchById(args, logger)
             );
 
             expect(updated_err).toBeUndefined();
