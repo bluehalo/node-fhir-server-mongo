@@ -49,9 +49,9 @@ describe('Organization Service Test', () => {
     describe('Method: search', () => {
 
         test('Get an organization using all implemented arguments', async () => {
-            let args = {active: 'false', addressCity: 'address.city?Ann Arbor', addressCountry: 'address.country?USA', addressPostalCode: 'address.postalCode?48104',
-                addressState: 'address.state?MI', addressUse: 'address.use?work', endpoint: 'example', identifier: 'http://hl7.org.fhir/sid/us-npi|1144221847',
-                name: 'name?Health', partof: '1', type: 'http://hl7.org/fhir/organization-type|prov'};
+            let args = {active: 'false', addressCity: 'an', addressCountry: 'U', addressPostalCode: '481',
+                addressState: 'MI', addressUse: 'work', endpoint: 'example', identifier: 'http://hl7.org.fhir/sid/us-npi|1144221847',
+                name: 'a GOo', partof: '1', type: 'http://hl7.org/fhir/organization-type|prov'};
             let [err, docs] = await asyncHandler(
                 organizationService.search(args, logger)
             );
@@ -68,7 +68,7 @@ describe('Organization Service Test', () => {
                 expect(doc.address[0].country).toEqual('USA');
                 expect(doc.address[0].postalCode).toEqual('48104');
                 expect(doc.address[0].state).toEqual('MI');
-                expect(doc.address[0].use).toEqual('work');
+                expect(doc.address[0].use).toEqual(args.addressUse);
                 expect(doc.endpoint[0].reference).toEqual(`Endpoint/${args.endpoint}`);
                 expect(doc.identifier[0].system).toEqual('http://hl7.org.fhir/sid/us-npi');
                 expect(doc.identifier[0].value).toEqual('1144221847');
