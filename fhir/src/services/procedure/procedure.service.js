@@ -32,7 +32,8 @@ module.exports.count = (args, logger) => new Promise((resolve, reject) => {
  */
 module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     logger.info('Procedure >>> search');
-    let { patient, basedOn, category, status, code } = args;
+    let { patient, basedOn, category, status, code, context, date, definition, encounter,
+    identifier, location, partOf, performer, subject } = args;
     let query = {
     };
     query['subject.reference'] = `Patient/${patient}`;
@@ -66,12 +67,52 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
           }
       }
       else {
-          query['code.coding.code'] = category;
+          query['code.coding.code'] = code;
       }
     }
     if (status) {
       query.status = status;
     }
+    if (context) {
+      query['context.reference'] = context;
+    }
+    if (date) {
+      query.performedDateTime = date;
+    }
+    if (definition) {
+      query['definition.reference'] = definition;
+    }
+    if (encounter) {
+      query['context.reference'] = `Encounter/${encounter}`;
+    }
+    if (identifier) {
+      if (identifier.includes('|')) {
+          let [ system, value ] = identifier.split('|');
+          // console.log(('' === system) + ' *** ' + value);
+          if (system) {
+              query['identifier.system'] = system;
+          }
+          if (value) {
+              query['identifier.value'] = value;
+          }
+      }
+      else {
+          query['identifier.value'] = identifier;
+      }
+    }
+    if (location) {
+      query['location.reference'] = location;
+    }
+    if (partOf) {
+      query['partOf.reference'] = partOf;
+    }
+    if (performer) {
+      query['performer.actor.reference'] = performer;
+    }
+    if (subject) {
+      query['subject.reference'] = subject;
+    }
+
   // Grab an instance of our DB and collection
   let db = globals.get(CLIENT_DB);
   let collection = db.collection(COLLECTION.PROCEDURE);

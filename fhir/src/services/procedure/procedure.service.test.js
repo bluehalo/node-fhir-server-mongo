@@ -1,5 +1,5 @@
 /* eslint-disable */
-const ProcedureFixture = require('../../../fixtures/data/uscore/Procedure-rehab.json');
+const ProcedureFixture = require('../../../fixtures/data/patient00/Procedure00.json');
 const { CLIENT, CLIENT_DB } = require('../../constants');
 const asyncHandler = require('../../lib/async-handler');
 const logger = require('../../testutils/logger.mock');
@@ -40,46 +40,60 @@ describe('Procedure Service Test', () => {
             );
 
             expect(err).toBeUndefined();
-            expect(results).toEqual(1);
+            expect(results).toEqual(2);
         });
 
     });
 
-    // describe('Method: search', () => {
-    //
-    //   test('should return 2 procedures', async () => {
-    //     let args = { patient: 'rehab', status: 'completed', code: 'http://snomed.info/sct|35637008' };
-    //     let [ err, docs ] = await asyncHandler(
-    //       procedureService.search(args, logger)
-    //     );
-    //
-    //     expect(err).toBeUndefined();
-    //     expect(docs.length).toEqual(1);
-    //
-    //     docs.forEach(doc => {
-    //      expect(doc.subject.reference).toEqual(`Patient/${args.patient}`);
-    //      expect(doc.status).toEqual(args.status);
-    //      expect(doc.code.coding[0].system).toEqual('http://snomed.info/sct');
-    //      expect(doc.code.coding[0].code).toEqual('35637008');
-    //     });
-    //
-    //   });
-    //
-    //   test('testing some added search params', async () => {
-    //     let args = { patient: 'example', category: '103693007'};
-    //     let [ err, docs ] = await asyncHandler(
-    //       procedureService.search(args, logger)
-    //     );
-    //
-    //     expect(err).toBeUndefined();
-    //     expect(docs.length).toEqual(1);
-    //
-    //     docs.forEach(doc => {
-    //       expect(doc.subject.reference).toEqual(`Patient/${args.patient}`);
-    //       expect(doc.category.coding[0].code).toEqual(args.category);
-    //     });
-    //   });
-    // });
+    describe('Method: search', () => {
+
+      test('should return 2 procedures', async () => {
+        let args = { patient: 'example', status: 'completed', code: 'http://snomed.info/sct|35637008',
+      date: '2002-05-23', subject: 'Patient/example' };
+        let [ err, docs ] = await asyncHandler(
+          procedureService.search(args, logger)
+        );
+
+        expect(err).toBeUndefined();
+        expect(docs.length).toEqual(2);
+
+        docs.forEach(doc => {
+         expect(doc.subject.reference).toEqual(`Patient/${args.patient}`);
+         expect(doc.status).toEqual(args.status);
+         expect(doc.code.coding[0].system).toEqual('http://snomed.info/sct');
+         expect(doc.code.coding[0].code).toEqual('35637008');
+         expect(doc.performedDateTime).toEqual('2002-05-23');
+         expect(doc.subject.reference).toEqual(args.subject);
+        });
+
+      });
+
+      test('testing some added search params', async () => {
+        let args = { patient: 'example', category: '103693007', code: 'HZ30ZZZ1',
+        context: 'Encounter/f202', definition: 'PlanDefinition/f201', encounter: 'f202',
+      identifier: '12345', location: 'Location/1', partOf: 'Procedure/colonoscopy',
+    performer: 'Practitioner/example' };
+        let [ err, docs ] = await asyncHandler(
+          procedureService.search(args, logger)
+        );
+
+        expect(err).toBeUndefined();
+        expect(docs.length).toEqual(1);
+
+        docs.forEach(doc => {
+          expect(doc.subject.reference).toEqual(`Patient/${args.patient}`);
+          expect(doc.category.coding[0].code).toEqual(args.category);
+          expect(doc.code.coding[1].code).toEqual(args.code);
+          expect(doc.context.reference).toEqual(args.context);
+          expect(doc.definition[0].reference).toEqual(args.definition);
+          expect(doc.context.reference).toEqual(`Encounter/${args.encounter}`);
+          expect(doc.identifier[0].value).toEqual(args.identifier);
+          expect(doc.location.reference).toEqual(args.location);
+          expect(doc.partOf[0].reference).toEqual(args.partOf);
+          expect(doc.performer[0].actor.reference).toEqual(args.performer);//
+        });
+      });
+    });
 
     describe('Method: searchById', () => {
 
