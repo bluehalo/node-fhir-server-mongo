@@ -2,7 +2,7 @@
  * @name stringQueryBuilder
  * @description builds mongo default query for string inputs, no modifiers
  * @param {string} target what we are querying for
- * @return query
+ * @return a mongo regex query
  */
 let stringQueryBuilder = function (target) {
     return {$regex: new RegExp('^' + target, 'i')};
