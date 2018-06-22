@@ -8,32 +8,55 @@ let stringQueryBuilder = function (target) {
     return {$regex: new RegExp('^' + target, 'i')};
 };
 
-// Previous attempt, handles contains and exact modifiers
-// Meant to take in the whole query but I also misinterpreted it
+// Previous attempt for strings, handles contains and exact modifiers
 // let stringQueryBuilder = function (input) {
-//     // input = target?modifier=str
-//     let [ target, modifier ] = input.split(('?'));
-//     let str = modifier.split('=')[1];
+//     // Extract variables from input
+//     // input = field:modifier=target
+//     let [ temp, target ] = input.split('=')[1];
+//     let [ field, modifier ] = temp.split(':');
 //
-//     if (modifier.includes('contains')) {
-//         query[`${target}`] = {$regex: new RegExp(str, 'i')};
+//     if (modifier) {
+//         if (modifier === 'contains') {
+//             query[`${field}`] = {$regex: new RegExp(target, 'i')};
+//         }
+//         else if (modifier === 'exact') {
+//             query[`${field}`] = target;
+//         }
 //     }
-//     else if (modifier.includes('exact')) {
-//         query[`${target}`] = str;
-//     }
-//     // If no modifier was given, does given by default and modifier will hold the string
-//     else if (str === undefined) {
-//         query[`${target}`] = {$regex: new RegExp('^' + modifier, 'i')};
-//     }
-//     // if modifier === given
 //     else {
-//         query[`${target}`] = {$regex: new RegExp('^' + str, 'i')};
+//         query[`${field}`] = {$regex: new RegExp('^' + target, 'i')};
 //     }
 // };
+
+/**
+ * @name tokenQueryBuilder
+ * @param {string} target what we are searching for
+ * @param {string} type codeable concepts use a code field and identifiers use a value
+ * @param {string} field path to system and value from field
+ * @return {JSON} ret
+ */
+let tokenQueryBuilder = function (target, type, field) {
+    let ret = {};
+    if (target.includes('|')) {
+        let [ system, value ] = target.split('|');
+        if (system) {
+            ret[`${field}.system`] = system;
+        }
+        if (value) {
+            ret[`${field}.${type}`] = value;
+        }
+    }
+    else {
+        ret[`${field}.${type}`] = target;
+    }
+
+    return ret;
+};
 
 /**
  * @todo figure out how to incorporate modifiers
  */
 module.exports = {
-    stringQueryBuilder
+    stringQueryBuilder,
+    tokenQueryBuilder
 };

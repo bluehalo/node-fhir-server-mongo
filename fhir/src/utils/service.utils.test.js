@@ -42,17 +42,8 @@ describe('Service Utils Tests', () => {
             expect(docs.length).toEqual(1);
             expect(docs[0].name).toEqual('Health Level Seven International');
 
-            // // given name case
-            // args = {name: 'name?given=health'};
-            // [err, docs] = await asyncHandler(
-            //     organizationService.search(args, logger)
-            // );
-            // expect(err).toBeUndefined();
-            // expect(docs.length).toEqual(1);
-            // expect(docs[0].name).toEqual('Health Level Seven International');
-            //
             // // contains name case
-            // args = {name: 'name?given:contains=EvEn'};
+            // args = {name: 'name:contains=EvEn'};
             // [err, docs] = await asyncHandler(
             //     organizationService.search(args, logger)
             // );
@@ -61,7 +52,7 @@ describe('Service Utils Tests', () => {
             // expect(docs[0].name).toEqual('Health Level Seven International');
             //
             // // exact name case
-            // args = {name: 'name?given:exact=Health Level Seven International'};
+            // args = {name: 'name:exact=Health Level Seven International'};
             // [err, docs] = await asyncHandler(
             //     organizationService.search(args, logger)
             // );
@@ -78,17 +69,8 @@ describe('Service Utils Tests', () => {
             expect(docs.length).toEqual(1);
             expect(docs[0].alias[1]).toEqual('A good test');
 
-            // // given alias case
-            // args = {name: 'alias?given=A G'};
-            // [err, docs] = await asyncHandler(
-            //     organizationService.search(args, logger)
-            // );
-            // expect(err).toBeUndefined();
-            // expect(docs.length).toEqual(1);
-            // expect(docs[0].alias[1]).toEqual('A good test');
-            //
             // // contains alias case
-            // args = {name: 'alias?given:contains=s'};
+            // args = {name: 'alias:contains=s'};
             // [err, docs] = await asyncHandler(
             //     organizationService.search(args, logger)
             // );
@@ -98,13 +80,70 @@ describe('Service Utils Tests', () => {
             // expect(docs[0].alias[1]).toEqual('A good test');
             //
             // // exact alias case
-            // args = {name: 'alias?given:exact=HLSI'};
+            // args = {name: 'alias:exact=HLSI'};
             // [err, docs] = await asyncHandler(
             //     organizationService.search(args, logger)
             // );
             // expect(err).toBeUndefined();
             // expect(docs.length).toEqual(1);
             // expect(docs[0].alias[0]).toEqual('HLSI');
+
+        });
+
+    });
+
+    describe('Method: tokenQueryBuilder', () => {
+
+        test('should pass back the correct company based on portions of identifier', async () => {
+            // system|code
+            let args = {identifier: 'http://hl7.org.fhir/sid/us-npi|1144221847'};
+            let [err, docs] = await asyncHandler(
+                organizationService.search(args, logger)
+            );
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(2);
+            expect(docs[0].identifier[0].system).toEqual('http://hl7.org.fhir/sid/us-npi');
+            expect(docs[0].identifier[0].value).toEqual('1144221847');
+
+            // system|
+            args = {identifier: 'http://hl7.org.fhir/sid/us-npi|'};
+            [err, docs] = await asyncHandler(
+                organizationService.search(args, logger)
+            );
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(2);
+            expect(docs[0].identifier[0].system).toEqual('http://hl7.org.fhir/sid/us-npi');
+
+            // |code
+            args = {identifier: '|1144221847'};
+            [err, docs] = await asyncHandler(
+                organizationService.search(args, logger)
+            );
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(2);
+            expect(docs[0].identifier[0].value).toEqual('1144221847');
+
+            // code
+            args = {identifier: '1144221847'};
+            [err, docs] = await asyncHandler(
+                organizationService.search(args, logger)
+            );
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(2);
+            expect(docs[0].identifier[0].value).toEqual('1144221847');
+
+        });
+
+        test('should handle codeable concepts', async () => {
+            // system|code
+            let args = {type: 'http://hl7.org/fhir/organization-type|prov'};
+            let [err, docs] = await asyncHandler(
+                organizationService.search(args, logger)
+            );
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(2);
+            expect(docs[0].type[0].coding[0].system).toEqual('http://hl7.org/fhir/organization-type');
+            expect(docs[0].type[0].coding[0].code).toEqual('prov');
 
         });
 
