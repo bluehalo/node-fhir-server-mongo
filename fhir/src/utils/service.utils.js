@@ -34,23 +34,30 @@ let stringQueryBuilder = function (target) {
  * @param {string} type codeable concepts use a code field and identifiers use a value
  * @param {string} field path to system and value from field
  * @return {JSON} ret
+ * Using to assign a single variable:
+ *      let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+ * Use in an or query
+ *      query.$or = [tokenQueryBuilder(identifier, 'value', 'identifier'), tokenQueryBuilder(type, 'code', 'type.coding')];
  */
 let tokenQueryBuilder = function (target, type, field) {
-    let ret = {};
+    let queryBuilder = {};
     if (target.includes('|')) {
         let [ system, value ] = target.split('|');
         if (system) {
-            ret[`${field}.system`] = system;
+            queryBuilder[`${field}.system`] = system;
         }
         if (value) {
-            ret[`${field}.${type}`] = value;
+            queryBuilder[`${field}.${type}`] = value;
         }
     }
     else {
-        ret[`${field}.${type}`] = target;
+        queryBuilder[`${field}.${type}`] = target;
     }
 
-    return ret;
+    return queryBuilder;
 };
 
 /**

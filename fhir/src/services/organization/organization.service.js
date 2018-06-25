@@ -75,23 +75,10 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (identifier) {
-        // if (identifier.includes('|')) {
-        //     let [ system, value ] = identifier.split('|');
-        //     if (system) {
-        //         query['identifier.system'] = system;
-        //     }
-        //     if (value) {
-        //         query['identifier.value'] = value;
-        //     }
-        // }
-        // else {
-        //     query['identifier.value'] = identifier;
-        // }
-
-        // tokens can come in more than one format
-        //      Needs to handle query[identifier.system] and query[identifier.value]
-        //      Can pass in query instead to avoid Object.assign but loose return value
-        query = Object.assign(query, tokenQueryBuilder(identifier, 'value', 'identifier'));
+        let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
     }
 
     if (name) {
@@ -107,20 +94,10 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (type) {
-        // if (type.includes('|')) {
-        //     let [ system, value ] = type.split('|');
-        //     if (system) {
-        //         query['type.coding.system'] = system;
-        //     }
-        //     if (value) {
-        //         query['type.coding.code'] = value;
-        //     }
-        // }
-        // else {
-        //     query['type.coding.code'] = { $in: type.split(',') };
-        // }
-
-        query = Object.assign(query, tokenQueryBuilder(type, 'code', 'type.coding'));
+        let queryBuilder = tokenQueryBuilder(type, 'code', 'type.coding');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
     }
 
     // console.log(JSON.stringify(query));
