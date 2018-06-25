@@ -34,7 +34,7 @@ describe('Service Utils Tests', () => {
 
         test('should pass back the correct company based on portions of the name or alias', async () => {
             // Default name case
-            let args = {name: 'name?Health'};
+            let args = {name: 'HeaLth'};
             let [err, docs] = await asyncHandler(
                 organizationService.search(args, logger)
             );
@@ -42,35 +42,35 @@ describe('Service Utils Tests', () => {
             expect(docs.length).toEqual(1);
             expect(docs[0].name).toEqual('Health Level Seven International');
 
-            // given name case
-            args = {name: 'name?given=health'};
-            [err, docs] = await asyncHandler(
-                organizationService.search(args, logger)
-            );
-            expect(err).toBeUndefined();
-            expect(docs.length).toEqual(1);
-            expect(docs[0].name).toEqual('Health Level Seven International');
-
-            // contains name case
-            args = {name: 'name?given:contains=EvEn'};
-            [err, docs] = await asyncHandler(
-                organizationService.search(args, logger)
-            );
-            expect(err).toBeUndefined();
-            expect(docs.length).toEqual(1);
-            expect(docs[0].name).toEqual('Health Level Seven International');
-
-            // exact name case
-            args = {name: 'name?given:exact=Health Level Seven International'};
-            [err, docs] = await asyncHandler(
-                organizationService.search(args, logger)
-            );
-            expect(err).toBeUndefined();
-            expect(docs.length).toEqual(1);
-            expect(docs[0].name).toEqual('Health Level Seven International');
+            // // given name case
+            // args = {name: 'name?given=health'};
+            // [err, docs] = await asyncHandler(
+            //     organizationService.search(args, logger)
+            // );
+            // expect(err).toBeUndefined();
+            // expect(docs.length).toEqual(1);
+            // expect(docs[0].name).toEqual('Health Level Seven International');
+            //
+            // // contains name case
+            // args = {name: 'name?given:contains=EvEn'};
+            // [err, docs] = await asyncHandler(
+            //     organizationService.search(args, logger)
+            // );
+            // expect(err).toBeUndefined();
+            // expect(docs.length).toEqual(1);
+            // expect(docs[0].name).toEqual('Health Level Seven International');
+            //
+            // // exact name case
+            // args = {name: 'name?given:exact=Health Level Seven International'};
+            // [err, docs] = await asyncHandler(
+            //     organizationService.search(args, logger)
+            // );
+            // expect(err).toBeUndefined();
+            // expect(docs.length).toEqual(1);
+            // expect(docs[0].name).toEqual('Health Level Seven International');
 
             // Default alias case
-            args = {name: 'alias?A'};
+            args = {name: 'A gO'};
             [err, docs] = await asyncHandler(
                 organizationService.search(args, logger)
             );
@@ -78,33 +78,33 @@ describe('Service Utils Tests', () => {
             expect(docs.length).toEqual(1);
             expect(docs[0].alias[1]).toEqual('A good test');
 
-            // given alias case
-            args = {name: 'alias?given=A G'};
-            [err, docs] = await asyncHandler(
-                organizationService.search(args, logger)
-            );
-            expect(err).toBeUndefined();
-            expect(docs.length).toEqual(1);
-            expect(docs[0].alias[1]).toEqual('A good test');
-
-            // contains alias case
-            args = {name: 'alias?given:contains=s'};
-            [err, docs] = await asyncHandler(
-                organizationService.search(args, logger)
-            );
-            expect(err).toBeUndefined();
-            expect(docs.length).toEqual(1);
-            expect(docs[0].alias[0]).toEqual('HLSI');
-            expect(docs[0].alias[1]).toEqual('A good test');
-
-            // exact alias case
-            args = {name: 'alias?given:exact=HLSI'};
-            [err, docs] = await asyncHandler(
-                organizationService.search(args, logger)
-            );
-            expect(err).toBeUndefined();
-            expect(docs.length).toEqual(1);
-            expect(docs[0].alias[0]).toEqual('HLSI');
+            // // given alias case
+            // args = {name: 'alias?given=A G'};
+            // [err, docs] = await asyncHandler(
+            //     organizationService.search(args, logger)
+            // );
+            // expect(err).toBeUndefined();
+            // expect(docs.length).toEqual(1);
+            // expect(docs[0].alias[1]).toEqual('A good test');
+            //
+            // // contains alias case
+            // args = {name: 'alias?given:contains=s'};
+            // [err, docs] = await asyncHandler(
+            //     organizationService.search(args, logger)
+            // );
+            // expect(err).toBeUndefined();
+            // expect(docs.length).toEqual(1);
+            // expect(docs[0].alias[0]).toEqual('HLSI');
+            // expect(docs[0].alias[1]).toEqual('A good test');
+            //
+            // // exact alias case
+            // args = {name: 'alias?given:exact=HLSI'};
+            // [err, docs] = await asyncHandler(
+            //     organizationService.search(args, logger)
+            // );
+            // expect(err).toBeUndefined();
+            // expect(docs.length).toEqual(1);
+            // expect(docs[0].alias[0]).toEqual('HLSI');
 
         });
 

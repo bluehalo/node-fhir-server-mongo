@@ -46,28 +46,29 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     // How robust should this be and what is the input's format?
+    // Expecting it to be comma separated like on a letter
     if (address) {
         console.log('Not implemented');
     }
 
     if (addressCity) {
-        stringQueryBuilder(addressCity, query);
+        query['address.city'] = stringQueryBuilder(addressCity);
     }
 
     if (addressCountry) {
-        stringQueryBuilder(addressCountry, query);
+        query['address.country'] = stringQueryBuilder(addressCountry);
     }
 
     if (addressPostalCode) {
-        stringQueryBuilder(addressPostalCode, query);
+        query['address.postalCode'] = stringQueryBuilder(addressPostalCode);
     }
 
     if (addressState) {
-        stringQueryBuilder(addressState, query);
+        query['address.state'] = stringQueryBuilder(addressState);
     }
 
     if (addressUse) {
-        stringQueryBuilder(addressUse, query);
+        query['address.use'] = addressUse;
     }
 
     if (endpoint) {
@@ -90,7 +91,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (name) {
-        stringQueryBuilder(name, query);
+        query.$or = [{name: stringQueryBuilder(name)}, {alias: stringQueryBuilder(name)}];
     }
 
     if (partof) {
