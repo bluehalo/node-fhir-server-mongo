@@ -77,6 +77,9 @@ describe('CarePlan Service Test', () => {
                 expect(doc.identifier[0].value).toEqual('12345');
                 expect(doc.intent).toEqual(args.intent);
                 expect(doc.partOf[0].reference).toEqual(`CarePlan/${args.partOf}`);
+                expect(doc.subject.reference).toEqual(`Patient/${args.patient}`);
+                expect(doc.activity[0].detail.performer[0].reference).toEqual(`Patient/${args.performer}`);
+                expect(doc.replaces[0].reference).toEqual(`CarePlan/${args.replaces}`);
                 expect(doc.status).toEqual(args.status);
                 expect(doc.subject.reference).toEqual(`Patient/${args.subject}`);
             });

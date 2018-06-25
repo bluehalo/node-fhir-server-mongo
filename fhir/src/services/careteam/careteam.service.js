@@ -1,5 +1,6 @@
 const { COLLECTION, CLIENT_DB } = require('../../constants');
 const globals = require('../../globals');
+const { tokenQueryBuilder } = require('../../utils/service.utils');
 
 /**
  * @name count
@@ -32,7 +33,68 @@ module.exports.count = (args, logger) => new Promise((resolve, reject) => {
  */
 module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     logger.info('CareTeam >>> search');
-    reject(new Error('Support coming soon'));
+    // Parse the params
+    let { category, context, date, encounter, identifier, participant, patient, status, subject } = args;
+    // console.log(JSON.stringify(args));
+
+    let query = {};
+
+    if (category) {
+        let queryBuilder = tokenQueryBuilder(category, 'code', 'category.coding');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+
+    if (context) {
+        query['context.reference'] = `Encounter/${context}`;
+    }
+
+    if (date) {
+        console.log('Not implemented');
+    }
+
+    if (encounter) {
+        query['context.reference'] = `Encounter/${encounter}`;
+    }
+
+    if (identifier) {
+        let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+
+    if (participant) {
+        query['participant.member.reference'] = `Patient/${participant}`;
+    }
+
+    if (patient) {
+        query['subject.reference'] = `Patient/${patient}`;
+    }
+
+    if (status) {
+        query.status = status;
+    }
+
+    if (subject) {
+        query['subject.reference'] = `Patient/${subject}`;
+    }
+
+    console.log(JSON.stringify(query));
+
+    // Grab an instance of our DB and collection
+    let db = globals.get(CLIENT_DB);
+    let collection = db.collection(COLLECTION.CARETEAM);
+    // Query our collection for this careteam
+    collection.find(query, (err, careteams) => {
+        if (err) {
+            logger.error('Error with Careteam.search: ', err);
+            return reject(err);
+        }
+        // Careteams is a cursor, grab the documents from that
+        careteams.toArray().then(resolve, reject);
+    });
 });
 
 /**
@@ -49,7 +111,7 @@ module.exports.searchById = (args, logger) => new Promise((resolve, reject) => {
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
     let collection = db.collection(COLLECTION.CARETEAM);
-    // Query our collection for this observation
+    // Query our collection for this careteam
     collection.findOne({ id: id.toString() }, (err, careteam) => {
         if (err) {
             logger.error('Error with CareTeam.searchById: ', err);
