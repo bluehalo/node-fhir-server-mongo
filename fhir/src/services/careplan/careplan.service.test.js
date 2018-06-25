@@ -50,7 +50,8 @@ describe('CarePlan Service Test', () => {
         test('test only using required arguments', async () => {
             let args = {activityCode: 'http://loinc.org|3141-9', activityReference: 'example', basedOn: 'example', careTeam: 'example',
                 category: 'http://snomed.info/sct|161832001', condition: '#p1', context: 'home', definition: 'example',
-                encounter: 'home', goal: 'example', identifier: '12345', intent: 'plan', partOf: 'example', status: 'active', subject: 'example'};
+                encounter: 'home', goal: 'example', identifier: '12345', intent: 'plan', partOf: 'example', patient: 'example',
+                performer: 'example', replaces: 'example', status: 'active', subject: 'example'};
             let [err, docs] = await asyncHandler(
                 careplanService.search(args, logger)
             );

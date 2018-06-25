@@ -1,5 +1,6 @@
 const { COLLECTION, CLIENT_DB } = require('../../constants');
 const globals = require('../../globals');
+const { tokenQueryBuilder } = require('../../utils/service.utils');
 
 /**
  * @name count
@@ -35,7 +36,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     logger.info('CarePlan >>> search');
     // Parse the params
     let { activityCode, activityDate, activityReference, basedOn, careTeam, category, condition, context, date, definition,
-        encounter, goal, identifier, intent, partOf, status, subject } = args;
+        encounter, goal, identifier, intent, partOf, patient, performer, replaces, status, subject } = args;
 
     // Status, intent, and subject are required and guaranteed to be provided
     let query = {
@@ -45,17 +46,9 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     };
 
     if (activityCode) {
-        if (activityCode.includes('|')) {
-            let [ system, value ] = activityCode.split('|');
-            if (system) {
-                query['activity.detail.code.coding.system'] = system;
-            }
-            if (value) {
-                query['activity.detail.code.coding.code'] = value;
-            }
-        }
-        else {
-            query['activity.detail.code.coding.code'] = { $in: activityCode.split(',') };
+        let queryBuilder = tokenQueryBuilder(activityCode, 'code', 'activity.detail.code.coding');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
         }
     }
 
@@ -76,17 +69,9 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (category) {
-        if (category.includes('|')) {
-            let [ system, value ] = category.split('|');
-            if (system) {
-                query['category.coding.system'] = system;
-            }
-            if (value) {
-                query['category.coding.code'] = value;
-            }
-        }
-        else {
-            query['category.coding.code'] = { $in: category.split(',') };
+        let queryBuilder = tokenQueryBuilder(category, 'code', 'category.coding');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
         }
     }
 
@@ -115,23 +100,26 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (identifier) {
-        if (identifier.includes('|')) {
-            let [ system, value ] = identifier.split('|');
-            // console.log(('' === system) + ' *** ' + value);
-            if (system) {
-                query['identifier.system'] = system;
-            }
-            if (value) {
-                query['identifier.value'] = value;
-            }
-        }
-        else {
-            query['identifier.value'] = identifier;
+        let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
         }
     }
 
     if (partOf) {
         query['partOf.reference'] = `CarePlan/${partOf}`;
+    }
+
+    if (patient) {
+        query['subject.reference'] = `Patient/${patient}`;
+    }
+
+    if (performer) {
+        query['activity.detail.performer.reference'] = `Patient/${performer}`;
+    }
+
+    if (replaces) {
+        query['replaces.reference'] = `CarePlan/${replaces}`;
     }
 
     // console.log(JSON.stringify(query));
