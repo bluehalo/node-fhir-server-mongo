@@ -38,7 +38,6 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         name, partof, phonetic, type } = args;
     // console.log(JSON.stringify(args));
 
-    // Patient and verificationStatus are required and guaranteed to be provided
     let query = {};
 
     if (active) {

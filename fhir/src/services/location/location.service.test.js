@@ -40,7 +40,45 @@ describe('Location Service Test', () => {
             );
 
             expect(err).toBeUndefined();
-            expect(results).toEqual(1);
+            expect(results).toEqual(2);
+        });
+
+    });
+
+    describe('Method: search', () => {
+
+        test('Get a location using all implemented arguments', async () => {
+            let args = {addressCity: 'deN', addressCountry: 'N', addressPostalCode: '910',
+                addressState: 'MarY', addressUse: 'work', endpoint: 'example', identifier: 'B1-S.F2',
+                name: 'South', operationalStatus: 'http://hl7.org/fhir/v2/0116|H', organization: 'f001', partof: '1',
+                status: 'active', type: 'http://hl7.org/fhir/v3/RoleCode|'};
+            let [err, docs] = await asyncHandler(
+                locationService.search(args, logger)
+            );
+
+            // console.log(JSON.stringify(args));
+            // console.log(JSON.stringify(docs));
+
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(1);
+
+            docs.forEach(doc => {
+                expect(doc.address.city).toEqual('Den Burg');
+                expect(doc.address.country).toEqual('NLD');
+                expect(doc.address.postalCode).toEqual('9105 PZ');
+                expect(doc.address.state).toEqual('Maryland');
+                expect(doc.address.use).toEqual(args.addressUse);
+                expect(doc.endpoint[0].reference).toEqual(`Endpoint/${args.endpoint}`);
+                expect(doc.identifier[0].value).toEqual('B1-S.F2');
+                expect(doc.name).toEqual('South Wing, second floor');
+                expect(doc.operationalStatus.system).toEqual('http://hl7.org/fhir/v2/0116');
+                expect(doc.operationalStatus.code).toEqual('H');
+                expect(doc.managingOrganization.reference).toEqual(`Organization/${args.organization}`);
+                expect(doc.partOf.reference).toEqual(`Location/${args.partof}`);
+                expect(doc.status).toEqual(args.status);
+                expect(doc.type.coding[0].system).toEqual('http://hl7.org/fhir/v3/RoleCode');
+            });
+
         });
 
     });
@@ -154,7 +192,7 @@ describe('Location Service Test', () => {
 
         test('should successfully update a document', async () => {
             // Update the status
-            LocationFixture.status = 'preliminary';
+            LocationFixture.text.status = 'preliminary';
 
             let args = {
                 resource: {
@@ -169,7 +207,7 @@ describe('Location Service Test', () => {
             );
 
             expect(query_err).toBeUndefined();
-            expect(doc.status).toEqual('active');
+            expect(doc.text.status).toEqual('generated');
 
             // Update the original doc
             let [update_err, update_results] = await asyncHandler(
@@ -185,7 +223,7 @@ describe('Location Service Test', () => {
             );
 
             expect(updated_err).toBeUndefined();
-            expect(updated_doc.status).toEqual('preliminary');
+            expect(updated_doc.text.status).toEqual('preliminary');
 
         });
 
