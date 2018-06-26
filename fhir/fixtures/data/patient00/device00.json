@@ -13,6 +13,7 @@
   "udi": {
     "name": "FHIR® Hip System",
     "carrierHRF": "(01)09504000059118(17)141120(10)7654321D(21)10987654d321",
+    "carrierAIDC": "tester",
     "deviceIdentifier": "00844588003288"
   },
   "status": "active",
@@ -60,5 +61,11 @@
    ],
    "text": "Coated femoral stem prosthesis, modular"
  },
- "url": "http://acme.com/goodhealth/ehr/"
+ "url": "http://acme.com/goodhealth/ehr/",
+ "location": {
+   "reference": "Test/f203"
+ },
+ "owner": {
+    "reference": "Organization/2.16.840.1.113883.19.5"
+  }
 }

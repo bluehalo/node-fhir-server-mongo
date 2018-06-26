@@ -49,11 +49,13 @@ describe('Device Service Test', () => {
 
       });
       test('testing some added search params', async () => {
-        let args = { patient: 'example', name: 'FHIR',
+        let args = { patient: 'example', name: 'Fh',
         identifier: 'http://acme.com/devices/pacemakers/octane/serial|1234-5678-90AB-CDEF',
       manufacturer: 'Acme Devices, Inc', model: 'PM/Octane 2014', status: 'active',
     type: 'http://snomed.info/sct|468063009', deviceIdentifier: '00844588003288',
-  url: 'http://acme.com/goodhealth/ehr/' };
+  url: 'http://acme.com/goodhealth/ehr/', location: 'Test/f203',
+  udiCarrier:'(01)09504000059118(17)141120(10)7654321D(21)10987654d321',
+owner: 'Organization/2.16.840.1.113883.19.5' };
         let [ err, docs ] = await asyncHandler(
           deviceService.search(args, logger)
         );
@@ -73,6 +75,9 @@ describe('Device Service Test', () => {
           expect(doc.type.coding[0].code).toEqual('468063009');
           expect(doc.udi.deviceIdentifier).toEqual('00844588003288');
           expect(doc.url).toEqual('http://acme.com/goodhealth/ehr/');
+          expect(doc.location.reference).toEqual('Test/f203');
+          expect(doc.udi.carrierHRF).toEqual('(01)09504000059118(17)141120(10)7654321D(21)10987654d321');
+          expect(doc.owner.reference).toEqual('Organization/2.16.840.1.113883.19.5');
         });
       });
     });

@@ -5,7 +5,8 @@
  * @return a mongo regex query
  */
 let stringQueryBuilder = function (target) {
-    return {$regex: new RegExp('^' + target, 'i')};
+  let t2 = target.replace(/[\\(\\)\\-\\_\\+\\=\\/\\.]/g, '\\$&');
+    return {$regex: new RegExp('^' + t2, 'i')};
 };
 
 // Previous attempt, handles contains and exact modifiers
@@ -31,9 +32,17 @@ let stringQueryBuilder = function (target) {
 //     }
 // };
 
+//If we are just making the default case and not worrying about any other options,
+//then this method will simply do nothing.  However, I've placed this here for future
+//changes to references.
+let referenceBuilder = function (target) {
+  return target;
+};
+
 /**
  * @todo figure out how to incorporate modifiers
  */
 module.exports = {
-    stringQueryBuilder
+    stringQueryBuilder,
+    referenceBuilder
 };
