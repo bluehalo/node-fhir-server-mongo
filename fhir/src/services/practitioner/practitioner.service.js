@@ -1,5 +1,7 @@
 const { COLLECTION, CLIENT_DB } = require('../../constants');
 const globals = require('../../globals');
+const { stringQueryBuilder } = require('../../utils/service.utils');
+
 
 /**
  * @name count
@@ -32,7 +34,109 @@ module.exports.count = (args, logger) => new Promise((resolve, reject) => {
  */
 module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     logger.info('Practitioner >>> search');
-    reject(new Error('Support coming soon'));
+    let { active, address, addressCity, addressCountry, addressPostalCode,
+    addressState, addressUse, communication, email, family, gender, given, identifier,
+  name, phone } = args;
+    let query = {
+    };
+    if (active) {
+      query.active = active;
+    }
+    if (name && address) {
+      query.$and = [ { $or: [ {'name.text': stringQueryBuilder(name)}, {'name.family': stringQueryBuilder(name)},
+        {'name.given': stringQueryBuilder(name)}, {'name.prefix': stringQueryBuilder(name)}, {'name.suffix': stringQueryBuilder(name)} ] },
+        { $or: [ {'address.district': stringQueryBuilder(address)}, {'address.line': stringQueryBuilder(address)},
+      {'address.city': stringQueryBuilder(address)}, {'address.state': stringQueryBuilder(address)},
+    {'address.country': stringQueryBuilder(address)}, {'address.posstalCode': stringQueryBuilder(address)},
+  {'address.text': stringQueryBuilder(address)} ] } ];
+    }
+    if (address && !name) {
+      query.$or = [ {'address.district': stringQueryBuilder(address)}, {'address.line': stringQueryBuilder(address)},
+    {'address.city': stringQueryBuilder(address)}, {'address.state': stringQueryBuilder(address)},
+  {'address.country': stringQueryBuilder(address)}, {'address.postalCode': stringQueryBuilder(address)},
+{'address.text': stringQueryBuilder(address)} ];
+    }
+    if (name && !address) {
+      query.$or = [ {'name.text': stringQueryBuilder(name)}, {'name.family': stringQueryBuilder(name)},
+    {'name.given': stringQueryBuilder(name)}, {'name.prefix': stringQueryBuilder(name)},
+  {'name.suffix': stringQueryBuilder(name)} ];
+    }
+    if (addressCity) {
+      query['address.city'] = stringQueryBuilder(addressCity);
+    }
+    if (addressCountry) {
+      query['address.country'] = stringQueryBuilder(addressCountry);
+    }
+    if (addressPostalCode) {
+      query['address.postalCode'] = stringQueryBuilder(addressPostalCode);
+    }
+    if (addressState) {
+      query['address.state'] = stringQueryBuilder(addressState);
+    }
+    if (addressUse) {
+      query['address.use'] = stringQueryBuilder(addressUse);
+    }
+    if (communication) {
+      if (communication.includes('|')) {
+        let [ system, code2 ] = communication.split('|');
+        // console.log(('' === system) + ' *** ' + value);
+        if (system) {
+          query['communication.coding.system'] = system;
+        }
+        if (code2) {
+          query['communication.coding.code'] = code2;
+        }
+      }
+      else {
+        query['communication.coding.code'] = { $in: communication.split(',') };
+      }
+    }
+    if (email) {
+      query['telecom.system'] = 'email';
+      query['telecom.value'] = email;
+    }
+    if (family) {
+      query['name.family'] = stringQueryBuilder(family);
+    }
+    if (gender) {
+      query.gender = gender;
+    }
+    if (given) {
+      query['name.given'] = stringQueryBuilder(given);
+    }
+    if (identifier) {
+        if (identifier.includes('|')) {
+            let [ system, value ] = identifier.split('|');
+            // console.log(('' === system) + ' *** ' + value);
+            if (system) {
+                query['identifier.system'] = system;
+            }
+            if (value) {
+                query['identifier.value'] = value;
+            }
+        }
+        else {
+            query['identifier.value'] = identifier;
+        }
+    }
+    if (phone) {
+      query['telecom.system'] = 'phone';
+      query['telecom.value'] = phone;
+    }
+
+
+    // Grab an instance of our DB and collection
+    let db = globals.get(CLIENT_DB);
+    let collection = db.collection(COLLECTION.PRACTITIONER);
+
+    collection.find(query, (err, practitioners) => {
+        if (err) {
+            logger.error('Error with Practitioner.search: ', err);
+            return reject(err);
+        }
+        // Practitioners is a cursor, grab the documents from that
+        practitioners.toArray().then(resolve, reject);
+    });
 });
 
 /**

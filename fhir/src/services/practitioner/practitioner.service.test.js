@@ -1,5 +1,5 @@
 /* eslint-disable */
-const PractitionerFixture = require('../../../fixtures/data/uscore/Practitioner-practitioner-1.json');
+const PractitionerFixture = require('../../../fixtures/data/patient00/practitioner00.json');
 const { CLIENT, CLIENT_DB } = require('../../constants');
 const asyncHandler = require('../../lib/async-handler');
 const logger = require('../../testutils/logger.mock');
@@ -40,10 +40,66 @@ describe('Practitioner Service Test', () => {
             );
 
             expect(err).toBeUndefined();
-            expect(results).toEqual(2);
+            expect(results).toEqual(3);
         });
 
     });
+
+    describe('Method: search', () => {
+
+        test('should return 2 practitioners', async () => {
+            let args = { address: '1003', addressCity: 'Amhers', addressPostalCode: '0100',
+          addressState: 'MA', addressUse: 'ho', family: 'Bone', given: 'Ron',
+          identifier: 'http://www.acme.org/practitioners|25456' };
+            let [ err, docs ] = await asyncHandler(
+                practitionerService.search(args, logger)
+            );
+
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(2);
+
+            docs.forEach(doc => {
+                expect(doc.address[0].line[0]).toEqual('1003 Healthcare Drive');
+                expect(doc.address[0].city).toEqual('Amherst');
+                expect(doc.address[0].postalCode).toEqual('01002');
+                expect(doc.address[0].state).toEqual('MA');
+                expect(doc.address[0].use).toEqual('home');
+                expect(doc.name[0].family).toEqual('Bone');
+                expect(doc.name[0].given[0]).toEqual('Ronald');
+                expect(doc.identifier[1].system).toEqual('http://www.acme.org/practitioners');
+                expect(doc.identifier[1].value).toEqual('25456');
+            });
+
+        });
+
+        test('testing some added search params', async () => {
+          let args = { active: true, address: 'De', addressCity: 'Den',
+        addressCountry: 'NLD', addressPostalCode: '2333za', addressState: 'NY',
+      addressUse: 'wo', communication: 'urn:oid:2.16.840.1.113883.6.121|nl',
+    email: 'm.versteegh@bmc.nl', gender: 'male', name: 'M', phone: '0205562431' };
+          let [ err, docs ] = await asyncHandler(
+            practitionerService.search(args, logger)
+          );
+
+          expect(err).toBeUndefined();
+          expect(docs.length).toEqual(1);
+
+          docs.forEach(doc => {
+            expect(doc.active).toEqual(true);
+            expect(doc.address[1].use).toEqual('work');
+            expect(doc.address[1].city).toEqual('Den helder');
+            expect(doc.address[1].country).toEqual('NLD');
+            expect(doc.address[1].postalCode).toEqual('2333ZA')
+            expect(doc.address[1].state).toEqual('NY');
+            expect(doc.communication[0].coding[0].system).toEqual('urn:oid:2.16.840.1.113883.6.121');
+            expect(doc.communication[0].coding[0].code).toEqual('nl');
+            expect(doc.telecom[1].value).toEqual('m.versteegh@bmc.nl');
+            expect(doc.gender).toEqual('male');
+            expect(doc.name[0].suffix[0]).toEqual('MD');
+            expect(doc.telecom[0].value).toEqual('0205562431');
+          });
+        });
+      });
 
     describe('Method: searchById', () => {
 
