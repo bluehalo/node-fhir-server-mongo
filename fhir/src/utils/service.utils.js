@@ -34,7 +34,7 @@ let stringQueryBuilder = function (target) {
  * @param {string} target what we are searching for
  * @param {string} type codeable concepts use a code field and identifiers use a value
  * @param {string} field path to system and value from field
- * @return {JSON} ret
+ * @return {JSON} queryBuilder
  * Using to assign a single variable:
  *      let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier');
         for (let i in queryBuilder) {
@@ -61,11 +61,32 @@ let tokenQueryBuilder = function (target, type, field) {
     return queryBuilder;
 };
 
-//If we are just making the default case and not worrying about any other options,
-//then this method will simply do nothing.  However, I've placed this here for future
-//changes to references.
-let referenceBuilder = function (target) {
-  return target;
+/**
+ * @name referenceQueryBuilder
+ * @param {string} target
+ * @param {string} field
+ * @return {JSON} queryBuilder
+ */
+let referenceQueryBuilder = function (target, field) {
+    const regex = /http(.*)?\/(\w+\/.+)$/;
+    const match = target.match(regex);
+    let queryBuilder = {};
+
+    // Check if target is a url
+    if (match) {
+        queryBuilder[field] = match[2];
+    }
+    // target = type/id
+    else if (target.includes('/')) {
+        let [type, id] = target.split('/');
+        queryBuilder[field] = `${type}/${id}`;
+    }
+    // target = id The type may be there so we need to check the end of the field for the id
+    else {
+        queryBuilder[field] = {$regex: new RegExp(`${target}$`)};
+    }
+
+    return queryBuilder;
 };
 
 /**
@@ -74,5 +95,5 @@ let referenceBuilder = function (target) {
 module.exports = {
     stringQueryBuilder,
     tokenQueryBuilder,
-    referenceBuilder
+    referenceQueryBuilder
 };
