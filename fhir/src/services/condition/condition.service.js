@@ -1,6 +1,7 @@
 const { COLLECTION, CLIENT_DB } = require('../../constants');
 const { validateDate } = require('../../utils/date.validator');
 const globals = require('../../globals');
+const { stringQueryBuilder } = require('../../utils/service.utils');
 
 /**
  * @name count
@@ -85,7 +86,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         }
     }
     if (abatementString) {
-        query.abatementString = abatementString;
+        stringQueryBuilder(abatementString, query);
     }
     if (asserter) {
         query['asserter.reference'] = asserter;
@@ -154,7 +155,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         }
     }
     if (onsetString) {
-        query.onsetString = onsetString;
+        stringQueryBuilder(onsetString, query);
     }
     if (severity) {
         if (severity.includes('|')) {

@@ -83,11 +83,11 @@ describe('Condition Service Test', () => {
 
         test('testing some added search params', async () => {
             let args = { patient: 'example', abatementAge: '56|http://snomed.info/sct|yr',
-                abatementString: 'around 8/10', abatementBoolean: true, bodySite: 'http://snomed.info/sct|51185008',
+                abatementString: 'abatementString?given:contains=8/10', abatementBoolean: true, bodySite: 'http://snomed.info/sct|51185008',
                 asserter: 'Practitioner/f223', context: 'Encounter/f203', evidence: 'http://snomed.info/sct|169068008',
                 detail: 'Observation/f202', identifier: '12345', onsetAge: '52|http://unitsofmeasure.org|a',
                 severity: 'http://snomed.info/sct|255604002', stage: 'http://snomed.info/sct|14803004',
-                subject: 'Patient/example' };
+                subject: 'Patient/example', onsetString: 'onsetString?approx' };
             let [ err, docs ] = await asyncHandler(
                 conditionService.search(args, logger)
             );
