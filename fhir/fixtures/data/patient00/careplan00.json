@@ -39,6 +39,7 @@
   ],
   "replaces": [
     {
+      "reference": "CarePlan/example",
       "display": "Plan from urgent care clinic"
     }
   ],

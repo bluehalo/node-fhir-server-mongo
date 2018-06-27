@@ -1,5 +1,5 @@
 /* eslint-disable */
-const ProcedureFixture = require('../../../fixtures/data/patient00/Procedure00.json');
+const ProcedureFixture = require('../../../fixtures/data/patient00/procedure00.json');
 const { CLIENT, CLIENT_DB } = require('../../constants');
 const asyncHandler = require('../../lib/async-handler');
 const logger = require('../../testutils/logger.mock');
@@ -98,7 +98,7 @@ describe('Procedure Service Test', () => {
     describe('Method: searchById', () => {
 
         test('should correctly return a document', async () => {
-            let args = {id: 'rehab'};
+            let args = {id: '0'};
             let [err, doc] = await asyncHandler(
                 procedureService.searchById(args, logger)
             );
@@ -119,7 +119,7 @@ describe('Procedure Service Test', () => {
         test('should successfully delete a document', async () => {
 
             // Look for this particular fixture
-            let args = { id: 'rehab' };
+            let args = { id: '0' };
             let [ err, doc ] = await asyncHandler(
                 procedureService.searchById(args, logger)
             );
@@ -161,7 +161,7 @@ describe('Procedure Service Test', () => {
                 resource: {
                     toJSON: () => ProcedureFixture
                 },
-                id: 'rehab'
+                id: '0'
             };
 
             // Delete the fixture incase it exists,
@@ -204,13 +204,13 @@ describe('Procedure Service Test', () => {
 
         test('should successfully update a document', async () => {
             // Update the status
-            ProcedureFixture.status = 'preliminary';
+            ProcedureFixture.text.status = 'preliminary';
 
             let args = {
                 resource: {
                     toJSON: () => ProcedureFixture
                 },
-                id: 'rehab'
+                id: '0'
             };
 
             // Query for the original doc, this will ignore the resource arg
@@ -219,7 +219,7 @@ describe('Procedure Service Test', () => {
             );
 
             expect(query_err).toBeUndefined();
-            expect(doc.status).toEqual('completed');
+            expect(doc.text.status).toEqual('generated');
 
             // Update the original doc
             let [update_err, update_results] = await asyncHandler(
@@ -235,7 +235,7 @@ describe('Procedure Service Test', () => {
             );
 
             expect(updated_err).toBeUndefined();
-            expect(updated_doc.status).toEqual('preliminary');
+            expect(updated_doc.text.status).toEqual('preliminary');
 
         });
 

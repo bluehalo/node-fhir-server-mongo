@@ -1,6 +1,6 @@
 const { COLLECTION, CLIENT_DB } = require('../../constants');
 const globals = require('../../globals');
-const { stringQueryBuilder } = require('../../utils/service.utils');
+const { stringQueryBuilder, tokenQueryBuilder } = require('../../utils/service.utils');
 
 /**
  * @name count
@@ -38,7 +38,6 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         name, partof, phonetic, type } = args;
     // console.log(JSON.stringify(args));
 
-    // Patient and verificationStatus are required and guaranteed to be provided
     let query = {};
 
     if (active) {
@@ -76,17 +75,9 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (identifier) {
-        if (identifier.includes('|')) {
-            let [ system, value ] = identifier.split('|');
-            if (system) {
-                query['identifier.system'] = system;
-            }
-            if (value) {
-                query['identifier.value'] = value;
-            }
-        }
-        else {
-            query['identifier.value'] = identifier;
+        let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
         }
     }
 
@@ -103,17 +94,9 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (type) {
-        if (type.includes('|')) {
-            let [ system, value ] = type.split('|');
-            if (system) {
-                query['type.coding.system'] = system;
-            }
-            if (value) {
-                query['type.coding.code'] = value;
-            }
-        }
-        else {
-            query['type.coding.code'] = { $in: type.split(',') };
+        let queryBuilder = tokenQueryBuilder(type, 'code', 'type.coding');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
         }
     }
 

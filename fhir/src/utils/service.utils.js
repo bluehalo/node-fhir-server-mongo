@@ -9,28 +9,57 @@ let stringQueryBuilder = function (target) {
     return {$regex: new RegExp('^' + t2, 'i')};
 };
 
-// Previous attempt, handles contains and exact modifiers
-// Meant to take in the whole query but I also misinterpreted it
+// Previous attempt for strings, handles contains and exact modifiers
 // let stringQueryBuilder = function (input) {
-//     // input = target?modifier=str
-//     let [ target, modifier ] = input.split(('?'));
-//     let str = modifier.split('=')[1];
+//     // Extract variables from input
+//     // input = field:modifier=target
+//     let [ temp, target ] = input.split('=')[1];
+//     let [ field, modifier ] = temp.split(':');
 //
-//     if (modifier.includes('contains')) {
-//         query[`${target}`] = {$regex: new RegExp(str, 'i')};
+//     if (modifier) {
+//         if (modifier === 'contains') {
+//             query[`${field}`] = {$regex: new RegExp(target, 'i')};
+//         }
+//         else if (modifier === 'exact') {
+//             query[`${field}`] = target;
+//         }
 //     }
-//     else if (modifier.includes('exact')) {
-//         query[`${target}`] = str;
-//     }
-//     // If no modifier was given, does given by default and modifier will hold the string
-//     else if (str === undefined) {
-//         query[`${target}`] = {$regex: new RegExp('^' + modifier, 'i')};
-//     }
-//     // if modifier === given
 //     else {
-//         query[`${target}`] = {$regex: new RegExp('^' + str, 'i')};
+//         query[`${field}`] = {$regex: new RegExp('^' + target, 'i')};
 //     }
 // };
+
+/**
+ * @name tokenQueryBuilder
+ * @param {string} target what we are searching for
+ * @param {string} type codeable concepts use a code field and identifiers use a value
+ * @param {string} field path to system and value from field
+ * @return {JSON} ret
+ * Using to assign a single variable:
+ *      let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+ * Use in an or query
+ *      query.$or = [tokenQueryBuilder(identifier, 'value', 'identifier'), tokenQueryBuilder(type, 'code', 'type.coding')];
+ */
+let tokenQueryBuilder = function (target, type, field) {
+    let queryBuilder = {};
+    if (target.includes('|')) {
+        let [ system, value ] = target.split('|');
+        if (system) {
+            queryBuilder[`${field}.system`] = system;
+        }
+        if (value) {
+            queryBuilder[`${field}.${type}`] = value;
+        }
+    }
+    else {
+        queryBuilder[`${field}.${type}`] = target;
+    }
+
+    return queryBuilder;
+};
 
 //If we are just making the default case and not worrying about any other options,
 //then this method will simply do nothing.  However, I've placed this here for future
@@ -44,5 +73,6 @@ let referenceBuilder = function (target) {
  */
 module.exports = {
     stringQueryBuilder,
+    tokenQueryBuilder,
     referenceBuilder
 };

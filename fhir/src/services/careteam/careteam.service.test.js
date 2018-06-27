@@ -40,7 +40,38 @@ describe('CareTeam Service Test', () => {
             );
 
             expect(err).toBeUndefined();
-            expect(results).toEqual(1);
+            expect(results).toEqual(2);
+        });
+
+    });
+
+    describe('Method: search', () => {
+
+        test('Get a careteam using all implemented arguments', async () => {
+            let args = {category: 'http://hl7.org/fhir/care-team-category|', context: 'example', encounter: 'example',
+            identifier: '12345', participant: 'example', patient: 'example', status: 'active', subject: 'example'};
+            let [err, docs] = await asyncHandler(
+                careteamService.search(args, logger)
+            );
+
+            // console.log(JSON.stringify(args));
+            console.log(JSON.stringify(docs));
+
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(1);
+
+            docs.forEach(doc => {
+                expect(doc.category[0].coding[0].system).toEqual('http://hl7.org/fhir/care-team-category');
+                expect(doc.category[0].coding[0].code).toEqual('encounter');
+                expect(doc.context.reference).toEqual(`Encounter/${args.context}`);
+                expect(doc.context.reference).toEqual(`Encounter/${args.encounter}`);
+                expect(doc.identifier[0].value).toEqual('12345');
+                expect(doc.participant[0].member.reference).toEqual(`Patient/${args.participant}`);
+                expect(doc.subject.reference).toEqual(`Patient/${args.patient}`);
+                expect(doc.status).toEqual(args.status);
+                expect(doc.subject.reference).toEqual(`Patient/${args.subject}`);
+            });
+
         });
 
     });
@@ -154,7 +185,7 @@ describe('CareTeam Service Test', () => {
 
         test('should successfully update a document', async () => {
             // Update the status
-            CareTeamFixture.status = 'preliminary';
+            CareTeamFixture.text.status = 'preliminary';
 
             let args = {
                 resource: {
@@ -169,7 +200,7 @@ describe('CareTeam Service Test', () => {
             );
 
             expect(query_err).toBeUndefined();
-            expect(doc.status).toEqual('active');
+            expect(doc.text.status).toEqual('generated');
 
             // Update the original doc
             let [ update_err, update_results ] = await asyncHandler(
@@ -185,7 +216,7 @@ describe('CareTeam Service Test', () => {
             );
 
             expect(updated_err).toBeUndefined();
-            expect(updated_doc.status).toEqual('preliminary');
+            expect(updated_doc.text.status).toEqual('preliminary');
 
         });
 

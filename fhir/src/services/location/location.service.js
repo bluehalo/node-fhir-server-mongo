@@ -1,5 +1,6 @@
 const { COLLECTION, CLIENT_DB } = require('../../constants');
 const globals = require('../../globals');
+const { stringQueryBuilder, tokenQueryBuilder } = require('../../utils/service.utils');
 
 /**
  * @name count
@@ -30,9 +31,93 @@ module.exports.count = (args, logger) => new Promise((resolve, reject) => {
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
+// To be implemented: address, near, and nearDistance
 module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     logger.info('Location >>> search');
-    reject(new Error('Support coming soon'));
+    // Parse the params
+    let { address, addressCity, addressCountry, addressPostalCode, addressState, addressUse, endpoint, identifier,
+        name, near, nearDistance, operationalStatus, organization, partof, status, type } = args;
+
+    // console.log(JSON.stringify(args));
+
+    let query = {};
+
+    if (address) {
+        console.log('Not implemented');
+    }
+
+    if (addressCity) {
+        query['address.city'] = stringQueryBuilder(addressCity);
+    }
+
+    if (addressCountry) {
+        query['address.country'] = stringQueryBuilder(addressCountry);
+    }
+
+    if (addressPostalCode) {
+        query['address.postalCode'] = stringQueryBuilder(addressPostalCode);
+    }
+
+    if (addressState) {
+        query['address.state'] = stringQueryBuilder(addressState);
+    }
+
+    if (addressUse) {
+        query['address.use'] = addressUse;
+    }
+
+    if (endpoint) {
+        query['endpoint.reference'] = `Endpoint/${endpoint}`;
+    }
+
+    if (identifier) {
+        query = Object.assign(query, tokenQueryBuilder(identifier, 'value', 'identifier'));
+    }
+
+    if (name) {
+        query.$or = [{name: stringQueryBuilder(name)}, {alias: stringQueryBuilder(name)}];
+    }
+
+    // Not sure how to implement?
+    // Both need to be provided
+    if (near && nearDistance) {
+        console.log('Not implemented');
+    }
+
+    if (operationalStatus) {
+        query = Object.assign(query, tokenQueryBuilder(operationalStatus, 'code', 'operationalStatus'));
+    }
+
+    if (organization) {
+        query['managingOrganization.reference'] = `Organization/${organization}`;
+    }
+
+    if (partof) {
+        query['partOf.reference'] = `Location/${partof}`;
+    }
+
+    if (status) {
+        query.status = status;
+    }
+
+    if (type) {
+        query = Object.assign(query, tokenQueryBuilder(type, 'code', 'type.coding'));
+    }
+
+    // console.log(JSON.stringify(query));
+
+    // Grab an instance of our DB and collection
+    let db = globals.get(CLIENT_DB);
+    let collection = db.collection(COLLECTION.LOCATION);
+    // Query our collection for this location
+    collection.find(query, (err, locations) => {
+        if (err) {
+            logger.error('Error with Location.search: ', err);
+            return reject(err);
+        }
+        // Locations is a cursor, grab the documents from that
+        locations.toArray().then(resolve, reject);
+    });
 });
 
 /**

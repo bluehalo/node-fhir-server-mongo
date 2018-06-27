@@ -1,6 +1,6 @@
 {
   "resourceType": "Procedure",
-  "id": "rehab",
+  "id": "0",
   "meta": {
     "profile": [
       "http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"
