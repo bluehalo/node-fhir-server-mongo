@@ -69,11 +69,11 @@ describe('Organization Service Test', () => {
                 expect(doc.address[0].postalCode).toEqual('48104');
                 expect(doc.address[0].state).toEqual('MI');
                 expect(doc.address[0].use).toEqual(args.addressUse);
-                expect(doc.endpoint[0].reference).toEqual(`Endpoint/${args.endpoint}`);
+                expect(doc.endpoint[0].reference).toEqual('Endpoint/example');
                 expect(doc.identifier[0].system).toEqual('http://hl7.org.fhir/sid/us-npi');
                 expect(doc.identifier[0].value).toEqual('1144221847');
                 expect(doc.name).toEqual('Health Level Seven International');
-                expect(doc.partOf.reference).toEqual(`Organization/${args.partof}`);
+                expect(doc.partOf.reference).toEqual('Organization/1');
                 expect(doc.type[0].coding[0].system).toEqual('http://hl7.org/fhir/organization-type');
                 expect(doc.type[0].coding[0].code).toEqual('prov');
             });

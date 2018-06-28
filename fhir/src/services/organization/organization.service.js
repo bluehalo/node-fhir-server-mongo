@@ -1,6 +1,6 @@
 const { COLLECTION, CLIENT_DB } = require('../../constants');
 const globals = require('../../globals');
-const { stringQueryBuilder, tokenQueryBuilder } = require('../../utils/service.utils');
+const { stringQueryBuilder, tokenQueryBuilder, referenceQueryBuilder } = require('../../utils/service.utils');
 
 /**
  * @name count
@@ -71,7 +71,10 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (endpoint) {
-        query['endpoint.reference'] = `Endpoint/${endpoint}`;
+        let queryBuilder = referenceQueryBuilder(endpoint, 'endpoint.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
     }
 
     if (identifier) {
@@ -86,7 +89,10 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (partof) {
-        query['partOf.reference'] = `Organization/${partof}`;
+        let queryBuilder = referenceQueryBuilder(partof, 'partOf.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
     }
 
     if (phonetic) {

@@ -1,5 +1,5 @@
 /* eslint-disable */
-const DeviceFixture = require('../../../fixtures/data/patient00/device00.json');
+const DeviceFixture = require('../../../fixtures/data/uscore/Device-udi-1.json');
 const { CLIENT, CLIENT_DB } = require('../../constants');
 const asyncHandler = require('../../lib/async-handler');
 const logger = require('../../testutils/logger.mock');
@@ -34,54 +34,53 @@ describe('Device Service Test', () => {
 
     describe('Method: search', () => {
 
-      test('should return 2 devices', async () => {
-        let args = { patient: 'example' };
-        let [ err, docs ] = await asyncHandler(
-          deviceService.search(args, logger)
-        );
+        test('should return 2 devices', async () => {
+            let args = { patient: 'example' };
+            let [ err, docs ] = await asyncHandler(
+                deviceService.search(args, logger)
+            );
 
-        expect(err).toBeUndefined();
-        expect(docs.length).toEqual(2);
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(2);
 
-        docs.forEach(doc => {
-         expect(doc.patient.reference).toEqual(`Patient/${args.patient}`);
+            docs.forEach(doc => {
+                expect(doc.patient.reference).toEqual(`Patient/${args.patient}`);
+            });
+
         });
+        test('testing some added search params', async () => {
+            let args = { patient: 'example', name: 'Fh',
+                identifier: 'http://acme.com/devices/pacemakers/octane/serial|1234-5678-90AB-CDEF',
+                manufacturer: 'Acme Devices, Inc', model: 'PM/Octane 2014', status: 'active',
+                type: 'http://snomed.info/sct|468063009', deviceIdentifier: '00844588003288',
+                url: 'http://acme.com/goodhealth/ehr/', location: 'Test/f203',
+                udiCarrier:'(01)09504000059118(17)141120(10)7654321D(21)10987654d321',
+                owner: 'Organization/2.16.840.1.113883.19.5' };
+            let [ err, docs ] = await asyncHandler(
+                deviceService.search(args, logger)
+            );
 
-      });
-      test('testing some added search params', async () => {
-        let args = { patient: 'example', name: 'Fh',
-        identifier: 'http://acme.com/devices/pacemakers/octane/serial|1234-5678-90AB-CDEF',
-      manufacturer: 'Acme Devices, Inc', model: 'PM/Octane 2014', status: 'active',
-    type: 'http://snomed.info/sct|468063009', deviceIdentifier: '00844588003288',
-  url: 'http://acme.com/goodhealth/ehr/', location: 'Test/f203',
-  udiCarrier:'(01)09504000059118(17)141120(10)7654321D(21)10987654d321',
-owner: 'Organization/2.16.840.1.113883.19.5' };
-        let [ err, docs ] = await asyncHandler(
-          deviceService.search(args, logger)
-        );
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(1);
 
-        expect(err).toBeUndefined();
-        expect(docs.length).toEqual(1);
-
-        docs.forEach(doc => {
-          expect(doc.patient.reference).toEqual(`Patient/${args.patient}`);
-          expect(doc.udi.name).toEqual('FHIR® Hip System');
-          expect(doc.identifier[0].system).toEqual('http://acme.com/devices/pacemakers/octane/serial');
-          expect(doc.identifier[0].value).toEqual('1234-5678-90AB-CDEF');
-          expect(doc.manufacturer).toEqual('Acme Devices, Inc');
-          expect(doc.model).toEqual('PM/Octane 2014');
-          expect(doc.status).toEqual('active');
-          expect(doc.type.coding[0].system).toEqual('http://snomed.info/sct');
-          expect(doc.type.coding[0].code).toEqual('468063009');
-          expect(doc.udi.deviceIdentifier).toEqual('00844588003288');
-          expect(doc.url).toEqual('http://acme.com/goodhealth/ehr/');
-          expect(doc.location.reference).toEqual('Test/f203');
-          expect(doc.udi.carrierHRF).toEqual('(01)09504000059118(17)141120(10)7654321D(21)10987654d321');
-          expect(doc.owner.reference).toEqual('Organization/2.16.840.1.113883.19.5');
+            docs.forEach(doc => {
+                expect(doc.patient.reference).toEqual(`Patient/${args.patient}`);
+                expect(doc.udi.name).toEqual('FHIR® Hip System');
+                expect(doc.identifier[0].system).toEqual('http://acme.com/devices/pacemakers/octane/serial');
+                expect(doc.identifier[0].value).toEqual('1234-5678-90AB-CDEF');
+                expect(doc.manufacturer).toEqual('Acme Devices, Inc');
+                expect(doc.model).toEqual('PM/Octane 2014');
+                expect(doc.status).toEqual('active');
+                expect(doc.type.coding[0].system).toEqual('http://snomed.info/sct');
+                expect(doc.type.coding[0].code).toEqual('468063009');
+                expect(doc.udi.deviceIdentifier).toEqual('00844588003288');
+                expect(doc.url).toEqual('http://acme.com/goodhealth/ehr/');
+                expect(doc.location.reference).toEqual('Test/f203');
+                expect(doc.udi.carrierHRF).toEqual('(01)09504000059118(17)141120(10)7654321D(21)10987654d321');
+                expect(doc.owner.reference).toEqual('Organization/2.16.840.1.113883.19.5');
+            });
         });
-      });
     });
-
 
     describe('Method: count', () => {
 
@@ -205,7 +204,7 @@ owner: 'Organization/2.16.840.1.113883.19.5' };
 
         test('should successfully update a document', async () => {
             // Update the status
-            DeviceFixture.status = 'preliminary';
+            DeviceFixture.text.status = 'preliminary';
 
             let args = {
                 resource: {
@@ -220,7 +219,7 @@ owner: 'Organization/2.16.840.1.113883.19.5' };
             );
 
             expect(query_err).toBeUndefined();
-            expect(doc.status).toEqual('active');
+            expect(doc.text.status).toEqual('generated');
 
             // Update the original doc
             let [update_err, update_results] = await asyncHandler(
@@ -236,7 +235,7 @@ owner: 'Organization/2.16.840.1.113883.19.5' };
             );
 
             expect(updated_err).toBeUndefined();
-            expect(updated_doc.status).toEqual('preliminary');
+            expect(updated_doc.text.status).toEqual('preliminary');
 
         });
 

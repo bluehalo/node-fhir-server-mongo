@@ -149,4 +149,38 @@ describe('Service Utils Tests', () => {
 
     });
 
+    describe('Method: referenceQueryBuilder', () => {
+
+        test('should pass back the correct careplan based on the performer', async () => {
+            // url
+            let args = {partof: 'https://foo.com/fhir/Organization/1'};
+            let [err, docs] = await asyncHandler(
+                organizationService.search(args, logger)
+            );
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(1);
+            expect(docs[0].partOf.reference).toEqual('Organization/1');
+
+            // type/id
+            args = {partof: 'Organization/1'};
+            [err, docs] = await asyncHandler(
+                organizationService.search(args, logger)
+            );
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(1);
+            expect(docs[0].partOf.reference).toEqual('Organization/1');
+
+            // id
+            args = {partof: '1'};
+            [err, docs] = await asyncHandler(
+                organizationService.search(args, logger)
+            );
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(1);
+            expect(docs[0].partOf.reference).toEqual('Organization/1');
+
+        });
+
+    });
+
 });
