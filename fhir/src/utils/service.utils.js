@@ -30,6 +30,36 @@ let stringQueryBuilder = function (target) {
 // };
 
 /**
+ * @name addressQueryBuilder
+ * @description brute force method of matching addresses. Splits the input and checks to see if every piece matches to
+ * at least 1 part of the address field using regexs. Ignores case. When using in a service, assign to the ors array rather
+ * then pushing.
+ * @param {string} target
+ * @return {array} ors
+ */
+let addressQueryBuilder = function (target) {
+    // console.log(target);
+    // Tokenize the input as mush as possible
+    let totalSplit = target.split(/[\s,]+/);
+    let ors = [];
+    // console.log(totalSplit);
+
+    for (let index in totalSplit) {
+        ors.push({$or: [
+            {'address.line': {$regex: new RegExp(`${totalSplit[index]}`, 'i')}},
+            {'address.city': {$regex: new RegExp(`${totalSplit[index]}`, 'i')}},
+            {'address.district': {$regex: new RegExp(`${totalSplit[index]}`, 'i')}},
+            {'address.state': {$regex: new RegExp(`${totalSplit[index]}`, 'i')}},
+            {'address.postalCode': {$regex: new RegExp(`${totalSplit[index]}`, 'i')}},
+            {'address.country': {$regex: new RegExp(`${totalSplit[index]}`, 'i')}}
+        ]});
+    }
+
+    // console.log(ors);
+    return ors;
+};
+
+/**
  * @name tokenQueryBuilder
  * @param {string} target what we are searching for
  * @param {string} type codeable concepts use a code field and identifiers use a value
@@ -95,5 +125,6 @@ let referenceQueryBuilder = function (target, field) {
 module.exports = {
     stringQueryBuilder,
     tokenQueryBuilder,
-    referenceQueryBuilder
+    referenceQueryBuilder,
+    addressQueryBuilder
 };

@@ -183,4 +183,43 @@ describe('Service Utils Tests', () => {
 
     });
 
+    describe('Method: addressQueryBuilder', () => {
+
+        test('should pass back an ordination using based on the address', async () => {
+            // Handle a full address
+            let args = {address: '3300 Washtenaw Avenue, Suite 227, Ann Arbor, MI  48104 UsA'};
+            let [err, docs] = await asyncHandler(
+                organizationService.search(args, logger)
+            );
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(1);
+
+            // Handle Line and Country with weird case
+            args = {address: '3300 WAshtenaw Avenue, Suite 227          ,,,,,,,,,     ,MI'};
+            [err, docs] = await asyncHandler(
+                organizationService.search(args, logger)
+            );
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(1);
+
+            // Should not handle spelling errors
+            args = {address: '3300 Washtenaw Avenue, Sute 227, Ann Arbor, MI  48104 UsA'};
+            [err, docs] = await asyncHandler(
+                organizationService.search(args, logger)
+            );
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(0);
+
+            // Find all orgs in the US (should match USA too)
+            args = {address: 'Us'};
+            [err, docs] = await asyncHandler(
+                organizationService.search(args, logger)
+            );
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(2);
+
+        });
+
+    });
+
 });

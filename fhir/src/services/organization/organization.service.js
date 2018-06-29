@@ -1,6 +1,6 @@
 const { COLLECTION, CLIENT_DB } = require('../../constants');
 const globals = require('../../globals');
-const { stringQueryBuilder, tokenQueryBuilder, referenceQueryBuilder } = require('../../utils/service.utils');
+const { stringQueryBuilder, tokenQueryBuilder, referenceQueryBuilder, addressQueryBuilder } = require('../../utils/service.utils');
 
 /**
  * @name count
@@ -39,15 +39,21 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     // console.log(JSON.stringify(args));
 
     let query = {};
+    let ors = [];
+
+    // Handle all arguments that have or logic
+    if (address) {
+        ors = addressQueryBuilder(address);
+    }
+    if (name) {
+        ors.push({$or: [{name: stringQueryBuilder(name)}, {alias: stringQueryBuilder(name)}]});
+    }
+    if (ors.length !== 0) {
+        query.$and = ors;
+    }
 
     if (active) {
         query.active = (active === 'true');
-    }
-
-    // How robust should this be and what is the input's format?
-    // Expecting it to be comma separated like on a letter
-    if (address) {
-        console.log('Not implemented');
     }
 
     if (addressCity) {
@@ -82,10 +88,6 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         for (let i in queryBuilder) {
             query[i] = queryBuilder[i];
         }
-    }
-
-    if (name) {
-        query.$or = [{name: stringQueryBuilder(name)}, {alias: stringQueryBuilder(name)}];
     }
 
     if (partof) {
