@@ -1,0 +1,125 @@
+{
+  "resourceType": "Medication",
+  "id": "uscore-med1",
+  "meta": {
+    "profile": [
+      "http://hl7.org/fhir/us/core/StructureDefinition/us-core-medication"
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: uscore-med1</p><p><b>meta</b>: </p><p><b>code</b>: lisinopril oral 10 mg <span style=\"background: LightGoldenRodYellow\">(Details : {RxNorm code '206765' = 'Prinivil 10 MG Oral Tablet', given as 'Lisinopril 10 MG Oral Tablet [Prinivil]'})</span></p></div>"
+  },
+  "code": {
+    "coding": [
+      {
+        "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+        "code": "206765",
+        "display": "Lisinopril 10 MG Oral Tablet [Prinivil]"
+      }
+    ],
+    "text": "lisinopril oral 10 mg"
+  },
+
+  "package": {
+    "container": {
+      "coding": [
+        {
+          "system": "http://snomed.info/sct",
+          "code": "419672006",
+          "display": "Bottle - unit of produce usage (qualifier value)"
+        }
+      ]
+    },
+    "content": [
+      {
+        "itemCodeableConcept": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "324337001",
+              "display": "Vancomycin 500mg powder for infusion solution vial (product)"
+            }
+          ]
+        },
+        "amount": {
+          "value": 10,
+          "system": "http://unitsofmeasure.org",
+          "code": "mL"
+        }
+      },
+      {
+        "itemReference": {
+          "reference": "#med500"
+        },
+        "amount": {
+          "value": 100,
+          "system": "http://hl7.org/fhir/v3/orderableDrugForm",
+          "code": "TAB"
+        }
+      }
+    ],
+    "batch": [
+      {
+        "lotNumber": "9494788",
+        "expirationDate": "2017-05-22"
+      }
+    ]
+},
+"form": {
+  "coding": [
+    {
+      "system": "http://snomed.info/sct",
+      "code": "385055001",
+      "display": "Tablet dose form (qualifier value)"
+    }
+  ]
+},
+"ingredient": [
+    {
+      "itemReference": {
+        "reference": "#sub04"
+      },
+      "amount": {
+        "numerator": {
+          "value": 500,
+          "system": "http://unitsofmeasure.org",
+          "code": "mg"
+        },
+        "denominator": {
+          "value": 1,
+          "system": "http://hl7.org/fhir/v3/orderableDrugForm",
+          "code": "TAB"
+        }
+      }
+    },
+    {
+    "itemCodeableConcept": {
+      "coding": [
+        {
+          "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+          "code": "203134",
+          "display": "Piperacillin Sodium"
+        }
+      ]
+    },
+    "amount": {
+      "numerator": {
+        "value": 4,
+        "system": "http://unitsofmeasure.org",
+        "code": "g"
+      },
+      "denominator": {
+        "value": 20,
+        "system": "http://unitsofmeasure.org",
+        "code": "mL"
+      }
+    }
+  }
+],
+"manufacturer": {
+  "reference": "#org7"
+},
+"isOverTheCounter": false,
+"status": "active"
+}
