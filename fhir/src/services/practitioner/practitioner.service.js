@@ -37,30 +37,25 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     let { active, address, addressCity, addressCountry, addressPostalCode,
     addressState, addressUse, communication, email, family, gender, given, identifier,
   name, phone } = args;
+//   let orArr = { name: [args.name, 'string', 'name.text', 'name.family', 'name.given', 'name.prefix', 'name.suffix'],
+//   address: [args.address, 'string', 'address.district', 'address.line', 'address.city', 'address.state', 'address.country',
+// 'address.postalCode', 'address.text']};
+    let orArr = {};
     let query = {
     };
     if (active) {
       query.active = active;
     }
-    if (name && address) {
-      query.$and = [ { $or: [ {'name.text': stringQueryBuilder(name)}, {'name.family': stringQueryBuilder(name)},
-        {'name.given': stringQueryBuilder(name)}, {'name.prefix': stringQueryBuilder(name)}, {'name.suffix': stringQueryBuilder(name)} ] },
-        { $or: [ {'address.district': stringQueryBuilder(address)}, {'address.line': stringQueryBuilder(address)},
-      {'address.city': stringQueryBuilder(address)}, {'address.state': stringQueryBuilder(address)},
-    {'address.country': stringQueryBuilder(address)}, {'address.posstalCode': stringQueryBuilder(address)},
-  {'address.text': stringQueryBuilder(address)} ] } ];
-    }
-    if (address && !name) {
-      query.$or = [ {'address.district': stringQueryBuilder(address)}, {'address.line': stringQueryBuilder(address)},
-    {'address.city': stringQueryBuilder(address)}, {'address.state': stringQueryBuilder(address)},
-  {'address.country': stringQueryBuilder(address)}, {'address.postalCode': stringQueryBuilder(address)},
-{'address.text': stringQueryBuilder(address)} ];
-    }
-    if (name && !address) {
-      query.$or = [ {'name.text': stringQueryBuilder(name)}, {'name.family': stringQueryBuilder(name)},
-    {'name.given': stringQueryBuilder(name)}, {'name.prefix': stringQueryBuilder(name)},
-  {'name.suffix': stringQueryBuilder(name)} ];
-    }
+    if (name || address) {
+      if (name) {
+        orArr.name = [name, 'string', 'name.text', 'name.family', 'name.given', 'name.prefix', 'name.suffix'];
+      }
+      if (address) {
+        orArr.address = [address, 'string', 'address.district', 'address.line', 'address.city', 'address.state', 'address.country',
+      'address.postalCode', 'address.text'];
+      }
+      query.$and = orBuilder(args, orArr);
+  }
     if (addressCity) {
       query['address.city'] = stringQueryBuilder(addressCity);
     }
