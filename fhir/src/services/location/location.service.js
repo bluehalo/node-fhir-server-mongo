@@ -1,6 +1,6 @@
 const { COLLECTION, CLIENT_DB } = require('../../constants');
 const globals = require('../../globals');
-const { stringQueryBuilder, tokenQueryBuilder } = require('../../utils/service.utils');
+const { stringQueryBuilder, tokenQueryBuilder, addressQueryBuilder } = require('../../utils/service.utils');
 
 /**
  * @name count
@@ -41,10 +41,25 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     // console.log(JSON.stringify(args));
 
     let query = {};
+    let ors = [];
 
+    // Handle all arguments that have or logic
     if (address) {
-        console.log('Not implemented');
+        let orsAddress = addressQueryBuilder(address);
+        for (let i = 0; i < orsAddress.length; i++) {
+            ors.push(orsAddress[i]);
+        }
     }
+    if (name) {
+        ors.push({$or: [{name: stringQueryBuilder(name)}, {alias: stringQueryBuilder(name)}]});
+    }
+    if (ors.length !== 0) {
+        query.$and = ors;
+    }
+
+    // if (address) {
+    //     console.log('Not implemented');
+    // }
 
     if (addressCity) {
         query['address.city'] = stringQueryBuilder(addressCity);
@@ -74,9 +89,9 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         query = Object.assign(query, tokenQueryBuilder(identifier, 'value', 'identifier'));
     }
 
-    if (name) {
-        query.$or = [{name: stringQueryBuilder(name)}, {alias: stringQueryBuilder(name)}];
-    }
+    // if (name) {
+    //     query.$or = [{name: stringQueryBuilder(name)}, {alias: stringQueryBuilder(name)}];
+    // }
 
     // Not sure how to implement?
     // Both need to be provided

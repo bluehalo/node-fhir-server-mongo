@@ -43,7 +43,10 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
 
     // Handle all arguments that have or logic
     if (address) {
-        ors = addressQueryBuilder(address);
+        let orsAddress = addressQueryBuilder(address);
+        for (let i = 0; i < orsAddress.length; i++) {
+            ors.push(orsAddress[i]);
+        }
     }
     if (name) {
         ors.push({$or: [{name: stringQueryBuilder(name)}, {alias: stringQueryBuilder(name)}]});
