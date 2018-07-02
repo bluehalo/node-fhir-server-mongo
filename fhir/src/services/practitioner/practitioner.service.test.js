@@ -76,7 +76,8 @@ describe('Practitioner Service Test', () => {
           let args = { active: true, address: 'De', addressCity: 'Den',
         addressCountry: 'NLD', addressPostalCode: '2333za', addressState: 'NY',
       addressUse: 'wo', communication: 'urn:oid:2.16.840.1.113883.6.121|nl',
-    email: 'm.versteegh@bmc.nl', gender: 'male', name: 'Dr. Ronald bone md', phone: '0205562431' };
+    email: 'm.versteegh@bmc.nl', gender: 'male', name: 'Dr. Ronald bone md', phone: '0205562431',
+  telecom: '0205662948' };
           let [ err, docs ] = await asyncHandler(
             practitionerService.search(args, logger)
           );
@@ -97,6 +98,7 @@ describe('Practitioner Service Test', () => {
             expect(doc.gender).toEqual('male');
             expect(doc.name[0].suffix[0]).toEqual('MD');
             expect(doc.telecom[0].value).toEqual('0205562431');
+            expect(doc.telecom[2].value).toEqual('0205662948');
           });
         });
       });

@@ -36,7 +36,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     logger.info('Practitioner >>> search');
     let { active, address, addressCity, addressCountry, addressPostalCode,
     addressState, addressUse, communication, email, family, gender, given, identifier,
-  name, phone } = args;
+  name, phone, telecom } = args;
 //   let orArr = { name: [args.name, 'string', 'name.text', 'name.family', 'name.given', 'name.prefix', 'name.suffix'],
 //   address: [args.address, 'string', 'address.district', 'address.line', 'address.city', 'address.state', 'address.country',
 // 'address.postalCode', 'address.text']};
@@ -125,6 +125,9 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     if (phone) {
       query['telecom.system'] = 'phone';
       query['telecom.value'] = phone;
+    }
+    if (telecom) {
+      query['telecom.value'] = telecom;
     }
 
 
