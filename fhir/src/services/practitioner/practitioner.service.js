@@ -1,6 +1,6 @@
 const { COLLECTION, CLIENT_DB } = require('../../constants');
 const globals = require('../../globals');
-const { stringQueryBuilder } = require('../../utils/service.utils');
+const { stringQueryBuilder, addressQueryBuilder, nameQueryBuilder } = require('../../utils/service.utils');
 
 
 /**
@@ -40,22 +40,30 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
 //   let orArr = { name: [args.name, 'string', 'name.text', 'name.family', 'name.given', 'name.prefix', 'name.suffix'],
 //   address: [args.address, 'string', 'address.district', 'address.line', 'address.city', 'address.state', 'address.country',
 // 'address.postalCode', 'address.text']};
-    let orArr = {};
+    let ors = [];
     let query = {
     };
     if (active) {
       query.active = active;
     }
-    if (name || address) {
-      if (name) {
-        orArr.name = [name, 'string', 'name.text', 'name.family', 'name.given', 'name.prefix', 'name.suffix'];
+    if (name) {
+        let orsName = nameQueryBuilder(name);
+        for (let i = 0; i < orsName.length; i++) {
+            ors.push(orsName[i]);
+        }
+    }
+    if (address) {
+        let orsAddress = addressQueryBuilder(address);
+        for (let i = 0; i < orsAddress.length; i++) {
+            ors.push(orsAddress[i]);
+        }
+    }
+    if (ors.length !== 0) {
+      if (ors.length === 1) {
+        ors.push(ors[0]);
       }
-      if (address) {
-        orArr.address = [address, 'string', 'address.district', 'address.line', 'address.city', 'address.state', 'address.country',
-      'address.postalCode', 'address.text'];
-      }
-      query.$and = orBuilder(args, orArr);
-  }
+      query.$and = ors;
+    }
     if (addressCity) {
       query['address.city'] = stringQueryBuilder(addressCity);
     }

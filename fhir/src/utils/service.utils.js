@@ -59,6 +59,22 @@ let addressQueryBuilder = function (target) {
     return ors;
 };
 
+let nameQueryBuilder = function (target) {
+  let split = target.split(/[\s.,]+/);
+  let ors = [];
+
+  for (let i in split) {
+    ors.push( {$or: [
+      {'name.text': {$regex: new RegExp(`${split[i]}`, 'i')}},
+      {'name.family': {$regex: new RegExp(`${split[i]}`, 'i')}},
+      {'name.given': {$regex: new RegExp(`${split[i]}`, 'i')}},
+      {'name.suffix': {$regex: new RegExp(`${split[i]}`, 'i')}},
+      {'name.prefix': {$regex: new RegExp(`${split[i]}`, 'i')}}
+    ]});
+  }
+  return ors;
+};
+
 /**
  * @name tokenQueryBuilder
  * @param {string} target what we are searching for
@@ -126,5 +142,6 @@ module.exports = {
     stringQueryBuilder,
     tokenQueryBuilder,
     referenceQueryBuilder,
-    addressQueryBuilder
+    addressQueryBuilder,
+    nameQueryBuilder
 };

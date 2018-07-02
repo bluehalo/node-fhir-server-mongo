@@ -48,7 +48,7 @@ describe('Practitioner Service Test', () => {
     describe('Method: search', () => {
 
         test('should return 2 practitioners', async () => {
-            let args = { address: '1003', addressCity: 'Amhers', addressPostalCode: '0100',
+            let args = { address: '1003 Healthcare Dr', addressCity: 'Amhers', addressPostalCode: '0100',
           addressState: 'MA', addressUse: 'ho', family: 'Bone', given: 'Ron',
           identifier: 'http://www.acme.org/practitioners|25456' };
             let [ err, docs ] = await asyncHandler(
@@ -76,7 +76,7 @@ describe('Practitioner Service Test', () => {
           let args = { active: true, address: 'De', addressCity: 'Den',
         addressCountry: 'NLD', addressPostalCode: '2333za', addressState: 'NY',
       addressUse: 'wo', communication: 'urn:oid:2.16.840.1.113883.6.121|nl',
-    email: 'm.versteegh@bmc.nl', gender: 'male', name: 'M', phone: '0205562431' };
+    email: 'm.versteegh@bmc.nl', gender: 'male', name: 'Dr. Ronald bone md', phone: '0205562431' };
           let [ err, docs ] = await asyncHandler(
             practitionerService.search(args, logger)
           );
