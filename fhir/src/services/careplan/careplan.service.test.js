@@ -48,10 +48,10 @@ describe('CarePlan Service Test', () => {
     describe('Method: search', () => {
 
         test('test only using required arguments', async () => {
-            let args = {activityCode: 'http://loinc.org|3141-9', activityReference: 'example', basedOn: 'example', careTeam: 'example',
-                category: 'http://snomed.info/sct|161832001', condition: '#p1', context: 'home', definition: 'example',
+            let args = {activityCode: 'http://loinc.org|3141-9', activityReference: 'Appointment/example', basedOn: 'example', careTeam: 'example',
+                category: 'http://snomed.info/sct|161832001', condition: '#p1', context: 'Encounter/home', definition: 'Questionnaire/example',
                 encounter: 'home', goal: 'example', identifier: '12345', intent: 'plan', partOf: 'example', patient: 'example',
-                performer: 'example', replaces: 'example', status: 'active', subject: 'example'};
+                performer: 'https://foo.com/fhir/Patient/example', replaces: 'example', status: 'active', subject: 'Patient/example'};
             let [err, docs] = await asyncHandler(
                 careplanService.search(args, logger)
             );
@@ -64,24 +64,24 @@ describe('CarePlan Service Test', () => {
             docs.forEach(doc => {
                 expect(doc.activity[0].detail.code.coding[0].system).toEqual('http://loinc.org');
                 expect(doc.activity[0].detail.code.coding[0].code).toEqual('3141-9');
-                expect(doc.activity[0].reference.reference).toEqual(`Appointment/${args.activityReference}`);
+                expect(doc.activity[0].reference.reference).toEqual(args.activityReference);
                 expect(doc.basedOn[0].reference).toEqual(`CarePlan/${args.basedOn}`);
                 expect(doc.careTeam[0].reference).toEqual(`CareTeam/${args.careTeam}`);
                 expect(doc.category[0].coding[0].system).toEqual('http://snomed.info/sct');
                 expect(doc.category[0].coding[0].code).toEqual('161832001');
-                expect(doc.addresses[0].reference).toEqual(`${args.condition}`);
-                expect(doc.context.reference).toEqual(`Encounter/${args.context}`);
-                expect(doc.definition[0].reference).toEqual(`Questionnaire/${args.definition}`);
+                expect(doc.addresses[0].reference).toEqual(args.condition);
+                expect(doc.context.reference).toEqual(args.context);
+                expect(doc.definition[0].reference).toEqual(args.definition);
                 expect(doc.context.reference).toEqual(`Encounter/${args.encounter}`);
                 expect(doc.goal[0].reference).toEqual(`Goal/${args.goal}`);
                 expect(doc.identifier[0].value).toEqual('12345');
                 expect(doc.intent).toEqual(args.intent);
                 expect(doc.partOf[0].reference).toEqual(`CarePlan/${args.partOf}`);
                 expect(doc.subject.reference).toEqual(`Patient/${args.patient}`);
-                expect(doc.activity[0].detail.performer[0].reference).toEqual(`Patient/${args.performer}`);
+                expect(doc.activity[0].detail.performer[0].reference).toEqual('Patient/example');
                 expect(doc.replaces[0].reference).toEqual(`CarePlan/${args.replaces}`);
                 expect(doc.status).toEqual(args.status);
-                expect(doc.subject.reference).toEqual(`Patient/${args.subject}`);
+                expect(doc.subject.reference).toEqual(args.subject);
             });
 
         });

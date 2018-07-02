@@ -49,9 +49,10 @@ describe('Organization Service Test', () => {
     describe('Method: search', () => {
 
         test('Get an organization using all implemented arguments', async () => {
-            let args = {active: 'false', addressCity: 'an', addressCountry: 'U', addressPostalCode: '481',
-                addressState: 'MI', addressUse: 'work', endpoint: 'example', identifier: 'http://hl7.org.fhir/sid/us-npi|1144221847',
-                name: 'a GOo', partof: '1', type: 'http://hl7.org/fhir/organization-type|prov'};
+            let args = {active: 'false', address: '3300 Washtenaw Avenue, Suite 227, Ann Arbor, MI  48104 UsA',
+                addressCity: 'an', addressCountry: 'U', addressPostalCode: '481', addressState: 'MI', addressUse: 'work',
+                endpoint: 'example', identifier: 'http://hl7.org.fhir/sid/us-npi|1144221847', name: 'a GOo', partof: '1',
+                type: 'http://hl7.org/fhir/organization-type|prov'};
             let [err, docs] = await asyncHandler(
                 organizationService.search(args, logger)
             );
@@ -64,16 +65,17 @@ describe('Organization Service Test', () => {
 
             docs.forEach(doc => {
                 expect(doc.active).toBeFalsy();
+                expect(doc.address[0].line[0]).toEqual('3300 Washtenaw Avenue, Suite 227');
                 expect(doc.address[0].city).toEqual('Ann Arbor');
                 expect(doc.address[0].country).toEqual('USA');
                 expect(doc.address[0].postalCode).toEqual('48104');
                 expect(doc.address[0].state).toEqual('MI');
                 expect(doc.address[0].use).toEqual(args.addressUse);
-                expect(doc.endpoint[0].reference).toEqual(`Endpoint/${args.endpoint}`);
+                expect(doc.endpoint[0].reference).toEqual('Endpoint/example');
                 expect(doc.identifier[0].system).toEqual('http://hl7.org.fhir/sid/us-npi');
                 expect(doc.identifier[0].value).toEqual('1144221847');
                 expect(doc.name).toEqual('Health Level Seven International');
-                expect(doc.partOf.reference).toEqual(`Organization/${args.partof}`);
+                expect(doc.partOf.reference).toEqual('Organization/1');
                 expect(doc.type[0].coding[0].system).toEqual('http://hl7.org/fhir/organization-type');
                 expect(doc.type[0].coding[0].code).toEqual('prov');
             });

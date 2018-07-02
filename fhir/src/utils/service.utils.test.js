@@ -149,4 +149,77 @@ describe('Service Utils Tests', () => {
 
     });
 
+    describe('Method: referenceQueryBuilder', () => {
+
+        test('should pass back the correct careplan based on the performer', async () => {
+            // url
+            let args = {partof: 'https://foo.com/fhir/Organization/1'};
+            let [err, docs] = await asyncHandler(
+                organizationService.search(args, logger)
+            );
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(1);
+            expect(docs[0].partOf.reference).toEqual('Organization/1');
+
+            // type/id
+            args = {partof: 'Organization/1'};
+            [err, docs] = await asyncHandler(
+                organizationService.search(args, logger)
+            );
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(1);
+            expect(docs[0].partOf.reference).toEqual('Organization/1');
+
+            // id
+            args = {partof: '1'};
+            [err, docs] = await asyncHandler(
+                organizationService.search(args, logger)
+            );
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(1);
+            expect(docs[0].partOf.reference).toEqual('Organization/1');
+
+        });
+
+    });
+
+    describe('Method: addressQueryBuilder', () => {
+
+        test('should pass back an ordination using based on the address', async () => {
+            // Handle a full address
+            let args = {address: '3300 Washtenaw Avenue, Suite 227, Ann Arbor, MI  48104 UsA'};
+            let [err, docs] = await asyncHandler(
+                organizationService.search(args, logger)
+            );
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(1);
+
+            // Handle Line and Country with weird case
+            args = {address: '3300 WAshtenaw Avenue, Suite 227          ,,,,,,,,,     ,MI'};
+            [err, docs] = await asyncHandler(
+                organizationService.search(args, logger)
+            );
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(1);
+
+            // Should not handle spelling errors
+            args = {address: '3300 Washtenaw Avenue, Sute 227, Ann Arbor, MI  48104 UsA'};
+            [err, docs] = await asyncHandler(
+                organizationService.search(args, logger)
+            );
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(0);
+
+            // Find all orgs in the US (should match USA too)
+            args = {address: 'Us'};
+            [err, docs] = await asyncHandler(
+                organizationService.search(args, logger)
+            );
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(2);
+
+        });
+
+    });
+
 });

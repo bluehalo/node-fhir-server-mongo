@@ -1,6 +1,6 @@
 const { COLLECTION, CLIENT_DB } = require('../../constants');
 const globals = require('../../globals');
-const { tokenQueryBuilder } = require('../../utils/service.utils');
+const { tokenQueryBuilder, referenceQueryBuilder } = require('../../utils/service.utils');
 
 /**
  * @name count
@@ -42,8 +42,11 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     let query = {
         'status': status,
         'intent': intent,
-        'subject.reference': `Patient/${subject}`,
     };
+    let subjectQueryBuilder = referenceQueryBuilder(subject, 'subject.reference');
+    for (let i in subjectQueryBuilder) {
+        query[i] = subjectQueryBuilder[i];
+    }
 
     if (activityCode) {
         let queryBuilder = tokenQueryBuilder(activityCode, 'code', 'activity.detail.code.coding');
@@ -57,15 +60,24 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (activityReference) {
-        query['activity.reference.reference'] = `Appointment/${activityReference}`;
+        let queryBuilder = referenceQueryBuilder(activityReference, 'activity.reference.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
     }
 
     if (basedOn) {
-        query['basedOn.reference'] = `CarePlan/${basedOn}`;
+        let queryBuilder = referenceQueryBuilder(basedOn, 'basedOn.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
     }
 
     if (careTeam) {
-        query['careTeam.reference'] = `CareTeam/${careTeam}`;
+        let queryBuilder = referenceQueryBuilder(careTeam, 'careTeam.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
     }
 
     if (category) {
@@ -76,11 +88,17 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (condition) {
-        query['addresses.reference'] = condition;
+        let queryBuilder = referenceQueryBuilder(condition, 'addresses.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
     }
 
     if (context) {
-        query['context.reference'] = `Encounter/${context}`;
+        let queryBuilder = referenceQueryBuilder(context, 'context.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
     }
 
     if (date) {
@@ -88,15 +106,24 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (definition) {
-        query['definition.reference'] = `Questionnaire/${definition}`;
+        let queryBuilder = referenceQueryBuilder(definition, 'definition.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
     }
 
     if (encounter) {
-        query['context.reference'] = `Encounter/${encounter}`;
+        let queryBuilder = referenceQueryBuilder(encounter, 'context.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
     }
 
     if (goal) {
-        query['goal.reference'] = `Goal/${goal}`;
+        let queryBuilder = referenceQueryBuilder(goal, 'goal.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
     }
 
     if (identifier) {
@@ -107,19 +134,31 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (partOf) {
-        query['partOf.reference'] = `CarePlan/${partOf}`;
+        let queryBuilder = referenceQueryBuilder(partOf, 'partOf.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
     }
 
     if (patient) {
-        query['subject.reference'] = `Patient/${patient}`;
+        let queryBuilder = referenceQueryBuilder(patient, 'subject.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
     }
 
     if (performer) {
-        query['activity.detail.performer.reference'] = `Patient/${performer}`;
+        let queryBuilder = referenceQueryBuilder(performer, 'activity.detail.performer.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
     }
 
     if (replaces) {
-        query['replaces.reference'] = `CarePlan/${replaces}`;
+        let queryBuilder = referenceQueryBuilder(replaces, 'replaces.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
     }
 
     // console.log(JSON.stringify(query));
