@@ -1,6 +1,6 @@
 const { COLLECTION, CLIENT_DB } = require('../../constants');
 const globals = require('../../globals');
-const { tokenQueryBuilder } = require('../../utils/service.utils');
+const { tokenQueryBuilder, referenceQueryBuilder } = require('../../utils/service.utils');
 
 /**
  * @name count
@@ -47,7 +47,10 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (context) {
-        query['context.reference'] = `Encounter/${context}`;
+        let queryBuilder = referenceQueryBuilder(context, 'context.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
     }
 
     if (date) {
@@ -55,7 +58,10 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (encounter) {
-        query['context.reference'] = `Encounter/${encounter}`;
+        let queryBuilder = referenceQueryBuilder(encounter, 'context.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
     }
 
     if (identifier) {
@@ -66,11 +72,17 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (participant) {
-        query['participant.member.reference'] = `Patient/${participant}`;
+        let queryBuilder = referenceQueryBuilder(participant, 'participant.member.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
     }
 
     if (patient) {
-        query['subject.reference'] = `Patient/${patient}`;
+        let queryBuilder = referenceQueryBuilder(patient, 'subject.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
     }
 
     if (status) {
@@ -78,7 +90,10 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (subject) {
-        query['subject.reference'] = `Patient/${subject}`;
+        let queryBuilder = referenceQueryBuilder(subject, 'subject.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
     }
 
     // console.log(JSON.stringify(query));
