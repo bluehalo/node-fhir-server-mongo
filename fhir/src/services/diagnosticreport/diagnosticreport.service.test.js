@@ -40,7 +40,49 @@ describe('DiagnosticReport Service Test', () => {
             );
 
             expect(err).toBeUndefined();
-            expect(results).toEqual(3);
+            expect(results).toEqual(4);
+        });
+
+    });
+
+    describe('Method: search', () => {
+
+        test('should correctly return a specific diagnostic report using all arguments', async () => {
+            let args = {basedOn: '#req', category: '252275004', code: '58410-2', context: 'example', date: '2011-03-04T08:30:00+11:00',
+                diagnosis: '188340000', encounter: 'Encounter/example', identifier: 'nr1239044',
+                image: 'Media/1.2.840.11361907579238403408700.3.0.14.19970327150033', issued: '2013-05-15T19:32:52+01:00',
+                patient: 'f001', performer: 'f001', result: 'Observation/f001', specimen: 'genetics-example2',
+                status: 'final', subject: 'Patient/f001'};
+            let [err, docs] = await asyncHandler(
+                diagnosticreportService.search(args, logger)
+            );
+
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(1);
+
+            docs.forEach(doc => {
+                expect(doc.basedOn[0].reference).toEqual(args.basedOn);
+                expect(doc.category.coding[0].system).toEqual('http://snomed.info/sct');
+                expect(doc.category.coding[0].code).toEqual('252275004');
+                expect(doc.code.coding[0].system).toEqual('http://loinc.org');
+                expect(doc.code.coding[0].code).toEqual('58410-2');
+                expect(doc.context.reference).toEqual('Encounter/example');
+                expect(doc.effectiveDateTime).toEqual(args.date);
+                expect(doc.codedDiagnosis[0].coding[0].system).toEqual('http://snomed.info/sct');
+                expect(doc.codedDiagnosis[0].coding[0].code).toEqual('188340000');
+                expect(doc.context.reference).toEqual('Encounter/example');
+                expect(doc.identifier[0].system).toEqual('http://www.bmc.nl/zorgportal/identifiers/reports');
+                expect(doc.identifier[0].value).toEqual('nr1239044');
+                expect(doc.image[0].link.reference).toEqual('Media/1.2.840.11361907579238403408700.3.0.14.19970327150033');
+                expect(doc.issued).toEqual(args.issued);
+                expect(doc.subject.reference).toEqual('Patient/f001');
+                expect(doc.performer[0].actor.reference).toEqual('Organization/f001');
+                expect(doc.result[0].reference).toEqual('Observation/f001');
+                expect(doc.specimen[0].reference).toEqual('Specimen/genetics-example2');
+                expect(doc.status).toEqual(args.status);
+                expect(doc.subject.reference).toEqual('Patient/f001');
+            });
+
         });
 
     });

@@ -1,5 +1,6 @@
 const { COLLECTION, CLIENT_DB } = require('../../constants');
 const globals = require('../../globals');
+const { tokenQueryBuilder, referenceQueryBuilder } = require('../../utils/service.utils');
 
 /**
  * @name count
@@ -32,7 +33,124 @@ module.exports.count = (args, logger) => new Promise((resolve, reject) => {
  */
 module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     logger.info('DiagnosticReport >>> search');
-    reject(new Error('Support coming soon'));
+    // Parse the params
+    // Status and code are required and guaranteed to be provided
+    let {basedOn, category, code, context, date, diagnosis, encounter, identifier, image, issued, patient, performer, result,
+        specimen, status, subject} = args;
+    let query = {
+        status: status
+    };
+    let codeQueryBuilder = tokenQueryBuilder(code, 'code', 'code.coding');
+    for (let i in codeQueryBuilder) {
+        query[i] = codeQueryBuilder[i];
+    }
+
+    if (basedOn) {
+        let queryBuilder = referenceQueryBuilder(basedOn, 'basedOn.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+
+    if (category) {
+        let queryBuilder = tokenQueryBuilder(category, 'code', 'category.coding');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+
+    if (context) {
+        let queryBuilder = referenceQueryBuilder(context, 'context.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+
+    if (date) {
+        query.effectiveDateTime = date;
+    }
+
+    if (diagnosis) {
+        let queryBuilder = tokenQueryBuilder(diagnosis, 'code', 'codedDiagnosis.coding');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+
+    if (encounter) {
+        let queryBuilder = referenceQueryBuilder(encounter, 'context.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+
+    if (identifier) {
+        let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+
+    if (image) {
+        let queryBuilder = referenceQueryBuilder(image, 'image.link.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+
+    if (issued) {
+        query.issued = issued;
+    }
+
+    if (patient) {
+        let queryBuilder = referenceQueryBuilder(patient, 'subject.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+
+    if (performer) {
+        let queryBuilder = referenceQueryBuilder(performer, 'performer.actor.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+
+    if (result) {
+        let queryBuilder = referenceQueryBuilder(result, 'result.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+
+    if (specimen) {
+        let queryBuilder = referenceQueryBuilder(specimen, 'specimen.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+
+    if (subject) {
+        let queryBuilder = referenceQueryBuilder(subject, 'subject.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+
+    // console.log(JSON.stringify(query));
+
+    // Grab an instance of our DB and collection
+    let db = globals.get(CLIENT_DB);
+    let collection = db.collection(COLLECTION.DIAGNOSTICREPORT);
+    // Query our collection for this observation
+    collection.find(query, (err, diagnosticreport) => {
+        if (err) {
+            logger.error('Error with Diagnosticreport.search: ', err);
+            return reject(err);
+        }
+        // Diagnosticreport is a diagnosticreport cursor, pull documents out before resolving
+        diagnosticreport.toArray().then(resolve, reject);
+    });
 });
 
 /**
