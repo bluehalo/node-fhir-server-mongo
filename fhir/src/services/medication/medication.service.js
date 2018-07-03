@@ -1,5 +1,7 @@
 const { COLLECTION, CLIENT_DB } = require('../../constants');
 const globals = require('../../globals');
+const { tokenQueryBuilder, referenceQueryBuilder } = require('../../utils/service.utils');
+
 
 /**
  * @name count
@@ -32,7 +34,78 @@ module.exports.count = (args, logger) => new Promise((resolve, reject) => {
  */
 module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     logger.info('Medication >>> search');
-    reject(new Error('Support coming soon'));
+    let { code, container, form, ingredient, ingredientCode, manufacturer, overTheCounter,
+    packageItem, packageItemCode, status } = args;
+    let query = {};
+    //let ors = [];
+
+    if (code) {
+      let queryBuilder = tokenQueryBuilder(code, 'code', 'code.coding');
+      for (let i in queryBuilder) {
+          query[i] = queryBuilder[i];
+      }
+    }
+    if (container) {
+      let queryBuilder = tokenQueryBuilder(container, 'code', 'package.container.coding');
+      for (let i in queryBuilder) {
+          query[i] = queryBuilder[i];
+      }
+    }
+    if (form) {
+      let queryBuilder = tokenQueryBuilder(form, 'code', 'form.coding');
+      for (let i in queryBuilder) {
+          query[i] = queryBuilder[i];
+      }
+    }
+    if (ingredient) {
+      let queryBuilder = referenceQueryBuilder(ingredient, 'ingredient.itemReference.reference');
+      for (let i in queryBuilder) {
+          query[i] = queryBuilder[i];
+      }
+    }
+    if (ingredientCode) {
+      let queryBuilder = tokenQueryBuilder(ingredientCode, 'code', 'ingredient.itemCodeableConcept.coding');
+      for (let i in queryBuilder) {
+          query[i] = queryBuilder[i];
+      }
+    }
+    if (manufacturer) {
+      let queryBuilder = referenceQueryBuilder(manufacturer, 'manufacturer.reference');
+      for (let i in queryBuilder) {
+          query[i] = queryBuilder[i];
+      }
+    }
+    if (overTheCounter) {
+      query.isOverTheCounter = (overTheCounter === 'true');
+    }
+    if (packageItem) {
+      let queryBuilder = referenceQueryBuilder(packageItem, 'package.content.itemReference.reference');
+      for (let i in queryBuilder) {
+          query[i] = queryBuilder[i];
+      }
+    }
+    if (packageItemCode) {
+      let queryBuilder = tokenQueryBuilder(packageItemCode, 'code', 'package.content.itemCodeableConcept.coding');
+      for (let i in queryBuilder) {
+          query[i] = queryBuilder[i];
+      }
+    }
+    if (status) {
+      query.status = status;
+    }
+
+    // Grab an instance of our DB and collection
+    let db = globals.get(CLIENT_DB);
+    let collection = db.collection(COLLECTION.MEDICATION);
+
+    collection.find(query, (err, medications) => {
+        if (err) {
+            logger.error('Error with medication.search: ', err);
+            return reject(err);
+        }
+        // medications is a cursor, grab the documents from that
+        medications.toArray().then(resolve, reject);
+    });
 });
 
 /**

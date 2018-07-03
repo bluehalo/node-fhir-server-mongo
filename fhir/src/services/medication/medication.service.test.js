@@ -1,5 +1,5 @@
 /* eslint-disable */
-const MedicationFixture = require('../../../fixtures/data/uscore/Medication-uscore-med1.json');
+const MedicationFixture = require('../../../fixtures/data/patient00/medication00.json');
 const { CLIENT, CLIENT_DB } = require('../../constants');
 const asyncHandler = require('../../lib/async-handler');
 const logger = require('../../testutils/logger.mock');
@@ -32,6 +32,56 @@ describe('Medication Service Test', () => {
         client.close();
     });
 
+    describe('Method: search', () => {
+
+        test('should return 2 medications', async () => {
+            let args = { code: 'http://www.nlm.nih.gov/research/umls/rxnorm|206765' };
+            let [ err, docs ] = await asyncHandler(
+                medicationService.search(args, logger)
+            );
+
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(2);
+
+            docs.forEach(doc => {
+                expect(doc.code.coding[0].system).toEqual('http://www.nlm.nih.gov/research/umls/rxnorm');
+                expect(doc.code.coding[0].code).toEqual('206765');
+            });
+
+        });
+        test('testing some added search params', async () => {
+            let args = { container: 'http://snomed.info/sct|419672006',
+            code: '206765', form: 'http://snomed.info/sct|385055001', ingredient: '#sub04',
+          ingredientCode: 'http://www.nlm.nih.gov/research/umls/rxnorm|203134', manufacturer: '#org7',
+        overTheCounter: 'false', packageItem: '#med500', packageItemCode: 'http://snomed.info/sct|324337001',
+      status: 'active' };
+            let [ err, docs ] = await asyncHandler(
+                medicationService.search(args, logger)
+            );
+
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(1);
+
+            docs.forEach(doc => {
+                expect(doc.package.container.coding[0].system).toEqual('http://snomed.info/sct');
+                expect(doc.package.container.coding[0].code).toEqual('419672006');
+                expect(doc.code.coding[0].system).toEqual('http://www.nlm.nih.gov/research/umls/rxnorm');
+                expect(doc.code.coding[0].code).toEqual('206765');
+                expect(doc.form.coding[0].system).toEqual('http://snomed.info/sct');
+                expect(doc.form.coding[0].code).toEqual('385055001');
+                expect(doc.ingredient[0].itemReference.reference).toEqual('#sub04');
+                expect(doc.ingredient[1].itemCodeableConcept.coding[0].system).toEqual('http://www.nlm.nih.gov/research/umls/rxnorm');
+                expect(doc.ingredient[1].itemCodeableConcept.coding[0].code).toEqual('203134');
+                expect(doc.manufacturer.reference).toEqual('#org7');
+                expect(doc.isOverTheCounter).toEqual(false);
+                expect(doc.package.content[1].itemReference.reference).toEqual('#med500');
+                expect(doc.package.content[0].itemCodeableConcept.coding[0].system).toEqual('http://snomed.info/sct');
+                expect(doc.package.content[0].itemCodeableConcept.coding[0].code).toEqual('324337001');
+                expect(doc.status).toEqual('active');
+            });
+        });
+    });
+
     describe('Method: count', () => {
 
         test('should correctly pass back the count', async () => {
@@ -40,7 +90,7 @@ describe('Medication Service Test', () => {
             );
 
             expect(err).toBeUndefined();
-            expect(results).toEqual(4);
+            expect(results).toEqual(5);
         });
 
     });
