@@ -1,5 +1,6 @@
 const { COLLECTION, CLIENT_DB } = require('../../constants');
 const globals = require('../../globals');
+const { tokenQueryBuilder, referenceQueryBuilder } = require('../../utils/service.utils');
 
 /**
  * @name count
@@ -32,7 +33,63 @@ module.exports.count = (args, logger) => new Promise((resolve, reject) => {
  */
 module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     logger.info('Goal >>> search');
-    reject(new Error('Support coming soon'));
+    // Parse the params
+    let { category, identifier, patient, startDate, status, subject, targetDate } = args;
+    // Status is required and guaranteed to be provided
+    let query = {
+        status: status
+    };
+
+    if (category) {
+        let queryBuilder = tokenQueryBuilder(category, 'code', 'category.coding');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+
+    if (identifier) {
+        let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+
+    if (patient) {
+        let queryBuilder = referenceQueryBuilder(patient, 'subject.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+
+    if (startDate) {
+        query.startDate = startDate;
+    }
+
+    if (subject) {
+        let queryBuilder = referenceQueryBuilder(subject, 'subject.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+
+    if (targetDate) {
+        query['target.dueDate'] = targetDate;
+    }
+
+    // console.log(JSON.stringify(query));
+
+    // Grab an instance of our DB and collection
+    let db = globals.get(CLIENT_DB);
+    let collection = db.collection(COLLECTION.GOAL);
+    // Query our collection for this observation
+    collection.find(query, (err, goal) => {
+        if (err) {
+            logger.error('Error with Goal.search: ', err);
+            return reject(err);
+        }
+        // Goal is a goal cursor, pull documents out before resolving
+        goal.toArray().then(resolve, reject);
+    });
 });
 
 /**

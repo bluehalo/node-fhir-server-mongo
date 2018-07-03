@@ -40,7 +40,33 @@ describe('Goal Service Test', () => {
             );
 
             expect(err).toBeUndefined();
-            expect(results).toEqual(1);
+            expect(results).toEqual(2);
+        });
+
+    });
+
+    describe('Method: search', () => {
+
+        test('should correctly return a specific goal using all arguments', async () => {
+            let args = {category: 'dietary', identifier: '123', patient: 'example', startDate: '2015-04-05', status: 'on-hold',
+                subject: 'Patient/example', targetDate: '2016-04-05'};
+            let [err, docs] = await asyncHandler(
+                goalService.search(args, logger)
+            );
+
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(1);
+
+            docs.forEach(doc => {
+                expect(doc.category[0].coding[0].code).toEqual(args.category);
+                expect(doc.identifier[0].value).toEqual(args.identifier);
+                expect(doc.subject.reference).toEqual('Patient/example');
+                expect(doc.startDate).toEqual(args.startDate);
+                expect(doc.status).toEqual(args.status);
+                expect(doc.subject.reference).toEqual(args.subject);
+                expect(doc.target.dueDate).toEqual(args.targetDate);
+            });
+
         });
 
     });
