@@ -59,7 +59,7 @@ let addressQueryBuilder = function (target) {
 };
 
 /**
- * @name addressQueryBuilder
+ * @name nameQueryBuilder
  * @description brute force method of matching human names. Splits the input and checks to see if every piece matches to
  * at least 1 part of the name field using regexs. Ignores case
  * @param {string} target

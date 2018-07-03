@@ -195,7 +195,7 @@ describe('Service Utils Tests', () => {
 
     describe('Method: addressQueryBuilder', () => {
 
-        test('should pass back an ordination using based on the address', async () => {
+        test('should pass back an organization based on parts of the address', async () => {
             // Handle a full address
             let args = {address: '3300 Washtenaw Avenue, Suite 227, Ann Arbor, MI  48104 UsA'};
             let [err, docs] = await asyncHandler(
@@ -227,6 +227,37 @@ describe('Service Utils Tests', () => {
             );
             expect(err).toBeUndefined();
             expect(docs.length).toEqual(2);
+
+        });
+
+    });
+
+    describe('Method: nameQueryBuilder', () => {
+
+        test('should pass back a name based on parts of it', async () => {
+            // Handle a full address
+            let args = {name: 'Peter James Chalmers'};
+            let [err, docs] = await asyncHandler(
+                patientService.search(args, logger)
+            );
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(1);
+
+            // Handle multiple last names regardless of order
+            args = {name: 'Windsor          ,,,,,,,,,     . Chalmers'};
+            [err, docs] = await asyncHandler(
+                patientService.search(args, logger)
+            );
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(1);
+
+            // Should not handle spelling errors
+            args = {name: 'Peter James Calmers'};
+            [err, docs] = await asyncHandler(
+                patientService.search(args, logger)
+            );
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(0);
 
         });
 
