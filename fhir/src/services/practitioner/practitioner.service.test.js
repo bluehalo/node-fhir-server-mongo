@@ -106,7 +106,7 @@ describe('Practitioner Service Test', () => {
     describe('Method: searchById', () => {
 
         test('should correctly return a document', async () => {
-            let args = {id: 'practitioner-1'};
+            let args = {id: '0'};
             let [err, doc] = await asyncHandler(
                 practitionerService.searchById(args, logger)
             );
@@ -127,7 +127,7 @@ describe('Practitioner Service Test', () => {
         test('should successfully delete a document', async () => {
 
             // Look for this particular fixture
-            let args = { id: 'practitioner-1' };
+            let args = { id: '0' };
             let [ err, doc ] = await asyncHandler(
                 practitionerService.searchById(args, logger)
             );
@@ -169,7 +169,7 @@ describe('Practitioner Service Test', () => {
                 resource: {
                     toJSON: () => PractitionerFixture
                 },
-                id: 'practitioner-1'
+                id: '0'
             };
 
             // Delete the fixture incase it exists,
@@ -218,7 +218,7 @@ describe('Practitioner Service Test', () => {
                 resource: {
                     toJSON: () => PractitionerFixture
                 },
-                id: 'practitioner-1'
+                id: '0'
             };
 
             // Query for the original doc, this will ignore the resource arg
