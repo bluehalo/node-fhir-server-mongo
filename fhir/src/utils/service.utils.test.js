@@ -2,6 +2,7 @@ const { CLIENT, CLIENT_DB } = require('../constants');
 const asyncHandler = require('../lib/async-handler');
 const logger = require('../testutils/logger.mock');
 const organizationService = require('../services/organization/organization.service');
+const patientService = require('../services/patient/patient.service');
 const { mongoConfig } = require('../config');
 const mongoClient = require('../lib/mongo');
 let globals = require('../globals');
@@ -131,6 +132,15 @@ describe('Service Utils Tests', () => {
             expect(err).toBeUndefined();
             expect(docs.length).toEqual(2);
             expect(docs[0].identifier[0].value).toEqual('1144221847');
+
+            // required system
+            args = {email: 'p.heuvel@gmail.com'};
+            [err, docs] = await asyncHandler(
+                patientService.search(args, logger)
+            );
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(1);
+            expect(docs[0].telecom[4].value).toEqual('p.heuvel@gmail.com');
 
         });
 

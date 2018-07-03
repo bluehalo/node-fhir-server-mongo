@@ -1,5 +1,6 @@
 const { COLLECTION, CLIENT_DB } = require('../../constants');
 const globals = require('../../globals');
+const { stringQueryBuilder, tokenQueryBuilder, referenceQueryBuilder, addressQueryBuilder, nameQueryBuilder } = require('../../utils/service.utils');
 
 /**
  * @name count
@@ -33,38 +34,158 @@ module.exports.count = (args, logger) => new Promise((resolve, reject) => {
 module.exports.search = (args, logger) => new Promise((resolve, reject) => {
 	logger.info('Patient >>> search');
 	// Parse the params
-	let { id, identifier, name, family, given, gender, birthDate } = args;
+	let { id, active, address, addressCity, addressCountry, addressPostalCode, addressState, addressUse, animalBreed,
+        animalSpecies, birthDate, deathDate, deceased, email, family, gender, generalPractitioner, given, identifier,
+        language, link, name, organization, phone, telecom } = args;
 	let query = {};
+	let ors = [];
 
-	if (id) {
-		query.id = id;
-	}
+    // Handle all arguments that have or logic
+    if (address) {
+        let orsAddress = addressQueryBuilder(address);
+        for (let i = 0; i < orsAddress.length; i++) {
+            ors.push(orsAddress[i]);
+        }
+    }
+    if (name) {
+        let orsName = nameQueryBuilder(name);
+        for (let i = 0; i < orsName.length; i++) {
+            ors.push(orsName[i]);
+        }
+    }
+    if (ors.length !== 0) {
+        query.$and = ors;
+    }
 
-	if (identifier) {
-		let [ system, value ] = identifier.split('|');
+    if (id) {
+        query.id = id;
+    }
 
-		query.identifier = {$elemMatch: { system, value }};
-	}
+    if (active) {
+        query.active = (active === 'true');
+    }
 
-	if (name) {
-		query['name.family'] = name;
-	}
+    if (addressCity) {
+        query['address.city'] = stringQueryBuilder(addressCity);
+    }
 
-	if (given) {
-		query['name.given'] = given;
-	}
+    if (addressCountry) {
+        query['address.country'] = stringQueryBuilder(addressCountry);
+    }
+
+    if (addressPostalCode) {
+        query['address.postalCode'] = stringQueryBuilder(addressPostalCode);
+    }
+
+    if (addressState) {
+        query['address.state'] = stringQueryBuilder(addressState);
+    }
+
+    if (addressUse) {
+        query['address.use'] = addressUse;
+    }
+
+    if (animalBreed) {
+        let queryBuilder = tokenQueryBuilder(animalBreed, 'code', 'animal.breed.coding');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+
+    if (animalSpecies) {
+        let queryBuilder = tokenQueryBuilder(animalSpecies, 'code', 'animal.species.coding');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+
+    if (birthDate) {
+        query.birthDate = birthDate;
+    }
+
+    if (deathDate) {
+        query.deceasedDateTime = deathDate;
+    }
+
+    if (deceased) {
+        query.deceasedBoolean = (deceased === 'true');
+    }
+
+    // Forces system = 'email'
+    if (email) {
+        let queryBuilder = tokenQueryBuilder(email, 'value', 'telecom', 'email');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
 
 	if (family) {
-		query['name.family'] = family;
+		query['name.family'] = stringQueryBuilder(family);
 	}
 
 	if (gender) {
 		query.gender = gender;
 	}
 
-	if (birthDate) {
-		query.birthDate = birthDate;
-	}
+    if (generalPractitioner) {
+        let queryBuilder = referenceQueryBuilder(generalPractitioner, 'generalPractitioner.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+
+    if (given) {
+        query['name.given'] = stringQueryBuilder(given);
+    }
+
+    if (identifier) {
+        // let [ system, value ] = identifier.split('|');
+        // query.identifier = {$elemMatch: { system, value }};
+
+        let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+
+    if (language) {
+        let queryBuilder = tokenQueryBuilder(language, 'code', 'communication.language.coding');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+
+    if (link) {
+        let queryBuilder = referenceQueryBuilder(link, 'link.other.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+
+    if (organization) {
+        let queryBuilder = referenceQueryBuilder(organization, 'managingOrganization.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+
+    // Forces system = 'phone'
+    if (phone) {
+        // console.log(phone);
+        let queryBuilder = tokenQueryBuilder(phone, 'value', 'telecom', 'phone');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+
+    if (telecom) {
+        let queryBuilder = tokenQueryBuilder(telecom, 'value', 'telecom');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+
+    console.log(JSON.stringify(query));
 
 	// Grab an instance of our DB and collection
 	let db = globals.get(CLIENT_DB);

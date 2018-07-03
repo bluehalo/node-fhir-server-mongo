@@ -32,8 +32,7 @@ let stringQueryBuilder = function (target) {
 /**
  * @name addressQueryBuilder
  * @description brute force method of matching addresses. Splits the input and checks to see if every piece matches to
- * at least 1 part of the address field using regexs. Ignores case. When using in a service, assign to the ors array rather
- * then pushing.
+ * at least 1 part of the address field using regexs. Ignores case
  * @param {string} target
  * @return {array} ors
  */
@@ -59,6 +58,13 @@ let addressQueryBuilder = function (target) {
     return ors;
 };
 
+/**
+ * @name addressQueryBuilder
+ * @description brute force method of matching human names. Splits the input and checks to see if every piece matches to
+ * at least 1 part of the name field using regexs. Ignores case
+ * @param {string} target
+ * @return {array} ors
+ */
 let nameQueryBuilder = function (target) {
   let split = target.split(/[\s.,]+/);
   let ors = [];
@@ -80,6 +86,7 @@ let nameQueryBuilder = function (target) {
  * @param {string} target what we are searching for
  * @param {string} type codeable concepts use a code field and identifiers use a value
  * @param {string} field path to system and value from field
+ * @param {string} required the required system if specified
  * @return {JSON} queryBuilder
  * Using to assign a single variable:
  *      let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier');
@@ -89,19 +96,27 @@ let nameQueryBuilder = function (target) {
  * Use in an or query
  *      query.$or = [tokenQueryBuilder(identifier, 'value', 'identifier'), tokenQueryBuilder(type, 'code', 'type.coding')];
  */
-let tokenQueryBuilder = function (target, type, field) {
+let tokenQueryBuilder = function (target, type, field, required) {
     let queryBuilder = {};
+    let system = '';
+    let value = '';
+
     if (target.includes('|')) {
-        let [ system, value ] = target.split('|');
-        if (system) {
-            queryBuilder[`${field}.system`] = system;
-        }
-        if (value) {
-            queryBuilder[`${field}.${type}`] = value;
+        [ system, value ] = target.split('|');
+
+        if (required) {
+            system = required;
         }
     }
     else {
-        queryBuilder[`${field}.${type}`] = target;
+        value = target;
+    }
+
+    if (system) {
+        queryBuilder[`${field}.system`] = system;
+    }
+    if (value) {
+        queryBuilder[`${field}.${type}`] = value;
     }
 
     return queryBuilder;
