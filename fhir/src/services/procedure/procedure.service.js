@@ -1,5 +1,6 @@
 const { COLLECTION, CLIENT_DB } = require('../../constants');
 const globals = require('../../globals');
+const { tokenQueryBuilder, referenceQueryBuilder } = require('../../utils/service.utils');
 
 /**
  * @name count
@@ -33,98 +34,95 @@ module.exports.count = (args, logger) => new Promise((resolve, reject) => {
 module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     logger.info('Procedure >>> search');
     let { patient, basedOn, category, status, code, context, date, definition, encounter,
-    identifier, location, partOf, performer, subject } = args;
+        identifier, location, partOf, performer, subject } = args;
     let query = {
     };
     query['subject.reference'] = `Patient/${patient}`;
     if (basedOn) {
-      query['basedOn.reference'] = basedOn;
+        let queryBuilder = referenceQueryBuilder(basedOn, 'basedOn.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
     }
     if (category) {
-      if (category.includes('|')) {
-          let [ system, code2 ] = category.split('|');
-          // console.log(('' === system) + ' *** ' + value);
-          if (system) {
-              query['category.coding.system'] = system;
-          }
-          if (code2) {
-              query['category.coding.code'] = code2;
-          }
-      }
-      else {
-          query['category.coding.code'] = category;
-      }
+        let queryBuilder = tokenQueryBuilder(category, 'code', 'category.coding');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
     }
     if (code) {
-      if (code.includes('|')) {
-          let [ system, code2 ] = code.split('|');
-          // console.log(('' === system) + ' *** ' + value);
-          if (system) {
-              query['code.coding.system'] = system;
-          }
-          if (code2) {
-              query['code.coding.code'] = code2;
-          }
-      }
-      else {
-          query['code.coding.code'] = code;
-      }
+        let queryBuilder = tokenQueryBuilder(code, 'code', 'code.coding');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
     }
     if (status) {
-      query.status = status;
+        query.status = status;
     }
     if (context) {
-      query['context.reference'] = context;
+        let queryBuilder = referenceQueryBuilder(context, 'context.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
     }
     if (date) {
-      query.performedDateTime = date;
+        query.performedDateTime = date;
     }
     if (definition) {
-      query['definition.reference'] = definition;
+        let queryBuilder = referenceQueryBuilder(definition, 'definition.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
     }
     if (encounter) {
-      query['context.reference'] = `Encounter/${encounter}`;
+        let queryBuilder = referenceQueryBuilder(encounter, 'context.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
     }
     if (identifier) {
-      if (identifier.includes('|')) {
-          let [ system, value ] = identifier.split('|');
-          // console.log(('' === system) + ' *** ' + value);
-          if (system) {
-              query['identifier.system'] = system;
-          }
-          if (value) {
-              query['identifier.value'] = value;
-          }
-      }
-      else {
-          query['identifier.value'] = identifier;
-      }
+        let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
     }
     if (location) {
-      query['location.reference'] = location;
+        let queryBuilder = referenceQueryBuilder(location, 'location.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
     }
     if (partOf) {
-      query['partOf.reference'] = partOf;
+        let queryBuilder = referenceQueryBuilder(partOf, 'partOf.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
     }
     if (performer) {
-      query['performer.actor.reference'] = performer;
+        let queryBuilder = referenceQueryBuilder(performer, 'performer.actor.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
     }
     if (subject) {
-      query['subject.reference'] = subject;
+        let queryBuilder = referenceQueryBuilder(subject, 'subject.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
     }
 
-  // Grab an instance of our DB and collection
-  let db = globals.get(CLIENT_DB);
-  let collection = db.collection(COLLECTION.PROCEDURE);
+    // Grab an instance of our DB and collection
+    let db = globals.get(CLIENT_DB);
+    let collection = db.collection(COLLECTION.PROCEDURE);
 
-  collection.find(query, (err, procedures) => {
-    if (err) {
-      logger.error('Error with Procedure.search: ', err);
-      return reject(err);
-    }
-    // Procedures is a cursor, grab the documents from that
-    procedures.toArray().then(resolve, reject);
-  });
+    collection.find(query, (err, procedures) => {
+        if (err) {
+            logger.error('Error with Procedure.search: ', err);
+            return reject(err);
+        }
+        // Procedures is a cursor, grab the documents from that
+        procedures.toArray().then(resolve, reject);
+    });
 });
 
 /**
