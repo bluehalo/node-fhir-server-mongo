@@ -150,6 +150,46 @@ let referenceQueryBuilder = function (target, field) {
     return queryBuilder;
 };
 
+// This function can take in a number or a number with a prefix
+// (ex gt43.44 -> greater than 43.44).  If they just enter a number, then numbers
+// within a certain range are allowed.  Ex: 100.00 -> 99.995 to 100.0049999...
+let numberQueryBuilder = function (target) {
+  let reg1 = /^(\w{2})(-?\d+(\.\d+)?)$/;
+  let reg2 = /^(-?\d+(\.\d+)?)$/;
+  let match1 = target.match(reg1);
+  let match2 = target.match(reg2);
+  if (match1 && match1.length > 0) {
+    if (match1[1] === 'lt') {
+      return { $lt: Number(match1[2]) };
+    }
+    if (match1[1] === 'le') {
+      return { $lte: Number(match1[2]) };
+    }
+    if (match1[1] === 'gt') {
+      return { $gt: Number(match1[2]) };
+    }
+    if (match1[1] === 'ge') {
+      return { $gte: Number(match1[2]) };
+    }
+    if (match1[1] === 'ne') {
+      return { $ne: Number(match1[2]) };
+    }
+  }
+  // because floating points aren't stored precisely, this may not round correctly
+  // for certain numbers ending in 5.  For example, sometimes 24.45 may not round to 24.5
+  if (match2 && match2.length > 0) {
+    let num = match2[1];
+    if ( num.includes('.') ) {
+      let numDecimals = num.length - num.indexOf('.') - 1;
+      let temp = Number(num).toFixed(numDecimals);
+      return Number(temp);
+    } else {
+      let temp = Number(num).toFixed(0);
+      return Number(temp);
+    }
+  }
+};
+
 /**
  * @todo figure out how to incorporate modifiers
  */
@@ -158,5 +198,6 @@ module.exports = {
     tokenQueryBuilder,
     referenceQueryBuilder,
     addressQueryBuilder,
-    nameQueryBuilder
+    nameQueryBuilder,
+    numberQueryBuilder
 };

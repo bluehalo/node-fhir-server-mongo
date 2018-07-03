@@ -1,5 +1,5 @@
 /* eslint-disable */
-const ImmunizationFixture = require('../../../fixtures/data/patient01/immunization01.json');
+const ImmunizationFixture = require('../../../fixtures/data/patient00/immunization00.json');
 const { CLIENT, CLIENT_DB } = require('../../constants');
 const asyncHandler = require('../../lib/async-handler');
 const logger = require('../../testutils/logger.mock');
@@ -32,6 +32,58 @@ describe('Immunization Service Test', () => {
         client.close();
     });
 
+    describe('Method: search', () => {
+
+        test('should return 2 immunizations', async () => {
+            let args = { patient: 'example', date: '2016-01-08',
+            vaccineCode: 'http://hl7.org/fhir/sid/cvx|158' };
+            let [ err, docs ] = await asyncHandler(
+                immunizationService.search(args, logger)
+            );
+
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(2);
+
+            docs.forEach(doc => {
+                expect(doc.patient.reference).toEqual(`Patient/${args.patient}`);
+                expect(doc.date).toEqual('2016-01-08');
+                expect(doc.vaccineCode.coding[0].system).toEqual('http://hl7.org/fhir/sid/cvx');
+                expect(doc.vaccineCode.coding[0].code).toEqual('158');
+            });
+
+        });
+        test('testing some added search params', async () => {
+            let args = { patient: 'example', doseSequence: 'ge-4', location: '1',
+            identifier: 'urn:ietf:rfc:3986|urn:oid:1.3.6.1.4.1.21367.2005.3.7.1234',
+          lotNumber: 'AAJN11K', manufacturer: 'Organization/hl7', notGiven: 'false',
+        practitioner: 'example', reaction: 'Observation/example', reactionDate: '2013-01-10',
+      reason: 'http://snomed.info/sct|429060002', status: 'completed' };
+            let [ err, docs ] = await asyncHandler(
+                immunizationService.search(args, logger)
+            );
+
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(1);
+
+            docs.forEach(doc => {
+                expect(doc.patient.reference).toEqual(`Patient/${args.patient}`);
+                expect(doc.vaccinationProtocol[0].doseSequence).toEqual(1);
+                expect(doc.identifier[0].system).toEqual('urn:ietf:rfc:3986');
+                expect(doc.identifier[0].value).toEqual('urn:oid:1.3.6.1.4.1.21367.2005.3.7.1234');
+                expect(doc.location.reference).toEqual('Location/1');
+                expect(doc.lotNumber).toEqual('AAJN11K');
+                expect(doc.manufacturer.reference).toEqual('Organization/hl7');
+                expect(doc.notGiven).toEqual(false);
+                expect(doc.practitioner[0].actor.reference).toEqual('Practitioner/example');
+                expect(doc.reaction[0].detail.reference).toEqual('Observation/example')
+                expect(doc.reaction[0].date).toEqual('2013-01-10')
+                expect(doc.explanation.reason[0].coding[0].system).toEqual('http://snomed.info/sct');
+                expect(doc.explanation.reason[0].coding[0].code).toEqual('429060002');
+                expect(doc.status).toEqual('completed');
+            });
+        });
+    });
+
     describe('Method: count', () => {
 
         test('should correctly pass back the count', async () => {
@@ -40,7 +92,7 @@ describe('Immunization Service Test', () => {
             );
 
             expect(err).toBeUndefined();
-            expect(results).toEqual(11);
+            expect(results).toEqual(12);
         });
 
     });
@@ -48,7 +100,7 @@ describe('Immunization Service Test', () => {
     describe('Method: searchById', () => {
 
         test('should correctly return a document', async () => {
-            let args = { id: '8' };
+            let args = { id: '0' };
             let [ err, doc ] = await asyncHandler(
                 immunizationService.searchById(args, logger)
             );
@@ -69,7 +121,7 @@ describe('Immunization Service Test', () => {
         test('should successfully delete a document', async () => {
 
             // Look for this particular fixture
-            let args = { id: '1' };
+            let args = { id: '0' };
             let [ err, doc ] = await asyncHandler(
                 immunizationService.searchById(args, logger)
             );
@@ -111,7 +163,7 @@ describe('Immunization Service Test', () => {
                 resource: {
                     toJSON: () => ImmunizationFixture
                 },
-                id: '1'
+                id: '0'
             };
 
             // Delete the fixture incase it exists,
@@ -160,7 +212,7 @@ describe('Immunization Service Test', () => {
                 resource: {
                     toJSON: () => ImmunizationFixture
                 },
-                id: '1'
+                id: '0'
             };
 
             // Query for the original doc, this will ignore the resource arg

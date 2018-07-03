@@ -1,5 +1,6 @@
 const { COLLECTION, CLIENT_DB } = require('../../constants');
 const globals = require('../../globals');
+const { stringQueryBuilder, tokenQueryBuilder, referenceQueryBuilder, numberQueryBuilder } = require('../../utils/service.utils');
 
 /**
  * @name count
@@ -32,7 +33,95 @@ module.exports.count = (args, logger) => new Promise((resolve, reject) => {
  */
 module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     logger.info('Immunization >>> search');
-    reject(new Error('Support coming soon'));
+    let { patient, date, doseSequence, identifier, location, lotNumber, manufacturer,
+    notGiven, practitioner, reaction, reactionDate, reason, reasonNotGiven, status,
+  vaccineCode } = args;
+    let query = {};
+
+    if (patient) {
+      let queryBuilder = referenceQueryBuilder(patient, 'patient.reference');
+      for (let i in queryBuilder) {
+          query[i] = queryBuilder[i];
+      }
+    }
+    if (date) {
+      query.date = date;
+    }
+    if (doseSequence) {
+      query['vaccinationProtocol.doseSequence'] = numberQueryBuilder(doseSequence);
+    }
+    if (identifier) {
+        let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+    if (location) {
+      let queryBuilder = referenceQueryBuilder(location, 'location.reference');
+      for (let i in queryBuilder) {
+          query[i] = queryBuilder[i];
+      }
+    }
+    if (lotNumber) {
+      query.lotNumber = stringQueryBuilder(lotNumber);
+    }
+    if (manufacturer) {
+      let queryBuilder = referenceQueryBuilder(manufacturer, 'manufacturer.reference');
+      for (let i in queryBuilder) {
+          query[i] = queryBuilder[i];
+      }
+    }
+    if (notGiven) {
+      query.notGiven = (notGiven === 'true');
+    }
+    if (practitioner) {
+      let queryBuilder = referenceQueryBuilder(practitioner, 'practitioner.actor.reference');
+      for (let i in queryBuilder) {
+          query[i] = queryBuilder[i];
+      }
+    }
+    if (reaction) {
+      let queryBuilder = referenceQueryBuilder(reaction, 'reaction.detail.reference');
+      for (let i in queryBuilder) {
+          query[i] = queryBuilder[i];
+      }
+    }
+    if (reactionDate) {
+      query['reaction.date'] = reactionDate;
+    }
+    if (reason) {
+      let queryBuilder = tokenQueryBuilder(reason, 'code', 'explanation.reason.coding');
+      for (let i in queryBuilder) {
+          query[i] = queryBuilder[i];
+      }
+    }
+    if (reasonNotGiven) {
+      let queryBuilder = tokenQueryBuilder(reasonNotGiven, 'code', 'explanation.reasonNotGiven.coding');
+      for (let i in queryBuilder) {
+          query[i] = queryBuilder[i];
+      }
+    }
+    if (status) {
+      query.status = status;
+    }
+    if (vaccineCode) {
+      let queryBuilder = tokenQueryBuilder(vaccineCode, 'code', 'vaccineCode.coding');
+      for (let i in queryBuilder) {
+          query[i] = queryBuilder[i];
+      }
+    }
+    // Grab an instance of our DB and collection
+    let db = globals.get(CLIENT_DB);
+    let collection = db.collection(COLLECTION.IMMUNIZATION);
+
+    collection.find(query, (err, immunizations) => {
+        if (err) {
+            logger.error('Error with immunization.search: ', err);
+            return reject(err);
+        }
+        // immunizations is a cursor, grab the documents from that
+        immunizations.toArray().then(resolve, reject);
+    });
 });
 
 /**
