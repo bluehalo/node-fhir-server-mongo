@@ -1,5 +1,6 @@
 const { COLLECTION, CLIENT_DB } = require('../../constants');
 const globals = require('../../globals');
+const { tokenQueryBuilder, referenceQueryBuilder } = require('../../utils/service.utils');
 
 /**
  * @name count
@@ -32,7 +33,110 @@ module.exports.count = (args, logger) => new Promise((resolve, reject) => {
  */
 module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     logger.info('MedicationRequest >>> search');
-    reject(new Error('Support coming soon'));
+    // Parse the params
+    let { authoredon, category, code, context, date, identifier, intendedDispenser, intent, medication, patient, priority,
+        requester, status, subject } = args;
+    // console.log(JSON.stringify(args));
+
+    let query = {};
+
+    if (authoredon) {
+        query.authoredOn = authoredon;
+    }
+
+    if (category) {
+        let queryBuilder = tokenQueryBuilder(category, 'code', 'category.coding');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+
+    if (code) {
+        let queryBuilder = tokenQueryBuilder(code, 'code', 'medicationCodeableConcept.coding');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+
+    if (context) {
+        let queryBuilder = referenceQueryBuilder(context, 'context.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+
+    if (date) {
+        query['dosageInstruction.timing.event'] = date;
+    }
+
+    if (identifier) {
+        let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+
+    if (intendedDispenser) {
+        let queryBuilder = referenceQueryBuilder(intendedDispenser, 'dispenseRequest.performer.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+
+    if (intent) {
+        query.intent = intent;
+    }
+
+    if (medication) {
+        let queryBuilder = referenceQueryBuilder(medication, 'medicationReference.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+
+    if (patient) {
+        let queryBuilder = referenceQueryBuilder(patient, 'subject.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+
+    if (priority) {
+        query.priority = priority;
+    }
+
+    if (requester) {
+        let queryBuilder = referenceQueryBuilder(requester, 'requester.agent.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+
+    if (status) {
+        query.status = status;
+    }
+
+    if (subject) {
+        let queryBuilder = referenceQueryBuilder(subject, 'subject.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+
+    // console.log(JSON.stringify(query));
+
+    // Grab an instance of our DB and collection
+    let db = globals.get(CLIENT_DB);
+    let collection = db.collection(COLLECTION.MEDICATIONREQUEST);
+    // Query our collection for this medicationrequest
+    collection.find(query, (err, medicationrequest) => {
+        if (err) {
+            logger.error('Error with MedicationRequest.search: ', err);
+            return reject(err);
+        }
+        // MedicationRequest is a cursor, grab the documents from that
+        medicationrequest.toArray().then(resolve, reject);
+    });
 });
 
 /**
