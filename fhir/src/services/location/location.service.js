@@ -1,6 +1,6 @@
 const { COLLECTION, CLIENT_DB } = require('../../constants');
 const globals = require('../../globals');
-const { stringQueryBuilder, tokenQueryBuilder, addressQueryBuilder } = require('../../utils/service.utils');
+const { stringQueryBuilder, tokenQueryBuilder, addressQueryBuilder, referenceQueryBuilder } = require('../../utils/service.utils');
 
 /**
  * @name count
@@ -57,10 +57,6 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         query.$and = ors;
     }
 
-    // if (address) {
-    //     console.log('Not implemented');
-    // }
-
     if (addressCity) {
         query['address.city'] = stringQueryBuilder(addressCity);
     }
@@ -82,16 +78,16 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (endpoint) {
-        query['endpoint.reference'] = `Endpoint/${endpoint}`;
+        // query['endpoint.reference'] = `Endpoint/${endpoint}`;
+        let queryBuilder = referenceQueryBuilder(endpoint, 'endpoint.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
     }
 
     if (identifier) {
         query = Object.assign(query, tokenQueryBuilder(identifier, 'value', 'identifier'));
     }
-
-    // if (name) {
-    //     query.$or = [{name: stringQueryBuilder(name)}, {alias: stringQueryBuilder(name)}];
-    // }
 
     // Not sure how to implement?
     // Both need to be provided
@@ -104,7 +100,11 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (organization) {
-        query['managingOrganization.reference'] = `Organization/${organization}`;
+        // query['managingOrganization.reference'] = `Organization/${organization}`;
+        let queryBuilder = referenceQueryBuilder(organization, 'managingOrganization.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
     }
 
     if (partof) {
