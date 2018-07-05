@@ -150,48 +150,59 @@ let referenceQueryBuilder = function (target, field) {
     return queryBuilder;
 };
 
-// This function can take in a number or a number with a prefix
-// (ex gt43.44 -> greater than 43.44).  If they just enter a number, then numbers
-// within a certain range are allowed.  Ex: 100.00 -> 99.995 to 100.0049999...
+/**
+ * @name numberQueryBuilder
+ * @description takes in number query and returns a mongo query. The target parameter can have a 2 letter prefix to
+ *              specify a specific kind of query. Else, an approximation query will be returned.
+ * @param target
+ * @returns {JSON} a mongo query
+ */
 let numberQueryBuilder = function (target) {
-  let reg1 = /^(\w{2})(-?\d+(\.\d+)?)$/;
-  let reg2 = /^(-?\d+(\.\d+)?)$/;
-  let match1 = target.match(reg1);
-  let match2 = target.match(reg2);
-  if (match1 && match1.length > 0) {
-    if (match1[1] === 'lt') {
-      return { $lt: Number(match1[2]) };
+    let prefix = '';
+    let number = '';
+    let sigfigs = '';
+
+    // Check if there is a prefix
+    if (isNaN(target)) {
+        prefix = target.substring(0, 2);
+        number = parseFloat(target.substring(2));
+        sigfigs = target.substring(2);
     }
-    if (match1[1] === 'le') {
-      return { $lte: Number(match1[2]) };
+    else {
+        number = parseFloat(target);
+        sigfigs = target;
     }
-    if (match1[1] === 'gt') {
-      return { $gt: Number(match1[2]) };
+
+    // Check for prefix and return the appropriate query
+    switch (prefix) {
+        case 'lt':
+            return {$lt: number};
+        case 'le' :
+            return {$lte: number};
+        case 'gt':
+            return {$gt: number};
+        case 'ge':
+            return {$gte: number};
+        case 'ne':
+            return {$ne: number};
     }
-    if (match1[1] === 'ge') {
-      return { $gte: Number(match1[2]) };
+
+    // Return an approximation query
+    let decimals = sigfigs.split('.')[1];
+    if (decimals) {
+        decimals = decimals.length + 1;
     }
-    if (match1[1] === 'ne') {
-      return { $ne: Number(match1[2]) };
+    else {
+        decimals = 1;
     }
-  }
-  // because floating points aren't stored precisely, this may not round correctly
-  // for certain numbers ending in 5.  For example, sometimes 24.45 may not round to 24.5
-  if (match2 && match2.length > 0) {
-    let num = match2[1];
-    if ( num.includes('.') ) {
-      let numDecimals = num.length - num.indexOf('.') - 1;
-      let temp = Number(num).toFixed(numDecimals);
-      return Number(temp);
-    } else {
-      let temp = Number(num).toFixed(0);
-      return Number(temp);
-    }
-  }
+    let aprox = (1 / 10 ** decimals) * 5;
+
+    return {$gte: number - aprox, $lt: number + aprox};
+
 };
 
 /**
- * @todo figure out how to incorporate modifiers
+ * @todo build out more functions for each search type
  */
 module.exports = {
     stringQueryBuilder,
