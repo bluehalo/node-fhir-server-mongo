@@ -98,7 +98,7 @@ describe('Medication Service Test', () => {
     describe('Method: searchById', () => {
 
         test('should correctly return a document', async () => {
-            let args = {id: 'uscore-med1'};
+            let args = {id: '0'};
             let [err, doc] = await asyncHandler(
                 medicationService.searchById(args, logger)
             );
@@ -119,7 +119,7 @@ describe('Medication Service Test', () => {
         test('should successfully delete a document', async () => {
 
             // Look for this particular fixture
-            let args = { id: 'uscore-med1' };
+            let args = { id: '0' };
             let [ err, doc ] = await asyncHandler(
                 medicationService.searchById(args, logger)
             );
@@ -161,7 +161,7 @@ describe('Medication Service Test', () => {
                 resource: {
                     toJSON: () => MedicationFixture
                 },
-                id: 'uscore-med1'
+                id: '0'
             };
 
             // Delete the fixture incase it exists,
@@ -210,7 +210,7 @@ describe('Medication Service Test', () => {
                 resource: {
                     toJSON: () => MedicationFixture
                 },
-                id: 'uscore-med1'
+                id: '0'
             };
 
             // Query for the original doc, this will ignore the resource arg
