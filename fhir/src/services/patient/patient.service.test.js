@@ -1,5 +1,5 @@
 /* eslint-disable */
-const PatientFixture = require('../../../fixtures/data/patient01/patient.json');
+const PatientFixture = require('../../../fixtures/data/patient00/patient00.json');
 const { CLIENT, CLIENT_DB } = require('../../constants');
 const asyncHandler = require('../../lib/async-handler');
 const logger = require('../../testutils/logger.mock');
@@ -38,7 +38,7 @@ describe('Patient Service Test', () => {
 			);
 
 			expect(err).toBeUndefined();
-			expect(results).toEqual(13);
+			expect(results).toEqual(12);
 		});
 
 	});
@@ -128,7 +128,7 @@ describe('Patient Service Test', () => {
 	describe('Method: searchById', () => {
 
 		test('should correctly return a document', async () => {
-			let args = { id: '1' };
+			let args = { id: '0' };
 			let [ err, doc ] = await asyncHandler(
 				patientService.searchById(args, logger)
 			);
@@ -149,7 +149,7 @@ describe('Patient Service Test', () => {
 		test('should successfully delete a document', async () => {
 
 			// Look for this particular fixture
-			let args = { id: '1' };
+			let args = { id: '0' };
 			let [ err, doc ] = await asyncHandler(
 				patientService.searchById(args, logger)
 			);
@@ -191,7 +191,7 @@ describe('Patient Service Test', () => {
 				resource: {
 					toJSON: () => PatientFixture
 				},
-				id: '1'
+				id: '0'
 			};
 
 			// Delete the fixture incase it exists,
@@ -240,7 +240,7 @@ describe('Patient Service Test', () => {
 				resource: {
 					toJSON: () => PatientFixture
 				},
-				id: '1'
+				id: '0'
 			};
 
 			// Query for the original doc, this will ignore the resource arg

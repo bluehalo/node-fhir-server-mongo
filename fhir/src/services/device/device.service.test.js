@@ -1,5 +1,5 @@
 /* eslint-disable */
-const DeviceFixture = require('../../../fixtures/data/uscore/Device-udi-1.json');
+const DeviceFixture = require('../../../fixtures/data/patient00/device00.json');
 const { CLIENT, CLIENT_DB } = require('../../constants');
 const asyncHandler = require('../../lib/async-handler');
 const logger = require('../../testutils/logger.mock');
@@ -98,7 +98,7 @@ describe('Device Service Test', () => {
     describe('Method: searchById', () => {
 
         test('should correctly return a document', async () => {
-            let args = {id: 'udi-1'};
+            let args = {id: '0'};
             let [err, doc] = await asyncHandler(
                 deviceService.searchById(args, logger)
             );
@@ -119,7 +119,7 @@ describe('Device Service Test', () => {
         test('should successfully delete a document', async () => {
 
             // Look for this particular fixture
-            let args = { id: 'udi-1' };
+            let args = { id: '0' };
             let [ err, doc ] = await asyncHandler(
                 deviceService.searchById(args, logger)
             );
@@ -161,7 +161,7 @@ describe('Device Service Test', () => {
                 resource: {
                     toJSON: () => DeviceFixture
                 },
-                id: 'udi-1'
+                id: '0'
             };
 
             // Delete the fixture incase it exists,
@@ -210,7 +210,7 @@ describe('Device Service Test', () => {
                 resource: {
                     toJSON: () => DeviceFixture
                 },
-                id: 'udi-1'
+                id: '0'
             };
 
             // Query for the original doc, this will ignore the resource arg
