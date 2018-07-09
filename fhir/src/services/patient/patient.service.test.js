@@ -38,7 +38,7 @@ describe('Patient Service Test', () => {
 			);
 
 			expect(err).toBeUndefined();
-			expect(results).toEqual(12);
+			expect(results).toEqual(13);
 		});
 
 	});

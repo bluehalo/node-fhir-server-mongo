@@ -36,7 +36,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     logger.info('Condition >>> search');
     // Parse out all the params for this service and start building our query
     let { patient, category, code, assertedDate, onsetDate, clinicalStatus,
-        verificationStatus, abatementAge, abatementBoolean, abatementDateTime,
+        verificationStatus, abatementAge, abatementBoolean, abatementDate,
         abatementString, asserter, bodySite, context, encounter, evidence,
         detail, identifier, onsetAge, onsetString, severity, stage, subject } = args;
     let query = {
@@ -61,7 +61,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
       }
     }
     if (onsetDate) {
-        query.onsetDateTime = onsetDate;
+        ors.push({$or: [{onsetDateTime: onsetDate}, {onsetPeriod: onsetDate}]});
     }
     if (assertedDate) {
         query.assertedDate = assertedDate;
@@ -75,14 +75,16 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     if (abatementAge) {
         ors.push({$or: [{$and: quantityQueryBuilder(abatementAge, 'abatementAge')}, {$and: quantityQueryBuilder(abatementAge, 'abatementRange')}] });
     }
+    if (onsetAge) {
+        ors.push({$or: [{$and: quantityQueryBuilder(onsetAge, 'onsetAge')}, {$and: quantityQueryBuilder(onsetAge, 'onsetRange')}] });
+    }
     if (abatementBoolean) {
-        //query.abatementBoolean = (abatementBoolean === 'true');
         let t = {$regex: new RegExp('.', 'i')};
         ors.push({$or: [{abatementBoolean: (abatementBoolean === 'true')}, {abatementDateTime: t},
       {'abatementAge.system': t}, {'abatementRange.system': t}, {abatementPeriod: t}, {abatementString: t}]});
     }
-    if (abatementDateTime) {
-      ors.push({$or: [{abatementDateTime: abatementDateTime}, {abatementPeriod: abatementDateTime}]});
+    if (abatementDate) {
+      ors.push({$or: [{abatementDateTime: abatementDate}, {abatementPeriod: abatementDate}]});
     }
     if (ors.length !== 0) {
         query.$and = ors;
@@ -91,7 +93,10 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         stringQueryBuilder(abatementString, query);
     }
     if (asserter) {
-        query['asserter.reference'] = asserter;
+        let queryBuilder = referenceQueryBuilder(asserter, 'asserter.reference');
+        for (let i in queryBuilder) {
+          query[i] = queryBuilder[i];
+        }
     }
     if (bodySite) {
       let queryBuilder = tokenQueryBuilder(bodySite, 'code', 'bodySite.coding');
@@ -128,22 +133,6 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
       for (let i in queryBuilder) {
           query[i] = queryBuilder[i];
       }
-    }
-    if (onsetAge) {
-        const regex2 = /^\D*(\d+[.]?\d*)\|(https?:\/\/[a-zA-Z0-9_-]+\.[a-z]+(\/[a-zA-Z0-9_-]+)*)\|([\s]?[^\s]+)+/;
-        const match2 = onsetAge.match(regex2);
-        // let prefix = '$eq';
-        // if (match[1]) {
-        //   prefix = '$' + match[1].replace('ge', 'gte').replace('le', 'lte');
-        // }
-        if (match2 && match2.length >= 3) {
-            let value = match2[1];
-            let system = match2[2];
-            let codeT = match2[4];
-            query['onsetAge.value'] = Number(value);
-            query['onsetAge.system'] = system;
-            query['onsetAge.code'] = codeT;
-        }
     }
     if (onsetString) {
         stringQueryBuilder(onsetString, query);
