@@ -69,7 +69,7 @@ describe('Patient Service Test', () => {
                 patientService.search(args, logger)
             );
 
-            console.log(JSON.stringify(docs));
+            // console.log(JSON.stringify(docs));
 
             expect(err).toBeUndefined();
             expect(docs.length).toEqual(1);
@@ -108,18 +108,25 @@ describe('Patient Service Test', () => {
 
         });
 
-        test('should correctly return a specific human patient using all search parameters', async () => {
+        test('should correctly return a specific animal patient', async () => {
             let args = {
-                email: 'email|p.heuvel@gmail.com', phone: '(03) 5555 6473',
+                animalBreed: 'http://snomed.info/sct|58108001', animalSpecies: 'http://hl7.org/fhir/animal-species|canislf'
             };
             let [err, docs] = await asyncHandler(
                 patientService.search(args, logger)
             );
 
-            console.log(JSON.stringify(docs));
+            // console.log(JSON.stringify(docs));
 
             expect(err).toBeUndefined();
             expect(docs.length).toEqual(1);
+
+            docs.forEach(doc => {
+                expect(doc.animal.breed.coding[0].system).toEqual('http://snomed.info/sct');
+                expect(doc.animal.breed.coding[0].code).toEqual('58108001');
+                expect(doc.animal.species.coding[0].system).toEqual('http://hl7.org/fhir/animal-species');
+                expect(doc.animal.species.coding[0].code).toEqual('canislf');
+            });
 
         });
 

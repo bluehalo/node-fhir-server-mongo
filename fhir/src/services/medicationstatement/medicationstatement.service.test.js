@@ -40,7 +40,43 @@ describe('MedicationStatement Service Test', () => {
             );
 
             expect(err).toBeUndefined();
-            expect(results).toEqual(11);
+            expect(results).toEqual(12);
+        });
+
+    });
+
+    // Effective date needs to be added
+    describe('Method: search', () => {
+
+        test('Get a medication statement using all implemented arguments', async () => {
+            let args = {category: 'inpatient', code: '1313112', context: 'f001', identifier: '12345689', medication: '#med0309', partOf: 'blood-pressure',
+                patient: 'pat1', source: 'pat1', status: 'active', subject: 'Patient/pat1'};
+            let [err, docs] = await asyncHandler(
+                medicationstatementService.search(args, logger)
+            );
+
+            // console.log(JSON.stringify(args));
+            console.log(JSON.stringify(docs));
+
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(1);
+
+            docs.forEach(doc => {
+                expect(doc.category.coding[0].system).toEqual('http://hl7.org/fhir/medication-statement-category');
+                expect(doc.category.coding[0].code).toEqual('inpatient');
+                expect(doc.medicationCodeableConcept.coding[0].system).toEqual('http://www.nlm.nih.gov/research/umls/rxnorm');
+                expect(doc.medicationCodeableConcept.coding[0].code).toEqual('1313112');
+                expect(doc.context.reference).toEqual('Encounter/f001');
+                expect(doc.identifier[0].system).toEqual('http://www.bmc.nl/portal/medstatements');
+                expect(doc.identifier[0].value).toEqual('12345689');
+                expect(doc.medicationReference.reference).toEqual('#med0309');
+                expect(doc.partOf[0].reference).toEqual('Observation/blood-pressure');
+                expect(doc.subject.reference).toEqual('Patient/pat1');
+                expect(doc.informationSource.reference).toEqual('Patient/pat1');
+                expect(doc.status).toEqual(args.status);
+                expect(doc.subject.reference).toEqual(args.subject);
+            });
+
         });
 
     });

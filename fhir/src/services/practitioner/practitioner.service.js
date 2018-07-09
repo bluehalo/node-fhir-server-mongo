@@ -1,7 +1,6 @@
 const { COLLECTION, CLIENT_DB } = require('../../constants');
 const globals = require('../../globals');
-const { stringQueryBuilder, addressQueryBuilder, nameQueryBuilder } = require('../../utils/service.utils');
-
+const { stringQueryBuilder, tokenQueryBuilder, addressQueryBuilder, nameQueryBuilder } = require('../../utils/service.utils');
 
 /**
  * @name count
@@ -35,16 +34,13 @@ module.exports.count = (args, logger) => new Promise((resolve, reject) => {
 module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     logger.info('Practitioner >>> search');
     let { active, address, addressCity, addressCountry, addressPostalCode,
-    addressState, addressUse, communication, email, family, gender, given, identifier,
-  name, phone, telecom, phonetic } = args;
-//   let orArr = { name: [args.name, 'string', 'name.text', 'name.family', 'name.given', 'name.prefix', 'name.suffix'],
-//   address: [args.address, 'string', 'address.district', 'address.line', 'address.city', 'address.state', 'address.country',
-// 'address.postalCode', 'address.text']};
+        addressState, addressUse, communication, email, family, gender, given, identifier,
+        name, phone, telecom, phonetic } = args;
     let ors = [];
     let query = {
     };
     if (active) {
-      query.active = active;
+        query.active = active;
     }
     if (name) {
         let orsName = nameQueryBuilder(name);
@@ -59,78 +55,67 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         }
     }
     if (ors.length !== 0) {
-      if (ors.length === 1) {
-        ors.push(ors[0]);
-      }
-      query.$and = ors;
+        if (ors.length === 1) {
+            ors.push(ors[0]);
+        }
+        query.$and = ors;
     }
     if (addressCity) {
-      query['address.city'] = stringQueryBuilder(addressCity);
+        query['address.city'] = stringQueryBuilder(addressCity);
     }
     if (addressCountry) {
-      query['address.country'] = stringQueryBuilder(addressCountry);
+        query['address.country'] = stringQueryBuilder(addressCountry);
     }
     if (addressPostalCode) {
-      query['address.postalCode'] = stringQueryBuilder(addressPostalCode);
+        query['address.postalCode'] = stringQueryBuilder(addressPostalCode);
     }
     if (addressState) {
-      query['address.state'] = stringQueryBuilder(addressState);
+        query['address.state'] = stringQueryBuilder(addressState);
     }
     if (addressUse) {
-      query['address.use'] = stringQueryBuilder(addressUse);
+        query['address.use'] = stringQueryBuilder(addressUse);
     }
     if (communication) {
-      if (communication.includes('|')) {
-        let [ system, code2 ] = communication.split('|');
-        // console.log(('' === system) + ' *** ' + value);
-        if (system) {
-          query['communication.coding.system'] = system;
+        let queryBuilder = tokenQueryBuilder(communication, 'code', 'communication.coding', '');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
         }
-        if (code2) {
-          query['communication.coding.code'] = code2;
-        }
-      }
-      else {
-        query['communication.coding.code'] = { $in: communication.split(',') };
-      }
     }
     if (email) {
-      query['telecom.system'] = 'email';
-      query['telecom.value'] = email;
+        let queryBuilder = tokenQueryBuilder(email, 'value', 'telecom', 'email');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
     }
     if (family) {
-      query['name.family'] = stringQueryBuilder(family);
+        query['name.family'] = stringQueryBuilder(family);
     }
     if (gender) {
-      query.gender = gender;
+        query.gender = gender;
     }
     if (given) {
-      query['name.given'] = stringQueryBuilder(given);
+        query['name.given'] = stringQueryBuilder(given);
     }
     if (identifier) {
-        if (identifier.includes('|')) {
-            let [ system, value ] = identifier.split('|');
-            // console.log(('' === system) + ' *** ' + value);
-            if (system) {
-                query['identifier.system'] = system;
-            }
-            if (value) {
-                query['identifier.value'] = value;
-            }
-        }
-        else {
-            query['identifier.value'] = identifier;
+        let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier', '');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
         }
     }
     if (phone) {
-      query['telecom.system'] = 'phone';
-      query['telecom.value'] = phone;
+        let queryBuilder = tokenQueryBuilder(phone, 'value', 'telecom', 'phone');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
     }
     if (telecom) {
-      query['telecom.value'] = telecom;
+        let queryBuilder = tokenQueryBuilder(telecom, 'value', 'telecom', '');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
     }
     if (phonetic) {
-      console.log('Not implemented yet');
+        console.log('Not implemented yet');
     }
 
 

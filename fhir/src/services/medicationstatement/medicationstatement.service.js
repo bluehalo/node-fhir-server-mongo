@@ -1,5 +1,6 @@
 const { COLLECTION, CLIENT_DB } = require('../../constants');
 const globals = require('../../globals');
+const { tokenQueryBuilder, referenceQueryBuilder } = require('../../utils/service.utils');
 
 /**
  * @name count
@@ -32,7 +33,98 @@ module.exports.count = (args, logger) => new Promise((resolve, reject) => {
  */
 module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     logger.info('MedicationStatement >>> search');
-    reject(new Error('Support coming soon'));
+    // Parse the params
+    let { category, code, context, effective, identifier, medication, partOf, patient, source, status, subject } = args;
+    // console.log(JSON.stringify(args));
+
+    let query = {};
+
+    if (category) {
+        let queryBuilder = tokenQueryBuilder(category, 'code', 'category.coding');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+
+    if (code) {
+        let queryBuilder = tokenQueryBuilder(code, 'code', 'medicationCodeableConcept.coding');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+
+    if (context) {
+        let queryBuilder = referenceQueryBuilder(context, 'context.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+
+    // nnn[x] field, implement as datetime or period once dates are figured out
+    if (effective) {
+        console.log('Not implemented');
+    }
+
+    if (identifier) {
+        let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+
+    if (medication) {
+        let queryBuilder = referenceQueryBuilder(medication, 'medicationReference.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+
+    if (partOf) {
+        let queryBuilder = referenceQueryBuilder(partOf, 'partOf.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+
+    if (patient) {
+        let queryBuilder = referenceQueryBuilder(patient, 'subject.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+
+    if (source) {
+        let queryBuilder = referenceQueryBuilder(source, 'informationSource.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+
+    if (status) {
+        query.status = status;
+    }
+
+    if (subject) {
+        let queryBuilder = referenceQueryBuilder(subject, 'subject.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+
+    console.log(JSON.stringify(query));
+
+    // Grab an instance of our DB and collection
+    let db = globals.get(CLIENT_DB);
+    let collection = db.collection(COLLECTION.MEDICATIONSTATEMENT);
+    // Query our collection for this medicationstatement
+    collection.find(query, (err, medicationstatement) => {
+        if (err) {
+            logger.error('Error with MedicationStatement.search: ', err);
+            return reject(err);
+        }
+        // MedicationStatement is a cursor, grab the documents from that
+        medicationstatement.toArray().then(resolve, reject);
+    });
 });
 
 /**

@@ -1,6 +1,7 @@
 // const { validateDate } = require('../../utils/date.validator');
 const { COLLECTION, CLIENT_DB } = require('../../constants');
 const globals = require('../../globals');
+const { tokenQueryBuilder, referenceQueryBuilder } = require('../../utils/service.utils');
 
 /**
  * @name count
@@ -39,9 +40,12 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
 
     // Patient and verificationStatus are required and guaranteed to be provided
     let query = {
-        'patient.reference': `Patient/${patient}`,
         verificationStatus: verificationStatus
     };
+    let patientQueryBuilder = referenceQueryBuilder(patient, 'patient.reference');
+    for (let i in patientQueryBuilder) {
+        query[i] = patientQueryBuilder[i];
+    }
 
     if (category) {
         query.category = category;
@@ -52,18 +56,9 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (code) {
-        if (code.includes('|')) {
-            let [ system, value ] = code.split('|');
-            // console.log(('' === system) + ' *** ' + value);
-            if (system) {
-                query['code.coding.system'] = system;
-            }
-            if (value) {
-                query['code.coding.code'] = value;
-            }
-        }
-        else {
-            query['code.coding.code'] = { $in: code.split(',') };
+        let queryBuilder = tokenQueryBuilder(code, 'code', 'code.coding');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
         }
     }
 
@@ -81,18 +76,9 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (identifier) {
-        if (identifier.includes('|')) {
-            let [ system, value ] = identifier.split('|');
-            // console.log(('' === system) + ' *** ' + value);
-            if (system) {
-                query['identifier.system'] = system;
-            }
-            if (value) {
-                query['identifier.value'] = value;
-            }
-        }
-        else {
-            query['identifier.value'] = identifier;
+        let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
         }
     }
 
@@ -106,18 +92,9 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (manifestation) {
-        if (manifestation.includes('|')) {
-            let [ system, value ] = manifestation.split('|');
-            // console.log(('' === system) + ' *** ' + value);
-            if (system) {
-                query['reaction.manifestation.coding.system'] = system;
-            }
-            if (value) {
-                query['reaction.manifestation.coding.code'] = value;
-            }
-        }
-        else {
-            query['reaction.manifestation.coding.code'] = { $in: manifestation.split(',') };
+        let queryBuilder = tokenQueryBuilder(manifestation, 'code', 'reaction.manifestation.coding');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
         }
     }
 
@@ -130,22 +107,16 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (recorder) {
-        query['recorder.reference'] = `Practitioner/${recorder}`;
+        let queryBuilder = referenceQueryBuilder(recorder, 'recorder.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
     }
 
     if (route) {
-        if (route.includes('|')) {
-            let [ system, value ] = route.split('|');
-            // console.log(('' === system) + ' *** ' + value);
-            if (system) {
-                query['reaction.exposureRoute.coding.system'] = system;
-            }
-            if (value) {
-                query['reaction.exposureRoute.coding.code'] = value;
-            }
-        }
-        else {
-            query['reaction.exposureRoute.coding.code'] = { $in: route.split(',') };
+        let queryBuilder = tokenQueryBuilder(route, 'code', 'reaction.exposureRoute.coding');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
         }
     }
 

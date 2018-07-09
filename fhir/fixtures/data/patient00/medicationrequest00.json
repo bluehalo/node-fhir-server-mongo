@@ -1,0 +1,107 @@
+{
+  "resourceType": "MedicationRequest",
+  "id": "0",
+  "text": {
+    "status": "generated",
+    "div": "A medication request"
+  },
+  "identifier": [
+    {
+      "use": "official",
+      "system": "http://www.bmc.nl/portal/prescriptions",
+      "value": "12345"
+    }
+  ],
+  "status": "active",
+  "intent": "order",
+  "category": {
+    "coding": [
+      {
+        "system": "http://hl7.org/fhir/medication-request-category",
+        "code": "inpatient",
+        "display": "Inpatient"
+      }
+    ]
+  },
+  "priority": "routine",
+  "medicationCodeableConcept": {
+    "coding": [
+      {
+        "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+        "code": "1313112",
+        "display": "Phenytoin 25mg/ml oral suspension"
+      }
+    ]
+  },
+  "medicationReference": {
+    "reference": "Medication/med0316",
+    "display": "prescribed medication"
+  },
+  "subject": {
+    "reference": "Patient/pat1",
+    "display": "Donald Duck"
+  },
+  "context": {
+    "reference": "Encounter/f001",
+    "display": "encounter that leads to this prescription"
+  },
+  "authoredOn": "2015-03-01",
+  "requester": {
+    "agent": {
+      "reference": "Practitioner/f007",
+      "display": "Patrick Pump"
+    },
+    "onBehalfOf": {
+      "reference": "Organization/f002"
+    }
+  },
+  "reasonCode": [
+    {
+      "coding": [
+        {
+          "system": "http://snomed.info/sct",
+          "code": "59621000",
+          "display": "Essential hypertension (disorder)"
+        }
+      ]
+    }
+  ],
+  "dosageInstruction": [
+    {
+      "sequence": 1,
+      "text": "Take one tablet daily as directed",
+      "timing": {
+        "event": [
+          "2015-01-15T22:00:00+11:00"
+        ],
+        "repeat": {
+          "frequency": 1,
+          "period": 24,
+          "periodUnit": "h"
+        }
+      }
+    }
+  ],
+  "dispenseRequest": {
+    "validityPeriod": {
+      "start": "2015-01-15",
+      "end": "2016-01-15"
+    },
+    "numberOfRepeatsAllowed": 1,
+    "quantity": {
+      "value": 51,
+      "unit": "TAB",
+      "system": "http://hl7.org/fhir/v3/orderableDrugForm",
+      "code": "TAB"
+    },
+    "expectedSupplyDuration": {
+      "value": 21,
+      "unit": "days",
+      "system": "http://unitsofmeasure.org",
+      "code": "d"
+    },
+    "performer": {
+      "reference": "Organization/f001"
+    }
+  }
+}

@@ -40,7 +40,47 @@ describe('MedicationRequest Service Test', () => {
             );
 
             expect(err).toBeUndefined();
-            expect(results).toEqual(3);
+            expect(results).toEqual(4);
+        });
+
+    });
+
+    describe('Method: search', () => {
+
+        test('Get an medication request using all implemented arguments', async () => {
+            let args = {authoredon: '2015-03-01', category: 'inpatient', code: '1313112', context: 'f001', date: '2015-01-15T22:00:00+11:00',
+                identifier: '12345', intendedDispenser: 'f001', intent: 'order', medication: 'med0316', patient: 'pat1',
+                priority: 'routine', requester: 'f007', status: 'active', subject: 'Patient/pat1'};
+            let [err, docs] = await asyncHandler(
+                medicationrequestService.search(args, logger)
+            );
+
+            // console.log(JSON.stringify(args));
+            // console.log(JSON.stringify(docs));
+
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(1);
+
+            docs.forEach(doc => {
+                expect(doc.authoredOn).toEqual(args.authoredon);
+                expect(doc.category.coding[0].system).toEqual('http://hl7.org/fhir/medication-request-category');
+                expect(doc.category.coding[0].code).toEqual('inpatient');
+                expect(doc.medicationCodeableConcept.coding[0].system).toEqual('http://www.nlm.nih.gov/research/umls/rxnorm');
+                expect(doc.medicationCodeableConcept.coding[0].code).toEqual('1313112');
+                expect(doc.context.reference).toEqual('Encounter/f001');
+                expect(doc.dosageInstruction[0].timing.event[0]).toEqual(args.date);
+                expect(doc.identifier[0].system).toEqual('http://www.bmc.nl/portal/prescriptions');
+                expect(doc.identifier[0].value).toEqual('12345');
+                expect(doc.dispenseRequest.performer.reference).toEqual('Organization/f001');
+                expect(doc.intent).toEqual(args.intent);
+                expect(doc.medicationReference.reference).toEqual('Medication/med0316');
+                expect(doc.subject.reference).toEqual('Patient/pat1');
+                expect(doc.priority).toEqual(args.priority);
+                expect(doc.requester.agent.reference).toEqual('Practitioner/f007');
+                expect(doc.status).toEqual(args.status);
+                expect(doc.subject.reference).toEqual(args.subject);
+            });
+
         });
 
     });

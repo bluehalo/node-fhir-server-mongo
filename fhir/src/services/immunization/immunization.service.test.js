@@ -36,7 +36,7 @@ describe('Immunization Service Test', () => {
 
         test('should return 2 immunizations', async () => {
             let args = { patient: 'example', date: '2016-01-08',
-            vaccineCode: 'http://hl7.org/fhir/sid/cvx|158' };
+                vaccineCode: 'http://hl7.org/fhir/sid/cvx|158' };
             let [ err, docs ] = await asyncHandler(
                 immunizationService.search(args, logger)
             );
@@ -53,11 +53,11 @@ describe('Immunization Service Test', () => {
 
         });
         test('testing some added search params', async () => {
-            let args = { patient: 'example', doseSequence: 'ge-4', location: '1',
-            identifier: 'urn:ietf:rfc:3986|urn:oid:1.3.6.1.4.1.21367.2005.3.7.1234',
-          lotNumber: 'AAJN11K', manufacturer: 'Organization/hl7', notGiven: 'false',
-        practitioner: 'example', reaction: 'Observation/example', reactionDate: '2013-01-10',
-      reason: 'http://snomed.info/sct|429060002', status: 'completed' };
+            let args = { patient: 'example', doseSequence: '1', location: '1',
+                identifier: 'urn:ietf:rfc:3986|urn:oid:1.3.6.1.4.1.21367.2005.3.7.1234',
+                lotNumber: 'AAJN11K', manufacturer: 'Organization/hl7', notGiven: 'false',
+                practitioner: 'example', reaction: 'Observation/example', reactionDate: '2013-01-10',
+                reason: 'http://snomed.info/sct|429060002', status: 'completed' };
             let [ err, docs ] = await asyncHandler(
                 immunizationService.search(args, logger)
             );
@@ -206,7 +206,7 @@ describe('Immunization Service Test', () => {
 
         test('should successfully update a document', async () => {
             // Update the status
-            ImmunizationFixture.status = 'preliminary';
+            ImmunizationFixture.text.status = 'preliminary';
 
             let args = {
                 resource: {
@@ -221,7 +221,7 @@ describe('Immunization Service Test', () => {
             );
 
             expect(query_err).toBeUndefined();
-            expect(doc.status).toEqual('completed');
+            expect(doc.text.status).toEqual('generated');
 
             // Update the original doc
             let [update_err, update_results] = await asyncHandler(
@@ -237,7 +237,7 @@ describe('Immunization Service Test', () => {
             );
 
             expect(updated_err).toBeUndefined();
-            expect(updated_doc.status).toEqual('preliminary');
+            expect(updated_doc.text.status).toEqual('preliminary');
 
         });
 

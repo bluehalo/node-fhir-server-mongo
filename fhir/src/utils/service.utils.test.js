@@ -6,6 +6,7 @@ const patientService = require('../services/patient/patient.service');
 const { mongoConfig } = require('../config');
 const mongoClient = require('../lib/mongo');
 let globals = require('../globals');
+const { numberQueryBuilder } = require('./service.utils');
 
 describe('Service Utils Tests', () => {
 
@@ -195,7 +196,7 @@ describe('Service Utils Tests', () => {
 
     describe('Method: addressQueryBuilder', () => {
 
-        test('should pass back an ordination using based on the address', async () => {
+        test('should pass back an organization based on parts of the address', async () => {
             // Handle a full address
             let args = {address: '3300 Washtenaw Avenue, Suite 227, Ann Arbor, MI  48104 UsA'};
             let [err, docs] = await asyncHandler(
@@ -227,6 +228,68 @@ describe('Service Utils Tests', () => {
             );
             expect(err).toBeUndefined();
             expect(docs.length).toEqual(2);
+
+        });
+
+    });
+
+    describe('Method: nameQueryBuilder', () => {
+
+        test('should pass back a name based on parts of it', async () => {
+            // Handle a full address
+            let args = {name: 'Peter James Chalmers'};
+            let [err, docs] = await asyncHandler(
+                patientService.search(args, logger)
+            );
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(1);
+
+            // Handle multiple last names regardless of order
+            args = {name: 'Windsor          ,,,,,,,,,     . Chalmers'};
+            [err, docs] = await asyncHandler(
+                patientService.search(args, logger)
+            );
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(1);
+
+            // Should not handle spelling errors
+            args = {name: 'Peter James Calmers'};
+            [err, docs] = await asyncHandler(
+                patientService.search(args, logger)
+            );
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(0);
+
+        });
+
+    });
+
+    describe('Method: numberQueryBuilder', () => {
+
+        test('should pass back a query based on a prefix', async () => {
+            let query = numberQueryBuilder('lt12');
+            expect(query).toEqual({$lt: 12});
+
+            query = numberQueryBuilder('le12');
+            expect(query).toEqual({$lte: 12});
+
+            query = numberQueryBuilder('gt12');
+            expect(query).toEqual({$gt: 12});
+
+            query = numberQueryBuilder('ge12');
+            expect(query).toEqual({$gte: 12});
+
+            query = numberQueryBuilder('ne12');
+            expect(query).toEqual({$ne: 12});
+
+        });
+
+        test('should pass back an approximation query', async () => {
+            let query = numberQueryBuilder('100');
+            expect(query).toEqual({$gte: 99.5, $lt: 100.5});
+
+            query = numberQueryBuilder('100.00');
+            expect(query).toEqual({$gte: 99.995, $lt: 100.005});
 
         });
 
