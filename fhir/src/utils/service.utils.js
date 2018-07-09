@@ -59,7 +59,7 @@ let addressQueryBuilder = function (target) {
 };
 
 /**
- * @name addressQueryBuilder
+ * @name nameQueryBuilder
  * @description brute force method of matching human names. Splits the input and checks to see if every piece matches to
  * at least 1 part of the name field using regexs. Ignores case
  * @param {string} target
@@ -190,6 +190,40 @@ let numberQueryBuilder = function (target) {
   }
 };
 
+//deals with quantity data type
+//input is [prefix][number]|[system]|[code] where prefix is optional.
+//returns an array of objects [{path: value}, etc]
+let quantityQueryBuilder = function (target, field) {
+  let qB = [];
+  let r1 = /^(\w{2})(-?\d+(\.\d+)?)$/; //with prefix
+  let r2 = /^(-?\d+(\.\d+)?)$/; //without prefix
+
+  //split by the two pipes
+  let [num, system, code] = target.split('|');
+  if (system) {
+    let t2 = {};
+    t2[`${field}.system`] = system;
+    qB.push(t2);
+  }
+  if (code) {
+    let t2 = {};
+    t2[`${field}.code`] = code;
+    qB.push(t2);
+  }
+
+  let m1 = num.match(r1);
+  let m2 = num.match(r2);
+  if (m1) { //with prefixes
+    console.log('prefixes not implemented yet');
+  }
+  if (m2) { //no prefixes
+    let t2 = {};
+    t2[`${field}.value`] = Number(m2[0]);
+    qB.push(t2);
+  }
+  return qB;
+};
+
 /**
  * @todo figure out how to incorporate modifiers
  */
@@ -199,5 +233,6 @@ module.exports = {
     referenceQueryBuilder,
     addressQueryBuilder,
     nameQueryBuilder,
-    numberQueryBuilder
+    numberQueryBuilder,
+    quantityQueryBuilder
 };

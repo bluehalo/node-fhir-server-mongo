@@ -65,7 +65,7 @@ describe('Condition Service Test', () => {
         });
 
         test('should return doc with specific code', async () => {
-            let args = { patient: 'example', category: 'problem', code: '442311008' };
+            let args = { patient: 'example', category: 'http://hl7.org/fhir/us/core/CodeSystem/condition-category|problem', code: '442311008' };
             let [ err, docs ] = await asyncHandler(
                 conditionService.search(args, logger)
             );
@@ -75,19 +75,21 @@ describe('Condition Service Test', () => {
 
             docs.forEach(doc => {
                 expect(doc.subject.reference).toEqual(`Patient/${args.patient}`);
-                expect(doc.category[0].coding[0].code).toEqual(args.category);
-                expect(doc.code.coding[0].code).toEqual(args.code);
+                expect(doc.category[0].coding[0].system).toEqual('http://hl7.org/fhir/us/core/CodeSystem/condition-category');
+                expect(doc.category[0].coding[0].code).toEqual('problem');
+                expect(doc.code.coding[0].system).toEqual('http://snomed.info/sct');
+                expect(doc.code.coding[0].code).toEqual('442311008');
             })
 
         });
 
         test('testing some added search params', async () => {
             let args = { patient: 'example', abatementAge: '56|http://snomed.info/sct|yr',
-                abatementString: 'abatementString?given:contains=8/10', abatementBoolean: true, bodySite: 'http://snomed.info/sct|51185008',
+                abatementString: 'around', abatementBoolean: 'true', bodySite: 'http://snomed.info/sct|51185008',
                 asserter: 'Practitioner/f223', context: 'Encounter/f203', evidence: 'http://snomed.info/sct|169068008',
                 detail: 'Observation/f202', identifier: '12345', onsetAge: '52|http://unitsofmeasure.org|a',
                 severity: 'http://snomed.info/sct|255604002', stage: 'http://snomed.info/sct|14803004',
-                subject: 'Patient/example', onsetString: 'onsetString?approx' };
+                subject: 'Patient/example', onsetString: 'approx' };
             let [ err, docs ] = await asyncHandler(
                 conditionService.search(args, logger)
             );
@@ -117,7 +119,7 @@ describe('Condition Service Test', () => {
                 expect(doc.severity.coding[0].system).toEqual('http://snomed.info/sct');
                 expect(doc.severity.coding[0].code).toEqual('255604002');
                 expect(doc.stage.summary.coding[0].system).toEqual('http://snomed.info/sct');
-                expect(doc.stage.summary.coding[0].code).toEqual('14803004');//ended
+                expect(doc.stage.summary.coding[0].code).toEqual('14803004');
                 expect(doc.subject.reference).toEqual(args.subject);
             });
 

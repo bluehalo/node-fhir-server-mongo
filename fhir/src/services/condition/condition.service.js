@@ -1,7 +1,7 @@
 const { COLLECTION, CLIENT_DB } = require('../../constants');
-const { validateDate } = require('../../utils/date.validator');
+//const { validateDate } = require('../../utils/date.validator');
 const globals = require('../../globals');
-const { stringQueryBuilder } = require('../../utils/service.utils');
+const { stringQueryBuilder, quantityQueryBuilder, referenceQueryBuilder, tokenQueryBuilder } = require('../../utils/service.utils');
 
 /**
  * @name count
@@ -41,12 +41,24 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         detail, identifier, onsetAge, onsetString, severity, stage, subject } = args;
     let query = {
     };
-    query['subject.reference'] = `Patient/${patient}`;
+    let ors = [];
+    if (patient) {
+      let queryBuilder = referenceQueryBuilder(patient, 'subject.reference');
+      for (let i in queryBuilder) {
+          query[i] = queryBuilder[i];
+      }
+    }
     if (category) {
-        query['category.coding.code'] = category;
+      let queryBuilder = tokenQueryBuilder(category, 'code', 'category.coding');
+      for (let i in queryBuilder) {
+          query[i] = queryBuilder[i];
+      }
     }
     if (code) {
-        query['code.coding.code'] = { $in: code.split(',') };
+      let queryBuilder = tokenQueryBuilder(code, 'code', 'code.coding');
+      for (let i in queryBuilder) {
+          query[i] = queryBuilder[i];
+      }
     }
     if (onsetDate) {
         query.onsetDateTime = onsetDate;
@@ -61,29 +73,19 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         query.verificationStatus = verificationStatus;
     }
     if (abatementAge) {
-        const regex2 = /^\D*(\d+[.]?\d*)\|(https?:\/\/[a-zA-Z0-9_-]+\.[a-z]+(\/[a-zA-Z0-9_-]+)*)\|([\s]?[^\s]+)+/;
-        const match2 = abatementAge.match(regex2);
-        // let prefix = '$eq';
-        // if (match[1]) {
-        //   prefix = '$' + match[1].replace('ge', 'gte').replace('le', 'lte');
-        // }
-        if (match2 && match2.length >= 3) {
-            let value = match2[1];
-            let system = match2[2];
-            let codeT = match2[4];
-            query['abatementAge.value'] = Number(value);
-            query['abatementAge.system'] = system;
-            query['abatementAge.code'] = codeT;
-        }
+        ors.push({$or: [{$and: quantityQueryBuilder(abatementAge, 'abatementAge')}, {$and: quantityQueryBuilder(abatementAge, 'abatementRange')}] });
     }
     if (abatementBoolean) {
-        query.abatementBoolean = abatementBoolean;
+        //query.abatementBoolean = (abatementBoolean === 'true');
+        let t = {$regex: new RegExp('.', 'i')};
+        ors.push({$or: [{abatementBoolean: (abatementBoolean === 'true')}, {abatementDateTime: t},
+      {'abatementAge.system': t}, {'abatementRange.system': t}, {abatementPeriod: t}, {abatementString: t}]});
     }
     if (abatementDateTime) {
-        let parsedates = validateDate(abatementDateTime);
-        if (parsedates) {
-            query.abatementDateTime = parsedates;
-        }
+      ors.push({$or: [{abatementDateTime: abatementDateTime}, {abatementPeriod: abatementDateTime}]});
+    }
+    if (ors.length !== 0) {
+        query.$and = ors;
     }
     if (abatementString) {
         stringQueryBuilder(abatementString, query);
@@ -92,51 +94,40 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         query['asserter.reference'] = asserter;
     }
     if (bodySite) {
-        const regex3 = /^(https?:\/\/[a-zA-Z0-9_-]+\.[a-z]+(\/[a-zA-Z0-9_-]+)*)\|([\s]?[^\s]+)+/;
-        const match3 = bodySite.match(regex3);
-        if (match3 && match3.length >= 3) {
-            query['bodySite.coding.system'] = match3[1];
-            query['bodySite.coding.code'] = match3[3];
-        }
+      let queryBuilder = tokenQueryBuilder(bodySite, 'code', 'bodySite.coding');
+      for (let i in queryBuilder) {
+          query[i] = queryBuilder[i];
+      }
     }
     if (context) {
-        query['context.reference'] = context;
+      let queryBuilder = referenceQueryBuilder(context, 'context.reference');
+      for (let i in queryBuilder) {
+          query[i] = queryBuilder[i];
+      }
     }
     if (encounter) {
-        query['context.reference'] = `Encounter/${encounter}`;
+      let queryBuilder = referenceQueryBuilder(encounter, 'context.reference');
+      for (let i in queryBuilder) {
+          query[i] = queryBuilder[i];
+      }
     }
     if (evidence) {
-        if (evidence.includes('|')) {
-            let [ system, code2 ] = evidence.split('|');
-            // console.log(('' === system) + ' *** ' + value);
-            if (system) {
-                query['evidence.code.coding.system'] = system;
-            }
-            if (code2) {
-                query['evidence.code.coding.code'] = code2;
-            }
-        }
-        else {
-            query['evidence.code.coding.code'] = { $in: evidence.split(',') };
-        }
+      let queryBuilder = tokenQueryBuilder(evidence, 'code', 'evidence.code.coding');
+      for (let i in queryBuilder) {
+          query[i] = queryBuilder[i];
+      }
     }
     if (detail) {
-        query['evidence.detail.reference'] = detail;
+      let queryBuilder = referenceQueryBuilder(detail, 'evidence.detail.reference');
+      for (let i in queryBuilder) {
+          query[i] = queryBuilder[i];
+      }
     }
     if (identifier) {
-        if (identifier.includes('|')) {
-            let [ system, value ] = identifier.split('|');
-            // console.log(('' === system) + ' *** ' + value);
-            if (system) {
-                query['identifier.system'] = system;
-            }
-            if (value) {
-                query['identifier.value'] = value;
-            }
-        }
-        else {
-            query['identifier.value'] = identifier;
-        }
+      let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier');
+      for (let i in queryBuilder) {
+          query[i] = queryBuilder[i];
+      }
     }
     if (onsetAge) {
         const regex2 = /^\D*(\d+[.]?\d*)\|(https?:\/\/[a-zA-Z0-9_-]+\.[a-z]+(\/[a-zA-Z0-9_-]+)*)\|([\s]?[^\s]+)+/;
@@ -158,37 +149,22 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         stringQueryBuilder(onsetString, query);
     }
     if (severity) {
-        if (severity.includes('|')) {
-            let [ system, code2 ] = severity.split('|');
-            // console.log(('' === system) + ' *** ' + value);
-            if (system) {
-                query['severity.coding.system'] = system;
-            }
-            if (code2) {
-                query['severity.coding.code'] = code2;
-            }
-        }
-        else {
-            query['severity.coding.code'] = { $in: severity.split(',') };
-        }
+      let queryBuilder = tokenQueryBuilder(severity, 'code', 'severity.coding');
+      for (let i in queryBuilder) {
+          query[i] = queryBuilder[i];
+      }
     }
     if (stage) {
-        if (stage.includes('|')) {
-            let [ system, code2 ] = stage.split('|');
-            // console.log(('' === system) + ' *** ' + value);
-            if (system) {
-                query['stage.summary.coding.system'] = system;
-            }
-            if (code2) {
-                query['stage.summary.coding.code'] = code2;
-            }
-        }
-        else {
-            query['stage.summary.coding.code'] = { $in: severity.split(',') };
-        }
+      let queryBuilder = tokenQueryBuilder(stage, 'code', 'stage.summary.coding');
+      for (let i in queryBuilder) {
+          query[i] = queryBuilder[i];
+      }
     }
     if (subject) {
-        query['subject.reference'] = subject;
+      let queryBuilder = referenceQueryBuilder(subject, 'subject.reference');
+      for (let i in queryBuilder) {
+          query[i] = queryBuilder[i];
+      }
     }
 
     // Grab an instance of our DB and collection
