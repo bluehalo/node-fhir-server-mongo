@@ -73,7 +73,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         query.verificationStatus = verificationStatus;
     }
     if (abatementAge) {
-        ors.push({$or: [{$and: quantityQueryBuilder(abatementAge, 'abatementAge')}, {$and: quantityQueryBuilder(abatementAge, 'abatementRange')}] });
+        ors.push({$or: [quantityQueryBuilder(abatementAge, 'abatementAge'), quantityQueryBuilder(abatementAge, 'abatementRange')] });
     }
     if (abatementBoolean) {
         //query.abatementBoolean = (abatementBoolean === 'true');
@@ -249,7 +249,7 @@ module.exports.update = (args, logger) => new Promise((resolve, reject) => {
     // Set the id of the resource
     let doc = Object.assign(resource.toJSON(), { _id: id });
     // Insert/update our condition record
-    collection.findOneAndUpdate({ id: id }, doc, { upsert: true }, (err, res) => {
+    collection.findOneAndUpdate({ id: id }, { $set: doc}, { upsert: true }, (err, res) => {
         if (err) {
             logger.error('Error with Condition.update: ', err);
             return reject(err);

@@ -56,7 +56,7 @@ describe('MedicationStatement Service Test', () => {
             );
 
             // console.log(JSON.stringify(args));
-            console.log(JSON.stringify(docs));
+            // console.log(JSON.stringify(docs));
 
             expect(err).toBeUndefined();
             expect(docs.length).toEqual(1);

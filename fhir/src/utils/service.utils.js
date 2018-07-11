@@ -205,34 +205,103 @@ let numberQueryBuilder = function (target) {
 //input is [prefix][number]|[system]|[code] where prefix is optional.
 //returns an array of objects [{path: value}, etc]
 let quantityQueryBuilder = function (target, field) {
-  let qB = [];
-  let r1 = /^(\w{2})(-?\d+(\.\d+)?)$/; //with prefix
-  let r2 = /^(-?\d+(\.\d+)?)$/; //without prefix
-
+  let qB = {};
   //split by the two pipes
   let [num, system, code] = target.split('|');
   if (system) {
-    let t2 = {};
-    t2[`${field}.system`] = system;
-    qB.push(t2);
+    qB[`${field}.system`] = system;
   }
   if (code) {
-    let t2 = {};
-    t2[`${field}.code`] = code;
-    qB.push(t2);
+    qB[`${field}.code`] = code;
   }
 
-  let m1 = num.match(r1);
-  let m2 = num.match(r2);
-  if (m1) { //with prefixes
+  if (isNaN(num)) { //with prefixes
     console.log('prefixes not implemented yet');
   }
-  if (m2) { //no prefixes
-    let t2 = {};
-    t2[`${field}.value`] = Number(m2[0]);
-    qB.push(t2);
+  else { //no prefixes
+    qB[`${field}.value`] = Number(num);
   }
   return qB;
+};
+
+/**
+ * @name compositeQueryBuilder
+ * @description from looking at where composites are used, the fields seem to be implicit
+ * @param target What we're querying for
+ * @param field1 contains the path and search type
+ * @param field2 contains the path and search type
+ */
+let compositeQueryBuilder = function(target, field1, field2) {
+    // console.log(`${target}, ${field1}, ${field2}`);
+
+    let composite = [];
+    let temp = {};
+    let [ target1, target2 ] = target.split(/[$,]/);
+    let [ path1, type1 ] = field1.split('|');
+    let [ path2, type2 ] = field2.split('|');
+    // let args = [[target1, path1, type1], [target2, path2, type2]];
+
+    // console.log(`${target1}, ${path1}, ${type1}`);
+    // console.log(`${target2}, ${path2}, ${type2}`);
+    // console.log(args);
+
+    // Call the right queryBuilder based on type
+    switch (type1) {
+        case 'string':
+            temp = {};
+            temp[`${path1}`] = stringQueryBuilder(target1);
+            composite.push(temp);
+            break;
+        case 'token':
+            composite.push(tokenQueryBuilder(target1, 'code', path1, ''));
+            break;
+        case 'reference':
+            composite.push(referenceQueryBuilder(target1, path1));
+            break;
+        case 'quantity':
+            composite.push(quantityQueryBuilder(target1, path1));
+            break;
+        case 'number':
+            composite.push(numberQueryBuilder(target1));
+            break;
+        default:
+            temp = {};
+            temp[`${path1}`] = target1;
+            composite.push(temp);
+    }
+    switch (type2) {
+        case 'string':
+            temp = {};
+            temp[`${path2}`] = stringQueryBuilder(target2);
+            composite.push(temp);
+            break;
+        case 'token':
+            composite.push(tokenQueryBuilder(target2, 'code', path2, ''));
+            break;
+        case 'reference':
+            composite.push(referenceQueryBuilder(target2, path2));
+            break;
+        case 'quantity':
+            composite.push(quantityQueryBuilder(target2, path2));
+            break;
+        case 'number':
+            composite.push(numberQueryBuilder(target2));
+            break;
+        default:
+            temp = {};
+            temp[`${path1}`] = target1;
+            composite.push(temp);
+    }
+
+    // console.log(composite);
+
+    if (target.includes('$')) {
+        return {$and: composite};
+    }
+    else {
+        return {$or: composite};
+    }
+
 };
 
 /**
@@ -245,5 +314,6 @@ module.exports = {
     addressQueryBuilder,
     nameQueryBuilder,
     numberQueryBuilder,
-    quantityQueryBuilder
+    quantityQueryBuilder,
+    compositeQueryBuilder
 };

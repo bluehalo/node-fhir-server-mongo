@@ -38,7 +38,7 @@ describe('Patient Service Test', () => {
 			);
 
 			expect(err).toBeUndefined();
-			expect(results).toEqual(12);
+			expect(results).toEqual(13);
 		});
 
 	});
@@ -241,7 +241,7 @@ describe('Patient Service Test', () => {
 
 		test('should successfully update a document', async () => {
 			// Update the status
-			PatientFixture.active = false;
+			PatientFixture.text.status = 'preliminary';
 
 			let args = {
 				resource: {
@@ -256,7 +256,7 @@ describe('Patient Service Test', () => {
 			);
 
 			expect(query_err).toBeUndefined();
-			expect(doc.active).toBeTruthy();
+			expect(doc.text.status).toEqual('generated');
 
 			// Update the original doc
 			let [ update_err, update_results ] = await asyncHandler(
@@ -272,7 +272,7 @@ describe('Patient Service Test', () => {
 			);
 
 			expect(updated_err).toBeUndefined();
-			expect(updated_doc.active).toBeFalsy();
+			expect(updated_doc.text.status).toEqual('preliminary');
 
 		});
 
