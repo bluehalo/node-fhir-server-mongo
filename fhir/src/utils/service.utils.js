@@ -265,7 +265,6 @@ let compositeQueryBuilder = function(target, field1, field2) {
     let [ target1, target2 ] = target.split(/[$,]/);
     let [ path1, type1 ] = field1.split('|');
     let [ path2, type2 ] = field2.split('|');
-    // let args = [[target1, path1, type1], [target2, path2, type2]];
 
     // console.log(`${target1}, ${path1}, ${type1}`);
     // console.log(`${target2}, ${path2}, ${type2}`);
@@ -288,8 +287,12 @@ let compositeQueryBuilder = function(target, field1, field2) {
             composite.push(quantityQueryBuilder(target1, path1));
             break;
         case 'number':
-            composite.push(numberQueryBuilder(target1));
+            temp = {};
+            temp[`${path1}`] = numberQueryBuilder(target1);
+            composite.push(temp);
             break;
+        // case 'date':
+        //     break;
         default:
             temp = {};
             temp[`${path1}`] = target1;
@@ -311,11 +314,15 @@ let compositeQueryBuilder = function(target, field1, field2) {
             composite.push(quantityQueryBuilder(target2, path2));
             break;
         case 'number':
-            composite.push(numberQueryBuilder(target2));
+            temp = {};
+            temp[`${path2}`] = composite.push(numberQueryBuilder(target2));
+            composite.push(temp);
             break;
+        // case 'date':
+        //     break;
         default:
             temp = {};
-            temp[`${path1}`] = target1;
+            temp[`${path2}`] = target2;
             composite.push(temp);
     }
 
@@ -331,7 +338,7 @@ let compositeQueryBuilder = function(target, field1, field2) {
 };
 
 /**
- * @todo build out all prefix functionality for number and quantity
+ * @todo build out all prefix functionality for number and quantity and add date queries
  */
 module.exports = {
     stringQueryBuilder,
