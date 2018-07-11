@@ -270,7 +270,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         query.$and = ors;
     }
 
-    console.log(JSON.stringify(query));
+    // console.log(JSON.stringify(query));
 
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);

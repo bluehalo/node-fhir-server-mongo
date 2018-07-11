@@ -6,7 +6,7 @@ const patientService = require('../services/patient/patient.service');
 const { mongoConfig } = require('../config');
 const mongoClient = require('../lib/mongo');
 let globals = require('../globals');
-const { numberQueryBuilder } = require('./service.utils');
+const { numberQueryBuilder, quantityQueryBuilder } = require('./service.utils');
 
 describe('Service Utils Tests', () => {
 
@@ -290,6 +290,34 @@ describe('Service Utils Tests', () => {
 
             query = numberQueryBuilder('100.00');
             expect(query).toEqual({$gte: 99.995, $lt: 100.005});
+
+        });
+
+    });
+
+    describe('Method: quantityQueryBuilder', () => {
+
+        test('should pass back a query based on a prefix', async () => {
+            let query = quantityQueryBuilder('lt12||mm', 'example');
+            expect(query).toEqual({'example.code': 'mm', 'example.value': {$lt: 12}});
+
+            query = quantityQueryBuilder('le12||mm', 'example');
+            expect(query).toEqual({'example.code': 'mm', 'example.value': {$lte: 12}});
+
+            query = quantityQueryBuilder('gt12||mm', 'example');
+            expect(query).toEqual({'example.code': 'mm', 'example.value': {$gt: 12}});
+
+            query = quantityQueryBuilder('ge12||mm', 'example');
+            expect(query).toEqual({'example.code': 'mm', 'example.value': {$gte: 12}});
+
+            query = quantityQueryBuilder('ne12||mm', 'example');
+            expect(query).toEqual({'example.code': 'mm', 'example.value': {$ne: 12}});
+
+        });
+
+        test('should pass the default query', async () => {
+            let query = quantityQueryBuilder('12||mm', 'example');
+            expect(query).toEqual({'example.code': 'mm', 'example.value': 12});
 
         });
 

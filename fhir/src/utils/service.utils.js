@@ -174,6 +174,7 @@ let numberQueryBuilder = function (target) {
     }
 
     // Check for prefix and return the appropriate query
+    // Missing eq(default), sa, eb, and ap prefixes
     switch (prefix) {
         case 'lt':
             return {$lt: number};
@@ -201,13 +202,17 @@ let numberQueryBuilder = function (target) {
 
 };
 
-//deals with quantity data type
-//input is [prefix][number]|[system]|[code] where prefix is optional.
-//returns an array of objects [{path: value}, etc]
+/**
+ * @name quantityQueryBuilder
+ * @description builds quantity data types
+ * @param target [prefix][number]|[system]|[code]
+ * @param field path to specific field in the resource
+ */
 let quantityQueryBuilder = function (target, field) {
   let qB = {};
   //split by the two pipes
   let [num, system, code] = target.split('|');
+
   if (system) {
     qB[`${field}.system`] = system;
   }
@@ -216,11 +221,32 @@ let quantityQueryBuilder = function (target, field) {
   }
 
   if (isNaN(num)) { //with prefixes
-    console.log('prefixes not implemented yet');
+      let prefix = num.substring(0, 2);
+      num = Number(num.substring(2));
+
+      // Missing eq(default), sa, eb, and ap prefixes
+      switch (prefix) {
+          case 'lt':
+              qB[`${field}.value`] = {$lt: num};
+              break;
+          case 'le' :
+              qB[`${field}.value`] = {$lte: num};
+              break;
+          case 'gt':
+              qB[`${field}.value`] = {$gt: num};
+              break;
+          case 'ge':
+              qB[`${field}.value`] = {$gte: num};
+              break;
+          case 'ne':
+              qB[`${field}.value`] = {$ne: num};
+              break;
+      }
   }
   else { //no prefixes
     qB[`${field}.value`] = Number(num);
   }
+
   return qB;
 };
 
@@ -305,7 +331,7 @@ let compositeQueryBuilder = function(target, field1, field2) {
 };
 
 /**
- * @todo build out more functions for each search type
+ * @todo build out all prefix functionality for number and quantity
  */
 module.exports = {
     stringQueryBuilder,
