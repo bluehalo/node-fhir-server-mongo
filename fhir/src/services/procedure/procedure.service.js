@@ -1,6 +1,6 @@
 const { COLLECTION, CLIENT_DB } = require('../../constants');
 const globals = require('../../globals');
-const { tokenQueryBuilder, referenceQueryBuilder } = require('../../utils/service.utils');
+const { tokenQueryBuilder, referenceQueryBuilder, dateQueryBuilder } = require('../../utils/service.utils');
 
 /**
  * @name count
@@ -37,6 +37,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         identifier, location, partOf, performer, subject } = args;
     let query = {
     };
+    let ors = [];
     query['subject.reference'] = `Patient/${patient}`;
     if (basedOn) {
         let queryBuilder = referenceQueryBuilder(basedOn, 'basedOn.reference');
@@ -66,7 +67,12 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         }
     }
     if (date) {
-        query.performedDateTime = date;
+      ors.push({$or: [{performedDateTime: dateQueryBuilder(date, 'dateTime')},
+    {$and: [{'performedPeriod.start': {$lte: dateQueryBuilder(date, 'period')}},
+    {'performedPeriod.end': {$gte: dateQueryBuilder(date, 'period')}}]}]});
+    }
+    if (ors.length !== 0) {
+        query.$and = ors;
     }
     if (definition) {
         let queryBuilder = referenceQueryBuilder(definition, 'definition.reference');

@@ -1,6 +1,6 @@
 const { COLLECTION, CLIENT_DB } = require('../../constants');
 const globals = require('../../globals');
-const { stringQueryBuilder, tokenQueryBuilder, referenceQueryBuilder, numberQueryBuilder } = require('../../utils/service.utils');
+const { stringQueryBuilder, tokenQueryBuilder, referenceQueryBuilder, numberQueryBuilder, dateQueryBuilder } = require('../../utils/service.utils');
 
 /**
  * @name count
@@ -45,7 +45,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         }
     }
     if (date) {
-        query.date = date;
+      query.date = dateQueryBuilder(date, 'dateTime');
     }
     if (doseSequence) {
         query['vaccinationProtocol.doseSequence'] = numberQueryBuilder(doseSequence);
@@ -87,7 +87,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         }
     }
     if (reactionDate) {
-        query['reaction.date'] = reactionDate;
+      query['reaction.date'] = dateQueryBuilder(reactionDate, 'dateTime');
     }
     if (reason) {
         let queryBuilder = tokenQueryBuilder(reason, 'code', 'explanation.reason.coding');

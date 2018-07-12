@@ -48,8 +48,7 @@ describe('Procedure Service Test', () => {
     describe('Method: search', () => {
 
       test('should return 2 procedures', async () => {
-        let args = { patient: 'example', status: 'completed', code: 'http://snomed.info/sct|35637008',
-      date: '2002-05-23', subject: 'Patient/example' };
+        let args = { patient: 'example', status: 'completed', code: 'http://snomed.info/sct|35637008', subject: 'Patient/example' };
         let [ err, docs ] = await asyncHandler(
           procedureService.search(args, logger)
         );
@@ -62,7 +61,6 @@ describe('Procedure Service Test', () => {
          expect(doc.status).toEqual(args.status);
          expect(doc.code.coding[0].system).toEqual('http://snomed.info/sct');
          expect(doc.code.coding[0].code).toEqual('35637008');
-         expect(doc.performedDateTime).toEqual('2002-05-23');
          expect(doc.subject.reference).toEqual(args.subject);
         });
 
@@ -72,7 +70,7 @@ describe('Procedure Service Test', () => {
         let args = { patient: 'example', category: '103693007', code: 'HZ30ZZZ1',
         context: 'Encounter/f202', definition: 'PlanDefinition/f201', encounter: 'f202',
       identifier: '12345', location: 'Location/1', partOf: 'Procedure/colonoscopy',
-    performer: 'Practitioner/example' };
+    performer: 'Practitioner/example', date: '2002-05-23' };
         let [ err, docs ] = await asyncHandler(
           procedureService.search(args, logger)
         );
@@ -90,7 +88,8 @@ describe('Procedure Service Test', () => {
           expect(doc.identifier[0].value).toEqual(args.identifier);
           expect(doc.location.reference).toEqual(args.location);
           expect(doc.partOf[0].reference).toEqual(args.partOf);
-          expect(doc.performer[0].actor.reference).toEqual(args.performer);//
+          expect(doc.performer[0].actor.reference).toEqual(args.performer);
+          expect(doc.performedDateTime).toEqual('2002-05-23T04:30Z');
         });
       });
     });
