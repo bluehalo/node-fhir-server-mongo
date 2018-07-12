@@ -1,7 +1,7 @@
 const { COLLECTION, CLIENT_DB } = require('../../constants');
 //const { validateDate } = require('../../utils/date.validator');
 const globals = require('../../globals');
-const { stringQueryBuilder, quantityQueryBuilder, referenceQueryBuilder, tokenQueryBuilder } = require('../../utils/service.utils');
+const { stringQueryBuilder, quantityQueryBuilder, referenceQueryBuilder, tokenQueryBuilder, dateQueryBuilder } = require('../../utils/service.utils');
 
 /**
  * @name count
@@ -64,7 +64,8 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         ors.push({$or: [{onsetDateTime: onsetDate}, {onsetPeriod: onsetDate}]});
     }
     if (assertedDate) {
-        query.assertedDate = assertedDate;
+        //query.assertedDate = assertedDate;
+        query.assertedDate = dateQueryBuilder(assertedDate, 'date');
     }
     if (clinicalStatus) {
         query.clinicalStatus = clinicalStatus;
