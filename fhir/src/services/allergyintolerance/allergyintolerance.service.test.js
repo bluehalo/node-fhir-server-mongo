@@ -46,25 +46,6 @@ describe('AllergyIntolerance Service Test', () => {
     });
 
     describe('Method: search', () => {
-
-        test('test only using required arguments', async () => {
-            let args = { patient: 'example', verificationStatus: 'confirmed'};
-            let [ err, docs ] = await asyncHandler(
-                allergyintoleranceService.search(args, logger)
-            );
-
-            // console.log(JSON.stringify(args));
-
-            expect(err).toBeUndefined();
-            expect(docs.length).toEqual(2);
-
-            docs.forEach(doc => {
-                expect(doc.patient.reference).toEqual(`Patient/${args.patient}`);
-                expect(doc.verificationStatus).toEqual(args.verificationStatus);
-            });
-
-        });
-
         test('find all documents that use the same system for manifestation', async () => {
             let args = { manifestation: 'http://snomed.info/sct|', patient: 'example', verificationStatus: 'confirmed'};
             let [ err, docs ] = await asyncHandler(
@@ -104,7 +85,7 @@ describe('AllergyIntolerance Service Test', () => {
         });
 
         test('test using all arguments', async () => {
-            let args = { category: 'medication', clinicalStatus: 'active', code: 'http://hl7.org/fhir/ndfrt|N0000175503',
+            let args = { asserter: 'Patient/example', category: 'medication', clinicalStatus: 'active', code: 'http://hl7.org/fhir/ndfrt|N0000175503',
                 criticality: 'low', date: '2014-10-09T14:58:00+11:00', identifier: 'http://acme.com/ids/patients/risks|49476534', lastDate: '2012-06',
                 manifestation: 'http://snomed.info/sct|64305001', onset: '2004', patient: 'example', recorder: 'example',
                 route: 'http://snomed.info/sct|34206005', severity: 'severe', type: 'allergy', verificationStatus: 'confirmed'};
@@ -118,6 +99,7 @@ describe('AllergyIntolerance Service Test', () => {
             expect(docs.length).toEqual(1);
 
             docs.forEach(doc => {
+                expect(doc.asserter.reference).toEqual('Patient/example');
                 expect(doc.category[1]).toEqual(args.category);
                 expect(doc.clinicalStatus).toEqual(args.clinicalStatus);
                 expect(doc.code.coding[1].system).toEqual('http://hl7.org/fhir/ndfrt');

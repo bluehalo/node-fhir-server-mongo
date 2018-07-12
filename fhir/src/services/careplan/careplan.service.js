@@ -31,22 +31,13 @@ module.exports.count = (args, logger) => new Promise((resolve, reject) => {
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-// Not implemented: activityDate and date
 module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     logger.info('CarePlan >>> search');
     // Parse the params
-    let { activityCode, activityDate, activityReference, basedOn, careTeam, category, condition, context, date, definition,
+    let { activityCode, /*activityDate,*/ activityReference, basedOn, careTeam, category, condition, context, /*date,*/ definition,
         encounter, goal, identifier, intent, partOf, patient, performer, replaces, status, subject } = args;
 
-    // Status, intent, and subject are required and guaranteed to be provided
-    let query = {
-        'status': status,
-        'intent': intent,
-    };
-    let subjectQueryBuilder = referenceQueryBuilder(subject, 'subject.reference');
-    for (let i in subjectQueryBuilder) {
-        query[i] = subjectQueryBuilder[i];
-    }
+    let query = {};
 
     if (activityCode) {
         let queryBuilder = tokenQueryBuilder(activityCode, 'code', 'activity.detail.code.coding');
@@ -55,9 +46,9 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         }
     }
 
-    if (activityDate) {
-        console.log('Not implemented');
-    }
+    // if (activityDate) {
+    //
+    // }
 
     if (activityReference) {
         let queryBuilder = referenceQueryBuilder(activityReference, 'activity.reference.reference');
@@ -101,9 +92,9 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         }
     }
 
-    if (date) {
-        console.log('Not implemented');
-    }
+    // if (date) {
+    //
+    // }
 
     if (definition) {
         let queryBuilder = referenceQueryBuilder(definition, 'definition.reference');
@@ -133,6 +124,10 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         }
     }
 
+    if (intent) {
+        query.intent = intent;
+    }
+
     if (partOf) {
         let queryBuilder = referenceQueryBuilder(partOf, 'partOf.reference');
         for (let i in queryBuilder) {
@@ -156,6 +151,17 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
 
     if (replaces) {
         let queryBuilder = referenceQueryBuilder(replaces, 'replaces.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+
+    if (status) {
+        query.status = status;
+    }
+
+    if (subject) {
+        let queryBuilder = referenceQueryBuilder(subject, 'subject.reference');
         for (let i in queryBuilder) {
             query[i] = queryBuilder[i];
         }

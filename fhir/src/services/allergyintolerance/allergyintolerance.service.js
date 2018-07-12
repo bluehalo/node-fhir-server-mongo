@@ -35,16 +35,16 @@ module.exports.count = (args, logger) => new Promise((resolve, reject) => {
 module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     logger.info('AllergyIntolerance >>> search');
     // Parse the params
-    let { category, clinicalStatus, code, criticality, date, identifier, lastDate, manifestation, onset, patient, recorder,
-        route, severity, type, verificationStatus } = args;
+    let { asserter, category, clinicalStatus, code, criticality, /*date,*/ identifier, /*lastDate,*/ manifestation, /*onset,*/ patient,
+        recorder, route, severity, type, verificationStatus } = args;
 
-    // Patient and verificationStatus are required and guaranteed to be provided
-    let query = {
-        verificationStatus: verificationStatus
-    };
-    let patientQueryBuilder = referenceQueryBuilder(patient, 'patient.reference');
-    for (let i in patientQueryBuilder) {
-        query[i] = patientQueryBuilder[i];
+    let query = {};
+
+    if (asserter) {
+        let queryBuilder = referenceQueryBuilder(asserter, 'asserter.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
     }
 
     if (category) {
@@ -66,14 +66,9 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         query.criticality = criticality;
     }
 
-    // Date validator changes the date so it no longer matches
-    if (date) {
-        // let parsedDates = validateDate(date);
-        // if (parsedDates) {
-        //     query.assertedDate = parsedDates;
-        // }
-        query.assertedDate = date;
-    }
+    // if (date) {
+    //
+    // }
 
     if (identifier) {
         let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier');
@@ -82,14 +77,9 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         }
     }
 
-    // Date validator changes the date so it no longer matches
-    if (lastDate) {
-        // let parsedDates = validateDate(date);
-        // if (parsedDates) {
-        //     query.assertedDate = parsedDates;
-        // }
-        query.lastOccurrence = lastDate;
-    }
+    // if (lastDate) {
+    //
+    // }
 
     if (manifestation) {
         let queryBuilder = tokenQueryBuilder(manifestation, 'code', 'reaction.manifestation.coding');
@@ -98,12 +88,15 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         }
     }
 
-    if (onset) {
-        // let parsedDates = validateDate(date);
-        // if (parsedDates) {
-        //     query.assertedDate = parsedDates;
-        // }
-        query['reaction.onset'] = onset;
+    // if (onset) {
+    //
+    // }
+
+    if (patient) {
+        let queryBuilder = referenceQueryBuilder(patient, 'patient.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
     }
 
     if (recorder) {
@@ -126,6 +119,10 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
 
     if (type) {
         query.type = type;
+    }
+
+    if (verificationStatus) {
+        query.verificationStatus = verificationStatus;
     }
 
     // console.log(JSON.stringify(query));
