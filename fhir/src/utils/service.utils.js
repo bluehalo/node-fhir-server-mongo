@@ -265,11 +265,13 @@ let getDateFromNum = function (g) {
 //deals with date, dateTime, instant, period, and timing
 //use like this: query['whatever'] = dateQueryBuilder(whatever, 'dateTime')
 //the condition service has some examples you might want to look at.
+//can't handle prefixes yet!  Also doesn't work foe when things are stored in different time zones in the .json files (with the + or -)
 let dateQueryBuilder = function (date, type) {
   let regex = /^(\D{2})?(\d{4})(-\d{2})?(-\d{2})?(?:(T\d{2}:\d{2})(:\d{2})?)?(Z|(\+|-)(\d{2}):(\d{2}))?$/;
   let match = date.match(regex);
   //let tArr = [];
   let str = '';
+  let pArr = []; //will have other possibilities such as just year, just year and month, etc
   let prefix = '$eq';
   if (match && match.length >= 1 ) {
     if (match[1]) {
@@ -282,9 +284,11 @@ let dateQueryBuilder = function (date, type) {
         for (let i = 2; i < 5; i++) { //add up the date parts in a string
           if (match[i]) {
             str = str + match[i];
+            pArr[i - 2] = str + '$';
           }
         }
-        return {$regex: new RegExp('^' + str, 'i')};
+        //below we have to check if the search gave more information than what is actually stored
+        return {$regex: new RegExp('^' + '(?:' + str + ')|(?:' + pArr[0] + ')|(?:' + pArr[1] + ')|(?:' + pArr[2] + ')', 'i')};
       }
     }
 
@@ -293,6 +297,11 @@ let dateQueryBuilder = function (date, type) {
         if (match[5]) { //to see if time is included
           for (let i = 2; i < 6; i++) {
             str = str + match[i];
+            if (i === 5) {
+              pArr[i - 2] = str + 'Z?$';
+            } else {
+              pArr[i - 2] = str + '$';
+            }
           }
           if (type === 'instant'){
             if (match[6]) { //to check if seconds were included or not
@@ -333,24 +342,29 @@ let dateQueryBuilder = function (date, type) {
                 str = getDateFromNum(getDayNum(Number(match[2]), Number(match[3].replace('-', '')), Number(match[4].replace('-', ''))));
               }
             }
+            pArr[5] = str + '$';
             str = str + 'T' + ('0' + hrs).slice(-2) + ':' + ('0' + mins).slice(-2);
             if (match[6]) { //to check if seconds were included or not
+              pArr[4] = str + 'Z?$';
               str = str + match[6];
             }
           }
         } else {
-          for (let i = 2; i < 5; i++) { //if no time was passed in, treat like a date
+          for (let i = 2; i < 5; i++) { //add up the date parts in a string
             if (match[i]) {
               str = str + match[i];
+              pArr[i - 2] = str + '$';
             }
           }
+          //below we have to check if the search gave more information than what is actually stored
+          return {$regex: new RegExp('^' + '(?:' + str + ')|(?:' + pArr[0] + ')|(?:' + pArr[1] + ')|(?:' + pArr[2] + ')', 'i')};
         }
         if (type === 'period' || type === 'timing'){
           str = str + 'Z';
-          console.log(str);
           return str;
         }
-        return {$regex: new RegExp('^' + str, 'i')};
+        let tempFill = pArr.toString().replace(/,/g, ')|(?:') + ')';
+        return {$regex: new RegExp('^' + '(?:' + str + ')|(?:' + match[0].replace('+', '\\+') + ')|(?:' + tempFill, 'i')};
       }
     }
 

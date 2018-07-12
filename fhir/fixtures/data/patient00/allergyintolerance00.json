@@ -44,7 +44,7 @@
   "asserter": {
     "reference": "Patient/example"
   },
-  "lastOccurrence": "2012-06",
+  "lastOccurrence": "2012-06-03",
   "note": [
     {
       "text": "The criticality is high becasue of the observed anaphylactic reaction when challenged with cashew extract."

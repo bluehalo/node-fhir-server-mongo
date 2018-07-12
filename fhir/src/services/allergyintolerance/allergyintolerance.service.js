@@ -1,7 +1,7 @@
 // const { validateDate } = require('../../utils/date.validator');
 const { COLLECTION, CLIENT_DB } = require('../../constants');
 const globals = require('../../globals');
-const { tokenQueryBuilder, referenceQueryBuilder } = require('../../utils/service.utils');
+const { tokenQueryBuilder, referenceQueryBuilder, dateQueryBuilder } = require('../../utils/service.utils');
 
 /**
  * @name count
@@ -66,13 +66,8 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         query.criticality = criticality;
     }
 
-    // Date validator changes the date so it no longer matches
     if (date) {
-        // let parsedDates = validateDate(date);
-        // if (parsedDates) {
-        //     query.assertedDate = parsedDates;
-        // }
-        query.assertedDate = date;
+      query.assertedDate = dateQueryBuilder(date, 'dateTime');
     }
 
     if (identifier) {
@@ -88,7 +83,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         // if (parsedDates) {
         //     query.assertedDate = parsedDates;
         // }
-        query.lastOccurrence = lastDate;
+        query.lastOccurrence = dateQueryBuilder(lastDate, 'dateTime');
     }
 
     if (manifestation) {
@@ -99,11 +94,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (onset) {
-        // let parsedDates = validateDate(date);
-        // if (parsedDates) {
-        //     query.assertedDate = parsedDates;
-        // }
-        query['reaction.onset'] = onset;
+        query['reaction.onset'] = dateQueryBuilder(onset, 'dateTime');
     }
 
     if (recorder) {
