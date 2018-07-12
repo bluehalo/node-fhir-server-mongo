@@ -89,7 +89,8 @@ describe('Condition Service Test', () => {
                 asserter: 'Practitioner/f223', context: 'Encounter/f203', evidence: 'http://snomed.info/sct|169068008',
                 detail: 'Observation/f202', identifier: '12345', onsetAge: '52|http://unitsofmeasure.org|a',
                 severity: 'http://snomed.info/sct|255604002', stage: 'http://snomed.info/sct|14803004',
-                subject: 'Patient/example', onsetString: 'approx', assertedDate: '2016-08-10' };
+                subject: 'Patient/example', onsetString: 'approx', assertedDate: '2016-08-10',
+              onsetDate: '2013-04-02T04:30', abatementDate: '2014-03-12T04:30:44' };
             let [ err, docs ] = await asyncHandler(
                 conditionService.search(args, logger)
             );
@@ -121,6 +122,8 @@ describe('Condition Service Test', () => {
                 expect(doc.stage.summary.coding[0].system).toEqual('http://snomed.info/sct');
                 expect(doc.stage.summary.coding[0].code).toEqual('14803004');
                 expect(doc.assertedDate).toEqual('2016-08-10');
+                expect(doc.abatementDateTime).toEqual('2014-03-12T04:30');
+                //expect(doc.onsetDateTime).toEqual('2013-04-02T03:30Z')
                 expect(doc.subject.reference).toEqual(args.subject);
             });
 

@@ -61,10 +61,11 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
       }
     }
     if (onsetDate) {
-        ors.push({$or: [{onsetDateTime: onsetDate}, {onsetPeriod: onsetDate}]});
+        ors.push({$or: [{onsetDateTime: dateQueryBuilder(onsetDate, 'dateTime')},
+      {$and: [{'onsetPeriod.start': {$lte: dateQueryBuilder(onsetDate, 'period')}},
+      {'onsetPeriod.end': {$gte: dateQueryBuilder(onsetDate, 'period')}}]}]});
     }
     if (assertedDate) {
-        //query.assertedDate = assertedDate;
         query.assertedDate = dateQueryBuilder(assertedDate, 'date');
     }
     if (clinicalStatus) {
@@ -85,7 +86,9 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
       {'abatementAge.system': t}, {'abatementRange.system': t}, {abatementPeriod: t}, {abatementString: t}]});
     }
     if (abatementDate) {
-      ors.push({$or: [{abatementDateTime: abatementDate}, {abatementPeriod: abatementDate}]});
+        ors.push({$or: [{abatementDateTime: dateQueryBuilder(abatementDate, 'dateTime')},
+      {$and: [{'abatementPeriod.start': {$lte: dateQueryBuilder(abatementDate, 'period')}},
+      {'abatementPeriod.end': {$gte: dateQueryBuilder(abatementDate, 'period')}}]}]});
     }
     if (ors.length !== 0) {
         query.$and = ors;

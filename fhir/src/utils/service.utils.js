@@ -264,6 +264,7 @@ let getDateFromNum = function (g) {
 
 //deals with date, dateTime, instant, period, and timing
 //use like this: query['whatever'] = dateQueryBuilder(whatever, 'dateTime')
+//the condition service has some examples you might want to look at.
 let dateQueryBuilder = function (date, type) {
   let regex = /^(\D{2})?(\d{4})(-\d{2})?(-\d{2})?(?:(T\d{2}:\d{2})(:\d{2})?)?(Z|(\+|-)(\d{2}):(\d{2}))?$/;
   let match = date.match(regex);
@@ -293,8 +294,10 @@ let dateQueryBuilder = function (date, type) {
           for (let i = 2; i < 6; i++) {
             str = str + match[i];
           }
-          if (match[6]) { //to check if seconds were included or not
-            str = str + match[6];
+          if (type === 'instant'){
+            if (match[6]) { //to check if seconds were included or not
+              str = str + match[6];
+            }
           }
           if (match[9]) { // we know there is a +|-hh:mm at the end
             let mins = 0;
@@ -341,6 +344,11 @@ let dateQueryBuilder = function (date, type) {
               str = str + match[i];
             }
           }
+        }
+        if (type === 'period' || type === 'timing'){
+          str = str + 'Z';
+          console.log(str);
+          return str;
         }
         return {$regex: new RegExp('^' + str, 'i')};
       }
