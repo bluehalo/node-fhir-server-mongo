@@ -56,7 +56,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (code) {
-        let queryBuilder = tokenQueryBuilder(code, 'code', 'code.coding');
+        let queryBuilder = tokenQueryBuilder(code, 'code', 'code.coding', '');
         for (let i in queryBuilder) {
             query[i] = queryBuilder[i];
         }
@@ -71,7 +71,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     // }
 
     if (identifier) {
-        let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier');
+        let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier', '');
         for (let i in queryBuilder) {
             query[i] = queryBuilder[i];
         }
@@ -82,7 +82,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     // }
 
     if (manifestation) {
-        let queryBuilder = tokenQueryBuilder(manifestation, 'code', 'reaction.manifestation.coding');
+        let queryBuilder = tokenQueryBuilder(manifestation, 'code', 'reaction.manifestation.coding', '');
         for (let i in queryBuilder) {
             query[i] = queryBuilder[i];
         }
@@ -107,7 +107,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (route) {
-        let queryBuilder = tokenQueryBuilder(route, 'code', 'reaction.exposureRoute.coding');
+        let queryBuilder = tokenQueryBuilder(route, 'code', 'reaction.exposureRoute.coding', '');
         for (let i in queryBuilder) {
             query[i] = queryBuilder[i];
         }

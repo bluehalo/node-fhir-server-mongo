@@ -78,7 +78,6 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (endpoint) {
-        // query['endpoint.reference'] = `Endpoint/${endpoint}`;
         let queryBuilder = referenceQueryBuilder(endpoint, 'endpoint.reference');
         for (let i in queryBuilder) {
             query[i] = queryBuilder[i];
@@ -86,7 +85,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (identifier) {
-        query = Object.assign(query, tokenQueryBuilder(identifier, 'value', 'identifier'));
+        query = Object.assign(query, tokenQueryBuilder(identifier, 'value', 'identifier', ''));
     }
 
     // Not sure how to implement?
@@ -96,11 +95,10 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (operationalStatus) {
-        query = Object.assign(query, tokenQueryBuilder(operationalStatus, 'code', 'operationalStatus'));
+        query = Object.assign(query, tokenQueryBuilder(operationalStatus, 'code', 'operationalStatus', ''));
     }
 
     if (organization) {
-        // query['managingOrganization.reference'] = `Organization/${organization}`;
         let queryBuilder = referenceQueryBuilder(organization, 'managingOrganization.reference');
         for (let i in queryBuilder) {
             query[i] = queryBuilder[i];
@@ -116,7 +114,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (type) {
-        query = Object.assign(query, tokenQueryBuilder(type, 'code', 'type.coding'));
+        query = Object.assign(query, tokenQueryBuilder(type, 'code', 'type.coding', ''));
     }
 
     // console.log(JSON.stringify(query));

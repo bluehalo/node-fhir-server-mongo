@@ -38,7 +38,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     let { patient, category, code, assertedDate, onsetDate, clinicalStatus,
         verificationStatus, abatementAge, abatementBoolean, abatementDateTime,
         abatementString, asserter, bodySite, context, encounter, evidence,
-        detail, identifier, onsetAge, onsetString, severity, stage, subject } = args;
+        evidenceDetail, identifier, onsetAge, onsetInfo, severity, stage, subject } = args;
     let query = {
     };
     let ors = [];
@@ -49,13 +49,13 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
       }
     }
     if (category) {
-      let queryBuilder = tokenQueryBuilder(category, 'code', 'category.coding');
+      let queryBuilder = tokenQueryBuilder(category, 'code', 'category.coding', '');
       for (let i in queryBuilder) {
           query[i] = queryBuilder[i];
       }
     }
     if (code) {
-      let queryBuilder = tokenQueryBuilder(code, 'code', 'code.coding');
+      let queryBuilder = tokenQueryBuilder(code, 'code', 'code.coding', '');
       for (let i in queryBuilder) {
           query[i] = queryBuilder[i];
       }
@@ -88,13 +88,16 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         query.$and = ors;
     }
     if (abatementString) {
-        stringQueryBuilder(abatementString, query);
+        query.abatementString = stringQueryBuilder(abatementString, query);
     }
     if (asserter) {
-        query['asserter.reference'] = asserter;
+        let queryBuilder = referenceQueryBuilder(asserter, 'asserter.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
     }
     if (bodySite) {
-      let queryBuilder = tokenQueryBuilder(bodySite, 'code', 'bodySite.coding');
+      let queryBuilder = tokenQueryBuilder(bodySite, 'code', 'bodySite.coding', '');
       for (let i in queryBuilder) {
           query[i] = queryBuilder[i];
       }
@@ -112,50 +115,41 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
       }
     }
     if (evidence) {
-      let queryBuilder = tokenQueryBuilder(evidence, 'code', 'evidence.code.coding');
+      let queryBuilder = tokenQueryBuilder(evidence, 'code', 'evidence.code.coding', '');
       for (let i in queryBuilder) {
           query[i] = queryBuilder[i];
       }
     }
-    if (detail) {
-      let queryBuilder = referenceQueryBuilder(detail, 'evidence.detail.reference');
+    if (evidenceDetail) {
+      let queryBuilder = referenceQueryBuilder(evidenceDetail, 'evidence.detail.reference');
       for (let i in queryBuilder) {
           query[i] = queryBuilder[i];
       }
     }
     if (identifier) {
-      let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier');
+      let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier', '');
       for (let i in queryBuilder) {
           query[i] = queryBuilder[i];
       }
     }
+    // Implement quantity range
     if (onsetAge) {
-        const regex2 = /^\D*(\d+[.]?\d*)\|(https?:\/\/[a-zA-Z0-9_-]+\.[a-z]+(\/[a-zA-Z0-9_-]+)*)\|([\s]?[^\s]+)+/;
-        const match2 = onsetAge.match(regex2);
-        // let prefix = '$eq';
-        // if (match[1]) {
-        //   prefix = '$' + match[1].replace('ge', 'gte').replace('le', 'lte');
-        // }
-        if (match2 && match2.length >= 3) {
-            let value = match2[1];
-            let system = match2[2];
-            let codeT = match2[4];
-            query['onsetAge.value'] = Number(value);
-            query['onsetAge.system'] = system;
-            query['onsetAge.code'] = codeT;
+        let queryBuilder = quantityQueryBuilder(onsetAge, 'onsetAge');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
         }
     }
-    if (onsetString) {
-        stringQueryBuilder(onsetString, query);
+    if (onsetInfo) {
+        stringQueryBuilder(onsetInfo, query);
     }
     if (severity) {
-      let queryBuilder = tokenQueryBuilder(severity, 'code', 'severity.coding');
+      let queryBuilder = tokenQueryBuilder(severity, 'code', 'severity.coding', '');
       for (let i in queryBuilder) {
           query[i] = queryBuilder[i];
       }
     }
     if (stage) {
-      let queryBuilder = tokenQueryBuilder(stage, 'code', 'stage.summary.coding');
+      let queryBuilder = tokenQueryBuilder(stage, 'code', 'stage.summary.coding', '');
       for (let i in queryBuilder) {
           query[i] = queryBuilder[i];
       }

@@ -36,7 +36,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
 	// Parse the params
 	let { id, active, address, addressCity, addressCountry, addressPostalCode, addressState, addressUse, animalBreed,
         animalSpecies, birthDate, deathDate, deceased, email, family, gender, generalPractitioner, given, identifier,
-        language, link, name, organization, phone, telecom } = args;
+        language, link, name, organization, phone, /*phonetic,*/ telecom } = args;
 	let query = {};
 	let ors = [];
 
@@ -86,14 +86,14 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (animalBreed) {
-        let queryBuilder = tokenQueryBuilder(animalBreed, 'code', 'animal.breed.coding');
+        let queryBuilder = tokenQueryBuilder(animalBreed, 'code', 'animal.breed.coding', '');
         for (let i in queryBuilder) {
             query[i] = queryBuilder[i];
         }
     }
 
     if (animalSpecies) {
-        let queryBuilder = tokenQueryBuilder(animalSpecies, 'code', 'animal.species.coding');
+        let queryBuilder = tokenQueryBuilder(animalSpecies, 'code', 'animal.species.coding', '');
         for (let i in queryBuilder) {
             query[i] = queryBuilder[i];
         }
@@ -139,17 +139,14 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (identifier) {
-        // let [ system, value ] = identifier.split('|');
-        // query.identifier = {$elemMatch: { system, value }};
-
-        let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier');
+        let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier', '');
         for (let i in queryBuilder) {
             query[i] = queryBuilder[i];
         }
     }
 
     if (language) {
-        let queryBuilder = tokenQueryBuilder(language, 'code', 'communication.language.coding');
+        let queryBuilder = tokenQueryBuilder(language, 'code', 'communication.language.coding', '');
         for (let i in queryBuilder) {
             query[i] = queryBuilder[i];
         }
@@ -171,15 +168,18 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
 
     // Forces system = 'phone'
     if (phone) {
-        // console.log(phone);
         let queryBuilder = tokenQueryBuilder(phone, 'value', 'telecom', 'phone');
         for (let i in queryBuilder) {
             query[i] = queryBuilder[i];
         }
     }
 
+    // if (phonetic) {
+    //
+    // }
+
     if (telecom) {
-        let queryBuilder = tokenQueryBuilder(telecom, 'value', 'telecom');
+        let queryBuilder = tokenQueryBuilder(telecom, 'value', 'telecom', '');
         for (let i in queryBuilder) {
             query[i] = queryBuilder[i];
         }

@@ -37,7 +37,6 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         identifier, location, partOf, performer, subject } = args;
     let query = {
     };
-    query['subject.reference'] = `Patient/${patient}`;
     if (basedOn) {
         let queryBuilder = referenceQueryBuilder(basedOn, 'basedOn.reference');
         for (let i in queryBuilder) {
@@ -45,13 +44,13 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         }
     }
     if (category) {
-        let queryBuilder = tokenQueryBuilder(category, 'code', 'category.coding');
+        let queryBuilder = tokenQueryBuilder(category, 'code', 'category.coding', '');
         for (let i in queryBuilder) {
             query[i] = queryBuilder[i];
         }
     }
     if (code) {
-        let queryBuilder = tokenQueryBuilder(code, 'code', 'code.coding');
+        let queryBuilder = tokenQueryBuilder(code, 'code', 'code.coding', '');
         for (let i in queryBuilder) {
             query[i] = queryBuilder[i];
         }
@@ -81,7 +80,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         }
     }
     if (identifier) {
-        let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier');
+        let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier', '');
         for (let i in queryBuilder) {
             query[i] = queryBuilder[i];
         }
@@ -94,6 +93,12 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
     if (partOf) {
         let queryBuilder = referenceQueryBuilder(partOf, 'partOf.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+    if (patient) {
+        let queryBuilder = referenceQueryBuilder(patient, 'subject.reference');
         for (let i in queryBuilder) {
             query[i] = queryBuilder[i];
         }

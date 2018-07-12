@@ -45,14 +45,14 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (category) {
-        let queryBuilder = tokenQueryBuilder(category, 'code', 'category.coding');
+        let queryBuilder = tokenQueryBuilder(category, 'code', 'category.coding', '');
         for (let i in queryBuilder) {
             query[i] = queryBuilder[i];
         }
     }
 
     if (code) {
-        let queryBuilder = tokenQueryBuilder(code, 'code', 'medicationCodeableConcept.coding');
+        let queryBuilder = tokenQueryBuilder(code, 'code', 'medicationCodeableConcept.coding', '');
         for (let i in queryBuilder) {
             query[i] = queryBuilder[i];
         }
@@ -70,7 +70,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (identifier) {
-        let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier');
+        let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier', '');
         for (let i in queryBuilder) {
             query[i] = queryBuilder[i];
         }
