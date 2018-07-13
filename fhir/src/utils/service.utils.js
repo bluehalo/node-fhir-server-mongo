@@ -266,11 +266,11 @@ let getDateFromNum = function (g) {
 //use like this: query['whatever'] = dateQueryBuilder(whatever, 'dateTime')
 //the condition service has some examples you might want to look at.
 //can't handle prefixes yet!  Also doesn't work foe when things are stored in different time zones in the .json files (with the + or -)
-let dateQueryBuilder = function (date, type) {
+let dateQueryBuilder = function (date, type, path) {
   let regex = /^(\D{2})?(\d{4})(-\d{2})?(-\d{2})?(?:(T\d{2}:\d{2})(:\d{2})?)?(Z|(\+|-)(\d{2}):(\d{2}))?$/;
   let match = date.match(regex);
-  //let tArr = [];
   let str = '';
+  let toRet = [];
   let pArr = []; //will have other possibilities such as just year, just year and month, etc
   let prefix = '$eq';
   if (match && match.length >= 1 ) {
@@ -357,13 +357,26 @@ let dateQueryBuilder = function (date, type) {
             }
           }
           //below we have to check if the search gave more information than what is actually stored
-          return {$regex: new RegExp('^' + '(?:' + str + ')|(?:' + pArr[0] + ')|(?:' + pArr[1] + ')|(?:' + pArr[2] + ')', 'i')};
+          // return {$regex: new RegExp('^' + '(?:' + str + ')|(?:' + pArr[0] + ')|(?:' + pArr[1] + ')|(?:' + pArr[2] + ')', 'i')};
         }
-        if (type === 'period' || type === 'timing'){
+        if (type === 'period'){
           str = str + 'Z';
-          return str;
+          let pS = path + '.start';
+          let pE = path + '.end';
+          toRet = [{$and: [{[pS]: {$lte: str}}, {[pE]: {$gte: str}}]}, {$and: [{[pS]: {$lte: str}}, {[pE]: undefined}]},
+        {$and: [{[pE]: {$gte: str}}, {[pS]: undefined}]}];
+          return toRet;
         }
         let tempFill = pArr.toString().replace(/,/g, ')|(?:') + ')';
+        if (type === 'timing') {
+          let pDT = path + '.event';
+          let pBPS = path + 'boundsPeriod.start';
+          let pBPE = path + 'boundsPeriod.end';
+          toRet = {$or: [{[pDT]: {$regex: new RegExp('^' + '(?:' + str + ')|(?:' + match[0].replace('+', '\\+') + ')|(?:' + tempFill, 'i')}},
+        {$or: [{$and: [{[pBPS]: {$lte: str}}, {[pBPE]: {$gte: str}}]}, {$and: [{[pBPS]: {$lte: str}}, {[pBPE]: undefined}]},
+      {$and: [{[pBPE]: {$gte: str}}, {[pBPS]: undefined}]}]}]};
+      return toRet;
+        }
         return {$regex: new RegExp('^' + '(?:' + str + ')|(?:' + match[0].replace('+', '\\+') + ')|(?:' + tempFill, 'i')};
       }
     }

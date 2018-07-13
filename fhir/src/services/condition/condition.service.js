@@ -62,8 +62,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
     if (onsetDate) {
         ors.push({$or: [{onsetDateTime: dateQueryBuilder(onsetDate, 'dateTime')},
-      {$and: [{'onsetPeriod.start': {$lte: dateQueryBuilder(onsetDate, 'period')}},
-      {'onsetPeriod.end': {$gte: dateQueryBuilder(onsetDate, 'period')}}]}]});
+      {$or: dateQueryBuilder(onsetDate, 'period', 'onsetPeriod')}]});
     }
     if (assertedDate) {
         query.assertedDate = dateQueryBuilder(assertedDate, 'date');
@@ -87,8 +86,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
     if (abatementDate) {
         ors.push({$or: [{abatementDateTime: dateQueryBuilder(abatementDate, 'dateTime')},
-      {$and: [{'abatementPeriod.start': {$lte: dateQueryBuilder(abatementDate, 'period')}},
-      {'abatementPeriod.end': {$gte: dateQueryBuilder(abatementDate, 'period')}}]}]});
+      {$or: dateQueryBuilder(abatementDate, 'period', 'abatementPeriod')}]});
     }
     if (ors.length !== 0) {
         query.$and = ors;

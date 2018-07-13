@@ -99,6 +99,7 @@ describe('Condition Service Test', () => {
             expect(docs.length).toEqual(1);
 
             docs.forEach(doc => {
+              expect(doc.ffffttyie).toEqual(undefined);
                 expect(doc.subject.reference).toEqual(`Patient/${args.patient}`);
                 expect(doc.abatementAge.value).toEqual(56);
                 expect(doc.abatementAge.code).toEqual('yr');
