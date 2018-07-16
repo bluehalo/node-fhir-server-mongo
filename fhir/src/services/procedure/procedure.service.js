@@ -35,8 +35,8 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     logger.info('Procedure >>> search');
     let { patient, basedOn, category, status, code, context, date, definition, encounter,
         identifier, location, partOf, performer, subject } = args;
-    let query = {
-    };
+    let query = {};
+    let ors = [];
     if (basedOn) {
         let queryBuilder = referenceQueryBuilder(basedOn, 'basedOn.reference');
         for (let i in queryBuilder) {
@@ -65,9 +65,9 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         }
     }
     if (date) {
-      ors.push({$or: [{performedDateTime: dateQueryBuilder(date, 'dateTime')},
-    {$and: [{'performedPeriod.start': {$lte: dateQueryBuilder(date, 'period')}},
-    {'performedPeriod.end': {$gte: dateQueryBuilder(date, 'period')}}]}]});
+        ors.push({$or: [{performedDateTime: dateQueryBuilder(date, 'dateTime')},
+                {$and: [{'performedPeriod.start': {$lte: dateQueryBuilder(date, 'period')}},
+                        {'performedPeriod.end': {$gte: dateQueryBuilder(date, 'period')}}]}]});
     }
     if (ors.length !== 0) {
         query.$and = ors;

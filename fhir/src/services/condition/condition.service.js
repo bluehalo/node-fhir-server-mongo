@@ -79,7 +79,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     if (abatementBoolean) {
         let t = {$regex: new RegExp('.', 'i')};
         ors.push({$or: [{abatementBoolean: (abatementBoolean === 'true')}, {abatementDateTime: t},
-      {'abatementAge.system': t}, {'abatementRange.system': t}, {abatementPeriod: t}, {abatementString: t}]});
+                {'abatementAge.system': t}, {'abatementRange.system': t}, {abatementPeriod: t}, {abatementString: t}]});
     }
     if (abatementDate) {
         ors.push({$or: [{abatementDateTime: dateQueryBuilder(abatementDate, 'dateTime')},
@@ -141,7 +141,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         }
     }
     if (onsetInfo) {
-        stringQueryBuilder(onsetInfo, query);
+        query.onsetString = stringQueryBuilder(onsetInfo);
     }
     if (severity) {
       let queryBuilder = tokenQueryBuilder(severity, 'code', 'severity.coding', '');
