@@ -34,16 +34,9 @@ module.exports.count = (args, logger) => new Promise((resolve, reject) => {
 module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     logger.info('DiagnosticReport >>> search');
     // Parse the params
-    // Status and code are required and guaranteed to be provided
     let {basedOn, category, code, context, date, diagnosis, encounter, identifier, image, issued, patient, performer, result,
         specimen, status, subject} = args;
-    let query = {
-        status: status
-    };
-    let codeQueryBuilder = tokenQueryBuilder(code, 'code', 'code.coding');
-    for (let i in codeQueryBuilder) {
-        query[i] = codeQueryBuilder[i];
-    }
+    let query = {};
 
     if (basedOn) {
         let queryBuilder = referenceQueryBuilder(basedOn, 'basedOn.reference');
@@ -53,7 +46,14 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (category) {
-        let queryBuilder = tokenQueryBuilder(category, 'code', 'category.coding');
+        let queryBuilder = tokenQueryBuilder(category, 'code', 'category.coding', '');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+
+    if (code) {
+        let queryBuilder = tokenQueryBuilder(code, 'code', 'code.coding', '');
         for (let i in queryBuilder) {
             query[i] = queryBuilder[i];
         }
@@ -71,7 +71,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (diagnosis) {
-        let queryBuilder = tokenQueryBuilder(diagnosis, 'code', 'codedDiagnosis.coding');
+        let queryBuilder = tokenQueryBuilder(diagnosis, 'code', 'codedDiagnosis.coding', '');
         for (let i in queryBuilder) {
             query[i] = queryBuilder[i];
         }
@@ -85,7 +85,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (identifier) {
-        let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier');
+        let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier', '');
         for (let i in queryBuilder) {
             query[i] = queryBuilder[i];
         }
@@ -128,6 +128,10 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         for (let i in queryBuilder) {
             query[i] = queryBuilder[i];
         }
+    }
+
+    if (status) {
+        query.status = status;
     }
 
     if (subject) {
@@ -221,7 +225,7 @@ module.exports.update = (args, logger) => new Promise((resolve, reject) => {
     // Set the id of the resource
     let doc = Object.assign(resource.toJSON(), { _id: id });
     // Insert/update our diagnosticreport record
-    collection.findOneAndUpdate({ id: id }, doc, { upsert: true }, (err, res) => {
+    collection.findOneAndUpdate({ id: id }, { $set: doc}, { upsert: true }, (err, res) => {
         if (err) {
             logger.error('Error with DiagnosticReport.update: ', err);
             return reject(err);

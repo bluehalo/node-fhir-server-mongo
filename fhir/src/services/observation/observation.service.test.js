@@ -37,7 +37,7 @@ describe('Observation Service Test', () => {
 			);
 
 			expect(err).toBeUndefined();
-			expect(results).toEqual(60);
+			expect(results).toEqual(61);
 		});
 
 	});
@@ -45,7 +45,7 @@ describe('Observation Service Test', () => {
 	describe('Method: search', () => {
 
 		test('should correctly return all laboratory documents for this patient', async () => {
-			let args = { patient: 1, category: 'laboratory' };
+			let args = { patient: '1', category: 'laboratory' };
 			let [ err, docs ] = await asyncHandler(
 				observationService.search(args, logger)
 			);
@@ -60,8 +60,68 @@ describe('Observation Service Test', () => {
 
 		});
 
-        test('should correctly return a specific laboratory document for this patient using all search parameters', async () => {
-            let args = { patient: 1, category: 'laboratory', code: '2951-2', date: '2005-07-04T00:00:00+00:00' };
+        test('should correctly return a specific observation using all non-logic search parameters', async () => {
+            let args = { basedOn: 'example', category: 'http://hl7.org/fhir/observation-category|', code: 'http://snomed.info/sct|27113001',
+                componentCode: 'http://loinc.org|', componentDataAbsentReason: '|not-performed', componentValueCodeableConcept: 'http://loinc.org|8462-4',
+                componentValueQuantity: '60|http://unitsofmeasure.org|mm[Hg]', context: 'Encounter/example', dataAbsentReason: 'not-performed',
+				date: '2016-03-28', device: 'DeviceMetric/example', encounter: 'Encounter/example', identifier: 'urn:ietf:rfc:3986|',
+                method: 'http://snomed.info/sct|', patient: 'Patient/example', performer: 'Practitioner/f201', relatedTarget: '#verbal',
+                relatedType: 'derived-from', specimen: 'Specimen/genetics-example1-somatic', status: 'final', subject: 'Patient/example',
+                valueCodeableConcept: '4', valueQuantity: '185|http://unitsofmeasure.org|[lb_av]', valueString: 'Exon 21' };
+            let [ err, docs ] = await asyncHandler(
+                observationService.search(args, logger)
+            );
+
+            // console.log(JSON.stringify(docs));
+
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(1);
+
+            docs.forEach(doc => {
+                expect(doc.basedOn[0].reference).toEqual('CarePlan/example');
+                expect(doc.category[0].coding[0].system).toEqual('http://hl7.org/fhir/observation-category');
+                expect(doc.category[0].coding[0].code).toEqual('vital-signs');
+                expect(doc.code.coding[2].system).toEqual('http://snomed.info/sct');
+                expect(doc.code.coding[2].code).toEqual('27113001');
+                expect(doc.component[0].code.coding[0].system).toEqual('http://loinc.org');
+                expect(doc.component[0].code.coding[0].code).toEqual('8480-6');
+                expect(doc.component[1].dataAbsentReason.coding[0].system).toEqual('http://hl7.org/fhir/data-absent-reason');
+                expect(doc.component[1].dataAbsentReason.coding[0].code).toEqual('not-performed');
+                expect(doc.component[1].valueCodeableConcept.coding[0].system).toEqual('http://loinc.org');
+                expect(doc.component[1].valueCodeableConcept.coding[0].code).toEqual('8462-4');
+                expect(doc.component[1].valueQuantity.value).toEqual(60);
+                expect(doc.component[1].valueQuantity.system).toEqual('http://unitsofmeasure.org');
+                expect(doc.component[1].valueQuantity.unit).toEqual('mmHg');
+                expect(doc.context.reference).toEqual('Encounter/example');
+                expect(doc.dataAbsentReason.coding[0].system).toEqual('http://hl7.org/fhir/data-absent-reason');
+                expect(doc.dataAbsentReason.coding[0].code).toEqual('not-performed');
+                expect(doc.effectiveDateTime).toEqual(args.date);
+                expect(doc.device.reference).toEqual(args.device);
+                expect(doc.context.reference).toEqual(args.encounter);
+                expect(doc.identifier[0].system).toEqual('urn:ietf:rfc:3986');
+                expect(doc.identifier[0].value).toEqual('urn:uuid:187e0c12-8dd2-67e2-99b2-bf273c878281');
+                expect(doc.method.coding[0].system).toEqual('http://snomed.info/sct');
+                expect(doc.method.coding[0].code).toEqual('89003005');
+                expect(doc.subject.reference).toEqual(args.patient);
+                expect(doc.performer[0].reference).toEqual('Practitioner/f201');
+                expect(doc.related[1].target.reference).toEqual('#verbal');
+                expect(doc.related[0].type).toEqual('derived-from');
+                expect(doc.specimen.reference).toEqual(args.specimen);
+                expect(doc.status).toEqual(args.status);
+                expect(doc.subject.reference).toEqual('Patient/example');
+                expect(doc.valueCodeableConcept.coding[0].system).toEqual('http:/acme.ec/gcseye');
+                expect(doc.valueCodeableConcept.coding[0].code).toEqual('4');
+                expect(doc.valueQuantity.value).toEqual(185);
+                expect(doc.valueQuantity.system).toEqual('http://unitsofmeasure.org');
+                expect(doc.valueQuantity.unit).toEqual('lbs');
+                expect(doc.valueString).toEqual(args.valueString);
+            })
+
+        });
+
+        test('should correctly return an observation using or searches', async () => {
+            let args = { comboCode: 'http://loinc.org|29463-7', comboDataAbsentReason: 'http://hl7.org/fhir/data-absent-reason|not-performed',
+				comboValueConcept: 'http:/acme.ec/gcseye|4', comboValueQuantity: '60|http://unitsofmeasure.org|mm[Hg]' };
             let [ err, docs ] = await asyncHandler(
                 observationService.search(args, logger)
             );
@@ -70,11 +130,38 @@ describe('Observation Service Test', () => {
             expect(docs.length).toEqual(1);
 
             docs.forEach(doc => {
-                expect(doc.subject.reference).toEqual(`Patient/${args.patient}`);
-                expect(doc.category.coding[0].code).toEqual(args.category);
-                expect(doc.code.coding[0].code).toEqual(args.code);
-                expect(doc.effectiveDateTime).toEqual(args.date);
-            })
+                expect(doc.code.coding[0].system).toEqual('http://loinc.org');
+                expect(doc.code.coding[0].code).toEqual('29463-7');
+                expect(doc.component[1].dataAbsentReason.coding[0].system).toEqual('http://hl7.org/fhir/data-absent-reason');
+                expect(doc.component[1].dataAbsentReason.coding[0].code).toEqual('not-performed');
+                expect(doc.dataAbsentReason.coding[0].system).toEqual('http://hl7.org/fhir/data-absent-reason');
+                expect(doc.dataAbsentReason.coding[0].code).toEqual('not-performed');
+                expect(doc.valueCodeableConcept.coding[0].system).toEqual('http:/acme.ec/gcseye');
+                expect(doc.valueCodeableConcept.coding[0].code).toEqual('4');
+                expect(doc.component[1].valueQuantity.value).toEqual(60);
+                expect(doc.component[1].valueQuantity.system).toEqual('http://unitsofmeasure.org');
+                expect(doc.component[1].valueQuantity.unit).toEqual('mmHg');
+            });
+
+        });
+
+        test('should correctly return an observation using composite searches', async () => {
+            let args = { codeValueConcept: 'http://loinc.org|3141-9$http:/acme.ec/gcseye|4', codeValueDate: 'http://loinc.org|3141-9$2016-03-28',
+				codeValueQuantity: 'http://loinc.org|3141-9$185', codeValueString: 'http://loinc.org|3141-9$Exon 21',
+				comboCodeValueConcept: 'http://loinc.org|3141-9$http:/acme.ec/gcseye|4', comboCodeValueQuantity: 'http://loinc.org|$60||mm[Hg]',
+				componentCodeValueConcept: 'http://loinc.org|8480-6$http://loinc.org|8462-4', componentCodeValueQuantity: '8480-6$60',
+				related: 'derived-from$#verbal' };
+            let [ err, docs ] = await asyncHandler(
+                observationService.search(args, logger)
+            );
+
+            expect(err).toBeUndefined();
+            expect(docs.length).toEqual(1);
+
+            docs.forEach(doc => {
+                // expect(doc.code.coding[0].system).toEqual('http://loinc.org');
+                // expect(doc.code.coding[0].code).toEqual('29463-7');
+            });
 
         });
 

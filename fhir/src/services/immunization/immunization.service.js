@@ -51,7 +51,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         query['vaccinationProtocol.doseSequence'] = numberQueryBuilder(doseSequence);
     }
     if (identifier) {
-        let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier');
+        let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier', '');
         for (let i in queryBuilder) {
             query[i] = queryBuilder[i];
         }
@@ -90,13 +90,13 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
       query['reaction.date'] = dateQueryBuilder(reactionDate, 'dateTime');
     }
     if (reason) {
-        let queryBuilder = tokenQueryBuilder(reason, 'code', 'explanation.reason.coding');
+        let queryBuilder = tokenQueryBuilder(reason, 'code', 'explanation.reason.coding', '');
         for (let i in queryBuilder) {
             query[i] = queryBuilder[i];
         }
     }
     if (reasonNotGiven) {
-        let queryBuilder = tokenQueryBuilder(reasonNotGiven, 'code', 'explanation.reasonNotGiven.coding');
+        let queryBuilder = tokenQueryBuilder(reasonNotGiven, 'code', 'explanation.reasonNotGiven.coding', '');
         for (let i in queryBuilder) {
             query[i] = queryBuilder[i];
         }
@@ -105,7 +105,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         query.status = status;
     }
     if (vaccineCode) {
-        let queryBuilder = tokenQueryBuilder(vaccineCode, 'code', 'vaccineCode.coding');
+        let queryBuilder = tokenQueryBuilder(vaccineCode, 'code', 'vaccineCode.coding', '');
         for (let i in queryBuilder) {
             query[i] = queryBuilder[i];
         }
@@ -195,7 +195,7 @@ module.exports.update = (args, logger) => new Promise((resolve, reject) => {
     // Set the id of the resource
     let doc = Object.assign(resource.toJSON(), { _id: id });
     // Insert/update our immunization record
-    collection.findOneAndUpdate({ id: id }, doc, { upsert: true }, (err, res) => {
+    collection.findOneAndUpdate({ id: id }, { $set: doc}, { upsert: true }, (err, res) => {
         if (err) {
             logger.error('Error with Immunization.update: ', err);
             return reject(err);

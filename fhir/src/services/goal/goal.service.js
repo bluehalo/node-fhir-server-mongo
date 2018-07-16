@@ -35,20 +35,17 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     logger.info('Goal >>> search');
     // Parse the params
     let { category, identifier, patient, startDate, status, subject, targetDate } = args;
-    // Status is required and guaranteed to be provided
-    let query = {
-        status: status
-    };
+    let query = {};
 
     if (category) {
-        let queryBuilder = tokenQueryBuilder(category, 'code', 'category.coding');
+        let queryBuilder = tokenQueryBuilder(category, 'code', 'category.coding', '');
         for (let i in queryBuilder) {
             query[i] = queryBuilder[i];
         }
     }
 
     if (identifier) {
-        let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier');
+        let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier', '');
         for (let i in queryBuilder) {
             query[i] = queryBuilder[i];
         }
@@ -63,6 +60,10 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
 
     if (startDate) {
         query.startDate = startDate;
+    }
+
+    if (status) {
+        query.status = status;
     }
 
     if (subject) {
@@ -160,7 +161,7 @@ module.exports.update = (args, logger) => new Promise((resolve, reject) => {
     // Set the id of the resource
     let doc = Object.assign(resource.toJSON(), { _id: id });
     // Insert/update our goal record
-    collection.findOneAndUpdate({ id: id }, doc, { upsert: true }, (err, res) => {
+    collection.findOneAndUpdate({ id: id }, { $set: doc}, { upsert: true }, (err, res) => {
         if (err) {
             logger.error('Error with Goal.update: ', err);
             return reject(err);

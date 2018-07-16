@@ -34,15 +34,15 @@ module.exports.count = (args, logger) => new Promise((resolve, reject) => {
  */
 module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     logger.info('Device >>> search');
-    let { patient, name, identifier, manufacturer, model, status, type,
-        deviceIdentifier, url, location, udiCarrier, owner } = args;
+    let { patient, deviceName, identifier, manufacturer, model, status, type,
+        udiDi, url, location, udiCarrier, organization } = args;
     let query = {};
     let ors = [];
 
     // Find all given arguments that are involved in an or and wrap them in an and
-    if (name) {
-        ors.push( {$or: [{'udi.name': stringQueryBuilder(name)}, {'type.text': stringQueryBuilder(name)},
-                {'type.coding.display': stringQueryBuilder(name)}]} );
+    if (deviceName) {
+        ors.push( {$or: [{'udi.name': stringQueryBuilder(deviceName)}, {'type.text': stringQueryBuilder(deviceName)},
+                {'type.coding.display': stringQueryBuilder(deviceName)}]} );
     }
     if (udiCarrier) {
         ors.push( {$or: [{'udi.carrierHRF': stringQueryBuilder(udiCarrier)},
@@ -60,7 +60,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (identifier) {
-        let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier');
+        let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier', '');
         for (let i in queryBuilder) {
             query[i] = queryBuilder[i];
         }
@@ -86,22 +86,22 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (type) {
-        let queryBuilder = tokenQueryBuilder(type, 'code', 'type.coding');
+        let queryBuilder = tokenQueryBuilder(type, 'code', 'type.coding', '');
         for (let i in queryBuilder) {
             query[i] = queryBuilder[i];
         }
     }
 
-    if (deviceIdentifier) {
-        query['udi.deviceIdentifier'] = stringQueryBuilder(deviceIdentifier);
+    if (udiDi) {
+        query['udi.deviceIdentifier'] = stringQueryBuilder(udiDi);
     }
 
     if (url) {
         query.url = url;
     }
 
-    if (owner) {
-        let queryBuilder = referenceQueryBuilder(owner, 'owner.reference');
+    if (organization) {
+        let queryBuilder = referenceQueryBuilder(organization, 'owner.reference');
         for (let i in queryBuilder) {
             query[i] = queryBuilder[i];
         }
@@ -191,7 +191,7 @@ module.exports.update = (args, logger) => new Promise((resolve, reject) => {
     // Set the id of the resource
     let doc = Object.assign(resource.toJSON(), { _id: id });
     // Insert/update our device record
-    collection.findOneAndUpdate({ id: id }, doc, { upsert: true }, (err, res) => {
+    collection.findOneAndUpdate({ id: id }, { $set: doc}, { upsert: true }, (err, res) => {
         if (err) {
             logger.error('Error with Device.update: ', err);
             return reject(err);

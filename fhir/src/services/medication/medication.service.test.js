@@ -1,5 +1,5 @@
 /* eslint-disable */
-const MedicationFixture = require('../../../fixtures/data/patient00/medication00.json');
+const MedicationFixture = require('../../../fixtures/data/patient00/medication00');
 const { CLIENT, CLIENT_DB } = require('../../constants');
 const asyncHandler = require('../../lib/async-handler');
 const logger = require('../../testutils/logger.mock');

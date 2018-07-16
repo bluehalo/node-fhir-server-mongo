@@ -34,13 +34,13 @@ module.exports.count = (args, logger) => new Promise((resolve, reject) => {
 module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     logger.info('CareTeam >>> search');
     // Parse the params
-    let { category, context, date, encounter, identifier, participant, patient, status, subject } = args;
+    let { category, context, /*date,*/ encounter, identifier, participant, patient, status, subject } = args;
     // console.log(JSON.stringify(args));
 
     let query = {};
 
     if (category) {
-        let queryBuilder = tokenQueryBuilder(category, 'code', 'category.coding');
+        let queryBuilder = tokenQueryBuilder(category, 'code', 'category.coding', '');
         for (let i in queryBuilder) {
             query[i] = queryBuilder[i];
         }
@@ -53,9 +53,9 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         }
     }
 
-    if (date) {
-        console.log('Not implemented');
-    }
+    // if (date) {
+    //
+    // }
 
     if (encounter) {
         let queryBuilder = referenceQueryBuilder(encounter, 'context.reference');
@@ -65,7 +65,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (identifier) {
-        let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier');
+        let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier', '');
         for (let i in queryBuilder) {
             query[i] = queryBuilder[i];
         }
@@ -180,7 +180,7 @@ module.exports.update = (args, logger) => new Promise((resolve, reject) => {
     // Set the id of the resource
     let doc = Object.assign(resource.toJSON(), { _id: id });
     // Insert/update our careteam record
-    collection.findOneAndUpdate({ id: id }, doc, { upsert: true }, (err, res) => {
+    collection.findOneAndUpdate({ id: id }, { $set: doc}, { upsert: true }, (err, res) => {
         if (err) {
             logger.error('Error with CareTeam.update: ', err);
             return reject(err);

@@ -31,13 +31,13 @@ module.exports.count = (args, logger) => new Promise((resolve, reject) => {
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-// Not implemented: activityDate and date
 module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     logger.info('CarePlan >>> search');
     // Parse the params
-    let { activityCode, activityDate, activityReference, basedOn, careTeam, category, condition, context, date, definition,
+    let { activityCode, /*activityDate,*/ activityReference, basedOn, careTeam, category, condition, context, /*date,*/ definition,
         encounter, goal, identifier, intent, partOf, patient, performer, replaces, status, subject } = args;
 
+<<<<<<< HEAD
     // Status, intent, and subject are required and guaranteed to be provided
     let query = {
         'status': status,
@@ -48,17 +48,26 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     for (let i in subjectQueryBuilder) {
         query[i] = subjectQueryBuilder[i];
     }
+=======
+    let query = {};
+>>>>>>> 5d97f6081273defd3ae2f6fec781b969bec80bf3
 
     if (activityCode) {
-        let queryBuilder = tokenQueryBuilder(activityCode, 'code', 'activity.detail.code.coding');
+        let queryBuilder = tokenQueryBuilder(activityCode, 'code', 'activity.detail.code.coding', '');
         for (let i in queryBuilder) {
             query[i] = queryBuilder[i];
         }
     }
 
+<<<<<<< HEAD
     if (date) {
         ors.push({$or: dateQueryBuilder(date, 'period', 'period')});
     }
+=======
+    // if (activityDate) {
+    //
+    // }
+>>>>>>> 5d97f6081273defd3ae2f6fec781b969bec80bf3
 
     if (activityDate) {
       ors.push({$or: [{$or: dateQueryBuilder(activityDate, 'timing', 'activity.detail.scheduledTiming')},
@@ -89,7 +98,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (category) {
-        let queryBuilder = tokenQueryBuilder(category, 'code', 'category.coding');
+        let queryBuilder = tokenQueryBuilder(category, 'code', 'category.coding', '');
         for (let i in queryBuilder) {
             query[i] = queryBuilder[i];
         }
@@ -109,6 +118,13 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         }
     }
 
+<<<<<<< HEAD
+=======
+    // if (date) {
+    //
+    // }
+
+>>>>>>> 5d97f6081273defd3ae2f6fec781b969bec80bf3
     if (definition) {
         let queryBuilder = referenceQueryBuilder(definition, 'definition.reference');
         for (let i in queryBuilder) {
@@ -131,10 +147,14 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (identifier) {
-        let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier');
+        let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier', '');
         for (let i in queryBuilder) {
             query[i] = queryBuilder[i];
         }
+    }
+
+    if (intent) {
+        query.intent = intent;
     }
 
     if (partOf) {
@@ -160,6 +180,17 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
 
     if (replaces) {
         let queryBuilder = referenceQueryBuilder(replaces, 'replaces.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+
+    if (status) {
+        query.status = status;
+    }
+
+    if (subject) {
+        let queryBuilder = referenceQueryBuilder(subject, 'subject.reference');
         for (let i in queryBuilder) {
             query[i] = queryBuilder[i];
         }
@@ -249,7 +280,7 @@ module.exports.update = (args, logger) => new Promise((resolve, reject) => {
     // Set the id of the resource
     let doc = Object.assign(resource.toJSON(), { _id: id });
     // Insert/update our careplan record
-    collection.findOneAndUpdate({ id: id }, doc, { upsert: true }, (err, res) => {
+    collection.findOneAndUpdate({ id: id }, { $set: doc}, { upsert: true }, (err, res) => {
         if (err) {
             logger.error('Error with CarePlan.update: ', err);
             return reject(err);

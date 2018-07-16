@@ -38,7 +38,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     let { patient, category, code, assertedDate, onsetDate, clinicalStatus,
         verificationStatus, abatementAge, abatementBoolean, abatementDate,
         abatementString, asserter, bodySite, context, encounter, evidence,
-        detail, identifier, onsetAge, onsetString, severity, stage, subject } = args;
+        evidenceDetail, identifier, onsetAge, onsetInfo, severity, stage, subject } = args;
     let query = {
     };
     let ors = [];
@@ -49,13 +49,13 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
       }
     }
     if (category) {
-      let queryBuilder = tokenQueryBuilder(category, 'code', 'category.coding');
+      let queryBuilder = tokenQueryBuilder(category, 'code', 'category.coding', '');
       for (let i in queryBuilder) {
           query[i] = queryBuilder[i];
       }
     }
     if (code) {
-      let queryBuilder = tokenQueryBuilder(code, 'code', 'code.coding');
+      let queryBuilder = tokenQueryBuilder(code, 'code', 'code.coding', '');
       for (let i in queryBuilder) {
           query[i] = queryBuilder[i];
       }
@@ -74,15 +74,12 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         query.verificationStatus = verificationStatus;
     }
     if (abatementAge) {
-        ors.push({$or: [{$and: quantityQueryBuilder(abatementAge, 'abatementAge')}, {$and: quantityQueryBuilder(abatementAge, 'abatementRange')}] });
-    }
-    if (onsetAge) {
-        ors.push({$or: [{$and: quantityQueryBuilder(onsetAge, 'onsetAge')}, {$and: quantityQueryBuilder(onsetAge, 'onsetRange')}] });
+        ors.push({$or: [quantityQueryBuilder(abatementAge, 'abatementAge'), quantityQueryBuilder(abatementAge, 'abatementRange')] });
     }
     if (abatementBoolean) {
         let t = {$regex: new RegExp('.', 'i')};
         ors.push({$or: [{abatementBoolean: (abatementBoolean === 'true')}, {abatementDateTime: t},
-      {'abatementAge.system': t}, {'abatementRange.system': t}, {abatementPeriod: t}, {abatementString: t}]});
+                {'abatementAge.system': t}, {'abatementRange.system': t}, {abatementPeriod: t}, {abatementString: t}]});
     }
     if (abatementDate) {
         ors.push({$or: [{abatementDateTime: dateQueryBuilder(abatementDate, 'dateTime')},
@@ -92,16 +89,16 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         query.$and = ors;
     }
     if (abatementString) {
-        stringQueryBuilder(abatementString, query);
+        query.abatementString = stringQueryBuilder(abatementString, query);
     }
     if (asserter) {
         let queryBuilder = referenceQueryBuilder(asserter, 'asserter.reference');
         for (let i in queryBuilder) {
-          query[i] = queryBuilder[i];
+            query[i] = queryBuilder[i];
         }
     }
     if (bodySite) {
-      let queryBuilder = tokenQueryBuilder(bodySite, 'code', 'bodySite.coding');
+      let queryBuilder = tokenQueryBuilder(bodySite, 'code', 'bodySite.coding', '');
       for (let i in queryBuilder) {
           query[i] = queryBuilder[i];
       }
@@ -119,34 +116,41 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
       }
     }
     if (evidence) {
-      let queryBuilder = tokenQueryBuilder(evidence, 'code', 'evidence.code.coding');
+      let queryBuilder = tokenQueryBuilder(evidence, 'code', 'evidence.code.coding', '');
       for (let i in queryBuilder) {
           query[i] = queryBuilder[i];
       }
     }
-    if (detail) {
-      let queryBuilder = referenceQueryBuilder(detail, 'evidence.detail.reference');
+    if (evidenceDetail) {
+      let queryBuilder = referenceQueryBuilder(evidenceDetail, 'evidence.detail.reference');
       for (let i in queryBuilder) {
           query[i] = queryBuilder[i];
       }
     }
     if (identifier) {
-      let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier');
+      let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier', '');
       for (let i in queryBuilder) {
           query[i] = queryBuilder[i];
       }
     }
-    if (onsetString) {
-        stringQueryBuilder(onsetString, query);
+    // Implement quantity range
+    if (onsetAge) {
+        let queryBuilder = quantityQueryBuilder(onsetAge, 'onsetAge');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+    if (onsetInfo) {
+        query.onsetString = stringQueryBuilder(onsetInfo);
     }
     if (severity) {
-      let queryBuilder = tokenQueryBuilder(severity, 'code', 'severity.coding');
+      let queryBuilder = tokenQueryBuilder(severity, 'code', 'severity.coding', '');
       for (let i in queryBuilder) {
           query[i] = queryBuilder[i];
       }
     }
     if (stage) {
-      let queryBuilder = tokenQueryBuilder(stage, 'code', 'stage.summary.coding');
+      let queryBuilder = tokenQueryBuilder(stage, 'code', 'stage.summary.coding', '');
       for (let i in queryBuilder) {
           query[i] = queryBuilder[i];
       }
@@ -240,7 +244,7 @@ module.exports.update = (args, logger) => new Promise((resolve, reject) => {
     // Set the id of the resource
     let doc = Object.assign(resource.toJSON(), { _id: id });
     // Insert/update our condition record
-    collection.findOneAndUpdate({ id: id }, doc, { upsert: true }, (err, res) => {
+    collection.findOneAndUpdate({ id: id }, { $set: doc}, { upsert: true }, (err, res) => {
         if (err) {
             logger.error('Error with Condition.update: ', err);
             return reject(err);

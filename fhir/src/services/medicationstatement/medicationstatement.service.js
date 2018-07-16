@@ -40,14 +40,14 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     let query = {};
 
     if (category) {
-        let queryBuilder = tokenQueryBuilder(category, 'code', 'category.coding');
+        let queryBuilder = tokenQueryBuilder(category, 'code', 'category.coding', '');
         for (let i in queryBuilder) {
             query[i] = queryBuilder[i];
         }
     }
 
     if (code) {
-        let queryBuilder = tokenQueryBuilder(code, 'code', 'medicationCodeableConcept.coding');
+        let queryBuilder = tokenQueryBuilder(code, 'code', 'medicationCodeableConcept.coding', '');
         for (let i in queryBuilder) {
             query[i] = queryBuilder[i];
         }
@@ -66,7 +66,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (identifier) {
-        let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier');
+        let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier', '');
         for (let i in queryBuilder) {
             query[i] = queryBuilder[i];
         }
@@ -111,7 +111,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         }
     }
 
-    console.log(JSON.stringify(query));
+    // console.log(JSON.stringify(query));
 
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
@@ -195,7 +195,7 @@ module.exports.update = (args, logger) => new Promise((resolve, reject) => {
     // Set the id of the resource
     let doc = Object.assign(resource.toJSON(), { _id: id });
     // Insert/update our medicationstatement record
-    collection.findOneAndUpdate({ id: id }, doc, { upsert: true }, (err, res) => {
+    collection.findOneAndUpdate({ id: id }, { $set: doc}, { upsert: true }, (err, res) => {
         if (err) {
             logger.error('Error with MedicationStatement.update: ', err);
             return reject(err);

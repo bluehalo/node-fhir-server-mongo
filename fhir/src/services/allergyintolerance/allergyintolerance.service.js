@@ -35,16 +35,16 @@ module.exports.count = (args, logger) => new Promise((resolve, reject) => {
 module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     logger.info('AllergyIntolerance >>> search');
     // Parse the params
-    let { category, clinicalStatus, code, criticality, date, identifier, lastDate, manifestation, onset, patient, recorder,
-        route, severity, type, verificationStatus } = args;
+    let { asserter, category, clinicalStatus, code, criticality, date, identifier, lastDate, manifestation, onset, patient,
+        recorder, route, severity, type, verificationStatus } = args;
 
-    // Patient and verificationStatus are required and guaranteed to be provided
-    let query = {
-        verificationStatus: verificationStatus
-    };
-    let patientQueryBuilder = referenceQueryBuilder(patient, 'patient.reference');
-    for (let i in patientQueryBuilder) {
-        query[i] = patientQueryBuilder[i];
+    let query = {};
+
+    if (asserter) {
+        let queryBuilder = referenceQueryBuilder(asserter, 'asserter.reference');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
     }
 
     if (category) {
@@ -56,7 +56,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (code) {
-        let queryBuilder = tokenQueryBuilder(code, 'code', 'code.coding');
+        let queryBuilder = tokenQueryBuilder(code, 'code', 'code.coding', '');
         for (let i in queryBuilder) {
             query[i] = queryBuilder[i];
         }
@@ -71,7 +71,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (identifier) {
-        let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier');
+        let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier', '');
         for (let i in queryBuilder) {
             query[i] = queryBuilder[i];
         }
@@ -87,7 +87,14 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (manifestation) {
-        let queryBuilder = tokenQueryBuilder(manifestation, 'code', 'reaction.manifestation.coding');
+        let queryBuilder = tokenQueryBuilder(manifestation, 'code', 'reaction.manifestation.coding', '');
+        for (let i in queryBuilder) {
+            query[i] = queryBuilder[i];
+        }
+    }
+
+    if (patient) {
+        let queryBuilder = referenceQueryBuilder(patient, 'patient.reference');
         for (let i in queryBuilder) {
             query[i] = queryBuilder[i];
         }
@@ -105,7 +112,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (route) {
-        let queryBuilder = tokenQueryBuilder(route, 'code', 'reaction.exposureRoute.coding');
+        let queryBuilder = tokenQueryBuilder(route, 'code', 'reaction.exposureRoute.coding', '');
         for (let i in queryBuilder) {
             query[i] = queryBuilder[i];
         }
@@ -117,6 +124,10 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
 
     if (type) {
         query.type = type;
+    }
+
+    if (verificationStatus) {
+        query.verificationStatus = verificationStatus;
     }
 
     // console.log(JSON.stringify(query));
@@ -203,7 +214,7 @@ module.exports.update = (args, logger) => new Promise((resolve, reject) => {
     // Set the id of the resource
     let doc = Object.assign(resource.toJSON(), { _id: id });
     // Insert/update our allergyintolerance record
-    collection.findOneAndUpdate({ id: id }, doc, { upsert: true }, (err, res) => {
+    collection.findOneAndUpdate({ id: id }, { $set: doc}, { upsert: true }, (err, res) => {
         if (err) {
             logger.error('Error with AllergyIntolerance.update: ', err);
             return reject(err);

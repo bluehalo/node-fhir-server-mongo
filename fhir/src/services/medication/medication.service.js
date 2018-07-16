@@ -37,22 +37,21 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     let { code, container, form, ingredient, ingredientCode, manufacturer, overTheCounter,
     packageItem, packageItemCode, status } = args;
     let query = {};
-    //let ors = [];
 
     if (code) {
-      let queryBuilder = tokenQueryBuilder(code, 'code', 'code.coding');
+      let queryBuilder = tokenQueryBuilder(code, 'code', 'code.coding', '');
       for (let i in queryBuilder) {
           query[i] = queryBuilder[i];
       }
     }
     if (container) {
-      let queryBuilder = tokenQueryBuilder(container, 'code', 'package.container.coding');
+      let queryBuilder = tokenQueryBuilder(container, 'code', 'package.container.coding', '');
       for (let i in queryBuilder) {
           query[i] = queryBuilder[i];
       }
     }
     if (form) {
-      let queryBuilder = tokenQueryBuilder(form, 'code', 'form.coding');
+      let queryBuilder = tokenQueryBuilder(form, 'code', 'form.coding', '');
       for (let i in queryBuilder) {
           query[i] = queryBuilder[i];
       }
@@ -64,7 +63,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
       }
     }
     if (ingredientCode) {
-      let queryBuilder = tokenQueryBuilder(ingredientCode, 'code', 'ingredient.itemCodeableConcept.coding');
+      let queryBuilder = tokenQueryBuilder(ingredientCode, 'code', 'ingredient.itemCodeableConcept.coding', '');
       for (let i in queryBuilder) {
           query[i] = queryBuilder[i];
       }
@@ -85,7 +84,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
       }
     }
     if (packageItemCode) {
-      let queryBuilder = tokenQueryBuilder(packageItemCode, 'code', 'package.content.itemCodeableConcept.coding');
+      let queryBuilder = tokenQueryBuilder(packageItemCode, 'code', 'package.content.itemCodeableConcept.coding', '');
       for (let i in queryBuilder) {
           query[i] = queryBuilder[i];
       }
@@ -176,7 +175,7 @@ module.exports.update = (args, logger) => new Promise((resolve, reject) => {
     // Set the id of the resource
     let doc = Object.assign(resource.toJSON(), { _id: id });
     // Insert/update our medication record
-    collection.findOneAndUpdate({ id: id }, doc, { upsert: true }, (err, res) => {
+    collection.findOneAndUpdate({ id: id }, { $set: doc}, { upsert: true }, (err, res) => {
         if (err) {
             logger.error('Error with Medication.update: ', err);
             return reject(err);

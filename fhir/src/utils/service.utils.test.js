@@ -6,7 +6,7 @@ const patientService = require('../services/patient/patient.service');
 const { mongoConfig } = require('../config');
 const mongoClient = require('../lib/mongo');
 let globals = require('../globals');
-const { numberQueryBuilder } = require('./service.utils');
+const { numberQueryBuilder, quantityQueryBuilder, compositeQueryBuilder } = require('./service.utils');
 
 describe('Service Utils Tests', () => {
 
@@ -290,6 +290,61 @@ describe('Service Utils Tests', () => {
 
             query = numberQueryBuilder('100.00');
             expect(query).toEqual({$gte: 99.995, $lt: 100.005});
+
+        });
+
+    });
+
+    describe('Method: quantityQueryBuilder', () => {
+
+        test('should pass back a query based on a prefix', async () => {
+            let query = quantityQueryBuilder('lt12||mm', 'example');
+            expect(query).toEqual({'example.code': 'mm', 'example.value': {$lt: 12}});
+
+            query = quantityQueryBuilder('le12||mm', 'example');
+            expect(query).toEqual({'example.code': 'mm', 'example.value': {$lte: 12}});
+
+            query = quantityQueryBuilder('gt12||mm', 'example');
+            expect(query).toEqual({'example.code': 'mm', 'example.value': {$gt: 12}});
+
+            query = quantityQueryBuilder('ge12||mm', 'example');
+            expect(query).toEqual({'example.code': 'mm', 'example.value': {$gte: 12}});
+
+            query = quantityQueryBuilder('ne12||mm', 'example');
+            expect(query).toEqual({'example.code': 'mm', 'example.value': {$ne: 12}});
+
+        });
+
+        test('should pass the default query', async () => {
+            let query = quantityQueryBuilder('12||mm', 'example');
+            expect(query).toEqual({'example.code': 'mm', 'example.value': 12});
+
+        });
+
+    });
+
+    describe('Method: compositeQueryBuilder', () => {
+
+        test('should pass the each query type', async () => {
+            // Token and string
+            let query = compositeQueryBuilder('http://foo.org|3$bar5', 'code.coding|token', 'valueString|string');
+            expect(query).toEqual({$and: [{'code.coding.system': 'http://foo.org', 'code.coding.code': '3'},
+                    {'valueString': {$regex: new RegExp('^' + 'bar5', 'i')}}]});
+
+            // Reference and quantity
+            query = compositeQueryBuilder('Encounter/example$60||mm', 'foo.reference|reference', 'bar|quantity');
+            expect(query).toEqual({$and: [{'foo.reference': 'Encounter/example'}, {'bar.code': 'mm', 'bar.value': 60}]});
+
+            // Number and code
+            query = compositeQueryBuilder('lt12$example', 'foo|number', 'bar|code');
+            expect(query).toEqual({$and: [{'foo': {$lt: 12}}, {'bar': 'example'}]});
+
+        });
+
+        test('should pass an or', async () => {
+            let query = compositeQueryBuilder('http://foo.org|3,bar5', 'code.coding|token', 'valueString|string');
+            expect(query).toEqual({$or: [{'code.coding.system': 'http://foo.org', 'code.coding.code': '3'},
+                    {'valueString': {$regex: new RegExp('^' + 'bar5', 'i')}}]});
 
         });
 
