@@ -56,7 +56,7 @@ describe('Immunization Service Test', () => {
             let args = { patient: 'example', doseSequence: '1', location: '1',
                 identifier: 'urn:ietf:rfc:3986|urn:oid:1.3.6.1.4.1.21367.2005.3.7.1234',
                 lotNumber: 'AAJN11K', manufacturer: 'Organization/hl7', notGiven: 'false',
-                practitioner: 'example', reaction: 'Observation/example', reactionDate: '2013-01-10',
+                practitioner: 'example', reaction: 'Observation/example', reactionDate: '2013-01-10T00:01Z',
                 reason: 'http://snomed.info/sct|429060002', status: 'completed' };
             let [ err, docs ] = await asyncHandler(
                 immunizationService.search(args, logger)
@@ -76,7 +76,7 @@ describe('Immunization Service Test', () => {
                 expect(doc.notGiven).toEqual(false);
                 expect(doc.practitioner[0].actor.reference).toEqual('Practitioner/example');
                 expect(doc.reaction[0].detail.reference).toEqual('Observation/example')
-                expect(doc.reaction[0].date).toEqual('2013-01-10')
+                expect(doc.reaction[0].date).toEqual('2013-01-10T00:01')
                 expect(doc.explanation.reason[0].coding[0].system).toEqual('http://snomed.info/sct');
                 expect(doc.explanation.reason[0].coding[0].code).toEqual('429060002');
                 expect(doc.status).toEqual('completed');

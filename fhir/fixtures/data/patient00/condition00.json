@@ -50,6 +50,7 @@
   "asserter": {
     "reference": "Practitioner/f223"
   },
+  "abatementDateTime": "2014-03-12T04:30",
   "bodySite": [
   {
     "coding": [
@@ -106,6 +107,11 @@
         "display": "Mild"
       }
     ]
+  },
+  "onsetDateTime": "2013-04-02T03:30Z",
+  "onsetPeriod": {
+    "start": "2013-04-02T01:30Z",
+    "end": "2013-04-03T03:30Z"
   },
   "stage": {
     "summary": {

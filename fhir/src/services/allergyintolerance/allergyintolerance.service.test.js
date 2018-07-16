@@ -87,6 +87,8 @@ describe('AllergyIntolerance Service Test', () => {
         test('test using all arguments', async () => {
             let args = { asserter: 'Patient/example', category: 'medication', clinicalStatus: 'active', code: 'http://hl7.org/fhir/ndfrt|N0000175503',
                 criticality: 'low', date: '2014-10-09T14:58:00+11:00', identifier: 'http://acme.com/ids/patients/risks|49476534', lastDate: '2012-06',
+            let args = { category: 'medication', clinicalStatus: 'active', code: 'http://hl7.org/fhir/ndfrt|N0000175503',
+                criticality: 'low', date: '2014-10-09T14:58:00+11:00', identifier: 'http://acme.com/ids/patients/risks|49476534', lastDate: '2012-06-04T04:30:05+22:00',
                 manifestation: 'http://snomed.info/sct|64305001', onset: '2004', patient: 'example', recorder: 'example',
                 route: 'http://snomed.info/sct|34206005', severity: 'severe', type: 'allergy', verificationStatus: 'confirmed'};
             let [ err, docs ] = await asyncHandler(
@@ -108,7 +110,7 @@ describe('AllergyIntolerance Service Test', () => {
                 expect(doc.assertedDate).toEqual(args.date);
                 expect(doc.identifier[0].system).toEqual('http://acme.com/ids/patients/risks');
                 expect(doc.identifier[0].value).toEqual('49476534');
-                expect(doc.lastOccurrence).toEqual(args.lastDate);
+              //  expect(doc.lastOccurrence).toEqual(args.lastDate);
                 expect(doc.reaction[1].manifestation[0].coding[0].system).toEqual('http://snomed.info/sct');
                 expect(doc.reaction[1].manifestation[0].coding[0].code).toEqual('64305001');
                 expect(doc.reaction[1].onset).toEqual(args.onset);
@@ -116,6 +118,8 @@ describe('AllergyIntolerance Service Test', () => {
                 expect(doc.reaction[0].exposureRoute.coding[0].system).toEqual('http://snomed.info/sct');
                 expect(doc.reaction[0].exposureRoute.coding[0].code).toEqual('34206005');
                 expect(doc.reaction[0].severity).toEqual(args.severity);
+                expect(doc.assertedDate).toEqual('2014-10-09T14:58:00+11:00');
+                expect(doc.lastOccurrence).toEqual('2012-06-03');
                 expect(doc.type).toEqual(args.type);
                 expect(doc.verificationStatus).toEqual(args.verificationStatus);
             });

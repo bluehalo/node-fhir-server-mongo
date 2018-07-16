@@ -115,7 +115,7 @@
 ],
 "reaction": [
     {
-      "date": "2013-01-10",
+      "date": "2013-01-10T00:01",
       "detail": {
         "reference": "Observation/example"
       },

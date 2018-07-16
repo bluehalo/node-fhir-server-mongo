@@ -250,6 +250,155 @@ let quantityQueryBuilder = function (target, field) {
   return qB;
 };
 
+//for modular arithmetic because % is just for remainder -> JS is a cruel joke
+function mod(n, m) {
+  return ((n % m) + m) % m;
+}
+
+//gives the number of days from year 0, used for adding or subtracting days from a date
+let getDayNum = function (y, m, d) {
+m = mod((m + 9), 12);
+y = y - Math.floor(m / 10);
+return (365 * y + Math.floor(y / 4) - Math.floor(y / 100) + Math.floor(y / 400) + Math.floor((m * 306 + 5) / 10) + ( d - 1 ));
+};
+
+//returns a date given the number of days from year 0;
+let getDateFromNum = function (g) {
+  let y = Math.floor((10000 * g + 14780) / 3652425);
+  let ddd = g - (365 * y + Math.floor(y / 4) - Math.floor(y / 100) + Math.floor(y / 400));
+  if (ddd < 0) {
+   y = y - 1;
+   ddd = g - (365 * y + Math.floor(y / 4) - Math.floor(y / 100) + Math.floor(y / 400));
+ }
+  let mi = Math.floor((100 * ddd + 52) / 3060);
+  let mm = mod((mi + 2), 12) + 1;
+  y = y + Math.floor((mi + 2) / 12);
+  let dd = ddd - Math.floor((mi * 306 + 5) / 10) + 1;
+  return y.toString() + '-' + ('0' + mm).slice(-2) + '-' + ('0' + dd).slice(-2);
+};
+
+//deals with date, dateTime, instant, period, and timing
+//use like this: query['whatever'] = dateQueryBuilder(whatever, 'dateTime')
+//the condition service has some examples you might want to look at.
+//can't handle prefixes yet!  Also doesn't work foe when things are stored in different time zones in the .json files (with the + or -)
+let dateQueryBuilder = function (date, type, path) {
+  let regex = /^(\D{2})?(\d{4})(-\d{2})?(-\d{2})?(?:(T\d{2}:\d{2})(:\d{2})?)?(Z|(\+|-)(\d{2}):(\d{2}))?$/;
+  let match = date.match(regex);
+  let str = '';
+  let toRet = [];
+  let pArr = []; //will have other possibilities such as just year, just year and month, etc
+  let prefix = '$eq';
+  if (match && match.length >= 1 ) {
+    if (match[1]) {
+			// replace prefix with mongo specific comparators
+			prefix = '$' + match[1].replace('ge', 'gte').replace('le', 'lte');
+		}
+    if (type === 'date') { //if its just a date, we don't have to worry about time components
+      if (prefix === '$eq') {
+        //add parts of date that are available
+        for (let i = 2; i < 5; i++) { //add up the date parts in a string
+          if (match[i]) {
+            str = str + match[i];
+            pArr[i - 2] = str + '$';
+          }
+        }
+        //below we have to check if the search gave more information than what is actually stored
+        return {$regex: new RegExp('^' + '(?:' + str + ')|(?:' + pArr[0] + ')|(?:' + pArr[1] + ')|(?:' + pArr[2] + ')', 'i')};
+      }
+    }
+
+    if (type === 'dateTime' || type === 'instant' || type === 'period' || type === 'timing') { //now we have to worry about hours, minutes, seconds, and TIMEZONES
+      if (prefix === '$eq') {
+        if (match[5]) { //to see if time is included
+          for (let i = 2; i < 6; i++) {
+            str = str + match[i];
+            if (i === 5) {
+              pArr[i - 2] = str + 'Z?$';
+            } else {
+              pArr[i - 2] = str + '$';
+            }
+          }
+          if (type === 'instant'){
+            if (match[6]) { //to check if seconds were included or not
+              str = str + match[6];
+            }
+          }
+          if (match[9]) { // we know there is a +|-hh:mm at the end
+            let mins = 0;
+            let hrs = 0;
+            if (match[8] === '+') { //time is ahead of UTC so we must subtract
+              let hM = match[5].split(':');
+              hM[0] = hM[0].replace('T', '');
+              mins = Number(hM[1]) - Number(match[10]);
+              hrs = Number(hM[0]) - Number(match[9]);
+              if (mins < 0) { //when we subtract the minutes and go below zero, we need to remove an hour
+                mins = mod(mins, 60);
+                hrs = hrs - 1;
+              }
+              if (hrs < 0) { //when hours goes below zero, we have to adjust the date
+                hrs = mod(hrs, 24);
+                str = getDateFromNum(getDayNum(Number(match[2]), Number(match[3].replace('-', '')), Number(match[4].replace('-', ''))) - 1);
+              } else {
+                str = getDateFromNum(getDayNum(Number(match[2]), Number(match[3].replace('-', '')), Number(match[4].replace('-', ''))));
+              }
+            } else { //time is behind UTC so we add
+              let hM = match[5].split(':');
+              hM[0] = hM[0].replace('T', '');
+              mins = Number(hM[1]) + Number(match[10]);
+              hrs = Number(hM[0]) + Number(match[9]);
+              if (mins > 59) { //if we go above 59, we need to increase hours
+                mins = mod(mins, 60);
+                hrs = hrs + 1;
+              }
+              if (hrs > 23) { //if we go above 23 hours, new day
+                hrs = mod(hrs, 24);
+                str = getDateFromNum(getDayNum(Number(match[2]), Number(match[3].replace('-', '')), Number(match[4].replace('-', ''))) + 1);
+              } else {
+                str = getDateFromNum(getDayNum(Number(match[2]), Number(match[3].replace('-', '')), Number(match[4].replace('-', ''))));
+              }
+            }
+            pArr[5] = str + '$';
+            str = str + 'T' + ('0' + hrs).slice(-2) + ':' + ('0' + mins).slice(-2);
+            if (match[6]) { //to check if seconds were included or not
+              pArr[4] = str + 'Z?$';
+              str = str + match[6];
+            }
+          }
+        } else {
+          for (let i = 2; i < 5; i++) { //add up the date parts in a string
+            if (match[i]) {
+              str = str + match[i];
+              pArr[i - 2] = str + '$';
+            }
+          }
+          //below we have to check if the search gave more information than what is actually stored
+          // return {$regex: new RegExp('^' + '(?:' + str + ')|(?:' + pArr[0] + ')|(?:' + pArr[1] + ')|(?:' + pArr[2] + ')', 'i')};
+        }
+        if (type === 'period'){
+          str = str + 'Z';
+          let pS = path + '.start';
+          let pE = path + '.end';
+          toRet = [{$and: [{[pS]: {$lte: str}}, {[pE]: {$gte: str}}]}, {$and: [{[pS]: {$lte: str}}, {[pE]: undefined}]},
+        {$and: [{[pE]: {$gte: str}}, {[pS]: undefined}]}];
+          return toRet;
+        }
+        let tempFill = pArr.toString().replace(/,/g, ')|(?:') + ')';
+        if (type === 'timing') {
+          let pDT = path + '.event';
+          let pBPS = path + 'boundsPeriod.start';
+          let pBPE = path + 'boundsPeriod.end';
+          toRet = {$or: [{[pDT]: {$regex: new RegExp('^' + '(?:' + str + ')|(?:' + match[0].replace('+', '\\+') + ')|(?:' + tempFill, 'i')}},
+        {$or: [{$and: [{[pBPS]: {$lte: str}}, {[pBPE]: {$gte: str}}]}, {$and: [{[pBPS]: {$lte: str}}, {[pBPE]: undefined}]},
+      {$and: [{[pBPE]: {$gte: str}}, {[pBPS]: undefined}]}]}]};
+      return toRet;
+        }
+        return {$regex: new RegExp('^' + '(?:' + str + ')|(?:' + match[0].replace('+', '\\+') + ')|(?:' + tempFill, 'i')};
+      }
+    }
+
+  }
+};
+
 /**
  * @name compositeQueryBuilder
  * @description from looking at where composites are used, the fields seem to be implicit
@@ -348,5 +497,6 @@ module.exports = {
     nameQueryBuilder,
     numberQueryBuilder,
     quantityQueryBuilder,
-    compositeQueryBuilder
+    compositeQueryBuilder,
+    dateQueryBuilder
 };

@@ -30,7 +30,7 @@
     "reference": "Patient/example",
     "display": "Amy Shaw"
   },
-  "performedDateTime": "2002-05-23",
+  "performedDateTime": "2002-05-23T04:30Z",
 
   "basedOn": [
     {

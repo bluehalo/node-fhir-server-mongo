@@ -1,7 +1,7 @@
 const { COLLECTION, CLIENT_DB } = require('../../constants');
 //const { validateDate } = require('../../utils/date.validator');
 const globals = require('../../globals');
-const { stringQueryBuilder, quantityQueryBuilder, referenceQueryBuilder, tokenQueryBuilder } = require('../../utils/service.utils');
+const { stringQueryBuilder, quantityQueryBuilder, referenceQueryBuilder, tokenQueryBuilder, dateQueryBuilder } = require('../../utils/service.utils');
 
 /**
  * @name count
@@ -36,7 +36,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     logger.info('Condition >>> search');
     // Parse out all the params for this service and start building our query
     let { patient, category, code, assertedDate, onsetDate, clinicalStatus,
-        verificationStatus, abatementAge, abatementBoolean, abatementDateTime,
+        verificationStatus, abatementAge, abatementBoolean, abatementDate,
         abatementString, asserter, bodySite, context, encounter, evidence,
         evidenceDetail, identifier, onsetAge, onsetInfo, severity, stage, subject } = args;
     let query = {
@@ -61,10 +61,11 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
       }
     }
     if (onsetDate) {
-        query.onsetDateTime = onsetDate;
+        ors.push({$or: [{onsetDateTime: dateQueryBuilder(onsetDate, 'dateTime')},
+      {$or: dateQueryBuilder(onsetDate, 'period', 'onsetPeriod')}]});
     }
     if (assertedDate) {
-        query.assertedDate = assertedDate;
+        query.assertedDate = dateQueryBuilder(assertedDate, 'date');
     }
     if (clinicalStatus) {
         query.clinicalStatus = clinicalStatus;
@@ -76,13 +77,13 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         ors.push({$or: [quantityQueryBuilder(abatementAge, 'abatementAge'), quantityQueryBuilder(abatementAge, 'abatementRange')] });
     }
     if (abatementBoolean) {
-        //query.abatementBoolean = (abatementBoolean === 'true');
         let t = {$regex: new RegExp('.', 'i')};
         ors.push({$or: [{abatementBoolean: (abatementBoolean === 'true')}, {abatementDateTime: t},
       {'abatementAge.system': t}, {'abatementRange.system': t}, {abatementPeriod: t}, {abatementString: t}]});
     }
-    if (abatementDateTime) {
-      ors.push({$or: [{abatementDateTime: abatementDateTime}, {abatementPeriod: abatementDateTime}]});
+    if (abatementDate) {
+        ors.push({$or: [{abatementDateTime: dateQueryBuilder(abatementDate, 'dateTime')},
+      {$or: dateQueryBuilder(abatementDate, 'period', 'abatementPeriod')}]});
     }
     if (ors.length !== 0) {
         query.$and = ors;
