@@ -370,11 +370,11 @@ let dateQueryBuilder = function (date, type, path) {
         let tempFill = pArr.toString().replace(/,/g, ')|(?:') + ')';
         if (type === 'timing') {
           let pDT = path + '.event';
-          let pBPS = path + 'boundsPeriod.start';
-          let pBPE = path + 'boundsPeriod.end';
-          toRet = {$or: [{[pDT]: {$regex: new RegExp('^' + '(?:' + str + ')|(?:' + match[0].replace('+', '\\+') + ')|(?:' + tempFill, 'i')}},
-        {$or: [{$and: [{[pBPS]: {$lte: str}}, {[pBPE]: {$gte: str}}]}, {$and: [{[pBPS]: {$lte: str}}, {[pBPE]: undefined}]},
-      {$and: [{[pBPE]: {$gte: str}}, {[pBPS]: undefined}]}]}]};
+          let pBPS = path + '.repeat.boundsPeriod.start';
+          let pBPE = path + '.repeat.boundsPeriod.end';
+          toRet = [{[pDT]: {$regex: new RegExp('^' + '(?:' + str + ')|(?:' + match[0].replace('+', '\\+') + ')|(?:' + tempFill, 'i')}},
+        {$and: [{[pBPS]: {$lte: str}}, {[pBPE]: {$gte: str}}]}, {$and: [{[pBPS]: {$lte: str}}, {[pBPE]: undefined}]},
+      {$and: [{[pBPE]: {$gte: str}}, {[pBPS]: undefined}]}];
       return toRet;
         }
         return {$regex: new RegExp('^' + '(?:' + str + ')|(?:' + match[0].replace('+', '\\+') + ')|(?:' + tempFill, 'i')};

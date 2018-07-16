@@ -1,6 +1,6 @@
 const { COLLECTION, CLIENT_DB } = require('../../constants');
 const globals = require('../../globals');
-const { tokenQueryBuilder, referenceQueryBuilder } = require('../../utils/service.utils');
+const { tokenQueryBuilder, referenceQueryBuilder, dateQueryBuilder } = require('../../utils/service.utils');
 
 /**
  * @name count
@@ -43,6 +43,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         'status': status,
         'intent': intent,
     };
+    let ors = [];
     let subjectQueryBuilder = referenceQueryBuilder(subject, 'subject.reference');
     for (let i in subjectQueryBuilder) {
         query[i] = subjectQueryBuilder[i];
@@ -55,10 +56,17 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         }
     }
 
-    if (activityDate) {
-        console.log('Not implemented');
+    if (date) {
+        ors.push({$or: dateQueryBuilder(date, 'period', 'period')});
     }
 
+    if (activityDate) {
+      ors.push({$or: [{$or: dateQueryBuilder(activityDate, 'timing', 'activity.detail.scheduledTiming')},
+    {$or: dateQueryBuilder(activityDate, 'period', 'activity.detail.scheduledPeriod')}]});
+    }
+    if (ors.length !== 0) {
+        query.$and = ors;
+    }
     if (activityReference) {
         let queryBuilder = referenceQueryBuilder(activityReference, 'activity.reference.reference');
         for (let i in queryBuilder) {
@@ -99,10 +107,6 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         for (let i in queryBuilder) {
             query[i] = queryBuilder[i];
         }
-    }
-
-    if (date) {
-        console.log('Not implemented');
     }
 
     if (definition) {

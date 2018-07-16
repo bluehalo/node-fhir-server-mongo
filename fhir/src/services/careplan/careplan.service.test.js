@@ -1,5 +1,5 @@
 /* eslint-disable */
-const CareplanFixture = require('../../../fixtures/data/uscore/CarePlan-colonoscopy.json');
+const CareplanFixture = require('../../../fixtures/data/patient00/careplan00.json');
 const { CLIENT, CLIENT_DB } = require('../../constants');
 const asyncHandler = require('../../lib/async-handler');
 const logger = require('../../testutils/logger.mock');
@@ -51,7 +51,8 @@ describe('CarePlan Service Test', () => {
             let args = {activityCode: 'http://loinc.org|3141-9', activityReference: 'Appointment/example', basedOn: 'example', careTeam: 'example',
                 category: 'http://snomed.info/sct|161832001', condition: '#p1', context: 'Encounter/home', definition: 'Questionnaire/example',
                 encounter: 'home', goal: 'example', identifier: '12345', intent: 'plan', partOf: 'example', patient: 'example',
-                performer: 'https://foo.com/fhir/Patient/example', replaces: 'example', status: 'active', subject: 'Patient/example'};
+                performer: 'https://foo.com/fhir/Patient/example', replaces: 'example', status: 'active', subject: 'Patient/example',
+              activityDate: '2013-09-13T05:00', date: '2014-09'};
             let [err, docs] = await asyncHandler(
                 careplanService.search(args, logger)
             );
@@ -91,7 +92,7 @@ describe('CarePlan Service Test', () => {
     describe('Method: searchById', () => {
 
         test('should correctly return a document', async () => {
-            let args = {id: 'colonoscopy'};
+            let args = {id: '0'};
             let [err, doc] = await asyncHandler(
                 careplanService.searchById(args, logger)
             );
@@ -112,7 +113,7 @@ describe('CarePlan Service Test', () => {
         test('should successfully delete a document', async () => {
 
             // Look for this particular fixture
-            let args = { id: 'colonoscopy' };
+            let args = { id: '0' };
             let [ err, doc ] = await asyncHandler(
                 careplanService.searchById(args, logger)
             );
@@ -154,7 +155,7 @@ describe('CarePlan Service Test', () => {
                 resource: {
                     toJSON: () => CareplanFixture
                 },
-                id: 'colonoscopy'
+                id: '0'
             };
 
             // Delete the fixture incase it exists,
@@ -203,7 +204,7 @@ describe('CarePlan Service Test', () => {
                 resource: {
                     toJSON: () => CareplanFixture
                 },
-                id: 'colonoscopy'
+                id: '0'
             };
 
             // Query for the original doc, this will ignore the resource arg
