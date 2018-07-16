@@ -34,23 +34,23 @@ module.exports.count = (args, logger) => new Promise((resolve, reject) => {
 module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     logger.info('CarePlan >>> search');
     // Parse the params
-    let { activityCode, /*activityDate,*/ activityReference, basedOn, careTeam, category, condition, context, /*date,*/ definition,
+    let { activityCode, activityDate, activityReference, basedOn, careTeam, category, condition, context, date, definition,
         encounter, goal, identifier, intent, partOf, patient, performer, replaces, status, subject } = args;
 
-<<<<<<< HEAD
     // Status, intent, and subject are required and guaranteed to be provided
-    let query = {
-        'status': status,
-        'intent': intent,
-    };
+    // let query = {
+    //     'status': status,
+    //     'intent': intent,
+    // };
+    let query = {};
     let ors = [];
     let subjectQueryBuilder = referenceQueryBuilder(subject, 'subject.reference');
     for (let i in subjectQueryBuilder) {
         query[i] = subjectQueryBuilder[i];
     }
-=======
-    let query = {};
->>>>>>> 5d97f6081273defd3ae2f6fec781b969bec80bf3
+
+
+
 
     if (activityCode) {
         let queryBuilder = tokenQueryBuilder(activityCode, 'code', 'activity.detail.code.coding', '');
@@ -59,15 +59,13 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         }
     }
 
-<<<<<<< HEAD
     if (date) {
         ors.push({$or: dateQueryBuilder(date, 'period', 'period')});
     }
-=======
+
     // if (activityDate) {
     //
     // }
->>>>>>> 5d97f6081273defd3ae2f6fec781b969bec80bf3
 
     if (activityDate) {
       ors.push({$or: [{$or: dateQueryBuilder(activityDate, 'timing', 'activity.detail.scheduledTiming')},
@@ -118,13 +116,11 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         }
     }
 
-<<<<<<< HEAD
-=======
+
     // if (date) {
     //
     // }
 
->>>>>>> 5d97f6081273defd3ae2f6fec781b969bec80bf3
     if (definition) {
         let queryBuilder = referenceQueryBuilder(definition, 'definition.reference');
         for (let i in queryBuilder) {

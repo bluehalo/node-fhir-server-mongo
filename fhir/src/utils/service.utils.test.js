@@ -328,8 +328,7 @@ describe('Service Utils Tests', () => {
         test('should pass the each query type', async () => {
             // Token and string
             let query = compositeQueryBuilder('http://foo.org|3$bar5', 'code.coding|token', 'valueString|string');
-            expect(query).toEqual({$and: [{'code.coding.system': 'http://foo.org', 'code.coding.code': '3'},
-                    {'valueString': {$regex: new RegExp('^' + 'bar5', 'i')}}]});
+            expect(query).toEqual({'$and': [{'$or': [{'$and': [{'code.coding.code': '3', 'code.coding.system': 'http://foo.org'}]}, {'$and': [{'code.coding.system': 'http://foo.org', 'code.coding.value': '3'}]}]}, {'valueString': {'$regex': /^bar5/i}}]});
 
             // Reference and quantity
             query = compositeQueryBuilder('Encounter/example$60||mm', 'foo.reference|reference', 'bar|quantity');
@@ -343,8 +342,7 @@ describe('Service Utils Tests', () => {
 
         test('should pass an or', async () => {
             let query = compositeQueryBuilder('http://foo.org|3,bar5', 'code.coding|token', 'valueString|string');
-            expect(query).toEqual({$or: [{'code.coding.system': 'http://foo.org', 'code.coding.code': '3'},
-                    {'valueString': {$regex: new RegExp('^' + 'bar5', 'i')}}]});
+            expect(query).toEqual({'$or': [{'$or': [{'$and': [{'code.coding.code': '3', 'code.coding.system': 'http://foo.org'}]}, {'$and': [{'code.coding.system': 'http://foo.org', 'code.coding.value': '3'}]}]}, {'valueString': {'$regex': /^bar5/i}}]});
 
         });
 

@@ -427,7 +427,8 @@ let compositeQueryBuilder = function(target, field1, field2) {
             composite.push(temp);
             break;
         case 'token':
-            composite.push(tokenQueryBuilder(target1, 'code', path1, ''));
+            composite.push({$or: [{$and: [tokenQueryBuilder(target1, 'code', path1, '')]},
+          {$and: [tokenQueryBuilder(target1, 'value', path1, '')]}]});
             break;
         case 'reference':
             composite.push(referenceQueryBuilder(target1, path1));
@@ -440,8 +441,11 @@ let compositeQueryBuilder = function(target, field1, field2) {
             temp[`${path1}`] = numberQueryBuilder(target1);
             composite.push(temp);
             break;
-        // case 'date':
-        //     break;
+        case 'date':
+            composite.push({$or: [{[path1]: dateQueryBuilder(target1, 'date', '')},
+            {[path1]: dateQueryBuilder(target1, 'dateTime', '')},
+            {$or: dateQueryBuilder(target1, 'period', path1)}, {$or: dateQueryBuilder(target1, 'timing', path1)}]});
+            break;
         default:
             temp = {};
             temp[`${path1}`] = target1;
@@ -454,7 +458,8 @@ let compositeQueryBuilder = function(target, field1, field2) {
             composite.push(temp);
             break;
         case 'token':
-            composite.push(tokenQueryBuilder(target2, 'code', path2, ''));
+            composite.push({$or: [{$and: [tokenQueryBuilder(target2, 'code', path2, '')]},
+            {$and: [tokenQueryBuilder(target2, 'value', path2, '')]}]});
             break;
         case 'reference':
             composite.push(referenceQueryBuilder(target2, path2));
@@ -467,8 +472,11 @@ let compositeQueryBuilder = function(target, field1, field2) {
             temp[`${path2}`] = composite.push(numberQueryBuilder(target2));
             composite.push(temp);
             break;
-        // case 'date':
-        //     break;
+        case 'date':
+            composite.push({$or: [{[path2]: dateQueryBuilder(target2, 'date', '')},
+            {[path2]: dateQueryBuilder(target2, 'dateTime', '')},
+            {$or: dateQueryBuilder(target2, 'period', path2)}, {$or: dateQueryBuilder(target2, 'timing', path2)}]});
+            break;
         default:
             temp = {};
             temp[`${path2}`] = target2;
