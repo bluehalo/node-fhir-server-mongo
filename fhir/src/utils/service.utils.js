@@ -263,7 +263,7 @@ let getDateFromNum = function (g) {
 };
 
 //deals with date, dateTime, instant, period, and timing
-//use like this: query['whatever'] = dateQueryBuilder(whatever, 'dateTime')
+//use like this: query['whatever'] = dateQueryBuilder(whatever, 'dateTime'), but it's different for period and timing
 //the condition service has some examples you might want to look at.
 //can't handle prefixes yet!  Also doesn't work foe when things are stored in different time zones in the .json files (with the + or -)
 let dateQueryBuilder = function (date, type, path) {
@@ -359,7 +359,7 @@ let dateQueryBuilder = function (date, type, path) {
           //below we have to check if the search gave more information than what is actually stored
           // return {$regex: new RegExp('^' + '(?:' + str + ')|(?:' + pArr[0] + ')|(?:' + pArr[1] + ')|(?:' + pArr[2] + ')', 'i')};
         }
-        if (type === 'period'){
+        if (type === 'period'){ //doesn't work as well for when timing is involved with the upper bound (.end)
           str = str + 'Z';
           let pS = path + '.start';
           let pE = path + '.end';
@@ -368,7 +368,7 @@ let dateQueryBuilder = function (date, type, path) {
           return toRet;
         }
         let tempFill = pArr.toString().replace(/,/g, ')|(?:') + ')';
-        if (type === 'timing') {
+        if (type === 'timing') { //doesn't work as well for when timing (T00:00 kinda thing) is involved with the upper bound
           let pDT = path + '.event';
           let pBPS = path + '.repeat.boundsPeriod.start';
           let pBPE = path + '.repeat.boundsPeriod.end';
