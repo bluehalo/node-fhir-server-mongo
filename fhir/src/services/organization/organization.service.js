@@ -34,7 +34,7 @@ module.exports.count = (args, logger) => new Promise((resolve, reject) => {
 module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     logger.info('Organization >>> search');
     // Parse the params
-    let { active, address, addressCity, addressCountry, addressPostalCode, addressState, addressUse, endpoint, identifier,
+    let { _id, active, address, addressCity, addressCountry, addressPostalCode, addressState, addressUse, endpoint, identifier,
         name, partof, phonetic, type } = args;
     // console.log(JSON.stringify(args));
 
@@ -53,6 +53,10 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
     if (ors.length !== 0) {
         query.$and = ors;
+    }
+
+    if (_id) {
+        query.id = _id;
     }
 
     if (active) {

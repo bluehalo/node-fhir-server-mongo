@@ -49,7 +49,7 @@ describe('Organization Service Test', () => {
     describe('Method: search', () => {
 
         test('Get an organization using all implemented arguments', async () => {
-            let args = {active: 'false', address: '3300 Washtenaw Avenue, Suite 227, Ann Arbor, MI  48104 UsA',
+            let args = {_id: '0', active: 'false', address: '3300 Washtenaw Avenue, Suite 227, Ann Arbor, MI  48104 UsA',
                 addressCity: 'an', addressCountry: 'U', addressPostalCode: '481', addressState: 'MI', addressUse: 'work',
                 endpoint: 'example', identifier: 'http://hl7.org.fhir/sid/us-npi|1144221847', name: 'a GOo', partof: '1',
                 type: 'http://hl7.org/fhir/organization-type|prov'};
@@ -64,6 +64,7 @@ describe('Organization Service Test', () => {
             expect(docs.length).toEqual(1);
 
             docs.forEach(doc => {
+                expect(doc.id).toEqual(args._id);
                 expect(doc.active).toBeFalsy();
                 expect(doc.address[0].line[0]).toEqual('3300 Washtenaw Avenue, Suite 227');
                 expect(doc.address[0].city).toEqual('Ann Arbor');

@@ -33,12 +33,15 @@ module.exports.count = (args, logger) => new Promise((resolve, reject) => {
  */
 module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     logger.info('Practitioner >>> search');
-    let { active, address, addressCity, addressCountry, addressPostalCode,
+    let { _id, active, address, addressCity, addressCountry, addressPostalCode,
         addressState, addressUse, communication, email, family, gender, given, identifier,
         name, phone, telecom, phonetic } = args;
     let ors = [];
     let query = {
     };
+    if (_id) {
+        query.id = _id;
+    }
     if (active) {
         query.active = active;
     }

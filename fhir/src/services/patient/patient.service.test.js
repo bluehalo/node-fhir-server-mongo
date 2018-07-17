@@ -59,7 +59,7 @@ describe('Patient Service Test', () => {
 		});
 
         test('should correctly return a specific human patient using all search parameters', async () => {
-            let args = { id: '0', active: 'true', address: '534 Erewhon St PleasantVille, Rainbow, Vic  3999', addressCity: 'PleasantVille',
+            let args = { _id: '0', active: 'true', address: '534 Erewhon St PleasantVille, Rainbow, Vic  3999', addressCity: 'PleasantVille',
                 addressCountry: 'US', addressPostalCode: '3999', addressState: 'Vic', addressUse: 'home', birthDate: '1974-12-25',
 				deathDate: '2015-02-14T13:42:00+10:00', deceased: 'true', email: 'email|p.heuvel@gmail.com', family: 'Chalmers',
 				gender: 'male', generalPractitioner: 'example', given: 'Peter', identifier: 'urn:oid:1.2.36.146.595.217.0.1|12345',
@@ -76,7 +76,7 @@ describe('Patient Service Test', () => {
 
 
             docs.forEach(doc => {
-                expect(doc.id).toEqual(args.id);
+                expect(doc.id).toEqual(args._id);
                 expect(doc.active).toBeTruthy();
                 expect(doc.address[0].line[0]).toEqual('534 Erewhon St');
                 expect(doc.address[0].district).toEqual('Rainbow');

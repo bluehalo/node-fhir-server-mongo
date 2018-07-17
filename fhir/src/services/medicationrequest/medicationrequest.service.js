@@ -34,11 +34,15 @@ module.exports.count = (args, logger) => new Promise((resolve, reject) => {
 module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     logger.info('MedicationRequest >>> search');
     // Parse the params
-    let { authoredon, category, code, context, date, identifier, intendedDispenser, intent, medication, patient, priority,
+    let { _id, authoredon, category, code, context, date, identifier, intendedDispenser, intent, medication, patient, priority,
         requester, status, subject } = args;
     // console.log(JSON.stringify(args));
 
     let query = {};
+
+    if (_id) {
+        query.id = _id;
+    }
 
     if (authoredon) {
         query.authoredOn = dateQueryBuilder(authoredon, 'dateTime', '');

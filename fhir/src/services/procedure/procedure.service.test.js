@@ -67,7 +67,7 @@ describe('Procedure Service Test', () => {
       });
 
       test('testing some added search params', async () => {
-        let args = { patient: 'example', category: '103693007', code: 'HZ30ZZZ1',
+        let args = { _id: '0', patient: 'example', category: '103693007', code: 'HZ30ZZZ1',
         context: 'Encounter/f202', definition: 'PlanDefinition/f201', encounter: 'f202',
       identifier: '12345', location: 'Location/1', partOf: 'Procedure/colonoscopy',
     performer: 'Practitioner/example', date: '2002-05-23' };
@@ -79,6 +79,7 @@ describe('Procedure Service Test', () => {
         expect(docs.length).toEqual(1);
 
         docs.forEach(doc => {
+            expect(doc.id).toEqual(args._id);
           expect(doc.subject.reference).toEqual(`Patient/${args.patient}`);
           expect(doc.category.coding[0].code).toEqual(args.category);
           expect(doc.code.coding[1].code).toEqual(args.code);

@@ -49,7 +49,7 @@ describe('MedicationStatement Service Test', () => {
     describe('Method: search', () => {
 
         test('Get a medication statement using all implemented arguments', async () => {
-            let args = {category: 'inpatient', code: '1313112', context: 'f001', identifier: '12345689', medication: '#med0309', partOf: 'blood-pressure',
+            let args = {_id: '0', category: 'inpatient', code: '1313112', context: 'f001', identifier: '12345689', medication: '#med0309', partOf: 'blood-pressure',
                 patient: 'pat1', source: 'pat1', status: 'active', subject: 'Patient/pat1', effective: '2015-01'};
             let [err, docs] = await asyncHandler(
                 medicationstatementService.search(args, logger)
@@ -62,6 +62,7 @@ describe('MedicationStatement Service Test', () => {
             expect(docs.length).toEqual(1);
 
             docs.forEach(doc => {
+                expect(doc.id).toEqual(args._id);
                 expect(doc.category.coding[0].system).toEqual('http://hl7.org/fhir/medication-statement-category');
                 expect(doc.category.coding[0].code).toEqual('inpatient');
                 expect(doc.medicationCodeableConcept.coding[0].system).toEqual('http://www.nlm.nih.gov/research/umls/rxnorm');

@@ -53,7 +53,7 @@ describe('Immunization Service Test', () => {
 
         });
         test('testing some added search params', async () => {
-            let args = { patient: 'example', doseSequence: '1', location: '1',
+            let args = { _id: '0', patient: 'example', doseSequence: '1', location: '1',
                 identifier: 'urn:ietf:rfc:3986|urn:oid:1.3.6.1.4.1.21367.2005.3.7.1234',
                 lotNumber: 'AAJN11K', manufacturer: 'Organization/hl7', notGiven: 'false',
                 practitioner: 'example', reaction: 'Observation/example', reactionDate: '2013-01-10T00:01Z',
@@ -66,6 +66,7 @@ describe('Immunization Service Test', () => {
             expect(docs.length).toEqual(1);
 
             docs.forEach(doc => {
+                expect(doc.id).toEqual(args._id);
                 expect(doc.patient.reference).toEqual(`Patient/${args.patient}`);
                 expect(doc.vaccinationProtocol[0].doseSequence).toEqual(1);
                 expect(doc.identifier[0].system).toEqual('urn:ietf:rfc:3986');

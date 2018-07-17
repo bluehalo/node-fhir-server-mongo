@@ -34,8 +34,12 @@ module.exports.count = (args, logger) => new Promise((resolve, reject) => {
 module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     logger.info('Goal >>> search');
     // Parse the params
-    let { category, identifier, patient, startDate, status, subject, targetDate } = args;
+    let { _id, category, identifier, patient, startDate, status, subject, targetDate } = args;
     let query = {};
+
+    if (_id) {
+        query.id = _id;
+    }
 
     if (category) {
         let queryBuilder = tokenQueryBuilder(category, 'code', 'category.coding', '');

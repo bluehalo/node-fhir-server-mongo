@@ -34,7 +34,7 @@ module.exports.count = (args, logger) => new Promise((resolve, reject) => {
 module.exports.search = (args, logger) => new Promise((resolve, reject) => {
 	logger.info('Patient >>> search');
 	// Parse the params
-	let { id, active, address, addressCity, addressCountry, addressPostalCode, addressState, addressUse, animalBreed,
+	let { _id, active, address, addressCity, addressCountry, addressPostalCode, addressState, addressUse, animalBreed,
         animalSpecies, birthDate, deathDate, deceased, email, family, gender, generalPractitioner, given, identifier,
         language, link, name, organization, phone, /*phonetic,*/ telecom } = args;
 	let query = {};
@@ -57,8 +57,8 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         query.$and = ors;
     }
 
-    if (id) {
-        query.id = id;
+    if (_id) {
+        query.id = _id;
     }
 
     if (active) {

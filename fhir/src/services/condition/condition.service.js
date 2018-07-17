@@ -35,13 +35,16 @@ module.exports.count = (args, logger) => new Promise((resolve, reject) => {
 module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     logger.info('Condition >>> search');
     // Parse out all the params for this service and start building our query
-    let { patient, category, code, assertedDate, onsetDate, clinicalStatus,
+    let { _id, patient, category, code, assertedDate, onsetDate, clinicalStatus,
         verificationStatus, abatementAge, abatementBoolean, abatementDate,
         abatementString, asserter, bodySite, context, encounter, evidence,
         evidenceDetail, identifier, onsetAge, onsetInfo, severity, stage, subject } = args;
     let query = {
     };
     let ors = [];
+    if (_id) {
+        query.id = _id;
+    }
     if (patient) {
       let queryBuilder = referenceQueryBuilder(patient, 'subject.reference');
       for (let i in queryBuilder) {

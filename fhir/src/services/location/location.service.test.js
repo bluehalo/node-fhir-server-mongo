@@ -48,7 +48,7 @@ describe('Location Service Test', () => {
     describe('Method: search', () => {
 
         test('Get a location using all implemented arguments', async () => {
-            let args = {address: 'Galapagosweg 91, Building A, Den Burg, 9105 PZ Maryland NLD', addressCity: 'deN',
+            let args = {_id: '0', address: 'Galapagosweg 91, Building A, Den Burg, 9105 PZ Maryland NLD', addressCity: 'deN',
                 addressCountry: 'N', addressPostalCode: '910', addressState: 'MarY', addressUse: 'work', endpoint: 'example',
                 identifier: 'B1-S.F2', name: 'South', operationalStatus: 'http://hl7.org/fhir/v2/0116|H', organization: 'f001',
                 partof: '1', status: 'active', type: 'http://hl7.org/fhir/v3/RoleCode|'};
@@ -63,6 +63,7 @@ describe('Location Service Test', () => {
             expect(docs.length).toEqual(1);
 
             docs.forEach(doc => {
+                expect(doc.id).toEqual(args._id);
                 expect(doc.address.line[0]).toEqual('Galapagosweg 91, Building A');
                 expect(doc.address.city).toEqual('Den Burg');
                 expect(doc.address.country).toEqual('NLD');

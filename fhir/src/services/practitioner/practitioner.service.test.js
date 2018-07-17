@@ -73,7 +73,7 @@ describe('Practitioner Service Test', () => {
         });
 
         test('testing some added search params', async () => {
-          let args = { active: true, address: 'De', addressCity: 'Den',
+          let args = { _id: '0', active: true, address: 'De', addressCity: 'Den',
         addressCountry: 'NLD', addressPostalCode: '2333za', addressState: 'NY',
       addressUse: 'wo', communication: 'urn:oid:2.16.840.1.113883.6.121|nl',
     email: 'm.versteegh@bmc.nl', gender: 'male', name: 'Dr. Ronald bone md', phone: '0205562431',
@@ -86,11 +86,12 @@ describe('Practitioner Service Test', () => {
           expect(docs.length).toEqual(1);
 
           docs.forEach(doc => {
+              expect(doc.id).toEqual(args._id);
             expect(doc.active).toEqual(true);
             expect(doc.address[1].use).toEqual('work');
             expect(doc.address[1].city).toEqual('Den helder');
             expect(doc.address[1].country).toEqual('NLD');
-            expect(doc.address[1].postalCode).toEqual('2333ZA')
+            expect(doc.address[1].postalCode).toEqual('2333ZA');
             expect(doc.address[1].state).toEqual('NY');
             expect(doc.communication[0].coding[0].system).toEqual('urn:oid:2.16.840.1.113883.6.121');
             expect(doc.communication[0].coding[0].code).toEqual('nl');
