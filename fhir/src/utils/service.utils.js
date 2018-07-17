@@ -359,9 +359,19 @@ let dateQueryBuilder = function (date, type, path) {
             }
             pArr[5] = str + '$';
             str = str + 'T' + ('0' + hrs).slice(-2) + ':' + ('0' + mins).slice(-2);
+            let match2 = str.match(/^(\d{4})(-\d{2})?(-\d{2})(?:(T\d{2}:\d{2})(:\d{2})?)?/);
+            if (match2 && match2.length >= 1) {
+              pArr[0] = match2[1] + '$';
+              pArr[1] = match2[1] + match2[2] + '$';
+              pArr[2] = match2[1] + match2[2] + match2[3] + '$';
+              pArr[3] = match2[1] + match2[2] + match2[3] + 'T' + ('0' + hrs).slice(-2) + ':' + ('0' + mins).slice(-2) + 'Z?$';
+            }
             if (match[6]) { //to check if seconds were included or not
-              pArr[4] = str + 'Z?$';
+              pArr[4] = str + ':' + ('0' + match[6]).slice(-2) + 'Z?$';
               str = str + match[6];
+            }
+            if (!pArr[4]) {
+              pArr[4] = '^$';
             }
           }
         } else {
