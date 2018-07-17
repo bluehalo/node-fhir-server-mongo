@@ -49,7 +49,7 @@ describe('Goal Service Test', () => {
 
         test('should correctly return a specific goal using all arguments', async () => {
             let args = {category: 'dietary', identifier: '123', patient: 'example', startDate: '2015-04-05', status: 'on-hold',
-                subject: 'Patient/example', targetDate: '2016-04-05'};
+                subject: 'Patient/example', targetDate: '2016'};
             let [err, docs] = await asyncHandler(
                 goalService.search(args, logger)
             );
@@ -64,7 +64,7 @@ describe('Goal Service Test', () => {
                 expect(doc.startDate).toEqual(args.startDate);
                 expect(doc.status).toEqual(args.status);
                 expect(doc.subject.reference).toEqual(args.subject);
-                expect(doc.target.dueDate).toEqual(args.targetDate);
+                expect(doc.target.dueDate).toEqual('2016-04-05');
             });
 
         });

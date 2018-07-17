@@ -65,9 +65,8 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         }
     }
     if (date) {
-        ors.push({$or: [{performedDateTime: dateQueryBuilder(date, 'dateTime')},
-                {$and: [{'performedPeriod.start': {$lte: dateQueryBuilder(date, 'period')}},
-                        {'performedPeriod.end': {$gte: dateQueryBuilder(date, 'period')}}]}]});
+      ors.push({$or: [{performedDateTime: dateQueryBuilder(date, 'dateTime')},
+    {$or: dateQueryBuilder(date, 'period', 'performedPeriod')}]});
     }
     if (ors.length !== 0) {
         query.$and = ors;

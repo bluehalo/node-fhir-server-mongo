@@ -1,6 +1,6 @@
 const { COLLECTION, CLIENT_DB } = require('../../constants');
 const globals = require('../../globals');
-const { stringQueryBuilder, tokenQueryBuilder, referenceQueryBuilder, addressQueryBuilder, nameQueryBuilder } = require('../../utils/service.utils');
+const { stringQueryBuilder, tokenQueryBuilder, referenceQueryBuilder, addressQueryBuilder, nameQueryBuilder, dateQueryBuilder } = require('../../utils/service.utils');
 
 /**
  * @name count
@@ -100,11 +100,11 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (birthDate) {
-        query.birthDate = birthDate;
+        query.birthDate = dateQueryBuilder(birthDate, 'date', '');
     }
 
     if (deathDate) {
-        query.deceasedDateTime = deathDate;
+        query.deceasedDateTime = dateQueryBuilder(deathDate, 'dateTime', '');
     }
 
     if (deceased) {

@@ -49,7 +49,8 @@ describe('CareTeam Service Test', () => {
 
         test('Get a careteam using all implemented arguments', async () => {
             let args = {category: 'http://hl7.org/fhir/care-team-category|', context: 'example', encounter: 'example',
-            identifier: '12345', participant: 'example', patient: 'example', status: 'active', subject: 'example'};
+            identifier: '12345', participant: 'example', patient: 'example', status: 'active', subject: 'example',
+          date: '2012-12-31T06:39Z'};
             let [err, docs] = await asyncHandler(
                 careteamService.search(args, logger)
             );

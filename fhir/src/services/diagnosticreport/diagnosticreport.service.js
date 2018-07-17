@@ -1,6 +1,6 @@
 const { COLLECTION, CLIENT_DB } = require('../../constants');
 const globals = require('../../globals');
-const { tokenQueryBuilder, referenceQueryBuilder } = require('../../utils/service.utils');
+const { tokenQueryBuilder, referenceQueryBuilder, dateQueryBuilder } = require('../../utils/service.utils');
 
 /**
  * @name count
@@ -37,6 +37,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     let {basedOn, category, code, context, date, diagnosis, encounter, identifier, image, issued, patient, performer, result,
         specimen, status, subject} = args;
     let query = {};
+    let ors = [];
 
     if (basedOn) {
         let queryBuilder = referenceQueryBuilder(basedOn, 'basedOn.reference');
@@ -67,7 +68,8 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (date) {
-        query.effectiveDateTime = date;
+      ors.push({$or: [{effectiveDateTime: dateQueryBuilder(date, 'dateTime')},
+    {$or: dateQueryBuilder(date, 'period', 'effectivePeriod')}]});
     }
 
     if (diagnosis) {
@@ -99,7 +101,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (issued) {
-        query.issued = issued;
+        query.issued = dateQueryBuilder(issued, 'instant', '');
     }
 
     if (patient) {

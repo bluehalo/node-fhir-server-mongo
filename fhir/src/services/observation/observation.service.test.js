@@ -67,7 +67,8 @@ describe('Observation Service Test', () => {
 				date: '2016-03-28', device: 'DeviceMetric/example', encounter: 'Encounter/example', identifier: 'urn:ietf:rfc:3986|',
                 method: 'http://snomed.info/sct|', patient: 'Patient/example', performer: 'Practitioner/f201', relatedTarget: '#verbal',
                 relatedType: 'derived-from', specimen: 'Specimen/genetics-example1-somatic', status: 'final', subject: 'Patient/example',
-                valueCodeableConcept: '4', valueQuantity: '185|http://unitsofmeasure.org|[lb_av]', valueString: 'Exon 21' };
+                valueCodeableConcept: '4', valueQuantity: '185|http://unitsofmeasure.org|[lb_av]', valueString: 'Exon 21', valueDate:'2016-03-28',
+							 	date: '2016-03-28'};
             let [ err, docs ] = await asyncHandler(
                 observationService.search(args, logger)
             );

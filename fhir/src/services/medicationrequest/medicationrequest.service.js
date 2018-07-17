@@ -1,6 +1,6 @@
 const { COLLECTION, CLIENT_DB } = require('../../constants');
 const globals = require('../../globals');
-const { tokenQueryBuilder, referenceQueryBuilder } = require('../../utils/service.utils');
+const { tokenQueryBuilder, referenceQueryBuilder, dateQueryBuilder } = require('../../utils/service.utils');
 
 /**
  * @name count
@@ -41,7 +41,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     let query = {};
 
     if (authoredon) {
-        query.authoredOn = authoredon;
+        query.authoredOn = dateQueryBuilder(authoredon, 'dateTime', '');
     }
 
     if (category) {
@@ -66,7 +66,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (date) {
-        query['dosageInstruction.timing.event'] = date;
+        query['dosageInstruction.timing.event'] = dateQueryBuilder(date, 'dateTime', '');
     }
 
     if (identifier) {

@@ -1,7 +1,7 @@
 // const { validateDate } = require('../../utils/date.validator');
 const { COLLECTION, CLIENT_DB } = require('../../constants');
 const globals = require('../../globals');
-const { stringQueryBuilder, tokenQueryBuilder, referenceQueryBuilder, quantityQueryBuilder, compositeQueryBuilder } = require('../../utils/service.utils');
+const { stringQueryBuilder, tokenQueryBuilder, referenceQueryBuilder, quantityQueryBuilder, compositeQueryBuilder, dateQueryBuilder } = require('../../utils/service.utils');
 
 /**
  * @name count
@@ -39,7 +39,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         comboCodeValueConcept, comboCodeValueQuantity, comboDataAbsentReason, comboValueConcept, comboValueQuantity, componentCode,
         componentCodeValueConcept, componentCodeValueQuantity, componentDataAbsentReason, componentValueCodeableConcept,
         componentValueQuantity, context, dataAbsentReason, date, device, encounter, identifier, method, patient, performer,
-        related, relatedTarget, relatedType, specimen, status, subject, valueCodeableConcept, /*valueDate,*/ valueQuantity,
+        related, relatedTarget, relatedType, specimen, status, subject, valueCodeableConcept, valueDate, valueQuantity,
         valueString } = args;
     let query = {};
     let ors = [];
@@ -162,11 +162,8 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
 
     if (date) {
-        // let parsedDates = validateDate(date);
-        // if (parsedDates) {
-        // 	query.effectiveDateTime = parsedDates;
-        // }
-        query.effectiveDateTime = date;
+      ors.push({$or: [{effectiveDateTime: dateQueryBuilder(date, 'dateTime', '')},
+    {$or: dateQueryBuilder(date, 'period', 'effectivePeriod')}]});
     }
 
     if (device) {
@@ -251,9 +248,10 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         }
     }
 
-    // if (valueDate) {
-    //
-    // }
+    if (valueDate) {
+      ors.push({$or: [{valueDateTime: dateQueryBuilder(valueDate, 'dateTime', '')},
+    {$or: dateQueryBuilder(valueDate, 'period', 'valuePeriod')}]});
+    }
 
     if (valueQuantity) {
         let queryBuilder = quantityQueryBuilder(valueQuantity, 'valueQuantity');
