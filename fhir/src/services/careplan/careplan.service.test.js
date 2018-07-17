@@ -47,7 +47,7 @@ describe('CarePlan Service Test', () => {
 
     describe('Method: search', () => {
 
-        test('test only using required arguments', async () => {
+        test('test only using available arguments', async () => {
             let args = {activityCode: 'http://loinc.org|3141-9', activityReference: 'Appointment/example', basedOn: 'example', careTeam: 'example',
                 category: 'http://snomed.info/sct|161832001', condition: '#p1', context: 'Encounter/home', definition: 'Questionnaire/example',
                 encounter: 'home', goal: 'example', identifier: '12345', intent: 'plan', partOf: 'example', patient: 'example',
@@ -198,7 +198,7 @@ describe('CarePlan Service Test', () => {
 
         test('should successfully update a document', async () => {
             // Update the status
-            CareplanFixture.status = 'preliminary';
+            CareplanFixture.text.status = 'preliminary';
 
             let args = {
                 resource: {
@@ -213,7 +213,7 @@ describe('CarePlan Service Test', () => {
             );
 
             expect(query_err).toBeUndefined();
-            expect(doc.status).toEqual('active');
+            expect(doc.text.status).toEqual('additional');
 
             // Update the original doc
             let [update_err, update_results] = await asyncHandler(
@@ -229,7 +229,7 @@ describe('CarePlan Service Test', () => {
             );
 
             expect(updated_err).toBeUndefined();
-            expect(updated_doc.status).toEqual('preliminary');
+            expect(updated_doc.text.status).toEqual('preliminary');
 
         });
 
