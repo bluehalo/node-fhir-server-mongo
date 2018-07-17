@@ -49,7 +49,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         }
     }
     if (date) {
-      query.date = dateQueryBuilder(date, 'dateTime');
+      query.date = dateQueryBuilder(date, 'dateTime', '');
     }
     if (doseSequence) {
         query['vaccinationProtocol.doseSequence'] = numberQueryBuilder(doseSequence);
@@ -91,7 +91,7 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         }
     }
     if (reactionDate) {
-      query['reaction.date'] = dateQueryBuilder(reactionDate, 'dateTime');
+      query['reaction.date'] = dateQueryBuilder(reactionDate, 'dateTime', '');
     }
     if (reason) {
         let queryBuilder = tokenQueryBuilder(reason, 'code', 'explanation.reason.coding', '');

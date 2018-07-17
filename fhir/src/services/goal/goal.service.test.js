@@ -65,7 +65,7 @@ describe('Goal Service Test', () => {
                 expect(doc.startDate).toEqual(args.startDate);
                 expect(doc.status).toEqual(args.status);
                 expect(doc.subject.reference).toEqual(args.subject);
-                expect(doc.target.dueDate).toEqual(args.targetDate);
+                expect(doc.target.dueDate).toEqual('2016-04-05');
             });
 
         });

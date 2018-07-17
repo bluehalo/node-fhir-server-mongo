@@ -34,10 +34,11 @@ module.exports.count = (args, logger) => new Promise((resolve, reject) => {
 module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     logger.info('CareTeam >>> search');
     // Parse the params
-    let { _id, category, context, /*date,*/ encounter, identifier, participant, patient, status, subject } = args;
+    let { _id, category, context, date, encounter, identifier, participant, patient, status, subject } = args;
     // console.log(JSON.stringify(args));
 
     let query = {};
+    let ors = [];
 
     if (_id) {
         query.id = _id;
@@ -57,9 +58,12 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
         }
     }
 
-    // if (date) {
-    //
-    // }
+    if (date) {
+      ors.push({$or: dateQueryBuilder(date, 'period', 'period')});
+    }
+    if (ors.length !== 0) {
+        query.$and = ors;
+    }
 
     if (encounter) {
         let queryBuilder = referenceQueryBuilder(encounter, 'context.reference');

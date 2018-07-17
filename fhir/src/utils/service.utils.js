@@ -443,7 +443,7 @@ let compositeQueryBuilder = function(target, field1, field2) {
             break;
         case 'date':
             composite.push({$or: [{[path1]: dateQueryBuilder(target1, 'date', '')},
-            {[path1]: dateQueryBuilder(target1, 'dateTime', '')},
+            {[path1]: dateQueryBuilder(target1, 'dateTime', '')}, {[path1]: dateQueryBuilder(target1, 'instant', '')},
             {$or: dateQueryBuilder(target1, 'period', path1)}, {$or: dateQueryBuilder(target1, 'timing', path1)}]});
             break;
         default:
@@ -474,7 +474,7 @@ let compositeQueryBuilder = function(target, field1, field2) {
             break;
         case 'date':
             composite.push({$or: [{[path2]: dateQueryBuilder(target2, 'date', '')},
-            {[path2]: dateQueryBuilder(target2, 'dateTime', '')},
+            {[path2]: dateQueryBuilder(target2, 'dateTime', '')}, {[path2]: dateQueryBuilder(target2, 'instant', '')},
             {$or: dateQueryBuilder(target2, 'period', path2)}, {$or: dateQueryBuilder(target2, 'timing', path2)}]});
             break;
         default:
