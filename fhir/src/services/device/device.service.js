@@ -34,7 +34,7 @@ module.exports.count = (args, logger) => new Promise((resolve, reject) => {
  */
 module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     logger.info('Device >>> search');
-    let { patient, deviceName, identifier, manufacturer, model, status, type,
+    let { _id, patient, deviceName, identifier, manufacturer, model, status, type,
         udiDi, url, location, udiCarrier, organization } = args;
     let query = {};
     let ors = [];
@@ -50,6 +50,10 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     }
     if (ors.length !== 0) {
         query.$and = ors;
+    }
+
+    if (_id) {
+        query.id = _id;
     }
 
     if (patient) {

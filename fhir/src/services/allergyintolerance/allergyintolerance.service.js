@@ -35,10 +35,14 @@ module.exports.count = (args, logger) => new Promise((resolve, reject) => {
 module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     logger.info('AllergyIntolerance >>> search');
     // Parse the params
-    let { asserter, category, clinicalStatus, code, criticality, date, identifier, lastDate, manifestation, onset, patient,
+    let { _id, asserter, category, clinicalStatus, code, criticality, date, identifier, lastDate, manifestation, onset, patient,
         recorder, route, severity, type, verificationStatus } = args;
 
     let query = {};
+
+    if (_id) {
+        query.id = _id;
+    }
 
     if (asserter) {
         let queryBuilder = referenceQueryBuilder(asserter, 'asserter.reference');

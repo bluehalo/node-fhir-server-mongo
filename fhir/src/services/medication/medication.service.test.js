@@ -50,7 +50,7 @@ describe('Medication Service Test', () => {
 
         });
         test('testing some added search params', async () => {
-            let args = { container: 'http://snomed.info/sct|419672006',
+            let args = { _id: '0', container: 'http://snomed.info/sct|419672006',
             code: '206765', form: 'http://snomed.info/sct|385055001', ingredient: '#sub04',
           ingredientCode: 'http://www.nlm.nih.gov/research/umls/rxnorm|203134', manufacturer: '#org7',
         overTheCounter: 'false', packageItem: '#med500', packageItemCode: 'http://snomed.info/sct|324337001',
@@ -63,6 +63,7 @@ describe('Medication Service Test', () => {
             expect(docs.length).toEqual(1);
 
             docs.forEach(doc => {
+                expect(doc.id).toEqual(args._id);
                 expect(doc.package.container.coding[0].system).toEqual('http://snomed.info/sct');
                 expect(doc.package.container.coding[0].code).toEqual('419672006');
                 expect(doc.code.coding[0].system).toEqual('http://www.nlm.nih.gov/research/umls/rxnorm');

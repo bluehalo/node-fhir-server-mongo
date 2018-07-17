@@ -85,7 +85,7 @@ describe('AllergyIntolerance Service Test', () => {
         });
 
         test('test using all arguments', async () => {
-            let args = { asserter: 'Patient/example', category: 'medication', clinicalStatus: 'active', code: 'http://hl7.org/fhir/ndfrt|N0000175503',
+            let args = { _id: '0', asserter: 'Patient/example', category: 'medication', clinicalStatus: 'active', code: 'http://hl7.org/fhir/ndfrt|N0000175503',
                 criticality: 'low', date: '2014-10-09T14:58:00+11:00', identifier: 'http://acme.com/ids/patients/risks|49476534', lastDate: '2012-06-04T04:30:05+22:00',
                 manifestation: 'http://snomed.info/sct|64305001', onset: '2004', patient: 'example', recorder: 'example',
                 route: 'http://snomed.info/sct|34206005', severity: 'severe', type: 'allergy', verificationStatus: 'confirmed'};
@@ -99,6 +99,7 @@ describe('AllergyIntolerance Service Test', () => {
             expect(docs.length).toEqual(1);
 
             docs.forEach(doc => {
+                expect(doc.id).toEqual(args._id);
                 expect(doc.asserter.reference).toEqual('Patient/example');
                 expect(doc.category[1]).toEqual(args.category);
                 expect(doc.clinicalStatus).toEqual(args.clinicalStatus);

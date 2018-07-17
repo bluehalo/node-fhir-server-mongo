@@ -48,7 +48,7 @@ describe('DiagnosticReport Service Test', () => {
     describe('Method: search', () => {
 
         test('should correctly return a specific diagnostic report using all arguments', async () => {
-            let args = {basedOn: '#req', category: '252275004', code: '58410-2', context: 'example', date: '2011-03-04T08:30:00+11:00',
+            let args = {_id: '0', basedOn: '#req', category: '252275004', code: '58410-2', context: 'example', date: '2011-03-04T08:30:00+11:00',
                 diagnosis: '188340000', encounter: 'Encounter/example', identifier: 'nr1239044',
                 image: 'Media/1.2.840.11361907579238403408700.3.0.14.19970327150033', issued: '2013-05-15T19:32:52+01:00',
                 patient: 'f001', performer: 'f001', result: 'Observation/f001', specimen: 'genetics-example2',
@@ -61,6 +61,7 @@ describe('DiagnosticReport Service Test', () => {
             expect(docs.length).toEqual(1);
 
             docs.forEach(doc => {
+                expect(doc.id).toEqual(args._id);
                 expect(doc.basedOn[0].reference).toEqual(args.basedOn);
                 expect(doc.category.coding[0].system).toEqual('http://snomed.info/sct');
                 expect(doc.category.coding[0].code).toEqual('252275004');

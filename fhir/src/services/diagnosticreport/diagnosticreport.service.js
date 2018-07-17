@@ -34,9 +34,13 @@ module.exports.count = (args, logger) => new Promise((resolve, reject) => {
 module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     logger.info('DiagnosticReport >>> search');
     // Parse the params
-    let {basedOn, category, code, context, date, diagnosis, encounter, identifier, image, issued, patient, performer, result,
+    let {_id, basedOn, category, code, context, date, diagnosis, encounter, identifier, image, issued, patient, performer, result,
         specimen, status, subject} = args;
     let query = {};
+
+    if (_id) {
+        query.id = _id;
+    }
 
     if (basedOn) {
         let queryBuilder = referenceQueryBuilder(basedOn, 'basedOn.reference');

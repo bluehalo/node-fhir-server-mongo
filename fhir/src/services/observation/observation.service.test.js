@@ -61,7 +61,7 @@ describe('Observation Service Test', () => {
 		});
 
         test('should correctly return a specific observation using all non-logic search parameters', async () => {
-            let args = { basedOn: 'example', category: 'http://hl7.org/fhir/observation-category|', code: 'http://snomed.info/sct|27113001',
+            let args = { _id: '0', basedOn: 'example', category: 'http://hl7.org/fhir/observation-category|', code: 'http://snomed.info/sct|27113001',
                 componentCode: 'http://loinc.org|', componentDataAbsentReason: '|not-performed', componentValueCodeableConcept: 'http://loinc.org|8462-4',
                 componentValueQuantity: '60|http://unitsofmeasure.org|mm[Hg]', context: 'Encounter/example', dataAbsentReason: 'not-performed',
 				date: '2016-03-28', device: 'DeviceMetric/example', encounter: 'Encounter/example', identifier: 'urn:ietf:rfc:3986|',
@@ -78,6 +78,7 @@ describe('Observation Service Test', () => {
             expect(docs.length).toEqual(1);
 
             docs.forEach(doc => {
+                expect(doc.id).toEqual(args._id);
                 expect(doc.basedOn[0].reference).toEqual('CarePlan/example');
                 expect(doc.category[0].coding[0].system).toEqual('http://hl7.org/fhir/observation-category');
                 expect(doc.category[0].coding[0].code).toEqual('vital-signs');

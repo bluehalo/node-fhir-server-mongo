@@ -34,9 +34,13 @@ module.exports.count = (args, logger) => new Promise((resolve, reject) => {
  */
 module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     logger.info('Medication >>> search');
-    let { code, container, form, ingredient, ingredientCode, manufacturer, overTheCounter,
+    let { _id, code, container, form, ingredient, ingredientCode, manufacturer, overTheCounter,
     packageItem, packageItemCode, status } = args;
     let query = {};
+
+    if (_id) {
+        query.id = _id;
+    }
 
     if (code) {
       let queryBuilder = tokenQueryBuilder(code, 'code', 'code.coding', '');

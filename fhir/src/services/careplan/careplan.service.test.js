@@ -48,7 +48,7 @@ describe('CarePlan Service Test', () => {
     describe('Method: search', () => {
 
         test('test only using available arguments', async () => {
-            let args = {activityCode: 'http://loinc.org|3141-9', activityReference: 'Appointment/example', basedOn: 'example', careTeam: 'example',
+            let args = {_id: '0', activityCode: 'http://loinc.org|3141-9', activityReference: 'Appointment/example', basedOn: 'example', careTeam: 'example',
                 category: 'http://snomed.info/sct|161832001', condition: '#p1', context: 'Encounter/home', definition: 'Questionnaire/example',
                 encounter: 'home', goal: 'example', identifier: '12345', intent: 'plan', partOf: 'example', patient: 'example',
                 performer: 'https://foo.com/fhir/Patient/example', replaces: 'example', status: 'active', subject: 'Patient/example',
@@ -63,6 +63,7 @@ describe('CarePlan Service Test', () => {
             expect(docs.length).toEqual(1);
 
             docs.forEach(doc => {
+                expect(doc.id).toEqual(args._id);
                 expect(doc.activity[0].detail.code.coding[0].system).toEqual('http://loinc.org');
                 expect(doc.activity[0].detail.code.coding[0].code).toEqual('3141-9');
                 expect(doc.activity[0].reference.reference).toEqual(args.activityReference);

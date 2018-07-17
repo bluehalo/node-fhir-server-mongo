@@ -48,7 +48,7 @@ describe('CareTeam Service Test', () => {
     describe('Method: search', () => {
 
         test('Get a careteam using all implemented arguments', async () => {
-            let args = {category: 'http://hl7.org/fhir/care-team-category|', context: 'example', encounter: 'example',
+            let args = {_id: '0', category: 'http://hl7.org/fhir/care-team-category|', context: 'example', encounter: 'example',
             identifier: '12345', participant: 'example', patient: 'example', status: 'active', subject: 'example'};
             let [err, docs] = await asyncHandler(
                 careteamService.search(args, logger)
@@ -61,6 +61,7 @@ describe('CareTeam Service Test', () => {
             expect(docs.length).toEqual(1);
 
             docs.forEach(doc => {
+                expect(doc.id).toEqual(args._id);
                 expect(doc.category[0].coding[0].system).toEqual('http://hl7.org/fhir/care-team-category');
                 expect(doc.category[0].coding[0].code).toEqual('encounter');
                 expect(doc.context.reference).toEqual(`Encounter/${args.context}`);

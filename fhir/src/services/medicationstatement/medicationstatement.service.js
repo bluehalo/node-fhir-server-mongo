@@ -34,10 +34,14 @@ module.exports.count = (args, logger) => new Promise((resolve, reject) => {
 module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     logger.info('MedicationStatement >>> search');
     // Parse the params
-    let { category, code, context, effective, identifier, medication, partOf, patient, source, status, subject } = args;
+    let { _id, category, code, context, effective, identifier, medication, partOf, patient, source, status, subject } = args;
     // console.log(JSON.stringify(args));
 
     let query = {};
+
+    if (_id) {
+        query.id = _id;
+    }
 
     if (category) {
         let queryBuilder = tokenQueryBuilder(category, 'code', 'category.coding', '');

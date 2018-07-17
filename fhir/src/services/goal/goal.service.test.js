@@ -48,7 +48,7 @@ describe('Goal Service Test', () => {
     describe('Method: search', () => {
 
         test('should correctly return a specific goal using all arguments', async () => {
-            let args = {category: 'dietary', identifier: '123', patient: 'example', startDate: '2015-04-05', status: 'on-hold',
+            let args = {_id: '0', category: 'dietary', identifier: '123', patient: 'example', startDate: '2015-04-05', status: 'on-hold',
                 subject: 'Patient/example', targetDate: '2016-04-05'};
             let [err, docs] = await asyncHandler(
                 goalService.search(args, logger)
@@ -58,6 +58,7 @@ describe('Goal Service Test', () => {
             expect(docs.length).toEqual(1);
 
             docs.forEach(doc => {
+                expect(doc.id).toEqual(args._id);
                 expect(doc.category[0].coding[0].code).toEqual(args.category);
                 expect(doc.identifier[0].value).toEqual(args.identifier);
                 expect(doc.subject.reference).toEqual('Patient/example');

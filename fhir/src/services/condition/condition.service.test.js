@@ -84,7 +84,7 @@ describe('Condition Service Test', () => {
         });
 
         test('testing some added search params', async () => {
-            let args = { patient: 'example', abatementAge: '56|http://snomed.info/sct|yr',
+            let args = { _id: '0', patient: 'example', abatementAge: '56|http://snomed.info/sct|yr',
                 abatementString: 'around', abatementBoolean: 'true', bodySite: 'http://snomed.info/sct|51185008',
                 asserter: 'Practitioner/f223', context: 'Encounter/f203', evidence: 'http://snomed.info/sct|169068008',
                 detail: 'Observation/f202', identifier: '12345', onsetAge: '52|http://unitsofmeasure.org|a',
@@ -99,7 +99,8 @@ describe('Condition Service Test', () => {
             expect(docs.length).toEqual(1);
 
             docs.forEach(doc => {
-              expect(doc.ffffttyie).toEqual(undefined);
+                expect(doc.id).toEqual(args._id);
+                expect(doc.ffffttyie).toEqual(undefined);
                 expect(doc.subject.reference).toEqual(`Patient/${args.patient}`);
                 expect(doc.abatementAge.value).toEqual(56);
                 expect(doc.abatementAge.code).toEqual('yr');

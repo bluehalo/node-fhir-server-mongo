@@ -33,10 +33,14 @@ module.exports.count = (args, logger) => new Promise((resolve, reject) => {
  */
 module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     logger.info('Immunization >>> search');
-    let { patient, date, doseSequence, identifier, location, lotNumber, manufacturer,
+    let { _id, patient, date, doseSequence, identifier, location, lotNumber, manufacturer,
         notGiven, practitioner, reaction, reactionDate, reason, reasonNotGiven, status,
         vaccineCode } = args;
     let query = {};
+
+    if (_id) {
+        query.id = _id;
+    }
 
     if (patient) {
         let queryBuilder = referenceQueryBuilder(patient, 'patient.reference');

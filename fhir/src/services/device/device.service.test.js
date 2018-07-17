@@ -49,7 +49,7 @@ describe('Device Service Test', () => {
 
         });
         test('testing some added search params', async () => {
-            let args = { patient: 'example', deviceName: 'Fh',
+            let args = { _id: '0', patient: 'example', deviceName: 'Fh',
                 identifier: 'http://acme.com/devices/pacemakers/octane/serial|1234-5678-90AB-CDEF',
                 manufacturer: 'Acme Devices, Inc', model: 'PM/Octane 2014', status: 'active',
                 type: 'http://snomed.info/sct|468063009', udiDi: '00844588003288',
@@ -64,6 +64,7 @@ describe('Device Service Test', () => {
             expect(docs.length).toEqual(1);
 
             docs.forEach(doc => {
+                expect(doc.id).toEqual(args._id);
                 expect(doc.patient.reference).toEqual(`Patient/${args.patient}`);
                 expect(doc.udi.name).toEqual('FHIR® Hip System');
                 expect(doc.identifier[0].system).toEqual('http://acme.com/devices/pacemakers/octane/serial');

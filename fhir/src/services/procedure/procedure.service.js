@@ -33,10 +33,13 @@ module.exports.count = (args, logger) => new Promise((resolve, reject) => {
  */
 module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     logger.info('Procedure >>> search');
-    let { patient, basedOn, category, status, code, context, date, definition, encounter,
+    let { _id, patient, basedOn, category, status, code, context, date, definition, encounter,
         identifier, location, partOf, performer, subject } = args;
     let query = {};
     let ors = [];
+    if (_id) {
+        query.id = _id;
+    }
     if (basedOn) {
         let queryBuilder = referenceQueryBuilder(basedOn, 'basedOn.reference');
         for (let i in queryBuilder) {

@@ -35,7 +35,7 @@ module.exports.count = (args, logger) => new Promise((resolve, reject) => {
 module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     logger.info('Observation >>> search');
     // Parse out all the params for this service and start building our query
-    let { basedOn, category, code, codeValueConcept, /*codeValueDate,*/ codeValueQuantity, codeValueString, comboCode,
+    let { _id, basedOn, category, code, codeValueConcept, /*codeValueDate,*/ codeValueQuantity, codeValueString, comboCode,
         comboCodeValueConcept, comboCodeValueQuantity, comboDataAbsentReason, comboValueConcept, comboValueQuantity, componentCode,
         componentCodeValueConcept, componentCodeValueQuantity, componentDataAbsentReason, componentValueCodeableConcept,
         componentValueQuantity, context, dataAbsentReason, date, device, encounter, identifier, method, patient, performer,
@@ -44,6 +44,10 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     let query = {};
     let ors = [];
     // console.log(JSON.stringify(args));
+
+    if (_id) {
+        query.id = _id;
+    }
 
     if (basedOn) {
         let queryBuilder = referenceQueryBuilder(basedOn, 'basedOn.reference');
