@@ -176,8 +176,9 @@ describe('Observation Service Test', () => {
 
 		test('should correctly return a document', async () => {
 			let args = { id: '8' };
+            let contexts = {};
 			let [ err, doc ] = await asyncHandler(
-				observationService.searchById(args, logger)
+				observationService.searchById(args, contexts, logger)
 			);
 
 			expect(err).toBeUndefined();
@@ -197,8 +198,9 @@ describe('Observation Service Test', () => {
 
 			// Look for this particular fixture
 			let args = { id: '1' };
+            let contexts = {};
 			let [ err, doc ] = await asyncHandler(
-				observationService.searchById(args, logger)
+				observationService.searchById(args, contexts, logger)
 			);
 
 			expect(err).toBeUndefined();
@@ -214,7 +216,7 @@ describe('Observation Service Test', () => {
 
 			// Now query for the fixture again, there should be no documents
 			let [ query_err, missing_doc ] = await asyncHandler(
-				observationService.searchById(args, logger)
+				observationService.searchById(args, contexts, logger)
 			);
 
 			expect(query_err).toBeUndefined();
@@ -240,6 +242,7 @@ describe('Observation Service Test', () => {
 				},
 				id: '1'
 			};
+            let contexts = {};
 
 			// Delete the fixture incase it exists,
 			// mongo won't throw if we delete something not there
@@ -262,7 +265,7 @@ describe('Observation Service Test', () => {
 
 			// Verify the new fixture exists
 			let [ query_err, doc ] = await asyncHandler(
-				observationService.searchById(args, logger)
+				observationService.searchById(args, contexts, logger)
 			);
 
 			expect(query_err).toBeUndefined();
@@ -289,10 +292,11 @@ describe('Observation Service Test', () => {
 				},
 				id: '1'
 			};
+            let contexts = {};
 
 			// Query for the original doc, this will ignore the resource arg
 			let [ query_err, doc ] = await asyncHandler(
-				observationService.searchById(args, logger)
+				observationService.searchById(args, contexts, logger)
 			);
 
 			expect(query_err).toBeUndefined();
@@ -308,7 +312,7 @@ describe('Observation Service Test', () => {
 
 			// Query the newly updated doc and make sure the status is correct
 			let [ updated_err, updated_doc ] = await asyncHandler(
-				observationService.searchById(args, logger)
+				observationService.searchById(args, contexts, logger)
 			);
 
 			expect(updated_err).toBeUndefined();

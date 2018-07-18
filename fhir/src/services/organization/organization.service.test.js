@@ -90,8 +90,9 @@ describe('Organization Service Test', () => {
 
         test('should correctly return a document', async () => {
             let args = { id: 'acme-lab' };
+            let contexts = {};
             let [ err, doc ] = await asyncHandler(
-                organizationService.searchById(args, logger)
+                organizationService.searchById(args, contexts, logger)
             );
 
             expect(err).toBeUndefined();
@@ -111,8 +112,9 @@ describe('Organization Service Test', () => {
 
             // Look for this particular fixture
             let args = { id: 'acme-lab' };
+            let contexts = {};
             let [ err, doc ] = await asyncHandler(
-                organizationService.searchById(args, logger)
+                organizationService.searchById(args, contexts, logger)
             );
 
             expect(err).toBeUndefined();
@@ -128,7 +130,7 @@ describe('Organization Service Test', () => {
 
             // Now query for the fixture again, there should be no documents
             let [ query_err, missing_doc ] = await asyncHandler(
-                organizationService.searchById(args, logger)
+                organizationService.searchById(args, contexts, logger)
             );
 
             expect(query_err).toBeUndefined();
@@ -154,6 +156,7 @@ describe('Organization Service Test', () => {
                 },
                 id: 'acme-lab'
             };
+            let contexts = {};
 
             // Delete the fixture incase it exists,
             // mongo won't throw if we delete something not there
@@ -176,7 +179,7 @@ describe('Organization Service Test', () => {
 
             // Verify the new fixture exists
             let [ query_err, doc ] = await asyncHandler(
-                organizationService.searchById(args, logger)
+                organizationService.searchById(args, contexts, logger)
             );
 
             expect(query_err).toBeUndefined();
@@ -203,10 +206,11 @@ describe('Organization Service Test', () => {
                 },
                 id: 'acme-lab'
             };
+            let contexts = {};
 
             // Query for the original doc, this will ignore the resource arg
             let [ query_err, doc ] = await asyncHandler(
-                organizationService.searchById(args, logger)
+                organizationService.searchById(args, contexts, logger)
             );
 
             expect(query_err).toBeUndefined();
@@ -222,7 +226,7 @@ describe('Organization Service Test', () => {
 
             // Query the newly updated doc and make sure the status is correct
             let [ updated_err, updated_doc ] = await asyncHandler(
-                organizationService.searchById(args, logger)
+                organizationService.searchById(args, contexts, logger)
             );
 
             expect(updated_err).toBeUndefined();

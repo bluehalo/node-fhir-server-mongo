@@ -141,10 +141,11 @@ module.exports.search = (args, contexts, logger) => new Promise((resolve, reject
  * @name searchById
  * @description Get a practitioner from our database
  * @param {Object} args - Any provided args
+ * @param {Object} contexts - Any provided contexts
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.searchById = (args, logger) => new Promise((resolve, reject) => {
+module.exports.searchById = (args, contexts, logger) => new Promise((resolve, reject) => {
     logger.info('Practitioner >>> searchById');
     // Parse the required params, these are validated by sanitizeMiddleware in core
     let { id } = args;
