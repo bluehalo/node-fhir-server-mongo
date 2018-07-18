@@ -50,8 +50,9 @@ describe('Goal Service Test', () => {
         test('should correctly return a specific goal using all arguments', async () => {
             let args = {_id: '0', category: 'dietary', identifier: '123', patient: 'example', startDate: '2015-04-05', status: 'on-hold',
                 subject: 'Patient/example', targetDate: '2016-04-05'};
+            let contexts = {};
             let [err, docs] = await asyncHandler(
-                goalService.search(args, logger)
+                goalService.search(args, contexts, logger)
             );
 
             expect(err).toBeUndefined();

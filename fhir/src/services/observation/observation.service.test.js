@@ -46,8 +46,9 @@ describe('Observation Service Test', () => {
 
 		test('should correctly return all laboratory documents for this patient', async () => {
 			let args = { patient: '1', category: 'laboratory' };
+            let contexts = {};
 			let [ err, docs ] = await asyncHandler(
-				observationService.search(args, logger)
+				observationService.search(args, contexts, logger)
 			);
 
 			expect(err).toBeUndefined();
@@ -67,10 +68,10 @@ describe('Observation Service Test', () => {
 				date: '2016-03-28', device: 'DeviceMetric/example', encounter: 'Encounter/example', identifier: 'urn:ietf:rfc:3986|',
                 method: 'http://snomed.info/sct|', patient: 'Patient/example', performer: 'Practitioner/f201', relatedTarget: '#verbal',
                 relatedType: 'derived-from', specimen: 'Specimen/genetics-example1-somatic', status: 'final', subject: 'Patient/example',
-                valueCodeableConcept: '4', valueQuantity: '185|http://unitsofmeasure.org|[lb_av]', valueString: 'Exon 21', valueDate:'2016-03-28',
-							 	date: '2016-03-28'};
+                valueCodeableConcept: '4', valueQuantity: '185|http://unitsofmeasure.org|[lb_av]', valueString: 'Exon 21', valueDate:'2016-03-28'};
+            let contexts = {};
             let [ err, docs ] = await asyncHandler(
-                observationService.search(args, logger)
+                observationService.search(args, contexts, logger)
             );
 
             // console.log(JSON.stringify(docs));
@@ -124,8 +125,9 @@ describe('Observation Service Test', () => {
         test('should correctly return an observation using or searches', async () => {
             let args = { comboCode: 'http://loinc.org|29463-7', comboDataAbsentReason: 'http://hl7.org/fhir/data-absent-reason|not-performed',
 				comboValueConcept: 'http:/acme.ec/gcseye|4', comboValueQuantity: '60|http://unitsofmeasure.org|mm[Hg]' };
+            let contexts = {};
             let [ err, docs ] = await asyncHandler(
-                observationService.search(args, logger)
+                observationService.search(args, contexts, logger)
             );
 
             expect(err).toBeUndefined();
@@ -153,8 +155,9 @@ describe('Observation Service Test', () => {
 				comboCodeValueConcept: 'http://loinc.org|3141-9$http:/acme.ec/gcseye|4', comboCodeValueQuantity: 'http://loinc.org|$60||mm[Hg]',
 				componentCodeValueConcept: 'http://loinc.org|8480-6$http://loinc.org|8462-4', componentCodeValueQuantity: '8480-6$60',
 				related: 'derived-from$#verbal' };
+            let contexts = {};
             let [ err, docs ] = await asyncHandler(
-                observationService.search(args, logger)
+                observationService.search(args, contexts, logger)
             );
 
             expect(err).toBeUndefined();

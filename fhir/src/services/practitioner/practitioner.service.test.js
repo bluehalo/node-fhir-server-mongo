@@ -51,8 +51,9 @@ describe('Practitioner Service Test', () => {
             let args = { address: '1003 Healthcare Dr', addressCity: 'Amhers', addressPostalCode: '0100',
           addressState: 'MA', addressUse: 'ho', family: 'Bone', given: 'Ron',
           identifier: 'http://www.acme.org/practitioners|25456' };
+            let contexts = {};
             let [ err, docs ] = await asyncHandler(
-                practitionerService.search(args, logger)
+                practitionerService.search(args, contexts, logger)
             );
 
             expect(err).toBeUndefined();
@@ -78,8 +79,9 @@ describe('Practitioner Service Test', () => {
       addressUse: 'wo', communication: 'urn:oid:2.16.840.1.113883.6.121|nl',
     email: 'm.versteegh@bmc.nl', gender: 'male', name: 'Dr. Ronald bone md', phone: '0205562431',
   telecom: '0205662948' };
+            let contexts = {};
           let [ err, docs ] = await asyncHandler(
-            practitionerService.search(args, logger)
+            practitionerService.search(args, contexts, logger)
           );
 
           expect(err).toBeUndefined();

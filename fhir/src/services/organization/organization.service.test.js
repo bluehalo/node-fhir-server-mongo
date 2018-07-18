@@ -53,8 +53,9 @@ describe('Organization Service Test', () => {
                 addressCity: 'an', addressCountry: 'U', addressPostalCode: '481', addressState: 'MI', addressUse: 'work',
                 endpoint: 'example', identifier: 'http://hl7.org.fhir/sid/us-npi|1144221847', name: 'a GOo', partof: '1',
                 type: 'http://hl7.org/fhir/organization-type|prov'};
+            let contexts = {};
             let [err, docs] = await asyncHandler(
-                organizationService.search(args, logger)
+                organizationService.search(args, contexts, logger)
             );
 
             // console.log(JSON.stringify(args));

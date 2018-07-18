@@ -53,8 +53,9 @@ describe('CarePlan Service Test', () => {
                 encounter: 'home', goal: 'example', identifier: '12345', intent: 'plan', partOf: 'example', patient: 'example',
                 performer: 'https://foo.com/fhir/Patient/example', replaces: 'example', status: 'active', subject: 'Patient/example',
               activityDate: '2013-09-13T05:00', date: '2014-09'};
+            let contexts = {};
             let [err, docs] = await asyncHandler(
-                careplanService.search(args, logger)
+                careplanService.search(args, contexts, logger)
             );
 
             // console.log(JSON.stringify(args));

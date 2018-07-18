@@ -52,8 +52,9 @@ describe('Location Service Test', () => {
                 addressCountry: 'N', addressPostalCode: '910', addressState: 'MarY', addressUse: 'work', endpoint: 'example',
                 identifier: 'B1-S.F2', name: 'South', operationalStatus: 'http://hl7.org/fhir/v2/0116|H', organization: 'f001',
                 partof: '1', status: 'active', type: 'http://hl7.org/fhir/v3/RoleCode|'};
+            let contexts = {};
             let [err, docs] = await asyncHandler(
-                locationService.search(args, logger)
+                locationService.search(args, contexts, logger)
             );
 
             // console.log(JSON.stringify(args));

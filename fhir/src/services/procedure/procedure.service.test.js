@@ -49,8 +49,9 @@ describe('Procedure Service Test', () => {
 
       test('should return 2 procedures', async () => {
         let args = { patient: 'example', status: 'completed', code: 'http://snomed.info/sct|35637008', subject: 'Patient/example' };
+          let contexts = {};
         let [ err, docs ] = await asyncHandler(
-          procedureService.search(args, logger)
+          procedureService.search(args, contexts, logger)
         );
 
         expect(err).toBeUndefined();
@@ -71,8 +72,9 @@ describe('Procedure Service Test', () => {
         context: 'Encounter/f202', definition: 'PlanDefinition/f201', encounter: 'f202',
       identifier: '12345', location: 'Location/1', partOf: 'Procedure/colonoscopy',
     performer: 'Practitioner/example', date: '2002-05-23' };
+          let contexts = {};
         let [ err, docs ] = await asyncHandler(
-          procedureService.search(args, logger)
+          procedureService.search(args, contexts, logger)
         );
 
         expect(err).toBeUndefined();

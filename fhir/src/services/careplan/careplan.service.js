@@ -28,10 +28,11 @@ module.exports.count = (args, logger) => new Promise((resolve, reject) => {
  * @name search
  * @description Get careplan(s) from our database
  * @param {Object} args - Any provided args
+ * @param {Object} contexts - Any provided contexts
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.search = (args, logger) => new Promise((resolve, reject) => {
+module.exports.search = (args, contexts, logger) => new Promise((resolve, reject) => {
     logger.info('CarePlan >>> search');
     // Parse the params
     let { _id, activityCode, activityDate, activityReference, basedOn, careTeam, category, condition, context, date, definition,

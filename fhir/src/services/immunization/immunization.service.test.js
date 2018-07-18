@@ -37,8 +37,9 @@ describe('Immunization Service Test', () => {
         test('should return 2 immunizations', async () => {
             let args = { patient: 'example', date: '2016-01-08',
                 vaccineCode: 'http://hl7.org/fhir/sid/cvx|158' };
+            let contexts = {};
             let [ err, docs ] = await asyncHandler(
-                immunizationService.search(args, logger)
+                immunizationService.search(args, contexts, logger)
             );
 
             expect(err).toBeUndefined();
@@ -58,8 +59,9 @@ describe('Immunization Service Test', () => {
                 lotNumber: 'AAJN11K', manufacturer: 'Organization/hl7', notGiven: 'false',
                 practitioner: 'example', reaction: 'Observation/example', reactionDate: '2013-01-10T00:01Z',
                 reason: 'http://snomed.info/sct|429060002', status: 'completed' };
+            let contexts = {};
             let [ err, docs ] = await asyncHandler(
-                immunizationService.search(args, logger)
+                immunizationService.search(args, contexts, logger)
             );
 
             expect(err).toBeUndefined();

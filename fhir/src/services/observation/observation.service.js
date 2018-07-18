@@ -29,10 +29,11 @@ module.exports.count = (args, logger) => new Promise((resolve, reject) => {
  * @name search
  * @description Get observation(s) from our database
  * @param {Object} args - Any provided args
+ * @param {Object} contexts - Any provided contexts
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.search = (args, logger) => new Promise((resolve, reject) => {
+module.exports.search = (args, contexts, logger) => new Promise((resolve, reject) => {
     logger.info('Observation >>> search');
     // Parse out all the params for this service and start building our query
     let { _id, basedOn, category, code, codeValueConcept, /*codeValueDate,*/ codeValueQuantity, codeValueString, comboCode,

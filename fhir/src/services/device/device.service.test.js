@@ -36,8 +36,9 @@ describe('Device Service Test', () => {
 
         test('should return 2 devices', async () => {
             let args = { patient: 'example' };
+            let contexts = {};
             let [ err, docs ] = await asyncHandler(
-                deviceService.search(args, logger)
+                deviceService.search(args, contexts, logger)
             );
 
             expect(err).toBeUndefined();
@@ -56,8 +57,9 @@ describe('Device Service Test', () => {
                 url: 'http://acme.com/goodhealth/ehr/', location: 'Test/f203',
                 udiCarrier:'(01)09504000059118(17)141120(10)7654321D(21)10987654d321',
                 organization: 'Organization/2.16.840.1.113883.19.5' };
+            let contexts = {};
             let [ err, docs ] = await asyncHandler(
-                deviceService.search(args, logger)
+                deviceService.search(args, contexts, logger)
             );
 
             expect(err).toBeUndefined();

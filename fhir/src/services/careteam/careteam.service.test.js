@@ -51,8 +51,9 @@ describe('CareTeam Service Test', () => {
             let args = {_id: '0', category: 'http://hl7.org/fhir/care-team-category|', context: 'example', encounter: 'example',
             identifier: '12345', participant: 'example', patient: 'example', status: 'active', subject: 'example',
           date: '2012-12-31T06:39Z'};
+            let contexts = {};
             let [err, docs] = await asyncHandler(
-                careteamService.search(args, logger)
+                careteamService.search(args, contexts, logger)
             );
 
             // console.log(JSON.stringify(args));

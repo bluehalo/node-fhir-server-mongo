@@ -37,8 +37,9 @@ describe('Service Utils Tests', () => {
         test('should pass back the correct company based on portions of the name or alias', async () => {
             // Default name case
             let args = {name: 'HeaLth'};
+            let contexts = {};
             let [err, docs] = await asyncHandler(
-                organizationService.search(args, logger)
+                organizationService.search(args, contexts, logger)
             );
             expect(err).toBeUndefined();
             expect(docs.length).toEqual(1);
@@ -47,7 +48,7 @@ describe('Service Utils Tests', () => {
             // // contains name case
             // args = {name: 'name:contains=EvEn'};
             // [err, docs] = await asyncHandler(
-            //     organizationService.search(args, logger)
+            //     organizationService.search(args, contexts, logger)
             // );
             // expect(err).toBeUndefined();
             // expect(docs.length).toEqual(1);
@@ -56,7 +57,7 @@ describe('Service Utils Tests', () => {
             // // exact name case
             // args = {name: 'name:exact=Health Level Seven International'};
             // [err, docs] = await asyncHandler(
-            //     organizationService.search(args, logger)
+            //     organizationService.search(args, contexts, logger)
             // );
             // expect(err).toBeUndefined();
             // expect(docs.length).toEqual(1);
@@ -65,7 +66,7 @@ describe('Service Utils Tests', () => {
             // Default alias case
             args = {name: 'A gO'};
             [err, docs] = await asyncHandler(
-                organizationService.search(args, logger)
+                organizationService.search(args, contexts, logger)
             );
             expect(err).toBeUndefined();
             expect(docs.length).toEqual(1);
@@ -74,7 +75,7 @@ describe('Service Utils Tests', () => {
             // // contains alias case
             // args = {name: 'alias:contains=s'};
             // [err, docs] = await asyncHandler(
-            //     organizationService.search(args, logger)
+            //     organizationService.search(args, contexts, logger)
             // );
             // expect(err).toBeUndefined();
             // expect(docs.length).toEqual(1);
@@ -84,7 +85,7 @@ describe('Service Utils Tests', () => {
             // // exact alias case
             // args = {name: 'alias:exact=HLSI'};
             // [err, docs] = await asyncHandler(
-            //     organizationService.search(args, logger)
+            //     organizationService.search(args, contexts, logger)
             // );
             // expect(err).toBeUndefined();
             // expect(docs.length).toEqual(1);
@@ -99,8 +100,9 @@ describe('Service Utils Tests', () => {
         test('should pass back the correct company based on portions of identifier', async () => {
             // system|code
             let args = {identifier: 'http://hl7.org.fhir/sid/us-npi|1144221847'};
+            let contexts = {};
             let [err, docs] = await asyncHandler(
-                organizationService.search(args, logger)
+                organizationService.search(args, contexts, logger)
             );
             expect(err).toBeUndefined();
             expect(docs.length).toEqual(2);
@@ -110,7 +112,7 @@ describe('Service Utils Tests', () => {
             // system|
             args = {identifier: 'http://hl7.org.fhir/sid/us-npi|'};
             [err, docs] = await asyncHandler(
-                organizationService.search(args, logger)
+                organizationService.search(args, contexts, logger)
             );
             expect(err).toBeUndefined();
             expect(docs.length).toEqual(2);
@@ -119,7 +121,7 @@ describe('Service Utils Tests', () => {
             // |code
             args = {identifier: '|1144221847'};
             [err, docs] = await asyncHandler(
-                organizationService.search(args, logger)
+                organizationService.search(args, contexts, logger)
             );
             expect(err).toBeUndefined();
             expect(docs.length).toEqual(2);
@@ -128,7 +130,7 @@ describe('Service Utils Tests', () => {
             // code
             args = {identifier: '1144221847'};
             [err, docs] = await asyncHandler(
-                organizationService.search(args, logger)
+                organizationService.search(args, contexts, logger)
             );
             expect(err).toBeUndefined();
             expect(docs.length).toEqual(2);
@@ -137,7 +139,7 @@ describe('Service Utils Tests', () => {
             // required system
             args = {email: 'p.heuvel@gmail.com'};
             [err, docs] = await asyncHandler(
-                patientService.search(args, logger)
+                patientService.search(args, contexts, logger)
             );
             expect(err).toBeUndefined();
             expect(docs.length).toEqual(1);
@@ -148,8 +150,9 @@ describe('Service Utils Tests', () => {
         test('should handle codeable concepts', async () => {
             // system|code
             let args = {type: 'http://hl7.org/fhir/organization-type|prov'};
+            let contexts = {};
             let [err, docs] = await asyncHandler(
-                organizationService.search(args, logger)
+                organizationService.search(args, contexts, logger)
             );
             expect(err).toBeUndefined();
             expect(docs.length).toEqual(2);
@@ -165,8 +168,9 @@ describe('Service Utils Tests', () => {
         test('should pass back the correct careplan based on the performer', async () => {
             // url
             let args = {partof: 'https://foo.com/fhir/Organization/1'};
+            let contexts = {};
             let [err, docs] = await asyncHandler(
-                organizationService.search(args, logger)
+                organizationService.search(args, contexts, logger)
             );
             expect(err).toBeUndefined();
             expect(docs.length).toEqual(1);
@@ -175,7 +179,7 @@ describe('Service Utils Tests', () => {
             // type/id
             args = {partof: 'Organization/1'};
             [err, docs] = await asyncHandler(
-                organizationService.search(args, logger)
+                organizationService.search(args, contexts, logger)
             );
             expect(err).toBeUndefined();
             expect(docs.length).toEqual(1);
@@ -184,7 +188,7 @@ describe('Service Utils Tests', () => {
             // id
             args = {partof: '1'};
             [err, docs] = await asyncHandler(
-                organizationService.search(args, logger)
+                organizationService.search(args, contexts, logger)
             );
             expect(err).toBeUndefined();
             expect(docs.length).toEqual(1);
@@ -199,8 +203,9 @@ describe('Service Utils Tests', () => {
         test('should pass back an organization based on parts of the address', async () => {
             // Handle a full address
             let args = {address: '3300 Washtenaw Avenue, Suite 227, Ann Arbor, MI  48104 UsA'};
+            let contexts = {};
             let [err, docs] = await asyncHandler(
-                organizationService.search(args, logger)
+                organizationService.search(args, contexts, logger)
             );
             expect(err).toBeUndefined();
             expect(docs.length).toEqual(1);
@@ -208,7 +213,7 @@ describe('Service Utils Tests', () => {
             // Handle Line and Country with weird case
             args = {address: '3300 WAshtenaw Avenue, Suite 227          ,,,,,,,,,     ,MI'};
             [err, docs] = await asyncHandler(
-                organizationService.search(args, logger)
+                organizationService.search(args, contexts, logger)
             );
             expect(err).toBeUndefined();
             expect(docs.length).toEqual(1);
@@ -216,7 +221,7 @@ describe('Service Utils Tests', () => {
             // Should not handle spelling errors
             args = {address: '3300 Washtenaw Avenue, Sute 227, Ann Arbor, MI  48104 UsA'};
             [err, docs] = await asyncHandler(
-                organizationService.search(args, logger)
+                organizationService.search(args, contexts, logger)
             );
             expect(err).toBeUndefined();
             expect(docs.length).toEqual(0);
@@ -224,7 +229,7 @@ describe('Service Utils Tests', () => {
             // Find all orgs in the US (should match USA too)
             args = {address: 'Us'};
             [err, docs] = await asyncHandler(
-                organizationService.search(args, logger)
+                organizationService.search(args, contexts, logger)
             );
             expect(err).toBeUndefined();
             expect(docs.length).toEqual(2);
@@ -238,8 +243,9 @@ describe('Service Utils Tests', () => {
         test('should pass back a name based on parts of it', async () => {
             // Handle a full address
             let args = {name: 'Peter James Chalmers'};
+            let contexts = {};
             let [err, docs] = await asyncHandler(
-                patientService.search(args, logger)
+                patientService.search(args, contexts, logger)
             );
             expect(err).toBeUndefined();
             expect(docs.length).toEqual(1);
@@ -247,7 +253,7 @@ describe('Service Utils Tests', () => {
             // Handle multiple last names regardless of order
             args = {name: 'Windsor          ,,,,,,,,,     . Chalmers'};
             [err, docs] = await asyncHandler(
-                patientService.search(args, logger)
+                patientService.search(args, contexts, logger)
             );
             expect(err).toBeUndefined();
             expect(docs.length).toEqual(1);
@@ -255,7 +261,7 @@ describe('Service Utils Tests', () => {
             // Should not handle spelling errors
             args = {name: 'Peter James Calmers'};
             [err, docs] = await asyncHandler(
-                patientService.search(args, logger)
+                patientService.search(args, contexts, logger)
             );
             expect(err).toBeUndefined();
             expect(docs.length).toEqual(0);

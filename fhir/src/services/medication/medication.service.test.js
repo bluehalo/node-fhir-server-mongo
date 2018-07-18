@@ -36,8 +36,9 @@ describe('Medication Service Test', () => {
 
         test('should return 2 medications', async () => {
             let args = { code: 'http://www.nlm.nih.gov/research/umls/rxnorm|206765' };
+            let contexts = {};
             let [ err, docs ] = await asyncHandler(
-                medicationService.search(args, logger)
+                medicationService.search(args, contexts, logger)
             );
 
             expect(err).toBeUndefined();
@@ -55,8 +56,9 @@ describe('Medication Service Test', () => {
           ingredientCode: 'http://www.nlm.nih.gov/research/umls/rxnorm|203134', manufacturer: '#org7',
         overTheCounter: 'false', packageItem: '#med500', packageItemCode: 'http://snomed.info/sct|324337001',
       status: 'active' };
+            let contexts = {};
             let [ err, docs ] = await asyncHandler(
-                medicationService.search(args, logger)
+                medicationService.search(args, contexts, logger)
             );
 
             expect(err).toBeUndefined();

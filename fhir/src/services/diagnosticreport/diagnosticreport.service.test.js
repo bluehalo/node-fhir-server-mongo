@@ -53,8 +53,9 @@ describe('DiagnosticReport Service Test', () => {
                 image: 'Media/1.2.840.11361907579238403408700.3.0.14.19970327150033', issued: '2013-05-15T19:32:52+01:00',
                 patient: 'f001', performer: 'f001', result: 'Observation/f001', specimen: 'genetics-example2',
                 status: 'final', subject: 'Patient/f001'};
+            let contexts = {};
             let [err, docs] = await asyncHandler(
-                diagnosticreportService.search(args, logger)
+                diagnosticreportService.search(args, contexts, logger)
             );
 
             expect(err).toBeUndefined();

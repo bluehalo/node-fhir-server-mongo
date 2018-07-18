@@ -51,8 +51,9 @@ describe('MedicationRequest Service Test', () => {
             let args = {_id: '0', authoredon: '2015-03-01', category: 'inpatient', code: '1313112', context: 'f001', date: '2015-01-15T22:00:00+11:00',
                 identifier: '12345', intendedDispenser: 'f001', intent: 'order', medication: 'med0316', patient: 'pat1',
                 priority: 'routine', requester: 'f007', status: 'active', subject: 'Patient/pat1'};
+            let contexts = {};
             let [err, docs] = await asyncHandler(
-                medicationrequestService.search(args, logger)
+                medicationrequestService.search(args, contexts, logger)
             );
 
             // console.log(JSON.stringify(args));

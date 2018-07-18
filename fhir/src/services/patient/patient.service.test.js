@@ -47,8 +47,9 @@ describe('Patient Service Test', () => {
 
 		test('should correctly return all male patients', async () => {
 			let args = { gender: 'male' };
+            let contexts = {};
 			let [ err, docs ] = await asyncHandler(
-				patientService.search(args, logger)
+				patientService.search(args, contexts, logger)
 			);
 
 			expect(err).toBeUndefined();
@@ -65,8 +66,9 @@ describe('Patient Service Test', () => {
 				gender: 'male', generalPractitioner: 'example', given: 'Peter', identifier: 'urn:oid:1.2.36.146.595.217.0.1|12345',
                 language: 'urn:ietf:bcp:47|nl-NL', link: 'pat2', name: 'Peter James Chalmers', organization: '1',
 				phone: '(03) 5555 6473', telecom: '(03) 3410 5613'};
+            let contexts = {};
             let [ err, docs ] = await asyncHandler(
-                patientService.search(args, logger)
+                patientService.search(args, contexts, logger)
             );
 
             // console.log(JSON.stringify(docs));
@@ -112,8 +114,9 @@ describe('Patient Service Test', () => {
             let args = {
                 animalBreed: 'http://snomed.info/sct|58108001', animalSpecies: 'http://hl7.org/fhir/animal-species|canislf'
             };
+            let contexts = {};
             let [err, docs] = await asyncHandler(
-                patientService.search(args, logger)
+                patientService.search(args, contexts, logger)
             );
 
             // console.log(JSON.stringify(docs));
