@@ -51,8 +51,9 @@ describe('Practitioner Service Test', () => {
             let args = { address: '1003 Healthcare Dr', addressCity: 'Amhers', addressPostalCode: '0100',
           addressState: 'MA', addressUse: 'ho', family: 'Bone', given: 'Ron',
           identifier: 'http://www.acme.org/practitioners|25456' };
+            let contexts = {};
             let [ err, docs ] = await asyncHandler(
-                practitionerService.search(args, logger)
+                practitionerService.search(args, contexts, logger)
             );
 
             expect(err).toBeUndefined();
@@ -78,8 +79,9 @@ describe('Practitioner Service Test', () => {
       addressUse: 'wo', communication: 'urn:oid:2.16.840.1.113883.6.121|nl',
     email: 'm.versteegh@bmc.nl', gender: 'male', name: 'Dr. Ronald bone md', phone: '0205562431',
   telecom: '0205662948' };
+            let contexts = {};
           let [ err, docs ] = await asyncHandler(
-            practitionerService.search(args, logger)
+            practitionerService.search(args, contexts, logger)
           );
 
           expect(err).toBeUndefined();
@@ -108,8 +110,9 @@ describe('Practitioner Service Test', () => {
 
         test('should correctly return a document', async () => {
             let args = {id: '0'};
+            let contexts = {};
             let [err, doc] = await asyncHandler(
-                practitionerService.searchById(args, logger)
+                practitionerService.searchById(args, contexts, logger)
             );
 
             expect(err).toBeUndefined();
@@ -129,8 +132,9 @@ describe('Practitioner Service Test', () => {
 
             // Look for this particular fixture
             let args = { id: '0' };
+            let contexts = {};
             let [ err, doc ] = await asyncHandler(
-                practitionerService.searchById(args, logger)
+                practitionerService.searchById(args, contexts, logger)
             );
 
             expect(err).toBeUndefined();
@@ -146,7 +150,7 @@ describe('Practitioner Service Test', () => {
 
             // Now query for the fixture again, there should be no documents
             let [ query_err, missing_doc ] = await asyncHandler(
-                practitionerService.searchById(args, logger)
+                practitionerService.searchById(args, contexts, logger)
             );
 
             expect(query_err).toBeUndefined();
@@ -172,6 +176,7 @@ describe('Practitioner Service Test', () => {
                 },
                 id: '0'
             };
+            let contexts = {};
 
             // Delete the fixture incase it exists,
             // mongo won't throw if we delete something not there
@@ -194,7 +199,7 @@ describe('Practitioner Service Test', () => {
 
             // Verify the new fixture exists
             let [ query_err, doc ] = await asyncHandler(
-                practitionerService.searchById(args, logger)
+                practitionerService.searchById(args, contexts, logger)
             );
 
             expect(query_err).toBeUndefined();
@@ -221,10 +226,11 @@ describe('Practitioner Service Test', () => {
                 },
                 id: '0'
             };
+            let contexts = {};
 
             // Query for the original doc, this will ignore the resource arg
             let [query_err, doc] = await asyncHandler(
-                practitionerService.searchById(args, logger)
+                practitionerService.searchById(args, contexts, logger)
             );
 
             expect(query_err).toBeUndefined();
@@ -240,7 +246,7 @@ describe('Practitioner Service Test', () => {
 
             // Query the newly updated doc and make sure the text status is correct
             let [updated_err, updated_doc] = await asyncHandler(
-                practitionerService.searchById(args, logger)
+                practitionerService.searchById(args, contexts, logger)
             );
 
             expect(updated_err).toBeUndefined();

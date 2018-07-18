@@ -49,8 +49,9 @@ describe('Procedure Service Test', () => {
 
       test('should return 2 procedures', async () => {
         let args = { patient: 'example', status: 'completed', code: 'http://snomed.info/sct|35637008', subject: 'Patient/example' };
+          let contexts = {};
         let [ err, docs ] = await asyncHandler(
-          procedureService.search(args, logger)
+          procedureService.search(args, contexts, logger)
         );
 
         expect(err).toBeUndefined();
@@ -71,8 +72,9 @@ describe('Procedure Service Test', () => {
         context: 'Encounter/f202', definition: 'PlanDefinition/f201', encounter: 'f202',
       identifier: '12345', location: 'Location/1', partOf: 'Procedure/colonoscopy',
     performer: 'Practitioner/example', date: '2002-05-23' };
+          let contexts = {};
         let [ err, docs ] = await asyncHandler(
-          procedureService.search(args, logger)
+          procedureService.search(args, contexts, logger)
         );
 
         expect(err).toBeUndefined();
@@ -99,8 +101,9 @@ describe('Procedure Service Test', () => {
 
         test('should correctly return a document', async () => {
             let args = {id: '0'};
+            let contexts = {};
             let [err, doc] = await asyncHandler(
-                procedureService.searchById(args, logger)
+                procedureService.searchById(args, contexts, logger)
             );
 
             expect(err).toBeUndefined();
@@ -120,8 +123,9 @@ describe('Procedure Service Test', () => {
 
             // Look for this particular fixture
             let args = { id: '0' };
+            let contexts = {};
             let [ err, doc ] = await asyncHandler(
-                procedureService.searchById(args, logger)
+                procedureService.searchById(args, contexts, logger)
             );
 
             expect(err).toBeUndefined();
@@ -137,7 +141,7 @@ describe('Procedure Service Test', () => {
 
             // Now query for the fixture again, there should be no documents
             let [ query_err, missing_doc ] = await asyncHandler(
-                procedureService.searchById(args, logger)
+                procedureService.searchById(args, contexts, logger)
             );
 
             expect(query_err).toBeUndefined();
@@ -163,6 +167,7 @@ describe('Procedure Service Test', () => {
                 },
                 id: '0'
             };
+            let contexts = {};
 
             // Delete the fixture incase it exists,
             // mongo won't throw if we delete something not there
@@ -185,7 +190,7 @@ describe('Procedure Service Test', () => {
 
             // Verify the new fixture exists
             let [ query_err, doc ] = await asyncHandler(
-                procedureService.searchById(args, logger)
+                procedureService.searchById(args, contexts, logger)
             );
 
             expect(query_err).toBeUndefined();
@@ -212,10 +217,11 @@ describe('Procedure Service Test', () => {
                 },
                 id: '0'
             };
+            let contexts = {};
 
             // Query for the original doc, this will ignore the resource arg
             let [query_err, doc] = await asyncHandler(
-                procedureService.searchById(args, logger)
+                procedureService.searchById(args, contexts, logger)
             );
 
             expect(query_err).toBeUndefined();
@@ -231,7 +237,7 @@ describe('Procedure Service Test', () => {
 
             // Query the newly updated doc and make sure the status is correct
             let [updated_err, updated_doc] = await asyncHandler(
-                procedureService.searchById(args, logger)
+                procedureService.searchById(args, contexts, logger)
             );
 
             expect(updated_err).toBeUndefined();

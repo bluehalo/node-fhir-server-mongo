@@ -51,8 +51,9 @@ describe('CareTeam Service Test', () => {
             let args = {_id: '0', category: 'http://hl7.org/fhir/care-team-category|', context: 'example', encounter: 'example',
             identifier: '12345', participant: 'example', patient: 'example', status: 'active', subject: 'example',
           date: '2012-12-31T06:39Z'};
+            let contexts = {};
             let [err, docs] = await asyncHandler(
-                careteamService.search(args, logger)
+                careteamService.search(args, contexts, logger)
             );
 
             // console.log(JSON.stringify(args));
@@ -82,8 +83,9 @@ describe('CareTeam Service Test', () => {
 
         test('should correctly return a document', async () => {
             let args = { id: 'example' };
+            let contexts = {};
             let [ err, doc ] = await asyncHandler(
-                careteamService.searchById(args, logger)
+                careteamService.searchById(args, contexts, logger)
             );
 
             expect(err).toBeUndefined();
@@ -103,8 +105,9 @@ describe('CareTeam Service Test', () => {
 
             // Look for this particular fixture
             let args = { id: 'example' };
+            let contexts = {};
             let [ err, doc ] = await asyncHandler(
-                careteamService.searchById(args, logger)
+                careteamService.searchById(args, contexts, logger)
             );
 
             expect(err).toBeUndefined();
@@ -120,7 +123,7 @@ describe('CareTeam Service Test', () => {
 
             // Now query for the fixture again, there should be no documents
             let [ query_err, missing_doc ] = await asyncHandler(
-                careteamService.searchById(args, logger)
+                careteamService.searchById(args, contexts, logger)
             );
 
             expect(query_err).toBeUndefined();
@@ -146,6 +149,7 @@ describe('CareTeam Service Test', () => {
                 },
                 id: 'example'
             };
+            let contexts = {};
 
             // Delete the fixture incase it exists,
             // mongo won't throw if we delete something not there
@@ -168,7 +172,7 @@ describe('CareTeam Service Test', () => {
 
             // Verify the new fixture exists
             let [ query_err, doc ] = await asyncHandler(
-                careteamService.searchById(args, logger)
+                careteamService.searchById(args, contexts, logger)
             );
 
             expect(query_err).toBeUndefined();
@@ -195,10 +199,11 @@ describe('CareTeam Service Test', () => {
                 },
                 id: 'example'
             };
+            let contexts = {};
 
             // Query for the original doc, this will ignore the resource arg
             let [ query_err, doc ] = await asyncHandler(
-                careteamService.searchById(args, logger)
+                careteamService.searchById(args, contexts, logger)
             );
 
             expect(query_err).toBeUndefined();
@@ -214,7 +219,7 @@ describe('CareTeam Service Test', () => {
 
             // Query the newly updated doc and make sure the status is correct
             let [ updated_err, updated_doc ] = await asyncHandler(
-                careteamService.searchById(args, logger)
+                careteamService.searchById(args, contexts, logger)
             );
 
             expect(updated_err).toBeUndefined();

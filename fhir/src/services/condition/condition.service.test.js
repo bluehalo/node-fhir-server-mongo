@@ -49,8 +49,9 @@ describe('Condition Service Test', () => {
 
         test('should return 3 patients', async () => {
             let args = { patient: 'example', clinicalStatus: 'active', verificationStatus: 'confirmed' };
+            let contexts = {};
             let [ err, docs ] = await asyncHandler(
-                conditionService.search(args, logger)
+                conditionService.search(args, contexts, logger)
             );
 
             expect(err).toBeUndefined();
@@ -66,8 +67,9 @@ describe('Condition Service Test', () => {
 
         test('should return doc with specific code', async () => {
             let args = { patient: 'example', category: 'http://hl7.org/fhir/us/core/CodeSystem/condition-category|problem', code: '442311008' };
+            let contexts = {};
             let [ err, docs ] = await asyncHandler(
-                conditionService.search(args, logger)
+                conditionService.search(args, contexts, logger)
             );
 
             expect(err).toBeUndefined();
@@ -91,8 +93,9 @@ describe('Condition Service Test', () => {
                 severity: 'http://snomed.info/sct|255604002', stage: 'http://snomed.info/sct|14803004',
                 subject: 'Patient/example', onsetString: 'approx', assertedDate: '2016-08-10',
               onsetDate: '2013-04-02T04:30', abatementDate: '2014-03-12T04:30:44' };
+            let contexts = {};
             let [ err, docs ] = await asyncHandler(
-                conditionService.search(args, logger)
+                conditionService.search(args, contexts, logger)
             );
 
             expect(err).toBeUndefined();
@@ -136,8 +139,9 @@ describe('Condition Service Test', () => {
 
         test('should correctly return a document', async () => {
             let args = {id: '0'};
+            let contexts = {};
             let [err, doc] = await asyncHandler(
-                conditionService.searchById(args, logger)
+                conditionService.searchById(args, contexts, logger)
             );
 
             expect(err).toBeUndefined();
@@ -157,8 +161,9 @@ describe('Condition Service Test', () => {
 
             // Look for this particular fixture
             let args = { id: '0' };
+            let contexts = {};
             let [ err, doc ] = await asyncHandler(
-                conditionService.searchById(args, logger)
+                conditionService.searchById(args, contexts, logger)
             );
 
             expect(err).toBeUndefined();
@@ -174,7 +179,7 @@ describe('Condition Service Test', () => {
 
             // Now query for the fixture again, there should be no documents
             let [ query_err, missing_doc ] = await asyncHandler(
-                conditionService.searchById(args, logger)
+                conditionService.searchById(args, contexts, logger)
             );
 
             expect(query_err).toBeUndefined();
@@ -200,6 +205,7 @@ describe('Condition Service Test', () => {
                 },
                 id: '0'
             };
+            let contexts = {};
 
             // Delete the fixture incase it exists,
             // mongo won't throw if we delete something not there
@@ -222,7 +228,7 @@ describe('Condition Service Test', () => {
 
             // Verify the new fixture exists
             let [ query_err, doc ] = await asyncHandler(
-                conditionService.searchById(args, logger)
+                conditionService.searchById(args, contexts, logger)
             );
 
             expect(query_err).toBeUndefined();
@@ -249,10 +255,11 @@ describe('Condition Service Test', () => {
                 },
                 id: '0'
             };
+            let contexts = {};
 
             // Query for the original doc, this will ignore the resource arg
             let [query_err, doc] = await asyncHandler(
-                conditionService.searchById(args, logger)
+                conditionService.searchById(args, contexts, logger)
             );
 
             expect(query_err).toBeUndefined();
@@ -268,7 +275,7 @@ describe('Condition Service Test', () => {
 
             // Query the newly updated doc and make sure the status is correct
             let [updated_err, updated_doc] = await asyncHandler(
-                conditionService.searchById(args, logger)
+                conditionService.searchById(args, contexts, logger)
             );
 
             expect(updated_err).toBeUndefined();

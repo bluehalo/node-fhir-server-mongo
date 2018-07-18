@@ -47,8 +47,9 @@ describe('Patient Service Test', () => {
 
 		test('should correctly return all male patients', async () => {
 			let args = { gender: 'male' };
+            let contexts = {};
 			let [ err, docs ] = await asyncHandler(
-				patientService.search(args, logger)
+				patientService.search(args, contexts, logger)
 			);
 
 			expect(err).toBeUndefined();
@@ -65,8 +66,9 @@ describe('Patient Service Test', () => {
 				gender: 'male', generalPractitioner: 'example', given: 'Peter', identifier: 'urn:oid:1.2.36.146.595.217.0.1|12345',
                 language: 'urn:ietf:bcp:47|nl-NL', link: 'pat2', name: 'Peter James Chalmers', organization: '1',
 				phone: '(03) 5555 6473', telecom: '(03) 3410 5613'};
+            let contexts = {};
             let [ err, docs ] = await asyncHandler(
-                patientService.search(args, logger)
+                patientService.search(args, contexts, logger)
             );
 
             // console.log(JSON.stringify(docs));
@@ -112,8 +114,9 @@ describe('Patient Service Test', () => {
             let args = {
                 animalBreed: 'http://snomed.info/sct|58108001', animalSpecies: 'http://hl7.org/fhir/animal-species|canislf'
             };
+            let contexts = {};
             let [err, docs] = await asyncHandler(
-                patientService.search(args, logger)
+                patientService.search(args, contexts, logger)
             );
 
             // console.log(JSON.stringify(docs));
@@ -136,8 +139,9 @@ describe('Patient Service Test', () => {
 
 		test('should correctly return a document', async () => {
 			let args = { id: '0' };
+            let contexts = {};
 			let [ err, doc ] = await asyncHandler(
-				patientService.searchById(args, logger)
+				patientService.searchById(args, contexts, logger)
 			);
 
 			expect(err).toBeUndefined();
@@ -157,8 +161,9 @@ describe('Patient Service Test', () => {
 
 			// Look for this particular fixture
 			let args = { id: '0' };
+            let contexts = {};
 			let [ err, doc ] = await asyncHandler(
-				patientService.searchById(args, logger)
+				patientService.searchById(args, contexts, logger)
 			);
 
 			expect(err).toBeUndefined();
@@ -174,7 +179,7 @@ describe('Patient Service Test', () => {
 
 			// Now query for the fixture again, there should be no documents
 			let [ query_err, missing_doc ] = await asyncHandler(
-				patientService.searchById(args, logger)
+				patientService.searchById(args, contexts, logger)
 			);
 
 			expect(query_err).toBeUndefined();
@@ -200,6 +205,7 @@ describe('Patient Service Test', () => {
 				},
 				id: '0'
 			};
+            let contexts = {};
 
 			// Delete the fixture incase it exists,
 			// mongo won't throw if we delete something not there
@@ -222,7 +228,7 @@ describe('Patient Service Test', () => {
 
 			// Verify the new fixture exists
 			let [ query_err, doc ] = await asyncHandler(
-				patientService.searchById(args, logger)
+				patientService.searchById(args, contexts, logger)
 			);
 
 			expect(query_err).toBeUndefined();
@@ -249,10 +255,11 @@ describe('Patient Service Test', () => {
 				},
 				id: '0'
 			};
+            let contexts = {};
 
 			// Query for the original doc, this will ignore the resource arg
 			let [ query_err, doc ] = await asyncHandler(
-				patientService.searchById(args, logger)
+				patientService.searchById(args, contexts, logger)
 			);
 
 			expect(query_err).toBeUndefined();
@@ -268,7 +275,7 @@ describe('Patient Service Test', () => {
 
 			// Query the newly updated doc and make sure the status is correct
 			let [ updated_err, updated_doc ] = await asyncHandler(
-				patientService.searchById(args, logger)
+				patientService.searchById(args, contexts, logger)
 			);
 
 			expect(updated_err).toBeUndefined();

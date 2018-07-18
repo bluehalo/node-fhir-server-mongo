@@ -48,8 +48,9 @@ describe('AllergyIntolerance Service Test', () => {
     describe('Method: search', () => {
         test('find all documents that use the same system for manifestation', async () => {
             let args = { manifestation: 'http://snomed.info/sct|', patient: 'example', verificationStatus: 'confirmed'};
+            let contexts = {};
             let [ err, docs ] = await asyncHandler(
-                allergyintoleranceService.search(args, logger)
+                allergyintoleranceService.search(args, contexts, logger)
             );
 
             // console.log(JSON.stringify(args));
@@ -66,8 +67,9 @@ describe('AllergyIntolerance Service Test', () => {
         test('test all codeable concept arguments using only a code without a \'|\'', async () => {
             let args = { code: 'N0000175503', identifier: '49476534', manifestation: '64305001', patient: 'example',
                 route: '34206005', verificationStatus: 'confirmed'};
+            let contexts = {};
             let [ err, docs ] = await asyncHandler(
-                allergyintoleranceService.search(args, logger)
+                allergyintoleranceService.search(args, contexts, logger)
             );
 
             // console.log(JSON.stringify(args));
@@ -89,8 +91,9 @@ describe('AllergyIntolerance Service Test', () => {
                 criticality: 'low', date: '2014-10-09T14:58:00+11:00', identifier: 'http://acme.com/ids/patients/risks|49476534', lastDate: '2012-06-04T04:30:05+22:00',
                 manifestation: 'http://snomed.info/sct|64305001', onset: '2004', patient: 'example', recorder: 'example',
                 route: 'http://snomed.info/sct|34206005', severity: 'severe', type: 'allergy', verificationStatus: 'confirmed'};
+            let contexts = {};
             let [ err, docs ] = await asyncHandler(
-                allergyintoleranceService.search(args, logger)
+                allergyintoleranceService.search(args, contexts, logger)
             );
 
             // console.log(JSON.stringify(docs));
@@ -131,8 +134,9 @@ describe('AllergyIntolerance Service Test', () => {
 
         test('should correctly return a document', async () => {
             let args = { id: '8' };
+            let contexts = {};
             let [ err, doc ] = await asyncHandler(
-                allergyintoleranceService.searchById(args, logger)
+                allergyintoleranceService.searchById(args, contexts, logger)
             );
 
             expect(err).toBeUndefined();
@@ -152,8 +156,9 @@ describe('AllergyIntolerance Service Test', () => {
 
             // Look for this particular fixture
             let args = { id: '1' };
+            let contexts = {};
             let [ err, doc ] = await asyncHandler(
-                allergyintoleranceService.searchById(args, logger)
+                allergyintoleranceService.searchById(args, contexts, logger)
             );
 
             expect(err).toBeUndefined();
@@ -169,7 +174,7 @@ describe('AllergyIntolerance Service Test', () => {
 
             // Now query for the fixture again, there should be no documents
             let [ query_err, missing_doc ] = await asyncHandler(
-                allergyintoleranceService.searchById(args, logger)
+                allergyintoleranceService.searchById(args, contexts, logger)
             );
 
             expect(query_err).toBeUndefined();
@@ -195,6 +200,7 @@ describe('AllergyIntolerance Service Test', () => {
                 },
                 id: '1'
             };
+            let contexts = {};
 
             // Delete the fixture incase it exists,
             // mongo won't throw if we delete something not there
@@ -217,7 +223,7 @@ describe('AllergyIntolerance Service Test', () => {
 
             // Verify the new fixture exists
             let [ query_err, doc ] = await asyncHandler(
-                allergyintoleranceService.searchById(args, logger)
+                allergyintoleranceService.searchById(args, contexts, logger)
             );
 
             expect(query_err).toBeUndefined();
@@ -244,10 +250,11 @@ describe('AllergyIntolerance Service Test', () => {
                 },
                 id: '1'
             };
+            let contexts = {};
 
             // Query for the original doc, this will ignore the resource arg
             let [query_err, doc] = await asyncHandler(
-                allergyintoleranceService.searchById(args, logger)
+                allergyintoleranceService.searchById(args, contexts, logger)
             );
 
             expect(query_err).toBeUndefined();
@@ -263,7 +270,7 @@ describe('AllergyIntolerance Service Test', () => {
 
             // Query the newly updated doc and make sure the status is correct
             let [updated_err, updated_doc] = await asyncHandler(
-                allergyintoleranceService.searchById(args, logger)
+                allergyintoleranceService.searchById(args, contexts, logger)
             );
 
             expect(updated_err).toBeUndefined();

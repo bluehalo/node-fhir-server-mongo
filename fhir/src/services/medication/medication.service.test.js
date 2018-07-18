@@ -36,8 +36,9 @@ describe('Medication Service Test', () => {
 
         test('should return 2 medications', async () => {
             let args = { code: 'http://www.nlm.nih.gov/research/umls/rxnorm|206765' };
+            let contexts = {};
             let [ err, docs ] = await asyncHandler(
-                medicationService.search(args, logger)
+                medicationService.search(args, contexts, logger)
             );
 
             expect(err).toBeUndefined();
@@ -55,8 +56,9 @@ describe('Medication Service Test', () => {
           ingredientCode: 'http://www.nlm.nih.gov/research/umls/rxnorm|203134', manufacturer: '#org7',
         overTheCounter: 'false', packageItem: '#med500', packageItemCode: 'http://snomed.info/sct|324337001',
       status: 'active' };
+            let contexts = {};
             let [ err, docs ] = await asyncHandler(
-                medicationService.search(args, logger)
+                medicationService.search(args, contexts, logger)
             );
 
             expect(err).toBeUndefined();
@@ -100,8 +102,9 @@ describe('Medication Service Test', () => {
 
         test('should correctly return a document', async () => {
             let args = {id: '0'};
+            let contexts = {};
             let [err, doc] = await asyncHandler(
-                medicationService.searchById(args, logger)
+                medicationService.searchById(args, contexts, logger)
             );
 
             expect(err).toBeUndefined();
@@ -121,8 +124,9 @@ describe('Medication Service Test', () => {
 
             // Look for this particular fixture
             let args = { id: '0' };
+            let contexts = {};
             let [ err, doc ] = await asyncHandler(
-                medicationService.searchById(args, logger)
+                medicationService.searchById(args, contexts, logger)
             );
 
             expect(err).toBeUndefined();
@@ -138,7 +142,7 @@ describe('Medication Service Test', () => {
 
             // Now query for the fixture again, there should be no documents
             let [ query_err, missing_doc ] = await asyncHandler(
-                medicationService.searchById(args, logger)
+                medicationService.searchById(args, contexts, logger)
             );
 
             expect(query_err).toBeUndefined();
@@ -164,6 +168,7 @@ describe('Medication Service Test', () => {
                 },
                 id: '0'
             };
+            let contexts = {};
 
             // Delete the fixture incase it exists,
             // mongo won't throw if we delete something not there
@@ -186,7 +191,7 @@ describe('Medication Service Test', () => {
 
             // Verify the new fixture exists
             let [ query_err, doc ] = await asyncHandler(
-                medicationService.searchById(args, logger)
+                medicationService.searchById(args, contexts, logger)
             );
 
             expect(query_err).toBeUndefined();
@@ -213,10 +218,11 @@ describe('Medication Service Test', () => {
                 },
                 id: '0'
             };
+            let contexts = {};
 
             // Query for the original doc, this will ignore the resource arg
             let [query_err, doc] = await asyncHandler(
-                medicationService.searchById(args, logger)
+                medicationService.searchById(args, contexts, logger)
             );
 
             expect(query_err).toBeUndefined();
@@ -232,7 +238,7 @@ describe('Medication Service Test', () => {
 
             // Query the newly updated doc and make sure the text status is correct
             let [updated_err, updated_doc] = await asyncHandler(
-                medicationService.searchById(args, logger)
+                medicationService.searchById(args, contexts, logger)
             );
 
             expect(updated_err).toBeUndefined();

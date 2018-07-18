@@ -37,8 +37,9 @@ describe('Immunization Service Test', () => {
         test('should return 2 immunizations', async () => {
             let args = { patient: 'example', date: '2016-01-08',
                 vaccineCode: 'http://hl7.org/fhir/sid/cvx|158' };
+            let contexts = {};
             let [ err, docs ] = await asyncHandler(
-                immunizationService.search(args, logger)
+                immunizationService.search(args, contexts, logger)
             );
 
             expect(err).toBeUndefined();
@@ -58,8 +59,9 @@ describe('Immunization Service Test', () => {
                 lotNumber: 'AAJN11K', manufacturer: 'Organization/hl7', notGiven: 'false',
                 practitioner: 'example', reaction: 'Observation/example', reactionDate: '2013-01-10T00:01Z',
                 reason: 'http://snomed.info/sct|429060002', status: 'completed' };
+            let contexts = {};
             let [ err, docs ] = await asyncHandler(
-                immunizationService.search(args, logger)
+                immunizationService.search(args, contexts, logger)
             );
 
             expect(err).toBeUndefined();
@@ -102,8 +104,9 @@ describe('Immunization Service Test', () => {
 
         test('should correctly return a document', async () => {
             let args = { id: '0' };
+            let contexts = {};
             let [ err, doc ] = await asyncHandler(
-                immunizationService.searchById(args, logger)
+                immunizationService.searchById(args, contexts, logger)
             );
 
             expect(err).toBeUndefined();
@@ -123,8 +126,9 @@ describe('Immunization Service Test', () => {
 
             // Look for this particular fixture
             let args = { id: '0' };
+            let contexts = {};
             let [ err, doc ] = await asyncHandler(
-                immunizationService.searchById(args, logger)
+                immunizationService.searchById(args, contexts, logger)
             );
 
             expect(err).toBeUndefined();
@@ -140,7 +144,7 @@ describe('Immunization Service Test', () => {
 
             // Now query for the fixture again, there should be no documents
             let [ query_err, missing_doc ] = await asyncHandler(
-                immunizationService.searchById(args, logger)
+                immunizationService.searchById(args, contexts, logger)
             );
 
             expect(query_err).toBeUndefined();
@@ -166,6 +170,7 @@ describe('Immunization Service Test', () => {
                 },
                 id: '0'
             };
+            let contexts = {};
 
             // Delete the fixture incase it exists,
             // mongo won't throw if we delete something not there
@@ -188,7 +193,7 @@ describe('Immunization Service Test', () => {
 
             // Verify the new fixture exists
             let [ query_err, doc ] = await asyncHandler(
-                immunizationService.searchById(args, logger)
+                immunizationService.searchById(args, contexts, logger)
             );
 
             expect(query_err).toBeUndefined();
@@ -215,10 +220,11 @@ describe('Immunization Service Test', () => {
                 },
                 id: '0'
             };
+            let contexts = {};
 
             // Query for the original doc, this will ignore the resource arg
             let [query_err, doc] = await asyncHandler(
-                immunizationService.searchById(args, logger)
+                immunizationService.searchById(args, contexts, logger)
             );
 
             expect(query_err).toBeUndefined();
@@ -234,7 +240,7 @@ describe('Immunization Service Test', () => {
 
             // Query the newly updated doc and make sure the status is correct
             let [updated_err, updated_doc] = await asyncHandler(
-                immunizationService.searchById(args, logger)
+                immunizationService.searchById(args, contexts, logger)
             );
 
             expect(updated_err).toBeUndefined();

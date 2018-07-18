@@ -28,11 +28,12 @@ module.exports.count = (args, logger) => new Promise((resolve, reject) => {
  * @name search
  * @description Get location(s) from our database
  * @param {Object} args - Any provided args
+ * @param {Object} contexts - Any provided contexts
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
 // To be implemented: address, near, and nearDistance
-module.exports.search = (args, logger) => new Promise((resolve, reject) => {
+module.exports.search = (args, contexts, logger) => new Promise((resolve, reject) => {
     logger.info('Location >>> search');
     // Parse the params
     let { _id, address, addressCity, addressCountry, addressPostalCode, addressState, addressUse, endpoint, identifier,
@@ -141,10 +142,11 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
  * @name searchById
  * @description Get a location from our database
  * @param {Object} args - Any provided args
+ * @param {Object} contexts - Any provided contexts
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.searchById = (args, logger) => new Promise((resolve, reject) => {
+module.exports.searchById = (args, contexts, logger) => new Promise((resolve, reject) => {
     logger.info('Location >>> searchById');
     // Parse the required params, these are validated by sanitizeMiddleware in core
     let { id } = args;

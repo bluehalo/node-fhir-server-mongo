@@ -29,10 +29,11 @@ module.exports.count = (args, logger) => new Promise((resolve, reject) => {
  * @name search
  * @description Get medication(s) from our database
  * @param {Object} args - Any provided args
+ * @param {Object} contexts - Any provided contexts
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.search = (args, logger) => new Promise((resolve, reject) => {
+module.exports.search = (args, contexts, logger) => new Promise((resolve, reject) => {
     logger.info('Medication >>> search');
     let { _id, code, container, form, ingredient, ingredientCode, manufacturer, overTheCounter,
     packageItem, packageItemCode, status } = args;
@@ -115,10 +116,11 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
  * @name searchById
  * @description Get a medication from our database
  * @param {Object} args - Any provided args
+ * @param {Object} contexts - Any provided contexts
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.searchById = (args, logger) => new Promise((resolve, reject) => {
+module.exports.searchById = (args, contexts, logger) => new Promise((resolve, reject) => {
     logger.info('Medication >>> searchById');
     // Parse the required params, these are validated by sanitizeMiddleware in core
     let { id } = args;

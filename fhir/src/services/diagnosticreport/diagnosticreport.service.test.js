@@ -53,8 +53,9 @@ describe('DiagnosticReport Service Test', () => {
                 image: 'Media/1.2.840.11361907579238403408700.3.0.14.19970327150033', issued: '2013-05-15T19:32:52+01:00',
                 patient: 'f001', performer: 'f001', result: 'Observation/f001', specimen: 'genetics-example2',
                 status: 'final', subject: 'Patient/f001'};
+            let contexts = {};
             let [err, docs] = await asyncHandler(
-                diagnosticreportService.search(args, logger)
+                diagnosticreportService.search(args, contexts, logger)
             );
 
             expect(err).toBeUndefined();
@@ -92,8 +93,9 @@ describe('DiagnosticReport Service Test', () => {
 
         test('should correctly return a document', async () => {
             let args = {id: 'cbc'};
+            let contexts = {};
             let [err, doc] = await asyncHandler(
-                diagnosticreportService.searchById(args, logger)
+                diagnosticreportService.searchById(args, contexts, logger)
             );
 
             expect(err).toBeUndefined();
@@ -113,8 +115,9 @@ describe('DiagnosticReport Service Test', () => {
 
             // Look for this particular fixture
             let args = { id: 'cbc' };
+            let contexts = {};
             let [ err, doc ] = await asyncHandler(
-                diagnosticreportService.searchById(args, logger)
+                diagnosticreportService.searchById(args, contexts, logger)
             );
 
             expect(err).toBeUndefined();
@@ -130,7 +133,7 @@ describe('DiagnosticReport Service Test', () => {
 
             // Now query for the fixture again, there should be no documents
             let [ query_err, missing_doc ] = await asyncHandler(
-                diagnosticreportService.searchById(args, logger)
+                diagnosticreportService.searchById(args, contexts, logger)
             );
 
             expect(query_err).toBeUndefined();
@@ -156,6 +159,7 @@ describe('DiagnosticReport Service Test', () => {
                 },
                 id: 'cbc'
             };
+            let contexts = {};
 
             // Delete the fixture incase it exists,
             // mongo won't throw if we delete something not there
@@ -178,7 +182,7 @@ describe('DiagnosticReport Service Test', () => {
 
             // Verify the new fixture exists
             let [ query_err, doc ] = await asyncHandler(
-                diagnosticreportService.searchById(args, logger)
+                diagnosticreportService.searchById(args, contexts, logger)
             );
 
             expect(query_err).toBeUndefined();
@@ -205,10 +209,11 @@ describe('DiagnosticReport Service Test', () => {
                 },
                 id: 'cbc'
             };
+            let contexts = {};
 
             // Query for the original doc, this will ignore the resource arg
             let [ query_err, doc ] = await asyncHandler(
-                diagnosticreportService.searchById(args, logger)
+                diagnosticreportService.searchById(args, contexts, logger)
             );
 
             expect(query_err).toBeUndefined();
@@ -224,7 +229,7 @@ describe('DiagnosticReport Service Test', () => {
 
             // Query the newly updated doc and make sure the status is correct
             let [ updated_err, updated_doc ] = await asyncHandler(
-                diagnosticreportService.searchById(args, logger)
+                diagnosticreportService.searchById(args, contexts, logger)
             );
 
             expect(updated_err).toBeUndefined();
