@@ -256,31 +256,34 @@ function mod(n, m) {
 }
 
 //gives the number of days from year 0, used for adding or subtracting days from a date
-let getDayNum = function (y, m, d) {
-m = mod((m + 9), 12);
-y = y - Math.floor(m / 10);
-return (365 * y + Math.floor(y / 4) - Math.floor(y / 100) + Math.floor(y / 400) + Math.floor((m * 306 + 5) / 10) + ( d - 1 ));
+let getDayNum = function (year, month, day) {
+month = mod((month + 9), 12);
+year = year - Math.floor(month / 10);
+return (365 * year + Math.floor(year / 4) - Math.floor(year / 100) + Math.floor(year / 400) + Math.floor((month * 306 + 5) / 10) + ( day - 1 ));
 };
 
 //returns a date given the number of days from year 0;
-let getDateFromNum = function (g) {
-  let y = Math.floor((10000 * g + 14780) / 3652425);
-  let ddd = g - (365 * y + Math.floor(y / 4) - Math.floor(y / 100) + Math.floor(y / 400));
-  if (ddd < 0) {
-   y = y - 1;
-   ddd = g - (365 * y + Math.floor(y / 4) - Math.floor(y / 100) + Math.floor(y / 400));
+let getDateFromNum = function (days) {
+  let year = Math.floor((10000 * days + 14780) / 3652425);
+  let day2 = days - (365 * year + Math.floor(year / 4) - Math.floor(year / 100) + Math.floor(year / 400));
+  if (day2 < 0) {
+   year = year - 1;
+   day2 = days - (365 * year + Math.floor(year / 4) - Math.floor(year / 100) + Math.floor(year / 400));
  }
-  let mi = Math.floor((100 * ddd + 52) / 3060);
-  let mm = mod((mi + 2), 12) + 1;
-  y = y + Math.floor((mi + 2) / 12);
-  let dd = ddd - Math.floor((mi * 306 + 5) / 10) + 1;
-  return y.toString() + '-' + ('0' + mm).slice(-2) + '-' + ('0' + dd).slice(-2);
+  let m1 = Math.floor((100 * day2 + 52) / 3060);
+  let month = mod((m1 + 2), 12) + 1;
+  year = year + Math.floor((m1 + 2) / 12);
+  let rDay = day2 - Math.floor((m1 * 306 + 5) / 10) + 1;
+  return year.toString() + '-' + ('0' + month).slice(-2) + '-' + ('0' + rDay).slice(-2);
 };
 
 //deals with date, dateTime, instant, period, and timing
 //use like this: query['whatever'] = dateQueryBuilder(whatever, 'dateTime'), but it's different for period and timing
 //the condition service has some examples you might want to look at.
-//can't handle prefixes yet!  Also doesn't work foe when things are stored in different time zones in the .json files (with the + or -)
+//can't handle prefixes yet!
+//Also doesn't work foe when things are stored in different time zones in the .json files (with the + or -)
+//  UNLESS, the search parameter is teh exact same as what is stored.  So, if something is stored as 2016-06-03T05:00-03:00, then the search parameter must be 2016-06-03T05:00-03:00
+//It's important to make sure formatting is right, dont forget a leading 0 when dealing with single digit times.
 let dateQueryBuilder = function (date, type, path) {
   let regex = /^(\D{2})?(\d{4})(-\d{2})?(-\d{2})?(?:(T\d{2}:\d{2})(:\d{2})?)?(Z|(\+|-)(\d{2}):(\d{2}))?$/;
   let match = date.match(regex);
@@ -358,34 +361,32 @@ let dateQueryBuilder = function (date, type, path) {
               }
             }
             pArr[5] = str + '$';
-            str = str + 'T' + ('0' + hrs).slice(-2) + ':' + ('0' + mins).slice(-2);
+            str = str + 'T' + ('0' + hrs).slice(-2) + ':' + ('0' + mins).slice(-2); //proper formatting for leading 0's
             let match2 = str.match(/^(\d{4})(-\d{2})?(-\d{2})(?:(T\d{2}:\d{2})(:\d{2})?)?/);
             if (match2 && match2.length >= 1) {
-              pArr[0] = match2[1] + '$';
-              pArr[1] = match2[1] + match2[2] + '$';
-              pArr[2] = match2[1] + match2[2] + match2[3] + '$';
+              pArr[0] = match2[1] + '$'; //YYYY
+              pArr[1] = match2[1] + match2[2] + '$'; //YYYY-MM
+              pArr[2] = match2[1] + match2[2] + match2[3] + '$'; //YYYY-MM-DD
               pArr[3] = match2[1] + match2[2] + match2[3] + 'T' + ('0' + hrs).slice(-2) + ':' + ('0' + mins).slice(-2) + 'Z?$';
             }
             if (match[6]) { //to check if seconds were included or not
               pArr[4] = str + ':' + ('0' + match[6]).slice(-2) + 'Z?$';
               str = str + match[6];
             }
-            if (!pArr[4]) {
+            if (!pArr[4]) { //fill empty spots in pArr with ^$ to make sure it can't just match with nothing
               pArr[4] = '^$';
             }
           }
         } else {
-          for (let i = 2; i < 5; i++) { //add up the date parts in a string
+          for (let i = 2; i < 5; i++) { //add up the date parts in a string, done to make sure to update anything if timezone changed anything
             if (match[i]) {
               str = str + match[i];
               pArr[i - 2] = str + '$';
             }
           }
-          //below we have to check if the search gave more information than what is actually stored
-          // return {$regex: new RegExp('^' + '(?:' + str + ')|(?:' + pArr[0] + ')|(?:' + pArr[1] + ')|(?:' + pArr[2] + ')', 'i')};
         }
         let regPoss = {$regex: new RegExp('^' + '(?:' + pArr[0] + ')|(?:' + pArr[1] + ')|(?:' + pArr[2] + ')|(?:' + pArr[3] + ')|(?:' + pArr[4] + ')')};
-        if (type === 'period'){ //doesn't work as well for when timing is involved with the upper bound (.end)
+        if (type === 'period'){
           str = str + 'Z';
           let pS = path + '.start';
           let pE = path + '.end';
@@ -393,8 +394,8 @@ let dateQueryBuilder = function (date, type, path) {
         {$and: [{$or: [{[pE]: {$gte: str}}, {[pE]: regPoss}]}, {[pS]: undefined}]}];
           return toRet;
         }
-        let tempFill = pArr.toString().replace(/,/g, ')|(?:') + ')';
-        if (type === 'timing') { //doesn't work as well for when timing (T00:00 kinda thing) is involved with the upper bound
+        let tempFill = pArr.toString().replace(/,/g, ')|(?:') + ')'; //turning the pArr to a string that can be used as a regex
+        if (type === 'timing') {
           let pDT = path + '.event';
           let pBPS = path + '.repeat.boundsPeriod.start';
           let pBPE = path + '.repeat.boundsPeriod.end';
