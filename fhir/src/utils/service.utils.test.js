@@ -439,6 +439,23 @@ describe('Service Utils Tests', () => {
           expect(query).toEqual([{'$and': [{'samp.sPeriod.start': {'$lte': '2015-01-01T03:00Z'}}, {'samp.sPeriod.end': {'$gte': '2015-01-01T03:00Z'}}]}, {'$and': [{'samp.sPeriod.start': {'$lte': '2015-01-01T03:00Z'}}, {'samp.sPeriod.end': undefined}]}, {'$and': [{'samp.sPeriod.end': {'$gte': '2015-01-01T03:00Z'}}, {'samp.sPeriod.start': undefined}]}]);
 
         });
+
+        test('testing other inputs to timing', async() => {
+          let query = dateQueryBuilder('2014', 'timing', 's.sTiming'); //just year
+          expect(query).toEqual([{'s.sTiming.event': {'$regex': /^(?:2014)|(?:2014)|(?:2014$)/i}}, {'$and': [{'s.sTiming.repeat.boundsPeriod.start': {'$lte': '2014'}}, {'s.sTiming.repeat.boundsPeriod.end': {'$gte': '2014'}}]}, {'$and': [{'s.sTiming.repeat.boundsPeriod.start': {'$lte': '2014'}}, {'s.sTiming.repeat.boundsPeriod.end': undefined}]}, {'$and': [{'s.sTiming.repeat.boundsPeriod.end': {'$gte': '2014'}}, {'s.sTiming.repeat.boundsPeriod.start': undefined}]}]);
+
+          query = dateQueryBuilder('2014-06', 'timing', 's.sTiming'); //just year and month
+          expect(query).toEqual([{'s.sTiming.event': {'$regex': /^(?:2014-06)|(?:2014-06)|(?:2014$)|(?:2014-06$)/i}}, {'$and': [{'s.sTiming.repeat.boundsPeriod.start': {'$lte': '2014-06'}}, {'s.sTiming.repeat.boundsPeriod.end': {'$gte': '2014-06'}}]}, {'$and': [{'s.sTiming.repeat.boundsPeriod.start': {'$lte': '2014-06'}}, {'s.sTiming.repeat.boundsPeriod.end': undefined}]}, {'$and': [{'s.sTiming.repeat.boundsPeriod.end': {'$gte': '2014-06'}}, {'s.sTiming.repeat.boundsPeriod.start': undefined}]}]);
+
+          query = dateQueryBuilder('2014-06-03T00:30-03:00', 'timing', 'samp.sTiming'); // time zone
+          expect(query).toEqual([{'samp.sTiming.event': {'$regex': /^(?:2014-06-03T03:30)|(?:2014-06-03T00:30-03:00)|(?:2014$)|(?:2014-06$)|(?:2014-06-03$)|(?:2014-06-03T03:30Z?$)|(?:^$)|(?:2014-06-03$)/i}}, {'$and': [{'samp.sTiming.repeat.boundsPeriod.start': {'$lte': '2014-06-03T03:30'}}, {'samp.sTiming.repeat.boundsPeriod.end': {'$gte': '2014-06-03T03:30'}}]}, {'$and': [{'samp.sTiming.repeat.boundsPeriod.start': {'$lte': '2014-06-03T03:30'}}, {'samp.sTiming.repeat.boundsPeriod.end': undefined}]}, {'$and': [{'samp.sTiming.repeat.boundsPeriod.end': {'$gte': '2014-06-03T03:30'}}, {'samp.sTiming.repeat.boundsPeriod.start': undefined}]}]);
+
+          query = dateQueryBuilder('2014-12-31T23:29-03:31', 'timing', 'samp.sTiming'); //tim zon day, month, year change
+          expect(query).toEqual([{'samp.sTiming.event': {'$regex': /^(?:2015-01-01T03:00)|(?:2014-12-31T23:29-03:31)|(?:2015$)|(?:2015-01$)|(?:2015-01-01$)|(?:2015-01-01T03:00Z?$)|(?:^$)|(?:2015-01-01$)/i}}, {'$and': [{'samp.sTiming.repeat.boundsPeriod.start': {'$lte': '2015-01-01T03:00'}}, {'samp.sTiming.repeat.boundsPeriod.end': {'$gte': '2015-01-01T03:00'}}]}, {'$and': [{'samp.sTiming.repeat.boundsPeriod.start': {'$lte': '2015-01-01T03:00'}}, {'samp.sTiming.repeat.boundsPeriod.end': undefined}]}, {'$and': [{'samp.sTiming.repeat.boundsPeriod.end': {'$gte': '2015-01-01T03:00'}}, {'samp.sTiming.repeat.boundsPeriod.start': undefined}]}]);
+
+          query = dateQueryBuilder('2014-06-03T00:40:44-04:00', 'timing', 'samp.sTiming'); //seconds
+          expect(query).toEqual([{'samp.sTiming.event': {'$regex': /^(?:2014-06-03T04:40:44)|(?:2014-06-03T00:40:44-04:00)|(?:2014$)|(?:2014-06$)|(?:2014-06-03$)|(?:2014-06-03T04:40Z?$)|(?:2014-06-03T04:40:44Z?$)|(?:2014-06-03$)/i}}, {'$and': [{'samp.sTiming.repeat.boundsPeriod.start': {'$lte': '2014-06-03T04:40:44'}}, {'samp.sTiming.repeat.boundsPeriod.end': {'$gte': '2014-06-03T04:40:44'}}]}, {'$and': [{'samp.sTiming.repeat.boundsPeriod.start': {'$lte': '2014-06-03T04:40:44'}}, {'samp.sTiming.repeat.boundsPeriod.end': undefined}]}, {'$and': [{'samp.sTiming.repeat.boundsPeriod.end': {'$gte': '2014-06-03T04:40:44'}}, {'samp.sTiming.repeat.boundsPeriod.start': undefined}]}]);
+        });
         // test('should pass the default query', async () => {
         //     let query = quantityQueryBuilder('12||mm', 'example');
         //     expect(query).toEqual({'example.code': 'mm', 'example.value': 12});
