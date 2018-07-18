@@ -384,12 +384,13 @@ let dateQueryBuilder = function (date, type, path) {
           //below we have to check if the search gave more information than what is actually stored
           // return {$regex: new RegExp('^' + '(?:' + str + ')|(?:' + pArr[0] + ')|(?:' + pArr[1] + ')|(?:' + pArr[2] + ')', 'i')};
         }
+        let regPoss = {$regex: new RegExp('^' + '(?:' + pArr[0] + ')|(?:' + pArr[1] + ')|(?:' + pArr[2] + ')|(?:' + pArr[3] + ')|(?:' + pArr[4] + ')')};
         if (type === 'period'){ //doesn't work as well for when timing is involved with the upper bound (.end)
           str = str + 'Z';
           let pS = path + '.start';
           let pE = path + '.end';
-          toRet = [{$and: [{[pS]: {$lte: str}}, {[pE]: {$gte: str}}]}, {$and: [{[pS]: {$lte: str}}, {[pE]: undefined}]},
-        {$and: [{[pE]: {$gte: str}}, {[pS]: undefined}]}];
+          toRet = [{$and: [{[pS]: {$lte: str}}, {$or: [{[pE]: {$gte: str}}, {[pE]: regPoss}]}]}, {$and: [{[pS]: {$lte: str}}, {[pE]: undefined}]},
+        {$and: [{$or: [{[pE]: {$gte: str}}, {[pE]: regPoss}]}, {[pS]: undefined}]}];
           return toRet;
         }
         let tempFill = pArr.toString().replace(/,/g, ')|(?:') + ')';
@@ -398,8 +399,8 @@ let dateQueryBuilder = function (date, type, path) {
           let pBPS = path + '.repeat.boundsPeriod.start';
           let pBPE = path + '.repeat.boundsPeriod.end';
           toRet = [{[pDT]: {$regex: new RegExp('^' + '(?:' + str + ')|(?:' + match[0].replace('+', '\\+') + ')|(?:' + tempFill, 'i')}},
-        {$and: [{[pBPS]: {$lte: str}}, {[pBPE]: {$gte: str}}]}, {$and: [{[pBPS]: {$lte: str}}, {[pBPE]: undefined}]},
-      {$and: [{[pBPE]: {$gte: str}}, {[pBPS]: undefined}]}];
+        {$and: [{[pBPS]: {$lte: str}}, {$or: [{[pBPE]: {$gte: str}}, {[pBPE]: regPoss}]}]}, {$and: [{[pBPS]: {$lte: str}}, {[pBPE]: undefined}]},
+      {$and: [{$or: [{[pBPE]: {$gte: str}}, {[pBPE]: regPoss}]}, {[pBPS]: undefined}]}];
       return toRet;
         }
         return {$regex: new RegExp('^' + '(?:' + str + ')|(?:' + match[0].replace('+', '\\+') + ')|(?:' + tempFill, 'i')};
