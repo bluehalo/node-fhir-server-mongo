@@ -33,7 +33,7 @@ let main = async function () {
 
 	let server = FHIRServer.initialize(fhirServerConfig);
 
-    server.listen(3000, () => server.logger.verbose('Server is up and running!'));
+    server.listen(fhirServerConfig.server.port, () => server.logger.verbose('Server is up and running!'));
 
 	// if (serverErr) {
 	// 	console.error(serverErr.message);
