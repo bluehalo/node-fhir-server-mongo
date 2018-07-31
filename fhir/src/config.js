@@ -24,6 +24,8 @@ let whitelist = whitelist_env && whitelist_env.length === 1
 	? whitelist_env[0]
 	: whitelist_env;
 
+console.log(env);
+
 /**
  * @name fhirServerConfig
  * @summary @asymmetrik/node-fhir-server-core configurations.
