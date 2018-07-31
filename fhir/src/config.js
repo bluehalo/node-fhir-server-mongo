@@ -29,13 +29,9 @@ let whitelist = whitelist_env && whitelist_env.length === 1
  * @summary @asymmetrik/node-fhir-server-core configurations.
  */
 let fhirServerConfig = {
-	// auth: {
-	// 	resourceServer: env.RESOURCE_SERVER,
-	// 	protectedResourceClientId: env.AUTH_CLIENT_ID,
-	// 	protectedResourceClientSecret: env.AUTH_CLIENT_SECRET,
-	// 	introspectionUrl: `${env.AUTH_SERVER_URI}/introspect`
-    //
-	// },
+	auth: {
+		resourceServer: env.RESOURCE_SERVER,
+		},
 	server: {
 		// support various ENV that uses PORT vs SERVER_PORT
 		port: env.PORT || env.SERVER_PORT,

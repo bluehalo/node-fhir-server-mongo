@@ -22,6 +22,7 @@ services:
       - ./fhir/scripts:/srv/src/scripts
       - ./.eslintrc:/srv/src/.eslintrc
       - ./fhir/src:/srv/src/src
+      # - ./fhir/node_modules:/srv/src/src/node_modules
     command: yarn nodemon
 
   mongo:

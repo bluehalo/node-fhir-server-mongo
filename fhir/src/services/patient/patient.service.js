@@ -1,6 +1,16 @@
 const { COLLECTION, CLIENT_DB } = require('../../constants');
 const globals = require('../../globals');
+const FHIRServer = require('@asymmetrik/node-fhir-server-core');
 const { stringQueryBuilder, tokenQueryBuilder, referenceQueryBuilder, addressQueryBuilder, nameQueryBuilder, dateQueryBuilder } = require('../../utils/service.utils');
+
+
+/**
+ * @description Construct a resource with base/uscore path
+ */
+let getPatient = (base) => {
+	return require(FHIRServer.resolveFromVersion(base, 'Patient'));
+};
+
 
 /**
  * @name count
@@ -32,93 +42,95 @@ module.exports.count = (args, logger) => new Promise((resolve, reject) => {
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.search = (args, contexts, logger) => new Promise((resolve, reject) => {
+module.exports.search = (args, logger) => new Promise((resolve, reject) => {
 	logger.info('Patient >>> search');
 	// Parse the params
-	let { _id, active, address, addressCity, addressCountry, addressPostalCode, addressState, addressUse, animalBreed,
-        animalSpecies, birthDate, deathDate, deceased, email, family, gender, generalPractitioner, given, identifier,
-        language, link, name, organization, phone, /*phonetic,*/ telecom } = args;
+	let { base, _id, active, address, addressCity, addressCountry, addressPostalCode, addressState, addressUse, animalBreed,
+		animalSpecies, birthDate, deathDate, deceased, email, family, gender, generalPractitioner, given, identifier,
+		language, link, name, organization, phone, /*phonetic,*/ telecom } = args;
 	let query = {};
 	let ors = [];
 
-    // Handle all arguments that have or logic
-    if (address) {
-        let orsAddress = addressQueryBuilder(address);
-        for (let i = 0; i < orsAddress.length; i++) {
-            ors.push(orsAddress[i]);
-        }
-    }
-    if (name) {
-        let orsName = nameQueryBuilder(name);
-        for (let i = 0; i < orsName.length; i++) {
-            ors.push(orsName[i]);
-        }
-    }
-    if (ors.length !== 0) {
-        query.$and = ors;
-    }
+	console.log(args);
 
-    if (_id) {
-        query.id = _id;
-    }
+	// Handle all arguments that have or logic
+	if (address) {
+		let orsAddress = addressQueryBuilder(address);
+		for (let i = 0; i < orsAddress.length; i++) {
+			ors.push(orsAddress[i]);
+		}
+	}
+	if (name) {
+		let orsName = nameQueryBuilder(name);
+		for (let i = 0; i < orsName.length; i++) {
+			ors.push(orsName[i]);
+		}
+	}
+	if (ors.length !== 0) {
+		query.$and = ors;
+	}
 
-    if (active) {
-        query.active = (active === 'true');
-    }
+	if (_id) {
+		query.id = _id;
+	}
 
-    if (addressCity) {
-        query['address.city'] = stringQueryBuilder(addressCity);
-    }
+	if (active) {
+		query.active = (active === 'true');
+	}
 
-    if (addressCountry) {
-        query['address.country'] = stringQueryBuilder(addressCountry);
-    }
+	if (addressCity) {
+		query['address.city'] = stringQueryBuilder(addressCity);
+	}
 
-    if (addressPostalCode) {
-        query['address.postalCode'] = stringQueryBuilder(addressPostalCode);
-    }
+	if (addressCountry) {
+		query['address.country'] = stringQueryBuilder(addressCountry);
+	}
 
-    if (addressState) {
-        query['address.state'] = stringQueryBuilder(addressState);
-    }
+	if (addressPostalCode) {
+		query['address.postalCode'] = stringQueryBuilder(addressPostalCode);
+	}
 
-    if (addressUse) {
-        query['address.use'] = addressUse;
-    }
+	if (addressState) {
+		query['address.state'] = stringQueryBuilder(addressState);
+	}
 
-    if (animalBreed) {
-        let queryBuilder = tokenQueryBuilder(animalBreed, 'code', 'animal.breed.coding', '');
-        for (let i in queryBuilder) {
-            query[i] = queryBuilder[i];
-        }
-    }
+	if (addressUse) {
+		query['address.use'] = addressUse;
+	}
 
-    if (animalSpecies) {
-        let queryBuilder = tokenQueryBuilder(animalSpecies, 'code', 'animal.species.coding', '');
-        for (let i in queryBuilder) {
-            query[i] = queryBuilder[i];
-        }
-    }
+	if (animalBreed) {
+		let queryBuilder = tokenQueryBuilder(animalBreed, 'code', 'animal.breed.coding', '');
+		for (let i in queryBuilder) {
+			query[i] = queryBuilder[i];
+		}
+	}
 
-    if (birthDate) {
-        query.birthDate = dateQueryBuilder(birthDate, 'date', '');
-    }
+	if (animalSpecies) {
+		let queryBuilder = tokenQueryBuilder(animalSpecies, 'code', 'animal.species.coding', '');
+		for (let i in queryBuilder) {
+			query[i] = queryBuilder[i];
+		}
+	}
 
-    if (deathDate) {
-        query.deceasedDateTime = dateQueryBuilder(deathDate, 'dateTime', '');
-    }
+	if (birthDate) {
+		query.birthDate = dateQueryBuilder(birthDate, 'date', '');
+	}
 
-    if (deceased) {
-        query.deceasedBoolean = (deceased === 'true');
-    }
+	if (deathDate) {
+		query.deceasedDateTime = dateQueryBuilder(deathDate, 'dateTime', '');
+	}
 
-    // Forces system = 'email'
-    if (email) {
-        let queryBuilder = tokenQueryBuilder(email, 'value', 'telecom', 'email');
-        for (let i in queryBuilder) {
-            query[i] = queryBuilder[i];
-        }
-    }
+	if (deceased) {
+		query.deceasedBoolean = (deceased === 'true');
+	}
+
+	// Forces system = 'email'
+	if (email) {
+		let queryBuilder = tokenQueryBuilder(email, 'value', 'telecom', 'email');
+		for (let i in queryBuilder) {
+			query[i] = queryBuilder[i];
+		}
+	}
 
 	if (family) {
 		query['name.family'] = stringQueryBuilder(family);
@@ -128,77 +140,83 @@ module.exports.search = (args, contexts, logger) => new Promise((resolve, reject
 		query.gender = gender;
 	}
 
-    if (generalPractitioner) {
-        let queryBuilder = referenceQueryBuilder(generalPractitioner, 'generalPractitioner.reference');
-        for (let i in queryBuilder) {
-            query[i] = queryBuilder[i];
-        }
-    }
+	if (generalPractitioner) {
+		let queryBuilder = referenceQueryBuilder(generalPractitioner, 'generalPractitioner.reference');
+		for (let i in queryBuilder) {
+			query[i] = queryBuilder[i];
+		}
+	}
 
-    if (given) {
-        query['name.given'] = stringQueryBuilder(given);
-    }
+	if (given) {
+		query['name.given'] = stringQueryBuilder(given);
+	}
 
-    if (identifier) {
-        let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier', '');
-        for (let i in queryBuilder) {
-            query[i] = queryBuilder[i];
-        }
-    }
+	if (identifier) {
+		let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier', '');
+		for (let i in queryBuilder) {
+			query[i] = queryBuilder[i];
+		}
+	}
 
-    if (language) {
-        let queryBuilder = tokenQueryBuilder(language, 'code', 'communication.language.coding', '');
-        for (let i in queryBuilder) {
-            query[i] = queryBuilder[i];
-        }
-    }
+	if (language) {
+		let queryBuilder = tokenQueryBuilder(language, 'code', 'communication.language.coding', '');
+		for (let i in queryBuilder) {
+			query[i] = queryBuilder[i];
+		}
+	}
 
-    if (link) {
-        let queryBuilder = referenceQueryBuilder(link, 'link.other.reference');
-        for (let i in queryBuilder) {
-            query[i] = queryBuilder[i];
-        }
-    }
+	if (link) {
+		let queryBuilder = referenceQueryBuilder(link, 'link.other.reference');
+		for (let i in queryBuilder) {
+			query[i] = queryBuilder[i];
+		}
+	}
 
-    if (organization) {
-        let queryBuilder = referenceQueryBuilder(organization, 'managingOrganization.reference');
-        for (let i in queryBuilder) {
-            query[i] = queryBuilder[i];
-        }
-    }
+	if (organization) {
+		let queryBuilder = referenceQueryBuilder(organization, 'managingOrganization.reference');
+		for (let i in queryBuilder) {
+			query[i] = queryBuilder[i];
+		}
+	}
 
-    // Forces system = 'phone'
-    if (phone) {
-        let queryBuilder = tokenQueryBuilder(phone, 'value', 'telecom', 'phone');
-        for (let i in queryBuilder) {
-            query[i] = queryBuilder[i];
-        }
-    }
+	// Forces system = 'phone'
+	if (phone) {
+		let queryBuilder = tokenQueryBuilder(phone, 'value', 'telecom', 'phone');
+		for (let i in queryBuilder) {
+			query[i] = queryBuilder[i];
+		}
+	}
 
-    // if (phonetic) {
-    //
-    // }
+	// if (phonetic) {
+	//
+	// }
 
-    if (telecom) {
-        let queryBuilder = tokenQueryBuilder(telecom, 'value', 'telecom', '');
-        for (let i in queryBuilder) {
-            query[i] = queryBuilder[i];
-        }
-    }
-
-    // console.log(JSON.stringify(query));
+	if (telecom) {
+		let queryBuilder = tokenQueryBuilder(telecom, 'value', 'telecom', '');
+		for (let i in queryBuilder) {
+			query[i] = queryBuilder[i];
+		}
+	}
 
 	// Grab an instance of our DB and collection
 	let db = globals.get(CLIENT_DB);
 	let collection = db.collection(COLLECTION.PATIENT);
+	let Patient = getPatient(base);
+
 	// Query our collection for this observation
-	collection.find(query, (err, patient) => {
+	collection.find(query, (err, data) => {
 		if (err) {
 			logger.error('Error with Patient.search: ', err);
 			return reject(err);
 		}
+
 		// Patient is a patient cursor, pull documents out before resolving
-		patient.toArray().then(resolve, reject);
+		data.toArray().then((patients) => {
+			patients.forEach(function(element, i, returnArray) {
+				returnArray[i] = new Patient(element);
+			});
+			resolve(patients);
+		});
 	});
 });
 
@@ -210,10 +228,13 @@ module.exports.search = (args, contexts, logger) => new Promise((resolve, reject
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.searchById = (args, contexts, logger) => new Promise((resolve, reject) => {
+module.exports.searchById = (args, logger) => new Promise((resolve, reject) => {
 	logger.info('Patient >>> searchById');
 	// Parse the required params, these are validated by sanitizeMiddleware in core
-	let { id } = args;
+	let { id, base } = args;
+
+	let Patient = getPatient(base);
+
 	// Grab an instance of our DB and collection
 	let db = globals.get(CLIENT_DB);
 	let collection = db.collection(COLLECTION.PATIENT);
@@ -223,7 +244,13 @@ module.exports.searchById = (args, contexts, logger) => new Promise((resolve, re
 			logger.error('Error with Patient.searchById: ', err);
 			return reject(err);
 		}
-		resolve(patient);
+
+		if (patient) {
+			resolve(new Patient(patient));
+		}
+
+		resolve();
+
 	});
 });
 

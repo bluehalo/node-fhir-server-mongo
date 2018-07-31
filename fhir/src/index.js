@@ -31,7 +31,8 @@ let main = async function () {
 	// Start our FHIR server
 	// let [ serverErr, server ] = await asyncHandler(fhirServerCore(fhirServerConfig));
 
-    let server = FHIRServer.initialize(fhirServerConfig);
+	let server = FHIRServer.initialize(fhirServerConfig);
+
     server.listen(3000, () => server.logger.verbose('Server is up and running!'));
 
 	// if (serverErr) {

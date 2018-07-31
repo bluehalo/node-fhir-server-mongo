@@ -1,6 +1,6 @@
 {
   "name": "@asymmetrik/node-fhir-server-mongo",
-  "version": "1.0.5-rc2",
+  "version": "1.0.5-rc4",
   "description": "Mongo Server implementing @asymmetrik/node-fhir-server-core",
   "main": "src/index.js",
   "repository": "https://github.com/Asymmetrik/node-fhir-server-mongo.git",
@@ -34,7 +34,7 @@
     ]
   },
   "dependencies": {
-    "@asymmetrik/node-fhir-server-core": "git+https://github.com/Asymmetrik/node-fhir-server-core.git#feature/validateEncounter",
+    "@asymmetrik/node-fhir-server-core": "git+https://github.com/Asymmetrik/node-fhir-server-core.git#feature/class-resolver",
     "jsonwebtoken": "^8.1.0",
     "moment-timezone": "^0.5.14",
     "mongodb": "^3.0.1",

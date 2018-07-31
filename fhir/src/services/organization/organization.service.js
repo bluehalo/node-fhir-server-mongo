@@ -1,6 +1,15 @@
 const { COLLECTION, CLIENT_DB } = require('../../constants');
 const globals = require('../../globals');
+const FHIRServer = require('@asymmetrik/node-fhir-server-core');
+
 const { stringQueryBuilder, tokenQueryBuilder, referenceQueryBuilder, addressQueryBuilder } = require('../../utils/service.utils');
+
+/**
+ * @description Construct a resource with base/uscore path
+ */
+let getOrganization = (base) => {
+	return require(FHIRServer.resolveFromVersion(base, 'Organization'));
+};
 
 /**
  * @name count
@@ -32,10 +41,10 @@ module.exports.count = (args, logger) => new Promise((resolve, reject) => {
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.search = (args, contexts, logger) => new Promise((resolve, reject) => {
+module.exports.search = (args, logger) => new Promise((resolve, reject) => {
     logger.info('Organization >>> search');
     // Parse the params
-    let { _id, active, address, addressCity, addressCountry, addressPostalCode, addressState, addressUse, endpoint, identifier,
+    let { base, _id, active, address, addressCity, addressCountry, addressPostalCode, addressState, addressUse, endpoint, identifier,
         name, partof, phonetic, type } = args;
     // console.log(JSON.stringify(args));
 
@@ -121,15 +130,23 @@ module.exports.search = (args, contexts, logger) => new Promise((resolve, reject
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
     let collection = db.collection(COLLECTION.ORGANIZATION);
-    // Query our collection for this organization
-    collection.find(query, (err, organizations) => {
-        if (err) {
-            logger.error('Error with Organization.search: ', err);
-            return reject(err);
-        }
-        // Organizations is a cursor, grab the documents from that
-        organizations.toArray().then(resolve, reject);
-    });
+
+    let Organization = getOrganization(base);
+
+	// Query our collection for this observation
+	collection.find(query, (err, data) => {
+		if (err) {
+			logger.error('Error with Patient.search: ', err);
+			return reject(err);
+		}
+		// Patient is a patient cursor, pull documents out before resolving
+		data.toArray().then((organizations) => {
+			organizations.forEach(function(element, i, returnArray) {
+				returnArray[i] = new Organization(element);
+            });
+			resolve(organizations);
+		});
+	});
 });
 
 /**
@@ -140,10 +157,12 @@ module.exports.search = (args, contexts, logger) => new Promise((resolve, reject
  * @param {Winston} logger - Winston logger
  * @return {Promise}
  */
-module.exports.searchById = (args, contexts, logger) => new Promise((resolve, reject) => {
+module.exports.searchById = (args, logger) => new Promise((resolve, reject) => {
     logger.info('Organization >>> searchById');
     // Parse the required params, these are validated by sanitizeMiddleware in core
-    let { id } = args;
+    let { id, base } = args;
+
+	let Observation = getOrganization(base);
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
     let collection = db.collection(COLLECTION.ORGANIZATION);
@@ -153,7 +172,12 @@ module.exports.searchById = (args, contexts, logger) => new Promise((resolve, re
             logger.error('Error with Organization.searchById: ', err);
             return reject(err);
         }
-        resolve(organization);
+
+        if (organization) {
+			resolve(new Observation(organization));
+		}
+
+		resolve();
     });
 });
 
