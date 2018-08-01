@@ -305,7 +305,7 @@ module.exports.update = (args, logger) => new Promise((resolve, reject) => {
 		}
 		// If we support versioning, which we do not at the moment,
 		// we need to return a version
-		return resolve({ id: res.value && res.value.id });
+		return resolve({ id: res.value && res.value.id, created: res.lastErrorObject && !res.lastErrorObject.updatedExisting});
 	});
 });
 
