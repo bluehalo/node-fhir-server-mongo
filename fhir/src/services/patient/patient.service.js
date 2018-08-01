@@ -311,10 +311,8 @@ module.exports.update = (args, logger) => new Promise((resolve, reject) => {
 		doc.meta.versionId = doc.meta.versionId + 1;
 		doc.meta.lastUpdated = moment.utc().format('YYYY-MM-DDTHH:mm:ssZ');
 	} else {
-		let meta = getMeta(base);
-		meta.versionId = 1;
-		meta.lastUpdated = moment.utc().format('YYYY-MM-DDTHH:mm:ssZ');
-		doc.meta = meta;
+		let Meta = getMeta(base);
+		doc.meta = new Meta({versionId: 1, lastUpdated: moment.utc().format('YYYY-MM-DDTHH:mm:ssZ')});
 	}
 
 	// Insert/update our patient record
