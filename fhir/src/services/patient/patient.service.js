@@ -1,5 +1,6 @@
 const { COLLECTION, CLIENT_DB } = require('../../constants');
 const globals = require('../../globals');
+const moment = require('moment-timezone');
 const FHIRServer = require('@asymmetrik/node-fhir-server-core');
 const { stringQueryBuilder, tokenQueryBuilder, referenceQueryBuilder, addressQueryBuilder, nameQueryBuilder, dateQueryBuilder } = require('../../utils/service.utils');
 
@@ -11,6 +12,12 @@ let getPatient = (base) => {
 	return require(FHIRServer.resolveFromVersion(base, 'Patient'));
 };
 
+/**
+ * @description Construct a resource with base/uscore path
+ */
+let getMeta = (base) => {
+	return require(FHIRServer.resolveFromVersion(base, 'Meta'));
+};
 
 /**
  * @name count
@@ -291,21 +298,35 @@ module.exports.create = (args, logger) => new Promise((resolve, reject) => {
  */
 module.exports.update = (args, logger) => new Promise((resolve, reject) => {
 	logger.info('Patient >>> update');
-	let { id, resource } = args;
+	let { base = 'stu3', id, resource } = args;
+
 	// Grab an instance of our DB and collection
 	let db = globals.get(CLIENT_DB);
 	let collection = db.collection(COLLECTION.PATIENT);
 	// Set the id of the resource
 	let doc = Object.assign(resource.toJSON(), { _id: id });
+
+	if (doc.meta) {
+		// should use auto increment
+		doc.meta.versionId = doc.meta.versionId + 1;
+		doc.meta.lastUpdated = moment.utc().format('YYYY-MM-DDTHH:mm:ssZ');
+	} else {
+		let meta = getMeta(base);
+		meta.versionId = 1;
+		meta.lastUpdated = moment.utc().format('YYYY-MM-DDTHH:mm:ssZ');
+		doc.meta = meta;
+	}
+
 	// Insert/update our patient record
 	collection.findOneAndUpdate({ id: id }, { $set: doc}, { upsert: true }, (err, res) => {
 		if (err) {
 			logger.error('Error with Patient.update: ', err);
 			return reject(err);
 		}
+
 		// If we support versioning, which we do not at the moment,
 		// we need to return a version
-		return resolve({ id: res.value && res.value.id, created: res.lastErrorObject && !res.lastErrorObject.updatedExisting});
+		return resolve({ id: res.value && res.value.id, created: res.lastErrorObject && !res.lastErrorObject.updatedExisting, resource_version: doc.meta.versionId });
 	});
 });
 
