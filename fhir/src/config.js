@@ -60,72 +60,73 @@ let fhirServerConfig = {
 	profiles: {
 		patient: {
 			service: path.resolve('./src/services/patient/patient.service.js'),
-			versions: [ VERSIONS.STU3 ]
+			versions: [ VERSIONS['3_0_1'] ]
 		},
-		observation: {
-			service: path.resolve('./src/services/observation/observation.service.js'),
-			versions: [ VERSIONS.STU3 ]
+		organization: {
+			service: path.resolve('./src/services/organization/organization.service.js'),
+			versions: [ VERSIONS['3_0_1'] ]
 		},
-        allergyintolerance: {
-            service: path.resolve('./src/services/allergyintolerance/allergyintolerance.service.js'),
-            versions: [ VERSIONS.STU3 ]
-		},
-        immunization: {
-            service: path.resolve('./src/services/immunization/immunization.service.js'),
-            versions: [ VERSIONS.STU3 ]
-        },
-        medicationstatement: {
-            service: path.resolve('./src/services/medicationstatement/medicationstatement.service.js'),
-            versions: [ VERSIONS.STU3 ]
-        },
-        careplan: {
-            service: path.resolve('./src/services/careplan/careplan.service.js'),
-            versions: [ VERSIONS.STU3 ]
-        },
-        condition: {
-            service: path.resolve('./src/services/condition/condition.service.js'),
-            versions: [ VERSIONS.STU3 ]
-        },
-        careteam: {
-            service: path.resolve('./src/services/careteam/careteam.service.js'),
-            versions: [ VERSIONS.STU3 ]
-        },
-        device: {
-            service: path.resolve('./src/services/device/device.service.js'),
-            versions: [ VERSIONS.STU3 ]
-        },
-		goal: {
-				service: path.resolve('./src/services/goal/goal.service.js'),
-				versions: [ VERSIONS.STU3 ]
-		},
-		location: {
-				service: path.resolve('./src/services/location/location.service.js'),
-				versions: [ VERSIONS.STU3 ]
-		},
-		practitioner: {
-				service: path.resolve('./src/services/practitioner/practitioner.service.js'),
-				versions: [ VERSIONS.STU3 ]
-		},
-		medication: {
-				service: path.resolve('./src/services/medication/medication.service.js'),
-				versions: [ VERSIONS.STU3 ]
-		},
-		procedure: {
-				service: path.resolve('./src/services/procedure/procedure.service.js'),
-				versions: [ VERSIONS.STU3 ]
-		},
-        diagnosticreport: {
-            service: path.resolve('./src/services/diagnosticreport/diagnosticreport.service.js'),
-            versions: [ VERSIONS.STU3 ]
-        },
-        medicationrequest: {
-            service: path.resolve('./src/services/medicationrequest/medicationrequest.service.js'),
-            versions: [ VERSIONS.STU3 ]
-        },
-        organization: {
-            service: path.resolve('./src/services/organization/organization.service.js'),
-            versions: [ VERSIONS.STU3 ]
-        }
+		// observation: {
+		// 	service: path.resolve('./src/services/observation/observation.service.js'),
+		// 	versions: [ VERSIONS.STU3 ]
+		// },
+		// allergyintolerance: {
+		//     service: path.resolve('./src/services/allergyintolerance/allergyintolerance.service.js'),
+		//     versions: [ VERSIONS.STU3 ]
+		// },
+		// immunization: {
+		//     service: path.resolve('./src/services/immunization/immunization.service.js'),
+		//     versions: [ VERSIONS.STU3 ]
+		// },
+		// medicationstatement: {
+		//     service: path.resolve('./src/services/medicationstatement/medicationstatement.service.js'),
+		//     versions: [ VERSIONS.STU3 ]
+		// },
+		// careplan: {
+		//     service: path.resolve('./src/services/careplan/careplan.service.js'),
+		//     versions: [ VERSIONS.STU3 ]
+		// },
+		// condition: {
+		//     service: path.resolve('./src/services/condition/condition.service.js'),
+		//     versions: [ VERSIONS.STU3 ]
+		// },
+		// careteam: {
+		//     service: path.resolve('./src/services/careteam/careteam.service.js'),
+		//     versions: [ VERSIONS.STU3 ]
+		// },
+		// device: {
+		//     service: path.resolve('./src/services/device/device.service.js'),
+		//     versions: [ VERSIONS.STU3 ]
+		// },
+		// goal: {
+		// 		service: path.resolve('./src/services/goal/goal.service.js'),
+		// 		versions: [ VERSIONS.STU3 ]
+		// },
+		// location: {
+		// 		service: path.resolve('./src/services/location/location.service.js'),
+		// 		versions: [ VERSIONS.STU3 ]
+		// },
+		// practitioner: {
+		// 		service: path.resolve('./src/services/practitioner/practitioner.service.js'),
+		// 		versions: [ VERSIONS.STU3 ]
+		// },
+		// medication: {
+		// 		service: path.resolve('./src/services/medication/medication.service.js'),
+		// 		versions: [ VERSIONS.STU3 ]
+		// },
+		// procedure: {
+		// 		service: path.resolve('./src/services/procedure/procedure.service.js'),
+		// 		versions: [ VERSIONS.STU3 ]
+		// },
+		// diagnosticreport: {
+		//     service: path.resolve('./src/services/diagnosticreport/diagnosticreport.service.js'),
+		//     versions: [ VERSIONS.STU3 ]
+		// },
+		// medicationrequest: {
+		//     service: path.resolve('./src/services/medicationrequest/medicationrequest.service.js'),
+		//     versions: [ VERSIONS.STU3 ]
+		// },
+
 	}
 };
 

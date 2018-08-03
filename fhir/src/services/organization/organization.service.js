@@ -222,8 +222,12 @@ module.exports.update = (args, logger) => new Promise((resolve, reject) => {
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
     let collection = db.collection(COLLECTION.ORGANIZATION);
+
+    let cleaned = JSON.parse(JSON.stringify(resource));
+
     // Set the id of the resource
-    let doc = Object.assign(resource.toJSON(), { _id: id });
+    let doc = Object.assign(cleaned, { _id: id });
+
     // Insert/update our organization record
     collection.findOneAndUpdate({ id: id }, { $set: doc}, { upsert: true }, (err, res) => {
         if (err) {

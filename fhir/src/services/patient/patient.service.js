@@ -28,6 +28,11 @@ let getMeta = (base) => {
  */
 module.exports.count = (args, logger) => new Promise((resolve, reject) => {
 	logger.info('Patient >>> count');
+
+	// using version, determine which version
+	// let { base } = args;
+
+
 	// Grab an instance of our DB and collection
 	let db = globals.get(CLIENT_DB);
 	let collection = db.collection(COLLECTION.PATIENT);
@@ -57,8 +62,6 @@ module.exports.search = (args, logger) => new Promise((resolve, reject) => {
 		language, link, name, organization, phone, /*phonetic,*/ telecom } = args;
 	let query = {};
 	let ors = [];
-
-	console.log(args);
 
 	// Handle all arguments that have or logic
 	if (address) {
@@ -304,16 +307,18 @@ module.exports.update = (args, logger) => new Promise((resolve, reject) => {
 	let db = globals.get(CLIENT_DB);
 	let collection = db.collection(COLLECTION.PATIENT);
 	// Set the id of the resource
-	let doc = Object.assign(resource.toJSON(), { _id: id });
-
-	if (doc.meta) {
+	if (resource.meta) {
 		// should use auto increment
-		doc.meta.versionId = doc.meta.versionId + 1;
-		doc.meta.lastUpdated = moment.utc().format('YYYY-MM-DDTHH:mm:ssZ');
+		resource.meta.versionId = resource.meta.versionId + 1;
+		resource.meta.lastUpdated = moment.utc().format('YYYY-MM-DDTHH:mm:ssZ');
 	} else {
 		let Meta = getMeta(base);
-		doc.meta = new Meta({versionId: 1, lastUpdated: moment.utc().format('YYYY-MM-DDTHH:mm:ssZ')});
+		resource.meta = new Meta({versionId: 1, lastUpdated: moment.utc().format('YYYY-MM-DDTHH:mm:ssZ')});
 	}
+
+	let cleaned = JSON.parse(JSON.stringify(resource));
+
+	let doc = Object.assign(cleaned, { _id: id });
 
 	// Insert/update our patient record
 	collection.findOneAndUpdate({ id: id }, { $set: doc}, { upsert: true }, (err, res) => {
