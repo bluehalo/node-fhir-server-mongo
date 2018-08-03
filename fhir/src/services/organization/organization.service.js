@@ -1,6 +1,8 @@
 const { COLLECTION, CLIENT_DB } = require('../../constants');
 const globals = require('../../globals');
 const FHIRServer = require('@asymmetrik/node-fhir-server-core');
+const moment = require('moment-timezone');
+
 
 const { stringQueryBuilder, tokenQueryBuilder, referenceQueryBuilder, addressQueryBuilder } = require('../../utils/service.utils');
 
@@ -9,6 +11,13 @@ const { stringQueryBuilder, tokenQueryBuilder, referenceQueryBuilder, addressQue
  */
 let getOrganization = (base) => {
 	return require(FHIRServer.resolveFromVersion(base, 'Organization'));
+};
+
+/**
+ * @description Construct a resource with base/uscore path
+ */
+let getMeta = (base) => {
+	return require(FHIRServer.resolveFromVersion(base, 'Meta'));
 };
 
 /**
@@ -218,12 +227,22 @@ module.exports.create = (args, logger) => new Promise((resolve, reject) => {
  */
 module.exports.update = (args, logger) => new Promise((resolve, reject) => {
     logger.info('Organization >>> update');
-    let { id, resource } = args;
+    let { id, base = '3_0_1', resource } = args;
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
     let collection = db.collection(COLLECTION.ORGANIZATION);
 
-    let cleaned = JSON.parse(JSON.stringify(resource));
+    // Set the id of the resource
+	if (resource.meta) {
+		// should use auto increment
+		resource.meta.versionId = resource.meta.versionId + 1;
+		resource.meta.lastUpdated = moment.utc().format('YYYY-MM-DDTHH:mm:ssZ');
+	} else {
+		let Meta = getMeta(base);
+		resource.meta = new Meta({versionId: 1, lastUpdated: moment.utc().format('YYYY-MM-DDTHH:mm:ssZ')});
+	}
+
+	let cleaned = JSON.parse(JSON.stringify(resource));
 
     // Set the id of the resource
     let doc = Object.assign(cleaned, { _id: id });
