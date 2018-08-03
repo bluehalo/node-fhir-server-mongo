@@ -235,12 +235,13 @@ module.exports.update = (args, logger) => new Promise((resolve, reject) => {
     // Set the id of the resource
 	if (resource.meta) {
 		// should use auto increment
-		resource.meta.versionId = resource.meta.versionId + 1;
+		resource.meta.versionId = `${parseInt(resource.meta.versionId) + 1}`;
 		resource.meta.lastUpdated = moment.utc().format('YYYY-MM-DDTHH:mm:ssZ');
 	} else {
 		let Meta = getMeta(base);
-		resource.meta = new Meta({versionId: 1, lastUpdated: moment.utc().format('YYYY-MM-DDTHH:mm:ssZ')});
+		resource.meta = new Meta({versionId: '1', lastUpdated: moment.utc().format('YYYY-MM-DDTHH:mm:ssZ')});
 	}
+
 
 	let cleaned = JSON.parse(JSON.stringify(resource));
 
