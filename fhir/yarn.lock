@@ -4,7 +4,7 @@
 
 "@asymmetrik/node-fhir-server-core@git+https://github.com/Asymmetrik/node-fhir-server-core.git#feature/class-resolver":
   version "1.0.0-rc4"
-  resolved "git+https://github.com/Asymmetrik/node-fhir-server-core.git#339e7fc38253a39d64f1a8313950d7ec23e5bd7d"
+  resolved "git+https://github.com/Asymmetrik/node-fhir-server-core.git#9ffb002d0a4493eec4c9a25e0f15039c94bc0644"
   dependencies:
     body-parser "^1.18.2"
     compression "^1.7.1"
