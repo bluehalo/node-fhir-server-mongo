@@ -303,44 +303,57 @@ module.exports.update = (args, logger) => new Promise((resolve, reject) => {
 	logger.info('Patient >>> update');
 	let { base = '3_0_1', id, resource } = args;
 
-	// Set the id of the resource
-	if (resource.meta) {
-		// should use auto increment
-		resource.meta.versionId = `${parseInt(resource.meta.versionId) + 1}`;
-		resource.meta.lastUpdated = moment.utc().format('YYYY-MM-DDTHH:mm:ssZ');
-	} else {
-		let Meta = getMeta(base);
-		resource.meta = new Meta({versionId: '1', lastUpdated: moment.utc().format('YYYY-MM-DDTHH:mm:ssZ')});
-	}
-
-	let cleaned = JSON.parse(JSON.stringify(resource));
-	let doc = Object.assign(cleaned, { _id: id });
 
 	// Grab an instance of our DB and collection
 	let db = globals.get(CLIENT_DB);
-	let patientCollection = db.collection(COLLECTION.PATIENT);
+	let collection = db.collection(COLLECTION.PATIENT);
 
-	// Insert/update our patient record
-	patientCollection.findOneAndUpdate({ id: id }, { $set: doc }, { upsert: true }, (err, res) => {
+	// get current record
+	// Query our collection for this observation
+	collection.findOne({ id: id.toString() }, (err, data) => {
 		if (err) {
-			logger.error('Error with Patient.update: ', err);
+			logger.error('Error with Patient.searchById: ', err);
 			return reject(err);
 		}
 
-		// save to history
-		let historyCollection = db.collection(COLLECTION.PATIENT + 'History');
+		let Patient = getPatient(base);
 
-		let historyPatient = Object.assign(cleaned, { _id: id + cleaned.meta.versionId });
-		// Insert our patient record to history but don't assign _id
-		return historyCollection.insert(historyPatient, (err2) => {
+		if (data && data.meta) {
+			let patient = new Patient(data);
+			let meta = patient.meta;
+			meta.versionId = `${parseInt(patient.meta.versionId) + 1}`;
+			resource.meta = meta;
+		} else {
+			let Meta = getMeta(base);
+			resource.meta = new Meta({versionId: '1', lastUpdated: moment.utc().format('YYYY-MM-DDTHH:mm:ssZ')});
+		}
+
+		let cleaned = JSON.parse(JSON.stringify(resource));
+		let doc = Object.assign(cleaned, { _id: id });
+
+		// Insert/update our patient record
+		collection.findOneAndUpdate({ id: id }, { $set: doc }, { upsert: true }, (err2, res) => {
 			if (err2) {
-				logger.error('Error with PatientHistory.create: ', err2);
+				logger.error('Error with Patient.update: ', err2);
 				return reject(err2);
 			}
 
-			return resolve({ id: res.value && res.value.id, created: res.lastErrorObject && !res.lastErrorObject.updatedExisting, resource_version: doc.meta.versionId });
-		});
+			// save to history
+			let historyCollection = db.collection(COLLECTION.PATIENT + 'History');
 
+			let historyPatient = Object.assign(cleaned, { _id: id + cleaned.meta.versionId });
+
+			// Insert our patient record to history but don't assign _id
+			return historyCollection.insert(historyPatient, (err3) => {
+				if (err3) {
+					logger.error('Error with PatientHistory.create: ', err3);
+					return reject(err3);
+				}
+
+				return resolve({ id: res.value && res.value.id, created: res.lastErrorObject && !res.lastErrorObject.updatedExisting, resource_version: doc.meta.versionId });
+			});
+
+		});
 	});
 });
 
