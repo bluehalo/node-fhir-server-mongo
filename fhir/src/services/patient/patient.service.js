@@ -301,7 +301,7 @@ module.exports.create = (args, logger) => new Promise((resolve, reject) => {
  */
 module.exports.update = (args, logger) => new Promise((resolve, reject) => {
 	logger.info('Patient >>> update');
-	let { base = 'stu3', id, resource } = args;
+	let { base = '3_0_1', id, resource } = args;
 
 	// Set the id of the resource
 	if (resource.meta) {
@@ -330,8 +330,9 @@ module.exports.update = (args, logger) => new Promise((resolve, reject) => {
 		// save to history
 		let historyCollection = db.collection(COLLECTION.PATIENT + 'History');
 
+		let historyPatient = Object.assign(cleaned, { _id: id + cleaned.meta.versionId });
 		// Insert our patient record to history but don't assign _id
-		return historyCollection.insert(cleaned, (err2) => {
+		return historyCollection.insert(historyPatient, (err2) => {
 			if (err2) {
 				logger.error('Error with PatientHistory.create: ', err2);
 				return reject(err2);
@@ -369,7 +370,25 @@ module.exports.remove = (args, logger) => new Promise((resolve, reject) => {
 				message: err.message
 			});
 		}
-		return resolve();
+
+		// delete history as well.  You can chose to save history.  Up to your needs
+		let historyCollection = db.collection(COLLECTION.PATIENT + 'History');
+		return historyCollection.remove({ id: id }, (err2) => {
+			if (err2) {
+				logger.error('Error with Patient.remove');
+				return reject({
+					// Must be 405 (Method Not Allowed) or 409 (Conflict)
+					// 405 if you do not want to allow the delete
+					// 409 if you can't delete because of referential
+					// integrity or some other reason
+					code: 409,
+					message: err2.message
+				});
+			}
+
+			return resolve();
+		});
+
 	});
 });
 
