@@ -399,7 +399,7 @@ module.exports.remove = (args, logger) => new Promise((resolve, reject) => {
 				});
 			}
 
-			return resolve();
+			return resolve({ deleted: _.result.ok });
 		});
 
 	});
