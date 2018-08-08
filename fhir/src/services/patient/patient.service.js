@@ -405,7 +405,7 @@ module.exports.remove = (args, logger) => new Promise((resolve, reject) => {
 	});
 });
 
-module.exports.searchByVersionIdDisabled = (args, context, logger) => new Promise((resolve, reject) => {
+module.exports.searchByVersionId = (args, context, logger) => new Promise((resolve, reject) => {
 
 	logger.info('Patient >>> searchByVersionId');
 
