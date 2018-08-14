@@ -1,0 +1,91 @@
+{
+  "resourceType": "Practitioner",
+  "id": "0",
+  "meta": {
+    "profile": [
+      "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: practitioner-1</p><p><b>meta</b>: </p><p><b>identifier</b>: 9941339108, 25456</p><p><b>name</b>: Ronald Bone </p><p><b>address</b>: 1003 Healthcare Drive Amherst MA 01002 (HOME)</p></div>"
+  },
+  "identifier": [
+    {
+      "system": "http://hl7.org.fhir/sid/us-npi",
+      "value": "9941339108"
+    },
+    {
+      "system": "http://www.acme.org/practitioners",
+      "value": "25456"
+    }
+  ],
+  "name": [
+    {
+      "family": "Bone",
+      "given": [
+        "Ronald"
+      ],
+      "prefix": [
+        "Dr"
+      ],
+      "suffix": [
+        "MD"
+      ]
+    }
+  ],
+  "address": [
+    {
+      "use": "home",
+      "line": [
+        "1003 Healthcare Drive"
+      ],
+      "city": "Amherst",
+      "state": "MA",
+      "postalCode": "01002"
+    },
+    {
+      "use": "work",
+      "line": [
+        "Walvisbaai 3",
+        "C4 - Automatisering"
+      ],
+      "city": "Den helder",
+      "postalCode": "2333ZA",
+      "state": "NY",
+      "country": "NLD"
+    }
+  ],
+
+  "active": true,
+  "communication": [
+    {
+      "coding": [
+        {
+          "system": "urn:oid:2.16.840.1.113883.6.121",
+          "code": "nl",
+          "display": "Netherlands"
+        }
+      ],
+      "text": "Language"
+    }
+  ],
+  "telecom": [
+    {
+      "system": "phone",
+      "value": "0205562431",
+      "use": "work"
+    },
+    {
+      "system": "email",
+      "value": "m.versteegh@bmc.nl",
+      "use": "work"
+    },
+    {
+      "system": "fax",
+      "value": "0205662948",
+      "use": "work"
+    }
+  ],
+  "gender": "male"
+}
