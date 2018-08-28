@@ -5,30 +5,33 @@ services:
     depends_on:
       - mongo
     build:
-      context: fhir
+      context: .
       dockerfile: Dockerfile
-    env_file:
-      - .local-secrets/auth.secrets
     environment:
-      MONGO_HOSTNAME: mongo
       SERVER_PORT: 3000
-      RESOURCE_SERVER: http://myserver.com
-      AUTH_SERVER_URI: https://afternoon-springs-39948.herokuapp.com/
-      # SSL_KEY: ./src/key.pem
-      # SSL_CERT: ./src/cert.pem
+      MONGO_HOSTNAME: mongo
+      RESOURCE_SERVER: http://localhost:3000/
+      AUTH_SERVER_URI: http://myauthzserver.com
+      # DO NOT check in actual values for client id and secret
+      # This is just for ease of development
+      # Prod keys should be stored in secrets file or env
+      CLIENT_ID: client
+      CLIENT_SECRET: secret
+      INTROSPECTION_URL: https://myauthzserver.com/introspect
     ports:
       - "3000:3000"
     volumes:
-      - ./fhir/scripts:/srv/src/scripts
-      - ./.eslintrc:/srv/src/.eslintrc
-      - ./fhir/src:/srv/src/src
+      - ./src:/srv/src/src
+      #- ./node_modules:/srv/src/src/node_modules
     command: yarn nodemon
 
+  # mongo
   mongo:
     image: mongo:3.6.1
     ports:
       - "27017"
     volumes:
       - mongo_data:/data/db
+
 volumes:
   mongo_data:

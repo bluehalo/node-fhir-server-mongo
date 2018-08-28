@@ -1,21 +1,49 @@
 {
   "name": "@asymmetrik/node-fhir-server-mongo",
-  "version": "1.0.0-rc1",
-  "description": "Mongo Server implementing @asymmetrik/node-fhir-server-core",
+  "version": "1.0.5",
+  "description": "FHIR Facade Server implementing @asymmetrik/node-fhir-server-core",
   "main": "src/index.js",
   "repository": "https://github.com/Asymmetrik/node-fhir-server-mongo.git",
   "contributors": [
-    "Robert Winterbottom <rwinterbottom@asymmetrik.com>"
+    "Robert Winterbottom <rwinterbottom@asymmetrik.com>",
+    "Jon Lee <jlee@asymmetrik.com>"
   ],
   "license": "MIT",
   "engines": {
     "node": ">=8.6"
   },
   "scripts": {
-    "postinstall": "cd fhir && npm install",
-    "start": "export NODE_ENV=production; cd fhir && node src/index.js;"
+    "start": "cross-env NODE_ENV=production; node src/index.js;",
+    "nodemon": "cross-env NODE_ENV=development; node scripts/nodemon;",
+    "test": "npm run test:lint;",
+    "test:lint": "eslint \"src/**/*.js\"",
+    "test:jest": "jest --forceExit"
   },
-  "cacheDirectories": [
-    "fhir/node_modules"
-  ]
+  "jest": {
+    "verbose": true,
+    "testEnvironment": "node",
+    "collectCoverage": false,
+    "coverageReporters": [
+      "text",
+      "lcov",
+      "json"
+    ],
+    "coveragePathIgnorePatterns": [
+      "<rootDir>/src/testutils/"
+    ]
+  },
+  "dependencies": {
+    "@asymmetrik/node-fhir-server-core": "git+https://github.com/Asymmetrik/node-fhir-server-core.git#fix/base-version-update",
+    "jsonwebtoken": "^8.1.0",
+    "moment-timezone": "^0.5.14",
+    "mongo": "^0.1.0",
+    "var": "^0.3.2"
+  },
+  "devDependencies": {
+    "cross-env": "^5.1.6",
+    "eslint": "^4.14.0",
+    "jest": "^22.4.2",
+    "nodemon": "^1.17.2"
+  },
+  "private": false
 }
