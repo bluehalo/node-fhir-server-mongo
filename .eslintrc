@@ -50,7 +50,7 @@
     "no-with": 2,
     "comma-spacing": 2,
     "curly": [2, "all"],
-    "dot-notation": [2, { "allowKeywords": true }],
+    "dot-notation": [0, { "allowKeywords": true }],
     "eol-last": 2,
     "no-extra-parens": [2, "functions"],
     "eqeqeq": 2,

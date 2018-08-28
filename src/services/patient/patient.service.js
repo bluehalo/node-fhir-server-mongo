@@ -557,7 +557,7 @@ module.exports.update = (args, context, logger) => new Promise((resolve, reject)
 					return reject(err3);
 				}
 
-				return resolve({ id: res.value && res.value.id, created: res.lastErrorObject && !res.lastErrorObject.updatedExisting, resource_version: doc.meta.versionId });
+				return resolve({ id: doc.id, created: res.lastErrorObject && !res.lastErrorObject.updatedExisting, resource_version: doc.meta.versionId });
 			});
 
 		});
