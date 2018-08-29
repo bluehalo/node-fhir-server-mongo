@@ -12,9 +12,6 @@ services:
       MONGO_HOSTNAME: mongo
       RESOURCE_SERVER: http://localhost:3000/
       AUTH_SERVER_URI: http://myauthzserver.com
-      # DO NOT check in actual values for client id and secret
-      # This is just for ease of development
-      # Prod keys should be stored in secrets file or env
       CLIENT_ID: client
       CLIENT_SECRET: secret
       INTROSPECTION_URL: https://myauthzserver.com/introspect
