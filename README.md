@@ -148,7 +148,6 @@ Cache-Control: no-cache
     "div" : "<div><table><tbody><tr><td>Name</td><td>Peter James <b>Chalmers</b> (&quot;Jim&quot;)</td></tr><tr><td>Address</td><td>534 Erewhon, Pleasantville, Vic, 3999</td></tr><tr><td>Contacts</td><td>Home: unknown. Work: (03) 5555 6473</td></tr><tr><td>Id</td><td>MRN: 12345 (Acme Healthcare)</td></tr></tbody></table>    </div>"
   },
   "identifier" : [ {
-    "fhir_comments" : [ "   MRN assigned by ACME healthcare on 6-May 2001   " ],
     "use" : "usual",
     "type" : {
       "coding" : [ {
@@ -167,7 +166,6 @@ Cache-Control: no-cache
   } ],
   "active" : true,
   "name" : [ {
-    "fhir_comments" : [ "   Peter James Chalmers, but called \"Jim\"   " ],
     "use" : "official",
     "family" : [ "Chalmers" ],
     "given" : [ "Peter", "James" ]
@@ -176,7 +174,6 @@ Cache-Control: no-cache
     "given" : [ "Jim" ]
   } ],
   "telecom" : [ {
-    "fhir_comments" : [ "   home communication details aren't known   " ],
     "use" : "home"
   }, {
     "system" : "phone",
@@ -184,9 +181,6 @@ Cache-Control: no-cache
     "use" : "work"
   } ],
   "gender" : "male",
-  "_gender" : {
-    "fhir_comments" : [ "   use FHIR code system for male / female   " ]
-  },
   "birthDate" : "1974-12-25",
   "deceasedBoolean" : false,
   "address" : [ {
@@ -213,10 +207,7 @@ Cache-Control: no-cache
     } ],
     "gender" : "female",
     "period" : {
-      "start" : "2012",
-      "_start" : {
-        "fhir_comments" : [ "   The contact relationship started in 2012   " ]
-      }
+      "start" : "2012"
     }
   } ],
   "managingOrganization" : {
