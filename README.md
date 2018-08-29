@@ -1,31 +1,132 @@
+`@asymmetrik/node-fhir-server-mongo` [![Build Status](https://travis-ci.org/Asymmetrik/node-fhir-server-mongo.svg?branch=master)](https://travis-ci.org/Asymmetrik/node-fhir-server-mongo) [![Known Vulnerabilities](https://snyk.io/test/github/asymmetrik/node-fhir-server-mongo/badge.svg?targetFile=package.json)](https://snyk.io/test/github/asymmetrik/node-fhir-server-mongo?targetFile=package.json)
+====================================
+
 ## Intro
-This project is a FHIR facade server built on `@asymmetrik/node-fhir-server-core`.  The facade server is meant to be used with your existing (or new) patient database.  All you need to do is set up the database connection and fill in the queries and you will have a FHIR server!
+This project is an example project built on `@asymmetrik/node-fhir-server-core` and has a MongoDB back end storing sample data. It's built with the ability to run in docker or node.js. To get started developing in Docker, see [Getting Started with Docker](#getting-started-with-docker). To get started developing with Node.js and Mongo, see [Getting Started with Node](#getting-started-with-node)
 
 ## Getting Started with Docker
+
 1. Install the latest [Docker Community Edition](https://www.docker.com/community-edition) for your OS if you do not already have it installed.
 2. Run `docker-compose up`.
-3. Visit `localhost:3000/3_0_1/metadata` to view the conformance statement.
 
 ## Getting Started with Node
-1. Install the latest LTS for [Node.js](https://nodejs.org/en/) if you do not already have it installed.
-2. Make sure the default values defined in `env.json` are valid.
-3. Run `yarn` or `npm install`.
-4. Run `yarn start` or `npm run start`.
-5. Visit `localhost:3000/3_0_1/metadata` to view the conformance statement.
 
-## Next steps
+1. Install the latest LTS for [Node.js](https://nodejs.org/en/) if you do not already have it installed.
+2. Install the latest [Mongo Community Edition](https://docs.mongodb.com/manual/administration/install-community/) if you do not already have it installed.
+3. Make sure the default values defined in `env.json` are valid.
+4. Run `yarn` or `npm install`.
+5. Run `yarn start` or `npm run start`.
+
+## Next Steps
+Once you have this up and running. You should see the following output:
+
+```shell
+... - info: App listening on port: 3000 # or whichever port you used
+... - info: FHIR Server successfully started.
+```
+
 At this point you can now start testing the endpoints. Depending what profiles you opt into, certain routes will be available. You can view the routes enabled based on which service methods you provide over at [`@asymmetrik/node-fhir-server-core`](https://github.com/Asymmetrik/node-fhir-server-core#profiles). 
 
-1. Setup the database connection (Mongo/Sequelize) in `./src/index.js`.
-2. Look through `./src/config.js` to set up the server and decide which profile you want to support.  Comment out ones you don't want to support.
-3. Look at the corresponding service templates for the resources you want to enable.  You can remove any interaction you don't want to support.  For instance, if you don't want write capability for the Patient resource, you would delete the create and update functions in `./src/services/patient/patient.service.js`.  This will disable their routes.
-4.  Write your queries and test!
+The url the server will be running at will partially depend on your configuration. For local development, the default is `http://localhost:3000`. You can of course change the port in the `docker-compose.yml` or the `env.json`. You can also enable https by providing SSL certs. If you want to do this you must first generate them, see [Generate self signed certs](https://github.com/Asymmetrik/node-fhir-server-core/blob/master/.github/CONTRIBUTING.md#generate-self-signed-certs). Then, add the path to them in your config by setting `SSL_KEY` and `SSL_CERT` as ENV variable's, adding them in `docker-compose.yml`, or adding them to `env.json`. This will allow the app to run on `https://localhost:3000`. Note the link is for generating self signed certs, you should not use those for production. You can verify the path is set correctly by logging out the fhirServerConfig in `index.js`.
 
-## Authorization
-The facade server uses [passortjs](http://www.passportjs.org/) for authentication.  This server comes with a bearer strategy template.  You can implement your own passport strategy and reference it in `./src/config.js` to conforms to your AuthZ server.  For more information on authorization please visit [http://docs.smarthealthit.org/authorization/](http://docs.smarthealthit.org/authorization/).
 
-## Having trouble with something?
-If you have questions specific to Docker or Node, please consider asking on Stack Overflow.  They already have a lot of support on these topics. If your questions is related to the FHIR specification, please review that documentation at [https://www.hl7.org/fhir/](https://www.hl7.org/fhir/). Any questions related to this specific package, please ask in the issues section. Also, if you think you are experiencing a bug or see something incorrect with the spec, please file an issue so we can help you as soon as we can.
+### Lets give this a try on our server.
+Using any request builder (i.e. Postman), let's create a new patient.
+
+Create/Update Patient
+```
+PUT /3_0_1/Patient/hhPTufqen3Qp-997382 HTTP/1.1
+Host: localhost:3000
+Content-Type: application/fhir+json
+Cache-Control: no-cache
+
+{
+  "resourceType" : "Patient",
+  "id" : "hhPTufqen3Qp-997382",
+  "text" : {
+    "status" : "generated",
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><tbody><tr><td>Name</td><td>Peter James <b>Chalmers</b> (&quot;Jim&quot;)</td></tr><tr><td>Address</td><td>534 Erewhon, Pleasantville, Vic, 3999</td></tr><tr><td>Contacts</td><td>Home: unknown. Work: (03) 5555 6473</td></tr><tr><td>Id</td><td>MRN: 12345 (Acme Healthcare)</td></tr></tbody></table>    </div>"
+  },
+  "identifier" : [ {
+    "use" : "usual",
+    "type" : {
+      "coding" : [ {
+        "system" : "http://hl7.org/fhir/v2/0203",
+        "code" : "MR"
+      } ]
+    },
+    "system" : "urn:oid:1.2.36.146.595.217.0.1",
+    "value" : "hhPTufqen3Qp997382",
+    "period" : {
+      "start" : "2001-05-06"
+    },
+    "assigner" : {
+      "display" : "Acme Healthcare"
+    }
+  } ],
+  "active" : true,
+  "name" : [ {
+    "use" : "official",
+    "family" : "ChalmershTZAlK",
+    "given" : [ "PeterhTZAlK", "JameshTZAlK" ]
+  }, {
+    "use" : "usual",
+    "given" : [ "JimhTZAlK" ]
+  } ],
+  "telecom" : [ {
+    "use" : "home"
+  }, {
+    "system" : "phone",
+    "value" : "(07) 7296 7296",
+    "use" : "work"
+  } ],
+  "gender" : "male",
+  "birthDate" : "1974-12-25",
+  "deceasedBoolean" : false,
+  "address" : [ {
+    "use" : "home",
+    "line" : [ "255 ErewhonhTZAlK Rd" ],
+    "city" : "Pleasant ValleyhTZAlK",
+    "state" : "VichTZAlK",
+    "postalCode" : "3999"
+  } ],
+  "contact" : [ {
+    "relationship" : [ {
+      "coding" : [ {
+        "system" : "http://hl7.org/fhir/v2/0131",
+        "code" : "CP"
+      } ]
+    } ],
+    "name" : {
+      "family" : "du March�",
+      "given" : [ "B�n�dicte" ]
+    },
+    "telecom" : [ {
+      "system" : "phone",
+      "value" : "+33 (237) 998327"
+    } ],
+    "gender" : "female",
+    "period" : {
+      "start" : "2012"
+    }
+  } ],
+  "managingOrganization" : {
+    "reference" : "Organization/hhPTufqen3Qp-997382-RZq1u"
+  }
+}
+
+```
+
+Read Patient
+```
+GET /3_0_1/Patient/hhPTufqen3Qp-997382 HTTP/1.1
+Host: localhost:3000
+Content-Type: application/fhir+json
+Cache-Control: no-cache
+
+```
+
+You should get back the Patient record.
 
 ## License
-This project is [MIT licensed](./LICENSE).
+`@asymmetrik/fhir-server-mongo` is [MIT licensed](./LICENSE).
