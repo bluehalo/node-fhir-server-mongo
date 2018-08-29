@@ -67,11 +67,11 @@ Cache-Control: no-cache
   "active" : true,
   "name" : [ {
     "use" : "official",
-    "family" : "ChalmershTZAlK",
-    "given" : [ "PeterhTZAlK", "JameshTZAlK" ]
+    "family" : "Smith",
+    "given" : [ "Peter", "James" ]
   }, {
     "use" : "usual",
-    "given" : [ "JimhTZAlK" ]
+    "given" : [ "Jim" ]
   } ],
   "telecom" : [ {
     "use" : "home"
@@ -85,9 +85,9 @@ Cache-Control: no-cache
   "deceasedBoolean" : false,
   "address" : [ {
     "use" : "home",
-    "line" : [ "255 ErewhonhTZAlK Rd" ],
-    "city" : "Pleasant ValleyhTZAlK",
-    "state" : "VichTZAlK",
+    "line" : [ "255 Somewhere Rd" ],
+    "city" : "Pleasant Valley",
+    "state" : "Somewhere",
     "postalCode" : "3999"
   } ],
   "contact" : [ {
@@ -98,12 +98,12 @@ Cache-Control: no-cache
       } ]
     } ],
     "name" : {
-      "family" : "du March�",
-      "given" : [ "B�n�dicte" ]
+      "family" : "Smith",
+      "given" : [ "Jane" ]
     },
     "telecom" : [ {
       "system" : "phone",
-      "value" : "+33 (237) 998327"
+      "value" : "+33 (237) 123456"
     } ],
     "gender" : "female",
     "period" : {
@@ -125,8 +125,6 @@ Content-Type: application/fhir+json
 Cache-Control: no-cache
 
 ```
-
-You should get back the Patient record.
 
 ## License
 `@asymmetrik/fhir-server-mongo` is [MIT licensed](./LICENSE).
