@@ -27,15 +27,10 @@ Once you have this up and running. You should see the following output:
 ... - info: FHIR Server successfully started.
 ```
 
-At this point you can now start testing the endpoints. Depending what profiles you opt into, certain routes will be available. You can view the routes enabled based on which service methods you provide over at [`@asymmetrik/node-fhir-server-core`](https://github.com/Asymmetrik/node-fhir-server-core#profiles). 
-
-The url the server will be running at will partially depend on your configuration. For local development, the default is `http://localhost:3000`. You can of course change the port in the `docker-compose.yml` or the `env.json`. You can also enable https by providing SSL certs. If you want to do this you must first generate them, see [Generate self signed certs](https://github.com/Asymmetrik/node-fhir-server-core/blob/master/.github/CONTRIBUTING.md#generate-self-signed-certs). Then, add the path to them in your config by setting `SSL_KEY` and `SSL_CERT` as ENV variable's, adding them in `docker-compose.yml`, or adding them to `env.json`. This will allow the app to run on `https://localhost:3000`. Note the link is for generating self signed certs, you should not use those for production. You can verify the path is set correctly by logging out the fhirServerConfig in `index.js`.
-
-
 ### Lets give this a try on our server.
 Using any request builder (i.e. Postman), let's create a new patient.
 
-#### STU3 Patient
+#### STU3 Patient (Content-Type: application/fhir+json)
 ```
 Create Patient
 
@@ -44,6 +39,7 @@ Host: localhost:3000
 Content-Type: application/fhir+json
 Cache-Control: no-cache
 
+# Raw Body
 {
   "resourceType" : "Patient",
   "id" : "hhPTufqen3Qp-997382",
@@ -134,15 +130,16 @@ Cache-Control: no-cache
 
 
 
-#### DSTU2 Patient
+#### DSTU2 Patient (Content-Type: application/json+fhir)
 ```
 Create Patient
 
 PUT /1_0_2/Patient/12345997382 HTTP/1.1
 Host: localhost:3000
-Content-Type: application/json+fhir;charset=UTF-8
+Content-Type: application/json+fhir
 Cache-Control: no-cache
 
+# Raw Body
 {
   "resourceType" : "Patient",
   "id" : "12345997382",
@@ -211,7 +208,7 @@ Cache-Control: no-cache
       "given" : [ "Bénédicte" ]
     },
     "telecom" : [ {
-      "system" : "phone",8
+      "system" : "phone",
       "value" : "+33 (237) 123456"
     } ],
     "gender" : "female",
@@ -237,6 +234,9 @@ Content-Type: application/json+fhir;charset=UTF-8
 Cache-Control: no-cache
 
 ```
+
+### Determine which resources you want to support
+In this example, only the Patient and Organization resource is filled out.  You will need to fill in the other services for the resources you would like to support.  The routes will only be available for the resource you enabled. You can view the available resources over at [`@asymmetrik/node-fhir-server-core`](https://github.com/Asymmetrik/node-fhir-server-core#profiles).
 
 ## License
 `@asymmetrik/fhir-server-mongo` is [MIT licensed](./LICENSE).
