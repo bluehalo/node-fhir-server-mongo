@@ -22,10 +22,8 @@ services:
       - "3000:3000"
     volumes:
       - ./src:/srv/src/src
-      #- ./node_modules:/srv/src/src/node_modules
     command: yarn nodemon
 
-  # mongo
   mongo:
     image: mongo:3.6.1
     ports:

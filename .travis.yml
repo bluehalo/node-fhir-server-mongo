@@ -20,9 +20,6 @@ before_install:
   - sudo apt-get -y install docker-ce
   - yarn install
 
-# before_script:
-#  - cp .local-secrets/auth.example .local-secrets/auth.secrets
-
 script:
   - docker-compose run fhir npm test
 

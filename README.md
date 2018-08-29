@@ -33,8 +33,10 @@ The url the server will be running at will partially depend on your configuratio
 ### Lets give this a try on our server.
 Using any request builder (i.e. Postman), let's create a new patient.
 
-Create/Update STU3 Patient
+#### STU3 Patient
 ```
+Create Patient
+
 PUT /3_0_1/Patient/hhPTufqen3Qp-997382 HTTP/1.1
 Host: localhost:3000
 Content-Type: application/fhir+json
@@ -117,8 +119,10 @@ Cache-Control: no-cache
 
 ```
 
-Read Patient
 ```
+Read Patient
+
+
 GET /3_0_1/Patient/hhPTufqen3Qp-997382 HTTP/1.1
 Host: localhost:3000
 Content-Type: application/fhir+json
@@ -128,8 +132,10 @@ Cache-Control: no-cache
 
 
 
-Create/Update DSTU2 Patient
+#### DSTU2 Patient
 ```
+Create Patient
+
 PUT /1_0_2/Patient/12345997382 HTTP/1.1
 Host: localhost:3000
 Content-Type: application/json+fhir;charset=UTF-8
@@ -220,8 +226,9 @@ Cache-Control: no-cache
 }
 ```
 
-Read DSTU2 Patient
 ```
+Read Patient
+
 GET /1_0_2/Patient/12345997382 HTTP/1.1
 Host: localhost:3000
 Content-Type: application/json+fhir;charset=UTF-8
