@@ -2,7 +2,7 @@
 ====================================
 
 ## Intro
-This project is an example project built on `@asymmetrik/node-fhir-server-core` and has a MongoDB back end storing sample data. It's built with the ability to run in docker or node.js. To get started developing in Docker, see [Getting Started with Docker](#getting-started-with-docker). To get started developing with Node.js and Mongo, see [Getting Started with Node](#getting-started-with-node)
+This project is an example project built on `@asymmetrik/node-fhir-server-core` and has a MongoDB back end storing sample data. It's built with the ability to run in docker or node.js. To get started developing in Docker, see [Getting Started with Docker](#getting-started-with-docker). To get started developing with Node.js and Mongo, see [Getting Started with Node](#getting-started-with-node).  You can serve multiple versions of FHIR with just one server.  By default, DSTU2 (1.0.2) and STU3 (3.0.1) is enabled.  You can choose to support both versions or just one version by editing the config.
 
 ## Getting Started with Docker
 
@@ -33,7 +33,7 @@ The url the server will be running at will partially depend on your configuratio
 ### Lets give this a try on our server.
 Using any request builder (i.e. Postman), let's create a new patient.
 
-Create/Update Patient
+Create/Update STU3 Patient
 ```
 PUT /3_0_1/Patient/hhPTufqen3Qp-997382 HTTP/1.1
 Host: localhost:3000
@@ -122,6 +122,109 @@ Read Patient
 GET /3_0_1/Patient/hhPTufqen3Qp-997382 HTTP/1.1
 Host: localhost:3000
 Content-Type: application/fhir+json
+Cache-Control: no-cache
+
+```
+
+
+
+Create/Update DSTU2 Patient
+```
+PUT /1_0_2/Patient/12345997382 HTTP/1.1
+Host: localhost:3000
+Content-Type: application/json+fhir;charset=UTF-8
+Cache-Control: no-cache
+
+{
+  "resourceType" : "Patient",
+  "id" : "12345997382",
+  "text" : {
+    "status" : "generated",
+    "div" : "<div><table><tbody><tr><td>Name</td><td>Peter James <b>Chalmers</b> (&quot;Jim&quot;)</td></tr><tr><td>Address</td><td>534 Erewhon, Pleasantville, Vic, 3999</td></tr><tr><td>Contacts</td><td>Home: unknown. Work: (03) 5555 6473</td></tr><tr><td>Id</td><td>MRN: 12345 (Acme Healthcare)</td></tr></tbody></table>    </div>"
+  },
+  "identifier" : [ {
+    "fhir_comments" : [ "   MRN assigned by ACME healthcare on 6-May 2001   " ],
+    "use" : "usual",
+    "type" : {
+      "coding" : [ {
+        "system" : "http://hl7.org/fhir/v2/0203",
+        "code" : "MR"
+      } ]
+    },
+    "system" : "urn:oid:1.2.36.146.595.217.0.1",
+    "value" : "12345997382",
+    "period" : {
+      "start" : "2001-05-06"
+    },
+    "assigner" : {
+      "display" : "Acme Healthcare"
+    }
+  } ],
+  "active" : true,
+  "name" : [ {
+    "fhir_comments" : [ "   Peter James Chalmers, but called \"Jim\"   " ],
+    "use" : "official",
+    "family" : [ "Chalmers" ],
+    "given" : [ "Peter", "James" ]
+  }, {
+    "use" : "usual",
+    "given" : [ "Jim" ]
+  } ],
+  "telecom" : [ {
+    "fhir_comments" : [ "   home communication details aren't known   " ],
+    "use" : "home"
+  }, {
+    "system" : "phone",
+    "value" : "(07) 7296 7296",
+    "use" : "work"
+  } ],
+  "gender" : "male",
+  "_gender" : {
+    "fhir_comments" : [ "   use FHIR code system for male / female   " ]
+  },
+  "birthDate" : "1974-12-25",
+  "deceasedBoolean" : false,
+  "address" : [ {
+    "use" : "home",
+    "line" : [ "255 Erewhon St" ],
+    "city" : "PleasantVille",
+    "state" : "Vic",
+    "postalCode" : "3999"
+  } ],
+  "contact" : [ {
+    "relationship" : [ {
+      "coding" : [ {
+        "system" : "http://hl7.org/fhir/patient-contact-relationship",
+        "code" : "partner"
+      } ]
+    } ],
+    "name" : {
+      "family" : [ "du", "Marché" ],
+      "given" : [ "Bénédicte" ]
+    },
+    "telecom" : [ {
+      "system" : "phone",8
+      "value" : "+33 (237) 123456"
+    } ],
+    "gender" : "female",
+    "period" : {
+      "start" : "2012",
+      "_start" : {
+        "fhir_comments" : [ "   The contact relationship started in 2012   " ]
+      }
+    }
+  } ],
+  "managingOrganization" : {
+    "reference" : "Organization/1"
+  }
+}
+```
+
+Read DSTU2 Patient
+```
+GET /1_0_2/Patient/12345997382 HTTP/1.1
+Host: localhost:3000
+Content-Type: application/json+fhir;charset=UTF-8
 Cache-Control: no-cache
 
 ```
