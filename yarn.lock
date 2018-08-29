@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@asymmetrik/node-fhir-server-core@git+https://github.com/Asymmetrik/node-fhir-server-core.git#fix/base-version-update":
-  version "1.0.0-rc6"
-  resolved "git+https://github.com/Asymmetrik/node-fhir-server-core.git#f6ef22c3c88e81fd7b7f16264b61ce2dc091b5d9"
+"@asymmetrik/node-fhir-server-core@git+https://github.com/Asymmetrik/node-fhir-server-core.git":
+  version "1.1.0"
+  resolved "git+https://github.com/Asymmetrik/node-fhir-server-core.git#29929db149e800303723582a8199366a2a8d31e0"
   dependencies:
     body-parser "^1.18.2"
     compression "^1.7.1"
@@ -3267,8 +3267,8 @@ node-pre-gyp@^0.10.0:
     tar "^4"
 
 nodemon@^1.18.3:
-  version "1.18.3"
-  resolved "https://registry.yarnpkg.com/nodemon/-/nodemon-1.18.3.tgz#46e681ee0dd1b590562e03019b4c5df234f906f9"
+  version "1.18.4"
+  resolved "https://registry.yarnpkg.com/nodemon/-/nodemon-1.18.4.tgz#873f65fdb53220eb166180cf106b1354ac5d714d"
   dependencies:
     chokidar "^2.0.2"
     debug "^3.1.0"
