@@ -20,14 +20,18 @@ This project is an example project built on `@asymmetrik/node-fhir-server-core` 
 5. Run `yarn start` or `npm run start`.
 
 ## Next Steps
-Once you have this up and running. You should see the following output:
+The server should now be up and running on the default port 3000. You should see the following output:
 
 ```shell
-... - info: App listening on port: 3000 # or whichever port you used
-... - info: FHIR Server successfully started.
+... - verbose: Server is up and running!
 ```
 
-### Lets give this a try on our server.
+### Lets give this a try on your server
+
+#### Capability Statements
+ - View the DSTU2 Conformance Statement [http://localhost:3000/1_0_2/metadata](http://localhost:3000/1_0_2/metadata)
+ - View the STU3 Capability Statement [http://localhost:3000/3_0_1/metadata](http://localhost:3000/3_0_1/metadata)
+
 Using any request builder (i.e. Postman), let's create a new patient.
 
 #### STU3 Patient (Content-Type: application/fhir+json)
