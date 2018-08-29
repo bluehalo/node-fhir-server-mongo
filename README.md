@@ -29,6 +29,7 @@ The server should now be up and running on the default port 3000. You should see
 ### Lets give this a try on your server
 
 #### Capability Statements
+By default, both DSTU2 and STU3 is enabled for the Patient and Observation resource.  The capability statements are dynamically generated based on which resources you enable.
  - View the DSTU2 Conformance Statement [http://localhost:3000/1_0_2/metadata](http://localhost:3000/1_0_2/metadata)
  - View the STU3 Capability Statement [http://localhost:3000/3_0_1/metadata](http://localhost:3000/3_0_1/metadata)
 
@@ -123,7 +124,6 @@ Cache-Control: no-cache
 
 ```
 Read Patient
-
 
 GET /3_0_1/Patient/hhPTufqen3Qp-997382 HTTP/1.1
 Host: localhost:3000
