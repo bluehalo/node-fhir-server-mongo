@@ -1,8 +1,0 @@
-{
-  "resourceType": "Client",
-	"id": "2",
-	"name": "Samplr2",
-	"clientId": "xyz123",
-	"clientSecret": "ssh-password",
-	"isTrusted": true
-}

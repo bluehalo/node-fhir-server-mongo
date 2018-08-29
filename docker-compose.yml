@@ -5,25 +5,28 @@ services:
     depends_on:
       - mongo
     build:
-      context: fhir
+      context: .
       dockerfile: Dockerfile
     environment:
-      MONGO_HOSTNAME: mongo
       SERVER_PORT: 3000
-      # SSL_KEY: ./src/key.pem
-      # SSL_CERT: ./src/cert.pem
+      MONGO_HOSTNAME: mongo
+      RESOURCE_SERVER: http://localhost:3000/
+      AUTH_SERVER_URI: http://myauthzserver.com
+      CLIENT_ID: client
+      CLIENT_SECRET: secret
+      INTROSPECTION_URL: https://myauthzserver.com/introspect
     ports:
       - "3000:3000"
     volumes:
-      - ./fhir/scripts:/srv/src/scripts
-      - ./.eslintrc:/srv/src/.eslintrc
-      - ./fhir/src:/srv/src/src
+      - ./src:/srv/src/src
     command: yarn nodemon
+
   mongo:
     image: mongo:3.6.1
     ports:
       - "27017"
     volumes:
       - mongo_data:/data/db
+
 volumes:
   mongo_data:

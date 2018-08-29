@@ -6,7 +6,12 @@ package-lock.json
 *.log
 .DS_Store
 coverage
+fhir/fixtures/data/shr
+fhir/fixtures/data/uscore
 
 # Local Development Certs
 cert.pem
 key.pem
+
+# ENV Files
+.local-secrets/auth.secrets
