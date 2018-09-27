@@ -354,10 +354,10 @@ let fhirServerConfig = {
 		// 	service: './src/services/media/media.service.js',
 		// 	versions: [ VERSIONS['3_0_1'] ]
 		// },
-		// [RESOURCES.MEDICATION]: {
-		// 	service: './src/services/medication/medication.service.js',
-		// 	versions: [ VERSIONS['3_0_1'] ]
-		// },
+		[RESOURCES.MEDICATION]: {
+			service: './src/services/medication/medication.service.js',
+			versions: [ VERSIONS['3_0_1'] ]
+		},
 		// [RESOURCES.MEDICATIONADMINISTRATION]: {
 		// 	service: './src/services/medicationadministration/medicationadministration.service.js',
 		// 	versions: [ VERSIONS['3_0_1'] ]
