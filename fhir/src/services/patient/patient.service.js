@@ -102,3 +102,31 @@ module.exports.getPatientById = (req, logger) => new Promise((resolve, reject) =
 		resolve(patient);
 	});
 });
+
+/**
+ * @name updatePatient
+ * @description Update a patient record
+ * @param {Express.req} req - Express request object
+ * @param {Winston} logger - Winston logger
+ * @return {Promise}
+ */
+module.exports.updatePatient = (req, logger) => new Promise((resolve, reject) => {
+	logger.info('Patient >>> updatePatient');
+
+	let { id } = req.params;
+	let resource = req.body;
+
+	// Grab an instance of our DB and collection
+	let db = globals.get(CLIENT_DB);
+	let collection = db.collection(COLLECTION.PATIENT);
+
+	// Insert/update our patient record
+	collection.findOneAndUpdate({ id: id }, { $set: resource }, { upsert: true }, (err, res) => {
+		if (err) {
+			logger.error('Error with Patient.update: ', err);
+			return reject(err);
+		}
+
+		return resolve({ id: id, created: res.lastErrorObject && !res.lastErrorObject.updatedExisting, resource_version: '1' });
+	});
+});
