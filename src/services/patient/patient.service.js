@@ -2,6 +2,7 @@
 
 const { RESOURCES, VERSIONS } = require('@asymmetrik/node-fhir-server-core').constants;
 const FHIRServer = require('@asymmetrik/node-fhir-server-core');
+const { ObjectID } = require('mongodb');
 const { COLLECTION, CLIENT_DB } = require('../../constants');
 const moment = require('moment-timezone');
 const globals = require('../../globals');
@@ -463,7 +464,9 @@ module.exports.searchById = (args, context, logger) => new Promise((resolve, rej
 module.exports.create = (args, context, logger) => new Promise((resolve, reject) => {
 	logger.info('Patient >>> create');
 
-	let { base_version, id, resource } = args;
+	let { base_version, resource } = args;
+	// Make sure to use this ID when inserting this resource
+	let id = new ObjectID().toString();
 
 	// Grab an instance of our DB and collection
 	let db = globals.get(CLIENT_DB);
@@ -703,4 +706,3 @@ module.exports.historyById = (args, context, logger) => new Promise((resolve, re
 		});
 	});
 });
-
