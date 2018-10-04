@@ -300,7 +300,7 @@ module.exports.create = (args, context, logger) => new Promise((resolve, reject)
 	let doc = Object.assign(cleaned, { _id: id });
 
 	// Insert/update our organization record
-	collection.insertOne({ id: id }, { $set: doc }, { upsert: true }, (err2, res) => {
+	collection.updateOne({ id: id }, { $set: doc }, { upsert: true }, (err2, res) => {
 		if (err2) {
 			logger.error('Error with Organization.create: ', err2);
 			return reject(err2);
