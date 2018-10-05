@@ -90,10 +90,10 @@ let fhirServerConfig = {
 			service: './src/services/patient/patient.service.js',
 			versions: [ VERSIONS['3_0_1'], VERSIONS['1_0_2'] ]
 		},
-		[RESOURCES.ACCOUNT]: {
-			service: './src/services/account/account.service.js',
-			versions: [ VERSIONS['3_0_1'] ]
-		},
+		// [RESOURCES.ACCOUNT]: {
+		// 	service: './src/services/account/account.service.js',
+		// 	versions: [ VERSIONS['3_0_1'] ]
+		// },
 		// [RESOURCES.ACTIVITYDEFINITION]: {
 		// 	service: './src/services/activitydefinition/activitydefinition.service.js',
 		// 	versions: [ VERSIONS['3_0_1'] ]
