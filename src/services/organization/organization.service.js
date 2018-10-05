@@ -303,7 +303,7 @@ module.exports.create = (args, context, logger) => new Promise((resolve, reject)
 	let doc = Object.assign(cleaned, { _id: id });
 
 	// Insert/update our organization record
-	collection.insertOne({ id: id }, { $set: doc }, { upsert: true }, (err2, res) => {
+	collection.updateOne({ id: id }, { $set: doc }, { upsert: true }, (err2, res) => {
 		if (err2) {
 			logger.error('Error with Organization.create: ', err2);
 			return reject(err2);
@@ -312,7 +312,7 @@ module.exports.create = (args, context, logger) => new Promise((resolve, reject)
 		// save to history
 		let history_collection = db.collection(`${COLLECTION.ORGANIZATION}_${base_version}_History`);
 
-		let history_organization = Object.assign(cleaned, { _id: id + cleaned.meta.versionId });
+		let history_organization = Object.assign(cleaned, { id: id });
 
 		// Insert our organization record to history but don't assign _id
 		return history_collection.insertOne(history_organization, (err3) => {
@@ -321,7 +321,7 @@ module.exports.create = (args, context, logger) => new Promise((resolve, reject)
 				return reject(err3);
 			}
 
-			return resolve({ id: res.value && res.value.id, created: res.lastErrorObject && !res.lastErrorObject.updatedExisting, resource_version: doc.meta.versionId });
+			return resolve({ id: id, created: res.lastErrorObject && !res.lastErrorObject.updatedExisting, resource_version: doc.meta.versionId });
 		});
 
 	});
@@ -371,7 +371,7 @@ module.exports.update = (args, context, logger) => new Promise((resolve, reject)
 			// save to history
 			let history_collection = db.collection(`${COLLECTION.ORGANIZATION}_${base_version}_History`);
 
-			let history_organization = Object.assign(cleaned, { _id: id + cleaned.meta.versionId });
+			let history_organization = Object.assign(cleaned, { id: id });
 
 			// Insert our organization record to history but don't assign _id
 			return history_collection.insertOne(history_organization, (err3) => {
@@ -380,7 +380,7 @@ module.exports.update = (args, context, logger) => new Promise((resolve, reject)
 					return reject(err3);
 				}
 
-				return resolve({ id: res.value && res.value.id, created: res.lastErrorObject && !res.lastErrorObject.updatedExisting, resource_version: doc.meta.versionId });
+				return resolve({ id: id, created: res.lastErrorObject && !res.lastErrorObject.updatedExisting, resource_version: doc.meta.versionId });
 			});
 
 		});
