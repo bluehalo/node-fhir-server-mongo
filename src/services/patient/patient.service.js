@@ -703,4 +703,3 @@ module.exports.historyById = (args, context, logger) => new Promise((resolve, re
 		});
 	});
 });
-
