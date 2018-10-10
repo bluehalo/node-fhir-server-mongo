@@ -8,9 +8,14 @@ const { MongoClient } = require('mongodb');
  * @return {Promise}
  */
 let connect = (url, options) => new Promise((resolve, reject) => {
+
 	// Connect to mongo
 	MongoClient.connect(url, options, (err, client) => {
-		if (err) { return reject(err); }
+		if (err) {
+			console.error(url);
+			console.error(options);
+			return reject(err);
+		}
 		return resolve(client);
 	});
 
