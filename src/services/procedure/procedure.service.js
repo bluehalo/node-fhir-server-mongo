@@ -2,6 +2,7 @@
 
 const { RESOURCES } = require('@asymmetrik/node-fhir-server-core').constants;
 const FHIRServer = require('@asymmetrik/node-fhir-server-core');
+const { ObjectID } = require('mongodb');
 
 let getProcedure = (base_version) => {
 	return require(FHIRServer.resolveFromVersion(base_version, RESOURCES.PROCEDURE));};
@@ -73,7 +74,9 @@ module.exports.searchById = (args, context, logger) => new Promise((resolve, rej
 module.exports.create = (args, context, logger) => new Promise((resolve, reject) => {
 	logger.info('Procedure >>> create');
 
-	let { base_version, id, resource } = args;
+	let { base_version, resource } = args;
+	// Make sure to use this ID when inserting this resource
+	let id = new ObjectID().toString();
 
 	let Procedure = getProcedure(base_version);
 	let Meta = getMeta(base_version);
@@ -88,7 +91,7 @@ module.exports.create = (args, context, logger) => new Promise((resolve, reject)
 	// TODO: save record to database
 
 	// Return Id
-	resolve({ id: procedure_resource.id });
+	resolve({ id });
 });
 
 module.exports.update = (args, context, logger) => new Promise((resolve, reject) => {
@@ -214,4 +217,3 @@ module.exports.historyById = (args, context, logger) => new Promise((resolve, re
 	// Return Array
 	resolve([procedure_resource]);
 });
-
