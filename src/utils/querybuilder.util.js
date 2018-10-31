@@ -1,5 +1,5 @@
 const moment = require('moment-timezone');
-const XRegExp = require('xregexp');
+const xRegExp = require('xregexp');
 
 /**
  * @name stringQueryBuilder
@@ -8,8 +8,8 @@ const XRegExp = require('xregexp');
  * @return a mongo regex query
  */
 let stringQueryBuilder = function (target) {
-	let t2 = target.replace(/[\\(\\)\\-\\_\\+\\=\\/\\.]/g, '\\$&');
-	return {$regex: new RegExp('^' + t2, 'i')};
+    let t2 = target.replace(/[\\(\\)\\-\\_\\+\\=\\/\\.]/g, '\\$&');
+    return {$regex: new RegExp('^' + t2, 'i')};
 };
 
 /**
@@ -20,20 +20,20 @@ let stringQueryBuilder = function (target) {
  * @return {array} ors
  */
 let addressQueryBuilder = function (target) {
-	// Tokenize the input as mush as possible
-	let totalSplit = target.split(/[\s,]+/);
-	let ors = [];
-	for (let index in totalSplit) {
-		ors.push({$or: [
-			{'address.line': {$regex: new RegExp(`${totalSplit[index]}`, 'i')}},
-			{'address.city': {$regex: new RegExp(`${totalSplit[index]}`, 'i')}},
-			{'address.district': {$regex: new RegExp(`${totalSplit[index]}`, 'i')}},
-			{'address.state': {$regex: new RegExp(`${totalSplit[index]}`, 'i')}},
-			{'address.postalCode': {$regex: new RegExp(`${totalSplit[index]}`, 'i')}},
-			{'address.country': {$regex: new RegExp(`${totalSplit[index]}`, 'i')}}
-		]});
-	}
-	return ors;
+    // Tokenize the input as mush as possible
+    let totalSplit = target.split(/[\s,]+/);
+    let ors = [];
+    for (let index in totalSplit) {
+        ors.push({$or: [
+                {'address.line': {$regex: new RegExp(`${totalSplit[index]}`, 'i')}},
+                {'address.city': {$regex: new RegExp(`${totalSplit[index]}`, 'i')}},
+                {'address.district': {$regex: new RegExp(`${totalSplit[index]}`, 'i')}},
+                {'address.state': {$regex: new RegExp(`${totalSplit[index]}`, 'i')}},
+                {'address.postalCode': {$regex: new RegExp(`${totalSplit[index]}`, 'i')}},
+                {'address.country': {$regex: new RegExp(`${totalSplit[index]}`, 'i')}}
+            ]});
+    }
+    return ors;
 };
 
 /**
@@ -44,19 +44,19 @@ let addressQueryBuilder = function (target) {
  * @return {array} ors
  */
 let nameQueryBuilder = function (target) {
-let split = target.split(/[\s.,]+/);
-let ors = [];
+    let split = target.split(/[\s.,]+/);
+    let ors = [];
 
-for (let i in split) {
-	ors.push( {$or: [
-	{'name.text': {$regex: new RegExp(`${split[i]}`, 'i')}},
-	{'name.family': {$regex: new RegExp(`${split[i]}`, 'i')}},
-	{'name.given': {$regex: new RegExp(`${split[i]}`, 'i')}},
-	{'name.suffix': {$regex: new RegExp(`${split[i]}`, 'i')}},
-	{'name.prefix': {$regex: new RegExp(`${split[i]}`, 'i')}}
-	]});
-}
-return ors;
+    for (let i in split) {
+        ors.push( {$or: [
+                {'name.text': {$regex: new RegExp(`${split[i]}`, 'i')}},
+                {'name.family': {$regex: new RegExp(`${split[i]}`, 'i')}},
+                {'name.given': {$regex: new RegExp(`${split[i]}`, 'i')}},
+                {'name.suffix': {$regex: new RegExp(`${split[i]}`, 'i')}},
+                {'name.prefix': {$regex: new RegExp(`${split[i]}`, 'i')}}
+            ]});
+    }
+    return ors;
 };
 
 /**
@@ -68,36 +68,36 @@ return ors;
  * @return {JSON} queryBuilder
  * Using to assign a single variable:
  *      let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier');
-		 for (let i in queryBuilder) {
+ for (let i in queryBuilder) {
 			 query[i] = queryBuilder[i];
 		}
-* Use in an or query
-*      query.$or = [tokenQueryBuilder(identifier, 'value', 'identifier'), tokenQueryBuilder(type, 'code', 'type.coding')];
-*/
+ * Use in an or query
+ *      query.$or = [tokenQueryBuilder(identifier, 'value', 'identifier'), tokenQueryBuilder(type, 'code', 'type.coding')];
+ */
 let tokenQueryBuilder = function (target, type, field, required) {
-	let queryBuilder = {};
-	let system = '';
-	let value = '';
+    let queryBuilder = {};
+    let system = '';
+    let value = '';
 
-	if (target.includes('|')) {
-		[ system, value ] = target.split('|');
+    if (target.includes('|')) {
+        [ system, value ] = target.split('|');
 
-		if (required) {
-			system = required;
-		}
-	}
-	else {
-		value = target;
-	}
+        if (required) {
+            system = required;
+        }
+    }
+    else {
+        value = target;
+    }
 
-	if (system) {
-		queryBuilder[`${field}.system`] = system;
-	}
-	if (value) {
-		queryBuilder[`${field}.${type}`] = value;
-	}
+    if (system) {
+        queryBuilder[`${field}.system`] = system;
+    }
+    if (value) {
+        queryBuilder[`${field}.${type}`] = value;
+    }
 
-	return queryBuilder;
+    return queryBuilder;
 };
 
 /**
@@ -107,25 +107,25 @@ let tokenQueryBuilder = function (target, type, field, required) {
  * @return {JSON} queryBuilder
  */
 let referenceQueryBuilder = function (target, field) {
-	const regex = /http(.*)?\/(\w+\/.+)$/;
-	const match = target.match(regex);
-	let queryBuilder = {};
+    const regex = /http(.*)?\/(\w+\/.+)$/;
+    const match = target.match(regex);
+    let queryBuilder = {};
 
-	// Check if target is a url
-	if (match) {
-		queryBuilder[field] = match[2];
-	}
-	// target = type/id
-	else if (target.includes('/')) {
-		let [type, id] = target.split('/');
-		queryBuilder[field] = `${type}/${id}`;
-	}
-	// target = id The type may be there so we need to check the end of the field for the id
-	else {
-		queryBuilder[field] = {$regex: new RegExp(`${target}$`)};
-	}
+    // Check if target is a url
+    if (match) {
+        queryBuilder[field] = match[2];
+    }
+    // target = type/id
+    else if (target.includes('/')) {
+        let [type, id] = target.split('/');
+        queryBuilder[field] = `${type}/${id}`;
+    }
+    // target = id The type may be there so we need to check the end of the field for the id
+    else {
+        queryBuilder[field] = {$regex: new RegExp(`${target}$`)};
+    }
 
-	return queryBuilder;
+    return queryBuilder;
 };
 
 /**
@@ -136,47 +136,47 @@ let referenceQueryBuilder = function (target, field) {
  * @returns {JSON} a mongo query
  */
 let numberQueryBuilder = function (target) {
-	let prefix = '';
-	let number = '';
-	let sigfigs = '';
+    let prefix = '';
+    let number = '';
+    let sigfigs = '';
 
-	// Check if there is a prefix
-	if (isNaN(target)) {
-		prefix = target.substring(0, 2);
-		number = parseFloat(target.substring(2));
-		sigfigs = target.substring(2);
-	}
-	else {
-		number = parseFloat(target);
-		sigfigs = target;
-	}
+    // Check if there is a prefix
+    if (isNaN(target)) {
+        prefix = target.substring(0, 2);
+        number = parseFloat(target.substring(2));
+        sigfigs = target.substring(2);
+    }
+    else {
+        number = parseFloat(target);
+        sigfigs = target;
+    }
 
-	// Check for prefix and return the appropriate query
-	// Missing eq(default), sa, eb, and ap prefixes
-	switch (prefix) {
-		case 'lt':
-			return {$lt: number};
-		case 'le' :
-			return {$lte: number};
-		case 'gt':
-			return {$gt: number};
-		case 'ge':
-			return {$gte: number};
-		case 'ne':
-			return {$ne: number};
-	}
+    // Check for prefix and return the appropriate query
+    // Missing eq(default), sa, eb, and ap prefixes
+    switch (prefix) {
+        case 'lt':
+            return {$lt: number};
+        case 'le' :
+            return {$lte: number};
+        case 'gt':
+            return {$gt: number};
+        case 'ge':
+            return {$gte: number};
+        case 'ne':
+            return {$ne: number};
+    }
 
-	// Return an approximation query
-	let decimals = sigfigs.split('.')[1];
-	if (decimals) {
-		decimals = decimals.length + 1;
-	}
-	else {
-		decimals = 1;
-	}
-	let aprox = (1 / 10 ** decimals) * 5;
+    // Return an approximation query
+    let decimals = sigfigs.split('.')[1];
+    if (decimals) {
+        decimals = decimals.length + 1;
+    }
+    else {
+        decimals = 1;
+    }
+    let aprox = (1 / 10 ** decimals) * 5;
 
-	return {$gte: number - aprox, $lt: number + aprox};
+    return {$gte: number - aprox, $lt: number + aprox};
 
 };
 
@@ -187,73 +187,47 @@ let numberQueryBuilder = function (target) {
  * @param field path to specific field in the resource
  */
 let quantityQueryBuilder = function (target, field) {
-let qB = {};
+    let qB = {};
 //split by the two pipes
-let [num, system, code] = target.split('|');
+    let [num, system, code] = target.split('|');
 
-if (system) {
-	qB[`${field}.system`] = system;
-}
-if (code) {
-	qB[`${field}.code`] = code;
-}
+    if (system) {
+        qB[`${field}.system`] = system;
+    }
+    if (code) {
+        qB[`${field}.code`] = code;
+    }
 
-if (isNaN(num)) { //with prefixes
-	let prefix = num.substring(0, 2);
-	num = Number(num.substring(2));
+    if (isNaN(num)) { //with prefixes
+        let prefix = num.substring(0, 2);
+        num = Number(num.substring(2));
 
-	// Missing eq(default), sa, eb, and ap prefixes
-	switch (prefix) {
-		case 'lt':
-			qB[`${field}.value`] = {$lt: num};
-			break;
-		case 'le' :
-			qB[`${field}.value`] = {$lte: num};
-			break;
-		case 'gt':
-			qB[`${field}.value`] = {$gt: num};
-			break;
-		case 'ge':
-			qB[`${field}.value`] = {$gte: num};
-			break;
-		case 'ne':
-			qB[`${field}.value`] = {$ne: num};
-			break;
-	}
-}
-else { //no prefixes
-	qB[`${field}.value`] = Number(num);
-}
+        // Missing eq(default), sa, eb, and ap prefixes
+        switch (prefix) {
+            case 'lt':
+                qB[`${field}.value`] = {$lt: num};
+                break;
+            case 'le' :
+                qB[`${field}.value`] = {$lte: num};
+                break;
+            case 'gt':
+                qB[`${field}.value`] = {$gt: num};
+                break;
+            case 'ge':
+                qB[`${field}.value`] = {$gte: num};
+                break;
+            case 'ne':
+                qB[`${field}.value`] = {$ne: num};
+                break;
+        }
+    }
+    else { //no prefixes
+        qB[`${field}.value`] = Number(num);
+    }
 
-return qB;
+    return qB;
 };
 
-//for modular arithmetic because % is just for remainder -> JS is a cruel joke
-function mod(n, m) {
-return ((n % m) + m) % m;
-}
-
-//gives the number of days from year 0, used for adding or subtracting days from a date
-let getDayNum = function (year, month, day) {
-month = mod((month + 9), 12);
-year = year - Math.floor(month / 10);
-return (365 * year + Math.floor(year / 4) - Math.floor(year / 100) + Math.floor(year / 400) + Math.floor((month * 306 + 5) / 10) + ( day - 1 ));
-};
-
-//returns a date given the number of days from year 0;
-let getDateFromNum = function (days) {
-let year = Math.floor((10000 * days + 14780) / 3652425);
-let day2 = days - (365 * year + Math.floor(year / 4) - Math.floor(year / 100) + Math.floor(year / 400));
-if (day2 < 0) {
-	year = year - 1;
-	day2 = days - (365 * year + Math.floor(year / 4) - Math.floor(year / 100) + Math.floor(year / 400));
-}
-let m1 = Math.floor((100 * day2 + 52) / 3060);
-let month = mod((m1 + 2), 12) + 1;
-year = year + Math.floor((m1 + 2) / 12);
-let rDay = day2 - Math.floor((m1 * 306 + 5) / 10) + 1;
-return year.toString() + '-' + ('0' + month).slice(-2) + '-' + ('0' + rDay).slice(-2);
-};
 
 /**
  * Parses out the attributes of the supplied date and builds a mongo query based on what was supplied.
@@ -291,125 +265,125 @@ return year.toString() + '-' + ('0' + month).slice(-2) + '-' + ('0' + rDay).slic
  */
 let dateQueryBuilder = function (date) {
     // If the date is a moment object, turn it into an ISO Date String
-	let formattedDate = date;
-	if (moment.isMoment(formattedDate)) {
+    let formattedDate = date;
+    if (moment.isMoment(formattedDate)) {
         formattedDate = formattedDate.toISOString();
-	}
+    }
 
-	// Use a regular expression to parse out the attributes of the incoming query.
-	const dateRegex = XRegExp(`
+    // Use a regular expression to parse out the attributes of the incoming query.
+    const dateRegex = xRegExp(`
         (?<prefix>  [A-Za-z]{2} )?     # prefix
         (?<year>    [0-9]{4} )    -?   # year (required)
         (?<month>   [0-9]{2} )?   -?   # month
         (?<day>     [0-9]{2} )?   T?   # day
-        (?<hour>    [0-9]{2} )?   \:?  # hour
-        (?<minute>  [0-9]{2} )?   \:?  # minute
+        (?<hour>    [0-9]{2} )?   :?   # hour
+        (?<minute>  [0-9]{2} )?   :?   # minute
         (?<second>  [0-9]{2} )?        # second
         (?<timezone>   .*)?            # timezone
         `, 'x');
-	let parsedDatetime = XRegExp.exec(formattedDate, dateRegex);
+    let parsedDatetime = xRegExp.exec(formattedDate, dateRegex);
 
     // Map of the date attributes and their properties in order of decreasing granularity
-	// Default values are provided here and used if values aren't provided in the query
-	// Interval Scale is used to determine the range of 'equals' queries based on the
-	// level of datetime granularity provided in the query.
-	const dateAttributes = new Map([
+    // Default values are provided here and used if values aren't provided in the query
+    // Interval Scale is used to determine the range of 'equals' queries based on the
+    // level of datetime granularity provided in the query.
+    const dateAttributes = new Map([
         ['second', {value: '00', intervalScale: 'minutes'}],
         ['minute', {value: '00', intervalScale: 'hours'}],
         ['hour', {value: '00', intervalScale: 'days'}],
         ['day', {value: '01', intervalScale: 'months'}],
         ['month', {value: '01', intervalScale: 'years'}],
         ['year', {value: null, intervalScale: null}]
-	]);
+    ]);
 
-	// Iterate through each of date attributes in order of decreasing granularity
+    // Iterate through each of date attributes in order of decreasing granularity
     // For each date attribute...
-	let supplied_date_attributes = [];
+    let supplied_date_attributes = [];
     let intervalScale = null;
-	for (let [attribute, properties] of dateAttributes.entries()){
-		// If we were able to parse the attribute out of the supplied date...
+    for (let [attribute, properties] of dateAttributes.entries()){
+        // If we were able to parse the attribute out of the supplied date...
         if (parsedDatetime[attribute]) {
             // Overwrite the attribute's default value
-        	properties.value = parsedDatetime[attribute];
-        	// Push it into the supplied attributes array to record that this attribute was supplied
+            properties.value = parsedDatetime[attribute];
+            // Push it into the supplied attributes array to record that this attribute was supplied
             supplied_date_attributes.push(properties.value);
         } else {
-        	// Else, overwrite the current intervalScale with this attribute's interval scale. Because the loop
-			// is in order of decreasing granularity, the final interval scale will be the least granular one.
+            // Else, overwrite the current intervalScale with this attribute's interval scale. Because the loop
+            // is in order of decreasing granularity, the final interval scale will be the least granular one.
             intervalScale = properties.intervalScale;
-		}
-	}
-	// Reverse the order of the supplied date attributes so that they're in the order a date is normally written.
-	supplied_date_attributes.reverse();
+        }
+    }
+    // Reverse the order of the supplied date attributes so that they're in the order a date is normally written.
+    supplied_date_attributes.reverse();
 
-	// Create a moment object of the target date (the date supplied as input) using the date attribute values
-	let targetDate = moment(new Date(
-		[dateAttributes.get('year').value, dateAttributes.get('month').value, dateAttributes.get('day').value].join('-')
-		+ 'T'
-		+ [dateAttributes.get('hour').value, dateAttributes.get('minute').value, dateAttributes.get('second').value].join(':')
-	));
+    // Create a moment object of the target date (the date supplied as input) using the date attribute values
+    let targetDate = moment(new Date(
+        [dateAttributes.get('year').value, dateAttributes.get('month').value, dateAttributes.get('day').value].join('-')
+        + 'T'
+        + [dateAttributes.get('hour').value, dateAttributes.get('minute').value, dateAttributes.get('second').value].join(':')
+    ));
 
-	// An object mapping the possible query prefixes to the modifiers used to build an appropriate mongo query
+    // An object mapping the possible query prefixes to the modifiers used to build an appropriate mongo query
     const queryModifiers = {
-        'eq': '',        // equal
-		undefined: '',   // equal (implied)
-		null: '',        // equal (implied)
-		'ne': 'ne',      // not equal
-		'gt': '$gt',     // greater than
-		'ge': '$gte',    // greater than or equal to
-		'lt': '$lt',     // less than
-		'le': '$lte',    // less than or equal to
-		'sa': '$gt',     // starts after (equivalent to 'greater than' for dates)
-		'eb': '$lt',     // ends before (equivalent to 'less than' for dates)
-		'ap': 'ap'       // approximately
-	};
+        'eq': '',			// equal
+        undefined: '',		// equal (implied)
+        null: '',			// equal (implied)
+        'ne': 'ne',			// not equal
+        'gt': '$gt',		// greater than
+        'ge': '$gte',		// greater than or equal to
+        'lt': '$lt',		// less than
+        'le': '$lte',		// less than or equal to
+        'sa': '$gt',		// starts after (equivalent to 'greater than' for dates)
+        'eb': '$lt',		// ends before (equivalent to 'less than' for dates)
+        'ap': 'ap'			// approximately
+    };
 
     // Retrieve the appropriate query modifier for the supplied prefix
-	let queryModifier = queryModifiers[parsedDatetime.prefix];
+    let queryModifier = queryModifiers[parsedDatetime.prefix];
 
     // Construct mongo queries based on the query modifier
-	let dateQuery;
+    let dateQuery;
     if (queryModifier === '') {
         // Construct a query for 'equal' if the 'eq' prefix was provided or if no prefix was provided
         // If we have an interval scale, query the appropriate range
-		if (intervalScale) {
+        if (intervalScale) {
             let endDate = moment(targetDate).add(1, intervalScale);
             dateQuery = {$gte: targetDate.toISOString(), $lt: endDate.toISOString()};
-		} else {
+        } else {
             // Else, we have an exact datetime, so query it directly
-			dateQuery = targetDate;
-		}
+            dateQuery = targetDate;
+        }
 
     } else if (queryModifier === 'ne') {
         // Construct a query for 'not equal' if the 'ne' prefix was provided
         // TODO - This works, but I'm not sure that it's the best way to do things. The only alternative I could think
-		// TODO - of was to use mongo's $or key, but that would require some refactoring because of key structure.
+        // TODO - of was to use mongo's $or key, but that would require some refactoring because of key structure.
 
-		// Construct a regex that matches ISO date strings that don't match the pattern to whatever level of
-		// granularity is appropriate based on the supplied date. For example, ne2000-01 will match all dates
-		// that aren't in January of 2000.
-		let mongoRegex = '^((?!';
-		for (let i in supplied_date_attributes) {
-			mongoRegex += supplied_date_attributes[i] + '[\\:\\-T]?';
-		}
-		mongoRegex += ').)*$';
-		dateQuery = {$regex: mongoRegex};
+        // Construct a regex that matches ISO date strings that don't match the pattern to whatever level of
+        // granularity is appropriate based on the supplied date. For example, ne2000-01 will match all dates
+        // that aren't in January of 2000.
+        let mongoRegex = '^((?!';
+        for (let i in supplied_date_attributes) {
+            mongoRegex += supplied_date_attributes[i] + '[-:T]?';
+        }
+        mongoRegex += ').)*$';
+        dateQuery = {$regex: mongoRegex};
 
     } else if (['$gt', '$gte', '$lt', '$lte'].includes(queryModifier)) {
-		// Construct a query for the relevant comparison operator (>, =>, <, <=, )
-		dateQuery = {[queryModifier]: targetDate.toISOString()};
+        // Construct a query for the relevant comparison operator (>, =>, <, <=, )
+        dateQuery = {[queryModifier]: targetDate.toISOString()};
 
-	} else if (queryModifier === 'ap') {
+    } else if (queryModifier === 'ap') {
         // Construct a query for 'approximately' if the 'ap' prefix was provided. This will query a date range
-		// +/- rangePadding * the difference between the target datetime and the current datetime
-    	const rangePadding = 0.1; // TODO is this an appropriate name? I couldn't think of a better one.
-    	let currentDateTime = moment();
-    	let difference = moment.duration(currentDateTime.diff(targetDate)).asSeconds() * rangePadding;
-    	let lowerBound = moment(targetDate).subtract(difference, 'seconds');
-    	let upperBound = moment(targetDate).add(difference, 'seconds');
+        // +/- rangePadding * the difference between the target datetime and the current datetime
+        const rangePadding = 0.1; // TODO is this an appropriate name? I couldn't think of a better one.
+        let currentDateTime = moment();
+        let difference = moment.duration(currentDateTime.diff(targetDate)).asSeconds() * rangePadding;
+        let lowerBound = moment(targetDate).subtract(difference, 'seconds');
+        let upperBound = moment(targetDate).add(difference, 'seconds');
         dateQuery = {$gte: lowerBound.toISOString(), $lte: upperBound.toISOString()};
-	}
-	return dateQuery;
+    }
+    return dateQuery;
 };
 
 /**
@@ -420,82 +394,82 @@ let dateQueryBuilder = function (date) {
  * @param field2 contains the path and search type
  */
 let compositeQueryBuilder = function(target, field1, field2) {
-	let composite = [];
-	let temp = {};
-	let [ target1, target2 ] = target.split(/[$,]/);
-	let [ path1, type1 ] = field1.split('|');
-	let [ path2, type2 ] = field2.split('|');
+    let composite = [];
+    let temp = {};
+    let [ target1, target2 ] = target.split(/[$,]/);
+    let [ path1, type1 ] = field1.split('|');
+    let [ path2, type2 ] = field2.split('|');
 
-	// Call the right queryBuilder based on type
-	switch (type1) {
-		case 'string':
-			temp = {};
-			temp[`${path1}`] = stringQueryBuilder(target1);
-			composite.push(temp);
-			break;
-		case 'token':
-			composite.push({$or: [{$and: [tokenQueryBuilder(target1, 'code', path1, '')]},
-		{$and: [tokenQueryBuilder(target1, 'value', path1, '')]}]});
-			break;
-		case 'reference':
-			composite.push(referenceQueryBuilder(target1, path1));
-			break;
-		case 'quantity':
-			composite.push(quantityQueryBuilder(target1, path1));
-			break;
-		case 'number':
-			temp = {};
-			temp[`${path1}`] = numberQueryBuilder(target1);
-			composite.push(temp);
-			break;
-		case 'date':
-			composite.push({$or: [{[path1]: dateQueryBuilder(target1, 'date', '')},
-			{[path1]: dateQueryBuilder(target1, 'dateTime', '')}, {[path1]: dateQueryBuilder(target1, 'instant', '')},
-			{$or: dateQueryBuilder(target1, 'period', path1)}, {$or: dateQueryBuilder(target1, 'timing', path1)}]});
-			break;
-		default:
-			temp = {};
-			temp[`${path1}`] = target1;
-			composite.push(temp);
-	}
-	switch (type2) {
-		case 'string':
-			temp = {};
-			temp[`${path2}`] = stringQueryBuilder(target2);
-			composite.push(temp);
-			break;
-		case 'token':
-			composite.push({$or: [{$and: [tokenQueryBuilder(target2, 'code', path2, '')]},
-			{$and: [tokenQueryBuilder(target2, 'value', path2, '')]}]});
-			break;
-		case 'reference':
-			composite.push(referenceQueryBuilder(target2, path2));
-			break;
-		case 'quantity':
-			composite.push(quantityQueryBuilder(target2, path2));
-			break;
-		case 'number':
-			temp = {};
-			temp[`${path2}`] = composite.push(numberQueryBuilder(target2));
-			composite.push(temp);
-			break;
-		case 'date':
-			composite.push({$or: [{[path2]: dateQueryBuilder(target2, 'date', '')},
-			{[path2]: dateQueryBuilder(target2, 'dateTime', '')}, {[path2]: dateQueryBuilder(target2, 'instant', '')},
-			{$or: dateQueryBuilder(target2, 'period', path2)}, {$or: dateQueryBuilder(target2, 'timing', path2)}]});
-			break;
-		default:
-			temp = {};
-			temp[`${path2}`] = target2;
-			composite.push(temp);
-	}
+    // Call the right queryBuilder based on type
+    switch (type1) {
+        case 'string':
+            temp = {};
+            temp[`${path1}`] = stringQueryBuilder(target1);
+            composite.push(temp);
+            break;
+        case 'token':
+            composite.push({$or: [{$and: [tokenQueryBuilder(target1, 'code', path1, '')]},
+                    {$and: [tokenQueryBuilder(target1, 'value', path1, '')]}]});
+            break;
+        case 'reference':
+            composite.push(referenceQueryBuilder(target1, path1));
+            break;
+        case 'quantity':
+            composite.push(quantityQueryBuilder(target1, path1));
+            break;
+        case 'number':
+            temp = {};
+            temp[`${path1}`] = numberQueryBuilder(target1);
+            composite.push(temp);
+            break;
+        case 'date':
+            composite.push({$or: [{[path1]: dateQueryBuilder(target1, 'date', '')},
+                    {[path1]: dateQueryBuilder(target1, 'dateTime', '')}, {[path1]: dateQueryBuilder(target1, 'instant', '')},
+                    {$or: dateQueryBuilder(target1, 'period', path1)}, {$or: dateQueryBuilder(target1, 'timing', path1)}]});
+            break;
+        default:
+            temp = {};
+            temp[`${path1}`] = target1;
+            composite.push(temp);
+    }
+    switch (type2) {
+        case 'string':
+            temp = {};
+            temp[`${path2}`] = stringQueryBuilder(target2);
+            composite.push(temp);
+            break;
+        case 'token':
+            composite.push({$or: [{$and: [tokenQueryBuilder(target2, 'code', path2, '')]},
+                    {$and: [tokenQueryBuilder(target2, 'value', path2, '')]}]});
+            break;
+        case 'reference':
+            composite.push(referenceQueryBuilder(target2, path2));
+            break;
+        case 'quantity':
+            composite.push(quantityQueryBuilder(target2, path2));
+            break;
+        case 'number':
+            temp = {};
+            temp[`${path2}`] = composite.push(numberQueryBuilder(target2));
+            composite.push(temp);
+            break;
+        case 'date':
+            composite.push({$or: [{[path2]: dateQueryBuilder(target2, 'date', '')},
+                    {[path2]: dateQueryBuilder(target2, 'dateTime', '')}, {[path2]: dateQueryBuilder(target2, 'instant', '')},
+                    {$or: dateQueryBuilder(target2, 'period', path2)}, {$or: dateQueryBuilder(target2, 'timing', path2)}]});
+            break;
+        default:
+            temp = {};
+            temp[`${path2}`] = target2;
+            composite.push(temp);
+    }
 
-	if (target.includes('$')) {
-		return {$and: composite};
-	}
-	else {
-		return {$or: composite};
-	}
+    if (target.includes('$')) {
+        return {$and: composite};
+    }
+    else {
+        return {$or: composite};
+    }
 
 };
 
@@ -503,13 +477,13 @@ let compositeQueryBuilder = function(target, field1, field2) {
  * @todo build out all prefix functionality for number and quantity and add date queries
  */
 module.exports = {
-	stringQueryBuilder,
-	tokenQueryBuilder,
-	referenceQueryBuilder,
-	addressQueryBuilder,
-	nameQueryBuilder,
-	numberQueryBuilder,
-	quantityQueryBuilder,
-	compositeQueryBuilder,
-	dateQueryBuilder
+    stringQueryBuilder,
+    tokenQueryBuilder,
+    referenceQueryBuilder,
+    addressQueryBuilder,
+    nameQueryBuilder,
+    numberQueryBuilder,
+    quantityQueryBuilder,
+    compositeQueryBuilder,
+    dateQueryBuilder
 };
