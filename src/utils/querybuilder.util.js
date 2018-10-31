@@ -1,3 +1,6 @@
+const moment = require('moment-timezone');
+const XRegExp = require('xregexp');
+
 /**
  * @name stringQueryBuilder
  * @description builds mongo default query for string inputs, no modifiers
@@ -252,155 +255,161 @@ let rDay = day2 - Math.floor((m1 * 306 + 5) / 10) + 1;
 return year.toString() + '-' + ('0' + month).slice(-2) + '-' + ('0' + rDay).slice(-2);
 };
 
-// deals with date, dateTime, instant, period, and timing
-// use like this: query['whatever'] = dateQueryBuilder(whatever, 'dateTime'), but it's different for period and timing
-// the condition service has some examples you might want to look at.
-// can't handle prefixes yet!
-// Also doesn't work foe when things are stored in different time zones in the .json files (with the + or -)
-// UNLESS, the search parameter is teh exact same as what is stored.  So, if something is stored as 2016-06-03T05:00-03:00, then the search parameter must be 2016-06-03T05:00-03:00
-// It's important to make sure formatting is right, dont forget a leading 0 when dealing with single digit times.
 /**
-* TODO:
-* REMOVE THIS, date is a moment object and this whole function expects a datestring
-* then uses regex to parse the datestring and manipulate pieces of it. Moment objects
-* have a toObject method which would negate the need for regex and matching. We also need
-* to verify the built queries are correct. Recommending we start from scratch
-* with this and add unit tests.
-*/
-let dateQueryBuilder = function (date, type, path) {
-	let formatted_date = date = date.format();
-	let regex = /^(\D{2})?(\d{4})(-\d{2})?(-\d{2})?(?:(T\d{2}:\d{2})(:\d{2})?)?(Z|(\+|-)(\d{2}):(\d{2}))?$/;
-	let match = formatted_date.match(regex);
-	let str = '';
-	let toRet = [];
-	let pArr = []; //will have other possibilities such as just year, just year and month, etc
-	let prefix = '$eq';
-	if (match && match.length >= 1 ) {
+ * Parses out the attributes of the supplied date and builds a mongo query based on what was supplied.
+ * Currently assumes that all supplied dates are in UTC.
+ * Dates in the mongo db must be stored as strings in ISO Date format.
+ *
+ * @param date - Can be a moment object or an ISO Date string (yyyy-mm-ddThh:mm:ss[Z|(+|-)hh:mm]).
+ *               A partial date string can be provided to search a less specific time period so long as at least the
+ *               year is provided.
+ *
+ *               If a moment object is supplied, the query will be for finding an exact match.
+ *
+ *               If a date string is provided, the specificity of the query will be determined by the level of
+ *               granularity provided in the string. For example, just providing 1980 will query for all documents with
+ *               datetime values in the year 1980, while providing 1980-12-20 will query for all documents with date
+ *               times on the day 1980-12-20.
+ *
+ *               In addition, date strings can be prefixed with the following modifiers for different behavior:
+ *               eq - Equal. Default behavior, same having as no prefix.
+ *               ne - Not Equal. Queries for all documents not equal to the datetime specified. Opposite behavior as eq.
+ *               gt - Greater Than. Queries for all documents greater than the datetime specified.
+ *               lt - Less Than. Queries for all documents less than the datetime specified
+ *               gte - Greater Than or Equal To. Queries for all documents greater than or equal to the datetime specified
+ *               lte - Less Than or Equal To. Queries for all documents less than or equal to the datetime specified
+ *               sa - Starts After. Same behavior as gt.
+ *               eb - Ends Before. Same behavior as lt.
+ *               ap - Approximately. Queries for all documents in a range centered on the supplied date, with an upper
+ *                    and lower bound of the supplied date +/- 0.1 * the difference from the current datetime to the
+ *                    supplied datetime.
+ *
+ * @returns {*} - query to be run against the mongo db.
+ *
+ * TODO - Check that upstream sanitization guarantees a valid ISO date string as well as a valid query prefix.
+ * TODO - Currently not doing anything with timezone information and assuming UTC. Might need to fix that.
+ */
+let dateQueryBuilder = function (date) {
+    // If the date is a moment object, turn it into an ISO Date String
+	let formattedDate = date;
+	if (moment.isMoment(formattedDate)) {
+        formattedDate = formattedDate.toISOString();
+	}
 
-		if (match[1]) {
-			// replace prefix with mongo specific comparators
-			prefix = '$' + match[1].replace('ge', 'gte').replace('le', 'lte');
-		}
+	// Use a regular expression to parse out the attributes of the incoming query.
+	const dateRegex = XRegExp(`
+        (?<prefix>  [A-Za-z]{2} )?     # prefix
+        (?<year>    [0-9]{4} )    -?   # year (required)
+        (?<month>   [0-9]{2} )?   -?   # month
+        (?<day>     [0-9]{2} )?   T?   # day
+        (?<hour>    [0-9]{2} )?   \:?  # hour
+        (?<minute>  [0-9]{2} )?   \:?  # minute
+        (?<second>  [0-9]{2} )?        # second
+        (?<timezone>   .*)?            # timezone
+        `, 'x');
+	let parsedDatetime = XRegExp.exec(formattedDate, dateRegex);
 
-		if (type === 'date') { //if its just a date, we don't have to worry about time components
-			if (prefix === '$eq') {
-				//add parts of date that are available
-				for (let i = 2; i < 5; i++) { //add up the date parts in a string
-					if (match[i]) {
-						str = str + match[i];
-						pArr[i - 2] = str + '$';
-					}
-				}
-				//below we have to check if the search gave more information than what is actually stored
-				return {$regex: new RegExp('^' + '(?:' + str + ')|(?:' + pArr[0] + ')|(?:' + pArr[1] + ')|(?:' + pArr[2] + ')', 'i')};
-			}
-		}
+    // Map of the date attributes and their properties in order of decreasing granularity
+	// Default values are provided here and used if values aren't provided in the query
+	// Interval Scale is used to determine the range of 'equals' queries based on the
+	// level of datetime granularity provided in the query.
+	const dateAttributes = new Map([
+        ['second', {value: '00', intervalScale: 'minutes'}],
+        ['minute', {value: '00', intervalScale: 'hours'}],
+        ['hour', {value: '00', intervalScale: 'days'}],
+        ['day', {value: '01', intervalScale: 'months'}],
+        ['month', {value: '01', intervalScale: 'years'}],
+        ['year', {value: null, intervalScale: null}]
+	]);
 
-		if (type === 'dateTime' || type === 'instant' || type === 'period' || type === 'timing') { //now we have to worry about hours, minutes, seconds, and TIMEZONES
-			if (prefix === '$eq') {
-				if (match[5]) { //to see if time is included
-					for (let i = 2; i < 6; i++) {
-							str = str + match[i];
-						if (i === 5) {
-							pArr[i - 2] = str + 'Z?$';
-						} else {
-							pArr[i - 2] = str + '$';
-						}
-					}
-					if (type === 'instant'){
-						if (match[6]) { //to check if seconds were included or not
-							str = str + match[6];
-						}
-					}
-
-					if (match[9]) { // we know there is a +|-hh:mm at the end
-						let mins = 0;
-						let hrs = 0;
-						if (match[8] === '+') { //time is ahead of UTC so we must subtract
-							let hM = match[5].split(':');
-							hM[0] = hM[0].replace('T', '');
-							mins = Number(hM[1]) - Number(match[10]);
-							hrs = Number(hM[0]) - Number(match[9]);
-							if (mins < 0) { //when we subtract the minutes and go below zero, we need to remove an hour
-								mins = mod(mins, 60);
-								hrs = hrs - 1;
-							}
-							if (hrs < 0) { //when hours goes below zero, we have to adjust the date
-								hrs = mod(hrs, 24);
-								str = getDateFromNum(getDayNum(Number(match[2]), Number(match[3].replace('-', '')), Number(match[4].replace('-', ''))) - 1);
-							} else {
-								str = getDateFromNum(getDayNum(Number(match[2]), Number(match[3].replace('-', '')), Number(match[4].replace('-', ''))));
-							}
-						} else { //time is behind UTC so we add
-							let hM = match[5].split(':');
-							hM[0] = hM[0].replace('T', '');
-							mins = Number(hM[1]) + Number(match[10]);
-							hrs = Number(hM[0]) + Number(match[9]);
-							if (mins > 59) { //if we go above 59, we need to increase hours
-								mins = mod(mins, 60);
-								hrs = hrs + 1;
-							}
-							if (hrs > 23) { //if we go above 23 hours, new day
-								hrs = mod(hrs, 24);
-								str = getDateFromNum(getDayNum(Number(match[2]), Number(match[3].replace('-', '')), Number(match[4].replace('-', ''))) + 1);
-							} else {
-								str = getDateFromNum(getDayNum(Number(match[2]), Number(match[3].replace('-', '')), Number(match[4].replace('-', ''))));
-							}
-						}
-
-						pArr[5] = str + '$';
-						str = str + 'T' + ('0' + hrs).slice(-2) + ':' + ('0' + mins).slice(-2); //proper formatting for leading 0's
-						let match2 = str.match(/^(\d{4})(-\d{2})?(-\d{2})(?:(T\d{2}:\d{2})(:\d{2})?)?/);
-
-						if (match2 && match2.length >= 1) {
-							pArr[0] = match2[1] + '$'; //YYYY
-							pArr[1] = match2[1] + match2[2] + '$'; //YYYY-MM
-							pArr[2] = match2[1] + match2[2] + match2[3] + '$'; //YYYY-MM-DD
-							pArr[3] = match2[1] + match2[2] + match2[3] + 'T' + ('0' + hrs).slice(-2) + ':' + ('0' + mins).slice(-2) + 'Z?$';
-						}
-
-						if (match[6]) { //to check if seconds were included or not
-							pArr[4] = str + ':' + ('0' + match[6]).slice(-2) + 'Z?$';
-							str = str + match[6];
-						}
-
-						if (!pArr[4]) { //fill empty spots in pArr with ^$ to make sure it can't just match with nothing
-							pArr[4] = '^$';
-						}
-					}
-				} else {
-					for (let i = 2; i < 5; i++) { //add up the date parts in a string, done to make sure to update anything if timezone changed anything
-						if (match[i]) {
-							str = str + match[i];
-							pArr[i - 2] = str + '$';
-						}
-					}
-				}
-
-				let regPoss = {$regex: new RegExp('^' + '(?:' + pArr[0] + ')|(?:' + pArr[1] + ')|(?:' + pArr[2] + ')|(?:' + pArr[3] + ')|(?:' + pArr[4] + ')')};
-				if (type === 'period'){
-					str = str + 'Z';
-					let pS = path + '.start';
-					let pE = path + '.end';
-					toRet = [{$and: [{[pS]: {$lte: str}}, {$or: [{[pE]: {$gte: str}}, {[pE]: regPoss}]}]}, {$and: [{[pS]: {$lte: str}}, {[pE]: undefined}]},
-					{$and: [{$or: [{[pE]: {$gte: str}}, {[pE]: regPoss}]}, {[pS]: undefined}]}];
-					return toRet;
-				}
-
-				let tempFill = pArr.toString().replace(/,/g, ')|(?:') + ')'; //turning the pArr to a string that can be used as a regex
-				if (type === 'timing') {
-					let pDT = path + '.event';
-					let pBPS = path + '.repeat.boundsPeriod.start';
-					let pBPE = path + '.repeat.boundsPeriod.end';
-					toRet = [{[pDT]: {$regex: new RegExp('^' + '(?:' + str + ')|(?:' + match[0].replace('+', '\\+') + ')|(?:' + tempFill, 'i')}},
-					{$and: [{[pBPS]: {$lte: str}}, {$or: [{[pBPE]: {$gte: str}}, {[pBPE]: regPoss}]}]}, {$and: [{[pBPS]: {$lte: str}}, {[pBPE]: undefined}]},
-					{$and: [{$or: [{[pBPE]: {$gte: str}}, {[pBPE]: regPoss}]}, {[pBPS]: undefined}]}];
-					return toRet;
-				}
-				return {$regex: new RegExp('^' + '(?:' + str + ')|(?:' + match[0].replace('+', '\\+') + ')|(?:' + tempFill, 'i')};
-			}
+	// Iterate through each of date attributes in order of decreasing granularity
+    // For each date attribute...
+	let supplied_date_attributes = [];
+    let intervalScale = null;
+	for (let [attribute, properties] of dateAttributes.entries()){
+		// If we were able to parse the attribute out of the supplied date...
+        if (parsedDatetime[attribute]) {
+            // Overwrite the attribute's default value
+        	properties.value = parsedDatetime[attribute];
+        	// Push it into the supplied attributes array to record that this attribute was supplied
+            supplied_date_attributes.push(properties.value);
+        } else {
+        	// Else, overwrite the current intervalScale with this attribute's interval scale. Because the loop
+			// is in order of decreasing granularity, the final interval scale will be the least granular one.
+            intervalScale = properties.intervalScale;
 		}
 	}
+	// Reverse the order of the supplied date attributes so that they're in the order a date is normally written.
+	supplied_date_attributes.reverse();
+
+	// Create a moment object of the target date (the date supplied as input) using the date attribute values
+	let targetDate = moment(new Date(
+		[dateAttributes.get('year').value, dateAttributes.get('month').value, dateAttributes.get('day').value].join('-')
+		+ 'T'
+		+ [dateAttributes.get('hour').value, dateAttributes.get('minute').value, dateAttributes.get('second').value].join(':')
+	));
+
+	// An object mapping the possible query prefixes to the modifiers used to build an appropriate mongo query
+    const queryModifiers = {
+        'eq': '',        // equal
+		undefined: '',   // equal (implied)
+		null: '',        // equal (implied)
+		'ne': 'ne',      // not equal
+		'gt': '$gt',     // greater than
+		'ge': '$gte',    // greater than or equal to
+		'lt': '$lt',     // less than
+		'le': '$lte',    // less than or equal to
+		'sa': '$gt',     // starts after (equivalent to 'greater than' for dates)
+		'eb': '$lt',     // ends before (equivalent to 'less than' for dates)
+		'ap': 'ap'       // approximately
+	};
+
+    // Retrieve the appropriate query modifier for the supplied prefix
+	let queryModifier = queryModifiers[parsedDatetime.prefix];
+
+    // Construct mongo queries based on the query modifier
+	let dateQuery;
+    if (queryModifier === '') {
+        // Construct a query for 'equal' if the 'eq' prefix was provided or if no prefix was provided
+        // If we have an interval scale, query the appropriate range
+		if (intervalScale) {
+            let endDate = moment(targetDate).add(1, intervalScale);
+            dateQuery = {$gte: targetDate.toISOString(), $lt: endDate.toISOString()};
+		} else {
+            // Else, we have an exact datetime, so query it directly
+			dateQuery = targetDate;
+		}
+
+    } else if (queryModifier === 'ne') {
+        // Construct a query for 'not equal' if the 'ne' prefix was provided
+        // TODO - This works, but I'm not sure that it's the best way to do things. The only alternative I could think
+		// TODO - of was to use mongo's $or key, but that would require some refactoring because of key structure.
+
+		// Construct a regex that matches ISO date strings that don't match the pattern to whatever level of
+		// granularity is appropriate based on the supplied date. For example, ne2000-01 will match all dates
+		// that aren't in January of 2000.
+		let mongoRegex = '^((?!';
+		for (let i in supplied_date_attributes) {
+			mongoRegex += supplied_date_attributes[i] + '[\\:\\-T]?';
+		}
+		mongoRegex += ').)*$';
+		dateQuery = {$regex: mongoRegex};
+
+    } else if (['$gt', '$gte', '$lt', '$lte'].includes(queryModifier)) {
+		// Construct a query for the relevant comparison operator (>, =>, <, <=, )
+		dateQuery = {[queryModifier]: targetDate.toISOString()};
+
+	} else if (queryModifier === 'ap') {
+        // Construct a query for 'approximately' if the 'ap' prefix was provided. This will query a date range
+		// +/- rangePadding * the difference between the target datetime and the current datetime
+    	const rangePadding = 0.1; // TODO is this an appropriate name? I couldn't think of a better one.
+    	let currentDateTime = moment();
+    	let difference = moment.duration(currentDateTime.diff(targetDate)).asSeconds() * rangePadding;
+    	let lowerBound = moment(targetDate).subtract(difference, 'seconds');
+    	let upperBound = moment(targetDate).add(difference, 'seconds');
+        dateQuery = {$gte: lowerBound.toISOString(), $lte: upperBound.toISOString()};
+	}
+	return dateQuery;
 };
 
 /**

@@ -36,7 +36,8 @@
     "@asymmetrik/node-fhir-server-core": "git+https://github.com/Asymmetrik/node-fhir-server-core.git",
     "moment-timezone": "^0.5.14",
     "mongo": "^0.1.0",
-    "var": "^0.3.2"
+    "var": "^0.3.2",
+    "xregexp": "^4.2.0"
   },
   "devDependencies": {
     "cross-env": "^5.1.6",

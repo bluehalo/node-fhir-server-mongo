@@ -118,11 +118,11 @@ let buildStu3SearchQuery = (args) =>	 {
 	}
 
 	if (birthdate) {
-		query.birthDate = dateQueryBuilder(birthdate, 'date', '');
+		query.birthDate = dateQueryBuilder(birthdate);
 	}
 
 	if (death_date) {
-		query.deceasedDateTime = dateQueryBuilder(death_date, 'dateTime', '');
+		query.deceasedDateTime = dateQueryBuilder(death_date);
 	}
 
 	if (deceased) {
@@ -307,11 +307,11 @@ let buildDstu2SearchQuery = (args) =>	 {
 	}
 
 	if (birthdate) {
-		query.birthDate = dateQueryBuilder(birthdate, 'date', '');
+		query.birthDate = dateQueryBuilder(birthdate);
 	}
 
 	if (death_date) {
-		query.deceasedDateTime = dateQueryBuilder(death_date, 'dateTime', '');
+		query.deceasedDateTime = dateQueryBuilder(death_date);
 	}
 
 	if (deceased) {
