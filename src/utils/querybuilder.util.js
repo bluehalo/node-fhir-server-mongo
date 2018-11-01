@@ -258,16 +258,18 @@ let quantityQueryBuilder = function (target, field) {
  *                    and lower bound of the supplied date +/- 0.1 * the difference from the current datetime to the
  *                    supplied datetime.
  *
+ * @param currentDateTimeOverride - This argument is exclusively for testing the function in relation to the
+ *									'ap' (approximately) query prefix.
+ *
  * @returns {*} - query to be run against the mongo db.
  *
  * TODO - Check that upstream sanitization guarantees a valid ISO date string as well as a valid query prefix.
- * TODO - Currently not doing anything with timezone information and assuming UTC. Might need to fix that.
+ * TODO - Also need to make sure the timezone information is UTC.
  */
-let dateQueryBuilder = function (date) {
-    // If the date is a moment object, turn it into an ISO Date String
-    let formattedDate = date;
-    if (moment.isMoment(formattedDate)) {
-        formattedDate = formattedDate.toISOString();
+let dateQueryBuilder = function (date, currentDateTimeOverride) {
+    // If the date is a moment object, turn it into an ISO Date String and return it as the query
+    if (moment.isMoment(date)) {
+		return date.toISOString();
     }
 
     // Use a regular expression to parse out the attributes of the incoming query.
@@ -281,24 +283,24 @@ let dateQueryBuilder = function (date) {
         (?<second>  [0-9]{2} )?        # second
         (?<timezone>   .*)?            # timezone
         `, 'x');
-    let parsedDatetime = xRegExp.exec(formattedDate, dateRegex);
+    let parsedDatetime = xRegExp.exec(date, dateRegex);
 
     // Map of the date attributes and their properties in order of decreasing granularity
     // Default values are provided here and used if values aren't provided in the query
     // Interval Scale is used to determine the range of 'equals' queries based on the
     // level of datetime granularity provided in the query.
     const dateAttributes = new Map([
-        ['second', {value: '00', intervalScale: 'minutes'}],
-        ['minute', {value: '00', intervalScale: 'hours'}],
-        ['hour', {value: '00', intervalScale: 'days'}],
-        ['day', {value: '01', intervalScale: 'months'}],
-        ['month', {value: '01', intervalScale: 'years'}],
+        ['second', {value: '00', intervalScale: 'minute'}],
+        ['minute', {value: '00', intervalScale: 'hour'}],
+        ['hour', {value: '00', intervalScale: 'day'}],
+        ['day', {value: '01', intervalScale: 'month'}],
+        ['month', {value: '01', intervalScale: 'year'}],
         ['year', {value: null, intervalScale: null}]
     ]);
 
     // Iterate through each of date attributes in order of decreasing granularity
     // For each date attribute...
-    let supplied_date_attributes = [];
+    let suppliedDateAttributes = [];
     let intervalScale = null;
     for (let [attribute, properties] of dateAttributes.entries()){
         // If we were able to parse the attribute out of the supplied date...
@@ -306,7 +308,7 @@ let dateQueryBuilder = function (date) {
             // Overwrite the attribute's default value
             properties.value = parsedDatetime[attribute];
             // Push it into the supplied attributes array to record that this attribute was supplied
-            supplied_date_attributes.push(properties.value);
+            suppliedDateAttributes.push(properties.value);
         } else {
             // Else, overwrite the current intervalScale with this attribute's interval scale. Because the loop
             // is in order of decreasing granularity, the final interval scale will be the least granular one.
@@ -314,14 +316,15 @@ let dateQueryBuilder = function (date) {
         }
     }
     // Reverse the order of the supplied date attributes so that they're in the order a date is normally written.
-    supplied_date_attributes.reverse();
+    suppliedDateAttributes.reverse();
 
     // Create a moment object of the target date (the date supplied as input) using the date attribute values
-    let targetDate = moment(new Date(
+    let targetDate = moment.tz(
         [dateAttributes.get('year').value, dateAttributes.get('month').value, dateAttributes.get('day').value].join('-')
         + 'T'
-        + [dateAttributes.get('hour').value, dateAttributes.get('minute').value, dateAttributes.get('second').value].join(':')
-    ));
+        + [dateAttributes.get('hour').value, dateAttributes.get('minute').value, dateAttributes.get('second').value].join(':'),
+		'UTC' //FIXME assuming UTC.
+    );
 
     // An object mapping the possible query prefixes to the modifiers used to build an appropriate mongo query
     const queryModifiers = {
@@ -347,11 +350,11 @@ let dateQueryBuilder = function (date) {
         // Construct a query for 'equal' if the 'eq' prefix was provided or if no prefix was provided
         // If we have an interval scale, query the appropriate range
         if (intervalScale) {
-            let endDate = moment(targetDate).add(1, intervalScale);
-            dateQuery = {$gte: targetDate.toISOString(), $lt: endDate.toISOString()};
+            let endDate = moment(targetDate).endOf(intervalScale);
+            dateQuery = {$gte: targetDate.toISOString(), $lte: endDate.toISOString()};
         } else {
             // Else, we have an exact datetime, so query it directly
-            dateQuery = targetDate;
+            dateQuery = targetDate.toISOString();
         }
 
     } else if (queryModifier === 'ne') {
@@ -363,21 +366,29 @@ let dateQueryBuilder = function (date) {
         // granularity is appropriate based on the supplied date. For example, ne2000-01 will match all dates
         // that aren't in January of 2000.
         let mongoRegex = '^((?!';
-        for (let i in supplied_date_attributes) {
-            mongoRegex += supplied_date_attributes[i] + '[-:T]?';
+        for (let i in suppliedDateAttributes) {
+            mongoRegex += suppliedDateAttributes[i] + '[-:T]?';
         }
         mongoRegex += ').)*$';
         dateQuery = {$regex: mongoRegex};
 
     } else if (['$gt', '$gte', '$lt', '$lte'].includes(queryModifier)) {
-        // Construct a query for the relevant comparison operator (>, =>, <, <=, )
+        // Construct a query for the relevant comparison operator (>, >=, <, <=)
+
+		// If the modifier is for 'greater than' and we have an interval scale, change the target date to be the end
+		// of the relevant interval scale.
+        if (queryModifier === '$gt' && intervalScale) {
+            targetDate.endOf(intervalScale);
+        }
+
         dateQuery = {[queryModifier]: targetDate.toISOString()};
 
     } else if (queryModifier === 'ap') {
         // Construct a query for 'approximately' if the 'ap' prefix was provided. This will query a date range
         // +/- rangePadding * the difference between the target datetime and the current datetime
-        const rangePadding = 0.1; // TODO is this an appropriate name? I couldn't think of a better one.
-        let currentDateTime = moment();
+        const rangePadding = 0.1;
+        // If an override was provided, create a moment using that. Else, get a moment of the current date and time.
+        let currentDateTime = (currentDateTimeOverride ? moment(currentDateTimeOverride) : moment());
         let difference = moment.duration(currentDateTime.diff(targetDate)).asSeconds() * rangePadding;
         let lowerBound = moment(targetDate).subtract(difference, 'seconds');
         let upperBound = moment(targetDate).add(difference, 'seconds');
