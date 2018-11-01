@@ -266,10 +266,10 @@ let quantityQueryBuilder = function (target, field) {
  * TODO - Check that upstream sanitization guarantees a valid ISO date string as well as a valid query prefix.
  * TODO - Also need to make sure the timezone information is UTC.
  */
-let dateQueryBuilder = function (date, currentDateTimeOverride) {
+let dateQueryBuilder = function (target, currentDateTimeOverride) {
     // If the date is a moment object, turn it into an ISO Date String and return it as the query
-    if (moment.isMoment(date)) {
-		return date.toISOString();
+    if (moment.isMoment(target)) {
+		return target.toISOString();
     }
 
     // Use a regular expression to parse out the attributes of the incoming query.
@@ -283,7 +283,7 @@ let dateQueryBuilder = function (date, currentDateTimeOverride) {
         (?<second>  [0-9]{2} )?        # second
         (?<timezone>   .*)?            # timezone
         `, 'x');
-    let parsedDatetime = xRegExp.exec(date, dateRegex);
+    let parsedDatetime = xRegExp.exec(target, dateRegex);
 
     // Map of the date attributes and their properties in order of decreasing granularity
     // Default values are provided here and used if values aren't provided in the query
@@ -323,7 +323,7 @@ let dateQueryBuilder = function (date, currentDateTimeOverride) {
         [dateAttributes.get('year').value, dateAttributes.get('month').value, dateAttributes.get('day').value].join('-')
         + 'T'
         + [dateAttributes.get('hour').value, dateAttributes.get('minute').value, dateAttributes.get('second').value].join(':'),
-		'UTC' //FIXME assuming UTC.
+		'UTC' // assuming UTC.
     );
 
     // An object mapping the possible query prefixes to the modifiers used to build an appropriate mongo query
@@ -359,8 +359,6 @@ let dateQueryBuilder = function (date, currentDateTimeOverride) {
 
     } else if (queryModifier === 'ne') {
         // Construct a query for 'not equal' if the 'ne' prefix was provided
-        // TODO - This works, but I'm not sure that it's the best way to do things. The only alternative I could think
-        // TODO - of was to use mongo's $or key, but that would require some refactoring because of key structure.
 
         // Construct a regex that matches ISO date strings that don't match the pattern to whatever level of
         // granularity is appropriate based on the supplied date. For example, ne2000-01 will match all dates
@@ -396,6 +394,7 @@ let dateQueryBuilder = function (date, currentDateTimeOverride) {
     }
     return dateQuery;
 };
+
 
 /**
  * @name compositeQueryBuilder
