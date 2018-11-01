@@ -273,7 +273,7 @@ let dateQueryBuilder = function (target, currentDateTimeOverride) {
     }
 
     // Use a regular expression to parse out the attributes of the incoming query.
-    const dateRegex = xRegExp(`
+    const dateRegex = xRegExp(`^
         (?<prefix>  [A-Za-z]{2} )?     # prefix
         (?<year>    [0-9]{4} )    -?   # year (required)
         (?<month>   [0-9]{2} )?   -?   # month
@@ -282,7 +282,7 @@ let dateQueryBuilder = function (target, currentDateTimeOverride) {
         (?<minute>  [0-9]{2} )?   :?   # minute
         (?<second>  [0-9]{2} )?        # second
         (?<timezone>   .*)?            # timezone
-        `, 'x');
+        $`, 'x');
     let parsedDatetime = xRegExp.exec(target, dateRegex);
 
     // Map of the date attributes and their properties in order of decreasing granularity
@@ -328,17 +328,17 @@ let dateQueryBuilder = function (target, currentDateTimeOverride) {
 
     // An object mapping the possible query prefixes to the modifiers used to build an appropriate mongo query
     const queryModifiers = {
-        'eq': '',			// equal
+        eq: '',			    // equal
         undefined: '',		// equal (implied)
         null: '',			// equal (implied)
-        'ne': 'ne',			// not equal
-        'gt': '$gt',		// greater than
-        'ge': '$gte',		// greater than or equal to
-        'lt': '$lt',		// less than
-        'le': '$lte',		// less than or equal to
-        'sa': '$gt',		// starts after (equivalent to 'greater than' for dates)
-        'eb': '$lt',		// ends before (equivalent to 'less than' for dates)
-        'ap': 'ap'			// approximately
+        ne: 'ne',			// not equal
+        gt: '$gt',		    // greater than
+        ge: '$gte',		    // greater than or equal to
+        lt: '$lt',		    // less than
+        le: '$lte',		    // less than or equal to
+        sa: '$gt',		    // starts after (equivalent to 'greater than' for dates)
+        eb: '$lt',		    // ends before (equivalent to 'less than' for dates)
+        ap: 'ap'			// approximately
     };
 
     // Retrieve the appropriate query modifier for the supplied prefix
