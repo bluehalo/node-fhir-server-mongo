@@ -2,7 +2,7 @@
   "name": "@asymmetrik/node-fhir-server-mongo",
   "version": "1.1.1",
   "description": "FHIR Facade Server implementing @asymmetrik/node-fhir-server-core",
-  "main": "index.js",
+  "main": "src/index.js",
   "repository": "https://github.com/Asymmetrik/node-fhir-server-mongo.git",
   "contributors": [
     "Robert Winterbottom <rwinterbottom@asymmetrik.com>",
