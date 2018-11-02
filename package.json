@@ -13,7 +13,7 @@
     "node": ">=8.6"
   },
   "scripts": {
-    "start": "node index.js",
+    "start": "node src/index.js",
     "nodemon": "cross-env NODE_ENV=development; node scripts/nodemon;",
     "test": "npm run test:lint;",
     "test:lint": "eslint \"src/**/*.js\"",

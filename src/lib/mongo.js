@@ -11,11 +11,7 @@ let connect = (url, options) => new Promise((resolve, reject) => {
 
 	// Connect to mongo
 	MongoClient.connect(url, options, (err, client) => {
-		if (err) {
-			console.error(url);
-			console.error(options);
-			return reject(err);
-		}
+		if (err) { return reject(err); }
 		return resolve(client);
 	});
 

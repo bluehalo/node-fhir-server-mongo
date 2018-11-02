@@ -15,9 +15,6 @@ const {
 
 let main = async function () {
 
-	console.log(mongoConfig.connection);
-	console.log(mongoConfig.options);
-
 	// Connect to mongo and pass any options here
 	let [ mongoErr, client ] = await asyncHandler(
 		mongoClient(mongoConfig.connection, mongoConfig.options)
