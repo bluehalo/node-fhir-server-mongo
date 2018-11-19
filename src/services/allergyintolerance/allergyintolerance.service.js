@@ -135,6 +135,24 @@ let buildStu3SearchQuery = (args) =>	 {
 
 let buildDstu2SearchQuery = (args) =>	 {
 
+	// AllergyIntolerance search params
+	let category = args['category'];
+	let criticality = args['criticality'];
+	let date = args['date'];
+	let identifier = args['identifier'];
+	let last_date = args['last-date'];
+	let manifestation = args['manifestation'];
+	let onset = args['onset'];
+	let patient = args['patient'];
+	let recorder = args['recorder'];
+	let reporter = args['reporter'];
+	let route = args['route'];
+	let severity = args['severity'];
+	let status = args['status'];
+	let substance = args['status'];
+	let type = args['type'];
+
+
 	let query = {};
 
 	return query;
