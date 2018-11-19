@@ -171,11 +171,11 @@ module.exports.search = (args, context, logger) => new Promise((resolve, reject)
 		}
 
 		// AllergyIntolerance is a allergy_intolerance cursor, pull documents out before resolving
-		data.toArray().then((allergyintolerance_resources) => {
-			allergyintolerance_resources.forEach(function(element, i, returnArray) {
+		data.toArray().then((allergyintolerances) => {
+			allergyintolerances.forEach(function(element, i, returnArray) {
 				returnArray[i] = new AllergyIntolerance(element);
 			});
-			resolve(allergyintolerance_resources);
+			resolve(allergyintolerances);
 		});
 	});
 });
@@ -190,13 +190,13 @@ module.exports.searchById = (args, context, logger) => new Promise((resolve, rej
 	let db = globals.get(CLIENT_DB);
 	let collection = db.collection(`${COLLECTION.ALLERGYINTOLERANCE}_${base_version}`);
 	// Query our collection for this observation
-	collection.findOne({ id: id.toString() }, (err, allergyintolerance_resource) => {
+	collection.findOne({ id: id.toString() }, (err, allergyintolerance) => {
 		if (err) {
 			logger.error('Error with AllergyIntolerance.searchById: ', err);
 			return reject(err);
 		}
-		if (allergyintolerance_resource) {
-			resolve(new AllergyIntolerance(allergyintolerance_resource));
+		if (allergyintolerance) {
+			resolve(new AllergyIntolerance(allergyintolerance));
 		}
 		resolve();
 	});
@@ -279,7 +279,7 @@ module.exports.update = (args, context, logger) => new Promise((resolve, reject)
 			allergyintolerance.meta = new Meta({versionId: '1', lastUpdated: moment.utc().format('YYYY-MM-DDTHH:mm:ssZ')});
 		}
 
-		let cleaned = JSON.parse(JSON.stringify(allergyintolerance_resource));
+		let cleaned = JSON.parse(JSON.stringify(allergyintolerance));
 		let doc = Object.assign(cleaned, { _id: id });
 
 		// Insert/update our allergyintolerance record
@@ -362,14 +362,14 @@ module.exports.searchByVersionId = (args, context, logger) => new Promise((resol
 	let history_collection = db.collection(`${COLLECTION.ALLERGYINTOLERANCE}_${base_version}_History`);
 
 	// Query our collection for this observation
-	history_collection.findOne({ id: id.toString(), 'meta.versionId': `${version_id}` }, (err, allergyintolerance_resource) => {
+	history_collection.findOne({ id: id.toString(), 'meta.versionId': `${version_id}` }, (err, allergyintolerance) => {
 		if (err) {
 			logger.error('Error with AllergyIntolerance.searchByVersionId: ', err);
 			return reject(err);
 		}
 
-		if (allergyintolerance_resource) {
-			resolve(new AllergyIntolerance(allergyintolerance_resource));
+		if (allergyintolerance) {
+			resolve(new AllergyIntolerance(allergyintolerance));
 		}
 
 		resolve();
@@ -404,11 +404,11 @@ module.exports.history = (args, context, logger) => new Promise((resolve, reject
 		}
 
 		// AllergyIntolerance is a allergyintolerance cursor, pull documents out before resolving
-		data.toArray().then((allergyintolerance_resources) => {
-			allergyintolerance_resources.forEach(function(element, i, returnArray) {
+		data.toArray().then((allergyintolerances) => {
+			allergyintolerances.forEach(function(element, i, returnArray) {
 				returnArray[i] = new AllergyIntolerance(element);
 			});
-			resolve(allergyintolerance_resources);
+			resolve(allergyintolerances);
 		});
 	});
 });
@@ -440,11 +440,11 @@ module.exports.historyById = (args, context, logger) => new Promise((resolve, re
 		}
 
 		// AllergyIntolerance is a allergyintolerance cursor, pull documents out before resolving
-		data.toArray().then((allergyintolerance_resources) => {
-			allergyintolerance_resources.forEach(function(element, i, returnArray) {
+		data.toArray().then((allergyintolerances) => {
+			allergyintolerances.forEach(function(element, i, returnArray) {
 				returnArray[i] = new AllergyIntolerance(element);
 			});
-			resolve(allergyintolerance_resources);
+			resolve(allergyintolerances);
 		});
 	});
 });
