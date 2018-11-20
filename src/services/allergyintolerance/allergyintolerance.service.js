@@ -78,7 +78,7 @@ let buildStu3SearchQuery = (args) =>	 {
 		let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier', '');
 		for (let i in queryBuilder) {
 			query[i] = queryBuilder[i];
-		}	
+		}
 	}
 
 	if (last_date) {
@@ -134,6 +134,10 @@ let buildStu3SearchQuery = (args) =>	 {
 };
 
 let buildDstu2SearchQuery = (args) =>	 {
+
+	// TODO: Build query from Parameters
+
+	// TODO: Query database
 
 	// AllergyIntolerance search params
 	let category = args['category'];
