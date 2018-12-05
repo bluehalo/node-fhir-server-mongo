@@ -102,10 +102,10 @@ let fhirServerConfig = {
 		// 	service: './src/services/adverseevent/adverseevent.service.js',
 		// 	versions: [ VERSIONS['3_0_1'] ]
 		// },
-		// [RESOURCES.ALLERGYINTOLERANCE]: {
-		// 	service: './src/services/allergyintolerance/allergyintolerance.service.js',
-		// 	versions: [ VERSIONS['3_0_1'] ]
-		// },
+		[RESOURCES.ALLERGYINTOLERANCE]: {
+			service: './src/services/allergyintolerance/allergyintolerance.service.js',
+			versions: [ VERSIONS['3_0_1'] ]
+		},
 		// [RESOURCES.APPOINTMENT]: {
 		// 	service: './src/services/appointment/appointment.service.js',
 		// 	versions: [ VERSIONS['3_0_1'] ]
