@@ -6,6 +6,8 @@ const { COLLECTION, CLIENT_DB } = require('../../constants');
 const moment = require('moment-timezone');
 const globals = require('../../globals');
 
+const { getUuid } = require('../../utils/uid.util');
+
 const { stringQueryBuilder,
 	tokenQueryBuilder,
 	referenceQueryBuilder,
@@ -463,52 +465,63 @@ module.exports.searchById = (args, context, logger) => new Promise((resolve, rej
 module.exports.create = (args, context, logger) => new Promise((resolve, reject) => {
 	logger.info('Patient >>> create');
 
-	let { base_version, id, resource } = args;
+	let { base_version, resource } = args;
+	let id = resource.id;
 
-	// Grab an instance of our DB and collection
+	// Grab an instance of our DB and collection (by version)
 	let db = globals.get(CLIENT_DB);
 	let collection = db.collection(`${COLLECTION.PATIENT}_${base_version}`);
 
-	// get current record
+	// Get current record
 	let Patient = getPatient(base_version);
 	let patient = new Patient(resource);
 
+	// If no resource ID was provided, generate one.
+	if (id == null) {
+		id = getUuid(patient);
+	}
+
+	// Create the resource's metadata
 	let Meta = getMeta(base_version);
 	patient.meta = new Meta({versionId: '1', lastUpdated: moment.utc().format('YYYY-MM-DDTHH:mm:ssZ')});
 
-	let cleaned = JSON.parse(JSON.stringify(patient.toJSON()));
-	let doc = Object.assign(cleaned, { _id: id });
+	// Create the document to be inserted into Mongo
+	let doc = JSON.parse(JSON.stringify(patient.toJSON()));
+	Object.assign(doc, {id: id});
 
-	// Insert/update our patient record
-	collection.insertOne({ id: id }, { $set: doc }, { upsert: true }, (err2, res) => {
-		if (err2) {
-			logger.error('Error with Patient.create: ', err2);
-			return reject(err2);
-		}
+	// Create a clone of the object without the _id parameter before assigning a value to
+	// the _id parameter in the original document
+	let history_doc = Object.assign({}, doc);
+	Object.assign(doc, {_id: id});
 
-		// save to history
-		let history_collection = db.collection(`${COLLECTION.PATIENT}_${base_version}_History`);
-
-		let history_patient = Object.assign(cleaned, { _id: id + cleaned.meta.versionId });
-
-		// Insert our patient record to history but don't assign _id
-		return history_collection.insertOne(history_patient, (err3) => {
-			if (err3) {
-				logger.error('Error with PatientHistory.create: ', err3);
-				return reject(err3);
+	// Insert our patient record
+	collection.insertOne(doc, (err) => {
+			if (err) {
+				logger.error('Error with Patient.create: ', err);
+				return reject(err);
 			}
 
-			return resolve({ id: res.value && res.value.id, created: res.lastErrorObject && !res.lastErrorObject.updatedExisting, resource_version: doc.meta.versionId });
-		});
+			// Save the resource to history
+			let history_collection = db.collection(`${COLLECTION.PATIENT}_${base_version}_History`);
 
+			// Insert our patient record to history but don't assign _id
+			return history_collection.insertOne(history_doc, (err2) => {
+				if (err2) {
+					logger.error('Error with PatientHistory.create: ', err2);
+					return reject(err2);
+				}
+				return resolve({ id: doc.id, resource_version: doc.meta.versionId });
+			});
 	});
-	// Return Id
+	// Return Id - TODO ss should I be returning ID?
 });
 
+//TODO -- SS Revise in PROGRESS. ADD PATCH SUPPORT
 module.exports.update = (args, context, logger) => new Promise((resolve, reject) => {
 	logger.info('Patient >>> update');
 
 	let { base_version, id, resource } = args;
+	logger.error(context);
 
 	// Grab an instance of our DB and collection
 	let db = globals.get(CLIENT_DB);
@@ -703,4 +716,3 @@ module.exports.historyById = (args, context, logger) => new Promise((resolve, re
 		});
 	});
 });
-
