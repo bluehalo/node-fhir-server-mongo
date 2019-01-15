@@ -514,10 +514,8 @@ module.exports.create = (args, context, logger) => new Promise((resolve, reject)
 			return resolve({ id: doc.id, resource_version: doc.meta.versionId });
 		});
 	});
-	// Return Id - TODO ss should I be returning ID?
 });
 
-//TODO -- SS Revise in PROGRESS. ADD PATCH SUPPORT
 module.exports.update = (args, context, logger) => new Promise((resolve, reject) => {
 	logger.info('Patient >>> update');
 
