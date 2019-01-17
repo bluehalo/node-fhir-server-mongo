@@ -478,7 +478,7 @@ module.exports.create = (args, context, logger) => new Promise((resolve, reject)
 	let patient = new Patient(resource);
 
 	// If no resource ID was provided, generate one.
-	if (id == null) {
+	if (id === undefined) {
 		id = getUuid(patient);
 	}
 
