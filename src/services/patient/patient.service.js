@@ -480,7 +480,7 @@ module.exports.create = (args, context, logger) => new Promise((resolve, reject)
 	let doc = Object.assign(cleaned, { _id: id });
 
 	// Insert/update our patient record
-	collection.insertOne({ id: id }, { $set: doc }, { upsert: true }, (err2, res) => {
+	collection.insertOne(doc, (err2, res) => {
 		if (err2) {
 			logger.error('Error with Patient.create: ', err2);
 			return reject(err2);
@@ -498,7 +498,7 @@ module.exports.create = (args, context, logger) => new Promise((resolve, reject)
 				return reject(err3);
 			}
 
-			return resolve({ id: res.value && res.value.id, created: res.lastErrorObject && !res.lastErrorObject.updatedExisting, resource_version: doc.meta.versionId });
+			return resolve({ id: res.insertedId.toString(), created: res.lastErrorObject && !res.lastErrorObject.updatedExisting, resource_version: doc.meta.versionId });
 		});
 
 	});
