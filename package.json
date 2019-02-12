@@ -1,6 +1,6 @@
 {
   "name": "@asymmetrik/node-fhir-server-mongo",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "FHIR Facade Server implementing @asymmetrik/node-fhir-server-core",
   "main": "src/index.js",
   "repository": "https://github.com/Asymmetrik/node-fhir-server-mongo.git",
@@ -13,7 +13,7 @@
     "node": ">=8.6"
   },
   "scripts": {
-    "start": "cross-env NODE_ENV=production; node src/index.js;",
+    "start": "node src/index.js",
     "nodemon": "cross-env NODE_ENV=development; node scripts/nodemon;",
     "test": "npm run test:lint;",
     "test:lint": "eslint \"src/**/*.js\"",

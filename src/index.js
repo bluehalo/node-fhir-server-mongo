@@ -22,6 +22,7 @@ let main = async function () {
 
 	if (mongoErr) {
 		console.error(mongoErr.message);
+		console.error(mongoConfig.connection);
 		process.exit(1);
 	}
 

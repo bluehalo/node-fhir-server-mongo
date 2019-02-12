@@ -2,6 +2,7 @@
 
 const { RESOURCES, VERSIONS } = require('@asymmetrik/node-fhir-server-core').constants;
 const FHIRServer = require('@asymmetrik/node-fhir-server-core');
+const { ObjectID } = require('mongodb');
 const { COLLECTION, CLIENT_DB } = require('../../constants');
 const moment = require('moment-timezone');
 const globals = require('../../globals');
@@ -463,7 +464,9 @@ module.exports.searchById = (args, context, logger) => new Promise((resolve, rej
 module.exports.create = (args, context, logger) => new Promise((resolve, reject) => {
 	logger.info('Patient >>> create');
 
-	let { base_version, id, resource } = args;
+	let { base_version, resource } = args;
+	// Make sure to use this ID when inserting this resource
+	let id = new ObjectID().toString();
 
 	// Grab an instance of our DB and collection
 	let db = globals.get(CLIENT_DB);
@@ -480,7 +483,7 @@ module.exports.create = (args, context, logger) => new Promise((resolve, reject)
 	let doc = Object.assign(cleaned, { _id: id });
 
 	// Insert/update our patient record
-	collection.insertOne({ id: id }, { $set: doc }, { upsert: true }, (err2, res) => {
+	collection.updateOne({ id: id }, { $set: doc }, { upsert: true }, (err2, res) => {
 		if (err2) {
 			logger.error('Error with Patient.create: ', err2);
 			return reject(err2);
@@ -489,7 +492,7 @@ module.exports.create = (args, context, logger) => new Promise((resolve, reject)
 		// save to history
 		let history_collection = db.collection(`${COLLECTION.PATIENT}_${base_version}_History`);
 
-		let history_patient = Object.assign(cleaned, { _id: id + cleaned.meta.versionId });
+		let history_patient = Object.assign(cleaned, { id: id });
 
 		// Insert our patient record to history but don't assign _id
 		return history_collection.insertOne(history_patient, (err3) => {
@@ -498,7 +501,7 @@ module.exports.create = (args, context, logger) => new Promise((resolve, reject)
 				return reject(err3);
 			}
 
-			return resolve({ id: res.value && res.value.id, created: res.lastErrorObject && !res.lastErrorObject.updatedExisting, resource_version: doc.meta.versionId });
+			return resolve({ id: id, created: res.lastErrorObject && !res.lastErrorObject.updatedExisting, resource_version: doc.meta.versionId });
 		});
 
 	});
@@ -548,7 +551,7 @@ module.exports.update = (args, context, logger) => new Promise((resolve, reject)
 			// save to history
 			let history_collection = db.collection(`${COLLECTION.PATIENT}_${base_version}_History`);
 
-			let history_patient = Object.assign(cleaned, { _id: id + cleaned.meta.versionId });
+			let history_patient = Object.assign(cleaned, { id: id });
 
 			// Insert our patient record to history but don't assign _id
 			return history_collection.insertOne(history_patient, (err3) => {
@@ -557,7 +560,7 @@ module.exports.update = (args, context, logger) => new Promise((resolve, reject)
 					return reject(err3);
 				}
 
-				return resolve({ id: doc.id, created: res.lastErrorObject && !res.lastErrorObject.updatedExisting, resource_version: doc.meta.versionId });
+				return resolve({ id: id, created: res.lastErrorObject && !res.lastErrorObject.updatedExisting, resource_version: doc.meta.versionId });
 			});
 
 		});
@@ -616,6 +619,7 @@ module.exports.searchByVersionId = (args, context, logger) => new Promise((resol
 
 	let db = globals.get(CLIENT_DB);
 	let history_collection = db.collection(`${COLLECTION.PATIENT}_${base_version}_History`);
+
 	// Query our collection for this observation
 	history_collection.findOne({ id: id.toString(), 'meta.versionId': `${version_id}` }, (err, patient) => {
 		if (err) {
@@ -703,4 +707,3 @@ module.exports.historyById = (args, context, logger) => new Promise((resolve, re
 		});
 	});
 });
-
