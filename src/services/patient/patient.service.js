@@ -2,6 +2,7 @@
 
 const { RESOURCES, VERSIONS } = require('@asymmetrik/node-fhir-server-core').constants;
 const FHIRServer = require('@asymmetrik/node-fhir-server-core');
+const { ObjectID } = require('mongodb');
 const { COLLECTION, CLIENT_DB } = require('../../constants');
 const moment = require('moment-timezone');
 const globals = require('../../globals');
@@ -560,7 +561,7 @@ module.exports.update = (args, context, logger) => new Promise((resolve, reject)
 			// save to history
 			let history_collection = db.collection(`${COLLECTION.PATIENT}_${base_version}_History`);
 
-			let history_patient = Object.assign(cleaned, { _id: id + cleaned.meta.versionId });
+			let history_patient = Object.assign(cleaned, { id: id });
 
 			// Insert our patient record to history but don't assign _id
 			return history_collection.insertOne(history_patient, (err3) => {
@@ -569,7 +570,7 @@ module.exports.update = (args, context, logger) => new Promise((resolve, reject)
 					return reject(err3);
 				}
 
-				return resolve({ id: doc.id, created: res.lastErrorObject && !res.lastErrorObject.updatedExisting, resource_version: doc.meta.versionId });
+				return resolve({ id: id, created: res.lastErrorObject && !res.lastErrorObject.updatedExisting, resource_version: doc.meta.versionId });
 			});
 
 		});
@@ -628,6 +629,7 @@ module.exports.searchByVersionId = (args, context, logger) => new Promise((resol
 
 	let db = globals.get(CLIENT_DB);
 	let history_collection = db.collection(`${COLLECTION.PATIENT}_${base_version}_History`);
+
 	// Query our collection for this observation
 	history_collection.findOne({ id: id.toString(), 'meta.versionId': `${version_id}` }, (err, patient) => {
 		if (err) {
