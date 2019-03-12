@@ -1,3 +1,4 @@
+const hash = require('object-hash');
 /**
  * Return a random int, used by `utils.getUid()`.
 *
@@ -29,6 +30,18 @@ let getUid = function (length) {
 	return uid;
 };
 
+/**
+ * Make a hash of the object for use as a UUID.
+ * TODO Improve this. Stuck this in just because it's more of a uniqueness guarantee than the above 'getUID' function.
+ * TODO If we're actually going to generate hashes, we should probably do it in a more secure manner.
+ * @param obj
+ * @returns {*|*}
+ */
+const getUuid = (obj) => {
+	return hash(obj);
+};
+
 module.exports = {
-	getUid
+	getUid,
+	getUuid
 };
