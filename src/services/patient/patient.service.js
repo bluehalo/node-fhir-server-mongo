@@ -1,14 +1,15 @@
 /*eslint no-unused-vars: "warn"*/
 
-const { RESOURCES, VERSIONS } = require('@asymmetrik/node-fhir-server-core').constants;
-const FHIRServer = require('@asymmetrik/node-fhir-server-core');
-const { ObjectID } = require('mongodb');
+const { VERSIONS } = require('@asymmetrik/node-fhir-server-core').constants;
+const { resolveSchema } = require('@asymmetrik/node-fhir-server-core');
 const { COLLECTION, CLIENT_DB } = require('../../constants');
 const moment = require('moment-timezone');
 const globals = require('../../globals');
 const jsonpatch = require('fast-json-patch');
 
 const { getUuid } = require('../../utils/uid.util');
+
+const logger = require('@asymmetrik/node-fhir-server-core').loggers.get();
 
 const { stringQueryBuilder,
 	tokenQueryBuilder,
@@ -19,10 +20,10 @@ const { stringQueryBuilder,
 
 
 let getPatient = (base_version) => {
-	return require(FHIRServer.resolveFromVersion(base_version, 'Patient'));};
+	return require(resolveSchema(base_version, 'Patient'));};
 
 let getMeta = (base_version) => {
-	return require(FHIRServer.resolveFromVersion(base_version, 'Meta'));};
+	return require(resolveSchema(base_version, 'Meta'));};
 
 let buildStu3SearchQuery = (args) =>	 {
 
@@ -408,7 +409,7 @@ let buildDstu2SearchQuery = (args) =>	 {
  * @param {*} context
  * @param {*} logger
  */
-module.exports.search = (args, context, logger) => new Promise((resolve, reject) => {
+module.exports.search = (args) => new Promise((resolve, reject) => {
 	logger.info('Patient >>> search');
 
 	let { base_version } = args;
@@ -442,7 +443,7 @@ module.exports.search = (args, context, logger) => new Promise((resolve, reject)
 	});
 });
 
-module.exports.searchById = (args, context, logger) => new Promise((resolve, reject) => {
+module.exports.searchById = (args) => new Promise((resolve, reject) => {
 	logger.info('Patient >>> searchById');
 
 	let { base_version, id } = args;
@@ -464,11 +465,12 @@ module.exports.searchById = (args, context, logger) => new Promise((resolve, rej
 	});
 });
 
-module.exports.create = (args, context, logger) => new Promise((resolve, reject) => {
+module.exports.create = (args, { req }) => new Promise((resolve, reject) => {
 	logger.info('Patient >>> create');
 
-	let { base_version, resource } = args;
-	let id = resource.id;
+	let resource = req.body;
+
+	let { base_version } = args;
 
 	// Grab an instance of our DB and collection (by version)
 	let db = globals.get(CLIENT_DB);
@@ -479,9 +481,7 @@ module.exports.create = (args, context, logger) => new Promise((resolve, reject)
 	let patient = new Patient(resource);
 
 	// If no resource ID was provided, generate one.
-	if (id === undefined) {
-		id = getUuid(patient);
-	}
+	let id = getUuid(patient);
 
 	// Create the resource's metadata
 	let Meta = getMeta(base_version);
@@ -517,11 +517,12 @@ module.exports.create = (args, context, logger) => new Promise((resolve, reject)
 	});
 });
 
-module.exports.update = (args, context, logger) => new Promise((resolve, reject) => {
+module.exports.update = (args, { req }) => new Promise((resolve, reject) => {
 	logger.info('Patient >>> update');
 
-	let { base_version, id, resource } = args;
-	logger.error(context);
+	let resource = req.body;
+
+	let { base_version, id } = args;
 
 	// Grab an instance of our DB and collection
 	let db = globals.get(CLIENT_DB);
@@ -577,7 +578,7 @@ module.exports.update = (args, context, logger) => new Promise((resolve, reject)
 	});
 });
 
-module.exports.remove = (args, context, logger) => new Promise((resolve, reject) => {
+module.exports.remove = (args, context) => new Promise((resolve, reject) => {
 	logger.info('Patient >>> remove');
 
 	let { base_version, id } = args;
@@ -620,7 +621,7 @@ module.exports.remove = (args, context, logger) => new Promise((resolve, reject)
 	});
 });
 
-module.exports.searchByVersionId = (args, context, logger) => new Promise((resolve, reject) => {
+module.exports.searchByVersionId = (args, context) => new Promise((resolve, reject) => {
 	logger.info('Patient >>> searchByVersionId');
 
 	let { base_version, id, version_id } = args;
@@ -646,7 +647,7 @@ module.exports.searchByVersionId = (args, context, logger) => new Promise((resol
 	});
 });
 
-module.exports.history = (args, context, logger) => new Promise((resolve, reject) => {
+module.exports.history = (args, context) => new Promise((resolve, reject) => {
 	logger.info('Patient >>> history');
 
 	// Common search params
@@ -682,7 +683,7 @@ module.exports.history = (args, context, logger) => new Promise((resolve, reject
 	});
 });
 
-module.exports.historyById = (args, context, logger) => new Promise((resolve, reject) => {
+module.exports.historyById = (args, context) => new Promise((resolve, reject) => {
 	logger.info('Patient >>> historyById');
 
 	let { base_version, id } = args;
@@ -718,7 +719,7 @@ module.exports.historyById = (args, context, logger) => new Promise((resolve, re
 	});
 });
 
-module.exports.patch = (args, context, logger) => new Promise((resolve, reject) => {
+module.exports.patch = (args, context) => new Promise((resolve, reject) => {
 	logger.info('Patient >>> patch'); // Should this say update (instead of patch) because the end result is that of an update, not a patch
 
 	let { base_version, id, patchContent } = args;

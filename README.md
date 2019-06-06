@@ -4,7 +4,7 @@ Asymmetrik FHIR API Server + Mongo Example
 [![Known Vulnerabilities](https://snyk.io/test/github/asymmetrik/node-fhir-server-mongo/badge.svg?targetFile=package.json)](https://snyk.io/test/github/asymmetrik/node-fhir-server-mongo?targetFile=package.json)
 
 ## Intro
-This project is an example project built on `@asymmetrik/node-fhir-server-core` and has a MongoDB back end storing sample data. It's built with the ability to run in docker or node.js. To get started developing in Docker, see [Getting Started with Docker](#getting-started-with-docker). To get started developing with Node.js and Mongo, see [Getting Started with Node](#getting-started-with-node).  You can serve multiple versions of FHIR with just one server.  By default, DSTU2 (1.0.2) and STU3 (3.0.1) is enabled.  You can choose to support both versions or just one version by editing the config.
+This project is an example project built on `@asymmetrik/node-fhir-server-core` and has a MongoDB back end storing sample data. It's built with the ability to run in docker or node.js. To get started developing in Docker, see [Getting Started with Docker](#getting-started-with-docker). To get started developing with Node.js and Mongo, see [Getting Started with Node](#getting-started-with-node).  You can serve multiple versions of FHIR with just one server.  By default, R4 is enabled but DSTU2 (1.0.2) and STU3 (3.0.1) are also supported.  You can choose to support all versions or just one version by editing the config.
 
 ## Getting Started with Docker
 
@@ -29,94 +29,188 @@ The server should now be up and running on the default port 3000. You should see
 ### Lets give this a try on your server
 
 #### Capability Statements
-By default, both DSTU2 and STU3 is enabled for the Patient and Observation resource.  The capability statements are dynamically generated based on which resources you enable.
+By default, R4 is enabled for the Patient and Organization resource.  The capability statements are dynamically generated based on which resources you enable.
+ - View the R4 Capability Statement [http://localhost:3000/4_0_0/metadata](http://localhost:3000/4_0_0/metadata)
+
+Other versions if enabled.
  - View the DSTU2 Conformance Statement [http://localhost:3000/1_0_2/metadata](http://localhost:3000/1_0_2/metadata)
  - View the STU3 Capability Statement [http://localhost:3000/3_0_1/metadata](http://localhost:3000/3_0_1/metadata)
 
 Using any request builder (i.e. Postman), let's create a new patient.
 
-#### STU3 Patient (Content-Type: application/fhir+json)
+#### R4 Patient (Content-Type: application/fhir+json)
 ```
 Create Patient
 
-PUT /3_0_1/Patient/hhPTufqen3Qp-997382 HTTP/1.1
+PUT /4_0_0/Patient/example HTTP/1.1
 Host: localhost:3000
 Content-Type: application/fhir+json
 Cache-Control: no-cache
 
 # Raw Body
 {
-  "resourceType" : "Patient",
-  "id" : "hhPTufqen3Qp-997382",
-  "text" : {
-    "status" : "generated",
-    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><tbody><tr><td>Name</td><td>Peter James <b>Chalmers</b> (&quot;Jim&quot;)</td></tr><tr><td>Address</td><td>534 Erewhon, Pleasantville, Vic, 3999</td></tr><tr><td>Contacts</td><td>Home: unknown. Work: (03) 5555 6473</td></tr><tr><td>Id</td><td>MRN: 12345 (Acme Healthcare)</td></tr></tbody></table>    </div>"
+  "resourceType": "Patient",
+  "id": "example",
+  "text": {
+    "status": "generated",
+    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n\t\t\t<table>\n\t\t\t\t<tbody>\n\t\t\t\t\t<tr>\n\t\t\t\t\t\t<td>Name</td>\n\t\t\t\t\t\t<td>Peter James \n              <b>Chalmers</b> (&quot;Jim&quot;)\n            </td>\n\t\t\t\t\t</tr>\n\t\t\t\t\t<tr>\n\t\t\t\t\t\t<td>Address</td>\n\t\t\t\t\t\t<td>534 Erewhon, Pleasantville, Vic, 3999</td>\n\t\t\t\t\t</tr>\n\t\t\t\t\t<tr>\n\t\t\t\t\t\t<td>Contacts</td>\n\t\t\t\t\t\t<td>Home: unknown. Work: (03) 5555 6473</td>\n\t\t\t\t\t</tr>\n\t\t\t\t\t<tr>\n\t\t\t\t\t\t<td>Id</td>\n\t\t\t\t\t\t<td>MRN: 12345 (Acme Healthcare)</td>\n\t\t\t\t\t</tr>\n\t\t\t\t</tbody>\n\t\t\t</table>\n\t\t</div>"
   },
-  "identifier" : [ {
-    "use" : "usual",
-    "type" : {
-      "coding" : [ {
-        "system" : "http://hl7.org/fhir/v2/0203",
-        "code" : "MR"
-      } ]
-    },
-    "system" : "urn:oid:1.2.36.146.595.217.0.1",
-    "value" : "hhPTufqen3Qp997382",
-    "period" : {
-      "start" : "2001-05-06"
-    },
-    "assigner" : {
-      "display" : "Acme Healthcare"
+  "identifier": [
+    {
+      "use": "usual",
+      "type": {
+        "coding": [
+          {
+            "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+            "code": "MR"
+          }
+        ]
+      },
+      "system": "urn:oid:1.2.36.146.595.217.0.1",
+      "value": "12345",
+      "period": {
+        "start": "2001-05-06"
+      },
+      "assigner": {
+        "display": "Acme Healthcare"
+      }
     }
-  } ],
-  "active" : true,
-  "name" : [ {
-    "use" : "official",
-    "family" : "Smith",
-    "given" : [ "Peter", "James" ]
-  }, {
-    "use" : "usual",
-    "given" : [ "Jim" ]
-  } ],
-  "telecom" : [ {
-    "use" : "home"
-  }, {
-    "system" : "phone",
-    "value" : "(07) 7296 7296",
-    "use" : "work"
-  } ],
-  "gender" : "male",
-  "birthDate" : "1974-12-25",
-  "deceasedBoolean" : false,
-  "address" : [ {
-    "use" : "home",
-    "line" : [ "255 Somewhere Rd" ],
-    "city" : "Pleasant Valley",
-    "state" : "Somewhere",
-    "postalCode" : "3999"
-  } ],
-  "contact" : [ {
-    "relationship" : [ {
-      "coding" : [ {
-        "system" : "http://hl7.org/fhir/v2/0131",
-        "code" : "CP"
-      } ]
-    } ],
-    "name" : {
-      "family" : "Smith",
-      "given" : [ "Jane" ]
+  ],
+  "active": true,
+  "name": [
+    {
+      "use": "official",
+      "family": "Chalmers",
+      "given": [
+        "Peter",
+        "James"
+      ]
     },
-    "telecom" : [ {
-      "system" : "phone",
-      "value" : "+33 (237) 123456"
-    } ],
-    "gender" : "female",
-    "period" : {
-      "start" : "2012"
+    {
+      "use": "usual",
+      "given": [
+        "Jim"
+      ]
+    },
+    {
+      "use": "maiden",
+      "family": "Windsor",
+      "given": [
+        "Peter",
+        "James"
+      ],
+      "period": {
+        "end": "2002"
+      }
     }
-  } ],
-  "managingOrganization" : {
-    "reference" : "Organization/hhPTufqen3Qp-997382-RZq1u"
+  ],
+  "telecom": [
+    {
+      "use": "home"
+    },
+    {
+      "system": "phone",
+      "value": "(03) 5555 6473",
+      "use": "work",
+      "rank": 1
+    },
+    {
+      "system": "phone",
+      "value": "(03) 3410 5613",
+      "use": "mobile",
+      "rank": 2
+    },
+    {
+      "system": "phone",
+      "value": "(03) 5555 8834",
+      "use": "old",
+      "period": {
+        "end": "2014"
+      }
+    }
+  ],
+  "gender": "male",
+  "birthDate": "1974-12-25",
+  "_birthDate": {
+    "extension": [
+      {
+        "url": "http://hl7.org/fhir/StructureDefinition/patient-birthTime",
+        "valueDateTime": "1974-12-25T14:35:45-05:00"
+      }
+    ]
+  },
+  "deceasedBoolean": false,
+  "address": [
+    {
+      "use": "home",
+      "type": "both",
+      "text": "534 Erewhon St PeasantVille, Rainbow, Vic  3999",
+      "line": [
+        "534 Erewhon St"
+      ],
+      "city": "PleasantVille",
+      "district": "Rainbow",
+      "state": "Vic",
+      "postalCode": "3999",
+      "period": {
+        "start": "1974-12-25"
+      }
+    }
+  ],
+  "contact": [
+    {
+      "relationship": [
+        {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/v2-0131",
+              "code": "N"
+            }
+          ]
+        }
+      ],
+      "name": {
+        "family": "du Marché",
+        "_family": {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/humanname-own-prefix",
+              "valueString": "VV"
+            }
+          ]
+        },
+        "given": [
+          "Bénédicte"
+        ]
+      },
+      "telecom": [
+        {
+          "system": "phone",
+          "value": "+33 (237) 998327"
+        }
+      ],
+      "address": {
+        "use": "home",
+        "type": "both",
+        "line": [
+          "534 Erewhon St"
+        ],
+        "city": "PleasantVille",
+        "district": "Rainbow",
+        "state": "Vic",
+        "postalCode": "3999",
+        "period": {
+          "start": "1974-12-25"
+        }
+      },
+      "gender": "female",
+      "period": {
+        "start": "2012"
+      }
+    }
+  ],
+  "managingOrganization": {
+    "reference": "Organization/1"
   }
 }
 
@@ -125,107 +219,9 @@ Cache-Control: no-cache
 ```
 Read Patient
 
-GET /3_0_1/Patient/hhPTufqen3Qp-997382 HTTP/1.1
+GET /4_0_0/Patient/example HTTP/1.1
 Host: localhost:3000
 Content-Type: application/fhir+json
-Cache-Control: no-cache
-
-```
-
-
-
-#### DSTU2 Patient (Content-Type: application/json+fhir)
-```
-Create Patient
-
-PUT /1_0_2/Patient/12345997382 HTTP/1.1
-Host: localhost:3000
-Content-Type: application/json+fhir
-Cache-Control: no-cache
-
-# Raw Body
-{
-  "resourceType" : "Patient",
-  "id" : "12345997382",
-  "text" : {
-    "status" : "generated",
-    "div" : "<div><table><tbody><tr><td>Name</td><td>Peter James <b>Chalmers</b> (&quot;Jim&quot;)</td></tr><tr><td>Address</td><td>534 Erewhon, Pleasantville, Vic, 3999</td></tr><tr><td>Contacts</td><td>Home: unknown. Work: (03) 5555 6473</td></tr><tr><td>Id</td><td>MRN: 12345 (Acme Healthcare)</td></tr></tbody></table>    </div>"
-  },
-  "identifier" : [ {
-    "use" : "usual",
-    "type" : {
-      "coding" : [ {
-        "system" : "http://hl7.org/fhir/v2/0203",
-        "code" : "MR"
-      } ]
-    },
-    "system" : "urn:oid:1.2.36.146.595.217.0.1",
-    "value" : "12345997382",
-    "period" : {
-      "start" : "2001-05-06"
-    },
-    "assigner" : {
-      "display" : "Acme Healthcare"
-    }
-  } ],
-  "active" : true,
-  "name" : [ {
-    "use" : "official",
-    "family" : [ "Chalmers" ],
-    "given" : [ "Peter", "James" ]
-  }, {
-    "use" : "usual",
-    "given" : [ "Jim" ]
-  } ],
-  "telecom" : [ {
-    "use" : "home"
-  }, {
-    "system" : "phone",
-    "value" : "(07) 7296 7296",
-    "use" : "work"
-  } ],
-  "gender" : "male",
-  "birthDate" : "1974-12-25",
-  "deceasedBoolean" : false,
-  "address" : [ {
-    "use" : "home",
-    "line" : [ "255 Erewhon St" ],
-    "city" : "PleasantVille",
-    "state" : "Vic",
-    "postalCode" : "3999"
-  } ],
-  "contact" : [ {
-    "relationship" : [ {
-      "coding" : [ {
-        "system" : "http://hl7.org/fhir/patient-contact-relationship",
-        "code" : "partner"
-      } ]
-    } ],
-    "name" : {
-      "family" : [ "du", "Marché" ],
-      "given" : [ "Bénédicte" ]
-    },
-    "telecom" : [ {
-      "system" : "phone",
-      "value" : "+33 (237) 123456"
-    } ],
-    "gender" : "female",
-    "period" : {
-      "start" : "2012"
-    }
-  } ],
-  "managingOrganization" : {
-    "reference" : "Organization/1"
-  }
-}
-```
-
-```
-Read Patient
-
-GET /1_0_2/Patient/12345997382 HTTP/1.1
-Host: localhost:3000
-Content-Type: application/json+fhir;charset=UTF-8
 Cache-Control: no-cache
 
 ```

@@ -1,11 +1,15 @@
 /*eslint no-unused-vars: "warn"*/
 
-const { RESOURCES, VERSIONS } = require('@asymmetrik/node-fhir-server-core').constants;
+const { VERSIONS } = require('@asymmetrik/node-fhir-server-core').constants;
 const { COLLECTION, CLIENT_DB } = require('../../constants');
-const FHIRServer = require('@asymmetrik/node-fhir-server-core');
-const { ObjectID } = require('mongodb');
+const { resolveSchema } = require('@asymmetrik/node-fhir-server-core');
 const moment = require('moment-timezone');
 const globals = require('../../globals');
+const { getUuid } = require('../../utils/uid.util');
+
+
+const logger = require('@asymmetrik/node-fhir-server-core').loggers.get();
+
 
 const { stringQueryBuilder,
 	tokenQueryBuilder,
@@ -13,11 +17,11 @@ const { stringQueryBuilder,
 	addressQueryBuilder } = require('../../utils/querybuilder.util');
 
 let getOrganization = (base_version) => {
-	return require(FHIRServer.resolveFromVersion(base_version, RESOURCES.ORGANIZATION));
+	return require(resolveSchema(base_version, 'Organization'));
 };
 
 let getMeta = (base_version) => {
-	return require(FHIRServer.resolveFromVersion(base_version, 'Meta'));
+	return require(resolveSchema(base_version, 'Meta'));
 };
 
 let buildStu3SearchQuery = (args) =>	 {
@@ -225,7 +229,7 @@ let buildDstu2SearchQuery = (args) =>	 {
  * @param {*} context
  * @param {*} logger
  */
-module.exports.search = (args, context, logger) => new Promise((resolve, reject) => {
+module.exports.search = (args) => new Promise((resolve, reject) => {
 	logger.info('Organization >>> search');
 
 	let { base_version } = args;
@@ -259,7 +263,7 @@ module.exports.search = (args, context, logger) => new Promise((resolve, reject)
 	});
 });
 
-module.exports.searchById = (args, context, logger) => new Promise((resolve, reject) => {
+module.exports.searchById = (args) => new Promise((resolve, reject) => {
 	logger.info('Organization >>> searchById');
 
 	let { base_version, id } = args;
@@ -281,63 +285,70 @@ module.exports.searchById = (args, context, logger) => new Promise((resolve, rej
 	});
 });
 
-module.exports.create = (args, context, logger) => new Promise((resolve, reject) => {
+module.exports.create = (args, { req }) => new Promise((resolve, reject) => {
 	logger.info('Organization >>> create');
 
-	let { base_version, resource } = args;
-	// Make sure to use this ID when inserting this resource
-	let id = new ObjectID().toString();
+	let resource = req.body;
 
-	// Grab an instance of our DB and collection
+	let { base_version } = args;
+
+	// Grab an instance of our DB and collection (by version)
 	let db = globals.get(CLIENT_DB);
 	let collection = db.collection(`${COLLECTION.ORGANIZATION}_${base_version}`);
 
-	// get current record
+	// Get current record
 	let Organization = getOrganization(base_version);
 	let organization = new Organization(resource);
 
+	// If no resource ID was provided, generate one.
+	let id = getUuid(organization);
+
+	// Create the resource's metadata
 	let Meta = getMeta(base_version);
 	organization.meta = new Meta({versionId: '1', lastUpdated: moment.utc().format('YYYY-MM-DDTHH:mm:ssZ')});
 
-	let cleaned = JSON.parse(JSON.stringify(organization.toJSON()));
-	let doc = Object.assign(cleaned, { _id: id });
+	// Create the document to be inserted into Mongo
+	let doc = JSON.parse(JSON.stringify(organization.toJSON()));
+	Object.assign(doc, {id: id});
 
-	// Insert/update our organization record
-	collection.updateOne({ id: id }, { $set: doc }, { upsert: true }, (err2, res) => {
-		if (err2) {
-			logger.error('Error with Organization.create: ', err2);
-			return reject(err2);
+	// Create a clone of the object without the _id parameter before assigning a value to
+	// the _id parameter in the original document
+	let history_doc = Object.assign({}, doc);
+	Object.assign(doc, {_id: id});
+
+	// Insert our organization record
+	collection.insertOne(doc, (err) => {
+		if (err) {
+			logger.error('Error with Organization.create: ', err);
+			return reject(err);
 		}
 
-		// save to history
+		// Save the resource to history
 		let history_collection = db.collection(`${COLLECTION.ORGANIZATION}_${base_version}_History`);
 
-		let history_organization = Object.assign(cleaned, { id: id });
-
 		// Insert our organization record to history but don't assign _id
-		return history_collection.insertOne(history_organization, (err3) => {
-			if (err3) {
-				logger.error('Error with OrganizationHistory.create: ', err3);
-				return reject(err3);
+		return history_collection.insertOne(history_doc, (err2) => {
+			if (err2) {
+				logger.error('Error with OrganizationHistory.create: ', err2);
+				return reject(err2);
 			}
-
-			return resolve({ id: id, created: res.lastErrorObject && !res.lastErrorObject.updatedExisting, resource_version: doc.meta.versionId });
+			return resolve({ id: doc.id, resource_version: doc.meta.versionId });
 		});
-
 	});
-	// Return Id
 });
 
-module.exports.update = (args, context, logger) => new Promise((resolve, reject) => {
+module.exports.update = (args, { req }) => new Promise((resolve, reject) => {
 	logger.info('Organization >>> update');
 
-	let { base_version, id, resource } = args;
+	let resource = req.body;
+
+	let { base_version, id } = args;
 
 	// Grab an instance of our DB and collection
 	let db = globals.get(CLIENT_DB);
 	let collection = db.collection(`${COLLECTION.ORGANIZATION}_${base_version}`);
 
-	// get current record
+	// Get current record
 	// Query our collection for this observation
 	collection.findOne({ id: id.toString() }, (err, data) => {
 		if (err) {
@@ -387,7 +398,7 @@ module.exports.update = (args, context, logger) => new Promise((resolve, reject)
 	});
 });
 
-module.exports.remove = (args, context, logger) => new Promise((resolve, reject) => {
+module.exports.remove = (args) => new Promise((resolve, reject) => {
 	logger.info('Organization >>> remove');
 
 	let { base_version, id } = args;
@@ -430,7 +441,7 @@ module.exports.remove = (args, context, logger) => new Promise((resolve, reject)
 	});
 });
 
-module.exports.searchByVersionId = (args, context, logger) => new Promise((resolve, reject) => {
+module.exports.searchByVersionId = (args) => new Promise((resolve, reject) => {
 	logger.info('Organization >>> searchByVersionId');
 
 	let { base_version, id, version_id } = args;
@@ -455,7 +466,7 @@ module.exports.searchByVersionId = (args, context, logger) => new Promise((resol
 	});
 });
 
-module.exports.history = (args, context, logger) => new Promise((resolve, reject) => {
+module.exports.history = (args) => new Promise((resolve, reject) => {
 	logger.info('Organization >>> history');
 
 	// Common search params
@@ -491,7 +502,7 @@ module.exports.history = (args, context, logger) => new Promise((resolve, reject
 	});
 });
 
-module.exports.historyById = (args, context, logger) => new Promise((resolve, reject) => {
+module.exports.historyById = (args) => new Promise((resolve, reject) => {
 	logger.info('Organization >>> historyById');
 
 	let { base_version, id } = args;
