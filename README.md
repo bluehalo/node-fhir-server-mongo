@@ -4,7 +4,7 @@ Asymmetrik FHIR API Server + Mongo Example
 [![Known Vulnerabilities](https://snyk.io/test/github/asymmetrik/node-fhir-server-mongo/badge.svg?targetFile=package.json)](https://snyk.io/test/github/asymmetrik/node-fhir-server-mongo?targetFile=package.json)
 
 ## Intro
-This project is an example project built on `@asymmetrik/node-fhir-server-core` and has a MongoDB back end storing sample data. It's built with the ability to run in docker or node.js. To get started developing in Docker, see [Getting Started with Docker](#getting-started-with-docker). To get started developing with Node.js and Mongo, see [Getting Started with Node](#getting-started-with-node).  You can serve multiple versions of FHIR with just one server.  By default, R4 is enabled but DSTU2 (1.0.2) and STU3 (3.0.1) are also supported.  You can choose to support all versions or just one version by editing the config.
+This project is an example project built on `@asymmetrik/node-fhir-server-core` and has a MongoDB back end storing sample data. It's built with the ability to run in docker or node.js. To get started developing in Docker, see [Getting Started with Docker](#getting-started-with-docker). To get started developing with Node.js and Mongo, see [Getting Started with Node](#getting-started-with-node).  You can serve multiple versions of FHIR with just one server.  By default, R4 (4_0_0) is enabled but DSTU2 (1.0.2) and STU3 (3.0.1) are also supported.  You can choose to support all versions or just one version by editing the config.
 
 ## Getting Started with Docker
 
