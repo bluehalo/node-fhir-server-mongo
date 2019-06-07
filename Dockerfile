@@ -1,5 +1,12 @@
 FROM node:8.9.4
 
+# Enable apt-get to run from the new sources.
+RUN printf "deb http://archive.debian.org/debian/ \
+    jessie main\ndeb-src http://archive.debian.org/debian/ \
+    jessie main\ndeb http://security.debian.org \
+    jessie/updates main\ndeb-src http://security.debian.org \
+    jessie/updates main" > /etc/apt/sources.list
+
 # Update everything on the box
 RUN apt-get -y update
 RUN apt-get clean
