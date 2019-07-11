@@ -33,7 +33,7 @@
     ]
   },
   "dependencies": {
-    "@asymmetrik/node-fhir-server-core": "git+https://github.com/Asymmetrik/node-fhir-server-core.git",
+    "@asymmetrik/node-fhir-server-core": "1.3.0",
     "fast-json-patch": "^2.0.7",
     "moment-timezone": "^0.5.14",
     "mongo": "^0.1.0",
