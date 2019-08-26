@@ -7,9 +7,10 @@
   resolved "https://registry.yarnpkg.com/@asymmetrik/fhir-response-util/-/fhir-response-util-1.0.0.tgz#2bb47bc05e48eebdeb2dd5f03937a80a7b762949"
   integrity sha512-eZ54mnhmzHRS/dY3hMhFagynCSrRnAxIhWVcUzh9X14qUL0BGGlfxi7xFenqG2KhR3e2fycwk3+Bu7zA0LyD+A==
 
-"@asymmetrik/node-fhir-server-core@git+https://github.com/Asymmetrik/node-fhir-server-core.git":
+"@asymmetrik/node-fhir-server-core@^2.0.4":
   version "2.0.4"
-  resolved "git+https://github.com/Asymmetrik/node-fhir-server-core.git#f49675c23f752363b768fe267e4c491ff142d06f"
+  resolved "https://registry.yarnpkg.com/@asymmetrik/node-fhir-server-core/-/node-fhir-server-core-2.0.4.tgz#3fde875ceeb5992c815a4e872d4af6836c244ceb"
+  integrity sha512-1vswNMBPzh3qd9s5zyIcHfUPZBwUu4X84wdaAOvhiEgT8qa427V8r8LGdR27bolCWs+2gnS2jusVL/esb3N0UA==
   dependencies:
     "@asymmetrik/fhir-response-util" "^1.0.0"
     "@asymmetrik/sof-scope-checker" "^1.0.1"
