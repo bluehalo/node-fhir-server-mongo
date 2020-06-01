@@ -1,4 +1,4 @@
-FROM node:8.9.4
+FROM node:10.13.0
 
 # Enable apt-get to run from the new sources.
 RUN printf "deb http://archive.debian.org/debian/ \
