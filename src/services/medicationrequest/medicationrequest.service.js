@@ -3,217 +3,289 @@
 const { RESOURCES } = require('@asymmetrik/node-fhir-server-core').constants;
 const FHIRServer = require('@asymmetrik/node-fhir-server-core');
 const { ObjectID } = require('mongodb');
+const logger = require('@asymmetrik/node-fhir-server-core').loggers.get();
 
 let getMedicationRequest = (base_version) => {
-	return require(FHIRServer.resolveFromVersion(base_version, RESOURCES.MEDICATIONREQUEST));};
+  return require(FHIRServer.resolveFromVersion(base_version, RESOURCES.MEDICATIONREQUEST));
+};
 
 let getMeta = (base_version) => {
-	return require(FHIRServer.resolveFromVersion(base_version, RESOURCES.META));};
+  return require(FHIRServer.resolveFromVersion(base_version, RESOURCES.META));
+};
 
-module.exports.search = (args, context, logger) => new Promise((resolve, reject) => {
-	logger.info('MedicationRequest >>> search');
+module.exports.searchById = (args) =>
+  new Promise((resolve, reject) => {
+    logger.info('MedicationRequest >>> search');
 
-	// Common search params
-	let { base_version, _content, _format, _id, _lastUpdated, _profile, _query, _security, _tag } = args;
+    // Common search params
+    let {
+      base_version,
+      _content,
+      _format,
+      _id,
+      _lastUpdated,
+      _profile,
+      _query,
+      _security,
+      _tag,
+    } = args;
 
-	// Search Result params
-	let { _INCLUDE, _REVINCLUDE, _SORT, _COUNT, _SUMMARY, _ELEMENTS, _CONTAINED, _CONTAINEDTYPED } = args;
+    // Search Result params
+    let {
+      _INCLUDE,
+      _REVINCLUDE,
+      _SORT,
+      _COUNT,
+      _SUMMARY,
+      _ELEMENTS,
+      _CONTAINED,
+      _CONTAINEDTYPED,
+    } = args;
 
-	// Resource Specific params
-	let authoredon = args['authoredon'];
-	let category = args['category'];
-	let code = args['code'];
-	let _context = args['_context'];
-	let date = args['date'];
-	let identifier = args['identifier'];
-	let intended_dispenser = args['intended-dispenser'];
-	let intent = args['intent'];
-	let medication = args['medication'];
-	let patient = args['patient'];
-	let priority = args['priority'];
-	let requester = args['requester'];
-	let status = args['status'];
-	let subject = args['subject'];
+    // Resource Specific params
+    let authoredon = args['authoredon'];
+    let category = args['category'];
+    let code = args['code'];
+    let _context = args['_context'];
+    let date = args['date'];
+    let identifier = args['identifier'];
+    let intended_dispenser = args['intended-dispenser'];
+    let intent = args['intent'];
+    let medication = args['medication'];
+    let patient = args['patient'];
+    let priority = args['priority'];
+    let requester = args['requester'];
+    let status = args['status'];
+    let subject = args['subject'];
 
-	// TODO: Build query from Parameters
+    // TODO: Build query from Parameters
 
-	// TODO: Query database
+    // TODO: Query database
 
-	let MedicationRequest = getMedicationRequest(base_version);
+    let MedicationRequest = getMedicationRequest(base_version);
 
-	// Cast all results to MedicationRequest Class
-	let medicationrequest_resource = new MedicationRequest();
-	// TODO: Set data with constructor or setter methods
-	medicationrequest_resource.id = 'test id';
+    // Cast all results to MedicationRequest Class
+    let medicationrequest_resource = new MedicationRequest();
+    // TODO: Set data with constructor or setter methods
+    medicationrequest_resource.id = 'test id';
 
-	// Return Array
-	resolve([medicationrequest_resource]);
-});
+    // Return Array
+    resolve([medicationrequest_resource]);
+  });
 
-module.exports.searchById = (args, context, logger) => new Promise((resolve, reject) => {
-	logger.info('MedicationRequest >>> searchById');
+module.exports.searchById = (args) =>
+  new Promise((resolve, reject) => {
+    logger.info('MedicationRequest >>> searchById');
 
-	let { base_version, id } = args;
+    let { base_version, id } = args;
 
-	let MedicationRequest = getMedicationRequest(base_version);
+    let MedicationRequest = getMedicationRequest(base_version);
 
-	// TODO: Build query from Parameters
+    // TODO: Build query from Parameters
 
-	// TODO: Query database
+    // TODO: Query database
 
-	// Cast result to MedicationRequest Class
-	let medicationrequest_resource = new MedicationRequest();
-	// TODO: Set data with constructor or setter methods
-	medicationrequest_resource.id = 'test id';
+    // Cast result to MedicationRequest Class
+    let medicationrequest_resource = new MedicationRequest();
+    // TODO: Set data with constructor or setter methods
+    medicationrequest_resource.id = 'test id';
 
-	// Return resource class
-	// resolve(medicationrequest_resource);
-	resolve();
-});
+    // Return resource class
+    // resolve(medicationrequest_resource);
+    resolve();
+  });
 
-module.exports.create = (args, context, logger) => new Promise((resolve, reject) => {
-	logger.info('MedicationRequest >>> create');
+module.exports.create = (args, { req }) =>
+  new Promise((resolve, reject) => {
+    logger.info('MedicationRequest >>> create');
 
-	let { base_version, resource } = args;
-	// Make sure to use this ID when inserting this resource
-	let id = new ObjectID().toString();
+    let { base_version, resource } = args;
+    // Make sure to use this ID when inserting this resource
+    let id = new ObjectID().toString();
 
-	let MedicationRequest = getMedicationRequest(base_version);
-	let Meta = getMeta(base_version);
+    let MedicationRequest = getMedicationRequest(base_version);
+    let Meta = getMeta(base_version);
 
-	// TODO: determine if client/server sets ID
+    // TODO: determine if client/server sets ID
 
-	// Cast resource to MedicationRequest Class
-	let medicationrequest_resource = new MedicationRequest(resource);
-	medicationrequest_resource.meta = new Meta();
-	// TODO: set meta info
+    // Cast resource to MedicationRequest Class
+    let medicationrequest_resource = new MedicationRequest(resource);
+    medicationrequest_resource.meta = new Meta();
+    // TODO: set meta info
 
-	// TODO: save record to database
+    // TODO: save record to database
 
-	// Return Id
-	resolve({ id });
-});
+    // Return Id
+    resolve({ id });
+  });
 
-module.exports.update = (args, context, logger) => new Promise((resolve, reject) => {
-	logger.info('MedicationRequest >>> update');
+module.exports.update = (args, { req }) =>
+  new Promise((resolve, reject) => {
+    logger.info('MedicationRequest >>> update');
 
-	let { base_version, id, resource } = args;
+    let { base_version, id, resource } = args;
 
-	let MedicationRequest = getMedicationRequest(base_version);
-	let Meta = getMeta(base_version);
+    let MedicationRequest = getMedicationRequest(base_version);
+    let Meta = getMeta(base_version);
 
-	// Cast resource to MedicationRequest Class
-	let medicationrequest_resource = new MedicationRequest(resource);
-	medicationrequest_resource.meta = new Meta();
-	// TODO: set meta info, increment meta ID
+    // Cast resource to MedicationRequest Class
+    let medicationrequest_resource = new MedicationRequest(resource);
+    medicationrequest_resource.meta = new Meta();
+    // TODO: set meta info, increment meta ID
 
-	// TODO: save record to database
+    // TODO: save record to database
 
-	// Return id, if recorded was created or updated, new meta version id
-	resolve({ id: medicationrequest_resource.id, created: false, resource_version: medicationrequest_resource.meta.versionId });
-});
+    // Return id, if recorded was created or updated, new meta version id
+    resolve({
+      id: medicationrequest_resource.id,
+      created: false,
+      resource_version: medicationrequest_resource.meta.versionId,
+    });
+  });
 
-module.exports.remove = (args, context, logger) => new Promise((resolve, reject) => {
-	logger.info('MedicationRequest >>> remove');
+module.exports.remove = (args, context) =>
+  new Promise((resolve, reject) => {
+    logger.info('MedicationRequest >>> remove');
 
-	let { id } = args;
+    let { id } = args;
 
-	// TODO: delete record in database (soft/hard)
+    // TODO: delete record in database (soft/hard)
 
-	// Return number of records deleted
-	resolve({ deleted: 0 });
-});
+    // Return number of records deleted
+    resolve({ deleted: 0 });
+  });
 
-module.exports.searchByVersionId = (args, context, logger) => new Promise((resolve, reject) => {
-	logger.info('MedicationRequest >>> searchByVersionId');
+module.exports.searchByVersionId = (args, context) =>
+  new Promise((resolve, reject) => {
+    logger.info('MedicationRequest >>> searchByVersionId');
 
-	let { base_version, id, version_id } = args;
+    let { base_version, id, version_id } = args;
 
-	let MedicationRequest = getMedicationRequest(base_version);
+    let MedicationRequest = getMedicationRequest(base_version);
 
-	// TODO: Build query from Parameters
+    // TODO: Build query from Parameters
 
-	// TODO: Query database
+    // TODO: Query database
 
-	// Cast result to MedicationRequest Class
-	let medicationrequest_resource = new MedicationRequest();
+    // Cast result to MedicationRequest Class
+    let medicationrequest_resource = new MedicationRequest();
 
-	// Return resource class
-	resolve(medicationrequest_resource);
-});
+    // Return resource class
+    resolve(medicationrequest_resource);
+  });
 
-module.exports.history = (args, context, logger) => new Promise((resolve, reject) => {
-	logger.info('MedicationRequest >>> history');
+module.exports.history = (args, context) =>
+  new Promise((resolve, reject) => {
+    logger.info('MedicationRequest >>> history');
 
-	// Common search params
-	let { base_version, _content, _format, _id, _lastUpdated, _profile, _query, _security, _tag } = args;
+    // Common search params
+    let {
+      base_version,
+      _content,
+      _format,
+      _id,
+      _lastUpdated,
+      _profile,
+      _query,
+      _security,
+      _tag,
+    } = args;
 
-	// Search Result params
-	let { _INCLUDE, _REVINCLUDE, _SORT, _COUNT, _SUMMARY, _ELEMENTS, _CONTAINED, _CONTAINEDTYPED } = args;
+    // Search Result params
+    let {
+      _INCLUDE,
+      _REVINCLUDE,
+      _SORT,
+      _COUNT,
+      _SUMMARY,
+      _ELEMENTS,
+      _CONTAINED,
+      _CONTAINEDTYPED,
+    } = args;
 
-	// Resource Specific params
-	let authoredon = args['authoredon'];
-	let category = args['category'];
-	let code = args['code'];
-	let _context = args['_context'];
-	let date = args['date'];
-	let identifier = args['identifier'];
-	let intended_dispenser = args['intended-dispenser'];
-	let intent = args['intent'];
-	let medication = args['medication'];
-	let patient = args['patient'];
-	let priority = args['priority'];
-	let requester = args['requester'];
-	let status = args['status'];
-	let subject = args['subject'];
+    // Resource Specific params
+    let authoredon = args['authoredon'];
+    let category = args['category'];
+    let code = args['code'];
+    let _context = args['_context'];
+    let date = args['date'];
+    let identifier = args['identifier'];
+    let intended_dispenser = args['intended-dispenser'];
+    let intent = args['intent'];
+    let medication = args['medication'];
+    let patient = args['patient'];
+    let priority = args['priority'];
+    let requester = args['requester'];
+    let status = args['status'];
+    let subject = args['subject'];
 
-	// TODO: Build query from Parameters
+    // TODO: Build query from Parameters
 
-	// TODO: Query database
+    // TODO: Query database
 
-	let MedicationRequest = getMedicationRequest(base_version);
+    let MedicationRequest = getMedicationRequest(base_version);
 
-	// Cast all results to MedicationRequest Class
-	let medicationrequest_resource = new MedicationRequest();
+    // Cast all results to MedicationRequest Class
+    let medicationrequest_resource = new MedicationRequest();
 
-	// Return Array
-	resolve([medicationrequest_resource]);
-});
+    // Return Array
+    resolve([medicationrequest_resource]);
+  });
 
-module.exports.historyById = (args, context, logger) => new Promise((resolve, reject) => {
-	logger.info('MedicationRequest >>> historyById');
+module.exports.historyById = (args, context) =>
+  new Promise((resolve, reject) => {
+    logger.info('MedicationRequest >>> historyById');
 
-	// Common search params
-	let { base_version, _content, _format, _id, _lastUpdated, _profile, _query, _security, _tag } = args;
+    // Common search params
+    let {
+      base_version,
+      _content,
+      _format,
+      _id,
+      _lastUpdated,
+      _profile,
+      _query,
+      _security,
+      _tag,
+    } = args;
 
-	// Search Result params
-	let { _INCLUDE, _REVINCLUDE, _SORT, _COUNT, _SUMMARY, _ELEMENTS, _CONTAINED, _CONTAINEDTYPED } = args;
+    // Search Result params
+    let {
+      _INCLUDE,
+      _REVINCLUDE,
+      _SORT,
+      _COUNT,
+      _SUMMARY,
+      _ELEMENTS,
+      _CONTAINED,
+      _CONTAINEDTYPED,
+    } = args;
 
-	// Resource Specific params
-	let authoredon = args['authoredon'];
-	let category = args['category'];
-	let code = args['code'];
-	let _context = args['_context'];
-	let date = args['date'];
-	let identifier = args['identifier'];
-	let intended_dispenser = args['intended-dispenser'];
-	let intent = args['intent'];
-	let medication = args['medication'];
-	let patient = args['patient'];
-	let priority = args['priority'];
-	let requester = args['requester'];
-	let status = args['status'];
-	let subject = args['subject'];
+    // Resource Specific params
+    let authoredon = args['authoredon'];
+    let category = args['category'];
+    let code = args['code'];
+    let _context = args['_context'];
+    let date = args['date'];
+    let identifier = args['identifier'];
+    let intended_dispenser = args['intended-dispenser'];
+    let intent = args['intent'];
+    let medication = args['medication'];
+    let patient = args['patient'];
+    let priority = args['priority'];
+    let requester = args['requester'];
+    let status = args['status'];
+    let subject = args['subject'];
 
-	// TODO: Build query from Parameters
+    // TODO: Build query from Parameters
 
-	// TODO: Query database
+    // TODO: Query database
 
-	let MedicationRequest = getMedicationRequest(base_version);
+    let MedicationRequest = getMedicationRequest(base_version);
 
-	// Cast all results to MedicationRequest Class
-	let medicationrequest_resource = new MedicationRequest();
+    // Cast all results to MedicationRequest Class
+    let medicationrequest_resource = new MedicationRequest();
 
-	// Return Array
-	resolve([medicationrequest_resource]);
-});
+    // Return Array
+    resolve([medicationrequest_resource]);
+  });

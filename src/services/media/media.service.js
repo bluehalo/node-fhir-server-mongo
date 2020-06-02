@@ -3,214 +3,286 @@
 const { RESOURCES } = require('@asymmetrik/node-fhir-server-core').constants;
 const FHIRServer = require('@asymmetrik/node-fhir-server-core');
 const { ObjectID } = require('mongodb');
+const logger = require('@asymmetrik/node-fhir-server-core').loggers.get();
 
 let getMedia = (base_version) => {
-	return require(FHIRServer.resolveFromVersion(base_version, RESOURCES.MEDIA));};
+  return require(FHIRServer.resolveFromVersion(base_version, RESOURCES.MEDIA));
+};
 
 let getMeta = (base_version) => {
-	return require(FHIRServer.resolveFromVersion(base_version, RESOURCES.META));};
+  return require(FHIRServer.resolveFromVersion(base_version, RESOURCES.META));
+};
 
-module.exports.search = (args, context, logger) => new Promise((resolve, reject) => {
-	logger.info('Media >>> search');
+module.exports.searchById = (args) =>
+  new Promise((resolve, reject) => {
+    logger.info('Media >>> search');
 
-	// Common search params
-	let { base_version, _content, _format, _id, _lastUpdated, _profile, _query, _security, _tag } = args;
+    // Common search params
+    let {
+      base_version,
+      _content,
+      _format,
+      _id,
+      _lastUpdated,
+      _profile,
+      _query,
+      _security,
+      _tag,
+    } = args;
 
-	// Search Result params
-	let { _INCLUDE, _REVINCLUDE, _SORT, _COUNT, _SUMMARY, _ELEMENTS, _CONTAINED, _CONTAINEDTYPED } = args;
+    // Search Result params
+    let {
+      _INCLUDE,
+      _REVINCLUDE,
+      _SORT,
+      _COUNT,
+      _SUMMARY,
+      _ELEMENTS,
+      _CONTAINED,
+      _CONTAINEDTYPED,
+    } = args;
 
-	// Resource Specific params
-	let based_on = args['based-on'];
-	let _context = args['_context'];
-	let created = args['created'];
-	let date = args['date'];
-	let device = args['device'];
-	let identifier = args['identifier'];
-	let operator = args['operator'];
-	let patient = args['patient'];
-	let site = args['site'];
-	let subject = args['subject'];
-	let subtype = args['subtype'];
-	let type = args['type'];
-	let view = args['view'];
+    // Resource Specific params
+    let based_on = args['based-on'];
+    let _context = args['_context'];
+    let created = args['created'];
+    let date = args['date'];
+    let device = args['device'];
+    let identifier = args['identifier'];
+    let operator = args['operator'];
+    let patient = args['patient'];
+    let site = args['site'];
+    let subject = args['subject'];
+    let subtype = args['subtype'];
+    let type = args['type'];
+    let view = args['view'];
 
-	// TODO: Build query from Parameters
+    // TODO: Build query from Parameters
 
-	// TODO: Query database
+    // TODO: Query database
 
-	let Media = getMedia(base_version);
+    let Media = getMedia(base_version);
 
-	// Cast all results to Media Class
-	let media_resource = new Media();
-	// TODO: Set data with constructor or setter methods
-	media_resource.id = 'test id';
+    // Cast all results to Media Class
+    let media_resource = new Media();
+    // TODO: Set data with constructor or setter methods
+    media_resource.id = 'test id';
 
-	// Return Array
-	resolve([media_resource]);
-});
+    // Return Array
+    resolve([media_resource]);
+  });
 
-module.exports.searchById = (args, context, logger) => new Promise((resolve, reject) => {
-	logger.info('Media >>> searchById');
+module.exports.searchById = (args) =>
+  new Promise((resolve, reject) => {
+    logger.info('Media >>> searchById');
 
-	let { base_version, id } = args;
+    let { base_version, id } = args;
 
-	let Media = getMedia(base_version);
+    let Media = getMedia(base_version);
 
-	// TODO: Build query from Parameters
+    // TODO: Build query from Parameters
 
-	// TODO: Query database
+    // TODO: Query database
 
-	// Cast result to Media Class
-	let media_resource = new Media();
-	// TODO: Set data with constructor or setter methods
-	media_resource.id = 'test id';
+    // Cast result to Media Class
+    let media_resource = new Media();
+    // TODO: Set data with constructor or setter methods
+    media_resource.id = 'test id';
 
-	// Return resource class
-	// resolve(media_resource);
-	resolve();
-});
+    // Return resource class
+    // resolve(media_resource);
+    resolve();
+  });
 
-module.exports.create = (args, context, logger) => new Promise((resolve, reject) => {
-	logger.info('Media >>> create');
+module.exports.create = (args, { req }) =>
+  new Promise((resolve, reject) => {
+    logger.info('Media >>> create');
 
-	let { base_version, resource } = args;
-	// Make sure to use this ID when inserting this resource
-	let id = new ObjectID().toString();
+    let { base_version, resource } = args;
+    // Make sure to use this ID when inserting this resource
+    let id = new ObjectID().toString();
 
-	let Media = getMedia(base_version);
-	let Meta = getMeta(base_version);
+    let Media = getMedia(base_version);
+    let Meta = getMeta(base_version);
 
-	// TODO: determine if client/server sets ID
+    // TODO: determine if client/server sets ID
 
-	// Cast resource to Media Class
-	let media_resource = new Media(resource);
-	media_resource.meta = new Meta();
-	// TODO: set meta info
+    // Cast resource to Media Class
+    let media_resource = new Media(resource);
+    media_resource.meta = new Meta();
+    // TODO: set meta info
 
-	// TODO: save record to database
+    // TODO: save record to database
 
-	// Return Id
-	resolve({ id });
-});
+    // Return Id
+    resolve({ id });
+  });
 
-module.exports.update = (args, context, logger) => new Promise((resolve, reject) => {
-	logger.info('Media >>> update');
+module.exports.update = (args, { req }) =>
+  new Promise((resolve, reject) => {
+    logger.info('Media >>> update');
 
-	let { base_version, id, resource } = args;
+    let { base_version, id, resource } = args;
 
-	let Media = getMedia(base_version);
-	let Meta = getMeta(base_version);
+    let Media = getMedia(base_version);
+    let Meta = getMeta(base_version);
 
-	// Cast resource to Media Class
-	let media_resource = new Media(resource);
-	media_resource.meta = new Meta();
-	// TODO: set meta info, increment meta ID
+    // Cast resource to Media Class
+    let media_resource = new Media(resource);
+    media_resource.meta = new Meta();
+    // TODO: set meta info, increment meta ID
 
-	// TODO: save record to database
+    // TODO: save record to database
 
-	// Return id, if recorded was created or updated, new meta version id
-	resolve({ id: media_resource.id, created: false, resource_version: media_resource.meta.versionId });
-});
+    // Return id, if recorded was created or updated, new meta version id
+    resolve({
+      id: media_resource.id,
+      created: false,
+      resource_version: media_resource.meta.versionId,
+    });
+  });
 
-module.exports.remove = (args, context, logger) => new Promise((resolve, reject) => {
-	logger.info('Media >>> remove');
+module.exports.remove = (args, context) =>
+  new Promise((resolve, reject) => {
+    logger.info('Media >>> remove');
 
-	let { id } = args;
+    let { id } = args;
 
-	// TODO: delete record in database (soft/hard)
+    // TODO: delete record in database (soft/hard)
 
-	// Return number of records deleted
-	resolve({ deleted: 0 });
-});
+    // Return number of records deleted
+    resolve({ deleted: 0 });
+  });
 
-module.exports.searchByVersionId = (args, context, logger) => new Promise((resolve, reject) => {
-	logger.info('Media >>> searchByVersionId');
+module.exports.searchByVersionId = (args, context) =>
+  new Promise((resolve, reject) => {
+    logger.info('Media >>> searchByVersionId');
 
-	let { base_version, id, version_id } = args;
+    let { base_version, id, version_id } = args;
 
-	let Media = getMedia(base_version);
+    let Media = getMedia(base_version);
 
-	// TODO: Build query from Parameters
+    // TODO: Build query from Parameters
 
-	// TODO: Query database
+    // TODO: Query database
 
-	// Cast result to Media Class
-	let media_resource = new Media();
+    // Cast result to Media Class
+    let media_resource = new Media();
 
-	// Return resource class
-	resolve(media_resource);
-});
+    // Return resource class
+    resolve(media_resource);
+  });
 
-module.exports.history = (args, context, logger) => new Promise((resolve, reject) => {
-	logger.info('Media >>> history');
+module.exports.history = (args, context) =>
+  new Promise((resolve, reject) => {
+    logger.info('Media >>> history');
 
-	// Common search params
-	let { base_version, _content, _format, _id, _lastUpdated, _profile, _query, _security, _tag } = args;
+    // Common search params
+    let {
+      base_version,
+      _content,
+      _format,
+      _id,
+      _lastUpdated,
+      _profile,
+      _query,
+      _security,
+      _tag,
+    } = args;
 
-	// Search Result params
-	let { _INCLUDE, _REVINCLUDE, _SORT, _COUNT, _SUMMARY, _ELEMENTS, _CONTAINED, _CONTAINEDTYPED } = args;
+    // Search Result params
+    let {
+      _INCLUDE,
+      _REVINCLUDE,
+      _SORT,
+      _COUNT,
+      _SUMMARY,
+      _ELEMENTS,
+      _CONTAINED,
+      _CONTAINEDTYPED,
+    } = args;
 
-	// Resource Specific params
-	let based_on = args['based-on'];
-	let _context = args['_context'];
-	let created = args['created'];
-	let date = args['date'];
-	let device = args['device'];
-	let identifier = args['identifier'];
-	let operator = args['operator'];
-	let patient = args['patient'];
-	let site = args['site'];
-	let subject = args['subject'];
-	let subtype = args['subtype'];
-	let type = args['type'];
-	let view = args['view'];
+    // Resource Specific params
+    let based_on = args['based-on'];
+    let _context = args['_context'];
+    let created = args['created'];
+    let date = args['date'];
+    let device = args['device'];
+    let identifier = args['identifier'];
+    let operator = args['operator'];
+    let patient = args['patient'];
+    let site = args['site'];
+    let subject = args['subject'];
+    let subtype = args['subtype'];
+    let type = args['type'];
+    let view = args['view'];
 
-	// TODO: Build query from Parameters
+    // TODO: Build query from Parameters
 
-	// TODO: Query database
+    // TODO: Query database
 
-	let Media = getMedia(base_version);
+    let Media = getMedia(base_version);
 
-	// Cast all results to Media Class
-	let media_resource = new Media();
+    // Cast all results to Media Class
+    let media_resource = new Media();
 
-	// Return Array
-	resolve([media_resource]);
-});
+    // Return Array
+    resolve([media_resource]);
+  });
 
-module.exports.historyById = (args, context, logger) => new Promise((resolve, reject) => {
-	logger.info('Media >>> historyById');
+module.exports.historyById = (args, context) =>
+  new Promise((resolve, reject) => {
+    logger.info('Media >>> historyById');
 
-	// Common search params
-	let { base_version, _content, _format, _id, _lastUpdated, _profile, _query, _security, _tag } = args;
+    // Common search params
+    let {
+      base_version,
+      _content,
+      _format,
+      _id,
+      _lastUpdated,
+      _profile,
+      _query,
+      _security,
+      _tag,
+    } = args;
 
-	// Search Result params
-	let { _INCLUDE, _REVINCLUDE, _SORT, _COUNT, _SUMMARY, _ELEMENTS, _CONTAINED, _CONTAINEDTYPED } = args;
+    // Search Result params
+    let {
+      _INCLUDE,
+      _REVINCLUDE,
+      _SORT,
+      _COUNT,
+      _SUMMARY,
+      _ELEMENTS,
+      _CONTAINED,
+      _CONTAINEDTYPED,
+    } = args;
 
-	// Resource Specific params
-	let based_on = args['based-on'];
-	let _context = args['_context'];
-	let created = args['created'];
-	let date = args['date'];
-	let device = args['device'];
-	let identifier = args['identifier'];
-	let operator = args['operator'];
-	let patient = args['patient'];
-	let site = args['site'];
-	let subject = args['subject'];
-	let subtype = args['subtype'];
-	let type = args['type'];
-	let view = args['view'];
+    // Resource Specific params
+    let based_on = args['based-on'];
+    let _context = args['_context'];
+    let created = args['created'];
+    let date = args['date'];
+    let device = args['device'];
+    let identifier = args['identifier'];
+    let operator = args['operator'];
+    let patient = args['patient'];
+    let site = args['site'];
+    let subject = args['subject'];
+    let subtype = args['subtype'];
+    let type = args['type'];
+    let view = args['view'];
 
-	// TODO: Build query from Parameters
+    // TODO: Build query from Parameters
 
-	// TODO: Query database
+    // TODO: Query database
 
-	let Media = getMedia(base_version);
+    let Media = getMedia(base_version);
 
-	// Cast all results to Media Class
-	let media_resource = new Media();
+    // Cast all results to Media Class
+    let media_resource = new Media();
 
-	// Return Array
-	resolve([media_resource]);
-});
+    // Return Array
+    resolve([media_resource]);
+  });

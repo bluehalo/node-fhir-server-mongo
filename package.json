@@ -6,7 +6,8 @@
   "repository": "https://github.com/Asymmetrik/node-fhir-server-mongo.git",
   "contributors": [
     "Robert Winterbottom <rwinterbottom@asymmetrik.com>",
-    "Jon Lee <jlee@asymmetrik.com>"
+    "Jon Lee <jlee@asymmetrik.com>",
+    "Shane O'Neill <soneill@asymmetrik.com>"
   ],
   "license": "MIT",
   "engines": {
@@ -19,7 +20,8 @@
     "test:lint": "eslint \"src/**/*.js\"",
     "test:jest": "jest --forceExit",
     "snyk-protect": "snyk protect",
-    "prepare": "yarn run snyk-protect"
+    "prepare": "yarn run snyk-protect",
+    "format": "prettier \"src/**/*.js\" --write"
   },
   "jest": {
     "verbose": true,
