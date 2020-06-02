@@ -14,7 +14,7 @@ let mongoConfig = {
 };
 
 // Set up whitelist
-let whitelist_env = (env.WHITELIST && env.WHITELIST.split(',').map((host) => host.trim())) || false;
+let whitelist_env = (env.WHITELIST && env.WHITELIST.split(',').map(host => host.trim())) || false;
 
 // If no whitelist is present, disable cors
 // If it's length is 1, set it to a string, so * works
@@ -76,8 +76,16 @@ let fhirServerConfig = {
   // },
   //
   profiles: {
+    Account: {
+      service: './src/services/account/account.service.js',
+      versions: [VERSIONS['4_0_0']],
+    },
     AllergyIntolerance: {
       service: './src/services/allergyintolerance/allergyintolerance.service.js',
+      versions: [VERSIONS['4_0_0']],
+    },
+    Claim: {
+      service: './src/services/claim/claim.service.js',
       versions: [VERSIONS['4_0_0']],
     },
     Organization: {

@@ -1,19 +1,20 @@
 /*eslint no-unused-vars: "warn"*/
 
-const { RESOURCES } = require('@asymmetrik/node-fhir-server-core').constants;
+const { VERSIONS } = require('@asymmetrik/node-fhir-server-core').constants;
+const { resolveSchema } = require('@asymmetrik/node-fhir-server-core');
 const FHIRServer = require('@asymmetrik/node-fhir-server-core');
 const { ObjectID } = require('mongodb');
 const logger = require('@asymmetrik/node-fhir-server-core').loggers.get();
 
-let getMessageHeader = (base_version) => {
-  return require(FHIRServer.resolveFromVersion(base_version, RESOURCES.MESSAGEHEADER));
+let getMessageHeader = base_version => {
+  return require(resolveSchema(base_version, 'MessageHeader'));
 };
 
-let getMeta = (base_version) => {
-  return require(FHIRServer.resolveFromVersion(base_version, RESOURCES.META));
+let getMeta = base_version => {
+  return require(resolveSchema(base_version, 'Meta'));
 };
 
-module.exports.searchById = (args) =>
+module.exports.searchById = args =>
   new Promise((resolve, reject) => {
     logger.info('MessageHeader >>> search');
 
@@ -74,7 +75,7 @@ module.exports.searchById = (args) =>
     resolve([messageheader_resource]);
   });
 
-module.exports.searchById = (args) =>
+module.exports.searchById = args =>
   new Promise((resolve, reject) => {
     logger.info('MessageHeader >>> searchById');
 
