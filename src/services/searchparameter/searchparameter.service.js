@@ -1,219 +1,292 @@
 /*eslint no-unused-vars: "warn"*/
 
-const { RESOURCES } = require('@asymmetrik/node-fhir-server-core').constants;
+const { VERSIONS } = require('@asymmetrik/node-fhir-server-core').constants;
+const { resolveSchema } = require('@asymmetrik/node-fhir-server-core');
 const FHIRServer = require('@asymmetrik/node-fhir-server-core');
 const { ObjectID } = require('mongodb');
+const logger = require('@asymmetrik/node-fhir-server-core').loggers.get();
 
-let getSearchParameter = (base_version) => {
-	return require(FHIRServer.resolveFromVersion(base_version, RESOURCES.SEARCHPARAMETER));};
+let getSearchParameter = base_version => {
+  return require(resolveSchema(base_version, 'SearchParameter'));
+};
 
-let getMeta = (base_version) => {
-	return require(FHIRServer.resolveFromVersion(base_version, RESOURCES.META));};
+let getMeta = base_version => {
+  return require(resolveSchema(base_version, 'Meta'));
+};
 
-module.exports.search = (args, context, logger) => new Promise((resolve, reject) => {
-	logger.info('SearchParameter >>> search');
+module.exports.searchById = args =>
+  new Promise((resolve, reject) => {
+    logger.info('SearchParameter >>> search');
 
-	// Common search params
-	let { base_version, _content, _format, _id, _lastUpdated, _profile, _query, _security, _tag } = args;
+    // Common search params
+    let {
+      base_version,
+      _content,
+      _format,
+      _id,
+      _lastUpdated,
+      _profile,
+      _query,
+      _security,
+      _tag,
+    } = args;
 
-	// Search Result params
-	let { _INCLUDE, _REVINCLUDE, _SORT, _COUNT, _SUMMARY, _ELEMENTS, _CONTAINED, _CONTAINEDTYPED } = args;
+    // Search Result params
+    let {
+      _INCLUDE,
+      _REVINCLUDE,
+      _SORT,
+      _COUNT,
+      _SUMMARY,
+      _ELEMENTS,
+      _CONTAINED,
+      _CONTAINEDTYPED,
+    } = args;
 
-	// Resource Specific params
-	let base = args['base'];
-	let code = args['code'];
-	let component = args['component'];
-	let date = args['date'];
-	let derived_from = args['derived-from'];
-	let description = args['description'];
-	let jurisdiction = args['jurisdiction'];
-	let name = args['name'];
-	let publisher = args['publisher'];
-	let status = args['status'];
-	let target = args['target'];
-	let type = args['type'];
-	let url = args['url'];
-	let version = args['version'];
+    // Resource Specific params
+    let base = args['base'];
+    let code = args['code'];
+    let component = args['component'];
+    let date = args['date'];
+    let derived_from = args['derived-from'];
+    let description = args['description'];
+    let jurisdiction = args['jurisdiction'];
+    let name = args['name'];
+    let publisher = args['publisher'];
+    let status = args['status'];
+    let target = args['target'];
+    let type = args['type'];
+    let url = args['url'];
+    let version = args['version'];
 
-	// TODO: Build query from Parameters
+    // TODO: Build query from Parameters
 
-	// TODO: Query database
+    // TODO: Query database
 
-	let SearchParameter = getSearchParameter(base_version);
+    let SearchParameter = getSearchParameter(base_version);
 
-	// Cast all results to SearchParameter Class
-	let searchparameter_resource = new SearchParameter();
-	// TODO: Set data with constructor or setter methods
-	searchparameter_resource.id = 'test id';
+    // Cast all results to SearchParameter Class
+    let searchparameter_resource = new SearchParameter();
+    // TODO: Set data with constructor or setter methods
+    searchparameter_resource.id = 'test id';
 
-	// Return Array
-	resolve([searchparameter_resource]);
-});
+    // Return Array
+    resolve([searchparameter_resource]);
+  });
 
-module.exports.searchById = (args, context, logger) => new Promise((resolve, reject) => {
-	logger.info('SearchParameter >>> searchById');
+module.exports.searchById = args =>
+  new Promise((resolve, reject) => {
+    logger.info('SearchParameter >>> searchById');
 
-	let { base_version, id } = args;
+    let { base_version, id } = args;
 
-	let SearchParameter = getSearchParameter(base_version);
+    let SearchParameter = getSearchParameter(base_version);
 
-	// TODO: Build query from Parameters
+    // TODO: Build query from Parameters
 
-	// TODO: Query database
+    // TODO: Query database
 
-	// Cast result to SearchParameter Class
-	let searchparameter_resource = new SearchParameter();
-	// TODO: Set data with constructor or setter methods
-	searchparameter_resource.id = 'test id';
+    // Cast result to SearchParameter Class
+    let searchparameter_resource = new SearchParameter();
+    // TODO: Set data with constructor or setter methods
+    searchparameter_resource.id = 'test id';
 
-	// Return resource class
-	// resolve(searchparameter_resource);
-	resolve();
-});
+    // Return resource class
+    // resolve(searchparameter_resource);
+    resolve();
+  });
 
-module.exports.create = (args, context, logger) => new Promise((resolve, reject) => {
-	logger.info('SearchParameter >>> create');
+module.exports.create = (args, { req }) =>
+  new Promise((resolve, reject) => {
+    logger.info('SearchParameter >>> create');
 
-	let { base_version, resource } = args;
-	// Make sure to use this ID when inserting this resource
-	let id = new ObjectID().toString();
+    let { base_version, resource } = args;
+    // Make sure to use this ID when inserting this resource
+    let id = new ObjectID().toString();
 
-	let SearchParameter = getSearchParameter(base_version);
-	let Meta = getMeta(base_version);
+    let SearchParameter = getSearchParameter(base_version);
+    let Meta = getMeta(base_version);
 
-	// TODO: determine if client/server sets ID
+    // TODO: determine if client/server sets ID
 
-	// Cast resource to SearchParameter Class
-	let searchparameter_resource = new SearchParameter(resource);
-	searchparameter_resource.meta = new Meta();
-	// TODO: set meta info
+    // Cast resource to SearchParameter Class
+    let searchparameter_resource = new SearchParameter(resource);
+    searchparameter_resource.meta = new Meta();
+    // TODO: set meta info
 
-	// TODO: save record to database
+    // TODO: save record to database
 
-	// Return Id
-	resolve({ id });
-});
+    // Return Id
+    resolve({ id });
+  });
 
-module.exports.update = (args, context, logger) => new Promise((resolve, reject) => {
-	logger.info('SearchParameter >>> update');
+module.exports.update = (args, { req }) =>
+  new Promise((resolve, reject) => {
+    logger.info('SearchParameter >>> update');
 
-	let { base_version, id, resource } = args;
+    let { base_version, id, resource } = args;
 
-	let SearchParameter = getSearchParameter(base_version);
-	let Meta = getMeta(base_version);
+    let SearchParameter = getSearchParameter(base_version);
+    let Meta = getMeta(base_version);
 
-	// Cast resource to SearchParameter Class
-	let searchparameter_resource = new SearchParameter(resource);
-	searchparameter_resource.meta = new Meta();
-	// TODO: set meta info, increment meta ID
+    // Cast resource to SearchParameter Class
+    let searchparameter_resource = new SearchParameter(resource);
+    searchparameter_resource.meta = new Meta();
+    // TODO: set meta info, increment meta ID
 
-	// TODO: save record to database
+    // TODO: save record to database
 
-	// Return id, if recorded was created or updated, new meta version id
-	resolve({ id: searchparameter_resource.id, created: false, resource_version: searchparameter_resource.meta.versionId });
-});
+    // Return id, if recorded was created or updated, new meta version id
+    resolve({
+      id: searchparameter_resource.id,
+      created: false,
+      resource_version: searchparameter_resource.meta.versionId,
+    });
+  });
 
-module.exports.remove = (args, context, logger) => new Promise((resolve, reject) => {
-	logger.info('SearchParameter >>> remove');
+module.exports.remove = (args, context) =>
+  new Promise((resolve, reject) => {
+    logger.info('SearchParameter >>> remove');
 
-	let { id } = args;
+    let { id } = args;
 
-	// TODO: delete record in database (soft/hard)
+    // TODO: delete record in database (soft/hard)
 
-	// Return number of records deleted
-	resolve({ deleted: 0 });
-});
+    // Return number of records deleted
+    resolve({ deleted: 0 });
+  });
 
-module.exports.searchByVersionId = (args, context, logger) => new Promise((resolve, reject) => {
-	logger.info('SearchParameter >>> searchByVersionId');
+module.exports.searchByVersionId = (args, context) =>
+  new Promise((resolve, reject) => {
+    logger.info('SearchParameter >>> searchByVersionId');
 
-	let { base_version, id, version_id } = args;
+    let { base_version, id, version_id } = args;
 
-	let SearchParameter = getSearchParameter(base_version);
+    let SearchParameter = getSearchParameter(base_version);
 
-	// TODO: Build query from Parameters
+    // TODO: Build query from Parameters
 
-	// TODO: Query database
+    // TODO: Query database
 
-	// Cast result to SearchParameter Class
-	let searchparameter_resource = new SearchParameter();
+    // Cast result to SearchParameter Class
+    let searchparameter_resource = new SearchParameter();
 
-	// Return resource class
-	resolve(searchparameter_resource);
-});
+    // Return resource class
+    resolve(searchparameter_resource);
+  });
 
-module.exports.history = (args, context, logger) => new Promise((resolve, reject) => {
-	logger.info('SearchParameter >>> history');
+module.exports.history = (args, context) =>
+  new Promise((resolve, reject) => {
+    logger.info('SearchParameter >>> history');
 
-	// Common search params
-	let { base_version, _content, _format, _id, _lastUpdated, _profile, _query, _security, _tag } = args;
+    // Common search params
+    let {
+      base_version,
+      _content,
+      _format,
+      _id,
+      _lastUpdated,
+      _profile,
+      _query,
+      _security,
+      _tag,
+    } = args;
 
-	// Search Result params
-	let { _INCLUDE, _REVINCLUDE, _SORT, _COUNT, _SUMMARY, _ELEMENTS, _CONTAINED, _CONTAINEDTYPED } = args;
+    // Search Result params
+    let {
+      _INCLUDE,
+      _REVINCLUDE,
+      _SORT,
+      _COUNT,
+      _SUMMARY,
+      _ELEMENTS,
+      _CONTAINED,
+      _CONTAINEDTYPED,
+    } = args;
 
-	// Resource Specific params
-	let base = args['base'];
-	let code = args['code'];
-	let component = args['component'];
-	let date = args['date'];
-	let derived_from = args['derived-from'];
-	let description = args['description'];
-	let jurisdiction = args['jurisdiction'];
-	let name = args['name'];
-	let publisher = args['publisher'];
-	let status = args['status'];
-	let target = args['target'];
-	let type = args['type'];
-	let url = args['url'];
-	let version = args['version'];
+    // Resource Specific params
+    let base = args['base'];
+    let code = args['code'];
+    let component = args['component'];
+    let date = args['date'];
+    let derived_from = args['derived-from'];
+    let description = args['description'];
+    let jurisdiction = args['jurisdiction'];
+    let name = args['name'];
+    let publisher = args['publisher'];
+    let status = args['status'];
+    let target = args['target'];
+    let type = args['type'];
+    let url = args['url'];
+    let version = args['version'];
 
-	// TODO: Build query from Parameters
+    // TODO: Build query from Parameters
 
-	// TODO: Query database
+    // TODO: Query database
 
-	let SearchParameter = getSearchParameter(base_version);
+    let SearchParameter = getSearchParameter(base_version);
 
-	// Cast all results to SearchParameter Class
-	let searchparameter_resource = new SearchParameter();
+    // Cast all results to SearchParameter Class
+    let searchparameter_resource = new SearchParameter();
 
-	// Return Array
-	resolve([searchparameter_resource]);
-});
+    // Return Array
+    resolve([searchparameter_resource]);
+  });
 
-module.exports.historyById = (args, context, logger) => new Promise((resolve, reject) => {
-	logger.info('SearchParameter >>> historyById');
+module.exports.historyById = (args, context) =>
+  new Promise((resolve, reject) => {
+    logger.info('SearchParameter >>> historyById');
 
-	// Common search params
-	let { base_version, _content, _format, _id, _lastUpdated, _profile, _query, _security, _tag } = args;
+    // Common search params
+    let {
+      base_version,
+      _content,
+      _format,
+      _id,
+      _lastUpdated,
+      _profile,
+      _query,
+      _security,
+      _tag,
+    } = args;
 
-	// Search Result params
-	let { _INCLUDE, _REVINCLUDE, _SORT, _COUNT, _SUMMARY, _ELEMENTS, _CONTAINED, _CONTAINEDTYPED } = args;
+    // Search Result params
+    let {
+      _INCLUDE,
+      _REVINCLUDE,
+      _SORT,
+      _COUNT,
+      _SUMMARY,
+      _ELEMENTS,
+      _CONTAINED,
+      _CONTAINEDTYPED,
+    } = args;
 
-	// Resource Specific params
-	let base = args['base'];
-	let code = args['code'];
-	let component = args['component'];
-	let date = args['date'];
-	let derived_from = args['derived-from'];
-	let description = args['description'];
-	let jurisdiction = args['jurisdiction'];
-	let name = args['name'];
-	let publisher = args['publisher'];
-	let status = args['status'];
-	let target = args['target'];
-	let type = args['type'];
-	let url = args['url'];
-	let version = args['version'];
+    // Resource Specific params
+    let base = args['base'];
+    let code = args['code'];
+    let component = args['component'];
+    let date = args['date'];
+    let derived_from = args['derived-from'];
+    let description = args['description'];
+    let jurisdiction = args['jurisdiction'];
+    let name = args['name'];
+    let publisher = args['publisher'];
+    let status = args['status'];
+    let target = args['target'];
+    let type = args['type'];
+    let url = args['url'];
+    let version = args['version'];
 
-	// TODO: Build query from Parameters
+    // TODO: Build query from Parameters
 
-	// TODO: Query database
+    // TODO: Query database
 
-	let SearchParameter = getSearchParameter(base_version);
+    let SearchParameter = getSearchParameter(base_version);
 
-	// Cast all results to SearchParameter Class
-	let searchparameter_resource = new SearchParameter();
+    // Cast all results to SearchParameter Class
+    let searchparameter_resource = new SearchParameter();
 
-	// Return Array
-	resolve([searchparameter_resource]);
-});
+    // Return Array
+    resolve([searchparameter_resource]);
+  });

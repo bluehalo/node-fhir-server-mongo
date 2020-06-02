@@ -1,216 +1,290 @@
 /*eslint no-unused-vars: "warn"*/
 
-const { RESOURCES } = require('@asymmetrik/node-fhir-server-core').constants;
+const { VERSIONS } = require('@asymmetrik/node-fhir-server-core').constants;
+const { resolveSchema } = require('@asymmetrik/node-fhir-server-core');
 const FHIRServer = require('@asymmetrik/node-fhir-server-core');
+
 const { ObjectID } = require('mongodb');
+const logger = require('@asymmetrik/node-fhir-server-core').loggers.get();
 
-let getClaim = (base_version) => {
-	return require(FHIRServer.resolveFromVersion(base_version, RESOURCES.CLAIM));};
+let getClaim = base_version => {
+  return require(resolveSchema(base_version, 'Claim'));
+};
 
-let getMeta = (base_version) => {
-	return require(FHIRServer.resolveFromVersion(base_version, RESOURCES.META));};
+let getMeta = base_version => {
+  return require(resolveSchema(base_version, 'Meta'));
+};
 
-module.exports.search = (args, context, logger) => new Promise((resolve, reject) => {
-	logger.info('Claim >>> search');
+module.exports.searchById = args =>
+  new Promise((resolve, reject) => {
+    logger.info('Claim >>> search');
 
-	// Common search params
-	let { base_version, _content, _format, _id, _lastUpdated, _profile, _query, _security, _tag } = args;
+    // Common search params
+    let {
+      base_version,
+      _content,
+      _format,
+      _id,
+      _lastUpdated,
+      _profile,
+      _query,
+      _security,
+      _tag,
+    } = args;
 
-	// Search Result params
-	let { _INCLUDE, _REVINCLUDE, _SORT, _COUNT, _SUMMARY, _ELEMENTS, _CONTAINED, _CONTAINEDTYPED } = args;
+    // Search Result params
+    let {
+      _INCLUDE,
+      _REVINCLUDE,
+      _SORT,
+      _COUNT,
+      _SUMMARY,
+      _ELEMENTS,
+      _CONTAINED,
+      _CONTAINEDTYPED,
+    } = args;
 
-	// Resource Specific params
-	let care_team = args['care-team'];
-	let created = args['created'];
-	let encounter = args['encounter'];
-	let enterer = args['enterer'];
-	let facility = args['facility'];
-	let identifier = args['identifier'];
-	let insurer = args['insurer'];
-	let organization = args['organization'];
-	let patient = args['patient'];
-	let payee = args['payee'];
-	let priority = args['priority'];
-	let provider = args['provider'];
-	let use = args['use'];
+    // Resource Specific params
+    let care_team = args['care-team'];
+    let created = args['created'];
+    let encounter = args['encounter'];
+    let enterer = args['enterer'];
+    let facility = args['facility'];
+    let identifier = args['identifier'];
+    let insurer = args['insurer'];
+    let organization = args['organization'];
+    let patient = args['patient'];
+    let payee = args['payee'];
+    let priority = args['priority'];
+    let provider = args['provider'];
+    let use = args['use'];
 
-	// TODO: Build query from Parameters
+    // TODO: Build query from Parameters
 
-	// TODO: Query database
+    // TODO: Query database
 
-	let Claim = getClaim(base_version);
+    let Claim = getClaim(base_version);
 
-	// Cast all results to Claim Class
-	let claim_resource = new Claim();
-	// TODO: Set data with constructor or setter methods
-	claim_resource.id = 'test id';
+    // Cast all results to Claim Class
+    let claim_resource = new Claim();
+    // TODO: Set data with constructor or setter methods
+    claim_resource.id = 'test id';
 
-	// Return Array
-	resolve([claim_resource]);
-});
+    // Return Array
+    resolve([claim_resource]);
+  });
 
-module.exports.searchById = (args, context, logger) => new Promise((resolve, reject) => {
-	logger.info('Claim >>> searchById');
+module.exports.searchById = args =>
+  new Promise((resolve, reject) => {
+    logger.info('Claim >>> searchById');
 
-	let { base_version, id } = args;
+    let { base_version, id } = args;
 
-	let Claim = getClaim(base_version);
+    let Claim = getClaim(base_version);
 
-	// TODO: Build query from Parameters
+    // TODO: Build query from Parameters
 
-	// TODO: Query database
+    // TODO: Query database
 
-	// Cast result to Claim Class
-	let claim_resource = new Claim();
-	// TODO: Set data with constructor or setter methods
-	claim_resource.id = 'test id';
+    // Cast result to Claim Class
+    let claim_resource = new Claim();
+    // TODO: Set data with constructor or setter methods
+    claim_resource.id = 'test id';
 
-	// Return resource class
-	// resolve(claim_resource);
-	resolve();
-});
+    // Return resource class
+    // resolve(claim_resource);
+    resolve();
+  });
 
-module.exports.create = (args, context, logger) => new Promise((resolve, reject) => {
-	logger.info('Claim >>> create');
+module.exports.create = (args, { req }) =>
+  new Promise((resolve, reject) => {
+    logger.info('Claim >>> create');
 
-	let { base_version, resource } = args;
-	// Make sure to use this ID when inserting this resource
-	let id = new ObjectID().toString();
+    let { base_version, resource } = args;
+    // Make sure to use this ID when inserting this resource
+    let id = new ObjectID().toString();
 
-	let Claim = getClaim(base_version);
-	let Meta = getMeta(base_version);
+    let Claim = getClaim(base_version);
+    let Meta = getMeta(base_version);
 
-	// TODO: determine if client/server sets ID
+    // TODO: determine if client/server sets ID
 
-	// Cast resource to Claim Class
-	let claim_resource = new Claim(resource);
-	claim_resource.meta = new Meta();
-	// TODO: set meta info
+    // Cast resource to Claim Class
+    let claim_resource = new Claim(resource);
+    claim_resource.meta = new Meta();
+    // TODO: set meta info
 
-	// TODO: save record to database
+    // TODO: save record to database
 
-	// Return Id
-	resolve({ id });
-});
+    // Return Id
+    resolve({ id });
+  });
 
-module.exports.update = (args, context, logger) => new Promise((resolve, reject) => {
-	logger.info('Claim >>> update');
+module.exports.update = (args, { req }) =>
+  new Promise((resolve, reject) => {
+    logger.info('Claim >>> update');
 
-	let { base_version, id, resource } = args;
+    let { base_version, id, resource } = args;
 
-	let Claim = getClaim(base_version);
-	let Meta = getMeta(base_version);
+    let Claim = getClaim(base_version);
+    let Meta = getMeta(base_version);
 
-	// Cast resource to Claim Class
-	let claim_resource = new Claim(resource);
-	claim_resource.meta = new Meta();
-	// TODO: set meta info, increment meta ID
+    // Cast resource to Claim Class
+    let claim_resource = new Claim(resource);
+    claim_resource.meta = new Meta();
+    // TODO: set meta info, increment meta ID
 
-	// TODO: save record to database
+    // TODO: save record to database
 
-	// Return id, if recorded was created or updated, new meta version id
-	resolve({ id: claim_resource.id, created: false, resource_version: claim_resource.meta.versionId });
-});
+    // Return id, if recorded was created or updated, new meta version id
+    resolve({
+      id: claim_resource.id,
+      created: false,
+      resource_version: claim_resource.meta.versionId,
+    });
+  });
 
-module.exports.remove = (args, context, logger) => new Promise((resolve, reject) => {
-	logger.info('Claim >>> remove');
+module.exports.remove = (args, context) =>
+  new Promise((resolve, reject) => {
+    logger.info('Claim >>> remove');
 
-	let { id } = args;
+    let { id } = args;
 
-	// TODO: delete record in database (soft/hard)
+    // TODO: delete record in database (soft/hard)
 
-	// Return number of records deleted
-	resolve({ deleted: 0 });
-});
+    // Return number of records deleted
+    resolve({ deleted: 0 });
+  });
 
-module.exports.searchByVersionId = (args, context, logger) => new Promise((resolve, reject) => {
-	logger.info('Claim >>> searchByVersionId');
+module.exports.searchByVersionId = (args, context) =>
+  new Promise((resolve, reject) => {
+    logger.info('Claim >>> searchByVersionId');
 
-	let { base_version, id, version_id } = args;
+    let { base_version, id, version_id } = args;
 
-	let Claim = getClaim(base_version);
+    let Claim = getClaim(base_version);
 
-	// TODO: Build query from Parameters
+    // TODO: Build query from Parameters
 
-	// TODO: Query database
+    // TODO: Query database
 
-	// Cast result to Claim Class
-	let claim_resource = new Claim();
+    // Cast result to Claim Class
+    let claim_resource = new Claim();
 
-	// Return resource class
-	resolve(claim_resource);
-});
+    // Return resource class
+    resolve(claim_resource);
+  });
 
-module.exports.history = (args, context, logger) => new Promise((resolve, reject) => {
-	logger.info('Claim >>> history');
+module.exports.history = (args, context) =>
+  new Promise((resolve, reject) => {
+    logger.info('Claim >>> history');
 
-	// Common search params
-	let { base_version, _content, _format, _id, _lastUpdated, _profile, _query, _security, _tag } = args;
+    // Common search params
+    let {
+      base_version,
+      _content,
+      _format,
+      _id,
+      _lastUpdated,
+      _profile,
+      _query,
+      _security,
+      _tag,
+    } = args;
 
-	// Search Result params
-	let { _INCLUDE, _REVINCLUDE, _SORT, _COUNT, _SUMMARY, _ELEMENTS, _CONTAINED, _CONTAINEDTYPED } = args;
+    // Search Result params
+    let {
+      _INCLUDE,
+      _REVINCLUDE,
+      _SORT,
+      _COUNT,
+      _SUMMARY,
+      _ELEMENTS,
+      _CONTAINED,
+      _CONTAINEDTYPED,
+    } = args;
 
-	// Resource Specific params
-	let care_team = args['care-team'];
-	let created = args['created'];
-	let encounter = args['encounter'];
-	let enterer = args['enterer'];
-	let facility = args['facility'];
-	let identifier = args['identifier'];
-	let insurer = args['insurer'];
-	let organization = args['organization'];
-	let patient = args['patient'];
-	let payee = args['payee'];
-	let priority = args['priority'];
-	let provider = args['provider'];
-	let use = args['use'];
+    // Resource Specific params
+    let care_team = args['care-team'];
+    let created = args['created'];
+    let encounter = args['encounter'];
+    let enterer = args['enterer'];
+    let facility = args['facility'];
+    let identifier = args['identifier'];
+    let insurer = args['insurer'];
+    let organization = args['organization'];
+    let patient = args['patient'];
+    let payee = args['payee'];
+    let priority = args['priority'];
+    let provider = args['provider'];
+    let use = args['use'];
 
-	// TODO: Build query from Parameters
+    // TODO: Build query from Parameters
 
-	// TODO: Query database
+    // TODO: Query database
 
-	let Claim = getClaim(base_version);
+    let Claim = getClaim(base_version);
 
-	// Cast all results to Claim Class
-	let claim_resource = new Claim();
+    // Cast all results to Claim Class
+    let claim_resource = new Claim();
 
-	// Return Array
-	resolve([claim_resource]);
-});
+    // Return Array
+    resolve([claim_resource]);
+  });
 
-module.exports.historyById = (args, context, logger) => new Promise((resolve, reject) => {
-	logger.info('Claim >>> historyById');
+module.exports.historyById = (args, context) =>
+  new Promise((resolve, reject) => {
+    logger.info('Claim >>> historyById');
 
-	// Common search params
-	let { base_version, _content, _format, _id, _lastUpdated, _profile, _query, _security, _tag } = args;
+    // Common search params
+    let {
+      base_version,
+      _content,
+      _format,
+      _id,
+      _lastUpdated,
+      _profile,
+      _query,
+      _security,
+      _tag,
+    } = args;
 
-	// Search Result params
-	let { _INCLUDE, _REVINCLUDE, _SORT, _COUNT, _SUMMARY, _ELEMENTS, _CONTAINED, _CONTAINEDTYPED } = args;
+    // Search Result params
+    let {
+      _INCLUDE,
+      _REVINCLUDE,
+      _SORT,
+      _COUNT,
+      _SUMMARY,
+      _ELEMENTS,
+      _CONTAINED,
+      _CONTAINEDTYPED,
+    } = args;
 
-	// Resource Specific params
-	let care_team = args['care-team'];
-	let created = args['created'];
-	let encounter = args['encounter'];
-	let enterer = args['enterer'];
-	let facility = args['facility'];
-	let identifier = args['identifier'];
-	let insurer = args['insurer'];
-	let organization = args['organization'];
-	let patient = args['patient'];
-	let payee = args['payee'];
-	let priority = args['priority'];
-	let provider = args['provider'];
-	let use = args['use'];
+    // Resource Specific params
+    let care_team = args['care-team'];
+    let created = args['created'];
+    let encounter = args['encounter'];
+    let enterer = args['enterer'];
+    let facility = args['facility'];
+    let identifier = args['identifier'];
+    let insurer = args['insurer'];
+    let organization = args['organization'];
+    let patient = args['patient'];
+    let payee = args['payee'];
+    let priority = args['priority'];
+    let provider = args['provider'];
+    let use = args['use'];
 
-	// TODO: Build query from Parameters
+    // TODO: Build query from Parameters
 
-	// TODO: Query database
+    // TODO: Query database
 
-	let Claim = getClaim(base_version);
+    let Claim = getClaim(base_version);
 
-	// Cast all results to Claim Class
-	let claim_resource = new Claim();
+    // Cast all results to Claim Class
+    let claim_resource = new Claim();
 
-	// Return Array
-	resolve([claim_resource]);
-});
+    // Return Array
+    resolve([claim_resource]);
+  });

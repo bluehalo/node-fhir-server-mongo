@@ -1,255 +1,328 @@
 /*eslint no-unused-vars: "warn"*/
 
-const { RESOURCES } = require('@asymmetrik/node-fhir-server-core').constants;
+const { VERSIONS } = require('@asymmetrik/node-fhir-server-core').constants;
+const { resolveSchema } = require('@asymmetrik/node-fhir-server-core');
 const FHIRServer = require('@asymmetrik/node-fhir-server-core');
 const { ObjectID } = require('mongodb');
+const logger = require('@asymmetrik/node-fhir-server-core').loggers.get();
 
-let getDocumentReference = (base_version) => {
-	return require(FHIRServer.resolveFromVersion(base_version, RESOURCES.DOCUMENTREFERENCE));};
+let getDocumentReference = base_version => {
+  return require(resolveSchema(base_version, 'DocumentReference'));
+};
 
-let getMeta = (base_version) => {
-	return require(FHIRServer.resolveFromVersion(base_version, RESOURCES.META));};
+let getMeta = base_version => {
+  return require(resolveSchema(base_version, 'Meta'));
+};
 
-module.exports.search = (args, context, logger) => new Promise((resolve, reject) => {
-	logger.info('DocumentReference >>> search');
+module.exports.searchById = args =>
+  new Promise((resolve, reject) => {
+    logger.info('DocumentReference >>> search');
 
-	// Common search params
-	let { base_version, _content, _format, _id, _lastUpdated, _profile, _query, _security, _tag } = args;
+    // Common search params
+    let {
+      base_version,
+      _content,
+      _format,
+      _id,
+      _lastUpdated,
+      _profile,
+      _query,
+      _security,
+      _tag,
+    } = args;
 
-	// Search Result params
-	let { _INCLUDE, _REVINCLUDE, _SORT, _COUNT, _SUMMARY, _ELEMENTS, _CONTAINED, _CONTAINEDTYPED } = args;
+    // Search Result params
+    let {
+      _INCLUDE,
+      _REVINCLUDE,
+      _SORT,
+      _COUNT,
+      _SUMMARY,
+      _ELEMENTS,
+      _CONTAINED,
+      _CONTAINEDTYPED,
+    } = args;
 
-	// Resource Specific params
-	let authenticator = args['authenticator'];
-	let author = args['author'];
-	let _class = args['_class'];
-	let created = args['created'];
-	let custodian = args['custodian'];
-	let description = args['description'];
-	let encounter = args['encounter'];
-	let event = args['event'];
-	let facility = args['facility'];
-	let format = args['format'];
-	let identifier = args['identifier'];
-	let indexed = args['indexed'];
-	let language = args['language'];
-	let location = args['location'];
-	let patient = args['patient'];
-	let period = args['period'];
-	let related_id = args['related-id'];
-	let related_ref = args['related-ref'];
-	let relatesto = args['relatesto'];
-	let relation = args['relation'];
-	let relationship = args['relationship'];
-	let securitylabel = args['securitylabel'];
-	let setting = args['setting'];
-	let status = args['status'];
-	let subject = args['subject'];
-	let type = args['type'];
+    // Resource Specific params
+    let authenticator = args['authenticator'];
+    let author = args['author'];
+    let _class = args['_class'];
+    let created = args['created'];
+    let custodian = args['custodian'];
+    let description = args['description'];
+    let encounter = args['encounter'];
+    let event = args['event'];
+    let facility = args['facility'];
+    let format = args['format'];
+    let identifier = args['identifier'];
+    let indexed = args['indexed'];
+    let language = args['language'];
+    let location = args['location'];
+    let patient = args['patient'];
+    let period = args['period'];
+    let related_id = args['related-id'];
+    let related_ref = args['related-ref'];
+    let relatesto = args['relatesto'];
+    let relation = args['relation'];
+    let relationship = args['relationship'];
+    let securitylabel = args['securitylabel'];
+    let setting = args['setting'];
+    let status = args['status'];
+    let subject = args['subject'];
+    let type = args['type'];
 
-	// TODO: Build query from Parameters
+    // TODO: Build query from Parameters
 
-	// TODO: Query database
+    // TODO: Query database
 
-	let DocumentReference = getDocumentReference(base_version);
+    let DocumentReference = getDocumentReference(base_version);
 
-	// Cast all results to DocumentReference Class
-	let documentreference_resource = new DocumentReference();
-	// TODO: Set data with constructor or setter methods
-	documentreference_resource.id = 'test id';
+    // Cast all results to DocumentReference Class
+    let documentreference_resource = new DocumentReference();
+    // TODO: Set data with constructor or setter methods
+    documentreference_resource.id = 'test id';
 
-	// Return Array
-	resolve([documentreference_resource]);
-});
+    // Return Array
+    resolve([documentreference_resource]);
+  });
 
-module.exports.searchById = (args, context, logger) => new Promise((resolve, reject) => {
-	logger.info('DocumentReference >>> searchById');
+module.exports.searchById = args =>
+  new Promise((resolve, reject) => {
+    logger.info('DocumentReference >>> searchById');
 
-	let { base_version, id } = args;
+    let { base_version, id } = args;
 
-	let DocumentReference = getDocumentReference(base_version);
+    let DocumentReference = getDocumentReference(base_version);
 
-	// TODO: Build query from Parameters
+    // TODO: Build query from Parameters
 
-	// TODO: Query database
+    // TODO: Query database
 
-	// Cast result to DocumentReference Class
-	let documentreference_resource = new DocumentReference();
-	// TODO: Set data with constructor or setter methods
-	documentreference_resource.id = 'test id';
+    // Cast result to DocumentReference Class
+    let documentreference_resource = new DocumentReference();
+    // TODO: Set data with constructor or setter methods
+    documentreference_resource.id = 'test id';
 
-	// Return resource class
-	// resolve(documentreference_resource);
-	resolve();
-});
+    // Return resource class
+    // resolve(documentreference_resource);
+    resolve();
+  });
 
-module.exports.create = (args, context, logger) => new Promise((resolve, reject) => {
-	logger.info('DocumentReference >>> create');
+module.exports.create = (args, { req }) =>
+  new Promise((resolve, reject) => {
+    logger.info('DocumentReference >>> create');
 
-	let { base_version, resource } = args;
-	// Make sure to use this ID when inserting this resource
-	let id = new ObjectID().toString();
+    let { base_version, resource } = args;
+    // Make sure to use this ID when inserting this resource
+    let id = new ObjectID().toString();
 
-	let DocumentReference = getDocumentReference(base_version);
-	let Meta = getMeta(base_version);
+    let DocumentReference = getDocumentReference(base_version);
+    let Meta = getMeta(base_version);
 
-	// TODO: determine if client/server sets ID
+    // TODO: determine if client/server sets ID
 
-	// Cast resource to DocumentReference Class
-	let documentreference_resource = new DocumentReference(resource);
-	documentreference_resource.meta = new Meta();
-	// TODO: set meta info
+    // Cast resource to DocumentReference Class
+    let documentreference_resource = new DocumentReference(resource);
+    documentreference_resource.meta = new Meta();
+    // TODO: set meta info
 
-	// TODO: save record to database
+    // TODO: save record to database
 
-	// Return Id
-	resolve({ id });
-});
+    // Return Id
+    resolve({ id });
+  });
 
-module.exports.update = (args, context, logger) => new Promise((resolve, reject) => {
-	logger.info('DocumentReference >>> update');
+module.exports.update = (args, { req }) =>
+  new Promise((resolve, reject) => {
+    logger.info('DocumentReference >>> update');
 
-	let { base_version, id, resource } = args;
+    let { base_version, id, resource } = args;
 
-	let DocumentReference = getDocumentReference(base_version);
-	let Meta = getMeta(base_version);
+    let DocumentReference = getDocumentReference(base_version);
+    let Meta = getMeta(base_version);
 
-	// Cast resource to DocumentReference Class
-	let documentreference_resource = new DocumentReference(resource);
-	documentreference_resource.meta = new Meta();
-	// TODO: set meta info, increment meta ID
+    // Cast resource to DocumentReference Class
+    let documentreference_resource = new DocumentReference(resource);
+    documentreference_resource.meta = new Meta();
+    // TODO: set meta info, increment meta ID
 
-	// TODO: save record to database
+    // TODO: save record to database
 
-	// Return id, if recorded was created or updated, new meta version id
-	resolve({ id: documentreference_resource.id, created: false, resource_version: documentreference_resource.meta.versionId });
-});
+    // Return id, if recorded was created or updated, new meta version id
+    resolve({
+      id: documentreference_resource.id,
+      created: false,
+      resource_version: documentreference_resource.meta.versionId,
+    });
+  });
 
-module.exports.remove = (args, context, logger) => new Promise((resolve, reject) => {
-	logger.info('DocumentReference >>> remove');
+module.exports.remove = (args, context) =>
+  new Promise((resolve, reject) => {
+    logger.info('DocumentReference >>> remove');
 
-	let { id } = args;
+    let { id } = args;
 
-	// TODO: delete record in database (soft/hard)
+    // TODO: delete record in database (soft/hard)
 
-	// Return number of records deleted
-	resolve({ deleted: 0 });
-});
+    // Return number of records deleted
+    resolve({ deleted: 0 });
+  });
 
-module.exports.searchByVersionId = (args, context, logger) => new Promise((resolve, reject) => {
-	logger.info('DocumentReference >>> searchByVersionId');
+module.exports.searchByVersionId = (args, context) =>
+  new Promise((resolve, reject) => {
+    logger.info('DocumentReference >>> searchByVersionId');
 
-	let { base_version, id, version_id } = args;
+    let { base_version, id, version_id } = args;
 
-	let DocumentReference = getDocumentReference(base_version);
+    let DocumentReference = getDocumentReference(base_version);
 
-	// TODO: Build query from Parameters
+    // TODO: Build query from Parameters
 
-	// TODO: Query database
+    // TODO: Query database
 
-	// Cast result to DocumentReference Class
-	let documentreference_resource = new DocumentReference();
+    // Cast result to DocumentReference Class
+    let documentreference_resource = new DocumentReference();
 
-	// Return resource class
-	resolve(documentreference_resource);
-});
+    // Return resource class
+    resolve(documentreference_resource);
+  });
 
-module.exports.history = (args, context, logger) => new Promise((resolve, reject) => {
-	logger.info('DocumentReference >>> history');
+module.exports.history = (args, context) =>
+  new Promise((resolve, reject) => {
+    logger.info('DocumentReference >>> history');
 
-	// Common search params
-	let { base_version, _content, _format, _id, _lastUpdated, _profile, _query, _security, _tag } = args;
+    // Common search params
+    let {
+      base_version,
+      _content,
+      _format,
+      _id,
+      _lastUpdated,
+      _profile,
+      _query,
+      _security,
+      _tag,
+    } = args;
 
-	// Search Result params
-	let { _INCLUDE, _REVINCLUDE, _SORT, _COUNT, _SUMMARY, _ELEMENTS, _CONTAINED, _CONTAINEDTYPED } = args;
+    // Search Result params
+    let {
+      _INCLUDE,
+      _REVINCLUDE,
+      _SORT,
+      _COUNT,
+      _SUMMARY,
+      _ELEMENTS,
+      _CONTAINED,
+      _CONTAINEDTYPED,
+    } = args;
 
-	// Resource Specific params
-	let authenticator = args['authenticator'];
-	let author = args['author'];
-	let _class = args['_class'];
-	let created = args['created'];
-	let custodian = args['custodian'];
-	let description = args['description'];
-	let encounter = args['encounter'];
-	let event = args['event'];
-	let facility = args['facility'];
-	let format = args['format'];
-	let identifier = args['identifier'];
-	let indexed = args['indexed'];
-	let language = args['language'];
-	let location = args['location'];
-	let patient = args['patient'];
-	let period = args['period'];
-	let related_id = args['related-id'];
-	let related_ref = args['related-ref'];
-	let relatesto = args['relatesto'];
-	let relation = args['relation'];
-	let relationship = args['relationship'];
-	let securitylabel = args['securitylabel'];
-	let setting = args['setting'];
-	let status = args['status'];
-	let subject = args['subject'];
-	let type = args['type'];
+    // Resource Specific params
+    let authenticator = args['authenticator'];
+    let author = args['author'];
+    let _class = args['_class'];
+    let created = args['created'];
+    let custodian = args['custodian'];
+    let description = args['description'];
+    let encounter = args['encounter'];
+    let event = args['event'];
+    let facility = args['facility'];
+    let format = args['format'];
+    let identifier = args['identifier'];
+    let indexed = args['indexed'];
+    let language = args['language'];
+    let location = args['location'];
+    let patient = args['patient'];
+    let period = args['period'];
+    let related_id = args['related-id'];
+    let related_ref = args['related-ref'];
+    let relatesto = args['relatesto'];
+    let relation = args['relation'];
+    let relationship = args['relationship'];
+    let securitylabel = args['securitylabel'];
+    let setting = args['setting'];
+    let status = args['status'];
+    let subject = args['subject'];
+    let type = args['type'];
 
-	// TODO: Build query from Parameters
+    // TODO: Build query from Parameters
 
-	// TODO: Query database
+    // TODO: Query database
 
-	let DocumentReference = getDocumentReference(base_version);
+    let DocumentReference = getDocumentReference(base_version);
 
-	// Cast all results to DocumentReference Class
-	let documentreference_resource = new DocumentReference();
+    // Cast all results to DocumentReference Class
+    let documentreference_resource = new DocumentReference();
 
-	// Return Array
-	resolve([documentreference_resource]);
-});
+    // Return Array
+    resolve([documentreference_resource]);
+  });
 
-module.exports.historyById = (args, context, logger) => new Promise((resolve, reject) => {
-	logger.info('DocumentReference >>> historyById');
+module.exports.historyById = (args, context) =>
+  new Promise((resolve, reject) => {
+    logger.info('DocumentReference >>> historyById');
 
-	// Common search params
-	let { base_version, _content, _format, _id, _lastUpdated, _profile, _query, _security, _tag } = args;
+    // Common search params
+    let {
+      base_version,
+      _content,
+      _format,
+      _id,
+      _lastUpdated,
+      _profile,
+      _query,
+      _security,
+      _tag,
+    } = args;
 
-	// Search Result params
-	let { _INCLUDE, _REVINCLUDE, _SORT, _COUNT, _SUMMARY, _ELEMENTS, _CONTAINED, _CONTAINEDTYPED } = args;
+    // Search Result params
+    let {
+      _INCLUDE,
+      _REVINCLUDE,
+      _SORT,
+      _COUNT,
+      _SUMMARY,
+      _ELEMENTS,
+      _CONTAINED,
+      _CONTAINEDTYPED,
+    } = args;
 
-	// Resource Specific params
-	let authenticator = args['authenticator'];
-	let author = args['author'];
-	let _class = args['_class'];
-	let created = args['created'];
-	let custodian = args['custodian'];
-	let description = args['description'];
-	let encounter = args['encounter'];
-	let event = args['event'];
-	let facility = args['facility'];
-	let format = args['format'];
-	let identifier = args['identifier'];
-	let indexed = args['indexed'];
-	let language = args['language'];
-	let location = args['location'];
-	let patient = args['patient'];
-	let period = args['period'];
-	let related_id = args['related-id'];
-	let related_ref = args['related-ref'];
-	let relatesto = args['relatesto'];
-	let relation = args['relation'];
-	let relationship = args['relationship'];
-	let securitylabel = args['securitylabel'];
-	let setting = args['setting'];
-	let status = args['status'];
-	let subject = args['subject'];
-	let type = args['type'];
+    // Resource Specific params
+    let authenticator = args['authenticator'];
+    let author = args['author'];
+    let _class = args['_class'];
+    let created = args['created'];
+    let custodian = args['custodian'];
+    let description = args['description'];
+    let encounter = args['encounter'];
+    let event = args['event'];
+    let facility = args['facility'];
+    let format = args['format'];
+    let identifier = args['identifier'];
+    let indexed = args['indexed'];
+    let language = args['language'];
+    let location = args['location'];
+    let patient = args['patient'];
+    let period = args['period'];
+    let related_id = args['related-id'];
+    let related_ref = args['related-ref'];
+    let relatesto = args['relatesto'];
+    let relation = args['relation'];
+    let relationship = args['relationship'];
+    let securitylabel = args['securitylabel'];
+    let setting = args['setting'];
+    let status = args['status'];
+    let subject = args['subject'];
+    let type = args['type'];
 
-	// TODO: Build query from Parameters
+    // TODO: Build query from Parameters
 
-	// TODO: Query database
+    // TODO: Query database
 
-	let DocumentReference = getDocumentReference(base_version);
+    let DocumentReference = getDocumentReference(base_version);
 
-	// Cast all results to DocumentReference Class
-	let documentreference_resource = new DocumentReference();
+    // Cast all results to DocumentReference Class
+    let documentreference_resource = new DocumentReference();
 
-	// Return Array
-	resolve([documentreference_resource]);
-});
+    // Return Array
+    resolve([documentreference_resource]);
+  });
