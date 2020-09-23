@@ -16,15 +16,15 @@ const {
   referenceQueryBuilder,
 } = require('../../utils/querybuilder.util');
 
-let getAllergyIntolerance = base_version => {
-  return require(resolveSchema(base_version, 'AllergyIntolerance'));
+let getAllergyIntolerance = (base_version) => {
+  return resolveSchema(base_version, 'AllergyIntolerance');
 };
 
-let getMeta = base_version => {
-  return require(resolveSchema(base_version, 'Meta'));
+let getMeta = (base_version) => {
+  return resolveSchema(base_version, 'Meta');
 };
 
-let buildStu3SearchQuery = args => {
+let buildStu3SearchQuery = (args) => {
   // Common search params
   let { _content, _format, _id, _lastUpdated, _profile, _query, _security, _tag } = args;
 
@@ -153,7 +153,7 @@ let buildStu3SearchQuery = args => {
   return query;
 };
 
-let buildDstu2SearchQuery = args => {
+let buildDstu2SearchQuery = (args) => {
   // TODO: Build query from Parameters
 
   // TODO: Query database
@@ -186,7 +186,7 @@ let buildDstu2SearchQuery = args => {
  * @param {*} context
  * @param {*} logger
  */
-module.exports.search = args =>
+module.exports.search = (args) =>
   new Promise((resolve, reject) => {
     logger.info('AllergyIntolerance >>> search');
 
@@ -212,8 +212,8 @@ module.exports.search = args =>
       }
 
       // AllergyIntolerance is a allergy_intolerance cursor, pull documents out before resolving
-      data.toArray().then(allergyintolerances => {
-        allergyintolerances.forEach(function(element, i, returnArray) {
+      data.toArray().then((allergyintolerances) => {
+        allergyintolerances.forEach(function (element, i, returnArray) {
           returnArray[i] = new AllergyIntolerance(element);
         });
         resolve(allergyintolerances);
@@ -221,7 +221,7 @@ module.exports.search = args =>
     });
   });
 
-module.exports.searchById = args =>
+module.exports.searchById = (args) =>
   new Promise((resolve, reject) => {
     logger.info('AllergyIntolerance >>> searchById');
 
@@ -280,7 +280,7 @@ module.exports.create = (args, { req }) =>
     Object.assign(doc, { _id: id });
 
     // Insert our allergyIntolerance record
-    collection.insertOne(doc, err => {
+    collection.insertOne(doc, (err) => {
       if (err) {
         logger.error('Error with AllergyIntolerance.create: ', err);
         return reject(err);
@@ -292,7 +292,7 @@ module.exports.create = (args, { req }) =>
       );
 
       // Insert our allergyIntolerance record to history but don't assign _id
-      return history_collection.insertOne(history_doc, err2 => {
+      return history_collection.insertOne(history_doc, (err2) => {
         if (err2) {
           logger.error('Error with AllergyIntoleranceHistory.create: ', err2);
           return reject(err2);
@@ -356,7 +356,7 @@ module.exports.update = (args, { req }) =>
         let history_allergyIntolerance = Object.assign(cleaned, { id: id });
 
         // Insert our allergyIntolerance record to history but don't assign _id
-        return history_collection.insertOne(history_allergyIntolerance, err3 => {
+        return history_collection.insertOne(history_allergyIntolerance, (err3) => {
           if (err3) {
             logger.error('Error with AllergyIntoleranceHistory.create: ', err3);
             return reject(err3);
@@ -372,7 +372,7 @@ module.exports.update = (args, { req }) =>
     });
   });
 
-module.exports.remove = args =>
+module.exports.remove = (args) =>
   new Promise((resolve, reject) => {
     logger.info('AllergyIntolerance >>> remove');
 
@@ -399,7 +399,7 @@ module.exports.remove = args =>
       let history_collection = db.collection(
         `${COLLECTION.ALLERGYINTOLERANCE}_${base_version}_History`
       );
-      return history_collection.deleteMany({ id: id }, err2 => {
+      return history_collection.deleteMany({ id: id }, (err2) => {
         if (err2) {
           logger.error('Error with AllergyIntolerance.remove');
           return reject({
@@ -417,7 +417,7 @@ module.exports.remove = args =>
     });
   });
 
-module.exports.searchByVersionId = args =>
+module.exports.searchByVersionId = (args) =>
   new Promise((resolve, reject) => {
     logger.info('AllergyIntolerance >>> searchByVersionId');
 
@@ -448,7 +448,7 @@ module.exports.searchByVersionId = args =>
     );
   });
 
-module.exports.history = args =>
+module.exports.history = (args) =>
   new Promise((resolve, reject) => {
     logger.info('AllergyIntolerance >>> history');
 
@@ -478,8 +478,8 @@ module.exports.history = args =>
       }
 
       // AllergyIntolerance is a allergyintolerance cursor, pull documents out before resolving
-      data.toArray().then(allergyintolerances => {
-        allergyintolerances.forEach(function(element, i, returnArray) {
+      data.toArray().then((allergyintolerances) => {
+        allergyintolerances.forEach(function (element, i, returnArray) {
           returnArray[i] = new AllergyIntolerance(element);
         });
         resolve(allergyintolerances);
@@ -487,7 +487,7 @@ module.exports.history = args =>
     });
   });
 
-module.exports.historyById = args =>
+module.exports.historyById = (args) =>
   new Promise((resolve, reject) => {
     logger.info('AllergyIntolerance >>> historyById');
 
@@ -517,8 +517,8 @@ module.exports.historyById = args =>
       }
 
       // AllergyIntolerance is a allergyintolerance cursor, pull documents out before resolving
-      data.toArray().then(allergyintolerances => {
-        allergyintolerances.forEach(function(element, i, returnArray) {
+      data.toArray().then((allergyintolerances) => {
+        allergyintolerances.forEach(function (element, i, returnArray) {
           returnArray[i] = new AllergyIntolerance(element);
         });
         resolve(allergyintolerances);

@@ -20,15 +20,15 @@ const {
   dateQueryBuilder,
 } = require('../../utils/querybuilder.util');
 
-let getPatient = base_version => {
-  return require(resolveSchema(base_version, 'Patient'));
+let getPatient = (base_version) => {
+  return resolveSchema(base_version, 'Patient');
 };
 
-let getMeta = base_version => {
-  return require(resolveSchema(base_version, 'Meta'));
+let getMeta = (base_version) => {
+  return resolveSchema(base_version, 'Meta');
 };
 
-let buildStu3SearchQuery = args => {
+let buildStu3SearchQuery = (args) => {
   // Common search params
   let { _content, _format, _id, _lastUpdated, _profile, _query, _security, _tag } = args;
 
@@ -224,7 +224,7 @@ let buildStu3SearchQuery = args => {
   return query;
 };
 
-let buildDstu2SearchQuery = args => {
+let buildDstu2SearchQuery = (args) => {
   // Common search params
   let { _content, _format, _id, _lastUpdated, _profile, _query, _security, _tag } = args;
 
@@ -426,7 +426,7 @@ let buildDstu2SearchQuery = args => {
  * @param {*} context
  * @param {*} logger
  */
-module.exports.search = args =>
+module.exports.search = (args) =>
   new Promise((resolve, reject) => {
     logger.info('Patient >>> search');
 
@@ -452,8 +452,8 @@ module.exports.search = args =>
       }
 
       // Patient is a patient cursor, pull documents out before resolving
-      data.toArray().then(patients => {
-        patients.forEach(function(element, i, returnArray) {
+      data.toArray().then((patients) => {
+        patients.forEach(function (element, i, returnArray) {
           returnArray[i] = new Patient(element);
         });
         resolve(patients);
@@ -461,7 +461,7 @@ module.exports.search = args =>
     });
   });
 
-module.exports.searchById = args =>
+module.exports.searchById = (args) =>
   new Promise((resolve, reject) => {
     logger.info('Patient >>> searchById');
 
@@ -520,7 +520,7 @@ module.exports.create = (args, { req }) =>
     Object.assign(doc, { _id: id });
 
     // Insert our patient record
-    collection.insertOne(doc, err => {
+    collection.insertOne(doc, (err) => {
       if (err) {
         logger.error('Error with Patient.create: ', err);
         return reject(err);
@@ -530,7 +530,7 @@ module.exports.create = (args, { req }) =>
       let history_collection = db.collection(`${COLLECTION.PATIENT}_${base_version}_History`);
 
       // Insert our patient record to history but don't assign _id
-      return history_collection.insertOne(history_doc, err2 => {
+      return history_collection.insertOne(history_doc, (err2) => {
         if (err2) {
           logger.error('Error with PatientHistory.create: ', err2);
           return reject(err2);
@@ -592,7 +592,7 @@ module.exports.update = (args, { req }) =>
         let history_patient = Object.assign(cleaned, { id: id });
 
         // Insert our patient record to history but don't assign _id
-        return history_collection.insertOne(history_patient, err3 => {
+        return history_collection.insertOne(history_patient, (err3) => {
           if (err3) {
             logger.error('Error with PatientHistory.create: ', err3);
             return reject(err3);
@@ -633,7 +633,7 @@ module.exports.remove = (args, context) =>
 
       // delete history as well.  You can chose to save history.  Up to you
       let history_collection = db.collection(`${COLLECTION.PATIENT}_${base_version}_History`);
-      return history_collection.deleteMany({ id: id }, err2 => {
+      return history_collection.deleteMany({ id: id }, (err2) => {
         if (err2) {
           logger.error('Error with Patient.remove');
           return reject({
@@ -708,8 +708,8 @@ module.exports.history = (args, context) =>
       }
 
       // Patient is a patient cursor, pull documents out before resolving
-      data.toArray().then(patients => {
-        patients.forEach(function(element, i, returnArray) {
+      data.toArray().then((patients) => {
+        patients.forEach(function (element, i, returnArray) {
           returnArray[i] = new Patient(element);
         });
         resolve(patients);
@@ -745,8 +745,8 @@ module.exports.historyById = (args, context) =>
       }
 
       // Patient is a patient cursor, pull documents out before resolving
-      data.toArray().then(patients => {
-        patients.forEach(function(element, i, returnArray) {
+      data.toArray().then((patients) => {
+        patients.forEach(function (element, i, returnArray) {
           returnArray[i] = new Patient(element);
         });
         resolve(patients);
@@ -809,7 +809,7 @@ module.exports.patch = (args, context) =>
         let history_patient = Object.assign(cleaned, { _id: id + cleaned.meta.versionId });
 
         // Insert our patient record to history but don't assign _id
-        return history_collection.insertOne(history_patient, err3 => {
+        return history_collection.insertOne(history_patient, (err3) => {
           if (err3) {
             logger.error('Error with PatientHistory.create: ', err3);
             return reject(err3);

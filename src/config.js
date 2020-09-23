@@ -14,7 +14,7 @@ let mongoConfig = {
 };
 
 // Set up whitelist
-let whitelist_env = (env.WHITELIST && env.WHITELIST.split(',').map(host => host.trim())) || false;
+let whitelist_env = (env.WHITELIST && env.WHITELIST.split(',').map((host) => host.trim())) || false;
 
 // If no whitelist is present, disable cors
 // If it's length is 1, set it to a string, so * works

@@ -40,7 +40,7 @@ function parseDate(date) {
  *
  * @param {*} dates
  */
-let validateDate = function(dates) {
+let validateDate = function (dates) {
   let parsedDate = {};
   if (dates) {
     // dates could be comma delimited if passed in more than one

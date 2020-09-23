@@ -16,6 +16,7 @@ WORKDIR /srv/src
 
 # Copy our package.json & install our dependencies
 COPY package.json /srv/src/package.json
+COPY yarn.lock /srv/src/yarn.lock
 COPY .snyk /srv/src/.snyk
 RUN yarn install
 
