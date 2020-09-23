@@ -4,7 +4,7 @@
  * @param {string} target what we are querying for
  * @return a mongo regex query
  */
-let stringQueryBuilder = function(target) {
+let stringQueryBuilder = function (target) {
   let t2 = target.replace(/[\\(\\)\\-\\_\\+\\=\\/\\.]/g, '\\$&');
   return { $regex: new RegExp('^' + t2, 'i') };
 };
@@ -16,7 +16,7 @@ let stringQueryBuilder = function(target) {
  * @param {string} target
  * @return {array} ors
  */
-let addressQueryBuilder = function(target) {
+let addressQueryBuilder = function (target) {
   // Tokenize the input as mush as possible
   let totalSplit = target.split(/[\s,]+/);
   let ors = [];
@@ -42,7 +42,7 @@ let addressQueryBuilder = function(target) {
  * @param {string} target
  * @return {array} ors
  */
-let nameQueryBuilder = function(target) {
+let nameQueryBuilder = function (target) {
   let split = target.split(/[\s.,]+/);
   let ors = [];
 
@@ -75,7 +75,7 @@ let nameQueryBuilder = function(target) {
 * Use in an or query
 *      query.$or = [tokenQueryBuilder(identifier, 'value', 'identifier'), tokenQueryBuilder(type, 'code', 'type.coding')];
 */
-let tokenQueryBuilder = function(target, type, field, required) {
+let tokenQueryBuilder = function (target, type, field, required) {
   let queryBuilder = {};
   let system = '';
   let value = '';
@@ -106,7 +106,7 @@ let tokenQueryBuilder = function(target, type, field, required) {
  * @param {string} field
  * @return {JSON} queryBuilder
  */
-let referenceQueryBuilder = function(target, field) {
+let referenceQueryBuilder = function (target, field) {
   const regex = /http(.*)?\/(\w+\/.+)$/;
   const match = target.match(regex);
   let queryBuilder = {};
@@ -135,7 +135,7 @@ let referenceQueryBuilder = function(target, field) {
  * @param target
  * @returns {JSON} a mongo query
  */
-let numberQueryBuilder = function(target) {
+let numberQueryBuilder = function (target) {
   let prefix = '';
   let number = '';
   let sigfigs = '';
@@ -183,7 +183,7 @@ let numberQueryBuilder = function(target) {
  * @param target [prefix][number]|[system]|[code]
  * @param field path to specific field in the resource
  */
-let quantityQueryBuilder = function(target, field) {
+let quantityQueryBuilder = function (target, field) {
   let qB = {};
   //split by the two pipes
   let [num, system, code] = target.split('|');
@@ -232,7 +232,7 @@ function mod(n, m) {
 }
 
 //gives the number of days from year 0, used for adding or subtracting days from a date
-let getDayNum = function(year, month, day) {
+let getDayNum = function (year, month, day) {
   month = mod(month + 9, 12);
   year = year - Math.floor(month / 10);
   return (
@@ -246,7 +246,7 @@ let getDayNum = function(year, month, day) {
 };
 
 //returns a date given the number of days from year 0;
-let getDateFromNum = function(days) {
+let getDateFromNum = function (days) {
   let year = Math.floor((10000 * days + 14780) / 3652425);
   let day2 =
     days - (365 * year + Math.floor(year / 4) - Math.floor(year / 100) + Math.floor(year / 400));
@@ -269,7 +269,7 @@ let getDateFromNum = function(days) {
 //Also doesn't work foe when things are stored in different time zones in the .json files (with the + or -)
 //  UNLESS, the search parameter is teh exact same as what is stored.  So, if something is stored as 2016-06-03T05:00-03:00, then the search parameter must be 2016-06-03T05:00-03:00
 //It's important to make sure formatting is right, dont forget a leading 0 when dealing with single digit times.
-let dateQueryBuilder = function(date, type, path) {
+let dateQueryBuilder = function (date, type, path) {
   let regex = /^(\D{2})?(\d{4})(-\d{2})?(-\d{2})?(?:(T\d{2}:\d{2})(:\d{2})?)?(Z|(\+|-)(\d{2}):(\d{2}))?$/;
   let match = date.match(regex);
   let str = '';
@@ -502,7 +502,7 @@ let dateQueryBuilder = function(date, type, path) {
  * @param field1 contains the path and search type
  * @param field2 contains the path and search type
  */
-let compositeQueryBuilder = function(target, field1, field2) {
+let compositeQueryBuilder = function (target, field1, field2) {
   let composite = [];
   let temp = {};
   let [target1, target2] = target.split(/[$,]/);

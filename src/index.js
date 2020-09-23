@@ -7,7 +7,7 @@ const { fhirServerConfig, mongoConfig } = require('./config');
 
 const { CLIENT, CLIENT_DB } = require('./constants');
 
-let main = async function() {
+let main = async function () {
   // Connect to mongo and pass any options here
   let [mongoErr, client] = await asyncHandler(
     mongoClient(mongoConfig.connection, mongoConfig.options)

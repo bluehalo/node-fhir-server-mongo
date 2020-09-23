@@ -5,4 +5,4 @@
  *	const [ err, thing ] = await asyncHandler(somePromise(...));
  *	if (err) console.error('Something happened')
  */
-module.exports = promise => promise.then(data => [undefined, data]).catch(err => [err]);
+module.exports = (promise) => promise.then((data) => [undefined, data]).catch((err) => [err]);

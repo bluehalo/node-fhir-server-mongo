@@ -7,11 +7,11 @@ const { ObjectID } = require('mongodb');
 const logger = require('@asymmetrik/node-fhir-server-core').loggers.get();
 
 let getOperationDefinition = (base_version) => {
-  return require(resolveSchema(base_version, 'Organization'));
+  return resolveSchema(base_version, 'Organization');
 };
 
 let getMeta = (base_version) => {
-  return require(resolveSchema(base_version, 'Meta'));
+  return resolveSchema(base_version, 'Meta');
 };
 
 module.exports.searchById = (args) =>

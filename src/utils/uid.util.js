@@ -18,7 +18,7 @@ function getRandomInt(min, max) {
  *
  * @param {*} dates
  */
-let getUid = function(length) {
+let getUid = function (length) {
   let uid = '';
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   const charsLength = chars.length;
@@ -37,7 +37,7 @@ let getUid = function(length) {
  * @param obj
  * @returns {*|*}
  */
-const getUuid = obj => {
+const getUuid = (obj) => {
   return hash(obj);
 };
 

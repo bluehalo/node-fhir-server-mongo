@@ -6,15 +6,15 @@ const FHIRServer = require('@asymmetrik/node-fhir-server-core');
 const { ObjectID } = require('mongodb');
 const logger = require('@asymmetrik/node-fhir-server-core').loggers.get();
 
-let getMedicationDispense = base_version => {
-  return require(resolveSchema(base_version, 'MedicationDispense'));
+let getMedicationDispense = (base_version) => {
+  return resolveSchema(base_version, 'MedicationDispense');
 };
 
-let getMeta = base_version => {
-  return require(resolveSchema(base_version, 'Meta'));
+let getMeta = (base_version) => {
+  return resolveSchema(base_version, 'Meta');
 };
 
-module.exports.searchById = args =>
+module.exports.searchById = (args) =>
   new Promise((resolve, reject) => {
     logger.info('MedicationDispense >>> search');
 
@@ -75,7 +75,7 @@ module.exports.searchById = args =>
     resolve([medicationdispense_resource]);
   });
 
-module.exports.searchById = args =>
+module.exports.searchById = (args) =>
   new Promise((resolve, reject) => {
     logger.info('MedicationDispense >>> searchById');
 

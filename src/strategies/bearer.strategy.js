@@ -10,7 +10,7 @@ const env = require('var');
  *
  * Requires ENV variables for introspecting the token
  */
-module.exports.strategy = new Strategy(function(token, done) {
+module.exports.strategy = new Strategy(function (token, done) {
   if (!env.INTROSPECTION_URL) {
     return done(new Error('Invalid introspection endpoint.'));
   }
@@ -19,7 +19,7 @@ module.exports.strategy = new Strategy(function(token, done) {
     .post(env.INTROSPECTION_URL)
     .set('content-type', 'application/x-www-form-urlencoded')
     .send({ token: token, client_id: env.CLIENT_ID, client_secret: env.CLIENT_SECRET })
-    .then(introspectionResponse => {
+    .then((introspectionResponse) => {
       const decoded_token = introspectionResponse.body;
 
       if (decoded_token.active) {
