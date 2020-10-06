@@ -20,7 +20,7 @@ COPY yarn.lock /srv/src/yarn.lock
 COPY .snyk /srv/src/.snyk
 RUN yarn install
 
-# Copy the remaining application code
+# Copy the remaining application code.
 COPY . /srv/src
 
 # Start the app
