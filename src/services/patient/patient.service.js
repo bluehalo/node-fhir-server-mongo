@@ -590,6 +590,7 @@ module.exports.update = (args, { req }) =>
         let history_collection = db.collection(`${COLLECTION.PATIENT}_${base_version}_History`);
 
         let history_patient = Object.assign(cleaned, { id: id });
+        delete history_patient["_id"]; // make sure we don't have an _id field when inserting into history
 
         // Insert our patient record to history but don't assign _id
         return history_collection.insertOne(history_patient, (err3) => {
