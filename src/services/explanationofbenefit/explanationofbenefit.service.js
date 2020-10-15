@@ -179,7 +179,7 @@ module.exports.update = (args, { req }) =>
 
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
-    let collection = db.collection(`${COLLECTION.ExplanationOfBenefit}_${base_version}`);
+    let collection = db.collection(`${COLLECTION.EXPLANATIONOFBENEFIT}_${base_version}`);
 
     // Get current record
     // Query our collection for this observation
@@ -217,7 +217,7 @@ module.exports.update = (args, { req }) =>
         }
 
         // save to history
-        let history_collection = db.collection(`${COLLECTION.ExplanationOfBenefit}_${base_version}_History`);
+        let history_collection = db.collection(`${COLLECTION.EXPLANATIONOFBENEFIT}_${base_version}_History`);
 
         let history_explanationofbenefit = Object.assign(cleaned, { id: id });
         delete history_explanationofbenefit["_id"]; // make sure we don't have an _id field when inserting into history
