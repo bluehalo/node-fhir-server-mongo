@@ -492,6 +492,12 @@ module.exports.create = (args, { req }) =>
 
     let { base_version } = args;
 
+    logger.info('--- request ----')
+    logger.info(req)
+
+    logger.info('--- body ----')
+    logger.info(resource)
+
     // Grab an instance of our DB and collection (by version)
     let db = globals.get(CLIENT_DB);
     let collection = db.collection(`${COLLECTION.PATIENT}_${base_version}`);
@@ -547,6 +553,12 @@ module.exports.update = (args, { req }) =>
     let resource = req.body;
 
     let { base_version, id } = args;
+
+    logger.info('--- request ----')
+    logger.info(req)
+
+    logger.info('--- body ----')
+    logger.info(resource)
 
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);

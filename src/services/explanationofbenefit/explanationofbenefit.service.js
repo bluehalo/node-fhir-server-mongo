@@ -4,6 +4,9 @@ const { VERSIONS } = require('@asymmetrik/node-fhir-server-core').constants;
 const { resolveSchema } = require('@asymmetrik/node-fhir-server-core');
 const FHIRServer = require('@asymmetrik/node-fhir-server-core');
 const { ObjectID } = require('mongodb');
+const { COLLECTION, CLIENT_DB } = require('../../constants');
+const moment = require('moment-timezone');
+const globals = require('../../globals');
 const logger = require('@asymmetrik/node-fhir-server-core').loggers.get();
 
 let getExplanationOfBenefit = (base_version) => {
@@ -13,6 +16,47 @@ let getExplanationOfBenefit = (base_version) => {
 let getMeta = (base_version) => {
   return resolveSchema(base_version, 'Meta');
 };
+
+/**
+ *
+ * @param {*} args
+ * @param {*} context
+ * @param {*} logger
+ */
+module.exports.search = (args) =>
+  new Promise((resolve, reject) => {
+    logger.info('ExplanationOfBenefit >>> search');
+
+    let { base_version } = args;
+    let query = {};
+
+    if (base_version === VERSIONS['3_0_1']) {
+      query = buildStu3SearchQuery(args);
+    } else if (base_version === VERSIONS['1_0_2']) {
+      query = buildDstu2SearchQuery(args);
+    }
+
+    // Grab an instance of our DB and collection
+    let db = globals.get(CLIENT_DB);
+    let collection = db.collection(`${COLLECTION.EXPLANATIONOFBENEFIT}_${base_version}`);
+    let ExplanationOfBenefit = getExplanationOfBenefit(base_version);
+
+    // Query our collection for this observation
+    collection.find(query, (err, data) => {
+      if (err) {
+        logger.error('Error with ExplanationOfBenefit.search: ', err);
+        return reject(err);
+      }
+
+      // Patient is a patient cursor, pull documents out before resolving
+      data.toArray().then((explanationofbenefits) => {
+        explanationofbenefits.forEach(function (element, i, returnArray) {
+          returnArray[i] = new ExplanationOfBenefit(element);
+        });
+        resolve(explanationofbenefits);
+      });
+    });
+  });
 
 module.exports.searchById = (args) =>
   new Promise((resolve, reject) => {
@@ -123,25 +167,77 @@ module.exports.update = (args, { req }) =>
   new Promise((resolve, reject) => {
     logger.info('ExplanationOfBenefit >>> update');
 
-    let { base_version, id, resource } = args;
+    logger.info('--- request ----')
+    logger.info(req)
 
-    let ExplanationOfBenefit = getExplanationOfBenefit(base_version);
-    let Meta = getMeta(base_version);
+    let resource = req.body;
+    let { base_version, id } = args;
+    logger.info(base_version)
+    logger.info(id)
+    logger.info('--- body ----')
+    logger.info(resource)
 
-    // Cast resource to ExplanationOfBenefit Class
-    let explanationofbenefit_resource = new ExplanationOfBenefit(resource);
-    explanationofbenefit_resource.meta = new Meta();
-    // TODO: set meta info, increment meta ID
+    // Grab an instance of our DB and collection
+    let db = globals.get(CLIENT_DB);
+    let collection = db.collection(`${COLLECTION.ExplanationOfBenefit}_${base_version}`);
 
-    // TODO: save record to database
+    // Get current record
+    // Query our collection for this observation
+    collection.findOne({ id: id.toString() }, (err, data) => {
+      if (err) {
+        logger.error('Error with explanationofbenefit.searchById: ', err);
+        return reject(err);
+      }
 
-    // Return id, if recorded was created or updated, new meta version id
-    resolve({
-      id: explanationofbenefit_resource.id,
-      created: false,
-      resource_version: explanationofbenefit_resource.meta.versionId,
+      let ExplanationOfBenefit = getExplanationOfBenefit(base_version);
+      let explanationofbenefit = new ExplanationOfBenefit(resource);
+
+      if (data && data.meta) {
+        logger.info("found resource: "+ data)
+        let foundExplanationOfBenefit = new ExplanationOfBenefit(data);
+        let meta = foundExplanationOfBenefit.meta;
+        meta.versionId = `${parseInt(foundExplanationOfBenefit.meta.versionId) + 1}`;
+        explanationofbenefit.meta = meta;
+      } else {
+        let Meta = getMeta(base_version);
+        explanationofbenefit.meta = new Meta({
+          versionId: '1',
+          lastUpdated: moment.utc().format('YYYY-MM-DDTHH:mm:ssZ'),
+        });
+      }
+
+      let cleaned = JSON.parse(JSON.stringify(explanationofbenefit));
+      let doc = Object.assign(cleaned, { _id: id });
+
+      // Insert/update our patient record
+      collection.findOneAndUpdate({ id: id }, { $set: doc }, { upsert: true }, (err2, res) => {
+        if (err2) {
+          logger.error('Error with ExplanationOfBenefit.update: ', err2);
+          return reject(err2);
+        }
+
+        // save to history
+        let history_collection = db.collection(`${COLLECTION.ExplanationOfBenefit}_${base_version}_History`);
+
+        let history_explanationofbenefit = Object.assign(cleaned, { id: id });
+        delete history_explanationofbenefit["_id"]; // make sure we don't have an _id field when inserting into history
+
+        // Insert our patient record to history but don't assign _id
+        return history_collection.insertOne(history_explanationofbenefit, (err3) => {
+          if (err3) {
+            logger.error('Error with ExplanationOfBenefit.create: ', err3);
+            return reject(err3);
+          }
+
+          return resolve({
+            id: id,
+            created: res.lastErrorObject && !res.lastErrorObject.updatedExisting,
+            resource_version: doc.meta.versionId,
+          });
+        });
     });
   });
+});
 
 module.exports.remove = (args, context) =>
   new Promise((resolve, reject) => {
