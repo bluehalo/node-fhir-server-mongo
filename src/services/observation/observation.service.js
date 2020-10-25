@@ -4,6 +4,9 @@ const { VERSIONS } = require('@asymmetrik/node-fhir-server-core').constants;
 const { resolveSchema } = require('@asymmetrik/node-fhir-server-core');
 const FHIRServer = require('@asymmetrik/node-fhir-server-core');
 const { ObjectID } = require('mongodb');
+const { COLLECTION, CLIENT_DB } = require('../../constants');
+const moment = require('moment-timezone');
+const globals = require('../../globals');
 const logger = require('@asymmetrik/node-fhir-server-core').loggers.get();
 
 let getObservation = (base_version) => {
@@ -13,6 +16,46 @@ let getObservation = (base_version) => {
 let getMeta = (base_version) => {
   return resolveSchema(base_version, 'Meta');
 };
+
+/*
+ * @param {*} args
+ * @param {*} context
+ * @param {*} logger
+ */
+module.exports.search = (args) =>
+  new Promise((resolve, reject) => {
+    logger.info('Observation >>> search');
+
+    let { base_version } = args;
+    let query = {};
+
+    if (base_version === VERSIONS['3_0_1']) {
+      query = buildStu3SearchQuery(args);
+    } else if (base_version === VERSIONS['1_0_2']) {
+      query = buildDstu2SearchQuery(args);
+    }
+
+    // Grab an instance of our DB and collection
+    let db = globals.get(CLIENT_DB);
+    let collection = db.collection(`${COLLECTION.OBSERVATION}_${base_version}`);
+    let Observation = getObservation(base_version);
+
+    // Query our collection for this observation
+    collection.find(query, (err, data) => {
+      if (err) {
+        logger.error('Error with Observation.search: ', err);
+        return reject(err);
+      }
+
+      // Patient is a patient cursor, pull documents out before resolving
+      data.toArray().then((observations) => {
+        observations.forEach(function (element, i, returnArray) {
+          returnArray[i] = new Observation(element);
+        });
+        resolve(observations);
+      });
+    });
+  });
 
 module.exports.searchById = (args) =>
   new Promise((resolve, reject) => {
@@ -144,29 +187,81 @@ module.exports.create = (args, { req }) =>
     resolve({ id });
   });
 
-module.exports.update = (args, { req }) =>
+  module.exports.update = (args, { req }) =>
   new Promise((resolve, reject) => {
     logger.info('Observation >>> update');
 
-    let { base_version, id, resource } = args;
+    logger.info('--- request ----')
+    logger.info(req)
 
-    let Observation = getObservation(base_version);
-    let Meta = getMeta(base_version);
+    let resource = req.body;
+    let { base_version, id } = args;
+    logger.info(base_version)
+    logger.info(id)
+    logger.info('--- body ----')
+    logger.info(resource)
 
-    // Cast resource to Observation Class
-    let observation_resource = new Observation(resource);
-    observation_resource.meta = new Meta();
-    // TODO: set meta info, increment meta ID
+    // Grab an instance of our DB and collection
+    let db = globals.get(CLIENT_DB);
+    let collection = db.collection(`${COLLECTION.OBSERVATION}_${base_version}`);
 
-    // TODO: save record to database
+    // Get current record
+    // Query our collection for this observation
+    collection.findOne({ id: id.toString() }, (err, data) => {
+      if (err) {
+        logger.error('Error with observation.searchById: ', err);
+        return reject(err);
+      }
 
-    // Return id, if recorded was created or updated, new meta version id
-    resolve({
-      id: observation_resource.id,
-      created: false,
-      resource_version: observation_resource.meta.versionId,
+      let Observation = getObservation(base_version);
+      let observation = new Observation(resource);
+
+      if (data && data.meta) {
+        logger.info("found resource: "+ data)
+        let foundObservation = new Observation(data);
+        let meta = foundObservation.meta;
+        meta.versionId = `${parseInt(foundObservation.meta.versionId) + 1}`;
+        observation.meta = meta;
+      } else {
+        let Meta = getMeta(base_version);
+        observation.meta = new Meta({
+          versionId: '1',
+          lastUpdated: moment.utc().format('YYYY-MM-DDTHH:mm:ssZ'),
+        });
+      }
+
+      let cleaned = JSON.parse(JSON.stringify(observation));
+      let doc = Object.assign(cleaned, { _id: id });
+
+      // Insert/update our patient record
+      collection.findOneAndUpdate({ id: id }, { $set: doc }, { upsert: true }, (err2, res) => {
+        if (err2) {
+          logger.error('Error with Observation.update: ', err2);
+          return reject(err2);
+        }
+
+        // save to history
+        let history_collection = db.collection(`${COLLECTION.OBSERVATION}_${base_version}_History`);
+
+        let history_observation = Object.assign(cleaned, { id: id });
+        delete history_observation["_id"]; // make sure we don't have an _id field when inserting into history
+
+        // Insert our patient record to history but don't assign _id
+        return history_collection.insertOne(history_observation, (err3) => {
+          if (err3) {
+            logger.error('Error with Observation.create: ', err3);
+            return reject(err3);
+          }
+
+          return resolve({
+            id: id,
+            created: res.lastErrorObject && !res.lastErrorObject.updatedExisting,
+            resource_version: doc.meta.versionId,
+          });
+        });
     });
   });
+});
 
 module.exports.remove = (args, context) =>
   new Promise((resolve, reject) => {
