@@ -1,295 +1,32 @@
-/*eslint no-unused-vars: "warn"*/
+const { COLLECTION } = require('../../constants');
+const base_service = require('../base/base.service')
 
-const { VERSIONS } = require('@asymmetrik/node-fhir-server-core').constants;
-const { resolveSchema } = require('@asymmetrik/node-fhir-server-core');
-const FHIRServer = require('@asymmetrik/node-fhir-server-core');
-const { ObjectID } = require('mongodb');
-const logger = require('@asymmetrik/node-fhir-server-core').loggers.get();
+const resource_name = 'OperationDefinition'
+const collection_name = COLLECTION.OPERATIONDEFINITION;
 
-let getOperationDefinition = (base_version) => {
-  return resolveSchema(base_version, 'OperationDefinition');
-};
-
-let getMeta = (base_version) => {
-  return resolveSchema(base_version, 'Meta');
-};
+module.exports.search = (args) =>
+  base_service.search(args, resource_name, collection_name)
 
 module.exports.searchById = (args) =>
-  new Promise((resolve, reject) => {
-    logger.info('OperationDefinition >>> search');
-
-    // Common search params
-    let {
-      base_version,
-      _content,
-      _format,
-      _id,
-      _lastUpdated,
-      _profile,
-      _query,
-      _security,
-      _tag,
-    } = args;
-
-    // Search Result params
-    let {
-      _INCLUDE,
-      _REVINCLUDE,
-      _SORT,
-      _COUNT,
-      _SUMMARY,
-      _ELEMENTS,
-      _CONTAINED,
-      _CONTAINEDTYPED,
-    } = args;
-
-    // Resource Specific params
-    let base = args['base'];
-    let code = args['code'];
-    let date = args['date'];
-    let description = args['description'];
-    let instance = args['instance'];
-    let jurisdiction = args['jurisdiction'];
-    let kind = args['kind'];
-    let name = args['name'];
-    let param_profile = args['param-profile'];
-    let publisher = args['publisher'];
-    let status = args['status'];
-    let system = args['system'];
-    let type = args['type'];
-    let url = args['url'];
-    let version = args['version'];
-
-    // TODO: Build query from Parameters
-
-    // TODO: Query database
-
-    let OperationDefinition = getOperationDefinition(base_version);
-
-    // Cast all results to OperationDefinition Class
-    let operationdefinition_resource = new OperationDefinition();
-    // TODO: Set data with constructor or setter methods
-    operationdefinition_resource.id = 'test id';
-
-    // Return Array
-    resolve([operationdefinition_resource]);
-  });
-
-module.exports.searchById = (args) =>
-  new Promise((resolve, reject) => {
-    logger.info('OperationDefinition >>> searchById');
-
-    let { base_version, id } = args;
-
-    let OperationDefinition = getOperationDefinition(base_version);
-
-    // TODO: Build query from Parameters
-
-    // TODO: Query database
-
-    // Cast result to OperationDefinition Class
-    let operationdefinition_resource = new OperationDefinition();
-    // TODO: Set data with constructor or setter methods
-    operationdefinition_resource.id = 'test id';
-
-    // Return resource class
-    // resolve(operationdefinition_resource);
-    resolve();
-  });
+  base_service.searchById(args, resource_name, collection_name)
 
 module.exports.create = (args, { req }) =>
-  new Promise((resolve, reject) => {
-    logger.info('OperationDefinition >>> create');
-
-    let { base_version, resource } = args;
-    // Make sure to use this ID when inserting this resource
-    let id = new ObjectID().toString();
-
-    let OperationDefinition = getOperationDefinition(base_version);
-    let Meta = getMeta(base_version);
-
-    // TODO: determine if client/server sets ID
-
-    // Cast resource to OperationDefinition Class
-    let operationdefinition_resource = new OperationDefinition(resource);
-    operationdefinition_resource.meta = new Meta();
-    // TODO: set meta info
-
-    // TODO: save record to database
-
-    // Return Id
-    resolve({ id });
-  });
+  base_service.create(args, { req }, resource_name, collection_name)
 
 module.exports.update = (args, { req }) =>
-  new Promise((resolve, reject) => {
-    logger.info('OperationDefinition >>> update');
-
-    let { base_version, id, resource } = args;
-
-    let OperationDefinition = getOperationDefinition(base_version);
-    let Meta = getMeta(base_version);
-
-    // Cast resource to OperationDefinition Class
-    let operationdefinition_resource = new OperationDefinition(resource);
-    operationdefinition_resource.meta = new Meta();
-    // TODO: set meta info, increment meta ID
-
-    // TODO: save record to database
-
-    // Return id, if recorded was created or updated, new meta version id
-    resolve({
-      id: operationdefinition_resource.id,
-      created: false,
-      resource_version: operationdefinition_resource.meta.versionId,
-    });
-  });
+  base_service.update(args, { req }, resource_name, collection_name)
 
 module.exports.remove = (args, context) =>
-  new Promise((resolve, reject) => {
-    logger.info('OperationDefinition >>> remove');
-
-    let { id } = args;
-
-    // TODO: delete record in database (soft/hard)
-
-    // Return number of records deleted
-    resolve({ deleted: 0 });
-  });
+  base_service.remove(args, context, resource_name, collection_name)
 
 module.exports.searchByVersionId = (args, context) =>
-  new Promise((resolve, reject) => {
-    logger.info('OperationDefinition >>> searchByVersionId');
+  base_service.search(args, context, resource_name, collection_name)
 
-    let { base_version, id, version_id } = args;
-
-    let OperationDefinition = getOperationDefinition(base_version);
-
-    // TODO: Build query from Parameters
-
-    // TODO: Query database
-
-    // Cast result to OperationDefinition Class
-    let operationdefinition_resource = new OperationDefinition();
-
-    // Return resource class
-    resolve(operationdefinition_resource);
-  });
-
-module.exports.history = (args, context) =>
-  new Promise((resolve, reject) => {
-    logger.info('OperationDefinition >>> history');
-
-    // Common search params
-    let {
-      base_version,
-      _content,
-      _format,
-      _id,
-      _lastUpdated,
-      _profile,
-      _query,
-      _security,
-      _tag,
-    } = args;
-
-    // Search Result params
-    let {
-      _INCLUDE,
-      _REVINCLUDE,
-      _SORT,
-      _COUNT,
-      _SUMMARY,
-      _ELEMENTS,
-      _CONTAINED,
-      _CONTAINEDTYPED,
-    } = args;
-
-    // Resource Specific params
-    let base = args['base'];
-    let code = args['code'];
-    let date = args['date'];
-    let description = args['description'];
-    let instance = args['instance'];
-    let jurisdiction = args['jurisdiction'];
-    let kind = args['kind'];
-    let name = args['name'];
-    let param_profile = args['param-profile'];
-    let publisher = args['publisher'];
-    let status = args['status'];
-    let system = args['system'];
-    let type = args['type'];
-    let url = args['url'];
-    let version = args['version'];
-
-    // TODO: Build query from Parameters
-
-    // TODO: Query database
-
-    let OperationDefinition = getOperationDefinition(base_version);
-
-    // Cast all results to OperationDefinition Class
-    let operationdefinition_resource = new OperationDefinition();
-
-    // Return Array
-    resolve([operationdefinition_resource]);
-  });
+module.exports.history = (args) =>
+  base_service.history(args, cotnext, resource_name, collection_name)
 
 module.exports.historyById = (args, context) =>
-  new Promise((resolve, reject) => {
-    logger.info('OperationDefinition >>> historyById');
+  base_service.historyById(args, context, resource_name, collection_name)
 
-    // Common search params
-    let {
-      base_version,
-      _content,
-      _format,
-      _id,
-      _lastUpdated,
-      _profile,
-      _query,
-      _security,
-      _tag,
-    } = args;
-
-    // Search Result params
-    let {
-      _INCLUDE,
-      _REVINCLUDE,
-      _SORT,
-      _COUNT,
-      _SUMMARY,
-      _ELEMENTS,
-      _CONTAINED,
-      _CONTAINEDTYPED,
-    } = args;
-
-    // Resource Specific params
-    let base = args['base'];
-    let code = args['code'];
-    let date = args['date'];
-    let description = args['description'];
-    let instance = args['instance'];
-    let jurisdiction = args['jurisdiction'];
-    let kind = args['kind'];
-    let name = args['name'];
-    let param_profile = args['param-profile'];
-    let publisher = args['publisher'];
-    let status = args['status'];
-    let system = args['system'];
-    let type = args['type'];
-    let url = args['url'];
-    let version = args['version'];
-
-    // TODO: Build query from Parameters
-
-    // TODO: Query database
-
-    let OperationDefinition = getOperationDefinition(base_version);
-
-    // Cast all results to OperationDefinition Class
-    let operationdefinition_resource = new OperationDefinition();
-
-    // Return Array
-    resolve([operationdefinition_resource]);
-  });
+module.exports.patch = (args, context) =>
+  base_service.patch(args, context, resource_name, collection_name)
