@@ -1,11 +1,13 @@
-/*eslint no-unused-vars: "warn"*/
-
 const { VERSIONS } = require('@asymmetrik/node-fhir-server-core').constants;
 const { resolveSchema } = require('@asymmetrik/node-fhir-server-core');
 const { COLLECTION, CLIENT_DB } = require('../../constants');
+const base_service = require('../base/base.service');
 const globals = require('../../globals');
 
 const logger = require('@asymmetrik/node-fhir-server-core').loggers.get();
+
+const resource_name = 'Patient';
+const collection_name = COLLECTION.PATIENT;
 
 const {
   stringQueryBuilder,
@@ -433,22 +435,22 @@ module.exports.search = (args) =>
   });
 
   module.exports.searchById = (args) =>
-  base_service.searchById(args, resource_name, collection_name)
+  base_service.searchById(args, resource_name, collection_name);
 
 module.exports.create = (args, { req }) =>
-  base_service.create(args, { req }, resource_name, collection_name)
+  base_service.create(args, { req }, resource_name, collection_name);
 
 module.exports.update = (args, { req }) =>
-  base_service.update(args, { req }, resource_name, collection_name)
+  base_service.update(args, { req }, resource_name, collection_name);
 
 module.exports.remove = (args, context) =>
-  base_service.remove(args, context, resource_name, collection_name)
+  base_service.remove(args, context, resource_name, collection_name);
 
 module.exports.searchByVersionId = (args, context) =>
-  base_service.search(args, context, resource_name, collection_name)
+  base_service.search(args, context, resource_name, collection_name);
 
 module.exports.patch = (args, context) =>
-  base_service.patch(args, context, resource_name, collection_name)
+  base_service.patch(args, context, resource_name, collection_name);
 
 module.exports.history = (args) =>
   new Promise((resolve, reject) => {

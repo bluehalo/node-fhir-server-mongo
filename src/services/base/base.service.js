@@ -5,6 +5,7 @@ const moment = require('moment-timezone');
 const globals = require('../../globals');
 const logger = require('@asymmetrik/node-fhir-server-core').loggers.get();
 const { getUuid } = require('../../utils/uid.util');
+const { validate, applyPatch} = require('fast-json-patch');
 
 let getResource = (base_version, resource_name) => {
     return resolveSchema(base_version, resource_name);
@@ -12,6 +13,48 @@ let getResource = (base_version, resource_name) => {
 
 let getMeta = (base_version) => {
     return resolveSchema(base_version, 'Meta');
+};
+
+let buildStu3SearchQuery = (args) => {
+    // Common search params
+    let { _id } = args;
+
+    // Search Result params
+
+    // Patient search params
+    let active = args['active'];
+
+    let query = {};
+
+    if (_id) {
+        query.id = _id;
+    }
+
+    if (active) {
+        query.active = active === 'true';
+    }
+
+    return query;
+};
+
+let buildDstu2SearchQuery = (args) => {
+    // Common search params
+    let { _id } = args;
+
+    // Search Result params
+
+    // Patient search params
+    let active = args['active'];
+
+    let query = {};
+    if (_id) {
+        query.id = _id;
+    }
+
+    if (active) {
+        query.active = active === 'true';
+    }
+    return query;
 };
 
 /**
@@ -61,58 +104,35 @@ module.exports.searchById = (args, resource_name, collection_name) =>
         logger.info('ExplanationOfBenefit >>> search');
 
         // Common search params
-        let {
-            base_version,
-            _content,
-            _format,
-            _id,
-            _lastUpdated,
-            _profile,
-            _query,
-            _security,
-            _tag,
-        } = args;
+        let { _id } = args;
+        let { base_version } = args;
+        // Search Result param
 
-        // Search Result params
-        let {
-            _INCLUDE,
-            _REVINCLUDE,
-            _SORT,
-            _COUNT,
-            _SUMMARY,
-            _ELEMENTS,
-            _CONTAINED,
-            _CONTAINEDTYPED,
-        } = args;
-
-        // Resource Specific params
-        let care_team = args['care-team'];
-        let claim = args['claim'];
-        let coverage = args['coverage'];
-        let created = args['created'];
-        let disposition = args['disposition'];
-        let encounter = args['encounter'];
-        let enterer = args['enterer'];
-        let facility = args['facility'];
-        let identifier = args['identifier'];
-        let organization = args['organization'];
-        let patient = args['patient'];
-        let payee = args['payee'];
-        let provider = args['provider'];
-
+        let query = {};
+        query.id = _id;
         // TODO: Build query from Parameters
 
         // TODO: Query database
-
+        // Grab an instance of our DB and collection
+        let db = globals.get(CLIENT_DB);
+        let collection = db.collection(`${collection_name}_${base_version}`);
         let Resource = getResource(base_version, resource_name);
 
-        // Cast all results to ExplanationOfBenefit Class
-        let resource = new Resource();
-        // TODO: Set data with constructor or setter methods
-        resource.id = 'test id';
+        // Query our collection for this observation
+        collection.find(query, (err, data) => {
+            if (err) {
+                logger.error(`Error with ${resource_name}.searchById: `, err);
+                return reject(err);
+            }
 
-        // Return Array
-        resolve([resource]);
+            // Resource is a resource cursor, pull documents out before resolving
+            data.toArray().then((resources) => {
+                resources.forEach(function (element, i, returnArray) {
+                    returnArray[i] = new Resource(element);
+                });
+                resolve(resources);
+            });
+        });
     });
 
 module.exports.create = (args, { req }, resource_name, collection_name) =>
@@ -123,11 +143,11 @@ module.exports.create = (args, { req }, resource_name, collection_name) =>
 
         let { base_version } = args;
 
-        logger.info('--- request ----')
-        logger.info(req)
+        logger.info('--- request ----');
+        logger.info(req);
 
-        logger.info('--- body ----')
-        logger.info(resource_incoming)
+        logger.info('--- body ----');
+        logger.info(resource_incoming);
 
         // Grab an instance of our DB and collection (by version)
         let db = globals.get(CLIENT_DB);
@@ -181,15 +201,15 @@ module.exports.update = (args, { req }, resource_name, collection_name) =>
     new Promise((resolve, reject) => {
         logger.info(`'${resource_name} >>> update`);
 
-        logger.info('--- request ----')
-        logger.info(req)
+        logger.info('--- request ----');
+        logger.info(req);
 
         let resource_incoming = req.body;
         let { base_version, id } = args;
-        logger.info(base_version)
-        logger.info(id)
-        logger.info('--- body ----')
-        logger.info(resource_incoming)
+        logger.info(base_version);
+        logger.info(id);
+        logger.info('--- body ----');
+        logger.info(resource_incoming);
 
         // Grab an instance of our DB and collection
         let db = globals.get(CLIENT_DB);
@@ -207,7 +227,7 @@ module.exports.update = (args, { req }, resource_name, collection_name) =>
             let resource = new Resource(resource_incoming);
 
             if (data && data.meta) {
-                logger.info("found resource: " + data)
+                logger.info('found resource: ' + data);
                 let foundResource = new Resource(data);
                 let meta = foundResource.meta;
                 meta.versionId = `${parseInt(foundResource.meta.versionId) + 1}`;
@@ -234,7 +254,7 @@ module.exports.update = (args, { req }, resource_name, collection_name) =>
                 let history_collection = db.collection(`${collection_name}_${base_version}_History`);
 
                 let history_resource = Object.assign(cleaned, { id: id });
-                delete history_resource["_id"]; // make sure we don't have an _id field when inserting into history
+                delete history_resource['_id']; // make sure we don't have an _id field when inserting into history
 
                 // Insert our resource record to history but don't assign _id
                 return history_collection.insertOne(history_resource, (err3) => {
@@ -401,7 +421,7 @@ module.exports.historyById = (args, context, resource_name, collection_name) =>
 
 module.exports.patch = (args, context, resource_name, collection_name) =>
     new Promise((resolve, reject) => {
-        logger.info(`Patient >>> patch`); // Should this say update (instead of patch) because the end result is that of an update, not a patch
+        logger.info('Patient >>> patch'); // Should this say update (instead of patch) because the end result is that of an update, not a patch
 
         let { base_version, id, patchContent } = args;
 
@@ -418,13 +438,13 @@ module.exports.patch = (args, context, resource_name, collection_name) =>
             }
 
             // Validate the patch
-            let errors = jsonpatch.validate(patchContent, data);
+            let errors = validate(patchContent, data);
             if (errors && Object.keys(errors).length > 0) {
                 logger.error('Error with patch contents');
                 return reject(errors);
             }
             // Make the changes indicated in the patch
-            let resource_incoming = jsonpatch.applyPatch(data, patchContent).newDocument;
+            let resource_incoming = applyPatch(data, patchContent).newDocument;
 
             let Resource = getResource(base_version, resource_name);
             let resource = new Resource(resource_incoming);
