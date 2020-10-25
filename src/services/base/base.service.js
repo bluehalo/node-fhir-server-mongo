@@ -262,21 +262,31 @@ module.exports.remove = (args, context, resource_name, collection_name) =>
 
 module.exports.searchByVersionId = (args, context, resource_name, collection_name) =>
     new Promise((resolve, reject) => {
-        logger.info('ExplanationOfBenefit >>> searchByVersionId');
+        logger.info(`${resource_name} >>> searchByVersionId`);
 
         let { base_version, id, version_id } = args;
 
-        let ExplanationOfBenefit = getExplanationOfBenefit(base_version);
+        let Resource = getResource(base_version, resource_name);
 
-        // TODO: Build query from Parameters
+        let db = globals.get(CLIENT_DB);
+        let history_collection = db.collection(`${collection_name}_${base_version}_History`);
 
-        // TODO: Query database
+        // Query our collection for this observation
+        history_collection.findOne(
+            { id: id.toString(), 'meta.versionId': `${version_id}` },
+            (err, resource) => {
+                if (err) {
+                    logger.error(`Error with ${resource_name}.searchByVersionId: `, err);
+                    return reject(err);
+                }
 
-        // Cast result to ExplanationOfBenefit Class
-        let explanationofbenefit_resource = new ExplanationOfBenefit();
+                if (resource) {
+                    resolve(new Resource(resource));
+                }
 
-        // Return resource class
-        resolve(explanationofbenefit_resource);
+                resolve();
+            }
+        );
     });
 
 module.exports.history = (args, context, resource_name, collection_name) =>
