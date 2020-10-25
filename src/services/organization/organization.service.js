@@ -35,7 +35,7 @@ module.exports.searchByVersionId = (args, context) =>
   base_service.search(args, context, resource_name, collection_name)
 
 module.exports.history = (args) =>
-  base_service.history(args, cotnext, resource_name, collection_name)
+  base_service.history(args, context, resource_name, collection_name)
 
 module.exports.historyById = (args, context) =>
   base_service.historyById(args, context, resource_name, collection_name)

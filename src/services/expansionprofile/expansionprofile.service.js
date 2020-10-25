@@ -1,7 +1,7 @@
 const { COLLECTION } = require('../../constants');
-const base_service = require('../base/base.service')
+const base_service = require('../base/base.service');
 
-const resource_name = 'ExpansionProfile'
+const resource_name = 'ExpansionProfile';
 const collection_name = COLLECTION.EXPANSIONPROFILE;
 
 module.exports.search = (args) =>
@@ -23,7 +23,7 @@ module.exports.searchByVersionId = (args, context) =>
   base_service.search(args, context, resource_name, collection_name)
 
 module.exports.history = (args) =>
-  base_service.history(args, cotnext, resource_name, collection_name)
+  base_service.history(args, context, resource_name, collection_name)
 
 module.exports.historyById = (args, context) =>
   base_service.historyById(args, context, resource_name, collection_name)
