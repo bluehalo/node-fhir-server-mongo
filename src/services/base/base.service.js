@@ -4,6 +4,7 @@ const { CLIENT_DB } = require('../../constants');
 const moment = require('moment-timezone');
 const globals = require('../../globals');
 const logger = require('@asymmetrik/node-fhir-server-core').loggers.get();
+const { getUuid } = require('../../utils/uid.util');
 
 let getResource = (base_version, resource_name) => {
     return resolveSchema(base_version, resource_name);
