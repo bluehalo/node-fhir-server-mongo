@@ -47,7 +47,7 @@ module.exports.search = (args, resource_name, collection_name) =>
                 return reject(err);
             }
 
-            // Patient is a patient cursor, pull documents out before resolving
+            // Resource is a resource cursor, pull documents out before resolving
             data.toArray().then((resources) => {
                 resources.forEach(function (element, i, returnArray) {
                     returnArray[i] = new Resource(element);
@@ -187,7 +187,7 @@ module.exports.update = (args, { req }, resource_name, collection_name) =>
             let cleaned = JSON.parse(JSON.stringify(resource));
             let doc = Object.assign(cleaned, { _id: id });
 
-            // Insert/update our patient record
+            // Insert/update our resource record
             collection.findOneAndUpdate({ id: id }, { $set: doc }, { upsert: true }, (err2, res) => {
                 if (err2) {
                     logger.error(`Error with ${resource_name}.update: `, err2);
@@ -200,7 +200,7 @@ module.exports.update = (args, { req }, resource_name, collection_name) =>
                 let history_resource = Object.assign(cleaned, { id: id });
                 delete history_resource["_id"]; // make sure we don't have an _id field when inserting into history
 
-                // Insert our patient record to history but don't assign _id
+                // Insert our resource record to history but don't assign _id
                 return history_collection.insertOne(history_resource, (err3) => {
                     if (err3) {
                         logger.error(`Error with ${resource_name}.update: `, err3);
@@ -359,6 +359,77 @@ module.exports.historyById = (args, context, resource_name, collection_name) =>
                     returnArray[i] = new Resource(element);
                 });
                 resolve(resources);
+            });
+        });
+    });
+
+module.exports.patch = (args, context, resource_name, collection_name) =>
+    new Promise((resolve, reject) => {
+        logger.info(`Patient >>> patch`); // Should this say update (instead of patch) because the end result is that of an update, not a patch
+
+        let { base_version, id, patchContent } = args;
+
+        // Grab an instance of our DB and collection
+        let db = globals.get(CLIENT_DB);
+        let collection = db.collection(`${collection_name}_${base_version}`);
+
+        // Get current record
+        // Query our collection for this observation
+        collection.findOne({ id: id.toString() }, (err, data) => {
+            if (err) {
+                logger.error(`Error with ${resource_name}.patch: `, err);
+                return reject(err);
+            }
+
+            // Validate the patch
+            let errors = jsonpatch.validate(patchContent, data);
+            if (errors && Object.keys(errors).length > 0) {
+                logger.error('Error with patch contents');
+                return reject(errors);
+            }
+            // Make the changes indicated in the patch
+            let resource_incoming = jsonpatch.applyPatch(data, patchContent).newDocument;
+
+            let Resource = getResource(base_version, resource_name);
+            let resource = new Resource(resource_incoming);
+
+            if (data && data.meta) {
+                let foundResource = new Resource(data);
+                let meta = foundResource.meta;
+                meta.versionId = `${parseInt(foundResource.meta.versionId) + 1}`;
+                resource.meta = meta;
+            } else {
+                return reject('Unable to patch resource. Missing either data or metadata.');
+            }
+
+            // Same as update from this point on
+            let cleaned = JSON.parse(JSON.stringify(resource));
+            let doc = Object.assign(cleaned, { _id: id });
+
+            // Insert/update our resource record
+            collection.findOneAndUpdate({ id: id }, { $set: doc }, { upsert: true }, (err2, res) => {
+                if (err2) {
+                    logger.error(`Error with ${resource_name}.update: `, err2);
+                    return reject(err2);
+                }
+
+                // Save to history
+                let history_collection = db.collection(`${collection_name}_${base_version}_History`);
+                let history_resource = Object.assign(cleaned, { _id: id + cleaned.meta.versionId });
+
+                // Insert our resource record to history but don't assign _id
+                return history_collection.insertOne(history_resource, (err3) => {
+                    if (err3) {
+                        logger.error(`Error with ${resource_name}History.create: `, err3);
+                        return reject(err3);
+                    }
+
+                    return resolve({
+                        id: doc.id,
+                        created: res.lastErrorObject && !res.lastErrorObject.updatedExisting,
+                        resource_version: doc.meta.versionId,
+                    });
+                });
             });
         });
     });
