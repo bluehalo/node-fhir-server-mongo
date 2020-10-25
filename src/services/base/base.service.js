@@ -291,64 +291,44 @@ module.exports.searchByVersionId = (args, context, resource_name, collection_nam
 
 module.exports.history = (args, context, resource_name, collection_name) =>
     new Promise((resolve, reject) => {
-        logger.info('ExplanationOfBenefit >>> history');
+        logger.info(`${resource_name} >>> history`);
 
         // Common search params
-        let {
-            base_version,
-            _content,
-            _format,
-            _id,
-            _lastUpdated,
-            _profile,
-            _query,
-            _security,
-            _tag,
-        } = args;
+        let { base_version } = args;
 
-        // Search Result params
-        let {
-            _INCLUDE,
-            _REVINCLUDE,
-            _SORT,
-            _COUNT,
-            _SUMMARY,
-            _ELEMENTS,
-            _CONTAINED,
-            _CONTAINEDTYPED,
-        } = args;
+        let query = {};
 
-        // Resource Specific params
-        let care_team = args['care-team'];
-        let claim = args['claim'];
-        let coverage = args['coverage'];
-        let created = args['created'];
-        let disposition = args['disposition'];
-        let encounter = args['encounter'];
-        let enterer = args['enterer'];
-        let facility = args['facility'];
-        let identifier = args['identifier'];
-        let organization = args['organization'];
-        let patient = args['patient'];
-        let payee = args['payee'];
-        let provider = args['provider'];
+        if (base_version === VERSIONS['3_0_1']) {
+            query = buildStu3SearchQuery(args);
+        } else if (base_version === VERSIONS['1_0_2']) {
+            query = buildDstu2SearchQuery(args);
+        }
 
-        // TODO: Build query from Parameters
+        // Grab an instance of our DB and collection
+        let db = globals.get(CLIENT_DB);
+        let history_collection = db.collection(`${collection_name}_${base_version}_History`);
+        let Resource = getResource(base_version, resource_name);
 
-        // TODO: Query database
+        // Query our collection for this observation
+        history_collection.find(query, (err, data) => {
+            if (err) {
+                logger.error(`Error with ${resource_name}.history: `, err);
+                return reject(err);
+            }
 
-        let ExplanationOfBenefit = getExplanationOfBenefit(base_version);
-
-        // Cast all results to ExplanationOfBenefit Class
-        let explanationofbenefit_resource = new ExplanationOfBenefit();
-
-        // Return Array
-        resolve([explanationofbenefit_resource]);
+            // Patient is a resource cursor, pull documents out before resolving
+            data.toArray().then((resources) => {
+                resources.forEach(function (element, i, returnArray) {
+                    returnArray[i] = new Resource(element);
+                });
+                resolve(resources);
+            });
+        });
     });
 
 module.exports.historyById = (args, context, resource_name, collection_name) =>
     new Promise((resolve, reject) => {
-        logger.info('ExplanationOfBenefit >>> historyById');
+        logger.info(`${resource_name} >>> historyById`);
 
         // Common search params
         let {
