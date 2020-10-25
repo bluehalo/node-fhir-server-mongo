@@ -119,26 +119,64 @@ module.exports.searchById = (args, resource_name, collection_name) =>
 
 module.exports.create = (args, { req }, resource_name, collection_name) =>
     new Promise((resolve, reject) => {
-        logger.info('ExplanationOfBenefit >>> create');
+        logger.info(`${resource_name} >>> create`);
 
-        let { base_version, resource } = args;
-        // Make sure to use this ID when inserting this resource
-        let id = new ObjectID().toString();
+        let resource_incoming = req.body;
 
-        let ExplanationOfBenefit = getExplanationOfBenefit(base_version);
+        let { base_version } = args;
+
+        logger.info('--- request ----')
+        logger.info(req)
+
+        logger.info('--- body ----')
+        logger.info(resource_incoming)
+
+        // Grab an instance of our DB and collection (by version)
+        let db = globals.get(CLIENT_DB);
+        let collection = db.collection(`${collection_name}_${base_version}`);
+
+        // Get current record
+        let Resource = getResource(base_version, resource_name);
+        let resource = new Resource(resource_incoming);
+
+        // If no resource ID was provided, generate one.
+        let id = getUuid(resource);
+
+        // Create the resource's metadata
         let Meta = getMeta(base_version);
+        resource.meta = new Meta({
+            versionId: '1',
+            lastUpdated: moment.utc().format('YYYY-MM-DDTHH:mm:ssZ'),
+        });
 
-        // TODO: determine if client/server sets ID
+        // Create the document to be inserted into Mongo
+        let doc = JSON.parse(JSON.stringify(resource.toJSON()));
+        Object.assign(doc, { id: id });
 
-        // Cast resource to ExplanationOfBenefit Class
-        let explanationofbenefit_resource = new ExplanationOfBenefit(resource);
-        explanationofbenefit_resource.meta = new Meta();
-        // TODO: set meta info
+        // Create a clone of the object without the _id parameter before assigning a value to
+        // the _id parameter in the original document
+        let history_doc = Object.assign({}, doc);
+        Object.assign(doc, { _id: id });
 
-        // TODO: save record to database
+        // Insert our resource record
+        collection.insertOne(doc, (err) => {
+            if (err) {
+                logger.error(`Error with P${resource_name}.create: `, err);
+                return reject(err);
+            }
 
-        // Return Id
-        resolve({ id });
+            // Save the resource to history
+            let history_collection = db.collection(`${collection_name}_${base_version}_History`);
+
+            // Insert our resource record to history but don't assign _id
+            return history_collection.insertOne(history_doc, (err2) => {
+                if (err2) {
+                    logger.error(`Error with ${resource_name}History.create: `, err2);
+                    return reject(err2);
+                }
+                return resolve({ id: doc.id, resource_version: doc.meta.versionId });
+            });
+        });
     });
 
 module.exports.update = (args, { req }, resource_name, collection_name) =>
@@ -148,12 +186,12 @@ module.exports.update = (args, { req }, resource_name, collection_name) =>
         logger.info('--- request ----')
         logger.info(req)
 
-        let resource_passed = req.body;
+        let resource_incoming = req.body;
         let { base_version, id } = args;
         logger.info(base_version)
         logger.info(id)
         logger.info('--- body ----')
-        logger.info(resource_passed)
+        logger.info(resource_incoming)
 
         // Grab an instance of our DB and collection
         let db = globals.get(CLIENT_DB);
@@ -168,7 +206,7 @@ module.exports.update = (args, { req }, resource_name, collection_name) =>
             }
 
             let Resource = getResource(base_version, resource_name);
-            let resource = new Resource(resource_passed);
+            let resource = new Resource(resource_incoming);
 
             if (data && data.meta) {
                 logger.info("found resource: " + data)
