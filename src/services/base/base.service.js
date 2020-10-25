@@ -1,8 +1,5 @@
-/*eslint no-unused-vars: "warn"*/
-
 const { VERSIONS } = require('@asymmetrik/node-fhir-server-core').constants;
 const { resolveSchema } = require('@asymmetrik/node-fhir-server-core');
-const { ObjectID } = require('mongodb');
 const { CLIENT_DB } = require('../../constants');
 const moment = require('moment-timezone');
 const globals = require('../../globals');

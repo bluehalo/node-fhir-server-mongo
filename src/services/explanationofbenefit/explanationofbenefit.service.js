@@ -1,29 +1,33 @@
-/*eslint no-unused-vars: "warn"*/
-
 const { COLLECTION } = require('../../constants');
 const base_service = require('../base/base.service')
 
+const resource_name = 'ExplanationOfBenefit'
+const collection_name = COLLECTION.EXPLANATIONOFBENEFIT;
 
 module.exports.search = (args) =>
-  base_service.search(args, 'ExplanationOfBenefit', COLLECTION.EXPLANATIONOFBENEFIT)
+  base_service.search(args, resource_name, collection_name)
 
 module.exports.searchById = (args) =>
-  base_service.searchById(args, 'ExplanationOfBenefit', COLLECTION.EXPLANATIONOFBENEFIT)
+  base_service.searchById(args, resource_name, collection_name)
 
 module.exports.create = (args, { req }) =>
-  base_service.create(args, {req}, 'ExplanationOfBenefit', COLLECTION.EXPLANATIONOFBENEFIT)
+  base_service.create(args, { req }, resource_name, collection_name)
 
 module.exports.update = (args, { req }) =>
-  base_service.update(args, {req}, 'ExplanationOfBenefit', COLLECTION.EXPLANATIONOFBENEFIT)
+  base_service.update(args, { req }, resource_name, collection_name)
 
 module.exports.remove = (args, context) =>
-  base_service.remove(args, context, 'ExplanationOfBenefit', COLLECTION.EXPLANATIONOFBENEFIT)
+  base_service.remove(args, context, resource_name, collection_name)
 
 module.exports.searchByVersionId = (args, context) =>
-  base_service.search(args, context, 'ExplanationOfBenefit', COLLECTION.EXPLANATIONOFBENEFIT)
+  base_service.search(args, context, resource_name, collection_name)
 
 module.exports.history = (args) =>
-  base_service.history(args, cotnext, 'ExplanationOfBenefit', COLLECTION.EXPLANATIONOFBENEFIT)
+  base_service.history(args, cotnext, resource_name, collection_name)
 
 module.exports.historyById = (args, context) =>
-  base_service.historyById(args, context, 'ExplanationOfBenefit', COLLECTION.EXPLANATIONOFBENEFIT)
+  base_service.historyById(args, context, resource_name, collection_name)
+
+module.exports.patch = (args, context) =>
+  base_service.patch(args, context, resource_name, collection_name)
+
