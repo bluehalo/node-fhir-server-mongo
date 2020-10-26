@@ -14,4 +14,6 @@ clean: down
 init:
 	brew install yarn
 
-
+.PHONY:tests
+tests:
+	npm test

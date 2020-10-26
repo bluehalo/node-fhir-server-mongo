@@ -101,7 +101,7 @@ module.exports.search = (args, resource_name, collection_name) =>
 
 module.exports.searchById = (args, resource_name, collection_name) =>
     new Promise((resolve, reject) => {
-        logger.info('ExplanationOfBenefit >>> searchById');
+        logger.info(`${resource_name} >>> searchById`);
         logger.info(args);
 
         // Common search params
@@ -123,21 +123,16 @@ module.exports.searchById = (args, resource_name, collection_name) =>
         let collection = db.collection(`${collection_name}_${base_version}`);
         let Resource = getResource(base_version, resource_name);
 
-        // Query our collection for this observation
-        collection.find(query, (err, data) => {
+        collection.findOne({ id: id.toString() }, (err, resource) => {
             if (err) {
-                logger.error(`Error with ${resource_name}.searchById: `, err);
-                return reject(err);
+              logger.error(`Error with ${resource_name}.searchById: `, err);
+              return reject(err);
             }
-
-            // Resource is a resource cursor, pull documents out before resolving
-            data.toArray().then((resources) => {
-                resources.forEach(function (element, i, returnArray) {
-                    returnArray[i] = new Resource(element);
-                });
-                resolve(resources);
-            });
-        });
+            if (resource) {
+              resolve(new Resource(resource));
+            }
+            resolve();
+          });
     });
 
 module.exports.create = (args, { req }, resource_name, collection_name) =>
