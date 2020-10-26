@@ -17,7 +17,7 @@ let getMeta = (base_version) => {
 
 let buildStu3SearchQuery = (args) => {
     // Common search params
-    let { _id } = args;
+    let { id } = args;
 
     // Search Result params
 
@@ -26,8 +26,8 @@ let buildStu3SearchQuery = (args) => {
 
     let query = {};
 
-    if (_id) {
-        query.id = _id;
+    if (id) {
+        query.id = id;
     }
 
     if (active) {
@@ -39,7 +39,7 @@ let buildStu3SearchQuery = (args) => {
 
 let buildDstu2SearchQuery = (args) => {
     // Common search params
-    let { _id } = args;
+    let { id } = args;
 
     // Search Result params
 
@@ -47,8 +47,8 @@ let buildDstu2SearchQuery = (args) => {
     let active = args['active'];
 
     let query = {};
-    if (_id) {
-        query.id = _id;
+    if (id) {
+        query.id = id;
     }
 
     if (active) {
