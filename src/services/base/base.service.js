@@ -101,15 +101,20 @@ module.exports.search = (args, resource_name, collection_name) =>
 
 module.exports.searchById = (args, resource_name, collection_name) =>
     new Promise((resolve, reject) => {
-        logger.info('ExplanationOfBenefit >>> search');
+        logger.info('ExplanationOfBenefit >>> searchById');
+        logger.info(args);
 
         // Common search params
-        let { _id } = args;
+        let { id } = args;
         let { base_version } = args;
+
+        logger.info(`id: ${id}`);
+        logger.info(`base_version: ${base_version}`);
+
         // Search Result param
 
         let query = {};
-        query.id = _id;
+        query.id = id;
         // TODO: Build query from Parameters
 
         // TODO: Query database
