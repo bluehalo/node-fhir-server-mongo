@@ -36,10 +36,13 @@ def main() -> bool:
 
     data_dir: Path = Path(__file__).parent.joinpath('./')
 
+    collection_entries = {}
+
     for resource in resources:
         # first see if the folder exists
         resource_folder = data_dir.joinpath(resource.lower())
         if not os.path.exists(resource_folder):
+            print(f"Folder: {resource_folder} does not exist so creating it")
             # 1. create folder
             os.mkdir(resource_folder)
             # 2. create service file
@@ -77,10 +80,18 @@ module.exports.historyById = (args, context) =>
 
 module.exports.patch = (args, context) =>
   base_service.patch(args, context, resource_name, collection_name);
-            """
+"""
             # 3. add config.js entry
             with open(resource_file_name, "w") as file:
+                print(f"Writing file: {resource_file_name}")
                 file.write(service_code)
+            collection_entries[resource.upper()] = resource
+        else:
+          print(f"Folder: {resource_folder} already exists")  
+
+    print("---- COLLECTION entries -----")
+    for key,value in collection_entries.items():
+      print("\"" + key + "\"" + ":" + "\"" + value + "\"")
     return True
 
 
