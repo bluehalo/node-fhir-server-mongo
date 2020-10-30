@@ -252,14 +252,6 @@ let fhirServerConfig = {
       service: './src/services/eventdefinition/eventdefinition.service.js',
       versions: [VERSIONS['4_0_0']],
     },
-    Evidence: {
-      service: './src/services/evidence/evidence.service.js',
-      versions: [VERSIONS['4_0_0']],
-    },
-    EvidenceVariable: {
-      service: './src/services/evidencevariable/evidencevariable.service.js',
-      versions: [VERSIONS['4_0_0']],
-    },
     ExampleScenario: {
       service: './src/services/examplescenario/examplescenario.service.js',
       versions: [VERSIONS['4_0_0']],
@@ -392,28 +384,12 @@ let fhirServerConfig = {
       service: './src/services/medicinalproductindication/medicinalproductindication.service.js',
       versions: [VERSIONS['4_0_0']],
     },
-    MedicinalProductIngredient: {
-      service: './src/services/medicinalproductingredient/medicinalproductingredient.service.js',
-      versions: [VERSIONS['4_0_0']],
-    },
-    MedicinalProductInteraction: {
-      service: './src/services/medicinalproductinteraction/medicinalproductinteraction.service.js',
-      versions: [VERSIONS['4_0_0']],
-    },
-    MedicinalProductManufactured: {
-      service: './src/services/medicinalproductmanufactured/medicinalproductmanufactured.service.js',
-      versions: [VERSIONS['4_0_0']],
-    },
     MedicinalProductPackaged: {
       service: './src/services/medicinalproductpackaged/medicinalproductpackaged.service.js',
       versions: [VERSIONS['4_0_0']],
     },
     MedicinalProductPharmaceutical: {
       service: './src/services/medicinalproductpharmaceutical/medicinalproductpharmaceutical.service.js',
-      versions: [VERSIONS['4_0_0']],
-    },
-    MedicinalProductUndesirableEffect: {
-      service: './src/services/medicinalproductundesirableeffect/medicinalproductundesirableeffect.service.js',
       versions: [VERSIONS['4_0_0']],
     },
     MessageDefinition: {
@@ -440,16 +416,8 @@ let fhirServerConfig = {
       service: './src/services/observation/observation.service.js',
       versions: [VERSIONS['4_0_0']],
     },
-    ObservationDefinition: {
-      service: './src/services/observationdefinition/observationdefinition.service.js',
-      versions: [VERSIONS['4_0_0']],
-    },
     OperationDefinition: {
       service: './src/services/operationdefinition/operationdefinition.service.js',
-      versions: [VERSIONS['4_0_0']],
-    },
-    OperationOutcome: {
-      service: './src/services/operationoutcome/operationoutcome.service.js',
       versions: [VERSIONS['4_0_0']],
     },
     Organization: {
@@ -458,10 +426,6 @@ let fhirServerConfig = {
     },
     OrganizationAffiliation: {
       service: './src/services/organizationaffiliation/organizationaffiliation.service.js',
-      versions: [VERSIONS['4_0_0']],
-    },
-    Parameters: {
-      service: './src/services/parameters/parameters.service.js',
       versions: [VERSIONS['4_0_0']],
     },
     Patient: {
@@ -578,26 +542,6 @@ let fhirServerConfig = {
     },
     Substance: {
       service: './src/services/substance/substance.service.js',
-      versions: [VERSIONS['4_0_0']],
-    },
-    SubstanceNucleicAcid: {
-      service: './src/services/substancenucleicacid/substancenucleicacid.service.js',
-      versions: [VERSIONS['4_0_0']],
-    },
-    SubstancePolymer: {
-      service: './src/services/substancepolymer/substancepolymer.service.js',
-      versions: [VERSIONS['4_0_0']],
-    },
-    SubstanceProtein: {
-      service: './src/services/substanceprotein/substanceprotein.service.js',
-      versions: [VERSIONS['4_0_0']],
-    },
-    SubstanceReferenceInformation: {
-      service: './src/services/substancereferenceinformation/substancereferenceinformation.service.js',
-      versions: [VERSIONS['4_0_0']],
-    },
-    SubstanceSourceMaterial: {
-      service: './src/services/substancesourcematerial/substancesourcematerial.service.js',
       versions: [VERSIONS['4_0_0']],
     },
     SubstanceSpecification: {
