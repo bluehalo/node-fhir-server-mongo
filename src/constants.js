@@ -34,6 +34,8 @@ module.exports = {
     CONSENT: 'Consent',
     CONTRACT: 'Contract',
     COVERAGE: 'Coverage',
+    COVERAGEELIGIBILITYREQUEST: 'CoverageEligibilityRequest',
+    COVERAGEELIGIBILITYRESPONSE: 'CoverageEligibilityResponse',
     DATAELEMENT: 'DataElement',
     DETECTEDISSUE: 'DetectedIssue',
     DEVICE: 'Device',
