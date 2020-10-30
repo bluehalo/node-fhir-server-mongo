@@ -37,6 +37,7 @@ def main() -> bool:
     data_dir: Path = Path(__file__).parent.joinpath('./')
 
     collection_entries = {}
+    config_entries = []
 
     for resource in resources:
         # first see if the folder exists
@@ -89,12 +90,21 @@ module.exports.patch = (args, context) =>
                 print(f"Writing file: {resource_file_name}")
                 file.write(service_code)
             collection_entries[resource.upper()] = resource
+            config_entries.append(f"""
+    {resource}: {{
+      service: './src/services/{resource.lower()}/{resource.lower()}.service.js',
+      versions: [VERSIONS['4_0_0']],
+    }},            
+            """)
         else:
           print(f"Folder: {resource_folder} already exists")  
 
     print("---- COLLECTION entries -----")
     for key,value in collection_entries.items():
       print(key + ":" + "'" + value + "'" + ",")
+    print("---- Config entries -----")
+    for config in config_entries:
+      print(config)
     return True
 
 
