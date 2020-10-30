@@ -5,7 +5,6 @@ package-lock.json
 # Generated files
 *.log
 .DS_Store
-coverage
 fhir/fixtures/data/shr
 fhir/fixtures/data/uscore
 
@@ -15,3 +14,4 @@ key.pem
 
 # ENV Files
 .local-secrets/auth.secrets
+!/src/services/coverage/
