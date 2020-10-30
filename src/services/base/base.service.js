@@ -345,7 +345,7 @@ module.exports.searchByVersionId = (args, context, resource_name, collection_nam
         );
     });
 
-module.exports.history = (args, context, resource_name, collection_name) =>
+module.exports.history = (args, resource_name, collection_name) =>
     new Promise((resolve, reject) => {
         logger.info(`${resource_name} >>> history`);
 
