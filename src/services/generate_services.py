@@ -3,7 +3,7 @@ from pathlib import Path
 import shutil
 
 
-def main() -> bool:
+def main() -> int:
     resources = ['Account', 'ActivityDefinition', 'AdverseEvent', 'AllergyIntolerance', 'Appointment',
                  'AppointmentResponse', 'AuditEvent', 'Basic', 'Binary', 'BiologicallyDerivedProduct', 'BodyStructure',
                  'Bundle', 'CapabilityStatement', 'CarePlan', 'CareTeam', 'CatalogEntry', 'ChargeItem',
@@ -105,7 +105,7 @@ module.exports.patch = (args, context) =>
     print("---- Config entries -----")
     for config in config_entries:
       print(config)
-    return True
+    return 0
 
 
 if __name__ == "__main__":

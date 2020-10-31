@@ -5,7 +5,7 @@ const moment = require('moment-timezone');
 const globals = require('../../globals');
 const logger = require('@asymmetrik/node-fhir-server-core').loggers.get();
 const { getUuid } = require('../../utils/uid.util');
-const { validate, applyPatch} = require('fast-json-patch');
+const { validate, applyPatch } = require('fast-json-patch');
 
 let getResource = (base_version, resource_name) => {
     return resolveSchema(base_version, resource_name);
@@ -14,6 +14,34 @@ let getResource = (base_version, resource_name) => {
 let getMeta = (base_version) => {
     return resolveSchema(base_version, 'Meta');
 };
+
+let buildR4SearchQuery = (args) => {
+    // Common search params
+    let { id } = args;
+    let patient = args['patient'];
+
+    // Search Result params
+
+    // Patient search params
+    let active = args['active'];
+
+    let query = {};
+
+    if (id) {
+        query.id = id;
+    }
+
+    if (patient) {
+        query.patient = patient;
+    }
+
+    if (active) {
+        query.active = active === 'true';
+    }
+
+    return query;
+};
+
 
 let buildStu3SearchQuery = (args) => {
     // Common search params
@@ -75,6 +103,9 @@ module.exports.search = (args, resource_name, collection_name) =>
         } else if (base_version === VERSIONS['1_0_2']) {
             query = buildDstu2SearchQuery(args);
         }
+        else {
+            query = buildR4SearchQuery(args);
+        }
 
         // Grab an instance of our DB and collection
         let db = globals.get(CLIENT_DB);
@@ -125,14 +156,14 @@ module.exports.searchById = (args, resource_name, collection_name) =>
 
         collection.findOne({ id: id.toString() }, (err, resource) => {
             if (err) {
-              logger.error(`Error with ${resource_name}.searchById: `, err);
-              return reject(err);
+                logger.error(`Error with ${resource_name}.searchById: `, err);
+                return reject(err);
             }
             if (resource) {
-              resolve(new Resource(resource));
+                resolve(new Resource(resource));
             }
             resolve();
-          });
+        });
     });
 
 module.exports.create = (args, { req }, resource_name, collection_name) =>
@@ -421,7 +452,7 @@ module.exports.historyById = (args, context, resource_name, collection_name) =>
 
 module.exports.patch = (args, context, resource_name, collection_name) =>
     new Promise((resolve, reject) => {
-        logger.info('Patient >>> patch'); // Should this say update (instead of patch) because the end result is that of an update, not a patch
+        logger.info('Patient >>> patch');
 
         let { base_version, id, patchContent } = args;
 
