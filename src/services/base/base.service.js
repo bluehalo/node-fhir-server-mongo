@@ -94,6 +94,9 @@ let buildDstu2SearchQuery = (args) => {
 module.exports.search = (args, resource_name, collection_name) =>
     new Promise((resolve, reject) => {
         logger.info(resource_name + ' >>> search');
+        logger.info('---- args ----');
+        logger.info(args);
+        logger.info('--------');
 
         let { base_version } = args;
         let query = {};
@@ -111,6 +114,10 @@ module.exports.search = (args, resource_name, collection_name) =>
         let db = globals.get(CLIENT_DB);
         let collection = db.collection(`${collection_name}_${base_version}`);
         let Resource = getResource(base_version, resource_name);
+
+        logger.info('---- query ----');
+        logger.info(query);
+        logger.info('--------');
 
         // Query our collection for this observation
         collection.find(query, (err, data) => {
