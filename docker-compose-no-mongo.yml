@@ -2,14 +2,12 @@ version: '3'
 
 services:
   fhir:
-    depends_on:
-      - mongo
     build:
       context: .
       dockerfile: Dockerfile
     environment:
       SERVER_PORT: 3000
-      MONGO_HOSTNAME: mongo
+      MONGO_HOSTNAME: localhost
       MONGO_PORT: 27017
       RESOURCE_SERVER: http://localhost:3000/
       AUTH_SERVER_URI: http://myauthzserver.com
@@ -21,14 +19,3 @@ services:
     volumes:
       - ./src:/srv/src/src
     command: yarn nodemon
-
-  mongo:
-    image: mongo:3.6.1
-    command: mongod --port 27017
-    ports:
-      - '27017:27017'
-    volumes:
-      - mongo_data:/data/db
-
-volumes:
-  mongo_data:

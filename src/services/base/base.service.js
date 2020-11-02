@@ -15,7 +15,7 @@ let getMeta = (base_version) => {
     return resolveSchema(base_version, 'Meta');
 };
 
-let buildR4SearchQuery = (args) => {
+let buildR4SearchQuery = (resource_name, args) => {
     // Common search params
     let { id } = args;
     let patient = args['patient'];
@@ -32,7 +32,25 @@ let buildR4SearchQuery = (args) => {
     }
 
     if (patient) {
-        query.patient = patient;
+        // each Resource type has a different place to put the patient info
+        if (['Patient'].includes(resource_name)) {
+            query.id = patient;
+        }
+        else if (['AllergyIntolerance', 'Immunization', 'RelatedPerson', 'Device'].includes(resource_name)) {
+            query.patient.reference = 'Patient/' + patient;
+        }
+        else if (['Appointment'].includes(resource_name)) {
+            query.participant.actor.reference = 'Patient/' + patient; //TODO: participant is a list
+        }
+        else if (['CarePlan', 'Condition', 'DocumentReference', 'Encounter', 'MedicationRequest', 'Observation', 'Procedure', 'ServiceRequest', 'CareTeam'].includes(resource_name)) {
+            query.subject.reference = 'Patient/' + patient;
+        }
+        else if (['Coverage'].includes(resource_name)) {
+            query.beneficiary.reference = 'Patient/' + patient;
+        }
+        else {
+            logger.error(`No mapping for searching by patient for ${resource_name}: `);
+        }
     }
 
     if (active) {
@@ -107,7 +125,7 @@ module.exports.search = (args, resource_name, collection_name) =>
             query = buildDstu2SearchQuery(args);
         }
         else {
-            query = buildR4SearchQuery(args);
+            query = buildR4SearchQuery(resource_name, args);
         }
 
         // Grab an instance of our DB and collection
