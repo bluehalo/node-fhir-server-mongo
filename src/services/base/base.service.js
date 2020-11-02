@@ -7,6 +7,10 @@ const logger = require('@asymmetrik/node-fhir-server-core').loggers.get();
 const { getUuid } = require('../../utils/uid.util');
 const { validate, applyPatch } = require('fast-json-patch');
 
+const {
+    stringQueryBuilder
+  } = require('../../utils/querybuilder.util');
+
 let getResource = (base_version, resource_name) => {
     return resolveSchema(base_version, resource_name);
 };
@@ -32,21 +36,22 @@ let buildR4SearchQuery = (resource_name, args) => {
     }
 
     if (patient) {
+        const patient_reference = 'Patient/' + patient;
         // each Resource type has a different place to put the patient info
         if (['Patient'].includes(resource_name)) {
             query.id = patient;
         }
         else if (['AllergyIntolerance', 'Immunization', 'RelatedPerson', 'Device'].includes(resource_name)) {
-            query.patient.reference = 'Patient/' + patient;
+            query['patient.reference'] = stringQueryBuilder(patient_reference);
         }
         else if (['Appointment'].includes(resource_name)) {
-            query.participant.actor.reference = 'Patient/' + patient; //TODO: participant is a list
+            query['participant.actor.reference'] = stringQueryBuilder(patient_reference); //TODO: participant is a list
         }
         else if (['CarePlan', 'Condition', 'DocumentReference', 'Encounter', 'MedicationRequest', 'Observation', 'Procedure', 'ServiceRequest', 'CareTeam'].includes(resource_name)) {
-            query.subject.reference = 'Patient/' + patient;
+            query['subject.reference'] = stringQueryBuilder(patient_reference);
         }
         else if (['Coverage'].includes(resource_name)) {
-            query.beneficiary.reference = 'Patient/' + patient;
+            query['beneficiary.reference'] = stringQueryBuilder(patient_reference);
         }
         else {
             logger.error(`No mapping for searching by patient for ${resource_name}: `);
