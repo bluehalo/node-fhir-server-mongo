@@ -42,16 +42,16 @@ let buildR4SearchQuery = (resource_name, args) => {
             query.id = patient;
         }
         else if (['AllergyIntolerance', 'Immunization', 'RelatedPerson', 'Device'].includes(resource_name)) {
-            query['patient.reference'] = stringQueryBuilder(patient_reference);
+            query['patient.reference'] = patient_reference;
         }
         else if (['Appointment'].includes(resource_name)) {
-            query['participant.actor.reference'] = stringQueryBuilder(patient_reference); //TODO: participant is a list
+            query['participant.actor.reference'] = patient_reference; //TODO: participant is a list
         }
         else if (['CarePlan', 'Condition', 'DocumentReference', 'Encounter', 'MedicationRequest', 'Observation', 'Procedure', 'ServiceRequest', 'CareTeam'].includes(resource_name)) {
-            query['subject.reference'] = stringQueryBuilder(patient_reference);
+            query['subject.reference'] = patient_reference;
         }
         else if (['Coverage'].includes(resource_name)) {
-            query['beneficiary.reference'] = stringQueryBuilder(patient_reference);
+            query['beneficiary.reference'] = patient_reference;
         }
         else {
             logger.error(`No mapping for searching by patient for ${resource_name}: `);
@@ -206,9 +206,11 @@ module.exports.create = (args, { req }, resource_name, collection_name) =>
 
         logger.info('--- request ----');
         logger.info(req);
+        logger.info('-----------------');
 
         logger.info('--- body ----');
         logger.info(resource_incoming);
+        logger.info('-----------------');
 
         // Grab an instance of our DB and collection (by version)
         let db = globals.get(CLIENT_DB);
@@ -216,10 +218,13 @@ module.exports.create = (args, { req }, resource_name, collection_name) =>
 
         // Get current record
         let Resource = getResource(base_version, resource_name);
+        logger.info(`Resource: ${Resource}`);
         let resource = new Resource(resource_incoming);
+        logger.info(`resource: ${resource.toJSON()}`);
 
         // If no resource ID was provided, generate one.
         let id = getUuid(resource);
+        logger.info(`id: ${id}`);
 
         // Create the resource's metadata
         let Meta = getMeta(base_version);
@@ -236,6 +241,10 @@ module.exports.create = (args, { req }, resource_name, collection_name) =>
         // the _id parameter in the original document
         let history_doc = Object.assign({}, doc);
         Object.assign(doc, { _id: id });
+
+        logger.info('---- inserting doc ---');
+        logger.info(doc);
+        logger.info('----------------------');
 
         // Insert our resource record
         collection.insertOne(doc, (err) => {
@@ -339,6 +348,8 @@ module.exports.remove = (args, context, resource_name, collection_name) =>
         logger.info(`${resource_name} >>> remove`);
 
         let { base_version, id } = args;
+
+        logger.info(`Deleting id=${id}`);
 
         // Grab an instance of our DB and collection
         let db = globals.get(CLIENT_DB);
