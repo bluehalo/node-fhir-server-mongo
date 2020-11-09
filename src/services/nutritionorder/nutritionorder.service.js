@@ -18,11 +18,17 @@ module.exports.create = (args, { req }) =>
 module.exports.update = (args, { req }) =>
   base_service.update(args, { req }, resource_name, collection_name);
 
+module.exports.merge = (args, { req }) =>
+  base_service.merge(args, { req }, resource_name, collection_name);
+
 module.exports.remove = (args, context) =>
   base_service.remove(args, context, resource_name, collection_name);
 
 module.exports.searchByVersionId = (args, context) =>
   base_service.search(args, context, resource_name, collection_name);
+
+module.exports.everything = (args, context) =>
+  base_service.everything(args, context, resource_name, collection_name);
 
 module.exports.history = (args) =>
   base_service.history(args, resource_name, collection_name);
