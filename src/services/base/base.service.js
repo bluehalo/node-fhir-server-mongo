@@ -386,6 +386,149 @@ module.exports.update = (args, { req }, resource_name, collection_name) =>
         });
     });
 
+module.exports.merge = (args, { req }, resource_name, collection_name) =>
+    new Promise((resolve, reject) => {
+        logger.info(`'${resource_name} >>> merge`);
+
+        // read the incoming resource from request body
+        let resource_incoming = req.body;
+        logger.info('args', args);
+        let { base_version } = args;
+
+        // logger.info('--- request ----');
+        // logger.info(req);
+        // logger.info('-----------------');
+
+        logger.info('--- body ----');
+        logger.info(resource_incoming);
+        logger.info('-----------------');
+
+        let id = resource_incoming.id;
+
+        logger.info(base_version);
+        logger.info('--- body ----');
+        logger.info(resource_incoming);
+
+        // Grab an instance of our DB and collection
+        let db = globals.get(CLIENT_DB);
+        let collection = db.collection(`${collection_name}_${base_version}`);
+
+        // Get current record
+        // Query our collection for this observation
+        collection.findOne({ id: id.toString() }, (err, data) => {
+            if (err) {
+                logger.error(`Error with finding resource ${resource_name}.merge: `, err);
+                return reject(err);
+            }
+
+            // create a resource with incoming data
+            let Resource = getResource(base_version, resource_name);
+
+            let cleaned;
+            let doc;
+
+            // check if resource was found in database or not
+            if (data && data.meta) {
+                // found an existing resource
+                logger.info('found resource: ' + data);
+                let foundResource = new Resource(data);
+                logger.info('------ found document --------');
+                logger.info(data);
+                logger.info('------ end found document --------');
+
+                // use metadata of existing resource (overwrite any passed in metadata)
+                resource_incoming.meta = foundResource.meta;
+                logger.info('------ incoming document --------');
+                logger.info(resource_incoming);
+                logger.info('------ end incoming document --------');
+
+                // now create a patch between the document in db and the incoming document
+                //  this returns an array of patches
+                let patchContent = compare(data, resource_incoming);
+                // ignore any changes to _id since that's an internal field
+                patchContent = patchContent.filter(item => item.path !== '/_id');
+                logger.info('------ patches --------');
+                logger.info(patchContent);
+                logger.info('------ end patches --------');
+                // see if there are any changes
+                if (patchContent.length === 0) {
+                    logger.info('No changes detected in updated resource');
+                    return resolve({
+                        id: id,
+                        created: false,
+                        resource_version: foundResource.meta.versionId,
+                    });
+                }
+                // now apply the patches to the found resource
+                let patched_incoming_data = applyPatch(data, patchContent).newDocument;
+                let patched_resource_incoming = new Resource(patched_incoming_data);
+                // update the metadata to increment versionId
+                let meta = foundResource.meta;
+                meta.versionId = `${parseInt(foundResource.meta.versionId) + 1}`;
+                meta.lastUpdated = moment.utc().format('YYYY-MM-DDTHH:mm:ssZ');
+                patched_resource_incoming.meta = meta;
+                logger.info('------ patched document --------');
+                logger.info(patched_resource_incoming);
+                logger.info('------ end patched document --------');
+                // Same as update from this point on
+                cleaned = JSON.parse(JSON.stringify(patched_resource_incoming));
+                doc = Object.assign(cleaned, { _id: id });
+            } else {
+                // not found so insert
+                logger.info('new resource: ' + data);
+                // create the metadata
+                let Meta = getMeta(base_version);
+                resource_incoming.meta = new Meta({
+                    versionId: '1',
+                    lastUpdated: moment.utc().format('YYYY-MM-DDTHH:mm:ssZ'),
+                });
+                cleaned = JSON.parse(JSON.stringify(resource_incoming));
+                doc = Object.assign(cleaned, { _id: id });
+            }
+
+            // Insert/update our resource record
+            // When using the $set operator, only the specified fields are updated
+            collection.findOneAndUpdate({ id: id }, { $set: doc }, { upsert: true }, (err2, res) => {
+                if (err2) {
+                    logger.error(`Error with ${resource_name}.merge: `, err2);
+                    return reject(err2);
+                }
+
+                // save to history
+                let history_collection = db.collection(`${collection_name}_${base_version}_History`);
+
+                let history_resource = Object.assign(cleaned, { id: id });
+                delete history_resource['_id']; // make sure we don't have an _id field when inserting into history
+
+                // Insert our resource record to history but don't assign _id
+                return history_collection.insertOne(history_resource, (err3) => {
+                    if (err3) {
+                        logger.error(`Error with ${resource_name}.merge: `, err3);
+                        return reject(err3);
+                    }
+
+                    return resolve({
+                        id: id,
+                        created: res.lastErrorObject && !res.lastErrorObject.updatedExisting,
+                        resource_version: doc.meta.versionId,
+                    });
+                });
+            });
+        });
+    });
+
+module.exports.everything = (args, context, resource_name) => {
+    return new Promise((resolve, reject) => {
+        logger.info(`${resource_name} >>> everything`);
+        try {
+            // execute whatever custom operation you want.
+            resolve([]);
+        } catch (err) {
+            reject(err);
+        }
+    });
+};
+
 module.exports.remove = (args, context, resource_name, collection_name) =>
     new Promise((resolve, reject) => {
         logger.info(`${resource_name} >>> remove`);
