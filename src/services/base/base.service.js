@@ -390,14 +390,22 @@ module.exports.merge = (args, { req }, resource_name, collection_name) =>
     new Promise((resolve, reject) => {
         logger.info(`'${resource_name} >>> merge`);
 
-        logger.info('--- request ----');
-        logger.info(req);
-
         // read the incoming resource from request body
         let resource_incoming = req.body;
-        let { base_version, id } = args;
+        logger.info('args', args);
+        let { base_version } = args;
+
+        // logger.info('--- request ----');
+        // logger.info(req);
+        // logger.info('-----------------');
+
+        logger.info('--- body ----');
+        logger.info(resource_incoming);
+        logger.info('-----------------');
+
+        let id = resource_incoming.id;
+
         logger.info(base_version);
-        logger.info(id);
         logger.info('--- body ----');
         logger.info(resource_incoming);
 

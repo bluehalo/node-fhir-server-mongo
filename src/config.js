@@ -425,7 +425,7 @@ let fhirServerConfig = {
         {
           name: 'merge',
           route: '/:id/$merge',
-          method: 'GET',
+          method: 'POST',
           reference: 'https://www.hl7.org/fhir/patient-operation-everything.html',
         },
       ],
