@@ -19,3 +19,7 @@ init:
 .PHONY:tests
 tests:
 	npm test
+
+.PHONY:generate
+generate:
+	python3 src/services/generate_services.py
