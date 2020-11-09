@@ -418,14 +418,14 @@ let fhirServerConfig = {
       operation: [
         {
           name: 'everything',
-          route: '/$everything',
+          route: '/:id/$everything',
           method: 'GET',
           reference: 'https://www.hl7.org/fhir/patient-operation-everything.html',
         },
         {
           name: 'merge',
           route: '/:id/$merge',
-          method: 'PUT',
+          method: 'GET',
           reference: 'https://www.hl7.org/fhir/patient-operation-everything.html',
         },
       ],

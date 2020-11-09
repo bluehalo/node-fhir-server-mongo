@@ -103,7 +103,7 @@ module.exports.patch = (args, context) =>
       operation: [
         {{
           name: 'everything',
-          route: '/$everything',
+          route: '/:id/$everything',
           method: 'GET',
           reference: 'https://www.hl7.org/fhir/patient-operation-everything.html',
         }},
@@ -113,9 +113,8 @@ module.exports.patch = (args, context) =>
           method: 'PUT',
           reference: 'https://www.hl7.org/fhir/patient-operation-everything.html',
         }},
-      ],      
-    }},            
-            """)
+      ],     
+    }},""")
         else:
           print(f"Folder: {resource_folder} already exists")  
 
