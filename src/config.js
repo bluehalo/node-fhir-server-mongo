@@ -415,6 +415,20 @@ let fhirServerConfig = {
     Observation: {
       service: './src/services/observation/observation.service.js',
       versions: [VERSIONS['4_0_0']],
+      operation: [
+        {
+          name: 'everything',
+          route: '/$everything',
+          method: 'GET',
+          reference: 'https://www.hl7.org/fhir/patient-operation-everything.html',
+        },
+        {
+          name: 'merge',
+          route: '/:id/$merge',
+          method: 'PUT',
+          reference: 'https://www.hl7.org/fhir/patient-operation-everything.html',
+        },
+      ],
     },
     OperationDefinition: {
       service: './src/services/operationdefinition/operationdefinition.service.js',
