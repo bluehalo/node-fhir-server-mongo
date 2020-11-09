@@ -5,8 +5,8 @@ import shutil
 
 def main() -> int:
     resources = ['Account', 'ActivityDefinition', 'AdverseEvent', 'AllergyIntolerance', 'Appointment',
-                 'AppointmentResponse', 'AuditEvent', 'Basic', 'Binary', 'BiologicallyDerivedProduct', 'BodyStructure',
-                 'Bundle', 'CapabilityStatement', 'CarePlan', 'CareTeam', 'CatalogEntry', 'ChargeItem',
+                 'AppointmentResponse', 'AuditEvent', 'Basic', 'Binary', 'BodyStructure',
+                 'Bundle', 'CapabilityStatement', 'CarePlan', 'CareTeam', 'ChargeItem',
                  'ChargeItemDefinition', 'Claim', 'ClaimResponse', 'ClinicalImpression', 'CodeSystem', 'Communication',
                  'CommunicationRequest', 'CompartmentDefinition', 'Composition', 'ConceptMap', 'Condition', 'Consent',
                  'Contract', 'Coverage', 'CoverageEligibilityRequest', 'CoverageEligibilityResponse', 'DetectedIssue',
@@ -110,7 +110,7 @@ module.exports.patch = (args, context) =>
         {{
           name: 'merge',
           route: '/:id/$merge',
-          method: 'PUT',
+          method: 'POST',
           reference: 'https://www.hl7.org/fhir/patient-operation-everything.html',
         }},
       ],     
