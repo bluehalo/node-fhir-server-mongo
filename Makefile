@@ -73,3 +73,13 @@ dashboard:
 .PHONY: dashboard-token
 dashboard-token:
 	kubectl -n kube-system describe secret ${TOKEN_NAME} | awk '$$1=="token:"{print $$2}'
+
+.PHONY: nginx
+nginx:
+	helm repo add nginx-stable https://helm.nginx.com/stable
+	helm repo update
+	helm install my-release nginx-stable/nginx-ingress
+
+.PHONY:run
+run:
+	kubectl expose deployment hello-world --type=NodePort --name=example-service
