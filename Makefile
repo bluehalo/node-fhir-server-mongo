@@ -25,6 +25,11 @@ tests:
 generate:
 	python3 src/services/generate_services.py
 
+.PHONY:kompose
+kompose:
+	kompose convert -c --out node-fhir-server-mongo
+
 .PHONY:helm
 helm:
-	kompose convert -c --out helm
+	helm lint ./node-fhir-server-mongo
+	helm package ./node-fhir-server-mongo
