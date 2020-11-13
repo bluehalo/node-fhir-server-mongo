@@ -1,0 +1,4 @@
+images:
+  node_fhir_server_mongo_image: imranq2/node-fhir-server-mongo:1.2.13
+
+include_mongo: true

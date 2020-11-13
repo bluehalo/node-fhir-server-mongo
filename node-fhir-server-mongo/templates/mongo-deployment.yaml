@@ -1,8 +1,9 @@
+{{ if .Values.include_mongo }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: kompose convert --file docker-compose.yml --chart --out node-fhir-server-mongo
+    kompose.cmd: kompose convert --file docker-compose-prod.yml --chart --out node-fhir-server-mongo
     kompose.version: 1.22.0 (HEAD)
   creationTimestamp: null
   labels:
@@ -18,18 +19,14 @@ spec:
   template:
     metadata:
       annotations:
-        kompose.cmd: kompose convert --file docker-compose.yml --chart --out node-fhir-server-mongo
+        kompose.cmd: kompose convert --file docker-compose-prod.yml --chart --out node-fhir-server-mongo
         kompose.version: 1.22.0 (HEAD)
       creationTimestamp: null
       labels:
         io.kompose.service: mongo
     spec:
       containers:
-        - args:
-            - mongod
-            - --port
-            - "27017"
-          image: mongo:3.6.1
+        - image: mongo:3.6.1
           name: mongo
           ports:
             - containerPort: 27017
@@ -43,3 +40,4 @@ spec:
           persistentVolumeClaim:
             claimName: mongo-data
 status: {}
+{{ end }}

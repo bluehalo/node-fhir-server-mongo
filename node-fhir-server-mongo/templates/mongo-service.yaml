@@ -1,8 +1,9 @@
+{{ if .Values.include_mongo }}
 apiVersion: v1
 kind: Service
 metadata:
   annotations:
-    kompose.cmd: kompose convert --file docker-compose.yml --chart --out node-fhir-server-mongo
+    kompose.cmd: kompose convert --file docker-compose-prod.yml --chart --out node-fhir-server-mongo
     kompose.version: 1.22.0 (HEAD)
   creationTimestamp: null
   labels:
@@ -17,3 +18,4 @@ spec:
     io.kompose.service: mongo
 status:
   loadBalancer: {}
+{{ end }}

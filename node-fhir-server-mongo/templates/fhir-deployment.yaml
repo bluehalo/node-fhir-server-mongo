@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: kompose convert --file docker-compose.yml --chart --out node-fhir-server-mongo
+    kompose.cmd: kompose convert --file docker-compose-prod.yml --chart --out node-fhir-server-mongo
     kompose.version: 1.22.0 (HEAD)
   creationTimestamp: null
   labels:
@@ -13,12 +13,11 @@ spec:
   selector:
     matchLabels:
       io.kompose.service: fhir
-  strategy:
-    type: Recreate
+  strategy: {}
   template:
     metadata:
       annotations:
-        kompose.cmd: kompose convert --file docker-compose.yml --chart --out node-fhir-server-mongo
+        kompose.cmd: kompose convert --file docker-compose-prod.yml --chart --out node-fhir-server-mongo
         kompose.version: 1.22.0 (HEAD)
       creationTimestamp: null
       labels:
@@ -39,23 +38,14 @@ spec:
               value: https://myauthzserver.com/introspect
             - name: MONGO_HOSTNAME
               value: mongo
-            - name: MONGO_PORT
-              value: "27017"
             - name: RESOURCE_SERVER
-              value: http://localhost:3000/
+              value: http://fhir:3000/
             - name: SERVER_PORT
               value: "3000"
-          image: fhir
+          image: {{ .Values.images.node_fhir_server_mongo_image }}
           name: fhir
           ports:
             - containerPort: 3000
           resources: {}
-          volumeMounts:
-            - mountPath: /srv/src/src
-              name: fhir-claim0
       restartPolicy: Always
-      volumes:
-        - name: fhir-claim0
-          persistentVolumeClaim:
-            claimName: fhir-claim0
 status: {}

@@ -27,14 +27,14 @@ generate:
 
 .PHONY:kompose
 kompose:
-	kompose convert --file docker-compose.yml --chart --out node-fhir-server-mongo
-	kompose convert --file docker-compose-no-mongo.yml --chart --out node-fhir-server-no-mongo
+	kompose convert --file docker-compose-prod.yml --chart --out node-fhir-server-mongo
 
 .PHONY:helm
 helm:
 	helm lint ./node-fhir-server-mongo
-	helm package ./node-fhir-server-mongo
+	helm package ./node-fhir-server-mongo --destination ./releases/node-fhir-server-mongo/ --app-version 1.0 --version 1.0
 
 .PHONY: deploy
 deploy:
-	helm create node-fhir-server-mongo
+	helm install node-fhir-server-mongo ./releases/node-fhir-server-mongo/node-fhir-server-mongo-1.0.tgz
+	helm ls
