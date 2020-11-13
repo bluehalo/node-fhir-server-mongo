@@ -34,3 +34,7 @@ kompose:
 helm:
 	helm lint ./node-fhir-server-mongo
 	helm package ./node-fhir-server-mongo
+
+.PHONY: deploy
+deploy:
+	helm create node-fhir-server-mongo
