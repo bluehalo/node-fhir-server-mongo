@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: kompose convert --file docker-compose.yml --chart --out node-fhir-server-mongo
+    kompose.cmd: kompose convert --file docker-compose-no-mongo.yml --chart --out node-fhir-server-no-mongo
     kompose.version: 1.22.0 (HEAD)
   creationTimestamp: null
   labels:
@@ -18,7 +18,7 @@ spec:
   template:
     metadata:
       annotations:
-        kompose.cmd: kompose convert --file docker-compose.yml --chart --out node-fhir-server-mongo
+        kompose.cmd: kompose convert --file docker-compose-no-mongo.yml --chart --out node-fhir-server-no-mongo
         kompose.version: 1.22.0 (HEAD)
       creationTimestamp: null
       labels:
@@ -38,7 +38,7 @@ spec:
             - name: INTROSPECTION_URL
               value: https://myauthzserver.com/introspect
             - name: MONGO_HOSTNAME
-              value: mongo
+              value: localhost
             - name: MONGO_PORT
               value: "27017"
             - name: RESOURCE_SERVER

@@ -27,7 +27,8 @@ generate:
 
 .PHONY:kompose
 kompose:
-	kompose convert -c --out node-fhir-server-mongo
+	kompose convert --file docker-compose.yml --chart --out node-fhir-server-mongo
+	kompose convert --file docker-compose-no-mongo.yml --chart --out node-fhir-server-no-mongo
 
 .PHONY:helm
 helm:

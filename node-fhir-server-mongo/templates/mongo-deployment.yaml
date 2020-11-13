@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: kompose convert -c --out node-fhir-server-mongo
+    kompose.cmd: kompose convert --file docker-compose.yml --chart --out node-fhir-server-mongo
     kompose.version: 1.22.0 (HEAD)
   creationTimestamp: null
   labels:
@@ -18,7 +18,7 @@ spec:
   template:
     metadata:
       annotations:
-        kompose.cmd: kompose convert -c --out node-fhir-server-mongo
+        kompose.cmd: kompose convert --file docker-compose.yml --chart --out node-fhir-server-mongo
         kompose.version: 1.22.0 (HEAD)
       creationTimestamp: null
       labels:
