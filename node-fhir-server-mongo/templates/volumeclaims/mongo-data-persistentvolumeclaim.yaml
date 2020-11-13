@@ -1,0 +1,18 @@
+{{ if .Values.include_mongo }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: mongo-data
+  name: mongo-data
+# namespace for this pod
+  namespace: nodefhirservermongo   
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+status: {}
+{{ end }}

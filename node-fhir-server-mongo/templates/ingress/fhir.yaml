@@ -1,0 +1,19 @@
+{{ if .Values.use_ingress }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: fhir-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: fhirserverpublic
+            port:
+              number: 3000
+{{ end }}
