@@ -6,7 +6,7 @@ metadata:
     io.kompose.service: fhir-claim0
   name: fhir-claim0
 # namespace for this pod
-  namespace: node_fhir_server_mongo    
+  namespace: nodefhirservermongo    
 spec:
   accessModes:
     - ReadWriteOnce

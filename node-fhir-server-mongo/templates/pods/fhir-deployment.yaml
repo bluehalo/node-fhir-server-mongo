@@ -10,7 +10,7 @@ metadata:
 # name for this pod    
   name: fhir
 # namespace for this pod
-  namespace: node_fhir_server_mongo  
+  namespace: nodefhirservermongo
 spec:
   replicas: 1
   revisionHistoryLimit: 3  # Clean-up old Replica Sets deployed; only keep previous 3.  
