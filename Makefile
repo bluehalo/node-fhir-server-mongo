@@ -32,9 +32,10 @@ kompose:
 .PHONY:helm
 helm:
 	helm lint ./node-fhir-server-mongo
+	rm ./releases/node-fhir-server-mongo/node-fhir-server-mongo-1.0.tgz
 	helm package ./node-fhir-server-mongo --destination ./releases/node-fhir-server-mongo/ --app-version 1.0 --version 1.0
 
 .PHONY: deploy
 deploy:
-	helm install node-fhir-server-mongo ./releases/node-fhir-server-mongo/node-fhir-server-mongo-1.0.tgz
+	helm upgrade --install --set include_mongo=true node-fhir-server-mongo ./releases/node-fhir-server-mongo/node-fhir-server-mongo-1.0.tgz
 	helm ls

@@ -7,9 +7,13 @@ metadata:
   creationTimestamp: null
   labels:
     io.kompose.service: fhir
+# name for this pod    
   name: fhir
+# namespace for this pod
+  namespace: node_fhir_server_mongo  
 spec:
   replicas: 1
+  revisionHistoryLimit: 3  # Clean-up old Replica Sets deployed; only keep previous 3.  
   selector:
     matchLabels:
       io.kompose.service: fhir
@@ -24,7 +28,9 @@ spec:
         io.kompose.service: fhir
     spec:
       containers:
-        - args:
+        # name of this pod          
+        - name: fhir
+          args:
             - yarn
             - nodemon
           env:
@@ -42,10 +48,14 @@ spec:
               value: http://fhir:3000/
             - name: SERVER_PORT
               value: "3000"
+          # image to pull
           image: {{ .Values.images.node_fhir_server_mongo_image }}
-          name: fhir
+          # specify to always pull a new image
+          imagePullPolicy: Always          
           ports:
             - containerPort: 3000
+              # name of the port
+              name: fhir
           resources: {}
       restartPolicy: Always
 status: {}

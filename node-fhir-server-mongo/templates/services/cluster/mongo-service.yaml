@@ -8,12 +8,20 @@ metadata:
   creationTimestamp: null
   labels:
     io.kompose.service: mongo
+# this service shows up in the UI with this name      
   name: mongo
+# namespace should match other services in this file  
+  namespace: node_fhir_server_mongo    
+# labels allows you to use selectors to find this service
+  labels:
+    app: mongo     
 spec:
+# port that other services can use to connect to this service
   ports:
     - name: "27017"
       port: 27017
       targetPort: 27017
+# selector says this service should use a pod that has the "app: mysqlserver" label      
   selector:
     io.kompose.service: mongo
 status:

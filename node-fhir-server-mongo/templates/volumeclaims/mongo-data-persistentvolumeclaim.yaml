@@ -6,6 +6,8 @@ metadata:
   labels:
     io.kompose.service: mongo-data
   name: mongo-data
+# namespace for this pod
+  namespace: node_fhir_server_mongo    
 spec:
   accessModes:
     - ReadWriteOnce
