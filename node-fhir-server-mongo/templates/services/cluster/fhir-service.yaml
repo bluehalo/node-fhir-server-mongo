@@ -13,7 +13,7 @@ metadata:
   namespace: nodefhirservermongo 
 # labels allows you to use selectors to find this service
   labels:
-    app: fhir   
+    app: fhir
 spec:
 # port that other services can use to connect to this service
   ports:

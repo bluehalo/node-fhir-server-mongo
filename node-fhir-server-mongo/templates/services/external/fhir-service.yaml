@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: fhirserverpublic
+# namespace should match other services in this file  
+  namespace: nodefhirservermongo 
+spec:
+# selector says this service should use a pod that has the "app: mysqlserver" label
+  selector:
+    io.kompose.service: fhir
+  ports:
+  - port: 3000
+    targetPort: 3000
