@@ -15,6 +15,7 @@ clean: down
 .PHONY:init
 init:
 	brew install yarn
+	brew install kompose
 
 .PHONY:tests
 tests:
@@ -23,3 +24,7 @@ tests:
 .PHONY:generate
 generate:
 	python3 src/services/generate_services.py
+
+.PHONY:helm
+helm:
+	kompose convert -c --out helm
