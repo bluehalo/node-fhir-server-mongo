@@ -1,0 +1,20 @@
+{{ if .Values.aws }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: fhir-server
+# namespace should match other services in this file  
+  namespace: nodefhirservermongo  
+spec:
+  clusterIP: None
+  ports:
+  - name: http
+    port: 3000
+    protocol: TCP
+    targetPort: epmd
+  selector:
+    io.kompose.service: fhir
+  type: ClusterIP
+status:
+  loadBalancer: {}
+{{ end }}

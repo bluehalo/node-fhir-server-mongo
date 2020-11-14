@@ -48,6 +48,10 @@ spec:
               value: http://fhir:3000/
             - name: SERVER_PORT
               value: "3000"
+{{ if .Values.aws }}              
+            -name: MONGO_URL
+              value: "mongodb://mongoadmin:{{ .Values.images.mongoPassword }}@dev-fhir-db.cluster-ckvm0jix2koe.us-east-1.docdb.amazonaws.com:27017/?ssl=true&ssl_ca_certs=rds-combined-ca-bundle.pem&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false"
+{{ end }}
           # image to pull
           image: {{ .Values.images.node_fhir_server_mongo_image }}
           # specify to always pull a new image
