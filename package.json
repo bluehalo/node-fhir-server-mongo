@@ -1,30 +1,28 @@
 {
-  "name": "@asymmetrik/node-fhir-server-mongo",
-  "version": "2.0.0",
-  "description": "FHIR Facade Server implementing @asymmetrik/node-fhir-server-core",
+  "name": "bwell-fhir-server",
+  "version": "0.0.1",
+  "description": "R4 compliant FHIR SERVER built on top of @asymmetrik/node-fhir-server-core",
   "main": "src/index.js",
-  "repository": "https://github.com/Asymmetrik/node-fhir-server-mongo.git",
-  "contributors": [
-    "Robert Winterbottom <rwinterbottom@asymmetrik.com>",
-    "Jon Lee <jlee@asymmetrik.com>",
-    "Shane O'Neill <soneill@asymmetrik.com>"
-  ],
+  "repository": "https://github.com/icanbwell/node-fhir-server",
   "license": "MIT",
   "engines": {
-    "node": ">=10.13.0"
+    "node": "14.15.x"
   },
   "scripts": {
-    "start": "node src/index.js",
-    "nodemon": "cross-env NODE_ENV=development; node scripts/nodemon;",
-    "test": "npm run test:lint;",
+    "start": "NODE_ENV=production node src/index.js",
+    "dev": "NODE_ENV=development ./node_modules/.bin/nodemon -r dotenv/config --inspect=0.0.0.0 ./src/index.js;",
+    "test": "NODE_ENV=test npm run test:lint && npm run test:jest",
     "test:lint": "eslint \"src/**/*.js\"",
-    "test:jest": "jest --forceExit",
+    "test:jest": "NODE_ENV=test jest --forceExit --detectOpenHandles -i .",
     "snyk-protect": "snyk protect",
-    "prepare": "yarn run snyk-protect",
+    "prepare": "npm run snyk-protect",
     "prettier-check": "prettier --check \"**/*.{js,mjs,cjs,jsx,json,ts,tsx,md,mdx,css,html,yml,yaml,scss,less,graphql,graphqls,gql}\"",
     "prettier-fix": "prettier --write \"**/*.{js,mjs,cjs,jsx,json,ts,tsx,md,mdx,css,html,yml,yaml,scss,less,graphql,graphqls,gql}\"",
     "fix_lint": "eslint --fix \"src/**/*.js\""
   },
+  "pre-commit": [
+    "test"
+  ],
   "jest": {
     "verbose": true,
     "testEnvironment": "node",
@@ -36,25 +34,35 @@
     ],
     "coveragePathIgnorePatterns": [
       "<rootDir>/src/testutils/"
-    ]
+    ],
+    "preset": "@shelf/jest-mongodb"
   },
   "dependencies": {
+    "@asymmetrik/fhir-json-schema-validator": "^0.9.8",
     "@asymmetrik/node-fhir-server-core": "^2.1.3",
+    "@sentry/node": "^5.27.3",
+    "docusaurus": "^1.14.6",
+    "express": "^4.17.1",
     "fast-json-patch": "^2.0.7",
+    "joi": "^17.3.0",
     "moment-timezone": "^0.5.14",
-    "mongo": "^0.1.0",
+    "mongodb": "^3.6.0",
     "object-hash": "^1.3.1",
     "snyk": "^1.319.1",
-    "var": "^0.3.2",
-    "yarn": "^1.22.10"
+    "swagger-ui-express": "^4.1.4",
+    "var": "^0.3.2"
   },
   "devDependencies": {
+    "@shelf/jest-mongodb": "^1.2.3",
     "cross-env": "^5.1.6",
-    "eslint": "^4.14.0",
+    "dotenv": "^8.2.0",
+    "eslint": "^7.12.0",
     "jest": "^24.0.0",
     "nodemon": "^1.18.3",
-    "prettier": "^2.1.2"
+    "pre-commit": "^1.2.2",
+    "prettier": "^2.1.2",
+    "supertest": "^6.0.1"
   },
   "private": false,
-  "snyk": true
+  "snyk": false
 }

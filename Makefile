@@ -41,6 +41,8 @@ clean-helm:
 
 .PHONY: deploy
 deploy:
+	export KUBECONFIG="${HOME}/.kube/config:${HOME}/.kube/config-dev-eks.config.yaml" && \
+	kubectl config use-context docker-desktop && \
 	helm upgrade --install --set include_mongo=true node-fhir-server-mongo ./releases/node-fhir-server-mongo/node-fhir-server-mongo-1.0.tgz
 	helm ls
 

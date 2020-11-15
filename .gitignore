@@ -16,3 +16,4 @@ key.pem
 .local-secrets/auth.secrets
 !/src/services/coverage/
 src/config_new.js
+.vscode

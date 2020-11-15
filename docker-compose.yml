@@ -20,7 +20,7 @@ services:
       - '3000:3000'
     volumes:
       - ./src:/srv/src/src
-    command: yarn nodemon
+    command: npm run dev
 
   mongo:
     image: mongo:3.6.1
