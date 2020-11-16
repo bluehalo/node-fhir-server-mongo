@@ -2002,7 +2002,7 @@
   dependencies:
     "lodash" "^4.17.14"
 
-"async@^3.1.0":
+"async@^3.1.0", "async@^3.2.0":
   "integrity" "sha512-TR2mEZFVOj2pLStYxLht7TyfuRzaydfpxr3k9RpHIzMgw7A64dzsdqCxH1WJyQdoe8T10nDXd9wnEigmiuHIZw=="
   "resolved" "https://registry.npmjs.org/async/-/async-3.2.0.tgz"
   "version" "3.2.0"

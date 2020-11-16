@@ -15,6 +15,10 @@ let getMeta = (base_version) => {
     return resolveSchema(base_version, 'Meta');
 };
 
+// let logInfo = (msg) => logger.info(msg);
+let logInfo = () => {};
+
+
 let buildR4SearchQuery = (resource_name, args) => {
     // Common search params
     let { id } = args;
@@ -112,10 +116,10 @@ let buildDstu2SearchQuery = (args) => {
  */
 module.exports.search = (args, resource_name, collection_name) =>
     new Promise((resolve, reject) => {
-        logger.info(resource_name + ' >>> search');
-        logger.info('---- args ----');
-        logger.info(args);
-        logger.info('--------');
+        logInfo(resource_name + ' >>> search');
+        logInfo('---- args ----');
+        logInfo(args);
+        logInfo('--------');
 
         let { base_version } = args;
         let query = {};
@@ -134,9 +138,9 @@ module.exports.search = (args, resource_name, collection_name) =>
         let collection = db.collection(`${collection_name}_${base_version}`);
         let Resource = getResource(base_version, resource_name);
 
-        logger.info('---- query ----');
-        logger.info(query);
-        logger.info('--------');
+        logInfo('---- query ----');
+        logInfo(query);
+        logInfo('--------');
 
         // Query our collection for this observation
         collection.find(query, (err, data) => {
@@ -158,15 +162,15 @@ module.exports.search = (args, resource_name, collection_name) =>
 
 module.exports.searchById = (args, resource_name, collection_name) =>
     new Promise((resolve, reject) => {
-        logger.info(`${resource_name} >>> searchById`);
-        logger.info(args);
+        logInfo(`${resource_name} >>> searchById`);
+        logInfo(args);
 
         // Common search params
         let { id } = args;
         let { base_version } = args;
 
-        logger.info(`id: ${id}`);
-        logger.info(`base_version: ${base_version}`);
+        logInfo(`id: ${id}`);
+        logInfo(`base_version: ${base_version}`);
 
         // Search Result param
 
@@ -194,19 +198,19 @@ module.exports.searchById = (args, resource_name, collection_name) =>
 
 module.exports.create = (args, { req }, resource_name, collection_name) =>
     new Promise((resolve, reject) => {
-        logger.info(`${resource_name} >>> create`);
+        logInfo(`${resource_name} >>> create`);
 
         let resource_incoming = req.body;
 
         let { base_version } = args;
 
-        logger.info('--- request ----');
-        logger.info(req);
-        logger.info('-----------------');
+        logInfo('--- request ----');
+        logInfo(req);
+        logInfo('-----------------');
 
-        logger.info('--- body ----');
-        logger.info(resource_incoming);
-        logger.info('-----------------');
+        logInfo('--- body ----');
+        logInfo(resource_incoming);
+        logInfo('-----------------');
 
         // Grab an instance of our DB and collection (by version)
         let db = globals.get(CLIENT_DB);
@@ -214,13 +218,13 @@ module.exports.create = (args, { req }, resource_name, collection_name) =>
 
         // Get current record
         let Resource = getResource(base_version, resource_name);
-        logger.info(`Resource: ${Resource}`);
+        logInfo(`Resource: ${Resource}`);
         let resource = new Resource(resource_incoming);
-        logger.info(`resource: ${resource.toJSON()}`);
+        logInfo(`resource: ${resource.toJSON()}`);
 
         // If no resource ID was provided, generate one.
         let id = getUuid(resource);
-        logger.info(`id: ${id}`);
+        logInfo(`id: ${id}`);
 
         // Create the resource's metadata
         let Meta = getMeta(base_version);
@@ -238,9 +242,9 @@ module.exports.create = (args, { req }, resource_name, collection_name) =>
         let history_doc = Object.assign({}, doc);
         Object.assign(doc, { _id: id });
 
-        logger.info('---- inserting doc ---');
-        logger.info(doc);
-        logger.info('----------------------');
+        logInfo('---- inserting doc ---');
+        logInfo(doc);
+        logInfo('----------------------');
 
         // Insert our resource record
         collection.insertOne(doc, (err) => {
@@ -265,18 +269,18 @@ module.exports.create = (args, { req }, resource_name, collection_name) =>
 
 module.exports.update = (args, { req }, resource_name, collection_name) =>
     new Promise((resolve, reject) => {
-        logger.info(`'${resource_name} >>> update`);
+        logInfo(`'${resource_name} >>> update`);
 
-        logger.info('--- request ----');
-        logger.info(req);
+        logInfo('--- request ----');
+        logInfo(req);
 
         // read the incoming resource from request body
         let resource_incoming = req.body;
         let { base_version, id } = args;
-        logger.info(base_version);
-        logger.info(id);
-        logger.info('--- body ----');
-        logger.info(resource_incoming);
+        logInfo(base_version);
+        logInfo(id);
+        logInfo('--- body ----');
+        logInfo(resource_incoming);
 
         // Grab an instance of our DB and collection
         let db = globals.get(CLIENT_DB);
@@ -299,29 +303,29 @@ module.exports.update = (args, { req }, resource_name, collection_name) =>
             // check if resource was found in database or not
             if (data && data.meta) {
                 // found an existing resource
-                logger.info('found resource: ' + data);
+                logInfo('found resource: ' + data);
                 let foundResource = new Resource(data);
-                logger.info('------ found document --------');
-                logger.info(data);
-                logger.info('------ end found document --------');
+                logInfo('------ found document --------');
+                logInfo(data);
+                logInfo('------ end found document --------');
 
                 // use metadata of existing resource (overwrite any passed in metadata)
                 resource_incoming.meta = foundResource.meta;
-                logger.info('------ incoming document --------');
-                logger.info(resource_incoming);
-                logger.info('------ end incoming document --------');
+                logInfo('------ incoming document --------');
+                logInfo(resource_incoming);
+                logInfo('------ end incoming document --------');
 
                 // now create a patch between the document in db and the incoming document
                 //  this returns an array of patches
                 let patchContent = compare(data, resource_incoming);
                 // ignore any changes to _id since that's an internal field
                 patchContent = patchContent.filter(item => item.path !== '/_id');
-                logger.info('------ patches --------');
-                logger.info(patchContent);
-                logger.info('------ end patches --------');
+                logInfo('------ patches --------');
+                logInfo(patchContent);
+                logInfo('------ end patches --------');
                 // see if there are any changes
                 if (patchContent.length === 0) {
-                    logger.info('No changes detected in updated resource');
+                    logInfo('No changes detected in updated resource');
                     return resolve({
                         id: id,
                         created: false,
@@ -336,15 +340,15 @@ module.exports.update = (args, { req }, resource_name, collection_name) =>
                 meta.versionId = `${parseInt(foundResource.meta.versionId) + 1}`;
                 meta.lastUpdated = moment.utc().format('YYYY-MM-DDTHH:mm:ssZ');
                 patched_resource_incoming.meta = meta;
-                logger.info('------ patched document --------');
-                logger.info(patched_resource_incoming);
-                logger.info('------ end patched document --------');
+                logInfo('------ patched document --------');
+                logInfo(patched_resource_incoming);
+                logInfo('------ end patched document --------');
                 // Same as update from this point on
                 cleaned = JSON.parse(JSON.stringify(patched_resource_incoming));
                 doc = Object.assign(cleaned, { _id: id });
             } else {
                 // not found so insert
-                logger.info('new resource: ' + data);
+                logInfo('new resource: ' + data);
                 // create the metadata
                 let Meta = getMeta(base_version);
                 resource_incoming.meta = new Meta({
@@ -388,26 +392,26 @@ module.exports.update = (args, { req }, resource_name, collection_name) =>
 
 module.exports.merge = (args, { req }, resource_name, collection_name) =>
     new Promise((resolve, reject) => {
-        logger.info(`'${resource_name} >>> merge`);
+        logInfo(`'${resource_name} >>> merge`);
 
         // read the incoming resource from request body
         let resource_incoming = req.body;
-        logger.info('args', args);
+        logInfo('args', args);
         let { base_version } = args;
 
-        // logger.info('--- request ----');
-        // logger.info(req);
-        // logger.info('-----------------');
+        // logInfo('--- request ----');
+        // logInfo(req);
+        // logInfo('-----------------');
 
-        logger.info('--- body ----');
-        logger.info(resource_incoming);
-        logger.info('-----------------');
+        logInfo('--- body ----');
+        logInfo(resource_incoming);
+        logInfo('-----------------');
 
         let id = resource_incoming.id;
 
-        logger.info(base_version);
-        logger.info('--- body ----');
-        logger.info(resource_incoming);
+        logInfo(base_version);
+        logInfo('--- body ----');
+        logInfo(resource_incoming);
 
         // Grab an instance of our DB and collection
         let db = globals.get(CLIENT_DB);
@@ -430,29 +434,29 @@ module.exports.merge = (args, { req }, resource_name, collection_name) =>
             // check if resource was found in database or not
             if (data && data.meta) {
                 // found an existing resource
-                logger.info('found resource: ' + data);
+                logInfo('found resource: ' + data);
                 let foundResource = new Resource(data);
-                logger.info('------ found document --------');
-                logger.info(data);
-                logger.info('------ end found document --------');
+                logInfo('------ found document --------');
+                logInfo(data);
+                logInfo('------ end found document --------');
 
                 // use metadata of existing resource (overwrite any passed in metadata)
                 resource_incoming.meta = foundResource.meta;
-                logger.info('------ incoming document --------');
-                logger.info(resource_incoming);
-                logger.info('------ end incoming document --------');
+                logInfo('------ incoming document --------');
+                logInfo(resource_incoming);
+                logInfo('------ end incoming document --------');
 
                 // now create a patch between the document in db and the incoming document
                 //  this returns an array of patches
                 let patchContent = compare(data, resource_incoming);
                 // ignore any changes to _id since that's an internal field
                 patchContent = patchContent.filter(item => item.path !== '/_id');
-                logger.info('------ patches --------');
-                logger.info(patchContent);
-                logger.info('------ end patches --------');
+                logInfo('------ patches --------');
+                logInfo(patchContent);
+                logInfo('------ end patches --------');
                 // see if there are any changes
                 if (patchContent.length === 0) {
-                    logger.info('No changes detected in updated resource');
+                    logInfo('No changes detected in updated resource');
                     return resolve({
                         id: id,
                         created: false,
@@ -467,15 +471,15 @@ module.exports.merge = (args, { req }, resource_name, collection_name) =>
                 meta.versionId = `${parseInt(foundResource.meta.versionId) + 1}`;
                 meta.lastUpdated = moment.utc().format('YYYY-MM-DDTHH:mm:ssZ');
                 patched_resource_incoming.meta = meta;
-                logger.info('------ patched document --------');
-                logger.info(patched_resource_incoming);
-                logger.info('------ end patched document --------');
+                logInfo('------ patched document --------');
+                logInfo(patched_resource_incoming);
+                logInfo('------ end patched document --------');
                 // Same as update from this point on
                 cleaned = JSON.parse(JSON.stringify(patched_resource_incoming));
                 doc = Object.assign(cleaned, { _id: id });
             } else {
                 // not found so insert
-                logger.info('new resource: ' + data);
+                logInfo('new resource: ' + data);
                 // create the metadata
                 let Meta = getMeta(base_version);
                 resource_incoming.meta = new Meta({
@@ -519,7 +523,7 @@ module.exports.merge = (args, { req }, resource_name, collection_name) =>
 
 module.exports.everything = (args, context, resource_name) => {
     return new Promise((resolve, reject) => {
-        logger.info(`${resource_name} >>> everything`);
+        logInfo(`${resource_name} >>> everything`);
         try {
             // execute whatever custom operation you want.
             resolve([]);
@@ -531,11 +535,11 @@ module.exports.everything = (args, context, resource_name) => {
 
 module.exports.remove = (args, context, resource_name, collection_name) =>
     new Promise((resolve, reject) => {
-        logger.info(`${resource_name} >>> remove`);
+        logInfo(`${resource_name} >>> remove`);
 
         let { base_version, id } = args;
 
-        logger.info(`Deleting id=${id}`);
+        logInfo(`Deleting id=${id}`);
 
         // Grab an instance of our DB and collection
         let db = globals.get(CLIENT_DB);
@@ -576,7 +580,7 @@ module.exports.remove = (args, context, resource_name, collection_name) =>
 
 module.exports.searchByVersionId = (args, context, resource_name, collection_name) =>
     new Promise((resolve, reject) => {
-        logger.info(`${resource_name} >>> searchByVersionId`);
+        logInfo(`${resource_name} >>> searchByVersionId`);
 
         let { base_version, id, version_id } = args;
 
@@ -605,7 +609,7 @@ module.exports.searchByVersionId = (args, context, resource_name, collection_nam
 
 module.exports.history = (args, resource_name, collection_name) =>
     new Promise((resolve, reject) => {
-        logger.info(`${resource_name} >>> history`);
+        logInfo(`${resource_name} >>> history`);
 
         // Common search params
         let { base_version } = args;
@@ -642,7 +646,7 @@ module.exports.history = (args, resource_name, collection_name) =>
 
 module.exports.historyById = (args, context, resource_name, collection_name) =>
     new Promise((resolve, reject) => {
-        logger.info(`${resource_name} >>> historyById`);
+        logInfo(`${resource_name} >>> historyById`);
 
         let { base_version, id } = args;
         let query = {};
@@ -679,7 +683,7 @@ module.exports.historyById = (args, context, resource_name, collection_name) =>
 
 module.exports.patch = (args, context, resource_name, collection_name) =>
     new Promise((resolve, reject) => {
-        logger.info('Patient >>> patch');
+        logInfo('Patient >>> patch');
 
         let { base_version, id, patchContent } = args;
 

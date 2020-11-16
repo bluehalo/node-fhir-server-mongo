@@ -21,6 +21,10 @@ init:
 tests:
 	npm test
 
+.PHONY:tests_integration
+tests_integration:
+	npm run test:integration
+
 .PHONY:generate
 generate:
 	python3 src/services/generate_services.py
