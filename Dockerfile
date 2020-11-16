@@ -1,4 +1,4 @@
-FROM node:10.19.0
+FROM node:14.15.0
 
 # Enable apt-get to run from the new sources.
 RUN printf "deb http://archive.debian.org/debian/ \
@@ -16,12 +16,12 @@ WORKDIR /srv/src
 
 # Copy our package.json & install our dependencies
 COPY package.json /srv/src/package.json
-COPY yarn.lock /srv/src/yarn.lock
+COPY package-lock.json /srv/src/package-lock.json
 COPY .snyk /srv/src/.snyk
-RUN yarn install
+RUN npm install
 
 # Copy the remaining application code.
 COPY . /srv/src
 
 # Start the app
-CMD yarn start
+CMD npm run start
