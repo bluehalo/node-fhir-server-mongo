@@ -17,6 +17,9 @@
             "value": "MAX-MALX"
         }
     ],
+    "practitioner": {
+        "reference": "Practitioner/1679033641"
+    },    
     "organization": {
         "reference": "Organization/MAX-MALX"
     },

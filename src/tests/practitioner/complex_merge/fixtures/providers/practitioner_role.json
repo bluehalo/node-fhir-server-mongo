@@ -1,8 +1,8 @@
 {
     "resourceType": "PractitionerRole",
-    "id": "4657-3437",
+    "id": "1679033641-UF3-UADM",
     "practitioner": {
-        "reference": "Practitioner/4657"
+        "reference": "Practitioner/1679033641"
     },
     "organization": {
         "reference": "Organization/UF3-UADM"
@@ -23,9 +23,9 @@
         {
             "coding": [
                 {
-                    "system": "https://www.medstarhealth.org/",
-                    "code": "",
-                    "display": ""
+                    "system": "http://snomed.info/sct",
+                    "code": "408475000",
+                    "display": "Diabetic medicine"
                 }
             ],
             "text": ""
