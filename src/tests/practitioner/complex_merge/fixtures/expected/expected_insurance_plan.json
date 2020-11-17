@@ -1,0 +1,35 @@
+[
+    {
+        "$schema": "https://raw.githubusercontent.com/imranq2/SparkAutoMapper.FHIR/main/fhir.schema.json",
+        "resourceType": "InsurancePlan",
+        "id": "AETNA-AetnaElectChoice",
+        "meta": {
+            "versionId": "1",
+            "lastUpdated": "2020-11-17T04:26:41+00:00"
+        },
+        "ownedBy": {
+            "reference": "Organization/AETNA"
+        },
+        "plan": [
+            {
+                "identifier": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "code": "XV"
+                                }
+                            ]
+                        },
+                        "value": "Aetna Elect Choice/ EPO (Aetna Health Fund) Innovation Health: Network Only Plus"
+                    }
+                ],
+                "coverageArea": [
+                    {
+                        "reference": "Location/AetnaElectChoice"
+                    }
+                ]
+            }
+        ]
+    }
+]

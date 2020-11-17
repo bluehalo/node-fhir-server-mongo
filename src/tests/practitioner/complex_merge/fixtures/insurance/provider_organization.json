@@ -1,0 +1,14 @@
+{
+    "resourceType": "Organization",
+    "id": "MWHC",
+    "identifier": [
+        {
+            "type": {
+                "coding": [{
+                    "code": "FI"
+                }]
+            },
+            "value": "MWHC"
+        }
+    ]
+}

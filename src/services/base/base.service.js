@@ -471,12 +471,13 @@ module.exports.merge = (args, { req }, resource_name, collection_name) =>
 
                 mergeObjectOrArray = (item1, item2) => {
                     if (Array.isArray(item1)) {
-                        var result_array = [];
+                        var result_array = item1;
                         // see if items are equal then skip them
-                        for (var i = 0; i < item1.length; i++) {
-                            result_array.push(item1[i]);
-                            if (deepEqual(item1[i], item2[i]) === false) {
-                                result_array.push(item2[i]);
+                        for (var i = 0; i < item2.length; i++) {
+                            let my_item = item2[i];
+                            // if item2[i] does not matches any item in item1 then insert
+                            if (item1.every(a => deepEqual(a, my_item) === false)) {
+                                result_array.push(my_item);
                             }
                         }
                         return result_array;

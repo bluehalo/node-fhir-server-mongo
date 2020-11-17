@@ -14,7 +14,7 @@
     "test": "NODE_ENV=test npm run test:lint && npm run test:jest",
     "test:lint": "eslint \"src/**/*.js\"",
     "test:jest": "NODE_ENV=test jest --forceExit --detectOpenHandles -i .",
-    "test:integration": "NODE_ENV=test jest --forceExit --detectOpenHandles -i src/tests/practitioner/",
+    "test:integration": "NODE_ENV=test jest --forceExit --detectOpenHandles -i src/tests/practitioner/complex_merge",
     "snyk-protect": "snyk protect",
     "prepare": "npm run snyk-protect",
     "prettier-check": "prettier --check \"**/*.{js,mjs,cjs,jsx,json,ts,tsx,md,mdx,css,html,yml,yaml,scss,less,graphql,graphqls,gql}\"",

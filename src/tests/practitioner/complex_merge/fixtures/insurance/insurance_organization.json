@@ -1,0 +1,14 @@
+{
+    "resourceType": "Organization",
+    "id": "AETNA",
+    "identifier": [
+        {
+            "type": {
+                "coding": [{
+                    "code": "XV"
+                }]
+            },
+            "value": "AETNA"
+        }
+    ]
+}

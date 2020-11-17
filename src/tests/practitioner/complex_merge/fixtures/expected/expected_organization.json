@@ -1,0 +1,43 @@
+[
+    {
+        "$schema": "https://raw.githubusercontent.com/imranq2/SparkAutoMapper.FHIR/main/fhir.schema.json",
+        "resourceType": "Organization",
+        "id": "AETNA",
+        "meta": {
+            "versionId": "1",
+            "lastUpdated": "2020-11-17T04:23:13+00:00"
+        },
+        "identifier": [
+            {
+                "type": {
+                    "coding": [
+                        {
+                            "code": "XV"
+                        }
+                    ]
+                },
+                "value": "AETNA"
+            }
+        ]
+    },
+    {
+        "resourceType": "Organization",
+        "id": "MWHC",
+        "meta": {
+            "versionId": "1",
+            "lastUpdated": "2020-11-17T04:23:13+00:00"
+        },
+        "identifier": [
+            {
+                "type": {
+                    "coding": [
+                        {
+                            "code": "FI"
+                        }
+                    ]
+                },
+                "value": "MWHC"
+            }
+        ]
+    }
+]
