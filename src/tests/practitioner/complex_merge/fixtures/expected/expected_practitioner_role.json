@@ -74,7 +74,7 @@
     },
     {
         "resourceType": "PractitionerRole",
-        "id": "MAX-MALX",
+        "id": "1679033641-MAX-MALX",
         "meta": {
             "versionId": "1",
             "lastUpdated": "2020-11-17T03:38:55+00:00"
@@ -117,14 +117,8 @@
                 "text": "Provider's Primary Specialty Group"
             }
         ],
-        "healthcareService": [
-            {
-                "type": "HealthCareService",
-                "identifier": {
-                    "system": "MedstarHealth.org",
-                    "value": "MAX-MALX"
-                }
-            }
-        ]
+        "healthcareService": [{
+            "reference": "HealthcareService/1679033641-MAX-MALX"
+        }]
     }
 ]

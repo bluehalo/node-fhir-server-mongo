@@ -31,7 +31,9 @@
             "text": ""
         }
     ],
-    "location": {
-        "reference": "Location/UF3-UADM"
-    }
+    "location": [
+        {
+            "reference": "Location/UF3-UADM"
+        }
+    ]
 }

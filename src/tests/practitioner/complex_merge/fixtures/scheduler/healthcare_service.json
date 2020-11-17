@@ -1,0 +1,8 @@
+{
+    "resourceType": "HealthcareService",
+    "id": "1679033641-MAX-MALX",
+    "identifier": {
+        "system": "MedstarHealth.org",
+        "value": "MAX-MALX"
+    }    
+}

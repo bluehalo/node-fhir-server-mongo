@@ -18,12 +18,14 @@ const insurancePractitionerRoleResource = require('./fixtures/insurance/practiti
 const insuranceProviderOrganizationResource = require('./fixtures/insurance/provider_organization.json');
 // scheduler
 const schedulerPractitionerRoleResource = require('./fixtures/scheduler/practitioner_role.json');
+const schedulerHealthcareServiceResource = require('./fixtures/scheduler/healthcare_service.json');
 // expected
 const expectedPractitionerResource = require('./fixtures/expected/expected_practitioner.json');
 const expectedPractitionerRoleResource = require('./fixtures/expected/expected_practitioner_role.json');
 const expectedLocationResource = require('./fixtures/expected/expected_location.json');
 const expectedOrganizationResource = require('./fixtures/expected/expected_organization.json');
 const expectedInsurancePlanResource = require('./fixtures/expected/expected_insurance_plan.json');
+const expectedHealthcareServiceResource = require('./fixtures/expected/expected_healthcare_service.json');
 const async = require('async');
 
 const request = supertest(app);
@@ -185,6 +187,18 @@ describe('Practitioner Complex Merge Tests', () => {
               console.log('------- end response  ------------');
               expect(resp.body['created']).toBe(true);
               return cb(err, resp);
+            }), (results, cb) =>
+          request
+            .post('/4_0_0/HealthcareService/1679033641-MAX-MALX/$merge')
+            .send(schedulerHealthcareServiceResource)
+            .set('Content-Type', 'application/fhir+json')
+            .set('Accept', 'application/fhir+json')
+            .expect(200, (err, resp) => {
+              console.log('------- response schedulerHealthcareServiceResource ------------');
+              console.log(JSON.stringify(resp.body, null, 2));
+              console.log('------- end response  ------------');
+              expect(resp.body['created']).toBe(true);
+              return cb(err, resp);
             }),
         (results, cb) => request
           .get('/4_0_0/Practitioner')
@@ -297,6 +311,31 @@ describe('Practitioner Complex Merge Tests', () => {
               delete element['meta']['lastUpdated'];
             });
             let expected = expectedInsurancePlanResource;
+            expected.forEach(element => {
+              delete element['meta']['lastUpdated'];
+              element['meta'] = { 'versionId': '1' };
+              delete element['$schema'];
+            });
+
+            expect(body).toStrictEqual(expected);
+          }, cb),
+        (results, cb) => request
+          .get('/4_0_0/HealthcareService')
+          .set('Content-Type', 'application/fhir+json')
+          .set('Accept', 'application/fhir+json')
+          .expect(200, cb)
+          .expect((resp) => {
+            console.log('------- response HealthcareService ------------');
+            console.log(JSON.stringify(resp.body, null, 2));
+            console.log('------- end response  ------------');
+            // clear out the lastUpdated column since that changes
+            let body = resp.body;
+            expect(body.length).toBe(1);
+            delete body[0]['meta']['lastUpdated'];
+            body.forEach(element => {
+              delete element['meta']['lastUpdated'];
+            });
+            let expected = expectedHealthcareServiceResource;
             expected.forEach(element => {
               delete element['meta']['lastUpdated'];
               element['meta'] = { 'versionId': '1' };
