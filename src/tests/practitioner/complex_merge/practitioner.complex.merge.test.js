@@ -253,7 +253,7 @@ describe('Practitioner Complex Merge Tests', () => {
               return cb(err, resp);
             }), (results, cb) =>
           request
-            .post('/4_0_0/HealthcareService/MWHC_Department-DiabeticMedicine/$merge')
+            .post('/4_0_0/HealthcareService/MWHC_Department-207RE0101X/$merge')
             .send(practiceHealthcareServiceResource)
             .set('Content-Type', 'application/fhir+json')
             .set('Accept', 'application/fhir+json')

@@ -29,12 +29,12 @@
             {
                 "coding": [
                     {
-                        "system": "http://snomed.info/sct",
-                        "code": "408475000",
-                        "display": "Diabetic medicine"
+                        "system": "http://nucc.org/provider-taxonomy",
+                        "code": "207RE0101X",
+                        "display": "Endocrinology, Diabetes & Metabolism"
                     }
                 ],
-                "text": "Diabetic medicine"
+                "text": "Endocrinology, Diabetes & Metabolism"
             }
         ],
         "location": [
