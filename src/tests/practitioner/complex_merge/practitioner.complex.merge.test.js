@@ -20,6 +20,9 @@ const insuranceProviderDepartmentResource = require('./fixtures/insurance/provid
 // scheduler
 const schedulerPractitionerRoleResource = require('./fixtures/scheduler/practitioner_role.json');
 const schedulerHealthcareServiceResource = require('./fixtures/scheduler/healthcare_service.json');
+// practice
+const practiceHealthcareServiceResource = require('./fixtures/practice/healthcare_service.json');
+
 // expected
 const expectedPractitionerResource = require('./fixtures/expected/expected_practitioner.json');
 const expectedPractitionerRoleResource = require('./fixtures/expected/expected_practitioner_role.json');
@@ -248,6 +251,21 @@ describe('Practitioner Complex Merge Tests', () => {
               console.log('------- end response  ------------');
               expect(resp.body['created']).toBe(true);
               return cb(err, resp);
+            }), (results, cb) =>
+          request
+            .post('/4_0_0/HealthcareService/MWHC_Department-DiabeticMedicine/$merge')
+            .send(practiceHealthcareServiceResource)
+            .set('Content-Type', 'application/fhir+json')
+            .set('Accept', 'application/fhir+json')
+            .expect(200, (err, resp) => {
+              if (err) {
+                console.log(err);
+              }
+              console.log('------- response practiceHealthcareServiceResource ------------');
+              console.log(JSON.stringify(resp.body, null, 2));
+              console.log('------- end response  ------------');
+              expect(resp.body['created']).toBe(true);
+              return cb(err, resp);
             }),
         (results, cb) => request
           .get('/4_0_0/Practitioner')
@@ -286,9 +304,13 @@ describe('Practitioner Complex Merge Tests', () => {
             });
             let expected = expectedPractitionerRoleResource;
             expected.forEach(element => {
-              delete element['meta']['lastUpdated'];
+              if ('meta' in element) {
+                delete element['meta']['lastUpdated'];
+              }
               element['meta'] = { 'versionId': '1' };
-              delete element['$schema'];
+              if ('$schema' in element) {
+                delete element['$schema'];
+              }
             });
 
             expect(body).toStrictEqual(expected);
@@ -311,9 +333,13 @@ describe('Practitioner Complex Merge Tests', () => {
             });
             let expected = expectedLocationResource;
             expected.forEach(element => {
-              delete element['meta']['lastUpdated'];
+              if ('meta' in element) {
+                delete element['meta']['lastUpdated'];
+              }
               element['meta'] = { 'versionId': '1' };
-              delete element['$schema'];
+              if ('$schema' in element) {
+                delete element['$schema'];
+              }
             });
 
             expect(body).toStrictEqual(expected);
@@ -365,9 +391,13 @@ describe('Practitioner Complex Merge Tests', () => {
             });
             let expected = expectedInsurancePlanResource;
             expected.forEach(element => {
-              delete element['meta']['lastUpdated'];
+              if ('meta' in element) {
+                delete element['meta']['lastUpdated'];
+              }
               element['meta'] = { 'versionId': '1' };
-              delete element['$schema'];
+              if ('$schema' in element) {
+                delete element['$schema'];
+              }
             });
 
             expect(body).toStrictEqual(expected);
@@ -383,7 +413,7 @@ describe('Practitioner Complex Merge Tests', () => {
             console.log('------- end response  ------------');
             // clear out the lastUpdated column since that changes
             let body = resp.body;
-            expect(body.length).toBe(1);
+            expect(body.length).toBe(2);
             delete body[0]['meta']['lastUpdated'];
             body.forEach(element => {
               delete element['meta']['lastUpdated'];

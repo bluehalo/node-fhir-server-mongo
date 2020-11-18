@@ -1,6 +1,7 @@
 {
     "resourceType": "Organization",
     "id": "MWHC_Department",
+    "name": "MWHC_Department",
     "type": [
         {
             "coding": [
@@ -16,11 +17,25 @@
             "type": {
                 "coding": [
                     {
-                        "code": "FI"
+                        "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                        "code": "FI",
+                        "display": "Facility ID"
                     }
                 ]
             },
-            "value": "MWHC_Department"
+            "value": "scheduling_department_mnem"
+        },
+        {
+            "type": {
+                "coding": [
+                    {
+                        "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                        "code": "XX",
+                        "display": "Organization identifier"
+                    }
+                ]
+            },
+            "value": "scheduling_department_number"
         }
     ],
     "partOf": {

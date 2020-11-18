@@ -87,5 +87,46 @@
                 }
             }
         ]
+    },
+    {
+        "resourceType": "HealthcareService",
+        "id": "MWHC_Department-DiabeticMedicine",
+        "providedBy": {
+            "reference": "Organization/MWHC_Department"
+        },
+        "type": [
+            {
+                "coding": [
+                    {
+                        "system": "http://terminology.hl7.org/CodeSystem/service-type",
+                        "code": "117",
+                        "display": "Emergency Medical"
+                    }
+                ],
+                "text": "Emergency Medical"
+            },
+            {
+                "coding": [
+                    {
+                        "system": "http://terminology.hl7.org/CodeSystem/service-type",
+                        "code": "556",
+                        "display": "Walk-in Centre /Non-Emergency"
+                    }
+                ],
+                "text": "Walk-in Centre /Non-Emergency"
+            }
+        ],
+        "specialty": [
+            {
+                "coding": [
+                    {
+                        "system": "http://snomed.info/sct",
+                        "code": "408475000",
+                        "display": "Diabetic medicine"
+                    }
+                ],
+                "text": "Diabetic medicine"
+            }
+        ]
     }
 ]
