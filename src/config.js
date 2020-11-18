@@ -1,6 +1,7 @@
 const { VERSIONS } = require('@asymmetrik/node-fhir-server-core').constants;
 const env = require('var');
 
+console.log(`MONGO_URL=${env.MONGO_URL}`);
 /**
  * @name mongoConfig
  * @summary Configurations for our Mongo instance

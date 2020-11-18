@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert --file docker-compose-prod.yml --chart --out node-fhir-server-mongo
+    kompose.version: 1.22.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: mongoclient
+# this service shows up in the UI with this name    
+  name: mongoclient
+# namespace should match other services in this file  
+  namespace: nodefhirservermongo 
+# labels allows you to use selectors to find this service
+  labels:
+    app: mongoclient
+spec:
+# port that other services can use to connect to this service
+  ports:
+    - name: "3000"
+      port: 3001
+      targetPort: 3000
+# selector says this service should use a pod that has the "app: mysqlserver" label
+  selector:
+    io.kompose.service: mongoclient
+status:
+  loadBalancer: {}

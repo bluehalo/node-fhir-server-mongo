@@ -56,16 +56,21 @@ deploy-from-github:
 	helm ls
 
 .PHONY: deploy_local_to_aws
-deploy_to_aws:
+deploy_local_to_aws:
+	read -p "Enter Mongo Password:" mongoPassword; \
 	export KUBECONFIG="${HOME}/.kube/config:${HOME}/.kube/config-dev-eks.config.yaml" && \
+	aws-vault exec human-admin@bwell-dev -- aws s3 ls && \
 	kubectl config use-context arn:aws:eks:us-east-1:875300655693:cluster/dev-eks-cluster && \
 	kubectl config current-context && \
 	kubectl cluster-info && \
 	kubectl get services && \
-	helm upgrade --install --set include_mongo=false --set aws=true node-fhir-server-mongo ./releases/node-fhir-server-mongo/node-fhir-server-mongo-1.0.tgz && \
+	helm upgrade --install --set include_mongo=false --set aws=true --set mongoPassword=$$mongoPassword node-fhir-server-mongo ./releases/node-fhir-server-mongo/node-fhir-server-mongo-1.0.tgz && \
 	helm ls && \
 	kubectl get services && \
-	kubectl get all --namespace=nodefhirservermongo
+	kubectl get all --namespace=nodefhirservermongo && \
+	kubectl get deployment.apps/fhir --namespace=nodefhirservermongo -o yaml && \
+	kubectl logs deployment.apps/fhir --namespace=nodefhirservermongo
+
 
 .PHONY: deploy_to_aws
 deploy_to_aws:
@@ -119,3 +124,7 @@ nginx:
 .PHONY:run
 run:
 	kubectl expose deployment hello-world --type=NodePort --name=example-service
+
+.PHONY:mongoclient
+mongoclient:
+	kubectl exec --stdin --tty deployment.apps/mongoclient --namespace=nodefhirservermongo -- /bin/bash
