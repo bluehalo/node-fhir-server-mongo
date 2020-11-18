@@ -1,5 +1,6 @@
 const { VERSIONS } = require('@asymmetrik/node-fhir-server-core').constants;
 const { resolveSchema } = require('@asymmetrik/node-fhir-server-core');
+const JSONSchemaValidator = require('@asymmetrik/fhir-json-schema-validator');
 const { CLIENT_DB } = require('../../constants');
 const moment = require('moment-timezone');
 const globals = require('../../globals');
@@ -7,7 +8,9 @@ const logger = require('@asymmetrik/node-fhir-server-core').loggers.get();
 const { getUuid } = require('../../utils/uid.util');
 const { validate, applyPatch, compare } = require('fast-json-patch');
 const deepmerge = require('deepmerge');
-var deepEqual = require('deep-equal');
+const deepEqual = require('deep-equal');
+// const Validator = require('jsonschema').Validator;
+// const fhirSchema = require('../../fhir_schema/fhir.schema.json');
 
 let getResource = (base_version, resource_name) => {
     return resolveSchema(base_version, resource_name);
@@ -17,8 +20,8 @@ let getMeta = (base_version) => {
     return resolveSchema(base_version, 'Meta');
 };
 
-// let logInfo = (msg) => logger.info(msg);
-let logInfo = () => { };
+let logInfo = (msg) => logger.info(msg);
+// let logInfo = () => { };
 
 
 let buildR4SearchQuery = (resource_name, args) => {
@@ -108,6 +111,21 @@ let buildDstu2SearchQuery = (args) => {
         query.active = active === 'true';
     }
     return query;
+};
+
+// eslint-disable-next-line no-unused-vars
+let validateSchema = (instance) => {
+
+    // https://github.com/Asymmetrik/node-fhir-server-core/tree/master/packages/fhir-json-schema-validator
+    const validator = new JSONSchemaValidator();
+    let errors = validator.validate(instance);
+    console.log(errors);
+    return errors;
+
+    // var v = new Validator();
+    // var schema = fhirSchema;
+    // const validationResult = v.validate(instance, schema);
+    // console.log(validationResult);
 };
 
 /**
@@ -408,6 +426,13 @@ module.exports.merge = (args, { req }, resource_name, collection_name) =>
         logInfo('--- body ----');
         logInfo(resource_incoming);
         logInfo('-----------------');
+
+        // logInfo('--- validate schema ----');
+        // const errors = validateSchema(resource_incoming);
+        // if (errors.length > 0){
+        //     return reject(errors);
+        // }
+        // logInfo('-----------------');
 
         let id = resource_incoming.id;
 

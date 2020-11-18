@@ -16,6 +16,7 @@ const insurancePlanLocationResource = require('./fixtures/insurance/insurance_pl
 const insurancePlanResource = require('./fixtures/insurance/insurance_plan.json');
 const insurancePractitionerRoleResource = require('./fixtures/insurance/practitioner_role.json');
 const insuranceProviderOrganizationResource = require('./fixtures/insurance/provider_organization.json');
+const insuranceProviderDepartmentResource = require('./fixtures/insurance/provider_department.json');
 // scheduler
 const schedulerPractitionerRoleResource = require('./fixtures/scheduler/practitioner_role.json');
 const schedulerHealthcareServiceResource = require('./fixtures/scheduler/healthcare_service.json');
@@ -39,8 +40,17 @@ describe('Practitioner Complex Merge Tests', () => {
     connection = await MongoClient.connect(process.env.MONGO_URL, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      server: {
+        auto_reconnect: true,
+        socketOptions: {
+
+          keepAlive: 1,
+          connectTimeoutMS: 60000,
+          socketTimeoutMS: 60000,
+        }
+      }
     });
-    db = await connection.db();
+    db = connection.db();
 
     globals.set(CLIENT, connection);
     globals.set(CLIENT_DB, db);
@@ -110,6 +120,9 @@ describe('Practitioner Complex Merge Tests', () => {
             .set('Content-Type', 'application/fhir+json')
             .set('Accept', 'application/fhir+json')
             .expect(200, (err, resp) => {
+              if (err) {
+                console.log(err);
+              }
               console.log('------- response insuranceOrganizationResource ------------');
               console.log(JSON.stringify(resp.body, null, 2));
               console.log('------- end response  ------------');
@@ -122,6 +135,9 @@ describe('Practitioner Complex Merge Tests', () => {
             .set('Content-Type', 'application/fhir+json')
             .set('Accept', 'application/fhir+json')
             .expect(200, (err, resp) => {
+              if (err) {
+                console.log(err);
+              }
               console.log('------- response insurancePlanLocationResource ------------');
               console.log(JSON.stringify(resp.body, null, 2));
               console.log('------- end response  ------------');
@@ -134,6 +150,9 @@ describe('Practitioner Complex Merge Tests', () => {
             .set('Content-Type', 'application/fhir+json')
             .set('Accept', 'application/fhir+json')
             .expect(200, (err, resp) => {
+              if (err) {
+                console.log(err);
+              }
               console.log('------- response insurancePlanResource ------------');
               console.log(JSON.stringify(resp.body, null, 2));
               console.log('------- end response  ------------');
@@ -146,6 +165,9 @@ describe('Practitioner Complex Merge Tests', () => {
             .set('Content-Type', 'application/fhir+json')
             .set('Accept', 'application/fhir+json')
             .expect(200, (err, resp) => {
+              if (err) {
+                console.log(err);
+              }
               console.log('------- response insurancePractitionerResource ------------');
               console.log(JSON.stringify(resp.body, null, 2));
               console.log('------- end response  ------------');
@@ -158,6 +180,9 @@ describe('Practitioner Complex Merge Tests', () => {
             .set('Content-Type', 'application/fhir+json')
             .set('Accept', 'application/fhir+json')
             .expect(200, (err, resp) => {
+              if (err) {
+                console.log(err);
+              }
               console.log('------- response insurancePractitionerRoleResource ------------');
               console.log(JSON.stringify(resp.body, null, 2));
               console.log('------- end response  ------------');
@@ -170,7 +195,25 @@ describe('Practitioner Complex Merge Tests', () => {
             .set('Content-Type', 'application/fhir+json')
             .set('Accept', 'application/fhir+json')
             .expect(200, (err, resp) => {
+              if (err) {
+                console.log(err);
+              }
               console.log('------- response insuranceProviderOrganizationResource ------------');
+              console.log(JSON.stringify(resp.body, null, 2));
+              console.log('------- end response  ------------');
+              expect(resp.body['created']).toBe(true);
+              return cb(err, resp);
+            }), (results, cb) =>
+          request
+            .post('/4_0_0/Organization/MWHC_Department/$merge')
+            .send(insuranceProviderDepartmentResource)
+            .set('Content-Type', 'application/fhir+json')
+            .set('Accept', 'application/fhir+json')
+            .expect(200, (err, resp) => {
+              if (err) {
+                console.log(err);
+              }
+              console.log('------- response insuranceProviderDepartmentResource ------------');
               console.log(JSON.stringify(resp.body, null, 2));
               console.log('------- end response  ------------');
               expect(resp.body['created']).toBe(true);
@@ -182,6 +225,9 @@ describe('Practitioner Complex Merge Tests', () => {
             .set('Content-Type', 'application/fhir+json')
             .set('Accept', 'application/fhir+json')
             .expect(200, (err, resp) => {
+              if (err) {
+                console.log(err);
+              }
               console.log('------- response schedulerPractitionerRoleResource ------------');
               console.log(JSON.stringify(resp.body, null, 2));
               console.log('------- end response  ------------');
@@ -194,6 +240,9 @@ describe('Practitioner Complex Merge Tests', () => {
             .set('Content-Type', 'application/fhir+json')
             .set('Accept', 'application/fhir+json')
             .expect(200, (err, resp) => {
+              if (err) {
+                console.log(err);
+              }
               console.log('------- response schedulerHealthcareServiceResource ------------');
               console.log(JSON.stringify(resp.body, null, 2));
               console.log('------- end response  ------------');
@@ -280,16 +329,20 @@ describe('Practitioner Complex Merge Tests', () => {
             console.log('------- end response  ------------');
             // clear out the lastUpdated column since that changes
             let body = resp.body;
-            expect(body.length).toBe(2);
+            expect(body.length).toBe(3);
             delete body[0]['meta']['lastUpdated'];
             body.forEach(element => {
               delete element['meta']['lastUpdated'];
             });
             let expected = expectedOrganizationResource;
             expected.forEach(element => {
-              delete element['meta']['lastUpdated'];
+              if ('meta' in element) {
+                delete element['meta']['lastUpdated'];
+              }
               element['meta'] = { 'versionId': '1' };
-              delete element['$schema'];
+              if ('$schema' in element) {
+                delete element['$schema'];
+              }
             });
 
             expect(body).toStrictEqual(expected);
@@ -337,9 +390,13 @@ describe('Practitioner Complex Merge Tests', () => {
             });
             let expected = expectedHealthcareServiceResource;
             expected.forEach(element => {
-              delete element['meta']['lastUpdated'];
+              if ('meta' in element) {
+                delete element['meta']['lastUpdated'];
+              }
               element['meta'] = { 'versionId': '1' };
-              delete element['$schema'];
+              if ('$schema' in element) {
+                delete element['$schema'];
+              }
             });
 
             expect(body).toStrictEqual(expected);

@@ -1,10 +1,23 @@
 {
     "resourceType": "HealthcareService",
     "id": "1679033641-MAX-MALX",
-    "identifier": {
-        "system": "MedstarHealth.org",
-        "value": "MAX-MALX"
-    },
+    "identifier": [
+        {
+            "system": "MedstarHealth.org",
+            "value": "MAX-MALX"
+        }
+    ],
+    "type": [
+        {
+            "coding": [
+                {
+                    "system": "http://terminology.hl7.org/CodeSystem/service-category",
+                    "code": "17",
+                    "display": "General Practice"
+                }
+            ]
+        }
+    ],
     "eligibility": [
         {
             "code": {
@@ -16,6 +29,61 @@
                     }
                 ]
             }
+        },
+        {
+            "code": {
+                "coding": [
+                    {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                        "code": "AUTOPOL",
+                        "display": "automobile"
+                    }
+                ]
+            }
+        },
+        {
+            "code": {
+                "coding": [
+                    {
+                        "system": "2.16.840.1.113762.1.4.1235.2",
+                        "code": "18",
+                        "display": "Minimum Age"
+                    }
+                ]
+            }
+        },
+        {
+            "code": {
+                "coding": [
+                    {
+                        "system": "2.16.840.1.113762.1.4.1235.3",
+                        "code": "18",
+                        "display": "Maximum Age"
+                    }
+                ]
+            }
+        },
+        {
+            "code": {
+                "coding": [
+                    {
+                        "system": "http://snomed.info/sct/",
+                        "code": "185387006",
+                        "display": "New Patient"
+                    }
+                ]
+            }
+        },
+        {
+            "code": {
+                "coding": [
+                    {
+                        "system": "http://snomed.info/sct/",
+                        "code": "448337001",
+                        "display": "Telehealth Visit"
+                    }
+                ]
+            }
         }
-    ]    
+    ]
 }

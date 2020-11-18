@@ -1,7 +1,4 @@
 {
     "resourceType": "Location",
-    "id": "AetnaElectChoice",
-    "address": {
-        "state": ""
-    }
+    "id": "AetnaElectChoice"
 }
