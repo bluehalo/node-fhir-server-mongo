@@ -52,8 +52,19 @@ deploy:
 
 .PHONY: deploy-from-github
 deploy-from-github:
-	helm upgrade --install --set include_mongo=true node-fhir-server-mongo https://raw.githubusercontent.com/imranq2/node-fhir-server-mongo/master/releases/node-fhir-server-mongo/node-fhir-server-mongo-1.0.tgz
-	helm ls
+	read -p "Enter Mongo Password:" mongoPassword; \
+	export KUBECONFIG="${HOME}/.kube/config:${HOME}/.kube/config-dev-eks.config.yaml" && \
+	aws-vault exec human-admin@bwell-dev -- aws s3 ls && \
+	kubectl config use-context arn:aws:eks:us-east-1:875300655693:cluster/dev-eks-cluster && \
+	kubectl config current-context && \
+	kubectl cluster-info && \
+	kubectl get services && \
+	helm upgrade --install --set include_mongo=true --set use_ingress=true --set aws=true --set mongoPassword=$$mongoPassword node-fhir-server-mongo https://raw.githubusercontent.com/imranq2/node-fhir-server-mongo/master/releases/node-fhir-server-mongo/node-fhir-server-mongo-1.0.tgz && \
+	helm ls && \
+	kubectl get services && \
+	kubectl get all --namespace=nodefhirservermongo && \
+	kubectl get deployment.apps/fhir --namespace=nodefhirservermongo -o yaml && \
+	kubectl logs deployment.apps/fhir --namespace=nodefhirservermongo
 
 .PHONY: deploy_local_to_aws
 deploy_local_to_aws:
