@@ -1,5 +1,5 @@
 images:
-  node_fhir_server_mongo_image: imranq2/node-fhir-server-mongo:1.2.24
+  node_fhir_server_mongo_image: imranq2/node-fhir-server-mongo:1.2.25
   mongoclient_image: mongoclient/mongoclient:4.0.0
 
 
@@ -12,5 +12,4 @@ use_ingress: false
 aws: false
 
 mongoPassword: ""
-mongoUrl: mongodb://mongoadmin:<insertYourPassword>@dev-fhir-db.cluster-ckvm0jix2koe.us-east-1.docdb.amazonaws.com:27017/?ssl=true&ssl_ca_certs=rds-combined-ca-bundle.pem&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false
 namespace: "nodefhirservermongo"

@@ -50,7 +50,7 @@ spec:
               value: "3000"
 {{ if not .Values.include_mongo }}              
             - name: MONGO_URL
-              value: mongodb://mongoadmin:{{ .Values.mongoPassword }}@dev-fhir-db.cluster-ckvm0jix2koe.us-east-1.docdb.amazonaws.com:27017/?ssl=true&ssl_ca_certs=rds-combined-ca-bundle.pem&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false
+              value: mongodb://mongoadmin:{{ .Values.mongoPassword }}@dev-fhir-db.cluster-ckvm0jix2koe.us-east-1.docdb.amazonaws.com:27017/?tls=true&tlsCAFile=/srv/src/rds-combined-ca-bundle.pem&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false
 {{ end }}
           # image to pull
           image: {{ .Values.images.node_fhir_server_mongo_image }}

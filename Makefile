@@ -172,3 +172,7 @@ test_mongo_in_container:
 	apt install wget
 	wget https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem
 	mongo --ssl --host dev-fhir-db.cluster-ckvm0jix2koe.us-east-1.docdb.amazonaws.com:27017 --sslCAFile rds-combined-ca-bundle.pem --username mongoadmin --password <insertYourPassword>
+
+.PHONY: helm_delete
+helm_delete:
+	helm delete node-fhir-server-mongo
