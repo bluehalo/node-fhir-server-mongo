@@ -14,5 +14,6 @@ nodemon
     console.log(`Nodemon restarting because ${files.join(',')} changed.`);
   })
   .on('crash', () => {
-    console.error('Nodemon crashed. Waiting for changes to restart.');
+    console.error('Nodemon crashed.');
+    process.exit();
   });

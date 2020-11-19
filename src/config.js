@@ -1,7 +1,18 @@
 const { VERSIONS } = require('@asymmetrik/node-fhir-server-core').constants;
 const env = require('var');
+// const waitForMongo = require('wait-for-mongo');
 
 console.log(`MONGO_URL=${env.MONGO_URL}`);
+
+console.log('Waiting for MongoDB: ' + env.MONGO_URL || `mongodb://${env.MONGO_HOSTNAME}:${env.MONGO_PORT}`);
+// waitForMongo(env.MONGO_URL || `mongodb://${env.MONGO_HOSTNAME}:${env.MONGO_PORT}`, { timeout: 1000 * 60 * 2 }, function (err) {
+//   if (err) {
+//     console.log('timeout exceeded');
+//   } else {
+//     console.log('mongodb comes online');
+//   }
+// });
+
 /**
  * @name mongoConfig
  * @summary Configurations for our Mongo instance

@@ -143,7 +143,12 @@ logs:
 	echo "----------------- FHIR logs -------------" && \
 	kubectl --namespace=nodefhirservermongo logs --follow deployment.apps/fhir 
 
-.PHONY:diagnosse
+.PHONY:diagnose
 diagnose:
-	kubectl --namespace=nodefhirservermongo  run client --image=appropriate/curl --rm -ti --restart=Never --command -- curl http://10.100.95.25:3000/4_0_0/metadata
+	kubectl get all --all-namespaces
+	kubectl --namespace=nodefhirservermongo  run client --image=appropriate/curl --rm -ti --restart=Never --command -- curl http://fhir:3000/4_0_0/metadata
 	kubectl --namespace=nodefhirservermongo logs --previous deployment.apps/fhir 
+
+.PHONY: busybox
+busybox:
+	kubectl exec --stdin --tty pod/busybox --namespace=nodefhirservermongo -- /bin/bash
