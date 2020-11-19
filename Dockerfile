@@ -25,7 +25,7 @@ COPY . /srv/src
 RUN cd /srv/src && yarn install
 
 # Download the Amazon DocumentDB Certificate Authority (CA) certificate required to authenticate to your cluster
-RUN wget https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem
+RUN cd /srv/src && wget https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem
 
 # Start the app
 CMD npm run start

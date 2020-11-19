@@ -75,7 +75,7 @@ deploy_local_to_aws:
 	kubectl config current-context && \
 	kubectl cluster-info && \
 	kubectl get services && \
-	helm upgrade --install --set include_mongo=true --set use_ingress=true --set aws=true --set mongoPassword=$$mongoPassword node-fhir-server-mongo ./releases/node-fhir-server-mongo/node-fhir-server-mongo-1.0.tgz && \
+	helm upgrade --install --set include_mongo=false --set use_ingress=true --set aws=true --set mongoPassword=$$mongoPassword node-fhir-server-mongo ./releases/node-fhir-server-mongo/node-fhir-server-mongo-1.0.tgz && \
 	helm ls && \
 	kubectl get services && \
 	kubectl get all --namespace=nodefhirservermongo && \
@@ -138,11 +138,12 @@ run:
 
 .PHONY:mongoclient
 mongoclient:
-	kubectl exec --stdin --tty deployment.apps/mongoclient --namespace=nodefhirservermongo -- /bin/bash
+	kubectl exec --stdin --tty deployment.apps/mongo --namespace=nodefhirservermongo -- /bin/bash
 
 .PHONY:logs
 logs:
 	export KUBECONFIG="${HOME}/.kube/config:${HOME}/.kube/config-dev-eks.config.yaml" && \
+	aws-vault exec human-admin@bwell-dev -- aws s3 ls && \
 	kubectl config use-context arn:aws:eks:us-east-1:875300655693:cluster/dev-eks-cluster && \
 	kubectl config current-context && \
 	kubectl cluster-info && \
@@ -164,3 +165,10 @@ diagnose:
 .PHONY: busybox
 busybox:
 	kubectl exec --stdin --tty pod/busybox --namespace=nodefhirservermongo -- /bin/bash
+
+.PHONY: test_mongo_in_container
+test_mongo_in_container:
+	apt-get update
+	apt install wget
+	wget https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem
+	mongo --ssl --host dev-fhir-db.cluster-ckvm0jix2koe.us-east-1.docdb.amazonaws.com:27017 --sslCAFile rds-combined-ca-bundle.pem --username mongoadmin --password <insertYourPassword>
