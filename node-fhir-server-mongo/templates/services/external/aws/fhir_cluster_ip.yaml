@@ -9,9 +9,9 @@ spec:
   clusterIP: None
   ports:
   - name: http
-    port: 3000
+    port: 80
     protocol: TCP
-    targetPort: epmd
+    targetPort: 3000
   selector:
     io.kompose.service: fhir
   type: ClusterIP

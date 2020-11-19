@@ -16,7 +16,7 @@
     "test:jest": "NODE_ENV=test jest --forceExit --detectOpenHandles -i .",
     "test:integration": "NODE_ENV=test jest --forceExit --detectOpenHandles -i src/tests/practitioner/complex_merge",
     "snyk-protect": "snyk protect",
-    "prepare": "npm run snyk-protect",
+    "prepare": "",
     "prettier-check": "prettier --check \"**/*.{js,mjs,cjs,jsx,json,ts,tsx,md,mdx,css,html,yml,yaml,scss,less,graphql,graphqls,gql}\"",
     "prettier-fix": "prettier --write \"**/*.{js,mjs,cjs,jsx,json,ts,tsx,md,mdx,css,html,yml,yaml,scss,less,graphql,graphqls,gql}\"",
     "fix_lint": "eslint --fix \"src/**/*.js\""

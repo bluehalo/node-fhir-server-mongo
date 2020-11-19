@@ -16,11 +16,13 @@ WORKDIR /srv/src
 
 # Copy our package.json & install our dependencies
 COPY package.json /srv/src/package.json
-RUN cd /srv/src && npm install --verbose && npm build --verbose
 COPY .snyk /srv/src/.snyk
 
 # Copy the remaining application code.
 COPY . /srv/src
+
+# RUN cd /srv/src && yarn install --verbose
+RUN cd /srv/src && yarn install
 
 # Download the Amazon DocumentDB Certificate Authority (CA) certificate required to authenticate to your cluster
 RUN wget https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem
