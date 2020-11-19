@@ -64,7 +64,7 @@ deploy_local_to_aws:
 	kubectl config current-context && \
 	kubectl cluster-info && \
 	kubectl get services && \
-	helm upgrade --install --set include_mongo=true --set aws=true --set mongoPassword=$$mongoPassword node-fhir-server-mongo ./releases/node-fhir-server-mongo/node-fhir-server-mongo-1.0.tgz && \
+	helm upgrade --install --set include_mongo=true --set use_ingress=true --set aws=true --set mongoPassword=$$mongoPassword node-fhir-server-mongo ./releases/node-fhir-server-mongo/node-fhir-server-mongo-1.0.tgz && \
 	helm ls && \
 	kubectl get services && \
 	kubectl get all --namespace=nodefhirservermongo && \
@@ -146,8 +146,9 @@ logs:
 .PHONY:diagnose
 diagnose:
 	kubectl get all --all-namespaces
-	kubectl --namespace=nodefhirservermongo  run client --image=appropriate/curl --rm -ti --restart=Never --command -- curl http://fhir:3000/4_0_0/metadata
+	kubectl --namespace=nodefhirservermongo run client --image=appropriate/curl --rm -ti --restart=Never --command -- curl http://fhir:3000/4_0_0/metadata
 	kubectl --namespace=nodefhirservermongo logs --previous deployment.apps/fhir 
+	kubectl --namespace=nodefhirservermongo delete pod/fhir-84d98fdf6d-4bsrz
 
 .PHONY: busybox
 busybox:

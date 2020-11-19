@@ -10,7 +10,7 @@ metadata:
 # this service shows up in the UI with this name    
   name: fhir
 # namespace should match other services in this file  
-  namespace: nodefhirservermongo 
+  namespace: {{ .Values.namespace }}
 # labels allows you to use selectors to find this service
   labels:
     app: fhir

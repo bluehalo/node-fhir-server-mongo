@@ -1,19 +1,19 @@
 {{ if .Values.use_ingress }}
-apiVersion: networking.k8s.io/v1
+apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   name: fhir-ingress
+  namespace: {{ .Values.namespace }}  
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    kubernetes.io/ingress.class: traefik
 spec:
   rules:
-  - http:
+  - host: fhir.dev.icanbwell.com
+    http:
       paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: fhirserverpublic
-            port:
-              number: 3000
+      - backend:
+          serviceName: fhir-server
+          servicePort: 80
+        path: /
+        pathType: ImplementationSpecific
 {{ end }}

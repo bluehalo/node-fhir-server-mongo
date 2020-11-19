@@ -10,7 +10,7 @@ metadata:
     io.kompose.service: mongo
   name: mongo
 # namespace should match other services in this file  
-  namespace: nodefhirservermongo
+  namespace: {{ .Values.namespace }}
 spec:
   replicas: 1
   revisionHistoryLimit: 3  # Clean-up old Replica Sets deployed; only keep previous 3.    

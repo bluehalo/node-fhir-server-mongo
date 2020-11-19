@@ -4,7 +4,7 @@ kind: Service
 metadata:
   name: fhir-server
 # namespace should match other services in this file  
-  namespace: nodefhirservermongo  
+  namespace: {{ .Values.namespace }}  
 spec:
   clusterIP: None
   ports:

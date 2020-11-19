@@ -5,12 +5,12 @@ metadata:
   annotations:
     external-dns.alpha.kubernetes.io/hostname: fhir.dev.icanbwell.com
 # maps the fhirserverpublic Service in the nodefhirservermongo namespace to fhir.dev.icanbwell.com   
-  name: fhir-server
+  name: fhir-external-name
 # namespace should match other services in this file  
-  namespace: nodefhirservermongo  
+  namespace: {{ .Values.namespace }} 
 spec:
 # DNS name to map to service
-  externalName: fhir.dev.icanbwell.com
+  externalName: traefik.dev.icanbwell.com
   sessionAffinity: None
   type: ExternalName
 {{ end }}
