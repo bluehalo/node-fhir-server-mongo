@@ -57,11 +57,25 @@
                         "code": "MD"
                     }
                 ]
+            }
+        },
+        {
+            "code": {
+                "coding": [
+                    {
+                        "system": "http://terminology.hl7.org/ValueSet/v2-2.7-030",
+                        "code": "MD"
+                    }
+                ]
             },
             "period": {
+                "start": "1960-11-12",
                 "end": "2021-11-12"
+            },
+            "issuer":{
+                "reference": "Organization/StanfordMedicalSchool"
             }
-        }
+        }        
     ],
     "communication": [
         {

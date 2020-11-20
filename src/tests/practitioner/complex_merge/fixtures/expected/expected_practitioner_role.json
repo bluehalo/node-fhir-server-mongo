@@ -35,6 +35,16 @@
                     }
                 ],
                 "text": "Endocrinology, Diabetes & Metabolism"
+            },
+            {
+                "coding": [
+                    {
+                        "system": "http://nucc.org/provider-taxonomy",
+                        "code": "261QP2300X",
+                        "display": "Primary Care"
+                    }
+                ],
+                "text": "Primary Care"
             }
         ],
         "location": [
@@ -117,8 +127,10 @@
                 "text": "Provider's Primary Specialty Group"
             }
         ],
-        "healthcareService": [{
-            "reference": "HealthcareService/1679033641-MAX-MALX"
-        }]
+        "healthcareService": [
+            {
+                "reference": "HealthcareService/1679033641-MAX-MALX"
+            }
+        ]
     }
 ]

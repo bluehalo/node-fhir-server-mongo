@@ -9,6 +9,7 @@ const { CLIENT, CLIENT_DB } = require('../../../constants');
 const practitionerResource = require('./fixtures/providers/practitioner.json');
 const locationResource = require('./fixtures/providers/location.json');
 const practitionerRoleResource = require('./fixtures/providers/practitioner_role.json');
+const practitionerMedicalSchoolResource = require('./fixtures/providers/medical_school_organization.json');
 // insurance
 const insurancePractitionerResource = require('./fixtures/insurance/practitioner.json');
 const insuranceOrganizationResource = require('./fixtures/insurance/insurance_organization.json');
@@ -112,6 +113,21 @@ describe('Practitioner Complex Merge Tests', () => {
             .set('Accept', 'application/fhir+json')
             .expect(200, (err, resp) => {
               console.log('------- response locationResource ------------');
+              console.log(JSON.stringify(resp.body, null, 2));
+              console.log('------- end response  ------------');
+              expect(resp.body['created']).toBe(true);
+              return cb(err, resp);
+            }), (results, cb) =>
+          request
+            .post('/4_0_0/Organization/StanfordMedicalSchool/$merge')
+            .send(practitionerMedicalSchoolResource)
+            .set('Content-Type', 'application/fhir+json')
+            .set('Accept', 'application/fhir+json')
+            .expect(200, (err, resp) => {
+              if (err) {
+                console.log(err);
+              }
+              console.log('------- response practitionerMedicalSchoolResource ------------');
               console.log(JSON.stringify(resp.body, null, 2));
               console.log('------- end response  ------------');
               expect(resp.body['created']).toBe(true);
@@ -355,7 +371,7 @@ describe('Practitioner Complex Merge Tests', () => {
             console.log('------- end response  ------------');
             // clear out the lastUpdated column since that changes
             let body = resp.body;
-            expect(body.length).toBe(3);
+            expect(body.length).toBe(4);
             delete body[0]['meta']['lastUpdated'];
             body.forEach(element => {
               delete element['meta']['lastUpdated'];

@@ -29,7 +29,17 @@
                 }
             ],
             "text": "Endocrinology, Diabetes & Metabolism"
-        }
+        },
+        {
+            "coding": [
+                {
+                    "system": "http://nucc.org/provider-taxonomy",
+                    "code": "261QP2300X",
+                    "display": "Primary Care"
+                }
+            ],
+            "text": "Primary Care"
+        }        
     ],
     "location": [
         {
