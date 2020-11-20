@@ -23,6 +23,8 @@ const schedulerPractitionerRoleResource = require('./fixtures/scheduler/practiti
 const schedulerHealthcareServiceResource = require('./fixtures/scheduler/healthcare_service.json');
 // practice
 const practiceHealthcareServiceResource = require('./fixtures/practice/healthcare_service.json');
+const practiceOrganizationResource = require('./fixtures/practice/practice_organization.json');
+const practiceParentOrganizationResource = require('./fixtures/practice/parent_organization.json');
 
 // expected
 const expectedPractitionerResource = require('./fixtures/expected/expected_practitioner.json');
@@ -283,6 +285,38 @@ describe('Practitioner Complex Merge Tests', () => {
               expect(resp.body['created']).toBe(true);
               return cb(err, resp);
             }),
+        (results, cb) =>
+          request
+            .post('/4_0_0/Organization/MWHC/$merge')
+            .send(practiceOrganizationResource)
+            .set('Content-Type', 'application/fhir+json')
+            .set('Accept', 'application/fhir+json')
+            .expect(200, (err, resp) => {
+              if (err) {
+                console.log(err);
+              }
+              console.log('------- response practiceOrganizationResource ------------');
+              console.log(JSON.stringify(resp.body, null, 2));
+              console.log('------- end response  ------------');
+              expect(resp.body['created']).toBe(false);
+              return cb(err, resp);
+            }),
+        (results, cb) =>
+          request
+            .post('/4_0_0/Organization/MedStarMedicalGroup/$merge')
+            .send(practiceParentOrganizationResource)
+            .set('Content-Type', 'application/fhir+json')
+            .set('Accept', 'application/fhir+json')
+            .expect(200, (err, resp) => {
+              if (err) {
+                console.log(err);
+              }
+              console.log('------- response practiceHealthcareServiceResource ------------');
+              console.log(JSON.stringify(resp.body, null, 2));
+              console.log('------- end response  ------------');
+              expect(resp.body['created']).toBe(true);
+              return cb(err, resp);
+            }),
         (results, cb) => request
           .get('/4_0_0/Practitioner')
           .set('Content-Type', 'application/fhir+json')
@@ -371,17 +405,16 @@ describe('Practitioner Complex Merge Tests', () => {
             console.log('------- end response  ------------');
             // clear out the lastUpdated column since that changes
             let body = resp.body;
-            expect(body.length).toBe(4);
+            expect(body.length).toBe(5);
             delete body[0]['meta']['lastUpdated'];
             body.forEach(element => {
-              delete element['meta']['lastUpdated'];
+              delete element['meta'];
             });
             let expected = expectedOrganizationResource;
             expected.forEach(element => {
               if ('meta' in element) {
-                delete element['meta']['lastUpdated'];
+                delete element['meta'];
               }
-              element['meta'] = { 'versionId': '1' };
               if ('$schema' in element) {
                 delete element['$schema'];
               }
