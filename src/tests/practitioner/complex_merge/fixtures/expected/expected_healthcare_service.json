@@ -2,6 +2,10 @@
     {
         "resourceType": "HealthcareService",
         "id": "1679033641-MAX-MALX",
+        "meta": {
+            "versionId": "1",
+            "lastUpdated": "2020-11-22T18:21:45+00:00"
+        },
         "identifier": [
             {
                 "system": "MedstarHealth.org",
@@ -91,6 +95,10 @@
     {
         "resourceType": "HealthcareService",
         "id": "MWHC_Department-207RE0101X",
+        "meta": {
+            "versionId": "1",
+            "lastUpdated": "2020-11-22T18:21:45+00:00"
+        },
         "providedBy": {
             "reference": "Organization/MWHC_Department"
         },

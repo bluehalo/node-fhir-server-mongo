@@ -2,6 +2,10 @@
     {
         "resourceType": "Organization",
         "id": "StanfordMedicalSchool",
+        "meta": {
+            "versionId": "1",
+            "lastUpdated": "2020-11-22T18:20:05+00:00"
+        },
         "type": [
             {
                 "coding": [
@@ -16,7 +20,19 @@
     },
     {
         "resourceType": "Organization",
+        "id": "1679033641-UF3-UADM",
+        "meta": {
+            "versionId": "1",
+            "lastUpdated": "2020-11-22T18:20:05+00:00"
+        }
+    },
+    {
+        "resourceType": "Organization",
         "id": "AETNA",
+        "meta": {
+            "versionId": "1",
+            "lastUpdated": "2020-11-22T18:20:05+00:00"
+        },
         "identifier": [
             {
                 "type": {
@@ -43,6 +59,10 @@
     {
         "resourceType": "Organization",
         "id": "MWHC",
+        "meta": {
+            "versionId": "2",
+            "lastUpdated": "2020-11-22T18:20:05+00:00"
+        },
         "identifier": [
             {
                 "type": {
@@ -75,6 +95,10 @@
     {
         "resourceType": "Organization",
         "id": "MWHC_Department",
+        "meta": {
+            "versionId": "1",
+            "lastUpdated": "2020-11-22T18:20:05+00:00"
+        },
         "identifier": [
             {
                 "type": {
@@ -119,6 +143,10 @@
     {
         "resourceType": "Organization",
         "id": "MedStarMedicalGroup",
+        "meta": {
+            "versionId": "1",
+            "lastUpdated": "2020-11-22T18:20:05+00:00"
+        },
         "type": [
             {
                 "coding": [

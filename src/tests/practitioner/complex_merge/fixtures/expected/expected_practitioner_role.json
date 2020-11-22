@@ -51,6 +51,11 @@
             {
                 "reference": "Location/UF3-UADM"
             }
+        ],
+        "healthcareService":[
+            {
+                "reference": "HealthcareService/1679033641-UF3-UADM"
+            }
         ]
     },
     {
