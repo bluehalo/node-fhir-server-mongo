@@ -66,8 +66,8 @@ deploy-from-github:
 	kubectl get deployment.apps/fhir --namespace=nodefhirservermongo -o yaml && \
 	kubectl logs deployment.apps/fhir --namespace=nodefhirservermongo
 
-.PHONY: deploy_local_to_aws
-deploy_local_to_aws:
+.PHONY: deploy_local_to_aws_dev
+deploy_local_to_aws_dev:
 	read -p "Enter Mongo Password:" mongoPassword; \
 	export KUBECONFIG="${HOME}/.kube/config:${HOME}/.kube/config-dev-eks.config.yaml" && \
 	aws-vault exec human-admin@bwell-dev -- aws s3 ls && \
@@ -75,13 +75,28 @@ deploy_local_to_aws:
 	kubectl config current-context && \
 	kubectl cluster-info && \
 	kubectl get services && \
-	helm upgrade --install --set include_mongo=false --set use_ingress=true --set aws=true --set mongoPassword=$$mongoPassword node-fhir-server-mongo ./releases/node-fhir-server-mongo/node-fhir-server-mongo-1.0.tgz && \
+	helm upgrade --install --set fhir.replicas=3 --set fhir.mongo_db_name=fhir_dev --set fhir.ingress_name=fhir.dev.icanbwell.com --set include_mongo=false --set use_ingress=true --set aws=true --set mongoPassword=$$mongoPassword node-fhir-server-mongo ./releases/node-fhir-server-mongo/node-fhir-server-mongo-1.0.tgz && \
 	helm ls && \
 	kubectl get services && \
 	kubectl get all --namespace=nodefhirservermongo && \
 	kubectl get deployment.apps/fhir --namespace=nodefhirservermongo -o yaml && \
 	kubectl logs deployment.apps/fhir --namespace=nodefhirservermongo
 
+.PHONY: deploy_local_to_aws_staging
+deploy_local_to_aws_staging:
+	read -p "Enter Mongo Password:" mongoPassword; \
+	export KUBECONFIG="${HOME}/.kube/config:${HOME}/.kube/config-dev-eks.config.yaml" && \
+	aws-vault exec human-admin@bwell-dev -- aws s3 ls && \
+	kubectl config use-context arn:aws:eks:us-east-1:875300655693:cluster/dev-eks-cluster && \
+	kubectl config current-context && \
+	kubectl cluster-info && \
+	kubectl get services && \
+	helm upgrade --install --set fhir.replicas=3 --set fhir.mongo_db_name=fhir_staging --set fhir.ingress_name=fhir.staging.icanbwell.com --set include_mongo=false --set use_ingress=true --set aws=true --set mongoPassword=$$mongoPassword node-fhir-server-mongo ./releases/node-fhir-server-mongo/node-fhir-server-mongo-1.0.tgz && \
+	helm ls && \
+	kubectl get services && \
+	kubectl get all --namespace=nodefhirservermongo && \
+	kubectl get deployment.apps/fhir --namespace=nodefhirservermongo -o yaml && \
+	kubectl logs deployment.apps/fhir --namespace=nodefhirservermongo
 
 .PHONY: deploy_to_aws
 deploy_to_aws:
@@ -150,8 +165,6 @@ logs:
 	kubectl --namespace=nodefhirservermongo get all  && \
 	kubectl --namespace=nodefhirservermongo get pods --selector=io.kompose.service=fhir && \
 	kubectl --namespace=nodefhirservermongo get endpoints  && \
-	echo "----------------- Mongo logs -------------" && \
-	kubectl --namespace=nodefhirservermongo logs deployment.apps/mongo && \
 	echo "----------------- FHIR logs -------------" && \
 	kubectl --namespace=nodefhirservermongo logs --follow deployment.apps/fhir 
 

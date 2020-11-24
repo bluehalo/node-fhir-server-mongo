@@ -8,7 +8,7 @@ metadata:
     kubernetes.io/ingress.class: traefik
 spec:
   rules:
-  - host: fhir.dev.icanbwell.com
+  - host: {{ .Values.fhir.ingress_name }}
     http:
       paths:
       - backend:

@@ -13,3 +13,8 @@ aws: false
 
 mongoPassword: ""
 namespace: "nodefhirservermongo"
+
+fhir:
+  replicas: 3
+  mongo_db_name: "fhir"
+  ingress_name: "fhir.dev.icanbwell.com"
