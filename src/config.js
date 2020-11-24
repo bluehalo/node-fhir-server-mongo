@@ -22,14 +22,10 @@ let mongoConfig = {
   options: {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    server: {
-      auto_reconnect: true,
-      socketOptions: {
-        keepAlive: 1,
-        connectTimeoutMS: 60000,
-        socketTimeoutMS: 60000,
-      }
-    }
+    auto_reconnect: true,
+    keepAlive: 1,
+    connectTimeoutMS: 60000,
+    socketTimeoutMS: 60000,
   },
 };
 

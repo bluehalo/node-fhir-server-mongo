@@ -41,6 +41,9 @@ helm:
 
 .PHONY: clean-helm
 clean-helm:
+	export KUBECONFIG="${HOME}/.kube/config:${HOME}/.kube/config-dev-eks.config.yaml" && \
+	aws-vault exec human-admin@bwell-dev -- aws s3 ls && \
+	kubectl config use-context arn:aws:eks:us-east-1:875300655693:cluster/dev-eks-cluster && \
 	helm delete node-fhir-server-mongo
 
 .PHONY: deploy
