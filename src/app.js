@@ -11,7 +11,7 @@ const fhirApp = FHIRServer.initialize(fhirServerConfig);
 app.get('/health', (req, res) => res.json({ status: 'ok' }));
 app.use(fhirApp.app);
 
-app.post('/clean', (req, res) => {
+app.get('/clean', (req, res) => {
     let db = globals.get(CLIENT_DB);
     var collections = [];
     db.getCollectionNames().forEach(function (collection_name) {
