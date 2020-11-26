@@ -94,12 +94,12 @@ deploy_local_to_aws_staging:
 	kubectl config current-context && \
 	kubectl cluster-info && \
 	kubectl get services && \
-	helm upgrade --install --set fhir.replicas=3 --set fhir.mongo_db_name=fhir_staging --set fhir.ingress_name=fhir.staging.icanbwell.com --set include_mongo=false --set use_ingress=true --set aws=true --set mongoPassword=$$mongoPassword node-fhir-server-mongo ./releases/node-fhir-server-mongo/node-fhir-server-mongo-1.0.tgz && \
+	helm upgrade --install --set namespace=fhir-staging --set fhir.replicas=3 --set fhir.mongo_db_name=fhir_staging --set fhir.ingress_name=fhir-staging.dev.icanbwell.com --set include_mongo=false --set use_ingress=true --set aws=true --set mongoPassword=$$mongoPassword fhir-staging ./releases/node-fhir-server-mongo/node-fhir-server-mongo-1.0.tgz && \
 	helm ls && \
 	kubectl get services && \
-	kubectl get all --namespace=nodefhirservermongo && \
-	kubectl get deployment.apps/fhir --namespace=nodefhirservermongo -o yaml && \
-	kubectl logs deployment.apps/fhir --namespace=nodefhirservermongo
+	kubectl get all --namespace=fhir-staging && \
+	kubectl get deployment.apps/fhir --namespace=fhir-staging -o yaml && \
+	kubectl logs deployment.apps/fhir --namespace=fhir-staging
 
 .PHONY: deploy_to_aws
 deploy_to_aws:
@@ -158,8 +158,8 @@ run:
 mongoclient:
 	kubectl exec --stdin --tty deployment.apps/mongo --namespace=nodefhirservermongo -- /bin/bash
 
-.PHONY:logs
-logs:
+.PHONY:logs-dev
+logs-dev:
 	export KUBECONFIG="${HOME}/.kube/config:${HOME}/.kube/config-dev-eks.config.yaml" && \
 	aws-vault exec human-admin@bwell-dev -- aws s3 ls && \
 	kubectl config use-context arn:aws:eks:us-east-1:875300655693:cluster/dev-eks-cluster && \
@@ -170,6 +170,19 @@ logs:
 	kubectl --namespace=nodefhirservermongo get endpoints  && \
 	echo "----------------- FHIR logs -------------" && \
 	kubectl --namespace=nodefhirservermongo logs --follow deployment.apps/fhir 
+
+.PHONY:logs-staging
+logs-staging:
+	export KUBECONFIG="${HOME}/.kube/config:${HOME}/.kube/config-dev-eks.config.yaml" && \
+	aws-vault exec human-admin@bwell-dev -- aws s3 ls && \
+	kubectl config use-context arn:aws:eks:us-east-1:875300655693:cluster/dev-eks-cluster && \
+	kubectl config current-context && \
+	kubectl cluster-info && \
+	kubectl --namespace=fhir-staging get all  && \
+	kubectl --namespace=fhir-staging get pods --selector=io.kompose.service=fhir && \
+	kubectl --namespace=fhir-staging get endpoints  && \
+	echo "----------------- FHIR logs -------------" && \
+	kubectl --namespace=fhir-staging logs --follow deployment.apps/fhir 
 
 .PHONY:diagnose
 diagnose:
@@ -189,6 +202,14 @@ test_mongo_in_container:
 	wget https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem
 	mongo --ssl --host dev-fhir-db.cluster-ckvm0jix2koe.us-east-1.docdb.amazonaws.com:27017 --sslCAFile rds-combined-ca-bundle.pem --username mongoadmin --password <insertYourPassword>
 
-.PHONY: helm_delete
-helm_delete:
+.PHONY: helm-delete-dev
+helm-delete-dev:
 	helm delete node-fhir-server-mongo
+
+.PHONY: helm-delete-staging
+helm-delete-staging:
+	helm delete fhir-staging
+
+.PHONY: secrets
+secrets:
+	$(eval HASSECRET=$(shell sh -c "kubectl --namespace=nodefhirservermongo get secret mongoPassword")) ; echo $(HASSECRET)

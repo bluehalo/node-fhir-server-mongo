@@ -6,6 +6,8 @@ metadata:
   namespace: {{ .Values.namespace }}  
   annotations:
     kubernetes.io/ingress.class: traefik
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    external-dns.alpha.kubernetes.io/hostname: {{ .Values.fhir.ingress_name }} 
 spec:
   rules:
   - host: {{ .Values.fhir.ingress_name }}

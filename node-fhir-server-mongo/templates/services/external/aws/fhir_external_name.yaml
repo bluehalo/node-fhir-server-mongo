@@ -1,10 +1,10 @@
-{{ if .Values.foo }}
+{{ if .Values.aws }}
 apiVersion: v1
 kind: Service
 metadata:
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: fhir.dev.icanbwell.com
-# maps the fhirserverpublic Service in the nodefhirservermongo namespace to fhir.dev.icanbwell.com   
+    external-dns.alpha.kubernetes.io/hostname: {{ .Values.fhir.ingress_name }}
+# maps the fhirserverpublic Service in the .Values.namespace namespace to fhir.dev.icanbwell.com   
   name: fhir-external-name
 # namespace should match other services in this file  
   namespace: {{ .Values.namespace }} 
