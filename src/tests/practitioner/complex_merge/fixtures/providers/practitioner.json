@@ -12,7 +12,7 @@
                     }
                 ]
             },
-            "system": "medstarhealth.org",
+            "system": "http://medstarhealth.org",
             "value": "4657"
         },
         {
@@ -33,7 +33,7 @@
     "name": [
         {
             "use": "usual",
-            "text": "NAJJAR  MD, SAMER S.",
+            "text": "SAMER S. NAJJAR  MD",
             "family": "NAJJAR  MD",
             "given": [
                 "SAMER S."
@@ -69,13 +69,13 @@
                 ]
             },
             "period": {
-                "start": "1960-11-12",
-                "end": "2021-11-12"
+                "start": "1960-01-01",
+                "end": "2021-12-11"
             },
-            "issuer":{
-                "reference": "Organization/StanfordMedicalSchool"
+            "issuer": {
+                "reference": "Organization/Stanford_Medical_School"
             }
-        }        
+        }
     ],
     "communication": [
         {

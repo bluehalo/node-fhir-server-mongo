@@ -1,4 +1,7 @@
 {
     "resourceType": "Location",
-    "id": "AetnaElectChoice"
+    "id": "CA",
+    "address": {
+        "state": "CA"
+    }
 }

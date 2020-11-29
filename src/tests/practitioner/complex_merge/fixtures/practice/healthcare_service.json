@@ -1,41 +1,23 @@
 {
     "resourceType": "HealthcareService",
-    "id": "MWHC_Department-207RE0101X",
-    "providedBy":{
-        "reference": "Organization/MWHC_Department"
-    },
-    "type":[
+    "id": "-733797173",
+    "identifier": [
         {
-            "coding": [
-                {
-                    "system": "http://terminology.hl7.org/CodeSystem/service-type",
-                    "code": "117",
-                    "display": "Emergency Medical"
-                }
-            ],
-            "text": "Emergency Medical"
-        },
-        {
-            "coding": [
-                {
-                    "system": "http://terminology.hl7.org/CodeSystem/service-type",
-                    "code": "556",
-                    "display": "Walk-in Centre /Non-Emergency"
-                }
-            ],
-            "text": "Walk-in Centre /Non-Emergency"
-        }        
+            "use": "usual",
+            "system": "bwell",
+            "value": "-733797173"
+        }
     ],
+    "type": [],
     "specialty": [
         {
             "coding": [
                 {
                     "system": "http://nucc.org/provider-taxonomy",
-                    "code": "207RE0101X",
-                    "display": "Endocrinology, Diabetes & Metabolism"
+                    "code": "261QP2300X",
+                    "display": "Primary Care and Student Health"
                 }
-            ],
-            "text": "Endocrinology, Diabetes & Metabolism"
+            ]
         }
     ]
 }

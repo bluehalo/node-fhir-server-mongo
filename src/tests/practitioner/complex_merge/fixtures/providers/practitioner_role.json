@@ -1,11 +1,8 @@
 {
     "resourceType": "PractitionerRole",
-    "id": "1679033641-UF3-UADM",
+    "id": "4657-3437",
     "practitioner": {
         "reference": "Practitioner/1679033641"
-    },
-    "organization": {
-        "reference": "Organization/UF3-UADM"
     },
     "code": [
         {
@@ -23,12 +20,22 @@
         {
             "coding": [
                 {
-                    "system": "http://nucc.org/provider-taxonomy",
-                    "code": "207RE0101X",
-                    "display": "Endocrinology, Diabetes & Metabolism"
+                    "system": "https://www.http://medstarhealth.org/",
+                    "code": "Family Medicine",
+                    "display": "Family Medicine"
                 }
             ],
-            "text": "Endocrinology, Diabetes & Metabolism"
+            "text": "Family Medicine"
+        },
+        {
+            "coding": [
+                {
+                    "system": "http://nucc.org/provider-taxonomy",
+                    "code": "207Q00000X",
+                    "display": "Family Medicine"
+                }
+            ],
+            "text": "Family Medicine"
         },
         {
             "coding": [
@@ -39,14 +46,14 @@
                 }
             ],
             "text": "Primary Care"
-        }        
+        }
     ],
     "location": [
         {
             "reference": "Location/UF3-UADM"
         }
     ],
-    "healthcareService":[
+    "healthcareService": [
         {
             "reference": "HealthcareService/1679033641-UF3-UADM"
         }

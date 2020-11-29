@@ -6,7 +6,7 @@
             "code": {
                 "coding": [
                     {
-                        "system": "http://snomed.info/sct/",
+                        "system": "http://snomed.info/sct",
                         "code": "185387006",
                         "display": "New Patient"
                     }
@@ -17,12 +17,24 @@
             "code": {
                 "coding": [
                     {
-                        "system": "http://snomed.info/sct/",
+                        "system": "http://snomed.info/sct",
                         "code": "448337001",
                         "display": "Telehealth Visit"
                     }
                 ]
             }
+        },
+        {
+            "code": {
+                "coding": [
+                    {
+                        "code": "0 - 100",
+                        "system": "MedstarHealth.org",
+                        "display": "0 - 100"
+                    }
+                ]
+            },
+            "comment": "Age Group Seen"
         }
     ]
 }

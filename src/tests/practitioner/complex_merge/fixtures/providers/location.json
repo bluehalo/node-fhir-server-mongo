@@ -11,10 +11,10 @@
                         "display": "Facility ID"
                     }
                 ],
-                "text": "Scheduling Location MNEM"
+                "text": "Facility ID"
             },
             "system": "MedstarHealth.org",
-            "value": "scheduling_location_mnem"
+            "value": "UF3"
         },
         {
             "type": {
@@ -22,15 +22,16 @@
                     {
                         "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
                         "code": "XX",
-                        "display": "Organization identifier"
+                        "display": "Organization Identifier"
                     }
                 ],
-                "text": "Scheduling Location Number"
+                "text": "Organization Identifier"
             },
             "system": "MedstarHealth.org",
-            "value": "scheduling_location_number"
+            "value": "3437"
         }
     ],
+    "status": "active",
     "name": "UMH 33RD ST PROF BLDG 3RD FL",
     "address": {
         "line": [
@@ -41,9 +42,8 @@
         "state": "MD",
         "postalCode": "21218"
     },
-    "status": "active",
     "position": {
-        "longitude": 42.256500,
-        "latitude": -83.694710
+        "longitude": -76.61668,
+        "latitude": 39.32792
     }
 }

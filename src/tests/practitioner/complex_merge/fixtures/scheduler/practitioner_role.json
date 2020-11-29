@@ -1,7 +1,7 @@
 {
     "resourceType": "PractitionerRole",
-    "id": "1679033641-MAX-MALX",
-    "identifiers": [
+    "id": "MAX-MALX",
+    "identifier": [
         {
             "use": "usual",
             "type": {
@@ -19,9 +19,6 @@
     ],
     "practitioner": {
         "reference": "Practitioner/1679033641"
-    },
-    "organization": {
-        "reference": "Organization/MAX-MALX"
     },
     "code": [
         {
@@ -55,9 +52,14 @@
             "text": "Provider's Primary Specialty Group"
         }
     ],
+    "location": [
+        {
+            "reference": "Location/MAX-MALX"
+        }
+    ],
     "healthcareService": [
         {
-            "reference": "HealthcareService/1679033641-MAX-MALX"
+            "reference": "HealthcareService/MAX-MALX"
         }
     ]
 }

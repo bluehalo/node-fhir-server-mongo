@@ -18,7 +18,6 @@ const insurancePlanLocationResource = require('./fixtures/insurance/insurance_pl
 const insurancePlanResource = require('./fixtures/insurance/insurance_plan.json');
 const insurancePractitionerRoleResource = require('./fixtures/insurance/practitioner_role.json');
 const insuranceProviderOrganizationResource = require('./fixtures/insurance/provider_organization.json');
-const insuranceProviderDepartmentResource = require('./fixtures/insurance/provider_department.json');
 // scheduler
 const schedulerPractitionerRoleResource = require('./fixtures/scheduler/practitioner_role.json');
 const schedulerHealthcareServiceResource = require('./fixtures/scheduler/healthcare_service.json');
@@ -26,6 +25,7 @@ const schedulerHealthcareServiceResource = require('./fixtures/scheduler/healthc
 const practiceHealthcareServiceResource = require('./fixtures/practice/healthcare_service.json');
 const practiceOrganizationResource = require('./fixtures/practice/practice_organization.json');
 const practiceParentOrganizationResource = require('./fixtures/practice/parent_organization.json');
+const practiceLocationResource = require('./fixtures/practice/location.json');
 
 // expected
 const expectedPractitionerResource = require('./fixtures/expected/expected_practitioner.json');
@@ -242,21 +242,6 @@ describe('Practitioner Complex Merge Tests', () => {
               return cb(err, resp);
             }), (results, cb) =>
           request
-            .post('/4_0_0/Organization/MWHC_Department/$merge')
-            .send(insuranceProviderDepartmentResource)
-            .set('Content-Type', 'application/fhir+json')
-            .set('Accept', 'application/fhir+json')
-            .expect(200, (err, resp) => {
-              if (err) {
-                console.log(err);
-              }
-              console.log('------- response insuranceProviderDepartmentResource ------------');
-              console.log(JSON.stringify(resp.body, null, 2));
-              console.log('------- end response  ------------');
-              expect(resp.body['created']).toBe(true);
-              return cb(err, resp);
-            }), (results, cb) =>
-          request
             .post('/4_0_0/PractitionerRole/1679033641/$merge')
             .send(schedulerPractitionerRoleResource)
             .set('Content-Type', 'application/fhir+json')
@@ -314,7 +299,7 @@ describe('Practitioner Complex Merge Tests', () => {
               console.log('------- response practiceOrganizationResource ------------');
               console.log(JSON.stringify(resp.body, null, 2));
               console.log('------- end response  ------------');
-              expect(resp.body['created']).toBe(false);
+              expect(resp.body['created']).toBe(true);
               return cb(err, resp);
             }),
         (results, cb) =>
@@ -328,6 +313,22 @@ describe('Practitioner Complex Merge Tests', () => {
                 console.log(err);
               }
               console.log('------- response practiceHealthcareServiceResource ------------');
+              console.log(JSON.stringify(resp.body, null, 2));
+              console.log('------- end response  ------------');
+              expect(resp.body['created']).toBe(true);
+              return cb(err, resp);
+            }),
+        (results, cb) =>
+          request
+            .post('/4_0_0/Organization/Location/$merge')
+            .send(practiceLocationResource)
+            .set('Content-Type', 'application/fhir+json')
+            .set('Accept', 'application/fhir+json')
+            .expect(200, (err, resp) => {
+              if (err) {
+                console.log(err);
+              }
+              console.log('------- response practiceLocationResource ------------');
               console.log(JSON.stringify(resp.body, null, 2));
               console.log('------- end response  ------------');
               expect(resp.body['created']).toBe(true);
@@ -421,7 +422,7 @@ describe('Practitioner Complex Merge Tests', () => {
             console.log('------- end response  ------------');
             // clear out the lastUpdated column since that changes
             let body = resp.body;
-            expect(body.length).toBe(6);
+            expect(body.length).toBe(7);
             delete body[0]['meta']['lastUpdated'];
             body.forEach(element => {
               delete element['meta'];
