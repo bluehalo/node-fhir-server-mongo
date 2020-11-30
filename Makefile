@@ -25,6 +25,10 @@ tests:
 tests_integration:
 	npm run test:integration
 
+.PHONY:tests_everything
+tests_everything:
+	npm run test:everything
+
 .PHONY:generate
 generate:
 	python3 src/services/generate_services.py
