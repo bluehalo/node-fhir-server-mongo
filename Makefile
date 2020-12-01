@@ -43,8 +43,8 @@ helm:
 	rm ./releases/node-fhir-server-mongo/node-fhir-server-mongo-1.0.tgz
 	helm package ./node-fhir-server-mongo --destination ./releases/node-fhir-server-mongo/ --app-version 1.0 --version 1.0
 
-.PHONY: clean-helm
-clean-helm:
+.PHONY: clean-helm-dev
+clean-helm-dev:
 	export KUBECONFIG="${HOME}/.kube/config:${HOME}/.kube/config-dev-eks.config.yaml" && \
 	aws-vault exec human-admin@bwell-dev -- aws s3 ls && \
 	kubectl config use-context arn:aws:eks:us-east-1:875300655693:cluster/dev-eks-cluster && \
@@ -99,6 +99,22 @@ deploy_local_to_aws_staging:
 	kubectl cluster-info && \
 	kubectl get services && \
 	helm upgrade --install --set namespace=fhir-staging --set fhir.replicas=3 --set fhir.mongo_db_name=fhir_staging --set fhir.ingress_name=fhir-staging.dev.icanbwell.com --set include_mongo=false --set use_ingress=true --set aws=true --set mongoPassword=$$mongoPassword fhir-staging ./releases/node-fhir-server-mongo/node-fhir-server-mongo-1.0.tgz && \
+	helm ls && \
+	kubectl get services && \
+	kubectl get all --namespace=fhir-staging && \
+	kubectl get deployment.apps/fhir --namespace=fhir-staging -o yaml && \
+	kubectl logs deployment.apps/fhir --namespace=fhir-staging
+
+.PHONY: deploy_local_to_aws_pre-prod
+deploy_local_to_aws_pre-prod:
+	read -p "Enter Mongo Password:" mongoPassword; \
+	export KUBECONFIG="${HOME}/.kube/config:${HOME}/.kube/config-dev-eks.config.yaml" && \
+	aws-vault exec human-admin@bwell-dev -- aws s3 ls && \
+	kubectl config use-context arn:aws:eks:us-east-1:875300655693:cluster/dev-eks-cluster && \
+	kubectl config current-context && \
+	kubectl cluster-info && \
+	kubectl get services && \
+	helm upgrade --install --set namespace=fhir-pre-prod --set fhir.replicas=3 --set fhir.mongo_db_name=fhir_pre_prod --set fhir.ingress_name=fhir-pre-prod.dev.icanbwell.com --set include_mongo=false --set use_ingress=true --set aws=true --set mongoPassword=$$mongoPassword fhir-staging ./releases/node-fhir-server-mongo/node-fhir-server-mongo-1.0.tgz && \
 	helm ls && \
 	kubectl get services && \
 	kubectl get all --namespace=fhir-staging && \
@@ -187,6 +203,19 @@ logs-staging:
 	kubectl --namespace=fhir-staging get endpoints  && \
 	echo "----------------- FHIR logs -------------" && \
 	kubectl --namespace=fhir-staging logs --follow deployment.apps/fhir 
+
+.PHONY:logs-pre-prod
+logs-pre-prod:
+	export KUBECONFIG="${HOME}/.kube/config:${HOME}/.kube/config-dev-eks.config.yaml" && \
+	aws-vault exec human-admin@bwell-dev -- aws s3 ls && \
+	kubectl config use-context arn:aws:eks:us-east-1:875300655693:cluster/dev-eks-cluster && \
+	kubectl config current-context && \
+	kubectl cluster-info && \
+	kubectl --namespace=fhir-pre-prod get all  && \
+	kubectl --namespace=fhir-pre-prod get pods --selector=io.kompose.service=fhir && \
+	kubectl --namespace=fhir-pre-prod get endpoints  && \
+	echo "----------------- FHIR logs -------------" && \
+	kubectl --namespace=fhir-pre-prod logs --follow deployment.apps/fhir 
 
 .PHONY:diagnose
 diagnose:
