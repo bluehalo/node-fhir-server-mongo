@@ -526,196 +526,199 @@ module.exports.update = (args, { req }, resource_name, collection_name) =>
         });
     });
 
-module.exports.merge = (args, { req }, resource_name, collection_name) =>
-    new Promise((resolve, reject) => {
-        logInfo(`'${resource_name} >>> merge`);
+module.exports.merge = async (args, { req }, resource_name, collection_name) => {
+    logInfo(`'${resource_name} >>> merge`);
 
-        // read the incoming resource from request body
-        let resource_incoming = req.body;
-        logInfo('args', args);
-        let { base_version } = args;
+    // read the incoming resource from request body
+    let resource_incoming = req.body;
+    logInfo('args', args);
+    let { base_version } = args;
 
-        // logInfo('--- request ----');
-        // logInfo(req);
-        // logInfo('-----------------');
+    // logInfo('--- request ----');
+    // logInfo(req);
+    // logInfo('-----------------');
 
-        logInfo('--- body ----');
-        logInfo(resource_incoming);
-        logInfo('-----------------');
+    logInfo('--- body ----');
+    logInfo(resource_incoming);
+    logInfo('-----------------');
 
-        // logInfo('--- validate schema ----');
-        // const errors = validateSchema(resource_incoming);
-        // if (errors.length > 0){
-        //     return reject(errors);
+    // logInfo('--- validate schema ----');
+    // const errors = validateSchema(resource_incoming);
+    // if (errors.length > 0){
+    //     return reject(errors);
+    // }
+    // logInfo('-----------------');
+
+    let id = resource_incoming.id;
+
+    logInfo(base_version);
+    logInfo('--- body ----');
+    logInfo(resource_incoming);
+
+    // Grab an instance of our DB and collection
+    let db = globals.get(CLIENT_DB);
+    let collection = db.collection(`${collection_name}_${base_version}`);
+
+    // Get current record
+    // Query our collection for this observation
+    // let { err, data } = await collection.findOne({ id: id.toString() });
+    let data = await collection.findOne({ id: id.toString() });
+    {
+        // if (err) {
+        //     logger.error(`Error with finding resource ${resource_name}.merge: `, err);
+        //     throw err;
         // }
-        // logInfo('-----------------');
 
-        let id = resource_incoming.id;
+        // create a resource with incoming data
+        let Resource = getResource(base_version, resource_name);
 
-        logInfo(base_version);
-        logInfo('--- body ----');
-        logInfo(resource_incoming);
+        let cleaned;
+        let doc;
 
-        // Grab an instance of our DB and collection
-        let db = globals.get(CLIENT_DB);
-        let collection = db.collection(`${collection_name}_${base_version}`);
+        // check if resource was found in database or not
+        if (data && data.meta) {
+            // found an existing resource
+            logInfo('found resource: ' + data);
+            let foundResource = new Resource(data);
+            logInfo('------ found document --------');
+            logInfo(data);
+            logInfo('------ end found document --------');
 
-        // Get current record
-        // Query our collection for this observation
-        collection.findOne({ id: id.toString() }, (err, data) => {
-            if (err) {
-                logger.error(`Error with finding resource ${resource_name}.merge: `, err);
-                return reject(err);
+            // use metadata of existing resource (overwrite any passed in metadata)
+            if (!resource_incoming.meta) {
+                resource_incoming.meta = {};
             }
+            resource_incoming.meta.versionId = foundResource.meta.versionId;
+            resource_incoming.meta.lastUpdated = foundResource.meta.lastUpdated;
+            logInfo('------ incoming document --------');
+            logInfo(resource_incoming);
+            logInfo('------ end incoming document --------');
 
-            // create a resource with incoming data
-            let Resource = getResource(base_version, resource_name);
-
-            let cleaned;
-            let doc;
-
-            // check if resource was found in database or not
-            if (data && data.meta) {
-                // found an existing resource
-                logInfo('found resource: ' + data);
-                let foundResource = new Resource(data);
-                logInfo('------ found document --------');
-                logInfo(data);
-                logInfo('------ end found document --------');
-
-                // use metadata of existing resource (overwrite any passed in metadata)
-                if (!resource_incoming.meta) {
-                    resource_incoming.meta = {};
+            // merge new data with old
+            // const mergeNames = (nameA, nameB) => {
+            //     return `${nameA.first} and ${nameB.first}`;
+            // };
+            // const mergeIdentifiers = (array1, array2) => {
+            //     return array1.concat(array2);
+            // };
+            let mergeObjectOrArray;
+            const options = {
+                // eslint-disable-next-line no-unused-vars
+                customMerge: (key) => {
+                    // if (key === 'name') {
+                    //     return mergeNames;
+                    // }
+                    // if (key === 'identifier') {
+                    //     return mergeIdentifiers;
+                    // }
+                    return mergeObjectOrArray;
                 }
-                resource_incoming.meta.versionId = foundResource.meta.versionId;
-                resource_incoming.meta.lastUpdated = foundResource.meta.lastUpdated;
-                logInfo('------ incoming document --------');
-                logInfo(resource_incoming);
-                logInfo('------ end incoming document --------');
+            };
 
-                // merge new data with old
-                // const mergeNames = (nameA, nameB) => {
-                //     return `${nameA.first} and ${nameB.first}`;
-                // };
-                // const mergeIdentifiers = (array1, array2) => {
-                //     return array1.concat(array2);
-                // };
-                let mergeObjectOrArray;
-                const options = {
-                    // eslint-disable-next-line no-unused-vars
-                    customMerge: (key) => {
-                        // if (key === 'name') {
-                        //     return mergeNames;
-                        // }
-                        // if (key === 'identifier') {
-                        //     return mergeIdentifiers;
-                        // }
-                        return mergeObjectOrArray;
-                    }
-                };
-
-                mergeObjectOrArray = (item1, item2) => {
-                    if (Array.isArray(item1)) {
-                        var result_array = deepcopy(item1); // deep copy so we don't change the original object
-                        // see if items are equal then skip them
-                        for (var i = 0; i < item2.length; i++) {
-                            let my_item = item2[i];
-                            // if item2[i] does not matches any item in item1 then insert
-                            if (item1.every(a => deepEqual(a, my_item) === false)) {
-                                result_array.push(my_item);
-                            }
+            mergeObjectOrArray = (item1, item2) => {
+                if (Array.isArray(item1)) {
+                    var result_array = deepcopy(item1); // deep copy so we don't change the original object
+                    // see if items are equal then skip them
+                    for (var i = 0; i < item2.length; i++) {
+                        let my_item = item2[i];
+                        // if item2[i] does not matches any item in item1 then insert
+                        if (item1.every(a => deepEqual(a, my_item) === false)) {
+                            result_array.push(my_item);
                         }
-                        return result_array;
                     }
-                    return deepmerge(item1, item2, options);
+                    return result_array;
+                }
+                return deepmerge(item1, item2, options);
+            };
+
+            // data seems to get updated below
+            // const data_copy = deepcopy(data);
+            let resource_merged = deepmerge(data, resource_incoming, options);
+
+            // now create a patch between the document in db and the incoming document
+            //  this returns an array of patches
+            let patchContent = compare(data, resource_merged);
+            // ignore any changes to _id since that's an internal field
+            patchContent = patchContent.filter(item => item.path !== '/_id');
+            logInfo('------ patches --------');
+            logInfo(patchContent);
+            logInfo('------ end patches --------');
+            // see if there are any changes
+            if (patchContent.length === 0) {
+                logInfo('No changes detected in updated resource');
+                return {
+                    id: id,
+                    created: false,
+                    resource_version: foundResource.meta.versionId,
                 };
-
-                // data seems to get updated below
-                // const data_copy = deepcopy(data);
-                let resource_merged = deepmerge(data, resource_incoming, options);
-
-                // now create a patch between the document in db and the incoming document
-                //  this returns an array of patches
-                let patchContent = compare(data, resource_merged);
-                // ignore any changes to _id since that's an internal field
-                patchContent = patchContent.filter(item => item.path !== '/_id');
-                logInfo('------ patches --------');
-                logInfo(patchContent);
-                logInfo('------ end patches --------');
-                // see if there are any changes
-                if (patchContent.length === 0) {
-                    logInfo('No changes detected in updated resource');
-                    return resolve({
-                        id: id,
-                        created: false,
-                        resource_version: foundResource.meta.versionId,
-                    });
-                }
-                // now apply the patches to the found resource
-                let patched_incoming_data = applyPatch(data, patchContent).newDocument;
-                let patched_resource_incoming = new Resource(patched_incoming_data);
-                // update the metadata to increment versionId
-                let meta = foundResource.meta;
-                meta.versionId = `${parseInt(foundResource.meta.versionId) + 1}`;
-                meta.lastUpdated = moment.utc().format('YYYY-MM-DDTHH:mm:ssZ');
-                patched_resource_incoming.meta = meta;
-                logInfo('------ patched document --------');
-                logInfo(patched_resource_incoming);
-                logInfo('------ end patched document --------');
-                // Same as update from this point on
-                cleaned = JSON.parse(JSON.stringify(patched_resource_incoming));
-                doc = Object.assign(cleaned, { _id: id });
-            } else {
-                // not found so insert
-                logInfo('new resource: ' + data);
-                if (!resource_incoming.meta) {
-                    // create the metadata
-                    let Meta = getMeta(base_version);
-                    resource_incoming.meta = new Meta({
-                        versionId: '1',
-                        lastUpdated: moment.utc().format('YYYY-MM-DDTHH:mm:ssZ'),
-                    });
-                }
-                else {
-                    resource_incoming.meta.versionId = '1';
-                    resource_incoming.meta.lastUpdated = moment.utc().format('YYYY-MM-DDTHH:mm:ssZ');
-                }
-
-                cleaned = JSON.parse(JSON.stringify(resource_incoming));
-                doc = Object.assign(cleaned, { _id: id });
+            }
+            // now apply the patches to the found resource
+            let patched_incoming_data = applyPatch(data, patchContent).newDocument;
+            let patched_resource_incoming = new Resource(patched_incoming_data);
+            // update the metadata to increment versionId
+            let meta = foundResource.meta;
+            meta.versionId = `${parseInt(foundResource.meta.versionId) + 1}`;
+            meta.lastUpdated = moment.utc().format('YYYY-MM-DDTHH:mm:ssZ');
+            patched_resource_incoming.meta = meta;
+            logInfo('------ patched document --------');
+            logInfo(patched_resource_incoming);
+            logInfo('------ end patched document --------');
+            // Same as update from this point on
+            cleaned = JSON.parse(JSON.stringify(patched_resource_incoming));
+            doc = Object.assign(cleaned, { _id: id });
+        } else {
+            // not found so insert
+            logInfo('new resource: ' + data);
+            if (!resource_incoming.meta) {
+                // create the metadata
+                let Meta = getMeta(base_version);
+                resource_incoming.meta = new Meta({
+                    versionId: '1',
+                    lastUpdated: moment.utc().format('YYYY-MM-DDTHH:mm:ssZ'),
+                });
+            }
+            else {
+                resource_incoming.meta.versionId = '1';
+                resource_incoming.meta.lastUpdated = moment.utc().format('YYYY-MM-DDTHH:mm:ssZ');
             }
 
-            // Insert/update our resource record
-            // When using the $set operator, only the specified fields are updated
-            collection.findOneAndUpdate({ id: id }, { $set: doc }, { upsert: true }, (err2, res) => {
-                if (err2) {
-                    logger.error(`Error with ${resource_name}.merge: `, err2);
-                    return reject(err2);
-                }
+            cleaned = JSON.parse(JSON.stringify(resource_incoming));
+            doc = Object.assign(cleaned, { _id: id });
+        }
 
-                // save to history
-                let history_collection = db.collection(`${collection_name}_${base_version}_History`);
+        // Insert/update our resource record
+        // When using the $set operator, only the specified fields are updated
+        // let { err2, res } = await collection.findOneAndUpdate({ id: id }, { $set: doc }, { upsert: true });
+        let res = await collection.findOneAndUpdate({ id: id }, { $set: doc }, { upsert: true });
+        {
+            // if (err2) {
+            //     logger.error(`Error with ${resource_name}.merge: `, err2);
+            //     throw err2;
+            // }
 
-                let history_resource = Object.assign(cleaned, { id: id });
-                delete history_resource['_id']; // make sure we don't have an _id field when inserting into history
+            // save to history
+            let history_collection = db.collection(`${collection_name}_${base_version}_History`);
 
-                const created_entity = res.lastErrorObject && !res.lastErrorObject.updatedExisting;
-                // Insert our resource record to history but don't assign _id
-                return history_collection.insertOne(history_resource, (err3) => {
-                    if (err3) {
-                        logger.error(`Error with ${resource_name}.merge: `, err3);
-                        return reject(err3);
-                    }
+            let history_resource = Object.assign(cleaned, { id: id });
+            delete history_resource['_id']; // make sure we don't have an _id field when inserting into history
 
-                    return resolve({
-                        id: id,
-                        created: created_entity,
-                        resource_version: doc.meta.versionId,
-                    });
-                });
-            });
-        });
-    });
+            const created_entity = res.lastErrorObject && !res.lastErrorObject.updatedExisting;
+            // Insert our resource record to history but don't assign _id
+            // let err3 = await history_collection.insertOne(history_resource);
+            await history_collection.insertOne(history_resource);
+            // if (err3) {
+            //     logger.error(`Error with ${resource_name}.merge: `, err3);
+            //     throw err3;
+            // }
+
+            return {
+                id: id,
+                created: created_entity,
+                resource_version: doc.meta.versionId,
+            };
+        }
+    }
+};
 
 module.exports.everything = (args, context, resource_name) => {
     return new Promise((resolve, reject) => {
