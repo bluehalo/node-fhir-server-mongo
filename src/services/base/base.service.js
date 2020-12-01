@@ -8,6 +8,7 @@ const logger = require('@asymmetrik/node-fhir-server-core').loggers.get();
 const { getUuid } = require('../../utils/uid.util');
 const { validate, applyPatch, compare } = require('fast-json-patch');
 const deepmerge = require('deepmerge');
+const deepcopy = require('deepcopy');
 const deepEqual = require('deep-equal');
 // const Validator = require('jsonschema').Validator;
 // const fhirSchema = require('../../fhir_schema/fhir.schema.json');
@@ -583,7 +584,11 @@ module.exports.merge = (args, { req }, resource_name, collection_name) =>
                 logInfo('------ end found document --------');
 
                 // use metadata of existing resource (overwrite any passed in metadata)
-                resource_incoming.meta = foundResource.meta;
+                if (!resource_incoming.meta) {
+                    resource_incoming.meta = {};
+                }
+                resource_incoming.meta.versionId = foundResource.meta.versionId;
+                resource_incoming.meta.lastUpdated = foundResource.meta.lastUpdated;
                 logInfo('------ incoming document --------');
                 logInfo(resource_incoming);
                 logInfo('------ end incoming document --------');
@@ -611,7 +616,7 @@ module.exports.merge = (args, { req }, resource_name, collection_name) =>
 
                 mergeObjectOrArray = (item1, item2) => {
                     if (Array.isArray(item1)) {
-                        var result_array = item1;
+                        var result_array = deepcopy(item1); // deep copy so we don't change the original object
                         // see if items are equal then skip them
                         for (var i = 0; i < item2.length; i++) {
                             let my_item = item2[i];
@@ -625,6 +630,8 @@ module.exports.merge = (args, { req }, resource_name, collection_name) =>
                     return deepmerge(item1, item2, options);
                 };
 
+                // data seems to get updated below
+                // const data_copy = deepcopy(data);
                 let resource_merged = deepmerge(data, resource_incoming, options);
 
                 // now create a patch between the document in db and the incoming document
@@ -661,12 +668,19 @@ module.exports.merge = (args, { req }, resource_name, collection_name) =>
             } else {
                 // not found so insert
                 logInfo('new resource: ' + data);
-                // create the metadata
-                let Meta = getMeta(base_version);
-                resource_incoming.meta = new Meta({
-                    versionId: '1',
-                    lastUpdated: moment.utc().format('YYYY-MM-DDTHH:mm:ssZ'),
-                });
+                if (!resource_incoming.meta) {
+                    // create the metadata
+                    let Meta = getMeta(base_version);
+                    resource_incoming.meta = new Meta({
+                        versionId: '1',
+                        lastUpdated: moment.utc().format('YYYY-MM-DDTHH:mm:ssZ'),
+                    });
+                }
+                else {
+                    resource_incoming.meta.versionId = '1';
+                    resource_incoming.meta.lastUpdated = moment.utc().format('YYYY-MM-DDTHH:mm:ssZ');
+                }
+
                 cleaned = JSON.parse(JSON.stringify(resource_incoming));
                 doc = Object.assign(cleaned, { _id: id });
             }

@@ -1,3 +1,7 @@
+.PHONY:build
+build:
+	docker build .
+
 .PHONY:up
 up:
 	docker-compose -p node-fhir-server-mongo -f docker-compose.yml up --detach
@@ -114,12 +118,12 @@ deploy_local_to_aws_pre-prod:
 	kubectl config current-context && \
 	kubectl cluster-info && \
 	kubectl get services && \
-	helm upgrade --install --set namespace=fhir-pre-prod --set fhir.replicas=3 --set fhir.mongo_db_name=fhir_pre_prod --set fhir.ingress_name=fhir-pre-prod.dev.icanbwell.com --set include_mongo=false --set use_ingress=true --set aws=true --set mongoPassword=$$mongoPassword fhir-staging ./releases/node-fhir-server-mongo/node-fhir-server-mongo-1.0.tgz && \
+	helm upgrade --install --set namespace=fhir-pre-prod --set fhir.replicas=3 --set fhir.mongo_db_name=fhir_pre_prod --set fhir.ingress_name=fhir-pre-prod.dev.icanbwell.com --set include_mongo=false --set use_ingress=true --set aws=true --set mongoPassword=$$mongoPassword fhir-pre-prod ./releases/node-fhir-server-mongo/node-fhir-server-mongo-1.0.tgz && \
 	helm ls && \
 	kubectl get services && \
-	kubectl get all --namespace=fhir-staging && \
-	kubectl get deployment.apps/fhir --namespace=fhir-staging -o yaml && \
-	kubectl logs deployment.apps/fhir --namespace=fhir-staging
+	kubectl get all --namespace=fhir-pre-prod && \
+	kubectl get deployment.apps/fhir --namespace=fhir-pre-prod -o yaml && \
+	kubectl logs deployment.apps/fhir --namespace=fhir-pre-prod
 
 .PHONY: deploy_to_aws
 deploy_to_aws:
@@ -189,7 +193,7 @@ logs-dev:
 	kubectl --namespace=nodefhirservermongo get pods --selector=io.kompose.service=fhir && \
 	kubectl --namespace=nodefhirservermongo get endpoints  && \
 	echo "----------------- FHIR logs -------------" && \
-	kubectl --namespace=nodefhirservermongo logs --follow deployment.apps/fhir 
+	kubectl --namespace=nodefhirservermongo logs --follow deployment.apps/fhir
 
 .PHONY:logs-staging
 logs-staging:
@@ -202,7 +206,7 @@ logs-staging:
 	kubectl --namespace=fhir-staging get pods --selector=io.kompose.service=fhir && \
 	kubectl --namespace=fhir-staging get endpoints  && \
 	echo "----------------- FHIR logs -------------" && \
-	kubectl --namespace=fhir-staging logs --follow deployment.apps/fhir 
+	kubectl --namespace=fhir-staging logs --follow deployment.apps/fhir
 
 .PHONY:logs-pre-prod
 logs-pre-prod:
@@ -215,13 +219,13 @@ logs-pre-prod:
 	kubectl --namespace=fhir-pre-prod get pods --selector=io.kompose.service=fhir && \
 	kubectl --namespace=fhir-pre-prod get endpoints  && \
 	echo "----------------- FHIR logs -------------" && \
-	kubectl --namespace=fhir-pre-prod logs --follow deployment.apps/fhir 
+	kubectl --namespace=fhir-pre-prod logs --follow deployment.apps/fhir
 
 .PHONY:diagnose
 diagnose:
 	kubectl get all --all-namespaces
 	kubectl --namespace=nodefhirservermongo run client --image=appropriate/curl --rm -ti --restart=Never --command -- curl http://fhir:3000/4_0_0/metadata
-	kubectl --namespace=nodefhirservermongo logs --previous deployment.apps/fhir 
+	kubectl --namespace=nodefhirservermongo logs --previous deployment.apps/fhir
 	kubectl --namespace=nodefhirservermongo delete pod/fhir-84d98fdf6d-4bsrz
 
 .PHONY: busybox

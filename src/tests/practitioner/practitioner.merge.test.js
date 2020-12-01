@@ -6,9 +6,11 @@ const { app } = require('../../app');
 const globals = require('../../globals');
 const { CLIENT, CLIENT_DB } = require('../../constants');
 const practitionerResource = require('./fixtures/providers/practitioner.json');
+const practitionerResourcev2 = require('./fixtures/providers/practitioner_v2.json');
 const locationResource = require('./fixtures/providers/location.json');
 const practitionerRoleResource = require('./fixtures/providers/practitioner_role.json');
 const expectedPractitionerResource = require('./fixtures/providers/expected_practitioner.json');
+const expectedPractitionerResource_v2 = require('./fixtures/providers/expected_practitioner_v2.json');
 const async = require('async');
 
 const request = supertest(app);
@@ -35,8 +37,8 @@ describe('Practitioner Merge Tests', () => {
   });
 
   describe('Practitioner Merges', () => {
-    test('Multiple calls to Practitioner merge properly', (done) => {
-      async.waterfall([
+    test('Multiple calls to Practitioner merge properly', async (done) => {
+      await async.waterfall([
         (cb) => // first confirm there are no practitioners
           request
             .get('/4_0_0/Practitioner')
@@ -75,6 +77,20 @@ describe('Practitioner Merge Tests', () => {
               }
               return cb(err, resp);
             }),
+        (results, cb) =>
+          request
+            .post('/4_0_0/Practitioner/4657/$merge')
+            .send(practitionerResourcev2)
+            .set('Content-Type', 'application/fhir+json')
+            .set('Accept', 'application/fhir+json')
+            .expect(200, (err, resp) => {
+              if (!err) {
+                console.log('------- response 3 ------------');
+                console.log(JSON.stringify(resp.body, null, 2));
+                console.log('------- end response 3  ------------');
+              }
+              return cb(err, resp);
+            }),
         (results, cb) => request
           .get('/4_0_0/Practitioner')
           .set('Content-Type', 'application/fhir+json')
@@ -83,15 +99,15 @@ describe('Practitioner Merge Tests', () => {
           .expect((resp) => {
             // clear out the lastUpdated column since that changes
             let body = resp.body;
-            expect(body.length).toBe(1);
-            delete body[0]['meta']['lastUpdated'];
-            let expected = expectedPractitionerResource;
-            delete expected[0]['meta']['lastUpdated'];
-            expected[0]['meta']['versionId'] = '2';
-            expect(body).toStrictEqual(expected);
             console.log('------- response 5 ------------');
             console.log(JSON.stringify(resp.body, null, 2));
             console.log('------- end response 5  ------------');
+            expect(body.length).toBe(1);
+            delete body[0]['meta']['lastUpdated'];
+            let expected = expectedPractitionerResource_v2;
+            delete expected[0]['meta']['lastUpdated'];
+            expected[0]['meta']['versionId'] = '2';
+            expect(body).toStrictEqual(expected);
           }, cb),
       ],
         (err, results) => {
