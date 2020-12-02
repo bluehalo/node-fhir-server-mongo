@@ -1,5 +1,5 @@
 images:
-  node_fhir_server_mongo_image: imranq2/node-fhir-server-mongo:1.2.39
+  node_fhir_server_mongo_image: imranq2/node-fhir-server-mongo:1.2.40
   mongoclient_image: mongoclient/mongoclient:4.0.0
 
 
@@ -18,3 +18,4 @@ fhir:
   replicas: 3
   mongo_db_name: "fhir"
   ingress_name: "fhir.dev.icanbwell.com"
+

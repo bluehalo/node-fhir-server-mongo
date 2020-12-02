@@ -91,7 +91,8 @@ deploy_local_to_aws_dev:
 	kubectl get services && \
 	kubectl get all --namespace=nodefhirservermongo && \
 	kubectl get deployment.apps/fhir --namespace=nodefhirservermongo -o yaml && \
-	kubectl logs deployment.apps/fhir --namespace=nodefhirservermongo
+	kubectl --namespace=nodefhirservermongo get pods -A -o=custom-columns='DATA:spec.containers[*].image' && \
+	kubectl --namespace=nodefhirservermongo logs deployment.apps/fhir 
 
 .PHONY: deploy_local_to_aws_staging
 deploy_local_to_aws_staging:
@@ -227,6 +228,7 @@ diagnose:
 	kubectl --namespace=nodefhirservermongo run client --image=appropriate/curl --rm -ti --restart=Never --command -- curl http://fhir:3000/4_0_0/metadata
 	kubectl --namespace=nodefhirservermongo logs --previous deployment.apps/fhir
 	kubectl --namespace=nodefhirservermongo delete pod/fhir-84d98fdf6d-4bsrz
+	kubectl --namespace=nodefhirservermongo logs --tail=30 deployment.apps/fhir
 
 .PHONY: busybox
 busybox:
@@ -241,12 +243,27 @@ test_mongo_in_container:
 
 .PHONY: helm-delete-dev
 helm-delete-dev:
+	export KUBECONFIG="${HOME}/.kube/config:${HOME}/.kube/config-dev-eks.config.yaml" && \
+	aws-vault exec human-admin@bwell-dev -- aws s3 ls && \
+	kubectl config use-context arn:aws:eks:us-east-1:875300655693:cluster/dev-eks-cluster && \
 	helm delete node-fhir-server-mongo
 
 .PHONY: helm-delete-staging
 helm-delete-staging:
+	export KUBECONFIG="${HOME}/.kube/config:${HOME}/.kube/config-dev-eks.config.yaml" && \
+	aws-vault exec human-admin@bwell-dev -- aws s3 ls && \
+	kubectl config use-context arn:aws:eks:us-east-1:875300655693:cluster/dev-eks-cluster && \
 	helm delete fhir-staging
 
 .PHONY: secrets
 secrets:
 	$(eval HASSECRET=$(shell sh -c "kubectl --namespace=nodefhirservermongo get secret mongoPassword")) ; echo $(HASSECRET)
+
+.PHONY: dashboard-token
+dashboard-token:
+	export KUBECONFIG="${HOME}/.kube/config:${HOME}/.kube/config-dev-eks.config.yaml" && \
+	aws-vault exec human-admin@bwell-dev -- aws s3 ls && \
+	kubectl config use-context arn:aws:eks:us-east-1:875300655693:cluster/dev-eks-cluster && \
+# kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep kubernetes-dashboard-token | awk '{print $1}') | grep -E '^token:    ' | awk '{print $2}'
+	kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep kubernetes-dashboard-token | awk '{print $$1}') | grep -E '^token:    ' | awk '{print $$2}'
+	echo "https://kubernetes-dashboard.dev.icanbwell.com/#/login"

@@ -48,6 +48,8 @@ spec:
               value: http://fhir:3000/
             - name: SERVER_PORT
               value: "3000"
+            - name: NODE_OPTIONS
+              value: --max_old_space_size=4096
             - name: MONGO_DB_NAME
               value: {{ .Values.fhir.mongo_db_name }}
             # - name: MONGO_DB_PASSWORD
