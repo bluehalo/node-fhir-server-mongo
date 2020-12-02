@@ -546,7 +546,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
 
             // Get current record
             // Query our collection for this observation
-            let data = await collection.findOne({id: id.toString()});
+            let data = await collection.findOne({_id: id.toString()});
 
             // create a resource with incoming data
             let Resource = getResource(base_version, resource_name);
@@ -666,7 +666,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
 
             // Insert/update our resource record
             // When using the $set operator, only the specified fields are updated
-            let res = await collection.findOneAndUpdate({id: id}, {$set: doc}, {upsert: true});
+            let res = await collection.findOneAndUpdate({_id: id.toString()}, {$set: doc}, {upsert: true});
 
             // save to history
             let history_collection = db.collection(`${collection_name}_${base_version}_History`);

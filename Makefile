@@ -4,11 +4,11 @@ build:
 
 .PHONY:up
 up:
-	docker-compose -p node-fhir-server-mongo -f docker-compose.yml up --detach
+	docker-compose -p fhir-dev -f docker-compose.yml up --detach
 
 .PHONY:down
 down:
-	docker-compose -p node-fhir-server-mongo -f docker-compose.yml down
+	docker-compose -p fhir-dev -f docker-compose.yml down
 
 .PHONY:clean
 clean: down
@@ -52,13 +52,13 @@ clean-helm-dev:
 	export KUBECONFIG="${HOME}/.kube/config:${HOME}/.kube/config-dev-eks.config.yaml" && \
 	aws-vault exec human-admin@bwell-dev -- aws s3 ls && \
 	kubectl config use-context arn:aws:eks:us-east-1:875300655693:cluster/dev-eks-cluster && \
-	helm delete node-fhir-server-mongo
+	helm delete fhir-dev
 
 .PHONY: deploy
 deploy:
 	export KUBECONFIG="${HOME}/.kube/config:${HOME}/.kube/config-dev-eks.config.yaml" && \
 	kubectl config use-context docker-desktop && \
-	helm upgrade --install --set include_mongo=true node-fhir-server-mongo ./releases/node-fhir-server-mongo/node-fhir-server-mongo-1.0.tgz
+	helm upgrade --install --set include_mongo=true fhir-dev ./releases/node-fhir-server-mongo/node-fhir-server-mongo-1.0.tgz
 	helm ls
 
 .PHONY: deploy-from-github
@@ -70,12 +70,12 @@ deploy-from-github:
 	kubectl config current-context && \
 	kubectl cluster-info && \
 	kubectl get services && \
-	helm upgrade --install --set include_mongo=true --set use_ingress=true --set aws=true --set mongoPassword=$$mongoPassword node-fhir-server-mongo https://raw.githubusercontent.com/imranq2/node-fhir-server-mongo/master/releases/node-fhir-server-mongo/node-fhir-server-mongo-1.0.tgz && \
+	helm upgrade --install --set namespace=fhir-dev --set fhir.replicas=3 --set fhir.mongo_db_name=fhir_dev --set fhir.ingress_name=fhir.dev.icanbwell.com --set include_mongo=false --set use_ingress=true --set aws=true --set mongoPassword=$$mongoPassword https://raw.githubusercontent.com/imranq2/node-fhir-server-mongo/master/releases/node-fhir-server-mongo/node-fhir-server-mongo-1.0.tgz && \
 	helm ls && \
 	kubectl get services && \
-	kubectl get all --namespace=nodefhirservermongo && \
-	kubectl get deployment.apps/fhir --namespace=nodefhirservermongo -o yaml && \
-	kubectl logs deployment.apps/fhir --namespace=nodefhirservermongo
+	kubectl get all --namespace=fhir-dev && \
+	kubectl get deployment.apps/fhir --namespace=fhir-dev -o yaml && \
+	kubectl logs deployment.apps/fhir --namespace=fhir-dev
 
 .PHONY: deploy_local_to_aws_dev
 deploy_local_to_aws_dev:
@@ -86,13 +86,13 @@ deploy_local_to_aws_dev:
 	kubectl config current-context && \
 	kubectl cluster-info && \
 	kubectl get services && \
-	helm upgrade --install --set fhir.replicas=3 --set fhir.mongo_db_name=fhir_dev --set fhir.ingress_name=fhir.dev.icanbwell.com --set include_mongo=false --set use_ingress=true --set aws=true --set mongoPassword=$$mongoPassword node-fhir-server-mongo ./releases/node-fhir-server-mongo/node-fhir-server-mongo-1.0.tgz && \
+	helm upgrade --install --set namespace=fhir-dev --set fhir.replicas=3 --set fhir.mongo_db_name=fhir_dev --set fhir.ingress_name=fhir.dev.icanbwell.com --set include_mongo=false --set use_ingress=true --set aws=true --set mongoPassword=$$mongoPassword fhir-dev ./releases/node-fhir-server-mongo/node-fhir-server-mongo-1.0.tgz && \
 	helm ls && \
 	kubectl get services && \
-	kubectl get all --namespace=nodefhirservermongo && \
-	kubectl get deployment.apps/fhir --namespace=nodefhirservermongo -o yaml && \
-	kubectl --namespace=nodefhirservermongo get pods -A -o=custom-columns='DATA:spec.containers[*].image' && \
-	kubectl --namespace=nodefhirservermongo logs deployment.apps/fhir 
+	kubectl get all --namespace=fhir-dev && \
+	kubectl get deployment.apps/fhir --namespace=fhir-dev -o yaml && \
+	kubectl --namespace=fhir-dev get pods -A -o=custom-columns='DATA:spec.containers[*].image' && \
+	kubectl --namespace=fhir-dev logs deployment.apps/fhir 
 
 .PHONY: deploy_local_to_aws_staging
 deploy_local_to_aws_staging:
@@ -165,9 +165,9 @@ dashboard:
 	echo "---------------------------------"
 	kubectl proxy
 
-.PHONY: dashboard-token
-dashboard-token:
-	kubectl -n kube-system describe secret ${TOKEN_NAME} | awk '$$1=="token:"{print $$2}'
+# .PHONY: dashboard-token
+# dashboard-token:
+# 	kubectl -n kube-system describe secret ${TOKEN_NAME} | awk '$$1=="token:"{print $$2}'
 
 .PHONY: nginx
 nginx:
@@ -181,7 +181,7 @@ run:
 
 .PHONY:mongoclient
 mongoclient:
-	kubectl exec --stdin --tty deployment.apps/mongo --namespace=nodefhirservermongo -- /bin/bash
+	kubectl exec --stdin --tty deployment.apps/mongo --namespace=fhir-dev -- /bin/bash
 
 .PHONY:logs-dev
 logs-dev:
@@ -190,11 +190,11 @@ logs-dev:
 	kubectl config use-context arn:aws:eks:us-east-1:875300655693:cluster/dev-eks-cluster && \
 	kubectl config current-context && \
 	kubectl cluster-info && \
-	kubectl --namespace=nodefhirservermongo get all  && \
-	kubectl --namespace=nodefhirservermongo get pods --selector=io.kompose.service=fhir && \
-	kubectl --namespace=nodefhirservermongo get endpoints  && \
+	kubectl --namespace=fhir-dev get all  && \
+	kubectl --namespace=fhir-dev get pods --selector=io.kompose.service=fhir && \
+	kubectl --namespace=fhir-dev get endpoints  && \
 	echo "----------------- FHIR logs -------------" && \
-	kubectl --namespace=nodefhirservermongo logs --follow deployment.apps/fhir
+	kubectl --namespace=fhir-dev logs --follow deployment.apps/fhir
 
 .PHONY:logs-staging
 logs-staging:
@@ -225,14 +225,14 @@ logs-pre-prod:
 .PHONY:diagnose
 diagnose:
 	kubectl get all --all-namespaces
-	kubectl --namespace=nodefhirservermongo run client --image=appropriate/curl --rm -ti --restart=Never --command -- curl http://fhir:3000/4_0_0/metadata
-	kubectl --namespace=nodefhirservermongo logs --previous deployment.apps/fhir
-	kubectl --namespace=nodefhirservermongo delete pod/fhir-84d98fdf6d-4bsrz
-	kubectl --namespace=nodefhirservermongo logs --tail=30 deployment.apps/fhir
+	kubectl --namespace=fhir-dev run client --image=appropriate/curl --rm -ti --restart=Never --command -- curl http://fhir:3000/4_0_0/metadata
+	kubectl --namespace=fhir-dev logs --previous deployment.apps/fhir
+	kubectl --namespace=fhir-dev delete pod/fhir-84d98fdf6d-4bsrz
+	kubectl --namespace=fhir-dev logs --tail=30 deployment.apps/fhir
 
 .PHONY: busybox
 busybox:
-	kubectl exec --stdin --tty pod/busybox --namespace=nodefhirservermongo -- /bin/bash
+	kubectl exec --stdin --tty pod/busybox --namespace=fhir-dev -- /bin/bash
 
 .PHONY: test_mongo_in_container
 test_mongo_in_container:
@@ -246,7 +246,7 @@ helm-delete-dev:
 	export KUBECONFIG="${HOME}/.kube/config:${HOME}/.kube/config-dev-eks.config.yaml" && \
 	aws-vault exec human-admin@bwell-dev -- aws s3 ls && \
 	kubectl config use-context arn:aws:eks:us-east-1:875300655693:cluster/dev-eks-cluster && \
-	helm delete node-fhir-server-mongo
+	helm delete fhir-dev
 
 .PHONY: helm-delete-staging
 helm-delete-staging:
@@ -257,13 +257,12 @@ helm-delete-staging:
 
 .PHONY: secrets
 secrets:
-	$(eval HASSECRET=$(shell sh -c "kubectl --namespace=nodefhirservermongo get secret mongoPassword")) ; echo $(HASSECRET)
+	$(eval HASSECRET=$(shell sh -c "kubectl --namespace=fhir-dev get secret mongoPassword")) ; echo $(HASSECRET)
 
 .PHONY: dashboard-token
 dashboard-token:
 	export KUBECONFIG="${HOME}/.kube/config:${HOME}/.kube/config-dev-eks.config.yaml" && \
 	aws-vault exec human-admin@bwell-dev -- aws s3 ls && \
 	kubectl config use-context arn:aws:eks:us-east-1:875300655693:cluster/dev-eks-cluster && \
-# kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep kubernetes-dashboard-token | awk '{print $1}') | grep -E '^token:    ' | awk '{print $2}'
-	kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep kubernetes-dashboard-token | awk '{print $$1}') | grep -E '^token:    ' | awk '{print $$2}'
+	kubectl -n kube-system describe secret $$(kubectl -n kube-system get secret | grep kubernetes-dashboard-token | awk '{print $$1}') | grep -E '^token:    ' | awk '{print $$2}'
 	echo "https://kubernetes-dashboard.dev.icanbwell.com/#/login"

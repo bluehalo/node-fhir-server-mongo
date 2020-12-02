@@ -69,4 +69,8 @@ spec:
             - containerPort: 3000
               # name of the port
               name: fhir
-
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 10
