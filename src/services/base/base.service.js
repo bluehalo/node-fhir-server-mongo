@@ -467,7 +467,7 @@ module.exports.update = (args, {req}, resource_name, collection_name) =>
                 doc = Object.assign(cleaned, {_id: id});
             } else {
                 // not found so insert
-                logInfo('new resource: ' + data);
+                logInfo('update: new resource: ' + resource_incoming);
                 // create the metadata
                 let Meta = getMeta(base_version);
                 resource_incoming.meta = new Meta({
@@ -557,7 +557,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
             // check if resource was found in database or not
             if (data && data.meta) {
                 // found an existing resource
-                logInfo('found resource: ' + data);
+                logInfo( resource_name + ': merge found resource ' + '[' + data.id + ']: ' + data);
                 let foundResource = new Resource(data);
                 logInfo('------ found document --------');
                 logInfo(data);
@@ -647,7 +647,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                 doc = Object.assign(cleaned, {_id: id});
             } else {
                 // not found so insert
-                logInfo('new resource: ' + data);
+                logInfo(resource_name + ': merge new resource ' + '[' + resource_to_merge.id + ']: ' + resource_to_merge);
                 if (!resource_to_merge.meta) {
                     // create the metadata
                     let Meta = getMeta(base_version);
@@ -689,6 +689,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
     }
 
     if (Array.isArray(resources_incoming)) {
+        logInfo( '==================' + resource_name + ': Merge received array ' + '(' + resources_incoming.length + ') ' + '====================');
         await Promise.all(resources_incoming.map(async x => merge_resource(x)));
     } else {
         return await merge_resource(resources_incoming);
