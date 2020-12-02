@@ -2,7 +2,7 @@ const express = require('express');
 const FHIRServer = require('@asymmetrik/node-fhir-server-core');
 const asyncHandler = require('./lib/async-handler');
 const mongoClient = require('./lib/mongo');
-const { fhirServerConfig, mongoConfig } = require('./config');
+const {fhirServerConfig, mongoConfig} = require('./config');
 
 const compression = require('compression');
 
@@ -39,10 +39,11 @@ class MyFHIRServer extends FHIRServer.Server {
         return this;
     }
 }
+
 // const fhirApp = MyFHIRServer.initialize(fhirServerConfig);
 const fhirApp = new MyFHIRServer(fhirServerConfig).configureMiddleware().configureSession().configureHelmet().configurePassport().setPublicDirectory().setProfileRoutes().setErrorRoutes();
 
-app.get('/health', (req, res) => res.json({ status: 'ok' }));
+app.get('/health', (req, res) => res.json({status: 'ok'}));
 app.get('/clean', async (req, res) => {
     console.info('Running clean');
 
@@ -54,9 +55,8 @@ app.get('/clean', async (req, res) => {
         console.error(mongoError.message);
         console.error(mongoConfig.connection);
         client.close();
-        res.status(500).json({ success: false, error: mongoError });
-    }
-    else {
+        res.status(500).json({success: false, error: mongoError});
+    } else {
         //create client by providing database name
         const db = client.db(mongoConfig.db_name);
         var collection_names = [];
@@ -77,7 +77,7 @@ app.get('/clean', async (req, res) => {
             await db.collection(collection_name).deleteMany({});
         }
         await client.close();
-        res.status(200).json({ success: true, collections: collection_names });
+        res.status(200).json({success: true, collections: collection_names});
     }
 });
 
@@ -92,15 +92,14 @@ app.get('/stats', async (req, res) => {
         console.error(mongoError.message);
         console.error(mongoConfig.connection);
         client.close();
-        res.status(500).json({ success: false, error: mongoError });
-    }
-    else {
+        res.status(500).json({success: false, error: mongoError});
+    } else {
         //create client by providing database name
         const db = client.db(mongoConfig.db_name);
         var collection_names = [];
         // const collections = await db.listCollections().toArray();
 
-        await db.listCollections().forEach(async collection => {
+        await db.listCollections().forEach(collection => {
             console.log(collection.name);
             if (collection.name.indexOf('system.') === -1) {
                 collection_names.push(collection.name);
@@ -112,16 +111,25 @@ app.get('/stats', async (req, res) => {
         for (const collection_index in collection_names) {
             const collection_name = collection_names[collection_index];
             console.log(collection_name);
+            // check if index exists
+            const index_name = 'id_1';
+            let createdIndex = false;
+            if (!await db.collection(collection_name).indexExists(index_name)) {
+                console.log('Creating index ' + index_name + ' in ' + collection_name);
+                await db.collection(collection_name).createIndex({id: 1});
+                createdIndex = true;
+            }
+            const indexes = await db.collection(collection_name).indexes();
             const count = await db.collection(collection_name).countDocuments({});
             console.log(['Found: ', count, ' documents in ', collection_name].join(''));
-            collection_stats.push({ name: collection_name, count: count });
+            collection_stats.push({name: collection_name, count: count, createdIndex: createdIndex, indexes: indexes});
         }
         await client.close();
-        res.status(200).json({ success: true, collections: collection_stats });
+        res.status(200).json({success: true, collections: collection_stats});
     }
 });
 
 app.use(fhirApp.app);
 
 
-module.exports = { app, fhirApp };
+module.exports = {app, fhirApp};
