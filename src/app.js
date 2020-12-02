@@ -4,8 +4,43 @@ const asyncHandler = require('./lib/async-handler');
 const mongoClient = require('./lib/mongo');
 const { fhirServerConfig, mongoConfig } = require('./config');
 
+const compression = require('compression');
+
+const bodyParser = require('body-parser');
+
 const app = express();
-const fhirApp = FHIRServer.initialize(fhirServerConfig);
+
+// implment our subclass to set higher request limit
+class MyFHIRServer extends FHIRServer.Server {
+
+    configureMiddleware() {
+        //Enable error tracking request handler if supplied in config
+        if (this.config.errorTracking && this.config.errorTracking.requestHandler) {
+            this.app.use(this.config.errorTracking.requestHandler());
+        } // Enable stack traces
+
+        this.app.set('showStackError', !this.env.IS_PRODUCTION); // Add compression
+
+        this.app.use(compression({
+            level: 9
+        })); // Enable the body parser
+
+        this.app.use(bodyParser.urlencoded({
+            extended: true,
+            limit: '50mb',
+            parameterLimit: 50000
+        }));
+        this.app.use(bodyParser.json({
+            type: ['application/fhir+json', 'application/json+fhir'],
+            limit: '50mb'
+
+        }));
+
+        return this;
+    }
+}
+// const fhirApp = MyFHIRServer.initialize(fhirServerConfig);
+const fhirApp = new MyFHIRServer(fhirServerConfig).configureMiddleware().configureSession().configureHelmet().configurePassport().setPublicDirectory().setProfileRoutes().setErrorRoutes();
 
 app.get('/health', (req, res) => res.json({ status: 'ok' }));
 app.get('/clean', async (req, res) => {
