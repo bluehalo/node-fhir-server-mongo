@@ -1,12 +1,12 @@
-const { VERSIONS } = require('@asymmetrik/node-fhir-server-core').constants;
-const { resolveSchema } = require('@asymmetrik/node-fhir-server-core');
+const {VERSIONS} = require('@asymmetrik/node-fhir-server-core').constants;
+const {resolveSchema} = require('@asymmetrik/node-fhir-server-core');
 const JSONSchemaValidator = require('@asymmetrik/fhir-json-schema-validator');
-const { CLIENT_DB } = require('../../constants');
+const {CLIENT_DB} = require('../../constants');
 const moment = require('moment-timezone');
 const globals = require('../../globals');
 const logger = require('@asymmetrik/node-fhir-server-core').loggers.get();
-const { getUuid } = require('../../utils/uid.util');
-const { validate, applyPatch, compare } = require('fast-json-patch');
+const {getUuid} = require('../../utils/uid.util');
+const {validate, applyPatch, compare} = require('fast-json-patch');
 const deepmerge = require('deepmerge');
 const deepcopy = require('deepcopy');
 const deepEqual = require('deep-equal');
@@ -36,7 +36,7 @@ const {
 
 let buildR4SearchQuery = (resource_name, args) => {
     // Common search params
-    let { id } = args;
+    let {id} = args;
     let patient = args['patient'];
     let practitioner = args['practitioner'];
     let organization = args['organization'];
@@ -66,20 +66,15 @@ let buildR4SearchQuery = (resource_name, args) => {
         // each Resource type has a different place to put the patient info
         if (['Patient'].includes(resource_name)) {
             query.id = patient;
-        }
-        else if (['AllergyIntolerance', 'Immunization', 'RelatedPerson', 'Device'].includes(resource_name)) {
+        } else if (['AllergyIntolerance', 'Immunization', 'RelatedPerson', 'Device'].includes(resource_name)) {
             query['patient.reference'] = patient_reference;
-        }
-        else if (['Appointment'].includes(resource_name)) {
+        } else if (['Appointment'].includes(resource_name)) {
             query['participant.actor.reference'] = patient_reference; //TODO: participant is a list
-        }
-        else if (['CarePlan', 'Condition', 'DocumentReference', 'Encounter', 'MedicationRequest', 'Observation', 'Procedure', 'ServiceRequest', 'CareTeam'].includes(resource_name)) {
+        } else if (['CarePlan', 'Condition', 'DocumentReference', 'Encounter', 'MedicationRequest', 'Observation', 'Procedure', 'ServiceRequest', 'CareTeam'].includes(resource_name)) {
             query['subject.reference'] = patient_reference;
-        }
-        else if (['Coverage'].includes(resource_name)) {
+        } else if (['Coverage'].includes(resource_name)) {
             query['beneficiary.reference'] = patient_reference;
-        }
-        else {
+        } else {
             logger.error(`No mapping for searching by patient for ${resource_name}: `);
         }
     }
@@ -88,11 +83,9 @@ let buildR4SearchQuery = (resource_name, args) => {
         // each Resource type has a different place to put the patient info
         if (['Practitioner'].includes(resource_name)) {
             query.id = practitioner;
-        }
-        else if (['PractitionerRole'].includes(resource_name)) {
+        } else if (['PractitionerRole'].includes(resource_name)) {
             query['practitioner.reference'] = practitioner_reference;
-        }
-        else {
+        } else {
             logger.error(`No mapping for searching by practitioner for ${resource_name}: `);
         }
     }
@@ -101,17 +94,13 @@ let buildR4SearchQuery = (resource_name, args) => {
         // each Resource type has a different place to put the patient info
         if (['Organization'].includes(resource_name)) {
             query.id = organization;
-        }
-        else if (['HealthcareService'].includes(resource_name)) {
+        } else if (['HealthcareService'].includes(resource_name)) {
             query['providedBy.reference'] = organization_reference;
-        }
-        else if (['InsurancePlan'].includes(resource_name)) {
+        } else if (['InsurancePlan'].includes(resource_name)) {
             query['ownedBy.reference'] = organization_reference;
-        }
-        else if (['PractitionerRole'].includes(resource_name)) {
+        } else if (['PractitionerRole'].includes(resource_name)) {
             query['organization.reference'] = organization_reference;
-        }
-        else {
+        } else {
             logger.error(`No mapping for searching by organization for ${resource_name}: `);
         }
     }
@@ -120,11 +109,9 @@ let buildR4SearchQuery = (resource_name, args) => {
         // each Resource type has a different place to put the patient info
         if (['Location'].includes(resource_name)) {
             query.id = location;
-        }
-        else if (['PractitionerRole'].includes(resource_name)) {
+        } else if (['PractitionerRole'].includes(resource_name)) {
             query['location.reference'] = location_reference;
-        }
-        else {
+        } else {
             logger.error(`No mapping for searching by location for ${resource_name}: `);
         }
     }
@@ -133,11 +120,9 @@ let buildR4SearchQuery = (resource_name, args) => {
         // each Resource type has a different place to put the patient info
         if (['HealthcareService'].includes(resource_name)) {
             query.id = healthcareService;
-        }
-        else if (['PractitionerRole'].includes(resource_name)) {
+        } else if (['PractitionerRole'].includes(resource_name)) {
             query['healthcareService.reference'] = healthcareService_reference;
-        }
-        else {
+        } else {
             logger.error(`No mapping for searching by healthcareService for ${resource_name}: `);
         }
     }
@@ -154,8 +139,7 @@ let buildR4SearchQuery = (resource_name, args) => {
             if (ors.length !== 0) {
                 query.$and = ors;
             }
-        }
-        else {
+        } else {
             query['name'] = stringQueryBuilder(name);
         }
     }
@@ -189,7 +173,7 @@ let buildR4SearchQuery = (resource_name, args) => {
 
 let buildStu3SearchQuery = (args) => {
     // Common search params
-    let { id } = args;
+    let {id} = args;
 
     // Search Result params
 
@@ -211,7 +195,7 @@ let buildStu3SearchQuery = (args) => {
 
 let buildDstu2SearchQuery = (args) => {
     // Common search params
-    let { id } = args;
+    let {id} = args;
 
     // Search Result params
 
@@ -257,15 +241,14 @@ module.exports.search = (args, resource_name, collection_name) =>
         logInfo(args);
         logInfo('--------');
 
-        let { base_version } = args;
+        let {base_version} = args;
         let query = {};
 
         if (base_version === VERSIONS['3_0_1']) {
             query = buildStu3SearchQuery(args);
         } else if (base_version === VERSIONS['1_0_2']) {
             query = buildDstu2SearchQuery(args);
-        }
-        else {
+        } else {
             query = buildR4SearchQuery(resource_name, args);
         }
 
@@ -302,8 +285,8 @@ module.exports.searchById = (args, resource_name, collection_name) =>
         logInfo(args);
 
         // Common search params
-        let { id } = args;
-        let { base_version } = args;
+        let {id} = args;
+        let {base_version} = args;
 
         logInfo(`id: ${id}`);
         logInfo(`base_version: ${base_version}`);
@@ -320,7 +303,7 @@ module.exports.searchById = (args, resource_name, collection_name) =>
         let collection = db.collection(`${collection_name}_${base_version}`);
         let Resource = getResource(base_version, resource_name);
 
-        collection.findOne({ id: id.toString() }, (err, resource) => {
+        collection.findOne({id: id.toString()}, (err, resource) => {
             if (err) {
                 logger.error(`Error with ${resource_name}.searchById: `, err);
                 return reject(err);
@@ -332,13 +315,13 @@ module.exports.searchById = (args, resource_name, collection_name) =>
         });
     });
 
-module.exports.create = (args, { req }, resource_name, collection_name) =>
+module.exports.create = (args, {req}, resource_name, collection_name) =>
     new Promise((resolve, reject) => {
         logInfo(`${resource_name} >>> create`);
 
         let resource_incoming = req.body;
 
-        let { base_version } = args;
+        let {base_version} = args;
 
         logInfo('--- request ----');
         logInfo(req);
@@ -371,12 +354,12 @@ module.exports.create = (args, { req }, resource_name, collection_name) =>
 
         // Create the document to be inserted into Mongo
         let doc = JSON.parse(JSON.stringify(resource.toJSON()));
-        Object.assign(doc, { id: id });
+        Object.assign(doc, {id: id});
 
         // Create a clone of the object without the _id parameter before assigning a value to
         // the _id parameter in the original document
         let history_doc = Object.assign({}, doc);
-        Object.assign(doc, { _id: id });
+        Object.assign(doc, {_id: id});
 
         logInfo('---- inserting doc ---');
         logInfo(doc);
@@ -398,12 +381,12 @@ module.exports.create = (args, { req }, resource_name, collection_name) =>
                     logger.error(`Error with ${resource_name}History.create: `, err2);
                     return reject(err2);
                 }
-                return resolve({ id: doc.id, resource_version: doc.meta.versionId });
+                return resolve({id: doc.id, resource_version: doc.meta.versionId});
             });
         });
     });
 
-module.exports.update = (args, { req }, resource_name, collection_name) =>
+module.exports.update = (args, {req}, resource_name, collection_name) =>
     new Promise((resolve, reject) => {
         logInfo(`'${resource_name} >>> update`);
 
@@ -412,7 +395,7 @@ module.exports.update = (args, { req }, resource_name, collection_name) =>
 
         // read the incoming resource from request body
         let resource_incoming = req.body;
-        let { base_version, id } = args;
+        let {base_version, id} = args;
         logInfo(base_version);
         logInfo(id);
         logInfo('--- body ----');
@@ -424,7 +407,7 @@ module.exports.update = (args, { req }, resource_name, collection_name) =>
 
         // Get current record
         // Query our collection for this observation
-        collection.findOne({ id: id.toString() }, (err, data) => {
+        collection.findOne({id: id.toString()}, (err, data) => {
             if (err) {
                 logger.error(`Error with finding resource ${resource_name}.update: `, err);
                 return reject(err);
@@ -481,7 +464,7 @@ module.exports.update = (args, { req }, resource_name, collection_name) =>
                 logInfo('------ end patched document --------');
                 // Same as update from this point on
                 cleaned = JSON.parse(JSON.stringify(patched_resource_incoming));
-                doc = Object.assign(cleaned, { _id: id });
+                doc = Object.assign(cleaned, {_id: id});
             } else {
                 // not found so insert
                 logInfo('new resource: ' + data);
@@ -492,12 +475,12 @@ module.exports.update = (args, { req }, resource_name, collection_name) =>
                     lastUpdated: moment.utc().format('YYYY-MM-DDTHH:mm:ssZ'),
                 });
                 cleaned = JSON.parse(JSON.stringify(resource_incoming));
-                doc = Object.assign(cleaned, { _id: id });
+                doc = Object.assign(cleaned, {_id: id});
             }
 
             // Insert/update our resource record
             // When using the $set operator, only the specified fields are updated
-            collection.findOneAndUpdate({ id: id }, { $set: doc }, { upsert: true }, (err2, res) => {
+            collection.findOneAndUpdate({id: id}, {$set: doc}, {upsert: true}, (err2, res) => {
                 if (err2) {
                     logger.error(`Error with ${resource_name}.update: `, err2);
                     return reject(err2);
@@ -506,7 +489,7 @@ module.exports.update = (args, { req }, resource_name, collection_name) =>
                 // save to history
                 let history_collection = db.collection(`${collection_name}_${base_version}_History`);
 
-                let history_resource = Object.assign(cleaned, { id: id });
+                let history_resource = Object.assign(cleaned, {id: id});
                 delete history_resource['_id']; // make sure we don't have an _id field when inserting into history
 
                 // Insert our resource record to history but don't assign _id
@@ -526,47 +509,44 @@ module.exports.update = (args, { req }, resource_name, collection_name) =>
         });
     });
 
-module.exports.merge = (args, { req }, resource_name, collection_name) =>
-    new Promise((resolve, reject) => {
-        logInfo(`'${resource_name} >>> merge`);
+module.exports.merge = async (args, {req}, resource_name, collection_name) => {
+    logInfo(`'${resource_name} >>> merge`);
 
-        // read the incoming resource from request body
-        let resource_incoming = req.body;
-        logInfo('args', args);
-        let { base_version } = args;
+    // read the incoming resource from request body
+    let resources_incoming = req.body;
+    logInfo('args', args);
+    let {base_version} = args;
 
-        // logInfo('--- request ----');
-        // logInfo(req);
-        // logInfo('-----------------');
+    // logInfo('--- request ----');
+    // logInfo(req);
+    // logInfo('-----------------');
 
-        logInfo('--- body ----');
-        logInfo(resource_incoming);
-        logInfo('-----------------');
+    logInfo('--- body ----');
+    logInfo(resources_incoming);
+    logInfo('-----------------');
 
-        // logInfo('--- validate schema ----');
-        // const errors = validateSchema(resource_incoming);
-        // if (errors.length > 0){
-        //     return reject(errors);
-        // }
-        // logInfo('-----------------');
+    async function merge_resource(resource_to_merge) {
+        try {
+            // logInfo('--- validate schema ----');
+            // const errors = validateSchema(resource_incoming);
+            // if (errors.length > 0){
+            //     return reject(errors);
+            // }
+            // logInfo('-----------------');
 
-        let id = resource_incoming.id;
+            let id = resource_to_merge.id;
 
-        logInfo(base_version);
-        logInfo('--- body ----');
-        logInfo(resource_incoming);
+            logInfo(base_version);
+            logInfo('--- body ----');
+            logInfo(resource_to_merge);
 
-        // Grab an instance of our DB and collection
-        let db = globals.get(CLIENT_DB);
-        let collection = db.collection(`${collection_name}_${base_version}`);
+            // Grab an instance of our DB and collection
+            let db = globals.get(CLIENT_DB);
+            let collection = db.collection(`${collection_name}_${base_version}`);
 
-        // Get current record
-        // Query our collection for this observation
-        collection.findOne({ id: id.toString() }, (err, data) => {
-            if (err) {
-                logger.error(`Error with finding resource ${resource_name}.merge: `, err);
-                return reject(err);
-            }
+            // Get current record
+            // Query our collection for this observation
+            let data = await collection.findOne({id: id.toString()});
 
             // create a resource with incoming data
             let Resource = getResource(base_version, resource_name);
@@ -584,13 +564,13 @@ module.exports.merge = (args, { req }, resource_name, collection_name) =>
                 logInfo('------ end found document --------');
 
                 // use metadata of existing resource (overwrite any passed in metadata)
-                if (!resource_incoming.meta) {
-                    resource_incoming.meta = {};
+                if (!resource_to_merge.meta) {
+                    resource_to_merge.meta = {};
                 }
-                resource_incoming.meta.versionId = foundResource.meta.versionId;
-                resource_incoming.meta.lastUpdated = foundResource.meta.lastUpdated;
+                resource_to_merge.meta.versionId = foundResource.meta.versionId;
+                resource_to_merge.meta.lastUpdated = foundResource.meta.lastUpdated;
                 logInfo('------ incoming document --------');
-                logInfo(resource_incoming);
+                logInfo(resource_to_merge);
                 logInfo('------ end incoming document --------');
 
                 // merge new data with old
@@ -616,9 +596,9 @@ module.exports.merge = (args, { req }, resource_name, collection_name) =>
 
                 mergeObjectOrArray = (item1, item2) => {
                     if (Array.isArray(item1)) {
-                        var result_array = deepcopy(item1); // deep copy so we don't change the original object
+                        let result_array = deepcopy(item1); // deep copy so we don't change the original object
                         // see if items are equal then skip them
-                        for (var i = 0; i < item2.length; i++) {
+                        for (let i = 0; i < item2.length; i++) {
                             let my_item = item2[i];
                             // if item2[i] does not matches any item in item1 then insert
                             if (item1.every(a => deepEqual(a, my_item) === false)) {
@@ -631,8 +611,8 @@ module.exports.merge = (args, { req }, resource_name, collection_name) =>
                 };
 
                 // data seems to get updated below
-                // const data_copy = deepcopy(data);
-                let resource_merged = deepmerge(data, resource_incoming, options);
+                let resource_merged = deepmerge(data, resource_to_merge, options);
+
 
                 // now create a patch between the document in db and the incoming document
                 //  this returns an array of patches
@@ -645,11 +625,11 @@ module.exports.merge = (args, { req }, resource_name, collection_name) =>
                 // see if there are any changes
                 if (patchContent.length === 0) {
                     logInfo('No changes detected in updated resource');
-                    return resolve({
+                    return {
                         id: id,
                         created: false,
                         resource_version: foundResource.meta.versionId,
-                    });
+                    };
                 }
                 // now apply the patches to the found resource
                 let patched_incoming_data = applyPatch(data, patchContent).newDocument;
@@ -664,64 +644,62 @@ module.exports.merge = (args, { req }, resource_name, collection_name) =>
                 logInfo('------ end patched document --------');
                 // Same as update from this point on
                 cleaned = JSON.parse(JSON.stringify(patched_resource_incoming));
-                doc = Object.assign(cleaned, { _id: id });
+                doc = Object.assign(cleaned, {_id: id});
             } else {
                 // not found so insert
                 logInfo('new resource: ' + data);
-                if (!resource_incoming.meta) {
+                if (!resource_to_merge.meta) {
                     // create the metadata
                     let Meta = getMeta(base_version);
-                    resource_incoming.meta = new Meta({
+                    resource_to_merge.meta = new Meta({
                         versionId: '1',
                         lastUpdated: moment.utc().format('YYYY-MM-DDTHH:mm:ssZ'),
                     });
-                }
-                else {
-                    resource_incoming.meta.versionId = '1';
-                    resource_incoming.meta.lastUpdated = moment.utc().format('YYYY-MM-DDTHH:mm:ssZ');
+                } else {
+                    resource_to_merge.meta.versionId = '1';
+                    resource_to_merge.meta.lastUpdated = moment.utc().format('YYYY-MM-DDTHH:mm:ssZ');
                 }
 
-                cleaned = JSON.parse(JSON.stringify(resource_incoming));
-                doc = Object.assign(cleaned, { _id: id });
+                cleaned = JSON.parse(JSON.stringify(resource_to_merge));
+                doc = Object.assign(cleaned, {_id: id});
             }
 
             // Insert/update our resource record
             // When using the $set operator, only the specified fields are updated
-            collection.findOneAndUpdate({ id: id }, { $set: doc }, { upsert: true }, (err2, res) => {
-                if (err2) {
-                    logger.error(`Error with ${resource_name}.merge: `, err2);
-                    return reject(err2);
-                }
+            let res = await collection.findOneAndUpdate({id: id}, {$set: doc}, {upsert: true});
 
-                // save to history
-                let history_collection = db.collection(`${collection_name}_${base_version}_History`);
+            // save to history
+            let history_collection = db.collection(`${collection_name}_${base_version}_History`);
 
-                let history_resource = Object.assign(cleaned, { id: id });
-                delete history_resource['_id']; // make sure we don't have an _id field when inserting into history
+            let history_resource = Object.assign(cleaned, {id: id});
+            delete history_resource['_id']; // make sure we don't have an _id field when inserting into history
 
-                const created_entity = res.lastErrorObject && !res.lastErrorObject.updatedExisting;
-                // Insert our resource record to history but don't assign _id
-                return history_collection.insertOne(history_resource, (err3) => {
-                    if (err3) {
-                        logger.error(`Error with ${resource_name}.merge: `, err3);
-                        return reject(err3);
-                    }
+            const created_entity = res.lastErrorObject && !res.lastErrorObject.updatedExisting;
+            // Insert our resource record to history but don't assign _id
+            await history_collection.insertOne(history_resource);
 
-                    return resolve({
-                        id: id,
-                        created: created_entity,
-                        resource_version: doc.meta.versionId,
-                    });
-                });
-            });
-        });
-    });
+            return {
+                id: id,
+                created: created_entity,
+                resource_version: doc.meta.versionId,
+            };
+        } catch (e) {
+            logger.error(`Error with finding resource ${resource_name}.merge: `, e);
+        }
+    }
+
+    if (Array.isArray(resources_incoming)) {
+        await Promise.all(resources_incoming.map(async x => merge_resource(x)));
+    } else {
+        return await merge_resource(resources_incoming);
+    }
+};
 
 module.exports.everything = (args, context, resource_name) => {
     return new Promise((resolve, reject) => {
         logInfo(`${resource_name} >>> everything`);
         try {
-            let { base_version, id } = args;
+            let {base_version, id} = args;
 
             logInfo(`Everything id=${id}`);
 
@@ -737,7 +715,7 @@ module.exports.everything = (args, context, resource_name) => {
             var collection = db.collection(`${collection_name}_${base_version}`);
             let Resource = getResource(base_version, resource_name);
 
-            collection.findOne({ id: id.toString() }, (err, resource) => {
+            collection.findOne({id: id.toString()}, (err, resource) => {
                 if (err) {
                     logger.error(`Error with ${resource_name}.searchById: `, err);
                     return reject(err);
@@ -781,8 +759,7 @@ module.exports.everything = (args, context, resource_name) => {
                                 });
                         });
                     });
-                }
-                else {
+                } else {
                     resolve();
                 }
             });
@@ -796,7 +773,7 @@ module.exports.remove = (args, context, resource_name, collection_name) =>
     new Promise((resolve, reject) => {
         logInfo(`${resource_name} >>> remove`);
 
-        let { base_version, id } = args;
+        let {base_version, id} = args;
 
         logInfo(`Deleting id=${id}`);
 
@@ -804,7 +781,7 @@ module.exports.remove = (args, context, resource_name, collection_name) =>
         let db = globals.get(CLIENT_DB);
         let collection = db.collection(`${collection_name}_${base_version}`);
         // Delete our resource record
-        collection.deleteOne({ id: id }, (err, _) => {
+        collection.deleteOne({id: id}, (err, _) => {
             if (err) {
                 logger.error(`Error with ${resource_name}.remove`);
                 return reject({
@@ -819,7 +796,7 @@ module.exports.remove = (args, context, resource_name, collection_name) =>
 
             // delete history as well.  You can chose to save history.  Up to you
             let history_collection = db.collection(`${collection_name}_${base_version}_History`);
-            return history_collection.deleteMany({ id: id }, (err2) => {
+            return history_collection.deleteMany({id: id}, (err2) => {
                 if (err2) {
                     logger.error(`Error with ${resource_name}.remove`);
                     return reject({
@@ -832,7 +809,7 @@ module.exports.remove = (args, context, resource_name, collection_name) =>
                     });
                 }
 
-                return resolve({ deleted: _.result && _.result.n });
+                return resolve({deleted: _.result && _.result.n});
             });
         });
     });
@@ -841,7 +818,7 @@ module.exports.searchByVersionId = (args, context, resource_name, collection_nam
     new Promise((resolve, reject) => {
         logInfo(`${resource_name} >>> searchByVersionId`);
 
-        let { base_version, id, version_id } = args;
+        let {base_version, id, version_id} = args;
 
         let Resource = getResource(base_version, resource_name);
 
@@ -850,7 +827,7 @@ module.exports.searchByVersionId = (args, context, resource_name, collection_nam
 
         // Query our collection for this observation
         history_collection.findOne(
-            { id: id.toString(), 'meta.versionId': `${version_id}` },
+            {id: id.toString(), 'meta.versionId': `${version_id}`},
             (err, resource) => {
                 if (err) {
                     logger.error(`Error with ${resource_name}.searchByVersionId: `, err);
@@ -871,7 +848,7 @@ module.exports.history = (args, resource_name, collection_name) =>
         logInfo(`${resource_name} >>> history`);
 
         // Common search params
-        let { base_version } = args;
+        let {base_version} = args;
 
         let query = {};
 
@@ -907,7 +884,7 @@ module.exports.historyById = (args, context, resource_name, collection_name) =>
     new Promise((resolve, reject) => {
         logInfo(`${resource_name} >>> historyById`);
 
-        let { base_version, id } = args;
+        let {base_version, id} = args;
         let query = {};
 
         if (base_version === VERSIONS['3_0_1']) {
@@ -944,7 +921,7 @@ module.exports.patch = (args, context, resource_name, collection_name) =>
     new Promise((resolve, reject) => {
         logInfo('Patient >>> patch');
 
-        let { base_version, id, patchContent } = args;
+        let {base_version, id, patchContent} = args;
 
         // Grab an instance of our DB and collection
         let db = globals.get(CLIENT_DB);
@@ -952,7 +929,7 @@ module.exports.patch = (args, context, resource_name, collection_name) =>
 
         // Get current record
         // Query our collection for this observation
-        collection.findOne({ id: id.toString() }, (err, data) => {
+        collection.findOne({id: id.toString()}, (err, data) => {
             if (err) {
                 logger.error(`Error with ${resource_name}.patch: `, err);
                 return reject(err);
@@ -981,10 +958,10 @@ module.exports.patch = (args, context, resource_name, collection_name) =>
 
             // Same as update from this point on
             let cleaned = JSON.parse(JSON.stringify(resource));
-            let doc = Object.assign(cleaned, { _id: id });
+            let doc = Object.assign(cleaned, {_id: id});
 
             // Insert/update our resource record
-            collection.findOneAndUpdate({ id: id }, { $set: doc }, { upsert: true }, (err2, res) => {
+            collection.findOneAndUpdate({id: id}, {$set: doc}, {upsert: true}, (err2, res) => {
                 if (err2) {
                     logger.error(`Error with ${resource_name}.update: `, err2);
                     return reject(err2);
@@ -992,7 +969,7 @@ module.exports.patch = (args, context, resource_name, collection_name) =>
 
                 // Save to history
                 let history_collection = db.collection(`${collection_name}_${base_version}_History`);
-                let history_resource = Object.assign(cleaned, { _id: id + cleaned.meta.versionId });
+                let history_resource = Object.assign(cleaned, {_id: id + cleaned.meta.versionId});
 
                 // Insert our resource record to history but don't assign _id
                 return history_collection.insertOne(history_resource, (err3) => {
