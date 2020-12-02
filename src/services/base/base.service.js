@@ -489,8 +489,9 @@ module.exports.update = (args, {req}, resource_name, collection_name) =>
                 // save to history
                 let history_collection = db.collection(`${collection_name}_${base_version}_History`);
 
-                let history_resource = Object.assign(cleaned, {id: id});
-                delete history_resource['_id']; // make sure we don't have an _id field when inserting into history
+                // let history_resource = Object.assign(cleaned, {id: id});
+                let history_resource = Object.assign(cleaned, {_id: id + cleaned.meta.versionId});
+                // delete history_resource['_id']; // make sure we don't have an _id field when inserting into history
 
                 // Insert our resource record to history but don't assign _id
                 return history_collection.insertOne(history_resource, (err3) => {
@@ -546,7 +547,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
 
             // Get current record
             // Query our collection for this observation
-            let data = await collection.findOne({_id: id.toString()});
+            let data = await collection.findOne({id: id.toString()});
 
             // create a resource with incoming data
             let Resource = getResource(base_version, resource_name);
@@ -628,6 +629,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                     return {
                         id: id,
                         created: false,
+                        updated: false,
                         resource_version: foundResource.meta.versionId,
                     };
                 }
@@ -666,13 +668,12 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
 
             // Insert/update our resource record
             // When using the $set operator, only the specified fields are updated
-            let res = await collection.findOneAndUpdate({_id: id.toString()}, {$set: doc}, {upsert: true});
+            let res = await collection.findOneAndUpdate({id: id.toString()}, {$set: doc}, {upsert: true});
 
             // save to history
             let history_collection = db.collection(`${collection_name}_${base_version}_History`);
 
-            let history_resource = Object.assign(cleaned, {id: id});
-            delete history_resource['_id']; // make sure we don't have an _id field when inserting into history
+            let history_resource = Object.assign(cleaned, {_id: id + cleaned.meta.versionId});
 
             const created_entity = res.lastErrorObject && !res.lastErrorObject.updatedExisting;
             // Insert our resource record to history but don't assign _id
@@ -681,6 +682,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
             return {
                 id: id,
                 created: created_entity,
+                updated: res.lastErrorObject.updatedExisting,
                 resource_version: doc.meta.versionId,
             };
         } catch (e) {
@@ -690,7 +692,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
 
     if (Array.isArray(resources_incoming)) {
         logInfo( '==================' + resource_name + ': Merge received array ' + '(' + resources_incoming.length + ') ' + '====================');
-        await Promise.all(resources_incoming.map(async x => merge_resource(x)));
+        return await Promise.all(resources_incoming.map(async x => merge_resource(x)));
     } else {
         return await merge_resource(resources_incoming);
     }
