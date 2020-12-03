@@ -13,8 +13,8 @@ down:
 .PHONY:clean
 clean: down
 	docker image rm imranq2/node-fhir-server-mongo -f
-	docker image rm node-fhir-server-mongo_fhir
-	docker volume rm fhir-dev_mongo_data
+	docker image rm node-fhir-server-mongo_fhir -f
+	docker volume rm fhir-dev_mongo_data -f
 
 .PHONY:init
 init:

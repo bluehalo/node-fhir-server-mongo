@@ -12,14 +12,14 @@ def main() -> int:
                  'Contract', 'Coverage', 'CoverageEligibilityRequest', 'CoverageEligibilityResponse', 'DetectedIssue',
                  'Device', 'DeviceDefinition', 'DeviceMetric', 'DeviceRequest', 'DeviceUseStatement',
                  'DiagnosticReport', 'DocumentManifest', 'DocumentReference', 'EffectEvidenceSynthesis', 'Encounter',
-                 'Endpoint', 'EnrollmentRequest', 'EnrollmentResponse', 'EpisodeOfCare', 'EventDefinition', 
+                 'Endpoint', 'EnrollmentRequest', 'EnrollmentResponse', 'EpisodeOfCare', 'EventDefinition',
                  'ExampleScenario', 'ExplanationOfBenefit', 'FamilyMemberHistory', 'Flag', 'Goal',
                  'GraphDefinition', 'Group', 'GuidanceResponse', 'HealthcareService', 'ImagingStudy', 'Immunization',
                  'ImmunizationEvaluation', 'ImmunizationRecommendation', 'ImplementationGuide', 'InsurancePlan',
                  'Invoice', 'Library', 'Linkage', 'List', 'Location', 'Measure', 'MeasureReport', 'Media', 'Medication',
                  'MedicationAdministration', 'MedicationDispense', 'MedicationKnowledge', 'MedicationRequest',
                  'MedicationStatement', 'MedicinalProduct', 'MedicinalProductAuthorization',
-                 'MedicinalProductContraindication', 'MedicinalProductIndication', 
+                 'MedicinalProductContraindication', 'MedicinalProductIndication',
                  'MedicinalProductPackaged',
                  'MedicinalProductPharmaceutical', 'MessageDefinition',
                  'MessageHeader', 'MolecularSequence', 'NamingSystem', 'NutritionOrder', 'Observation',
@@ -58,11 +58,11 @@ const base_service = require('../base/base.service');
 const resource_name = '{resource}';
 const collection_name = COLLECTION.{resource.upper()};
 
-module.exports.search = (args) =>
-  base_service.search(args, resource_name, collection_name);
+module.exports.search = (args, {{ req }}) =>
+  base_service.search(args, {{ req }}, resource_name, collection_name);
 
-module.exports.searchById = (args) =>
-  base_service.searchById(args, resource_name, collection_name);
+module.exports.searchById = (args, {{ req }}) =>
+  base_service.searchById(args, {{ req }}, resource_name, collection_name);
 
 module.exports.create = (args, {{ req }}) =>
   base_service.create(args, {{ req }}, resource_name, collection_name);
@@ -73,23 +73,23 @@ module.exports.update = (args, {{ req }}) =>
 module.exports.merge = (args, {{ req }}) =>
   base_service.merge(args, {{ req }}, resource_name, collection_name);
 
-module.exports.remove = (args, context) =>
-  base_service.remove(args, context, resource_name, collection_name);
+module.exports.remove = (args, {{ req }}) =>
+  base_service.remove(args, {{ req }}, resource_name, collection_name);
 
-module.exports.searchByVersionId = (args, context) =>
-  base_service.search(args, context, resource_name, collection_name);
+module.exports.searchByVersionId = (args, {{ req }}) =>
+  base_service.search(args, {{ req }}, resource_name, collection_name);
 
-module.exports.everything = (args, context) =>
-  base_service.everything(args, context, resource_name, collection_name);
+module.exports.everything = (args, {{ req }}) =>
+  base_service.everything(args, {{ req }}, resource_name, collection_name);
 
-module.exports.history = (args) =>
-  base_service.history(args, resource_name, collection_name);
+module.exports.history = (args, {{ req }}) =>
+  base_service.history(args, {{ req }}, resource_name, collection_name);
 
-module.exports.historyById = (args, context) =>
-  base_service.historyById(args, context, resource_name, collection_name);
+module.exports.historyById = (args, {{ req }}) =>
+  base_service.historyById(args, {{ req }}, resource_name, collection_name);
 
-module.exports.patch = (args, context) =>
-  base_service.patch(args, context, resource_name, collection_name);
+module.exports.patch = (args, {{ req }}) =>
+  base_service.patch(args, {{ req }}, resource_name, collection_name);
 """
             # 3. add config.js entry
             with open(resource_file_name, "w+") as file:
@@ -113,10 +113,10 @@ module.exports.patch = (args, context) =>
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/patient-operation-everything.html',
         }},
-      ],     
+      ],
     }},""")
         else:
-          print(f"Folder: {resource_folder} already exists")  
+          print(f"Folder: {resource_folder} already exists")
 
     print("---- COLLECTION entries -----")
     for key,value in collection_entries.items():

@@ -1,9 +1,10 @@
 const {VERSIONS} = require('@asymmetrik/node-fhir-server-core').constants;
 const {resolveSchema} = require('@asymmetrik/node-fhir-server-core');
-const JSONSchemaValidator = require('@asymmetrik/fhir-json-schema-validator');
+// const JSONSchemaValidator = require('@asymmetrik/fhir-json-schema-validator');
 const {CLIENT_DB} = require('../../constants');
 const moment = require('moment-timezone');
 const globals = require('../../globals');
+// noinspection JSCheckFunctionSignatures
 const logger = require('@asymmetrik/node-fhir-server-core').loggers.get();
 const {getUuid} = require('../../utils/uid.util');
 const {validate, applyPatch, compare} = require('fast-json-patch');
@@ -214,42 +215,55 @@ let buildDstu2SearchQuery = (args) => {
 };
 
 // eslint-disable-next-line no-unused-vars
-let validateSchema = (instance) => {
-
-    // https://github.com/Asymmetrik/node-fhir-server-core/tree/master/packages/fhir-json-schema-validator
-    const validator = new JSONSchemaValidator();
-    let errors = validator.validate(instance);
-    console.log(errors);
-    return errors;
-
-    // var v = new Validator();
-    // var schema = fhirSchema;
-    // const validationResult = v.validate(instance, schema);
-    // console.log(validationResult);
-};
+// let validateSchema = (instance) => {
+//
+//     // https://github.com/Asymmetrik/node-fhir-server-core/tree/master/packages/fhir-json-schema-validator
+//     const validator = new JSONSchemaValidator();
+//     let errors = validator.validate(instance);
+//     console.log(errors);
+//     return errors;
+//
+//     // var v = new Validator();
+//     // var schema = fhirSchema;
+//     // const validationResult = v.validate(instance, schema);
+//     // console.log(validationResult);
+// };
 
 /**
  *
  * @param {*} args
+ * @param resource_name
+ * @param collection_name
  * @param {*} context
- * @param {*} logger
  */
-module.exports.search = (args, resource_name, collection_name) =>
+module.exports.search = (args, {req}, resource_name, collection_name) =>
     new Promise((resolve, reject) => {
         logInfo(resource_name + ' >>> search');
         logInfo('---- args ----');
         logInfo(args);
         logInfo('--------');
 
+        // asymmetric hides certain query parameters from us so we need to get them from the context
+        const my_args = {};
+        const my_args_array = Object.entries(req.query);
+        my_args_array.forEach(x => {
+            my_args[x[0]] = x[1];
+        });
+
+        const combined_args = Object.assign({}, args, my_args);
+        logInfo('---- combined_args ----');
+        logInfo(combined_args);
+        logInfo('--------');
+
         let {base_version} = args;
-        let query = {};
+        let query;
 
         if (base_version === VERSIONS['3_0_1']) {
-            query = buildStu3SearchQuery(args);
+            query = buildStu3SearchQuery(combined_args);
         } else if (base_version === VERSIONS['1_0_2']) {
-            query = buildDstu2SearchQuery(args);
+            query = buildDstu2SearchQuery(combined_args);
         } else {
-            query = buildR4SearchQuery(resource_name, args);
+            query = buildR4SearchQuery(resource_name, combined_args);
         }
 
         // Grab an instance of our DB and collection
@@ -262,14 +276,25 @@ module.exports.search = (args, resource_name, collection_name) =>
         logInfo('--------');
 
         // Query our collection for this observation
-        collection.find(query, (err, data) => {
+        collection.find(query, (err, cursor) => {
             if (err) {
                 logger.error(`Error with ${resource_name}.search: `, err);
                 return reject(err);
             }
 
+
+            if (combined_args['_count']) {
+                const nPerPage = Number(combined_args['_count']);
+
+                if (combined_args['_getpagesoffset']) {
+                    const pageNumber = Number(combined_args['_getpagesoffset']);
+                    cursor = cursor.skip(pageNumber > 0 ? ((pageNumber - 1) * nPerPage) : 0);
+                }
+                cursor = cursor.limit(nPerPage);
+            }
+
             // Resource is a resource cursor, pull documents out before resolving
-            data.toArray().then((resources) => {
+            cursor.toArray().then((resources) => {
                 resources.forEach(function (element, i, returnArray) {
                     returnArray[i] = new Resource(element);
                 });
@@ -279,7 +304,8 @@ module.exports.search = (args, resource_name, collection_name) =>
 
     });
 
-module.exports.searchById = (args, resource_name, collection_name) =>
+// eslint-disable-next-line no-unused-vars
+module.exports.searchById = (args, {req}, resource_name, collection_name) =>
     new Promise((resolve, reject) => {
         logInfo(`${resource_name} >>> searchById`);
         logInfo(args);
@@ -339,6 +365,7 @@ module.exports.create = (args, {req}, resource_name, collection_name) =>
         let Resource = getResource(base_version, resource_name);
         logInfo(`Resource: ${Resource}`);
         let resource = new Resource(resource_incoming);
+        // noinspection JSUnresolvedFunction
         logInfo(`resource: ${resource.toJSON()}`);
 
         // If no resource ID was provided, generate one.
@@ -353,6 +380,7 @@ module.exports.create = (args, {req}, resource_name, collection_name) =>
         });
 
         // Create the document to be inserted into Mongo
+        // noinspection JSUnresolvedFunction
         let doc = JSON.parse(JSON.stringify(resource.toJSON()));
         Object.assign(doc, {id: id});
 
@@ -407,6 +435,7 @@ module.exports.update = (args, {req}, resource_name, collection_name) =>
 
         // Get current record
         // Query our collection for this observation
+        // noinspection JSUnresolvedVariable
         collection.findOne({id: id.toString()}, (err, data) => {
             if (err) {
                 logger.error(`Error with finding resource ${resource_name}.update: `, err);
@@ -420,6 +449,7 @@ module.exports.update = (args, {req}, resource_name, collection_name) =>
             let doc;
 
             // check if resource was found in database or not
+            // noinspection JSUnresolvedVariable
             if (data && data.meta) {
                 // found an existing resource
                 logInfo('found resource: ' + data);
@@ -558,7 +588,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
             // check if resource was found in database or not
             if (data && data.meta) {
                 // found an existing resource
-                logInfo( resource_name + ': merge found resource ' + '[' + data.id + ']: ' + data);
+                logInfo(resource_name + ': merge found resource ' + '[' + data.id + ']: ' + data);
                 let foundResource = new Resource(data);
                 logInfo('------ found document --------');
                 logInfo(data);
@@ -582,6 +612,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                 //     return array1.concat(array2);
                 // };
                 let mergeObjectOrArray;
+                // noinspection JSUnusedGlobalSymbols,JSUnusedLocalSymbols
                 const options = {
                     // eslint-disable-next-line no-unused-vars
                     customMerge: (key) => {
@@ -691,88 +722,132 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
     }
 
     if (Array.isArray(resources_incoming)) {
-        logInfo( '==================' + resource_name + ': Merge received array ' + '(' + resources_incoming.length + ') ' + '====================');
+        logInfo('==================' + resource_name + ': Merge received array ' + '(' + resources_incoming.length + ') ' + '====================');
         return await Promise.all(resources_incoming.map(async x => merge_resource(x)));
     } else {
         return await merge_resource(resources_incoming);
     }
 };
 
-module.exports.everything = (args, context, resource_name) => {
-    return new Promise((resolve, reject) => {
-        logInfo(`${resource_name} >>> everything`);
-        try {
-            let {base_version, id} = args;
+// eslint-disable-next-line no-unused-vars
+module.exports.everything = async (args, {req}, resource_name) => {
+    logInfo(`${resource_name} >>> everything`);
+    try {
+        let {base_version, id} = args;
 
-            logInfo(`Everything id=${id}`);
+        logInfo(`id=${id}`);
+        logInfo(`req=${req}`);
 
-            // for now we only support Practitioner
-            let query = {};
-            query.id = id;
-            // TODO: Build query from Parameters
+        const host = req.headers.host;
+        // for now we only support Practitioner
+        let query = {};
+        query.id = id;
+        // Grab an instance of our DB and collection
+        let db = globals.get(CLIENT_DB);
+        let collection_name = 'Practitioner';
+        let collection = db.collection(`${collection_name}_${base_version}`);
+        const PractitionerResource = getResource(base_version, resource_name);
 
-            // TODO: Query database
-            // Grab an instance of our DB and collection
-            let db = globals.get(CLIENT_DB);
-            var collection_name = 'Practitioner';
-            var collection = db.collection(`${collection_name}_${base_version}`);
-            let Resource = getResource(base_version, resource_name);
+        let practitioner = await collection.findOne({id: id.toString()});
+        if (practitioner) {
+            // first add the Practitioner
+            let entries = [{
+                'link': `https://${host}/${base_version}/${practitioner.resourceType}/${practitioner.id}`,
+                'resource': new PractitionerResource(practitioner)
+            }];
+            // now look for practitioner_role
+            collection_name = 'PractitionerRole';
+            collection = db.collection(`${collection_name}_${base_version}`);
+            const PractitionerRoleResource = getResource(base_version, 'PractitionerRole');
+            query = {
+                'practitioner.reference': 'Practitioner/' + id
+            };
+            const cursor = await collection.find(query);
+            const items = await cursor.toArray();
 
-            collection.findOne({id: id.toString()}, (err, resource) => {
-                if (err) {
-                    logger.error(`Error with ${resource_name}.searchById: `, err);
-                    return reject(err);
+            const practitioner_roles = items.map(x => new PractitionerRoleResource(x));
+            entries = entries.concat(
+                practitioner_roles.map(
+                    x => {
+                        return {
+                            'link': `https://${host}/${base_version}/${x.resourceType}/${x.id}`,
+                            'resource': x
+                        };
+                    }
+                )
+            );
+            // now for each PractitionerRole, get the Organization
+            collection_name = 'Organization';
+            collection = db.collection(`${collection_name}_${base_version}`);
+            const OrganizationRoleResource = getResource(base_version, collection_name);
+            for (const index in practitioner_roles) {
+                const practitioner_role = practitioner_roles[index];
+                if (practitioner_role.organization && practitioner_role.organization.reference) {
+                    const organization_id = practitioner_role.organization.reference.replace('Organization/', '');
+
+                    const organization = await collection.findOne({id: organization_id.toString()});
+                    if (organization) {
+                        entries += {
+                            'link': `https://${host}/${base_version}/${organization.resourceType}/${organization.id}`,
+                            'resource': new OrganizationRoleResource(organization)
+                        };
+                    }
                 }
-                if (resource) {
-                    var resources = [];
-                    var entries = [];
-                    // now look for practitioner_role
-                    collection_name = 'PractitionerRole';
-                    collection = db.collection(`${collection_name}_${base_version}`);
-                    Resource = getResource(base_version, 'PractitionerRole');
-                    query = {};
-                    const practitioner_reference = 'Practitioner/' + id;
-                    query['practitioner.reference'] = practitioner_reference;
-                    collection.find(query, (err_pr, data) => {
-                        if (err_pr) {
-                            logger.error(`Error with ${resource_name}.search: `, err);
-                            return reject(err);
-                        }
-                        // Resource is a resource cursor, pull documents out before resolving
-                        data.toArray().then((my_resources) => {
-                            my_resources.forEach(function (element, i, returnArray) {
-                                returnArray[i] = new Resource(element);
-                            });
-                            resources = resources.concat(my_resources);
-                            entries = resources.map(
-                                x => {
-                                    const entry = {
-                                        'link': `${x.resourceType}/${x.id}`,
-                                        'resource': x
-                                    };
-                                    return entry;
-                                }
-                            );
-                            // create a bundle
-                            resolve(
-                                {
-                                    'resourceType': 'Bundle',
-                                    'id': 'bundle-example',
-                                    'entry': entries
-                                });
-                        });
-                    });
-                } else {
-                    resolve();
+            }
+            // now for each PractitionerRole, get the Location
+            collection_name = 'Location';
+            collection = db.collection(`${collection_name}_${base_version}`);
+            const LocationRoleResource = getResource(base_version, collection_name);
+            for (const index in practitioner_roles) {
+                const practitioner_role = practitioner_roles[index];
+                if (practitioner_role.location && practitioner_role.location.reference) {
+                    const location_id = practitioner_role.location.reference.replace(collection_name + '/', '');
+
+                    const location = await collection.findOne({id: location_id.toString()});
+                    if (location) {
+                        entries += {
+                            'link': `https://${host}/${base_version}/${location.resourceType}/${location.id}`,
+                            'resource': new LocationRoleResource(location)
+                        };
+                    }
                 }
-            });
-        } catch (err) {
-            reject(err);
+            }
+            // now for each PractitionerRole, get the HealthcareService
+            collection_name = 'HealthcareService';
+            collection = db.collection(`${collection_name}_${base_version}`);
+            const HealthcareServiceRoleResource = getResource(base_version, collection_name);
+            for (const index in practitioner_roles) {
+                const practitioner_role = practitioner_roles[index];
+                if (practitioner_role.healthcareService && practitioner_role.healthcareService.reference) {
+                    const healthcareService_id = practitioner_role.healthcareService.reference.replace(collection_name + '/', '');
+
+                    const healthcareService = await collection.findOne({id: healthcareService_id.toString()});
+                    if (healthcareService) {
+                        entries += {
+                            'link': `https://${host}/${base_version}/${healthcareService.resourceType}/${healthcareService.id}`,
+                            'resource': new HealthcareServiceRoleResource(healthcareService)
+                        };
+                    }
+                }
+            }
+
+            // create a bundle
+            return (
+                {
+                    'resourceType': 'Bundle',
+                    'id': 'bundle-example',
+                    'entry': entries
+                });
         }
-    });
+
+    } catch (err) {
+        logger.error(`Error with ${resource_name}.searchById: `, err);
+        throw err;
+    }
 };
 
-module.exports.remove = (args, context, resource_name, collection_name) =>
+// eslint-disable-next-line no-unused-vars
+module.exports.remove = (args, {req}, resource_name, collection_name) =>
     new Promise((resolve, reject) => {
         logInfo(`${resource_name} >>> remove`);
 
@@ -817,7 +892,8 @@ module.exports.remove = (args, context, resource_name, collection_name) =>
         });
     });
 
-module.exports.searchByVersionId = (args, context, resource_name, collection_name) =>
+// eslint-disable-next-line no-unused-vars
+module.exports.searchByVersionId = (args, {req}, resource_name, collection_name) =>
     new Promise((resolve, reject) => {
         logInfo(`${resource_name} >>> searchByVersionId`);
 
@@ -846,7 +922,8 @@ module.exports.searchByVersionId = (args, context, resource_name, collection_nam
         );
     });
 
-module.exports.history = (args, resource_name, collection_name) =>
+// eslint-disable-next-line no-unused-vars
+module.exports.history = (args, {req}, resource_name, collection_name) =>
     new Promise((resolve, reject) => {
         logInfo(`${resource_name} >>> history`);
 
@@ -883,7 +960,8 @@ module.exports.history = (args, resource_name, collection_name) =>
         });
     });
 
-module.exports.historyById = (args, context, resource_name, collection_name) =>
+// eslint-disable-next-line no-unused-vars
+module.exports.historyById = (args, {req}, resource_name, collection_name) =>
     new Promise((resolve, reject) => {
         logInfo(`${resource_name} >>> historyById`);
 
@@ -920,7 +998,8 @@ module.exports.historyById = (args, context, resource_name, collection_name) =>
         });
     });
 
-module.exports.patch = (args, context, resource_name, collection_name) =>
+// eslint-disable-next-line no-unused-vars
+module.exports.patch = (args, {req}, resource_name, collection_name) =>
     new Promise((resolve, reject) => {
         logInfo('Patient >>> patch');
 
@@ -953,6 +1032,7 @@ module.exports.patch = (args, context, resource_name, collection_name) =>
             if (data && data.meta) {
                 let foundResource = new Resource(data);
                 let meta = foundResource.meta;
+                // noinspection JSUnresolvedVariable
                 meta.versionId = `${parseInt(foundResource.meta.versionId) + 1}`;
                 resource.meta = meta;
             } else {

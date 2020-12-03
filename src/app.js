@@ -127,6 +127,19 @@ app.get('/index', async (req, res) => {
     let [mongoError, client] = await asyncHandler(
         mongoClient(mongoConfig.connection, mongoConfig.options)
     );
+
+    async function create_index_if_not_exists(db, property_to_index, collection_name) {
+        const index_name = property_to_index + '_1';
+        if (!await db.collection(collection_name).indexExists(index_name)) {
+            console.log('Creating index ' + index_name + ' in ' + collection_name);
+            const my_dict = {};
+            my_dict[String(property_to_index)] = 1;
+            await db.collection(collection_name).createIndex(my_dict);
+            return true;
+        }
+        return false;
+    }
+
     if (mongoError) {
         console.error(mongoError.message);
         console.error(mongoConfig.connection);
@@ -135,7 +148,7 @@ app.get('/index', async (req, res) => {
     } else {
         //create client by providing database name
         const db = client.db(mongoConfig.db_name);
-        var collection_names = [];
+        const collection_names = [];
         // const collections = await db.listCollections().toArray();
 
         await db.listCollections().forEach(collection => {
@@ -145,19 +158,22 @@ app.get('/index', async (req, res) => {
             }
         });
 
+        // now add custom indices
+        const practitionerRoleCollection = 'PractitionerRole_4_0_0';
+        if (collection_names.includes(practitionerRoleCollection)) {
+            await create_index_if_not_exists(db, 'practitioner.reference', practitionerRoleCollection);
+            await create_index_if_not_exists(db, 'organization.reference', practitionerRoleCollection);
+            await create_index_if_not_exists(db, 'location.reference', practitionerRoleCollection);
+        }
+
+        // now add indices on id column for every collection
         var collection_stats = [];
         console.info('Collection_names:' + collection_names);
         for (const collection_index in collection_names) {
             const collection_name = collection_names[collection_index];
             console.log(collection_name);
             // check if index exists
-            const index_name = 'id_1';
-            let createdIndex = false;
-            if (!await db.collection(collection_name).indexExists(index_name)) {
-                console.log('Creating index ' + index_name + ' in ' + collection_name);
-                await db.collection(collection_name).createIndex({id: 1});
-                createdIndex = true;
-            }
+            const createdIndex = await create_index_if_not_exists(db, 'id', collection_name);
             const indexes = await db.collection(collection_name).indexes();
             const count = await db.collection(collection_name).countDocuments({});
             console.log(['Found: ', count, ' documents in ', collection_name].join(''));
