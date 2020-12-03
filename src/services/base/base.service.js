@@ -759,7 +759,7 @@ module.exports.everything = async (args, {req}, resource_name) => {
             // now look for practitioner_role
             collection_name = 'PractitionerRole';
             collection = db.collection(`${collection_name}_${base_version}`);
-            const PractitionerRoleResource = getResource(base_version, 'PractitionerRole');
+            const PractitionerRoleResource = getResource(base_version, collection_name);
             query = {
                 'practitioner.reference': 'Practitioner/' + id
             };
@@ -772,10 +772,18 @@ module.exports.everything = async (args, {req}, resource_name) => {
             for (const index in practitioner_roles) {
                 // noinspection JSUnfilteredForInLoop
                 const practitioner_role = practitioner_roles[index];
-                entries += {
-                    'link': `https://${host}/${base_version}/${practitioner_role.resourceType}/${practitioner_role.id}`,
-                    'resource': practitioner_role
-                };
+                // for some reason a simple append doesn't work here
+                entries = entries.concat(
+                    [
+                        {
+                            'link': `https://${host}/${base_version}/${practitioner_role.resourceType}/${practitioner_role.id}`,
+                            'resource': practitioner_role
+                        }
+                    ]
+                );
+                // entries += {
+                //     'resource': 'foo'
+                // };
                 // now for each PractitionerRole, get the Organization
                 collection_name = 'Organization';
                 collection = db.collection(`${collection_name}_${base_version}`);
