@@ -18,4 +18,5 @@ fhir:
   replicas: 3
   mongo_db_name: "fhir"
   ingress_name: "fhir.dev.icanbwell.com"
+  node_memory: 8096
 

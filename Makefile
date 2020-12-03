@@ -86,7 +86,7 @@ deploy_local_to_aws_dev:
 	kubectl config current-context && \
 	kubectl cluster-info && \
 	kubectl get services && \
-	helm upgrade --install --set namespace=fhir-dev --set fhir.replicas=3 --set fhir.mongo_db_name=fhir_dev --set fhir.ingress_name=fhir.dev.icanbwell.com --set include_mongo=false --set use_ingress=true --set aws=true --set mongoPassword=$$mongoPassword fhir-dev ./releases/node-fhir-server-mongo/node-fhir-server-mongo-1.0.tgz && \
+	helm upgrade --install --set namespace=fhir-dev --set fhir.node_memory=8096 --set fhir.replicas=3 --set fhir.mongo_db_name=fhir_dev --set fhir.ingress_name=fhir.dev.icanbwell.com --set include_mongo=false --set use_ingress=true --set aws=true --set mongoPassword=$$mongoPassword fhir-dev ./releases/node-fhir-server-mongo/node-fhir-server-mongo-1.0.tgz && \
 	helm ls && \
 	kubectl get services && \
 	kubectl get all --namespace=fhir-dev && \
@@ -103,11 +103,12 @@ deploy_local_to_aws_staging:
 	kubectl config current-context && \
 	kubectl cluster-info && \
 	kubectl get services && \
-	helm upgrade --install --set namespace=fhir-staging --set fhir.replicas=3 --set fhir.mongo_db_name=fhir_staging --set fhir.ingress_name=fhir-staging.dev.icanbwell.com --set include_mongo=false --set use_ingress=true --set aws=true --set mongoPassword=$$mongoPassword fhir-staging ./releases/node-fhir-server-mongo/node-fhir-server-mongo-1.0.tgz && \
+	helm upgrade --install --set namespace=fhir-staging --set fhir.node_memory=8096 --set fhir.replicas=3 --set fhir.mongo_db_name=fhir_staging --set fhir.ingress_name=fhir-staging.dev.icanbwell.com --set include_mongo=false --set use_ingress=true --set aws=true --set mongoPassword=$$mongoPassword fhir-staging ./releases/node-fhir-server-mongo/node-fhir-server-mongo-1.0.tgz && \
 	helm ls && \
 	kubectl get services && \
 	kubectl get all --namespace=fhir-staging && \
 	kubectl get deployment.apps/fhir --namespace=fhir-staging -o yaml && \
+	kubectl --namespace=fhir-staging get pods -A -o=custom-columns='DATA:spec.containers[*].image' && \	
 	kubectl logs deployment.apps/fhir --namespace=fhir-staging
 
 .PHONY: deploy_local_to_aws_pre-prod
@@ -119,11 +120,12 @@ deploy_local_to_aws_pre-prod:
 	kubectl config current-context && \
 	kubectl cluster-info && \
 	kubectl get services && \
-	helm upgrade --install --set namespace=fhir-pre-prod --set fhir.replicas=3 --set fhir.mongo_db_name=fhir_pre_prod --set fhir.ingress_name=fhir-pre-prod.dev.icanbwell.com --set include_mongo=false --set use_ingress=true --set aws=true --set mongoPassword=$$mongoPassword fhir-pre-prod ./releases/node-fhir-server-mongo/node-fhir-server-mongo-1.0.tgz && \
+	helm upgrade --install --set namespace=fhir-pre-prod --set fhir.node_memory=8096 --set fhir.replicas=3 --set fhir.mongo_db_name=fhir_pre_prod --set fhir.ingress_name=fhir-pre-prod.dev.icanbwell.com --set include_mongo=false --set use_ingress=true --set aws=true --set mongoPassword=$$mongoPassword fhir-pre-prod ./releases/node-fhir-server-mongo/node-fhir-server-mongo-1.0.tgz && \
 	helm ls && \
 	kubectl get services && \
 	kubectl get all --namespace=fhir-pre-prod && \
 	kubectl get deployment.apps/fhir --namespace=fhir-pre-prod -o yaml && \
+	kubectl --namespace=fhir-pre-prod get pods -A -o=custom-columns='DATA:spec.containers[*].image' && \	
 	kubectl logs deployment.apps/fhir --namespace=fhir-pre-prod
 
 .PHONY: deploy_to_aws
