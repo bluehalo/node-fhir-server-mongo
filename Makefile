@@ -91,8 +91,8 @@ deploy_local_to_aws_dev:
 	kubectl get services && \
 	kubectl get all --namespace=fhir-dev && \
 	kubectl get deployment.apps/fhir --namespace=fhir-dev -o yaml && \
-	kubectl --namespace=fhir-dev get pods -A -o=custom-columns='DATA:spec.containers[*].image' && \
-	kubectl --namespace=fhir-dev logs deployment.apps/fhir 
+	kubectl --namespace=fhir-dev get pods -o=custom-columns='DATA:spec.containers[*].image' && \
+	kubectl --namespace=fhir-dev logs deployment.apps/fhir
 
 .PHONY: deploy_local_to_aws_staging
 deploy_local_to_aws_staging:
@@ -108,7 +108,7 @@ deploy_local_to_aws_staging:
 	kubectl get services && \
 	kubectl get all --namespace=fhir-staging && \
 	kubectl get deployment.apps/fhir --namespace=fhir-staging -o yaml && \
-	kubectl --namespace=fhir-staging get pods -A -o=custom-columns='DATA:spec.containers[*].image' && \	
+	kubectl --namespace=fhir-staging get pods -o=custom-columns='DATA:spec.containers[*].image' && \
 	kubectl logs deployment.apps/fhir --namespace=fhir-staging
 
 .PHONY: deploy_local_to_aws_pre-prod
@@ -125,7 +125,7 @@ deploy_local_to_aws_pre-prod:
 	kubectl get services && \
 	kubectl get all --namespace=fhir-pre-prod && \
 	kubectl get deployment.apps/fhir --namespace=fhir-pre-prod -o yaml && \
-	kubectl --namespace=fhir-pre-prod get pods -A -o=custom-columns='DATA:spec.containers[*].image' && \	
+	kubectl --namespace=fhir-pre-prod get pods -o=custom-columns='DATA:spec.containers[*].image' && \
 	kubectl logs deployment.apps/fhir --namespace=fhir-pre-prod
 
 .PHONY: deploy_to_aws
