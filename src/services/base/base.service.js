@@ -57,6 +57,8 @@ let buildR4SearchQuery = (resource_name, args) => {
     let gender = args['gender'];
     let email = args['email'];
     let phone = args['phone'];
+    let source = args['source'];
+    let versionId = args['versionId'];
     // Search Result params
 
     // Patient search params
@@ -67,6 +69,14 @@ let buildR4SearchQuery = (resource_name, args) => {
 
     if (id) {
         query.id = id;
+    }
+
+    if (source) {
+        query['meta.source'] = source;
+    }
+
+    if (versionId) {
+        query['meta.versionId'] = versionId;
     }
 
     if (patient) {
@@ -176,6 +186,7 @@ let buildR4SearchQuery = (resource_name, args) => {
     if (identifier) {
         let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier', '');
         for (let i in queryBuilder) {
+            // noinspection JSUnfilteredForInLoop
             query[i] = queryBuilder[i];
         }
     }
@@ -191,6 +202,7 @@ let buildR4SearchQuery = (resource_name, args) => {
     if (email) {
         let queryBuilder = tokenQueryBuilder(email, 'value', 'telecom', 'email');
         for (let i in queryBuilder) {
+            // noinspection JSUnfilteredForInLoop
             query[i] = queryBuilder[i];
         }
     }
@@ -199,6 +211,7 @@ let buildR4SearchQuery = (resource_name, args) => {
     if (phone) {
         let queryBuilder = tokenQueryBuilder(phone, 'value', 'telecom', 'phone');
         for (let i in queryBuilder) {
+            // noinspection JSUnfilteredForInLoop
             query[i] = queryBuilder[i];
         }
     }
