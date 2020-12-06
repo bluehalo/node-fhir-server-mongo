@@ -72,7 +72,7 @@ let buildR4SearchQuery = (resource_name, args) => {
     }
 
     if (source) {
-        query['meta.source'] = source;
+        query['meta.source'] = stringQueryBuilder(source);
     }
 
     if (versionId) {
