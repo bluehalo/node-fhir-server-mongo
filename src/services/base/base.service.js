@@ -61,6 +61,9 @@ let buildR4SearchQuery = (resource_name, args) => {
     let versionId = args['versionId'];
     // Search Result params
 
+    // let extension_missing = args['extension:missing'];
+    // extension:missing=true
+
     // Patient search params
     let active = args['active'];
 
@@ -722,6 +725,8 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                 meta.versionId = `${parseInt(foundResource.meta.versionId) + 1}`;
                 meta.lastUpdated = moment.utc().format('YYYY-MM-DDTHH:mm:ssZ');
                 patched_resource_incoming.meta = meta;
+                // set the source from the incoming resource
+                meta.source = resources_incoming.meta.source;
                 logInfo('------ patched document --------');
                 logInfo(patched_resource_incoming);
                 logInfo('------ end patched document --------');
