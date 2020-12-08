@@ -751,6 +751,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
 
             const created_entity = res.lastErrorObject && !res.lastErrorObject.updatedExisting;
             // Insert our resource record to history but don't assign _id
+            delete history_resource['_id']; // make sure we don't have an _id field when inserting into history
             await history_collection.insertOne(history_resource);
 
             return {

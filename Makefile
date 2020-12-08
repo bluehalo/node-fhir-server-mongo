@@ -126,7 +126,7 @@ deploy_local_to_aws_pre-prod:
 	kubectl get all --namespace=fhir-pre-prod && \
 	kubectl get deployment.apps/fhir --namespace=fhir-pre-prod -o yaml && \
 	kubectl --namespace=fhir-pre-prod get pods -o=custom-columns='DATA:spec.containers[*].image' && \
-	kubectl logs deployment.apps/fhir --namespace=fhir-pre-prod
+	kubectl logs deployment.apps/fhir  --tail=30 --namespace=fhir-pre-prod
 
 .PHONY: deploy_to_aws
 deploy_to_aws:
@@ -197,7 +197,7 @@ logs-dev:
 	kubectl --namespace=fhir-dev get endpoints  && \
   	kubectl --namespace=fhir-dev get pods -o=custom-columns='DATA:spec.containers[*].image' && \
 	echo "----------------- FHIR logs -------------" && \
-	kubectl --namespace=fhir-dev logs --follow deployment.apps/fhir
+	kubectl --namespace=fhir-dev logs --tail=30 --follow deployment.apps/fhir
 
 .PHONY:logs-staging
 logs-staging:
@@ -211,7 +211,7 @@ logs-staging:
 	kubectl --namespace=fhir-staging get endpoints  && \
 	kubectl --namespace=fhir-staging get pods -o=custom-columns='DATA:spec.containers[*].image' && \
 	echo "----------------- FHIR logs -------------" && \
-	kubectl --namespace=fhir-staging logs --follow deployment.apps/fhir
+	kubectl --namespace=fhir-staging logs --tail=30 --follow deployment.apps/fhir
 
 .PHONY:logs-pre-prod
 logs-pre-prod:
@@ -224,7 +224,7 @@ logs-pre-prod:
 	kubectl --namespace=fhir-pre-prod get pods --selector=io.kompose.service=fhir && \
 	kubectl --namespace=fhir-pre-prod get endpoints  && \
 	echo "----------------- FHIR logs -------------" && \
-	kubectl --namespace=fhir-pre-prod logs --follow deployment.apps/fhir
+	kubectl --namespace=fhir-pre-prod logs --tail=30 --follow deployment.apps/fhir
 
 .PHONY:diagnose
 diagnose:
