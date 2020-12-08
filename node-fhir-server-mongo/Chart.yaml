@@ -1,9 +1,0 @@
-name: node-fhir-server-mongo
-description: A generated Helm Chart for node-fhir-server-mongo from Skippbox Kompose
-version: 0.0.1
-apiVersion: v1
-keywords:
-  - node-fhir-server-mongo
-sources:
-home:
-icon: https://assets.extrahop.com/images/logos/fhir-logo-thumb.png
