@@ -7,6 +7,7 @@ images:
 include_mongo: true
 
 use_ingress: false
+use_busy_box: false
 
 # whether we are deploying in AWS
 aws: false
