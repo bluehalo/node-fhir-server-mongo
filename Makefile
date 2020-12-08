@@ -92,7 +92,7 @@ deploy_local_to_aws_dev:
 	kubectl get all --namespace=fhir-dev && \
 	kubectl get deployment.apps/fhir --namespace=fhir-dev -o yaml && \
 	kubectl --namespace=fhir-dev get pods -o=custom-columns='DATA:spec.containers[*].image' && \
-	kubectl --namespace=fhir-dev logs deployment.apps/fhir
+	kubectl --namespace=fhir-dev logs --tail=30 deployment.apps/fhir
 
 .PHONY: deploy_local_to_aws_staging
 deploy_local_to_aws_staging:
@@ -109,7 +109,7 @@ deploy_local_to_aws_staging:
 	kubectl get all --namespace=fhir-staging && \
 	kubectl get deployment.apps/fhir --namespace=fhir-staging -o yaml && \
 	kubectl --namespace=fhir-staging get pods -o=custom-columns='DATA:spec.containers[*].image' && \
-	kubectl logs deployment.apps/fhir --namespace=fhir-staging
+	kubectl logs deployment.apps/fhir --tail=30 --namespace=fhir-staging
 
 .PHONY: deploy_local_to_aws_pre-prod
 deploy_local_to_aws_pre-prod:
@@ -195,6 +195,7 @@ logs-dev:
 	kubectl --namespace=fhir-dev get all  && \
 	kubectl --namespace=fhir-dev get pods --selector=io.kompose.service=fhir && \
 	kubectl --namespace=fhir-dev get endpoints  && \
+  	kubectl --namespace=fhir-dev get pods -o=custom-columns='DATA:spec.containers[*].image' && \
 	echo "----------------- FHIR logs -------------" && \
 	kubectl --namespace=fhir-dev logs --follow deployment.apps/fhir
 
@@ -208,6 +209,7 @@ logs-staging:
 	kubectl --namespace=fhir-staging get all  && \
 	kubectl --namespace=fhir-staging get pods --selector=io.kompose.service=fhir && \
 	kubectl --namespace=fhir-staging get endpoints  && \
+	kubectl --namespace=fhir-staging get pods -o=custom-columns='DATA:spec.containers[*].image' && \
 	echo "----------------- FHIR logs -------------" && \
 	kubectl --namespace=fhir-staging logs --follow deployment.apps/fhir
 

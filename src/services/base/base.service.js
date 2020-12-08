@@ -657,24 +657,11 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                 logInfo(resource_to_merge);
                 logInfo('------ end incoming document --------');
 
-                // merge new data with old
-                // const mergeNames = (nameA, nameB) => {
-                //     return `${nameA.first} and ${nameB.first}`;
-                // };
-                // const mergeIdentifiers = (array1, array2) => {
-                //     return array1.concat(array2);
-                // };
                 let mergeObjectOrArray;
                 // noinspection JSUnusedGlobalSymbols,JSUnusedLocalSymbols
                 const options = {
                     // eslint-disable-next-line no-unused-vars
                     customMerge: (key) => {
-                        // if (key === 'name') {
-                        //     return mergeNames;
-                        // }
-                        // if (key === 'identifier') {
-                        //     return mergeIdentifiers;
-                        // }
                         return mergeObjectOrArray;
                     }
                 };
@@ -715,6 +702,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                         created: false,
                         updated: false,
                         resource_version: foundResource.meta.versionId,
+                        message: 'No changes detected in updated resource'
                     };
                 }
                 // now apply the patches to the found resource
@@ -726,7 +714,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                 meta.lastUpdated = moment.utc().format('YYYY-MM-DDTHH:mm:ssZ');
                 patched_resource_incoming.meta = meta;
                 // set the source from the incoming resource
-                meta.source = resources_incoming.meta.source;
+                meta.source = resource_to_merge.meta.source;
                 logInfo('------ patched document --------');
                 logInfo(patched_resource_incoming);
                 logInfo('------ end patched document --------');
@@ -769,7 +757,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                 id: id,
                 created: created_entity,
                 updated: res.lastErrorObject.updatedExisting,
-                resource_version: doc.meta.versionId,
+                resource_version: doc.meta.versionId
             };
         } catch (e) {
             logger.error(`Error with merging resource ${resource_name}.merge: `, e);
@@ -779,6 +767,9 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                     {
                         severity: 'error',
                         code: 'exception',
+                        details: {
+                            text: 'Error merging: ' + resource_to_merge
+                        },
                         diagnostics: e.toString(),
                         expression: [
                             resource_name + '/' + id
