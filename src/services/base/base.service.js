@@ -651,8 +651,11 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                 if (!resource_to_merge.meta) {
                     resource_to_merge.meta = {};
                 }
+                // compare without checking source so we don't create a new version just because of a difference in source
+                const original_source = resource_to_merge.meta.source;
                 resource_to_merge.meta.versionId = foundResource.meta.versionId;
                 resource_to_merge.meta.lastUpdated = foundResource.meta.lastUpdated;
+                resource_to_merge.meta.source = foundResource.meta.source;
                 logInfo('------ incoming document --------');
                 logInfo(resource_to_merge);
                 logInfo('------ end incoming document --------');
@@ -713,7 +716,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                 meta.versionId = `${parseInt(foundResource.meta.versionId) + 1}`;
                 meta.lastUpdated = moment.utc().format('YYYY-MM-DDTHH:mm:ssZ');
                 // set the source from the incoming resource
-                meta.source = resource_to_merge.meta.source;
+                meta.source = original_source;
                 patched_resource_incoming.meta = meta;
                 logInfo('------ patched document --------');
                 logInfo(patched_resource_incoming);
