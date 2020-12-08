@@ -610,6 +610,9 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
     logInfo('-----------------');
 
     async function merge_resource(resource_to_merge) {
+
+        let id = resource_to_merge.id;
+
         try {
             // logInfo('--- validate schema ----');
             // const errors = validateSchema(resource_incoming);
@@ -617,9 +620,6 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
             //     return reject(errors);
             // }
             // logInfo('-----------------');
-
-            let id = resource_to_merge.id;
-
             logInfo(base_version);
             logInfo('--- body ----');
             logInfo(resource_to_merge);
@@ -772,7 +772,20 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                 resource_version: doc.meta.versionId,
             };
         } catch (e) {
-            logger.error(`Error with finding resource ${resource_name}.merge: `, e);
+            logger.error(`Error with merging resource ${resource_name}.merge: `, e);
+            return {
+                resourceType: 'OperationOutcome',
+                issue: [
+                    {
+                        severity: 'error',
+                        code: 'exception',
+                        diagnostics: e.toString(),
+                        expression: [
+                            resource_name + '/' + id
+                        ]
+                    }
+                ]
+            };
         }
     }
 
