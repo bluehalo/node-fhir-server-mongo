@@ -712,9 +712,9 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                 let meta = foundResource.meta;
                 meta.versionId = `${parseInt(foundResource.meta.versionId) + 1}`;
                 meta.lastUpdated = moment.utc().format('YYYY-MM-DDTHH:mm:ssZ');
-                patched_resource_incoming.meta = meta;
                 // set the source from the incoming resource
                 meta.source = resource_to_merge.meta.source;
+                patched_resource_incoming.meta = meta;
                 logInfo('------ patched document --------');
                 logInfo(patched_resource_incoming);
                 logInfo('------ end patched document --------');

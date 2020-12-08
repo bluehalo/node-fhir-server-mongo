@@ -197,7 +197,7 @@ logs-dev:
 	kubectl --namespace=fhir-dev get endpoints  && \
   	kubectl --namespace=fhir-dev get pods -o=custom-columns='DATA:spec.containers[*].image' && \
 	echo "----------------- FHIR logs -------------" && \
-	kubectl --namespace=fhir-dev logs --tail=30 --follow deployment.apps/fhir
+	kubectl --namespace=fhir-dev logs --since=1m --follow deployment.apps/fhir
 
 .PHONY:logs-staging
 logs-staging:
