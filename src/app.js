@@ -184,6 +184,44 @@ app.get('/index', async (req, res) => {
     }
 });
 
+app.get('/copy', async (req, res) => {
+    console.info(req);
+    const source = req.query['source'];
+    if (!source){
+        res.status(400).json({success: false, error: 'No source passed'});
+        return;
+    }
+    const target = req.query['target'];
+    if (!target){
+        res.status(400).json({success: false, error: 'No target passed'});
+        return;
+    }
+    console.info('Running copy from' + source + ' to ' + target);
+
+    // Connect to mongo and pass any options here
+    let [mongoError, client] = await asyncHandler(
+        mongoClient(mongoConfig.connection, mongoConfig.options)
+    );
+
+    if (mongoError) {
+        console.error(mongoError.message);
+        console.error(mongoConfig.connection);
+        client.close();
+        res.status(500).json({success: false, error: mongoError});
+    } else {
+        //create client by providing database name
+        const db = client.db(mongoConfig.db_name);
+
+        // await db.copyDatabase(source, target);
+        const mongoCommand = { copydb: 1, fromdb: source, todb: target };
+        const data = await db.admin().command(mongoCommand);
+        console.log(data);
+
+        await client.close();
+        res.status(200).json({success: true, result: data});
+    }
+});
+
 app.use(fhirApp.app);
 
 

@@ -18,11 +18,11 @@ WORKDIR /srv/src
 COPY package.json /srv/src/package.json
 COPY .snyk /srv/src/.snyk
 
-# Copy the remaining application code.
-COPY . /srv/src
-
 # RUN cd /srv/src && yarn install --verbose
 RUN cd /srv/src && rm --force package-lock.json && yarn install --verbose
+
+# Copy the remaining application code.
+COPY . /srv/src
 
 # Download the Amazon DocumentDB Certificate Authority (CA) certificate required to authenticate to your cluster
 RUN cd /srv/src && wget https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem
