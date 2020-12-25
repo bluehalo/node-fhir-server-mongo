@@ -3,6 +3,7 @@ const env = require('var');
 // const waitForMongo = require('wait-for-mongo');
 
 console.log(`MONGO_URL=${env.MONGO_URL}`);
+console.log(`MONGO_DB=${env.MONGO_DB_NAME}`);
 console.log('Waiting for MongoDB connection: ' + env.MONGO_URL || `mongodb://${env.MONGO_HOSTNAME}:${env.MONGO_PORT}`);
 // waitForMongo(env.MONGO_URL || `mongodb://${env.MONGO_HOSTNAME}:${env.MONGO_PORT}`, { timeout: 1000 * 60 * 2 }, function (err) {
 //   if (err) {
