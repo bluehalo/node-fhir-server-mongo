@@ -10,7 +10,7 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
-// implment our subclass to set higher request limit
+// implement our subclass to set higher request limit
 class MyFHIRServer extends FHIRServer.Server {
 
     configureMiddleware() {
@@ -19,7 +19,7 @@ class MyFHIRServer extends FHIRServer.Server {
             this.app.use(this.config.errorTracking.requestHandler());
         } // Enable stack traces
 
-        this.app.set('showStackError', !this.env.IS_PRODUCTION); // Add compression
+        this.app.set('showStackError', !this.env.IS_PRODUCTION); // Show stack error
 
         this.app.use(compression({
             level: 9
@@ -62,7 +62,7 @@ app.get('/clean', async (req, res) => {
         var collection_names = [];
         // const collections = await db.listCollections().toArray();
 
-        await db.listCollections().forEach(async collection => {
+        await db.listCollections().forEach(collection => {
             console.log(collection.name);
             if (collection.name.indexOf('system.') === -1) {
                 collection_names.push(collection.name);

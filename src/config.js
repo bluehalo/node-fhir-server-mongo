@@ -4,7 +4,8 @@ const env = require('var');
 
 console.log(`MONGO_URL=${env.MONGO_URL}`);
 console.log(`MONGO_DB=${env.MONGO_DB_NAME}`);
-console.log('Waiting for MongoDB connection: ' + env.MONGO_URL || `mongodb://${env.MONGO_HOSTNAME}:${env.MONGO_PORT}`);
+console.log(`MONGO_USERNAME=${env.MONGO_USERNAME}`);
+console.log(`MONGO_PASSWORD=${env.MONGO_PASSWORD}`);
 // waitForMongo(env.MONGO_URL || `mongodb://${env.MONGO_HOSTNAME}:${env.MONGO_PORT}`, { timeout: 1000 * 60 * 2 }, function (err) {
 //   if (err) {
 //     console.log('timeout exceeded');
@@ -12,13 +13,17 @@ console.log('Waiting for MongoDB connection: ' + env.MONGO_URL || `mongodb://${e
 //     console.log('mongodb comes online');
 //   }
 // });
+const mongoUrl = env.MONGO_URL || `mongodb://${env.MONGO_HOSTNAME}:${env.MONGO_PORT}`;
+console.log('Waiting for MongoDB connection: ' + mongoUrl);
+const mongoUrlWithUserNameAndPassword = mongoUrl.replace('mongodb://', `mongodb://${env.MONGO_USERNAME}:${env.MONGO_PASSWORD}@`);
+console.log('Waiting for MongoDB connection: ' + mongoUrlWithUserNameAndPassword);
 
 /**
  * @name mongoConfig
  * @summary Configurations for our Mongo instance
  */
 let mongoConfig = {
-  connection: env.MONGO_URL || `mongodb://${env.MONGO_HOSTNAME}:${env.MONGO_PORT}`,
+  connection: mongoUrlWithUserNameAndPassword,
   db_name: env.MONGO_DB_NAME,
   options: {
     useNewUrlParser: true,
