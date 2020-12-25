@@ -116,7 +116,7 @@ app.get('/stats', async (req, res) => {
             collection_stats.push({name: collection_name, count: count});
         }
         await client.close();
-        res.status(200).json({success: true, collections: collection_stats});
+        res.status(200).json({success: true, database: mongoConfig.db_name, collections: collection_stats});
     }
 });
 
@@ -187,12 +187,12 @@ app.get('/index', async (req, res) => {
 app.get('/copy', async (req, res) => {
     console.info(req);
     const source = req.query['source'];
-    if (!source){
+    if (!source) {
         res.status(400).json({success: false, error: 'No source passed'});
         return;
     }
     const target = req.query['target'];
-    if (!target){
+    if (!target) {
         res.status(400).json({success: false, error: 'No target passed'});
         return;
     }
@@ -213,7 +213,7 @@ app.get('/copy', async (req, res) => {
         const db = client.db(mongoConfig.db_name);
 
         // await db.copyDatabase(source, target);
-        const mongoCommand = { copydb: 1, fromdb: source, todb: target };
+        const mongoCommand = {copydb: 1, fromdb: source, todb: target};
         const data = await db.admin().command(mongoCommand);
         console.log(data);
 
