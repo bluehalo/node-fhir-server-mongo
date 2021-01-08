@@ -851,8 +851,8 @@ module.exports.everything = async (args, {req}, resource_name) => {
                 collection_name = 'Organization';
                 collection = db.collection(`${collection_name}_${base_version}`);
                 const OrganizationRoleResource = getResource(base_version, collection_name);
-                if (practitioner_role.organization && practitioner_role.organization.length > 0) {
-                    const organization_id = practitioner_role.organization[0].reference.replace('Organization/', '');
+                if (practitioner_role.organization) {
+                    const organization_id = practitioner_role.organization.reference.replace(collection_name + '/', '');
 
                     const organization = await collection.findOne({id: organization_id.toString()});
                     if (organization) {
