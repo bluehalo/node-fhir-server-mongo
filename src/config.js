@@ -13,17 +13,18 @@ console.log(`MONGO_PASSWORD=${env.MONGO_PASSWORD}`);
 //     console.log('mongodb comes online');
 //   }
 // });
-const mongoUrl = env.MONGO_URL || `mongodb://${env.MONGO_HOSTNAME}:${env.MONGO_PORT}`;
+let mongoUrl = env.MONGO_URL || `mongodb://${env.MONGO_HOSTNAME}:${env.MONGO_PORT}`;
 console.log('Waiting for MongoDB connection: ' + mongoUrl);
-const mongoUrlWithUserNameAndPassword = mongoUrl.replace('mongodb://', `mongodb://${env.MONGO_USERNAME}:${env.MONGO_PASSWORD}@`);
-console.log('Waiting for MongoDB connection: ' + mongoUrlWithUserNameAndPassword);
-
+if (env.MONGO_USERNAME !== undefined) {
+  mongoUrl = mongoUrl.replace('mongodb://', `mongodb://${env.MONGO_USERNAME}:${env.MONGO_PASSWORD}@`);
+  console.log('Waiting for MongoDB connection with username/password: ' + mongoUrl);
+}
 /**
  * @name mongoConfig
  * @summary Configurations for our Mongo instance
  */
 let mongoConfig = {
-  connection: mongoUrlWithUserNameAndPassword,
+  connection: mongoUrl,
   db_name: env.MONGO_DB_NAME,
   options: {
     useNewUrlParser: true,

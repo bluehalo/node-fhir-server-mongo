@@ -895,6 +895,25 @@ module.exports.everything = async (args, {req}, resource_name) => {
                             }]);
                     }
                 }
+                // now for each PractitionerRole, get the InsurancePlan
+                collection_name = 'InsurancePlan';
+                collection = db.collection(`${collection_name}_${base_version}`);
+                const InsurancePlanResource = getResource(base_version, collection_name);
+                if (practitioner_role.extension && practitioner_role.extension.length > 0) {
+                    const first_level_extension = practitioner_role.extension[0];
+                    if (first_level_extension.url.endsWith('insurance_plan') && first_level_extension.extension.length > 0) {
+                        const insurancePlanId = first_level_extension.extension[0].valueReference.reference.replace(collection_name + '/', '');
+
+                        const insurancePlan = await collection.findOne({id: insurancePlanId.toString()});
+                        if (insurancePlan) {
+                            entries = entries.concat(
+                                [{
+                                    'link': `https://${host}/${base_version}/${insurancePlan.resourceType}/${insurancePlan.id}`,
+                                    'resource': new InsurancePlanResource(insurancePlan)
+                                }]);
+                        }
+                    }
+                }
             }
 
             // create a bundle
