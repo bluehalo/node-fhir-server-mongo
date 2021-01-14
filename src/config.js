@@ -19,6 +19,9 @@ if (env.MONGO_USERNAME !== undefined) {
   mongoUrl = mongoUrl.replace('mongodb://', `mongodb://${env.MONGO_USERNAME}:${env.MONGO_PASSWORD}@`);
   console.log('Waiting for MongoDB connection with username/password: ' + mongoUrl);
 }
+// url-encode the url
+mongoUrl = encodeURI(mongoUrl);
+console.log('Waiting for URL encoded MongoDB connection with username/password: ' + mongoUrl);
 /**
  * @name mongoConfig
  * @summary Configurations for our Mongo instance
