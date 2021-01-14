@@ -21,7 +21,7 @@ if (env.MONGO_USERNAME !== undefined) {
 }
 // url-encode the url
 mongoUrl = encodeURI(mongoUrl);
-console.log('Waiting for URL encoded MongoDB connection with username/password: ' + mongoUrl);
+console.log('Waiting for URL encoded MongoDB connection: ' + mongoUrl);
 /**
  * @name mongoConfig
  * @summary Configurations for our Mongo instance
