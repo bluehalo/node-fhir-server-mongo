@@ -349,7 +349,20 @@ module.exports.search = (args, {req}, resource_name, collection_name) =>
             // Resource is a resource cursor, pull documents out before resolving
             cursor.toArray().then((resources) => {
                 resources.forEach(function (element, i, returnArray) {
-                    returnArray[i] = new Resource(element);
+                    if (combined_args['_elements']) {
+                        const properties_to_return_as_csv = combined_args['_elements'];
+                        const properties_to_return_list = properties_to_return_as_csv.split(',');
+                        const element_to_return = new Resource();
+                        for (const property of properties_to_return_list) {
+                            if (property in element_to_return) {
+                                // noinspection JSUnfilteredForInLoop
+                                element_to_return[property] = element[property];
+                            }
+                        }
+                        returnArray[i] = element_to_return;
+                    } else {
+                        returnArray[i] = new Resource(element);
+                    }
                 });
                 resolve(resources);
             });
