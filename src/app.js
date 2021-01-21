@@ -167,13 +167,14 @@ app.get('/index', async (req, res) => {
         }
 
         // now add indices on id column for every collection
-        var collection_stats = [];
+        const collection_stats = [];
         console.info('Collection_names:' + collection_names);
         for (const collection_index in collection_names) {
             const collection_name = collection_names[collection_index];
             console.log(collection_name);
             // check if index exists
-            const createdIndex = await create_index_if_not_exists(db, 'id', collection_name);
+            let createdIndex = await create_index_if_not_exists(db, 'id', collection_name);
+            createdIndex = await create_index_if_not_exists(db, 'meta.lastUpdated', collection_name) || createdIndex;
             const indexes = await db.collection(collection_name).indexes();
             const count = await db.collection(collection_name).countDocuments({});
             console.log(['Found: ', count, ' documents in ', collection_name].join(''));

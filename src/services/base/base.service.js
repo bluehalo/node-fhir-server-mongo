@@ -31,7 +31,7 @@ const {
     // referenceQueryBuilder,
     addressQueryBuilder,
     nameQueryBuilder,
-    // dateQueryBuilder,
+    dateQueryBuilder,
 } = require('../../utils/querybuilder.util');
 
 
@@ -59,6 +59,7 @@ let buildR4SearchQuery = (resource_name, args) => {
     let phone = args['phone'];
     let source = args['source'];
     let versionId = args['versionId'];
+    let lastUpdated = args['_lastUpdated']; // _lastUpdated=gt2010-10-01
     // Search Result params
 
     // let extension_missing = args['extension:missing'];
@@ -68,7 +69,7 @@ let buildR4SearchQuery = (resource_name, args) => {
     let active = args['active'];
 
     let query = {};
-    let ors = [];
+    let and_segments = [];
 
     if (id) {
         query.id = id;
@@ -82,6 +83,16 @@ let buildR4SearchQuery = (resource_name, args) => {
         query['meta.versionId'] = versionId;
     }
 
+    if (lastUpdated) {
+        logInfo('meta.lastUpdated:' + lastUpdated);
+        if (Array.isArray(lastUpdated)) {
+            for (const lastUpdatedItem of lastUpdated) {
+                and_segments.push({'meta.lastUpdated': dateQueryBuilder(lastUpdatedItem, 'date', '')});
+            }
+        } else {
+            query['meta.lastUpdated'] = dateQueryBuilder(lastUpdated, 'date', '');
+        }
+    }
     if (patient) {
         const patient_reference = 'Patient/' + patient;
         // each Resource type has a different place to put the patient info
@@ -152,7 +163,7 @@ let buildR4SearchQuery = (resource_name, args) => {
             if (name) {
                 let orsName = nameQueryBuilder(name);
                 for (let i = 0; i < orsName.length; i++) {
-                    ors.push(orsName[i]);
+                    and_segments.push(orsName[i]);
                 }
             }
         } else {
@@ -166,7 +177,7 @@ let buildR4SearchQuery = (resource_name, args) => {
     if (address) {
         let orsAddress = addressQueryBuilder(address);
         for (let i = 0; i < orsAddress.length; i++) {
-            ors.push(orsAddress[i]);
+            and_segments.push(orsAddress[i]);
         }
     }
 
@@ -218,8 +229,9 @@ let buildR4SearchQuery = (resource_name, args) => {
             query[i] = queryBuilder[i];
         }
     }
-    if (ors.length !== 0) {
-        query.$and = ors;
+
+    if (and_segments.length !== 0) {
+        query.$and = and_segments;
     }
     return query;
 };
@@ -334,7 +346,23 @@ module.exports.search = (args, {req}, resource_name, collection_name) =>
                 logger.error(`Error with ${resource_name}.search: `, err);
                 return reject(err);
             }
-
+            if (combined_args['_sort']) {
+                // GET [base]/Observation?_sort=status,-date,category
+                // Each item in the comma separated list is a search parameter, optionally with a '-' prefix.
+                // The prefix indicates decreasing order; in its absence, the parameter is applied in increasing order.
+                const sort_properties_as_csv = combined_args['_sort'];
+                const sort_properties_list = sort_properties_as_csv.split(',');
+                for (let i in sort_properties_list) {
+                    const x = sort_properties_list[i];
+                    if (x.startsWith('-')) {
+                        // eslint-disable-next-line no-unused-vars
+                        const x1 = x.substring(1);
+                        cursor = cursor.sort({[x1]: -1});
+                    } else {
+                       cursor = cursor.sort({[x]: 1});
+                    }
+                }
+            }
 
             if (combined_args['_count']) {
                 const nPerPage = Number(combined_args['_count']);

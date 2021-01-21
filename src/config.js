@@ -25,11 +25,11 @@ let mongoUrl = env.MONGO_URL || `mongodb://${env.MONGO_HOSTNAME}:${env.MONGO_POR
 console.log('Waiting for MongoDB connection: ' + mongoUrl);
 if (env.MONGO_USERNAME !== undefined) {
   mongoUrl = mongoUrl.replace('mongodb://', `mongodb://${env.MONGO_USERNAME}:${env.MONGO_PASSWORD}@`);
-  console.log('Waiting for MongoDB connection with username/password: ' + mongoUrl);
+  // console.log('Waiting for MongoDB connection with username/password: ' + mongoUrl);
 }
 // url-encode the url
 mongoUrl = encodeURI(mongoUrl);
-console.log('Waiting for URL encoded MongoDB connection: ' + mongoUrl);
+// console.log('Waiting for URL encoded MongoDB connection: ' + mongoUrl);
 /**
  * @name mongoConfig
  * @summary Configurations for our Mongo instance
