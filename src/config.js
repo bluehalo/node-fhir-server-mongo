@@ -1,11 +1,19 @@
 const { VERSIONS } = require('@asymmetrik/node-fhir-server-core').constants;
 const env = require('var');
 // const waitForMongo = require('wait-for-mongo');
+const Sentry = require('./middleware/sentry');
 
 console.log(`MONGO_URL=${env.MONGO_URL}`);
+
+console.log(
+  'Waiting for MongoDB connection: ' + env.MONGO_URL ||
+    `mongodb://${env.MONGO_HOSTNAME}:${env.MONGO_PORT}`
+);
+
 console.log(`MONGO_DB=${env.MONGO_DB_NAME}`);
 console.log(`MONGO_USERNAME=${env.MONGO_USERNAME}`);
 console.log(`MONGO_PASSWORD=${env.MONGO_PASSWORD}`);
+
 // waitForMongo(env.MONGO_URL || `mongodb://${env.MONGO_HOSTNAME}:${env.MONGO_PORT}`, { timeout: 1000 * 60 * 2 }, function (err) {
 //   if (err) {
 //     console.log('timeout exceeded');
@@ -75,6 +83,10 @@ let fhirServerConfig = {
   },
   logging: {
     level: env.LOGGING_LEVEL,
+  },
+  errorTracking: {
+    requestHandler: Sentry.Handlers.requestHandler,
+    errorHandler: Sentry.Handlers.errorHandler,
   },
   //
   // If you want to set up conformance statement with security enabled
@@ -1489,7 +1501,8 @@ let fhirServerConfig = {
       ],
     },
     MedicinalProductAuthorization: {
-      service: './src/services/medicinalproductauthorization/medicinalproductauthorization.service.js',
+      service:
+        './src/services/medicinalproductauthorization/medicinalproductauthorization.service.js',
       versions: [VERSIONS['4_0_0']],
       operation: [
         {
@@ -1507,7 +1520,8 @@ let fhirServerConfig = {
       ],
     },
     MedicinalProductContraindication: {
-      service: './src/services/medicinalproductcontraindication/medicinalproductcontraindication.service.js',
+      service:
+        './src/services/medicinalproductcontraindication/medicinalproductcontraindication.service.js',
       versions: [VERSIONS['4_0_0']],
       operation: [
         {
@@ -1561,7 +1575,8 @@ let fhirServerConfig = {
       ],
     },
     MedicinalProductPharmaceutical: {
-      service: './src/services/medicinalproductpharmaceutical/medicinalproductpharmaceutical.service.js',
+      service:
+        './src/services/medicinalproductpharmaceutical/medicinalproductpharmaceutical.service.js',
       versions: [VERSIONS['4_0_0']],
       operation: [
         {
