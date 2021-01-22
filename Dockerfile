@@ -1,4 +1,4 @@
-FROM node:14.15.0
+FROM node:14.15.4
 
 # Enable apt-get to run from the new sources.
 RUN printf "deb http://archive.debian.org/debian/ \
@@ -10,6 +10,9 @@ RUN printf "deb http://archive.debian.org/debian/ \
 # Update everything on the box
 RUN apt-get -y update
 RUN apt-get clean
+
+RUN wget https://github.com/Yelp/dumb-init/releases/download/v1.2.4/dumb-init_1.2.4_amd64.deb
+RUN dpkg -i dumb-init_*.deb
 
 # Set the working directory
 WORKDIR /srv/src
@@ -28,4 +31,5 @@ COPY . /srv/src
 RUN cd /srv/src && wget https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem
 
 # Start the app
-CMD npm run start
+ENV NODE_ENV=production
+CMD ["dumb-init", "node", "src/index.js"]

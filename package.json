@@ -51,6 +51,7 @@
     "docusaurus": "^1.14.6",
     "express": "^4.17.1",
     "fast-json-patch": "^2.0.7",
+    "http-terminator": "^2.0.3",
     "joi": "^17.3.0",
     "moment-timezone": "^0.5.14",
     "mongodb": "^3.6.0",

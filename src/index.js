@@ -1,5 +1,6 @@
-const { app, fhirApp } = require('./app');
+const { createHttpTerminator } = require('http-terminator');
 
+const { app, fhirApp } = require('./app');
 const asyncHandler = require('./lib/async-handler');
 const mongoClient = require('./lib/mongo');
 const globals = require('./globals');
@@ -21,9 +22,26 @@ const main = async function () {
   globals.set(CLIENT, client);
   globals.set(CLIENT_DB, client.db(mongoConfig.db_name));
 
-  app.listen(fhirServerConfig.server.port, () =>
+  const server = app.listen(fhirServerConfig.server.port, () =>
     fhirApp.logger.verbose('Server is up and running!')
   );
+
+  const httpTerminator = createHttpTerminator({
+    server,
+    gracefulTerminationTimeout: 7000,
+  });
+
+  process.on('SIGTERM', async function onSigterm() {
+    fhirApp.logger.info('Beginning shutdown of server');
+    try {
+      await httpTerminator.terminate();
+      fhirApp.logger.info('Successfully shut down server');
+      process.exit(0);
+    } catch (error) {
+      fhirApp.logger.error('Failed to shutdown server: ', error);
+      process.exit(1);
+    }
+  });
 };
 
 main();
