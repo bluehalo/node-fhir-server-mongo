@@ -50,6 +50,19 @@ describe('PractitionerReturnIdTests', () => {
         await connection.close();
     });
 
+    let today = new Date();
+    // current date
+    // adjust 0 before single digit date
+    let date = ('0' + today.getDate()).slice(-2);
+
+    // current month
+    let month = ('0' + (today.getMonth() + 1)).slice(-2);
+
+    // current year
+    let year = today.getFullYear();
+
+    let today_text = year + '-' + month + '-' + date;
+
     describe('Practitioner Search By Last Updated Tests', () => {
         test('search by lastUpdated equals', (done) => {
             async.waterfall([
@@ -90,7 +103,7 @@ describe('PractitionerReturnIdTests', () => {
                                 return cb(err, resp);
                             }),
                     (results, cb) => request
-                        .get('/4_0_0/Practitioner?_lastUpdated=eq2021-01-21')
+                        .get('/4_0_0/Practitioner?_lastUpdated=eq' + today_text)
                         .set('Content-Type', 'application/fhir+json')
                         .set('Accept', 'application/fhir+json')
                         .expect(200, cb)
