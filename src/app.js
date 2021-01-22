@@ -1,14 +1,18 @@
 const express = require('express');
+const compression = require('compression');
+const bodyParser = require('body-parser');
 const FHIRServer = require('@asymmetrik/node-fhir-server-core');
+
 const asyncHandler = require('./lib/async-handler');
 const mongoClient = require('./lib/mongo');
 const {fhirServerConfig, mongoConfig} = require('./config');
-
-const compression = require('compression');
-
-const bodyParser = require('body-parser');
+const Prometheus = require('./utils/prometheus.utils');
 
 const app = express();
+app.use(Prometheus.requestCounters);
+app.use(Prometheus.responseCounters);
+Prometheus.injectMetricsRoute(app);
+Prometheus.startCollection();
 
 // implement our subclass to set higher request limit
 class MyFHIRServer extends FHIRServer.Server {
