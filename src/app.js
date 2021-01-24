@@ -14,6 +14,17 @@ app.use(Prometheus.responseCounters);
 Prometheus.injectMetricsRoute(app);
 Prometheus.startCollection();
 
+// add handlers for uncaught stuff: https://softwareontheroad.com/nodejs-crash-exception-handler/
+process.on('uncaughtException', (error) => {
+    console.log('Oh my god, something terrible happened: ', error);
+    process.exit(1); // exit application
+});
+
+process.on('unhandledRejection', (error, promise) => {
+    console.log(' Oh Lord! We forgot to handle a promise rejection here: ', promise);
+    console.log(' The error was: ', error);
+});
+
 // implement our subclass to set higher request limit
 class MyFHIRServer extends FHIRServer.Server {
 
