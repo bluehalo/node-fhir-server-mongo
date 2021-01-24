@@ -376,7 +376,7 @@ module.exports.search = (args, {req}, resource_name, collection_name) =>
 
                 if (combined_args['_getpagesoffset']) {
                     const pageNumber = Number(combined_args['_getpagesoffset']);
-                    cursor = cursor.skip(pageNumber > 0 ? ((pageNumber - 1) * nPerPage) : 0);
+                    cursor = cursor.skip(pageNumber > 0 ? (pageNumber * nPerPage) : 0);
                 }
                 cursor = cursor.limit(nPerPage);
             } else {
