@@ -340,8 +340,15 @@ module.exports.search = (args, {req}, resource_name, collection_name) =>
         logInfo(query);
         logInfo('--------');
 
+        let options = {};
+        if (combined_args['_elements']) {
+            const properties_to_return_as_csv = combined_args['_elements'];
+            const properties_to_return_list = properties_to_return_as_csv.split(',');
+            const projection = properties_to_return_list;
+            options = {['projection']: projection};
+        }
         // Query our collection for this observation
-        collection.find(query, (err, cursor) => {
+        collection.find(query, options, (err, cursor) => {
             if (err) {
                 logger.error(`Error with ${resource_name}.search: `, err);
                 return reject(err);
@@ -359,7 +366,7 @@ module.exports.search = (args, {req}, resource_name, collection_name) =>
                         const x1 = x.substring(1);
                         cursor = cursor.sort({[x1]: -1});
                     } else {
-                       cursor = cursor.sort({[x]: 1});
+                        cursor = cursor.sort({[x]: 1});
                     }
                 }
             }
@@ -372,9 +379,7 @@ module.exports.search = (args, {req}, resource_name, collection_name) =>
                     cursor = cursor.skip(pageNumber > 0 ? ((pageNumber - 1) * nPerPage) : 0);
                 }
                 cursor = cursor.limit(nPerPage);
-            }
-            else
-            {
+            } else {
                 // set a limit so the server does not come down due to volume of data
                 cursor = cursor.limit(1000);
             }

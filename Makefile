@@ -20,6 +20,11 @@ clean: down
 init:
 	brew install yarn
 	brew install kompose
+	npm install
+
+.PHONY:update
+update:
+	npm install
 
 .PHONY:tests
 tests:

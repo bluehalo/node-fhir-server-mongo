@@ -5,6 +5,7 @@ const supertest = require('supertest');
 const {app} = require('../../../app');
 const globals = require('../../../globals');
 const {CLIENT, CLIENT_DB} = require('../../../constants');
+const moment = require('moment-timezone');
 // provider file
 const practitionerResource = require('./fixtures/practitioner/practitioner.json');
 
@@ -52,16 +53,7 @@ describe('PractitionerReturnIdTests', () => {
 
     let today = new Date();
     // current date
-    // adjust 0 before single digit date
-    let date = ('0' + today.getDate()).slice(-2);
-
-    // current month
-    let month = ('0' + (today.getMonth() + 1)).slice(-2);
-
-    // current year
-    let year = today.getFullYear();
-
-    let today_text = year + '-' + month + '-' + date;
+    let today_text = moment.utc().format('YYYY-MM-DD');
 
     describe('Practitioner Search By Last Updated Tests', () => {
         test('search by lastUpdated equals', (done) => {
