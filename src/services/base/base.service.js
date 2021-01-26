@@ -72,7 +72,15 @@ let buildR4SearchQuery = (resource_name, args) => {
     let and_segments = [];
 
     if (id) {
-        query.id = id;
+        // see if this is an array
+        if (id.includes(',')) {
+            const id_list = id.split(',');
+            query.id = {
+                $in: id_list
+            };
+        } else {
+            query.id = id;
+        }
     }
 
     if (source) {
