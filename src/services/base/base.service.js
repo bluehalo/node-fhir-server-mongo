@@ -309,117 +309,111 @@ let buildDstu2SearchQuery = (args) => {
  * @param collection_name
  * @param {*} context
  */
-module.exports.search = (args, {req}, resource_name, collection_name) =>
-    new Promise((resolve, reject) => {
+module.exports.search = async (args, {req}, resource_name, collection_name) => {
+    try {
         logInfo(resource_name + ' >>> search');
         logInfo('---- args ----');
         logInfo(args);
         logInfo('--------');
 
-        try {
+        // asymmetric hides certain query parameters from us so we need to get them from the context
+        const my_args = {};
+        const my_args_array = Object.entries(req.query);
+        my_args_array.forEach(x => {
+            my_args[x[0]] = x[1];
+        });
 
-            // asymmetric hides certain query parameters from us so we need to get them from the context
-            const my_args = {};
-            const my_args_array = Object.entries(req.query);
-            my_args_array.forEach(x => {
-                my_args[x[0]] = x[1];
-            });
+        const combined_args = Object.assign({}, args, my_args);
+        logInfo('---- combined_args ----');
+        logInfo(combined_args);
+        logInfo('--------');
 
-            const combined_args = Object.assign({}, args, my_args);
-            logInfo('---- combined_args ----');
-            logInfo(combined_args);
-            logInfo('--------');
+        let {base_version} = args;
+        let query;
 
-            let {base_version} = args;
-            let query;
+        if (base_version === VERSIONS['3_0_1']) {
+            query = buildStu3SearchQuery(combined_args);
+        } else if (base_version === VERSIONS['1_0_2']) {
+            query = buildDstu2SearchQuery(combined_args);
+        } else {
+            query = buildR4SearchQuery(resource_name, combined_args);
+        }
 
-            if (base_version === VERSIONS['3_0_1']) {
-                query = buildStu3SearchQuery(combined_args);
-            } else if (base_version === VERSIONS['1_0_2']) {
-                query = buildDstu2SearchQuery(combined_args);
-            } else {
-                query = buildR4SearchQuery(resource_name, combined_args);
+        // Grab an instance of our DB and collection
+        let db = globals.get(CLIENT_DB);
+        let collection = db.collection(`${collection_name}_${base_version}`);
+        let Resource = getResource(base_version, resource_name);
+
+        logInfo('---- query ----');
+        logInfo(query);
+        logInfo('--------');
+
+        let options = {};
+        if (combined_args['_elements']) {
+            const properties_to_return_as_csv = combined_args['_elements'];
+            const properties_to_return_list = properties_to_return_as_csv.split(',');
+            options = {['projection']: properties_to_return_list};
+        }
+        // Query our collection for this observation
+        let cursor = await collection.find(query, options);
+        // noinspection JSUnfilteredForInLoop
+        if (combined_args['_sort']) {
+            // GET [base]/Observation?_sort=status,-date,category
+            // Each item in the comma separated list is a search parameter, optionally with a '-' prefix.
+            // The prefix indicates decreasing order; in its absence, the parameter is applied in increasing order.
+            const sort_properties_as_csv = combined_args['_sort'];
+            const sort_properties_list = sort_properties_as_csv.split(',');
+            for (let i in sort_properties_list) {
+                // noinspection JSUnfilteredForInLoop
+                const x = sort_properties_list[i];
+                if (x.startsWith('-')) {
+                    // eslint-disable-next-line no-unused-vars
+                    const x1 = x.substring(1);
+                    cursor = cursor.sort({[x1]: -1});
+                } else {
+                    cursor = cursor.sort({[x]: 1});
+                }
             }
+        }
 
-            // Grab an instance of our DB and collection
-            let db = globals.get(CLIENT_DB);
-            let collection = db.collection(`${collection_name}_${base_version}`);
-            let Resource = getResource(base_version, resource_name);
+        if (combined_args['_count']) {
+            const nPerPage = Number(combined_args['_count']);
 
-            logInfo('---- query ----');
-            logInfo(query);
-            logInfo('--------');
+            if (combined_args['_getpagesoffset']) {
+                const pageNumber = Number(combined_args['_getpagesoffset']);
+                cursor = cursor.skip(pageNumber > 0 ? (pageNumber * nPerPage) : 0);
+            }
+            cursor = cursor.limit(nPerPage);
+        } else {
+            // set a limit so the server does not come down due to volume of data
+            cursor = cursor.limit(1000);
+        }
 
-            let options = {};
+        // Resource is a resource cursor, pull documents out before resolving
+        const resources = [];
+        while (await cursor.hasNext()) {
+            const element = await cursor.next();
             if (combined_args['_elements']) {
                 const properties_to_return_as_csv = combined_args['_elements'];
                 const properties_to_return_list = properties_to_return_as_csv.split(',');
-                const projection = properties_to_return_list;
-                options = {['projection']: projection};
+                const element_to_return = new Resource();
+                for (const property of properties_to_return_list) {
+                    if (property in element_to_return) {
+                        // noinspection JSUnfilteredForInLoop
+                        element_to_return[property] = element[property];
+                    }
+                }
+                resources.push(element_to_return);
+            } else {
+                resources.push(new Resource(element));
             }
-            // Query our collection for this observation
-            collection.find(query, options, (err, cursor) => {
-                if (err) {
-                    logger.error(`Error with ${resource_name}.search: `, err);
-                    return reject(err);
-                }
-                if (combined_args['_sort']) {
-                    // GET [base]/Observation?_sort=status,-date,category
-                    // Each item in the comma separated list is a search parameter, optionally with a '-' prefix.
-                    // The prefix indicates decreasing order; in its absence, the parameter is applied in increasing order.
-                    const sort_properties_as_csv = combined_args['_sort'];
-                    const sort_properties_list = sort_properties_as_csv.split(',');
-                    for (let i in sort_properties_list) {
-                        const x = sort_properties_list[i];
-                        if (x.startsWith('-')) {
-                            // eslint-disable-next-line no-unused-vars
-                            const x1 = x.substring(1);
-                            cursor = cursor.sort({[x1]: -1});
-                        } else {
-                            cursor = cursor.sort({[x]: 1});
-                        }
-                    }
-                }
-
-                if (combined_args['_count']) {
-                    const nPerPage = Number(combined_args['_count']);
-
-                    if (combined_args['_getpagesoffset']) {
-                        const pageNumber = Number(combined_args['_getpagesoffset']);
-                        cursor = cursor.skip(pageNumber > 0 ? (pageNumber * nPerPage) : 0);
-                    }
-                    cursor = cursor.limit(nPerPage);
-                } else {
-                    // set a limit so the server does not come down due to volume of data
-                    cursor = cursor.limit(1000);
-                }
-
-                // Resource is a resource cursor, pull documents out before resolving
-                cursor.toArray().then((resources) => {
-                    resources.forEach(function (element, i, returnArray) {
-                        if (combined_args['_elements']) {
-                            const properties_to_return_as_csv = combined_args['_elements'];
-                            const properties_to_return_list = properties_to_return_as_csv.split(',');
-                            const element_to_return = new Resource();
-                            for (const property of properties_to_return_list) {
-                                if (property in element_to_return) {
-                                    // noinspection JSUnfilteredForInLoop
-                                    element_to_return[property] = element[property];
-                                }
-                            }
-                            returnArray[i] = element_to_return;
-                        } else {
-                            returnArray[i] = new Resource(element);
-                        }
-                    });
-                    resolve(resources);
-                });
-            });
-        } catch (e) {
-            logger.error(`Error with search all ${resource_name}: `, e);
-            return reject(e);
         }
-    });
+        return (resources);
+    } catch (err) {
+        logger.error(`Error with ${resource_name}.search: `, err);
+        throw err;
+    }
+};
 
 // eslint-disable-next-line no-unused-vars
 module.exports.searchById = (args, {req}, resource_name, collection_name) =>
