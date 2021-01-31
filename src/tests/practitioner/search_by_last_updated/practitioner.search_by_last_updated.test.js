@@ -11,11 +11,6 @@ const practitionerResource = require('./fixtures/practitioner/practitioner.json'
 
 // expected
 const expectedPractitionerResource = require('./fixtures/expected/expected_practitioner.json');
-// const expectedPractitionerRoleResource = require('./fixtures/expected/expected_practitioner_role.json');
-// const expectedLocationResource = require('./fixtures/expected/expected_location.json');
-// const expectedOrganizationResource = require('./fixtures/expected/expected_organization.json');
-// const expectedInsurancePlanResource = require('./fixtures/expected/expected_insurance_plan.json');
-// const expectedHealthcareServiceResource = require('./fixtures/expected/expected_healthcare_service.json');
 
 const async = require('async');
 const env = require('var');

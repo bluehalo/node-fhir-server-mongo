@@ -406,7 +406,20 @@ module.exports.search = async (args, {req}, resource_name, collection_name) => {
             resources.push(new Resource(element));
         }
     }
-    return resources;
+
+    if (env.RETURN_BUNDLE || combined_args['_bundle']) {
+        const Bundle = getResource(base_version, 'bundle');
+        const entries = resources.map(resource => {
+            return {resource: resource};
+        });
+        return new Bundle({
+            type: 'searchset',
+            timestamp: moment.utc().format('YYYY-MM-DDThh:mm:ss.sss') + 'Z',
+            entry: entries
+        });
+    } else {
+        return resources;
+    }
 };
 
 // eslint-disable-next-line no-unused-vars
@@ -463,7 +476,7 @@ module.exports.create = async (args, {req}, resource_name, collection_name) => {
     logInfo('-----------------');
 
     const combined_args = get_all_args(req, args);
-    if (env.VALIDATE_SCHEMA || combined_args['validate']) {
+    if (env.VALIDATE_SCHEMA || combined_args['_validate']) {
         logInfo('--- validate schema ----');
         const errors = validateSchema(resource_incoming);
         if (errors.length > 0) {
@@ -537,7 +550,7 @@ module.exports.update = async (args, {req}, resource_name, collection_name) => {
     logInfo(resource_incoming);
 
     const combined_args = get_all_args(req, args);
-    if (env.VALIDATE_SCHEMA || combined_args['validate']) {
+    if (env.VALIDATE_SCHEMA || combined_args['_validate']) {
         logInfo('--- validate schema ----');
         const errors = validateSchema(resource_incoming);
         if (errors.length > 0) {
@@ -661,7 +674,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
         let id = resource_to_merge.id;
 
         const combined_args = get_all_args(req, args);
-        if (env.VALIDATE_SCHEMA || combined_args['validate']) {
+        if (env.VALIDATE_SCHEMA || combined_args['_validate']) {
             logInfo('--- validate schema ----');
             const errors = validateSchema(resource_to_merge);
             if (errors.length > 0) {
@@ -1188,6 +1201,7 @@ module.exports.patch = async (args, {req}, resource_name, collection_name) => {
     };
 };
 
+// noinspection JSUnusedLocalSymbols
 // eslint-disable-next-line no-unused-vars
 module.exports.validate = async (args, {req}, resource_name, collection_name) => {
     logInfo(`${resource_name} >>> validate`);
@@ -1195,7 +1209,7 @@ module.exports.validate = async (args, {req}, resource_name, collection_name) =>
     let resource_incoming = req.body;
 
     // eslint-disable-next-line no-unused-vars
-    let {base_version} = args;
+    // let {base_version} = args;
 
     logInfo('--- request ----');
     logInfo(req);
