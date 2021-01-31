@@ -8,6 +8,7 @@ const {CLIENT, CLIENT_DB} = require('../../../constants');
 const practitionerBundleResource = require('./fixtures/providers/practitioner_bundle.json');
 const expectedPractitionerBundleResource = require('./fixtures/providers/expected_practitioner_bundle.json');
 const async = require('async');
+const env = require('var');
 
 const request = supertest(app);
 
@@ -25,6 +26,8 @@ describe('Practitioner Merge Tests', () => {
 
         globals.set(CLIENT, connection);
         globals.set(CLIENT_DB, db);
+                jest.setTimeout(30000);
+        env['VALIDATE_SCHEMA'] = true;
     });
 
     afterEach(async () => {

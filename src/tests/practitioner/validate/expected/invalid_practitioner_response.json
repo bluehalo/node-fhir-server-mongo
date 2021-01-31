@@ -1,0 +1,27 @@
+{
+  "resourceType": "OperationOutcome",
+  "issue": [
+    {
+      "severity": "error",
+      "code": "validation",
+      "details": {
+        "text": ".identifier[0].type.coding should be array"
+      },
+      "diagnostics": "{\"keyword\":\"type\",\"dataPath\":\".identifier[0].type.coding\",\"schemaPath\":\"#/properties/coding/type\",\"params\":{\"type\":\"array\"},\"message\":\"should be array\"}",
+      "expression": [
+        ".identifier[0].type.coding"
+      ]
+    },
+    {
+      "severity": "error",
+      "code": "validation",
+      "details": {
+        "text": " should match exactly one schema in oneOf"
+      },
+      "diagnostics": "{\"keyword\":\"oneOf\",\"dataPath\":\"\",\"schemaPath\":\"#/oneOf\",\"params\":{\"passingSchemas\":null},\"message\":\"should match exactly one schema in oneOf\"}",
+      "expression": [
+        ""
+      ]
+    }
+  ]
+}

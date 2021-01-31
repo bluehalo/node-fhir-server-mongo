@@ -15,6 +15,7 @@ const expectedPractitionerResource = require('./fixtures/expected/expected_pract
 const expectedSinglePractitionerResource = require('./fixtures/expected/expected_single_practitioner.json');
 
 const async = require('async');
+const env = require('var');
 
 const request = supertest(app);
 
@@ -41,6 +42,8 @@ describe('PractitionerReturnIdTests', () => {
 
         globals.set(CLIENT, connection);
         globals.set(CLIENT_DB, db);
+        jest.setTimeout(30000);
+        env['VALIDATE_SCHEMA'] = true;
     });
 
     afterEach(async () => {
@@ -73,7 +76,7 @@ describe('PractitionerReturnIdTests', () => {
                             }),
                     (results, cb) =>
                         request
-                            .post('/4_0_0/Practitioner/1679033641/$merge')
+                            .post('/4_0_0/Practitioner/1679033641/$merge?validate=true')
                             .send(practitionerResource)
                             .set('Content-Type', 'application/fhir+json')
                             .set('Accept', 'application/fhir+json')

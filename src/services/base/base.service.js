@@ -1,18 +1,18 @@
 const {VERSIONS} = require('@asymmetrik/node-fhir-server-core').constants;
 const {resolveSchema} = require('@asymmetrik/node-fhir-server-core');
-// const JSONSchemaValidator = require('@asymmetrik/fhir-json-schema-validator');
+const JSONSchemaValidator = require('@asymmetrik/fhir-json-schema-validator');
 const {CLIENT_DB} = require('../../constants');
 const moment = require('moment-timezone');
 const globals = require('../../globals');
 // noinspection JSCheckFunctionSignatures
 const logger = require('@asymmetrik/node-fhir-server-core').loggers.get();
 const {getUuid} = require('../../utils/uid.util');
+const {NotAllowedError, NotFoundError, BadRequestError, NotValidatedError} = require('../../utils/httpErrors');
 const {validate, applyPatch, compare} = require('fast-json-patch');
 const deepmerge = require('deepmerge');
 const deepcopy = require('deepcopy');
 const deepEqual = require('deep-equal');
-// const Validator = require('jsonschema').Validator;
-// const fhirSchema = require('../../fhir_schema/fhir.schema.json');
+const env = require('var');
 
 let getResource = (base_version, resource_name) => {
     return resolveSchema(base_version, resource_name);
@@ -288,19 +288,29 @@ let buildDstu2SearchQuery = (args) => {
 };
 
 // eslint-disable-next-line no-unused-vars
-// let validateSchema = (instance) => {
-//
-//     // https://github.com/Asymmetrik/node-fhir-server-core/tree/master/packages/fhir-json-schema-validator
-//     const validator = new JSONSchemaValidator();
-//     let errors = validator.validate(instance);
-//     console.log(errors);
-//     return errors;
-//
-//     // var v = new Validator();
-//     // var schema = fhirSchema;
-//     // const validationResult = v.validate(instance, schema);
-//     // console.log(validationResult);
-// };
+let validateSchema = (instance) => {
+
+    // https://github.com/Asymmetrik/node-fhir-server-core/tree/master/packages/fhir-json-schema-validator
+    const validator = new JSONSchemaValidator();
+    let errors = validator.validate(instance);
+    console.log(errors);
+    return errors;
+};
+
+let get_all_args = (req, args) => {
+    // asymmetric hides certain query parameters from us so we need to get them from the context
+    const my_args = {};
+    const my_args_array = Object.entries(req.query);
+    my_args_array.forEach(x => {
+        my_args[x[0]] = x[1];
+    });
+
+    const combined_args = Object.assign({}, args, my_args);
+    logInfo('---- combined_args ----');
+    logInfo(combined_args);
+    logInfo('--------');
+    return combined_args;
+};
 
 /**
  *
@@ -310,346 +320,325 @@ let buildDstu2SearchQuery = (args) => {
  * @param {*} context
  */
 module.exports.search = async (args, {req}, resource_name, collection_name) => {
-    try {
-        logInfo(resource_name + ' >>> search');
-        logInfo('---- args ----');
-        logInfo(args);
-        logInfo('--------');
+    logInfo(resource_name + ' >>> search');
+    logInfo('---- args ----');
+    logInfo(args);
+    logInfo('--------');
+    const combined_args = get_all_args(req, args);
 
-        // asymmetric hides certain query parameters from us so we need to get them from the context
-        const my_args = {};
-        const my_args_array = Object.entries(req.query);
-        my_args_array.forEach(x => {
-            my_args[x[0]] = x[1];
-        });
+    let {base_version} = args;
+    let query;
 
-        const combined_args = Object.assign({}, args, my_args);
-        logInfo('---- combined_args ----');
-        logInfo(combined_args);
-        logInfo('--------');
+    if (base_version === VERSIONS['3_0_1']) {
+        query = buildStu3SearchQuery(combined_args);
+    } else if (base_version === VERSIONS['1_0_2']) {
+        query = buildDstu2SearchQuery(combined_args);
+    } else {
+        query = buildR4SearchQuery(resource_name, combined_args);
+    }
 
-        let {base_version} = args;
-        let query;
+    // Grab an instance of our DB and collection
+    let db = globals.get(CLIENT_DB);
+    let collection = db.collection(`${collection_name}_${base_version}`);
+    let Resource = getResource(base_version, resource_name);
 
-        if (base_version === VERSIONS['3_0_1']) {
-            query = buildStu3SearchQuery(combined_args);
-        } else if (base_version === VERSIONS['1_0_2']) {
-            query = buildDstu2SearchQuery(combined_args);
-        } else {
-            query = buildR4SearchQuery(resource_name, combined_args);
+    logInfo('---- query ----');
+    logInfo(query);
+    logInfo('--------');
+
+    let options = {};
+    if (combined_args['_elements']) {
+        const properties_to_return_as_csv = combined_args['_elements'];
+        const properties_to_return_list = properties_to_return_as_csv.split(',');
+        options = {['projection']: properties_to_return_list};
+    }
+    // Query our collection for this observation
+    let cursor = await collection.find(query, options);
+    // noinspection JSUnfilteredForInLoop
+    if (combined_args['_sort']) {
+        // GET [base]/Observation?_sort=status,-date,category
+        // Each item in the comma separated list is a search parameter, optionally with a '-' prefix.
+        // The prefix indicates decreasing order; in its absence, the parameter is applied in increasing order.
+        const sort_properties_as_csv = combined_args['_sort'];
+        const sort_properties_list = sort_properties_as_csv.split(',');
+        for (let i in sort_properties_list) {
+            // noinspection JSUnfilteredForInLoop
+            const x = sort_properties_list[i];
+            if (x.startsWith('-')) {
+                // eslint-disable-next-line no-unused-vars
+                const x1 = x.substring(1);
+                cursor = cursor.sort({[x1]: -1});
+            } else {
+                cursor = cursor.sort({[x]: 1});
+            }
         }
+    }
 
-        // Grab an instance of our DB and collection
-        let db = globals.get(CLIENT_DB);
-        let collection = db.collection(`${collection_name}_${base_version}`);
-        let Resource = getResource(base_version, resource_name);
+    if (combined_args['_count']) {
+        const nPerPage = Number(combined_args['_count']);
 
-        logInfo('---- query ----');
-        logInfo(query);
-        logInfo('--------');
+        if (combined_args['_getpagesoffset']) {
+            const pageNumber = Number(combined_args['_getpagesoffset']);
+            cursor = cursor.skip(pageNumber > 0 ? (pageNumber * nPerPage) : 0);
+        }
+        cursor = cursor.limit(nPerPage);
+    } else {
+        // set a limit so the server does not come down due to volume of data
+        cursor = cursor.limit(1000);
+    }
 
-        let options = {};
+    // Resource is a resource cursor, pull documents out before resolving
+    const resources = [];
+    while (await cursor.hasNext()) {
+        const element = await cursor.next();
         if (combined_args['_elements']) {
             const properties_to_return_as_csv = combined_args['_elements'];
             const properties_to_return_list = properties_to_return_as_csv.split(',');
-            options = {['projection']: properties_to_return_list};
-        }
-        // Query our collection for this observation
-        let cursor = await collection.find(query, options);
-        // noinspection JSUnfilteredForInLoop
-        if (combined_args['_sort']) {
-            // GET [base]/Observation?_sort=status,-date,category
-            // Each item in the comma separated list is a search parameter, optionally with a '-' prefix.
-            // The prefix indicates decreasing order; in its absence, the parameter is applied in increasing order.
-            const sort_properties_as_csv = combined_args['_sort'];
-            const sort_properties_list = sort_properties_as_csv.split(',');
-            for (let i in sort_properties_list) {
-                // noinspection JSUnfilteredForInLoop
-                const x = sort_properties_list[i];
-                if (x.startsWith('-')) {
-                    // eslint-disable-next-line no-unused-vars
-                    const x1 = x.substring(1);
-                    cursor = cursor.sort({[x1]: -1});
-                } else {
-                    cursor = cursor.sort({[x]: 1});
+            const element_to_return = new Resource();
+            for (const property of properties_to_return_list) {
+                if (property in element_to_return) {
+                    // noinspection JSUnfilteredForInLoop
+                    element_to_return[property] = element[property];
                 }
             }
-        }
-
-        if (combined_args['_count']) {
-            const nPerPage = Number(combined_args['_count']);
-
-            if (combined_args['_getpagesoffset']) {
-                const pageNumber = Number(combined_args['_getpagesoffset']);
-                cursor = cursor.skip(pageNumber > 0 ? (pageNumber * nPerPage) : 0);
-            }
-            cursor = cursor.limit(nPerPage);
+            resources.push(element_to_return);
         } else {
-            // set a limit so the server does not come down due to volume of data
-            cursor = cursor.limit(1000);
+            resources.push(new Resource(element));
         }
-
-        // Resource is a resource cursor, pull documents out before resolving
-        const resources = [];
-        while (await cursor.hasNext()) {
-            const element = await cursor.next();
-            if (combined_args['_elements']) {
-                const properties_to_return_as_csv = combined_args['_elements'];
-                const properties_to_return_list = properties_to_return_as_csv.split(',');
-                const element_to_return = new Resource();
-                for (const property of properties_to_return_list) {
-                    if (property in element_to_return) {
-                        // noinspection JSUnfilteredForInLoop
-                        element_to_return[property] = element[property];
-                    }
-                }
-                resources.push(element_to_return);
-            } else {
-                resources.push(new Resource(element));
-            }
-        }
-        return (resources);
-    } catch (err) {
-        logger.error(`Error with ${resource_name}.search: `, err);
-        throw err;
     }
+    return resources;
 };
 
 // eslint-disable-next-line no-unused-vars
-module.exports.searchById = (args, {req}, resource_name, collection_name) =>
-    new Promise((resolve, reject) => {
-        logInfo(`${resource_name} >>> searchById`);
-        logInfo(args);
+module.exports.searchById = async (args, {req}, resource_name, collection_name) => {
+    logInfo(`${resource_name} >>> searchById`);
+    logInfo(args);
 
-        // Common search params
-        let {id} = args;
-        let {base_version} = args;
+    // Common search params
+    let {id} = args;
+    let {base_version} = args;
 
-        logInfo(`id: ${id}`);
-        logInfo(`base_version: ${base_version}`);
+    logInfo(`id: ${id}`);
+    logInfo(`base_version: ${base_version}`);
 
-        // Search Result param
+    // Search Result param
 
-        let query = {};
-        query.id = id;
-        // TODO: Build query from Parameters
+    let query = {};
+    query.id = id;
+    // TODO: Build query from Parameters
 
-        // TODO: Query database
-        // Grab an instance of our DB and collection
-        let db = globals.get(CLIENT_DB);
-        let collection = db.collection(`${collection_name}_${base_version}`);
-        let Resource = getResource(base_version, resource_name);
+    // TODO: Query database
+    // Grab an instance of our DB and collection
+    let db = globals.get(CLIENT_DB);
+    let collection = db.collection(`${collection_name}_${base_version}`);
+    let Resource = getResource(base_version, resource_name);
 
-        collection.findOne({id: id.toString()}, (err, resource) => {
-            if (err) {
-                logger.error(`Error with ${resource_name}.searchById: `, err);
-                return reject(err);
-            }
-            if (resource) {
-                resolve(new Resource(resource));
-            }
-            resolve();
-        });
+    let resource;
+    try {
+        resource = collection.findOne({id: id.toString()});
+    } catch (e) {
+        logger.error(`Error with ${resource_name}.searchById: `, e);
+        throw new BadRequestError(e.message);
+    }
+    if (resource) {
+        return new Resource(resource);
+    } else {
+        throw new NotFoundError();
+    }
+};
+
+module.exports.create = async (args, {req}, resource_name, collection_name) => {
+    logInfo(`${resource_name} >>> create`);
+
+    let resource_incoming = req.body;
+
+    let {base_version} = args;
+
+    logInfo('--- request ----');
+    logInfo(req);
+    logInfo('-----------------');
+
+    logInfo('--- body ----');
+    logInfo(resource_incoming);
+    logInfo('-----------------');
+
+    const combined_args = get_all_args(req, args);
+    if (env.VALIDATE_SCHEMA || combined_args['validate']) {
+        logInfo('--- validate schema ----');
+        const errors = validateSchema(resource_incoming);
+        if (errors.length > 0) {
+            throw new NotValidatedError(errors);
+        }
+        logInfo('-----------------');
+    }
+
+    // Grab an instance of our DB and collection (by version)
+    let db = globals.get(CLIENT_DB);
+    let collection = db.collection(`${collection_name}_${base_version}`);
+
+    // Get current record
+    let Resource = getResource(base_version, resource_name);
+    logInfo(`Resource: ${Resource}`);
+    let resource = new Resource(resource_incoming);
+    // noinspection JSUnresolvedFunction
+    logInfo(`resource: ${resource.toJSON()}`);
+
+    // If no resource ID was provided, generate one.
+    let id = getUuid(resource);
+    logInfo(`id: ${id}`);
+
+    // Create the resource's metadata
+    let Meta = getMeta(base_version);
+    resource.meta = new Meta({
+        versionId: '1',
+        lastUpdated: moment.utc().format('YYYY-MM-DDTHH:mm:ssZ'),
     });
 
-module.exports.create = (args, {req}, resource_name, collection_name) =>
-    new Promise((resolve, reject) => {
-        logInfo(`${resource_name} >>> create`);
+    // Create the document to be inserted into Mongo
+    // noinspection JSUnresolvedFunction
+    let doc = JSON.parse(JSON.stringify(resource.toJSON()));
+    Object.assign(doc, {id: id});
 
-        let resource_incoming = req.body;
+    // Create a clone of the object without the _id parameter before assigning a value to
+    // the _id parameter in the original document
+    let history_doc = Object.assign({}, doc);
+    Object.assign(doc, {_id: id});
 
-        let {base_version} = args;
+    logInfo('---- inserting doc ---');
+    logInfo(doc);
+    logInfo('----------------------');
 
-        logInfo('--- request ----');
-        logInfo(req);
+    // Insert our resource record
+    try {
+        await collection.insertOne(doc);
+    } catch (e) {
+        throw new BadRequestError(e.message);
+    }
+    // Save the resource to history
+    let history_collection = db.collection(`${collection_name}_${base_version}_History`);
+
+    // Insert our resource record to history but don't assign _id
+    await history_collection.insertOne(history_doc);
+    return {id: doc.id, resource_version: doc.meta.versionId};
+};
+
+module.exports.update = async (args, {req}, resource_name, collection_name) => {
+    logInfo(`'${resource_name} >>> update`);
+
+    logInfo('--- request ----');
+    logInfo(req);
+
+    // read the incoming resource from request body
+    let resource_incoming = req.body;
+    let {base_version, id} = args;
+    logInfo(base_version);
+    logInfo(id);
+    logInfo('--- body ----');
+    logInfo(resource_incoming);
+
+    const combined_args = get_all_args(req, args);
+    if (env.VALIDATE_SCHEMA || combined_args['validate']) {
+        logInfo('--- validate schema ----');
+        const errors = validateSchema(resource_incoming);
+        if (errors.length > 0) {
+            throw new NotValidatedError(errors);
+        }
         logInfo('-----------------');
+    }
 
-        logInfo('--- body ----');
+    // Grab an instance of our DB and collection
+    let db = globals.get(CLIENT_DB);
+    let collection = db.collection(`${collection_name}_${base_version}`);
+
+    // Get current record
+    // Query our collection for this observation
+    // noinspection JSUnresolvedVariable
+    const data = await collection.findOne({id: id.toString()});
+    // create a resource with incoming data
+    let Resource = getResource(base_version, resource_name);
+
+    let cleaned;
+    let doc;
+
+    // check if resource was found in database or not
+    // noinspection JSUnresolvedVariable
+    if (data && data.meta) {
+        // found an existing resource
+        logInfo('found resource: ' + data);
+        let foundResource = new Resource(data);
+        logInfo('------ found document --------');
+        logInfo(data);
+        logInfo('------ end found document --------');
+
+        // use metadata of existing resource (overwrite any passed in metadata)
+        resource_incoming.meta = foundResource.meta;
+        logInfo('------ incoming document --------');
         logInfo(resource_incoming);
-        logInfo('-----------------');
+        logInfo('------ end incoming document --------');
 
-        // Grab an instance of our DB and collection (by version)
-        let db = globals.get(CLIENT_DB);
-        let collection = db.collection(`${collection_name}_${base_version}`);
-
-        // Get current record
-        let Resource = getResource(base_version, resource_name);
-        logInfo(`Resource: ${Resource}`);
-        let resource = new Resource(resource_incoming);
-        // noinspection JSUnresolvedFunction
-        logInfo(`resource: ${resource.toJSON()}`);
-
-        // If no resource ID was provided, generate one.
-        let id = getUuid(resource);
-        logInfo(`id: ${id}`);
-
-        // Create the resource's metadata
+        // now create a patch between the document in db and the incoming document
+        //  this returns an array of patches
+        let patchContent = compare(data, resource_incoming);
+        // ignore any changes to _id since that's an internal field
+        patchContent = patchContent.filter(item => item.path !== '/_id');
+        logInfo('------ patches --------');
+        logInfo(patchContent);
+        logInfo('------ end patches --------');
+        // see if there are any changes
+        if (patchContent.length === 0) {
+            logInfo('No changes detected in updated resource');
+            return {
+                id: id,
+                created: false,
+                resource_version: foundResource.meta.versionId,
+            };
+        }
+        // now apply the patches to the found resource
+        let patched_incoming_data = applyPatch(data, patchContent).newDocument;
+        let patched_resource_incoming = new Resource(patched_incoming_data);
+        // update the metadata to increment versionId
+        let meta = foundResource.meta;
+        meta.versionId = `${parseInt(foundResource.meta.versionId) + 1}`;
+        meta.lastUpdated = moment.utc().format('YYYY-MM-DDTHH:mm:ssZ');
+        patched_resource_incoming.meta = meta;
+        logInfo('------ patched document --------');
+        logInfo(patched_resource_incoming);
+        logInfo('------ end patched document --------');
+        // Same as update from this point on
+        cleaned = JSON.parse(JSON.stringify(patched_resource_incoming));
+        doc = Object.assign(cleaned, {_id: id});
+    } else {
+        // not found so insert
+        logInfo('update: new resource: ' + resource_incoming);
+        // create the metadata
         let Meta = getMeta(base_version);
-        resource.meta = new Meta({
+        resource_incoming.meta = new Meta({
             versionId: '1',
             lastUpdated: moment.utc().format('YYYY-MM-DDTHH:mm:ssZ'),
         });
+        cleaned = JSON.parse(JSON.stringify(resource_incoming));
+        doc = Object.assign(cleaned, {_id: id});
+    }
 
-        // Create the document to be inserted into Mongo
-        // noinspection JSUnresolvedFunction
-        let doc = JSON.parse(JSON.stringify(resource.toJSON()));
-        Object.assign(doc, {id: id});
+    // Insert/update our resource record
+    // When using the $set operator, only the specified fields are updated
+    const res = await collection.findOneAndUpdate({id: id}, {$set: doc}, {upsert: true});
+    // save to history
+    let history_collection = db.collection(`${collection_name}_${base_version}_History`);
 
-        // Create a clone of the object without the _id parameter before assigning a value to
-        // the _id parameter in the original document
-        let history_doc = Object.assign({}, doc);
-        Object.assign(doc, {_id: id});
+    // let history_resource = Object.assign(cleaned, {id: id});
+    let history_resource = Object.assign(cleaned, {_id: id + cleaned.meta.versionId});
+    // delete history_resource['_id']; // make sure we don't have an _id field when inserting into history
 
-        logInfo('---- inserting doc ---');
-        logInfo(doc);
-        logInfo('----------------------');
+    // Insert our resource record to history but don't assign _id
+    await history_collection.insertOne(history_resource);
 
-        // Insert our resource record
-        collection.insertOne(doc, (err) => {
-            if (err) {
-                logger.error(`Error with P${resource_name}.create: `, err);
-                return reject(err);
-            }
-
-            // Save the resource to history
-            let history_collection = db.collection(`${collection_name}_${base_version}_History`);
-
-            // Insert our resource record to history but don't assign _id
-            return history_collection.insertOne(history_doc, (err2) => {
-                if (err2) {
-                    logger.error(`Error with ${resource_name}History.create: `, err2);
-                    return reject(err2);
-                }
-                return resolve({id: doc.id, resource_version: doc.meta.versionId});
-            });
-        });
-    });
-
-module.exports.update = (args, {req}, resource_name, collection_name) =>
-    new Promise((resolve, reject) => {
-        logInfo(`'${resource_name} >>> update`);
-
-        logInfo('--- request ----');
-        logInfo(req);
-
-        // read the incoming resource from request body
-        let resource_incoming = req.body;
-        let {base_version, id} = args;
-        logInfo(base_version);
-        logInfo(id);
-        logInfo('--- body ----');
-        logInfo(resource_incoming);
-
-        // Grab an instance of our DB and collection
-        let db = globals.get(CLIENT_DB);
-        let collection = db.collection(`${collection_name}_${base_version}`);
-
-        // Get current record
-        // Query our collection for this observation
-        // noinspection JSUnresolvedVariable
-        collection.findOne({id: id.toString()}, (err, data) => {
-            if (err) {
-                logger.error(`Error with finding resource ${resource_name}.update: `, err);
-                return reject(err);
-            }
-
-            // create a resource with incoming data
-            let Resource = getResource(base_version, resource_name);
-
-            let cleaned;
-            let doc;
-
-            // check if resource was found in database or not
-            // noinspection JSUnresolvedVariable
-            if (data && data.meta) {
-                // found an existing resource
-                logInfo('found resource: ' + data);
-                let foundResource = new Resource(data);
-                logInfo('------ found document --------');
-                logInfo(data);
-                logInfo('------ end found document --------');
-
-                // use metadata of existing resource (overwrite any passed in metadata)
-                resource_incoming.meta = foundResource.meta;
-                logInfo('------ incoming document --------');
-                logInfo(resource_incoming);
-                logInfo('------ end incoming document --------');
-
-                // now create a patch between the document in db and the incoming document
-                //  this returns an array of patches
-                let patchContent = compare(data, resource_incoming);
-                // ignore any changes to _id since that's an internal field
-                patchContent = patchContent.filter(item => item.path !== '/_id');
-                logInfo('------ patches --------');
-                logInfo(patchContent);
-                logInfo('------ end patches --------');
-                // see if there are any changes
-                if (patchContent.length === 0) {
-                    logInfo('No changes detected in updated resource');
-                    return resolve({
-                        id: id,
-                        created: false,
-                        resource_version: foundResource.meta.versionId,
-                    });
-                }
-                // now apply the patches to the found resource
-                let patched_incoming_data = applyPatch(data, patchContent).newDocument;
-                let patched_resource_incoming = new Resource(patched_incoming_data);
-                // update the metadata to increment versionId
-                let meta = foundResource.meta;
-                meta.versionId = `${parseInt(foundResource.meta.versionId) + 1}`;
-                meta.lastUpdated = moment.utc().format('YYYY-MM-DDTHH:mm:ssZ');
-                patched_resource_incoming.meta = meta;
-                logInfo('------ patched document --------');
-                logInfo(patched_resource_incoming);
-                logInfo('------ end patched document --------');
-                // Same as update from this point on
-                cleaned = JSON.parse(JSON.stringify(patched_resource_incoming));
-                doc = Object.assign(cleaned, {_id: id});
-            } else {
-                // not found so insert
-                logInfo('update: new resource: ' + resource_incoming);
-                // create the metadata
-                let Meta = getMeta(base_version);
-                resource_incoming.meta = new Meta({
-                    versionId: '1',
-                    lastUpdated: moment.utc().format('YYYY-MM-DDTHH:mm:ssZ'),
-                });
-                cleaned = JSON.parse(JSON.stringify(resource_incoming));
-                doc = Object.assign(cleaned, {_id: id});
-            }
-
-            // Insert/update our resource record
-            // When using the $set operator, only the specified fields are updated
-            collection.findOneAndUpdate({id: id}, {$set: doc}, {upsert: true}, (err2, res) => {
-                if (err2) {
-                    logger.error(`Error with ${resource_name}.update: `, err2);
-                    return reject(err2);
-                }
-
-                // save to history
-                let history_collection = db.collection(`${collection_name}_${base_version}_History`);
-
-                // let history_resource = Object.assign(cleaned, {id: id});
-                let history_resource = Object.assign(cleaned, {_id: id + cleaned.meta.versionId});
-                // delete history_resource['_id']; // make sure we don't have an _id field when inserting into history
-
-                // Insert our resource record to history but don't assign _id
-                return history_collection.insertOne(history_resource, (err3) => {
-                    if (err3) {
-                        logger.error(`Error with ${resource_name}.update: `, err3);
-                        return reject(err3);
-                    }
-
-                    return resolve({
-                        id: id,
-                        created: res.lastErrorObject && !res.lastErrorObject.updatedExisting,
-                        resource_version: doc.meta.versionId,
-                    });
-                });
-            });
-        });
-    });
+    return {
+        id: id,
+        created: res.lastErrorObject && !res.lastErrorObject.updatedExisting,
+        resource_version: doc.meta.versionId,
+    };
+};
 
 module.exports.merge = async (args, {req}, resource_name, collection_name) => {
     logInfo(`'${resource_name} >>> merge`);
@@ -671,13 +660,16 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
 
         let id = resource_to_merge.id;
 
+        const combined_args = get_all_args(req, args);
+        if (env.VALIDATE_SCHEMA || combined_args['validate']) {
+            logInfo('--- validate schema ----');
+            const errors = validateSchema(resource_to_merge);
+            if (errors.length > 0) {
+                throw new NotValidatedError(errors);
+            }
+        }
         try {
-            // logInfo('--- validate schema ----');
-            // const errors = validateSchema(resource_incoming);
-            // if (errors.length > 0){
-            //     return reject(errors);
-            // }
-            // logInfo('-----------------');
+            logInfo('-----------------');
             logInfo(base_version);
             logInfo('--- body ----');
             logInfo(resource_to_merge);
@@ -851,7 +843,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
 };
 
 // eslint-disable-next-line no-unused-vars
-module.exports.everything = async (args, {req}, resource_name) => {
+module.exports.everything = async (args, {req}, resource_name, collection_name) => {
     logInfo(`${resource_name} >>> everything`);
     try {
         let {base_version, id} = args;
@@ -865,7 +857,7 @@ module.exports.everything = async (args, {req}, resource_name) => {
         query.id = id;
         // Grab an instance of our DB and collection
         let db = globals.get(CLIENT_DB);
-        let collection_name = 'Practitioner';
+        collection_name = 'Practitioner'; // for now we only support this for Practitioner
         let collection = db.collection(`${collection_name}_${base_version}`);
         const PractitionerResource = getResource(base_version, resource_name);
 
@@ -985,231 +977,270 @@ module.exports.everything = async (args, {req}, resource_name) => {
 
     } catch (err) {
         logger.error(`Error with ${resource_name}.searchById: `, err);
-        throw err;
+        throw new BadRequestError(err.message);
     }
 };
 
 // eslint-disable-next-line no-unused-vars
-module.exports.remove = (args, {req}, resource_name, collection_name) =>
-    new Promise((resolve, reject) => {
-        logInfo(`${resource_name} >>> remove`);
+module.exports.remove = async (args, {req}, resource_name, collection_name) => {
+    logInfo(`${resource_name} >>> remove`);
 
-        let {base_version, id} = args;
+    let {base_version, id} = args;
 
-        logInfo(`Deleting id=${id}`);
+    logInfo(`Deleting id=${id}`);
 
-        // Grab an instance of our DB and collection
-        let db = globals.get(CLIENT_DB);
-        let collection = db.collection(`${collection_name}_${base_version}`);
-        // Delete our resource record
-        collection.deleteOne({id: id}, (err, _) => {
-            if (err) {
-                logger.error(`Error with ${resource_name}.remove`);
-                return reject({
-                    // Must be 405 (Method Not Allowed) or 409 (Conflict)
-                    // 405 if you do not want to allow the delete
-                    // 409 if you can't delete because of referential
-                    // integrity or some other reason
-                    code: 409,
-                    message: err.message,
-                });
-            }
-
-            // delete history as well.  You can chose to save history.  Up to you
-            let history_collection = db.collection(`${collection_name}_${base_version}_History`);
-            return history_collection.deleteMany({id: id}, (err2) => {
-                if (err2) {
-                    logger.error(`Error with ${resource_name}.remove`);
-                    return reject({
-                        // Must be 405 (Method Not Allowed) or 409 (Conflict)
-                        // 405 if you do not want to allow the delete
-                        // 409 if you can't delete because of referential
-                        // integrity or some other reason
-                        code: 409,
-                        message: err2.message,
-                    });
-                }
-
-                return resolve({deleted: _.result && _.result.n});
-            });
-        });
-    });
+    // Grab an instance of our DB and collection
+    let db = globals.get(CLIENT_DB);
+    let collection = db.collection(`${collection_name}_${base_version}`);
+    // Delete our resource record
+    let res;
+    try {
+        res = await collection.deleteOne({id: id});
+    } catch (e) {
+        logger.error(`Error with ${resource_name}.remove`);
+        throw new NotAllowedError(e.message);
+    }
+    // delete history as well.  You can chose to save history.  Up to you
+    let history_collection = db.collection(`${collection_name}_${base_version}_History`);
+    try {
+        await history_collection.deleteMany({id: id});
+    } catch (e) {
+        logger.error(`Error with ${resource_name}.remove`);
+        throw new NotAllowedError(e.message);
+    }
+    return {deleted: res.result && res.result.n};
+};
 
 // eslint-disable-next-line no-unused-vars
-module.exports.searchByVersionId = (args, {req}, resource_name, collection_name) =>
-    new Promise((resolve, reject) => {
-        logInfo(`${resource_name} >>> searchByVersionId`);
+module.exports.searchByVersionId = async (args, {req}, resource_name, collection_name) => {
+    logInfo(`${resource_name} >>> searchByVersionId`);
 
-        let {base_version, id, version_id} = args;
+    let {base_version, id, version_id} = args;
 
-        let Resource = getResource(base_version, resource_name);
+    let Resource = getResource(base_version, resource_name);
 
-        let db = globals.get(CLIENT_DB);
-        let history_collection = db.collection(`${collection_name}_${base_version}_History`);
+    let db = globals.get(CLIENT_DB);
+    let history_collection = db.collection(`${collection_name}_${base_version}_History`);
 
-        // Query our collection for this observation
-        history_collection.findOne(
-            {id: id.toString(), 'meta.versionId': `${version_id}`},
-            (err, resource) => {
-                if (err) {
-                    logger.error(`Error with ${resource_name}.searchByVersionId: `, err);
-                    return reject(err);
-                }
-
-                if (resource) {
-                    resolve(new Resource(resource));
-                }
-
-                resolve();
-            }
-        );
-    });
+    // Query our collection for this observation
+    let resource;
+    try {
+        resource = history_collection.findOne(
+            {id: id.toString(), 'meta.versionId': `${version_id}`});
+    } catch (e) {
+        throw new BadRequestError(e.message);
+    }
+    if (resource) {
+        return (new Resource(resource));
+    } else {
+        throw new NotFoundError();
+    }
+};
 
 // eslint-disable-next-line no-unused-vars
-module.exports.history = (args, {req}, resource_name, collection_name) =>
-    new Promise((resolve, reject) => {
-        logInfo(`${resource_name} >>> history`);
+module.exports.history = async (args, {req}, resource_name, collection_name) => {
+    logInfo(`${resource_name} >>> history`);
 
-        // Common search params
-        let {base_version} = args;
+    // Common search params
+    let {base_version} = args;
 
-        let query = {};
+    let query = {};
 
-        if (base_version === VERSIONS['3_0_1']) {
-            query = buildStu3SearchQuery(args);
-        } else if (base_version === VERSIONS['1_0_2']) {
-            query = buildDstu2SearchQuery(args);
-        }
+    if (base_version === VERSIONS['3_0_1']) {
+        query = buildStu3SearchQuery(args);
+    } else if (base_version === VERSIONS['1_0_2']) {
+        query = buildDstu2SearchQuery(args);
+    }
 
-        // Grab an instance of our DB and collection
-        let db = globals.get(CLIENT_DB);
-        let history_collection = db.collection(`${collection_name}_${base_version}_History`);
-        let Resource = getResource(base_version, resource_name);
+    // Grab an instance of our DB and collection
+    let db = globals.get(CLIENT_DB);
+    let history_collection = db.collection(`${collection_name}_${base_version}_History`);
+    let Resource = getResource(base_version, resource_name);
 
-        // Query our collection for this observation
-        history_collection.find(query, (err, data) => {
-            if (err) {
-                logger.error(`Error with ${resource_name}.history: `, err);
-                return reject(err);
-            }
-
-            // Patient is a resource cursor, pull documents out before resolving
-            data.toArray().then((resources) => {
-                resources.forEach(function (element, i, returnArray) {
-                    returnArray[i] = new Resource(element);
-                });
-                resolve(resources);
-            });
-        });
-    });
-
-// eslint-disable-next-line no-unused-vars
-module.exports.historyById = (args, {req}, resource_name, collection_name) =>
-    new Promise((resolve, reject) => {
-        logInfo(`${resource_name} >>> historyById`);
-
-        let {base_version, id} = args;
-        let query = {};
-
-        if (base_version === VERSIONS['3_0_1']) {
-            query = buildStu3SearchQuery(args);
-        } else if (base_version === VERSIONS['1_0_2']) {
-            query = buildDstu2SearchQuery(args);
-        }
-
-        query.id = `${id}`;
-
-        // Grab an instance of our DB and collection
-        let db = globals.get(CLIENT_DB);
-        let history_collection = db.collection(`${collection_name}_${base_version}_History`);
-        let Resource = getResource(base_version, resource_name);
-
-        // Query our collection for this observation
-        history_collection.find(query, (err, data) => {
-            if (err) {
-                logger.error(`Error with ${resource_name}.historyById: `, err);
-                return reject(err);
-            }
-
-            // Resource is a resource cursor, pull documents out before resolving
-            data.toArray().then((resources) => {
-                resources.forEach(function (element, i, returnArray) {
-                    returnArray[i] = new Resource(element);
-                });
-                resolve(resources);
-            });
-        });
-    });
+    // Query our collection for this observation
+    let cursor;
+    try {
+        cursor = history_collection.find(query);
+    } catch (e) {
+        throw new NotFoundError(e.message);
+    }
+    const resources = [];
+    while (await cursor.hasNext()) {
+        const element = await cursor.next();
+        resources.push(new Resource(element));
+    }
+    if (resources.length === 0) {
+        throw new NotFoundError();
+    }
+    return (resources);
+};
 
 // eslint-disable-next-line no-unused-vars
-module.exports.patch = (args, {req}, resource_name, collection_name) =>
-    new Promise((resolve, reject) => {
-        logInfo('Patient >>> patch');
+module.exports.historyById = async (args, {req}, resource_name, collection_name) => {
+    logInfo(`${resource_name} >>> historyById`);
 
-        let {base_version, id, patchContent} = args;
+    let {base_version, id} = args;
+    let query = {};
 
-        // Grab an instance of our DB and collection
-        let db = globals.get(CLIENT_DB);
-        let collection = db.collection(`${collection_name}_${base_version}`);
+    if (base_version === VERSIONS['3_0_1']) {
+        query = buildStu3SearchQuery(args);
+    } else if (base_version === VERSIONS['1_0_2']) {
+        query = buildDstu2SearchQuery(args);
+    }
 
-        // Get current record
-        // Query our collection for this observation
-        collection.findOne({id: id.toString()}, (err, data) => {
-            if (err) {
-                logger.error(`Error with ${resource_name}.patch: `, err);
-                return reject(err);
+    query.id = `${id}`;
+
+    // Grab an instance of our DB and collection
+    let db = globals.get(CLIENT_DB);
+    let history_collection = db.collection(`${collection_name}_${base_version}_History`);
+    let Resource = getResource(base_version, resource_name);
+
+    // Query our collection for this observation
+    let cursor;
+    try {
+        cursor = history_collection.find(query);
+    } catch (e) {
+        logger.error(`Error with ${resource_name}.historyById: `, e);
+        throw new BadRequestError(e.message);
+    }
+    const resources = [];
+    while (await cursor.hasNext()) {
+        const element = await cursor.next();
+        resources.push(new Resource(element));
+    }
+    if (resources.length === 0) {
+        throw new NotFoundError();
+    }
+    return (resources);
+};
+
+// eslint-disable-next-line no-unused-vars
+module.exports.patch = async (args, {req}, resource_name, collection_name) => {
+    logInfo('Patient >>> patch');
+
+    let {base_version, id, patchContent} = args;
+
+    // Grab an instance of our DB and collection
+    let db = globals.get(CLIENT_DB);
+    let collection = db.collection(`${collection_name}_${base_version}`);
+
+    // Get current record
+    // Query our collection for this observation
+    let data;
+    try {
+        data = collection.findOne({id: id.toString()});
+    } catch (e) {
+        logger.error(`Error with ${resource_name}.patch: `, e);
+        throw new BadRequestError(e.message);
+    }
+    if (!data) {
+        throw new NotFoundError();
+    }
+    // Validate the patch
+    let errors = validate(patchContent, data);
+    if (errors && Object.keys(errors).length > 0) {
+        logger.error('Error with patch contents');
+        throw new BadRequestError(errors.toString());
+    }
+    // Make the changes indicated in the patch
+    let resource_incoming = applyPatch(data, patchContent).newDocument;
+
+    let Resource = getResource(base_version, resource_name);
+    let resource = new Resource(resource_incoming);
+
+    if (data && data.meta) {
+        let foundResource = new Resource(data);
+        let meta = foundResource.meta;
+        // noinspection JSUnresolvedVariable
+        meta.versionId = `${parseInt(foundResource.meta.versionId) + 1}`;
+        resource.meta = meta;
+    } else {
+        throw new BadRequestError('Unable to patch resource. Missing either data or metadata.');
+    }
+
+    // Same as update from this point on
+    let cleaned = JSON.parse(JSON.stringify(resource));
+    let doc = Object.assign(cleaned, {_id: id});
+
+    // Insert/update our resource record
+    let res;
+    try {
+        res = collection.findOneAndUpdate({id: id}, {$set: doc}, {upsert: true});
+    } catch (e) {
+        logger.error(`Error with ${resource_name}.update: `, e);
+        throw new BadRequestError(e.message);
+    }
+    // Save to history
+    let history_collection = db.collection(`${collection_name}_${base_version}_History`);
+    let history_resource = Object.assign(cleaned, {_id: id + cleaned.meta.versionId});
+
+    // Insert our resource record to history but don't assign _id
+    try {
+        await history_collection.insertOne(history_resource);
+    } catch (e) {
+        logger.error(`Error with ${resource_name}History.create: `, e);
+        throw new BadRequestError(e.message);
+    }
+    return {
+        id: doc.id,
+        created: res.lastErrorObject && !res.lastErrorObject.updatedExisting,
+        resource_version: doc.meta.versionId,
+    };
+};
+
+// eslint-disable-next-line no-unused-vars
+module.exports.validate = async (args, {req}, resource_name, collection_name) => {
+    logInfo(`${resource_name} >>> validate`);
+
+    let resource_incoming = req.body;
+
+    // eslint-disable-next-line no-unused-vars
+    let {base_version} = args;
+
+    logInfo('--- request ----');
+    logInfo(req);
+    logInfo('-----------------');
+
+    logInfo('--- body ----');
+    logInfo(resource_incoming);
+    logInfo('-----------------');
+
+
+    logInfo('--- validate schema ----');
+    const errors = validateSchema(resource_incoming);
+    if (errors.length > 0) {
+        return {
+            resourceType: 'OperationOutcome',
+            issue: errors.map(x => {
+                return {
+                    severity: 'error',
+                    code: 'validation',
+                    details: {
+                        text: x.dataPath + ' ' + x.message
+                    },
+                    expression: [
+                        x.dataPath
+                    ],
+                    diagnostics: JSON.stringify(x)
+                };
+            })
+        };
+    }
+    logInfo('-----------------');
+
+    return {
+        resourceType: 'OperationOutcome',
+        issue: [
+            {
+                severity: 'information',
+                code: 'informational',
+                details: {
+                    text: 'OK'
+                },
+                expression: [
+                    resource_name
+                ]
             }
-
-            // Validate the patch
-            let errors = validate(patchContent, data);
-            if (errors && Object.keys(errors).length > 0) {
-                logger.error('Error with patch contents');
-                return reject(errors);
-            }
-            // Make the changes indicated in the patch
-            let resource_incoming = applyPatch(data, patchContent).newDocument;
-
-            let Resource = getResource(base_version, resource_name);
-            let resource = new Resource(resource_incoming);
-
-            if (data && data.meta) {
-                let foundResource = new Resource(data);
-                let meta = foundResource.meta;
-                // noinspection JSUnresolvedVariable
-                meta.versionId = `${parseInt(foundResource.meta.versionId) + 1}`;
-                resource.meta = meta;
-            } else {
-                return reject('Unable to patch resource. Missing either data or metadata.');
-            }
-
-            // Same as update from this point on
-            let cleaned = JSON.parse(JSON.stringify(resource));
-            let doc = Object.assign(cleaned, {_id: id});
-
-            // Insert/update our resource record
-            collection.findOneAndUpdate({id: id}, {$set: doc}, {upsert: true}, (err2, res) => {
-                if (err2) {
-                    logger.error(`Error with ${resource_name}.update: `, err2);
-                    return reject(err2);
-                }
-
-                // Save to history
-                let history_collection = db.collection(`${collection_name}_${base_version}_History`);
-                let history_resource = Object.assign(cleaned, {_id: id + cleaned.meta.versionId});
-
-                // Insert our resource record to history but don't assign _id
-                return history_collection.insertOne(history_resource, (err3) => {
-                    if (err3) {
-                        logger.error(`Error with ${resource_name}History.create: `, err3);
-                        return reject(err3);
-                    }
-
-                    return resolve({
-                        id: doc.id,
-                        created: res.lastErrorObject && !res.lastErrorObject.updatedExisting,
-                        resource_version: doc.meta.versionId,
-                    });
-                });
-            });
-        });
-    });
+        ]
+    };
+};

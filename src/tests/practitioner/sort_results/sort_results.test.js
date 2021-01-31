@@ -18,6 +18,7 @@ const expectedPractitionerResource = require('./fixtures/expected/expected_pract
 // const expectedHealthcareServiceResource = require('./fixtures/expected/expected_healthcare_service.json');
 
 const async = require('async');
+const env = require('var');
 
 const request = supertest(app);
 
@@ -44,6 +45,8 @@ describe('PractitionerReturnIdTests', () => {
 
         globals.set(CLIENT, connection);
         globals.set(CLIENT_DB, db);
+        jest.setTimeout(30000);
+        env['VALIDATE_SCHEMA'] = true;
     });
 
     afterEach(async () => {

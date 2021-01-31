@@ -1,6 +1,6 @@
 {
     "resourceType": "InsurancePlan",
-    "id": "AETNA-Aetna_Elect_Choice__EPO__Aetna_Health_Fund__Innovation_He",
+    "id": "AETNA-Aetna-Elect-Choice--EPO--Aetna-Health-Fund--Innovation-He",
     "name": "AETNA-Aetna Elect Choice/ EPO (Aetna Health Fund) Innovation Health: Network Only Plus",
     "ownedBy": {
         "reference": "Organization/AETNA"

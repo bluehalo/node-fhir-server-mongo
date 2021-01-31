@@ -34,29 +34,23 @@
     "name": [
       {
         "use": "usual",
-        "text": "",
         "family": "AL-ANI MBBS",
         "given": [
-          "AWSSE",
-          null
-        ],
-        "suffix": [
-          null
+          "AWSSE"
         ]
       }
     ],
     "telecom": [],
     "address": [
       {
-        "use": "Work",
-        "type": "Physical",
+        "use": "work",
+        "type": "physical",
         "text": "MedStar Adult Medicine at MUMH",
         "line": [
           "33RD STREET PROFESSIONAL BLDG,G",
           "200 EAST 33RD STREET"
         ],
         "city": "BALTIMORE",
-        "district": "",
         "state": "MD",
         "postalCode": "21218",
         "country": "USA"
@@ -99,29 +93,23 @@
     "name": [
       {
         "use": "usual",
-        "text": "",
         "family": "AL-ANI MBBS",
         "given": [
-          "AWSSE",
-          null
-        ],
-        "suffix": [
-          null
+          "AWSSE"
         ]
       }
     ],
     "telecom": [],
     "address": [
       {
-        "use": "Work",
-        "type": "Physical",
+        "use": "work",
+        "type": "physical",
         "text": "MedStar Adult Medicine at MUMH",
         "line": [
           "33RD STREET PROFESSIONAL BLDG,G",
           "200 EAST 33RD STREET"
         ],
         "city": "BALTIMORE",
-        "district": "",
         "state": "MD",
         "postalCode": "21218",
         "country": "USA"

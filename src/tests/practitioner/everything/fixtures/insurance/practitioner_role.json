@@ -1,6 +1,6 @@
 {
     "resourceType": "PractitionerRole",
-    "id": "1679033641-AETNA-Aetna_Elect_Choice__EPO__Aetna_Health_Fund__In",
+    "id": "1679033641-AETNA-Aetna-Elect-Choice--EPO--Aetna-Health-Fund--In",
     "practitioner": {
         "reference": "Practitioner/1679033641"
     },

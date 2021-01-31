@@ -1,14 +1,14 @@
 {
     "resourceType": "Organization",
     "id": "-733797173",
-    "extension": [
-      {
-        "position": {
-          "longitude": -76.61668,
-          "latitude": 39.32792
-        }
-      }
-    ],
+  "extension": [
+    {
+      "valueDecimal": -76.61668
+    },
+    {
+      "valueDecimal": 39.32792
+    }
+  ],
     "identifier": [
       {
         "use": "usual",
@@ -32,7 +32,7 @@
         "coding": [
           {
             "system": "http://terminology.hl7.org/CodeSystem/organization-type",
-            "code": "",
+            "code": "ER",
             "display": "Emergency Room"
           }
         ],
@@ -87,4 +87,3 @@
       }
     ]
   }
-  

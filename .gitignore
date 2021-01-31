@@ -15,7 +15,7 @@ key.pem
 # ENV Files
 .local-secrets/auth.secrets
 !/src/services/coverage/
-src/config_new.js
+src/profiles.js
 .vscode
 globalConfig.json
 !/.vscode/launch.json

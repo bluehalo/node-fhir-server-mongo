@@ -38,3 +38,6 @@ module.exports.historyById = (args, { req }) =>
 
 module.exports.patch = (args, { req }) =>
   base_service.patch(args, { req }, resource_name, collection_name);
+
+module.exports.validate = (args, { req }) =>
+  base_service.validate(args, { req }, resource_name, collection_name);

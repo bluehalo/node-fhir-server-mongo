@@ -36,6 +36,7 @@ const expectedOrganizationResource = require('./fixtures/expected/expected_organ
 const expectedInsurancePlanResource = require('./fixtures/expected/expected_insurance_plan.json');
 const expectedHealthcareServiceResource = require('./fixtures/expected/expected_healthcare_service.json');
 const async = require('async');
+const env = require('var');
 
 const request = supertest(app);
 
@@ -62,6 +63,8 @@ describe('Practitioner Complex Merge Tests', () => {
 
         globals.set(CLIENT, connection);
         globals.set(CLIENT_DB, db);
+        jest.setTimeout(30000);
+        env['VALIDATE_SCHEMA'] = true;
     });
 
     afterEach(async () => {

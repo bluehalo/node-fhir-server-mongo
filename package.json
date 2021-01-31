@@ -12,6 +12,7 @@
     "start": "NODE_ENV=production node src/index.js",
     "dev": "NODE_ENV=development ./node_modules/.bin/nodemon -r dotenv/config --inspect=0.0.0.0 ./src/index.js;",
     "test": "NODE_ENV=test npm run test:lint && npm run test:jest",
+    "failed_tests": "NODE_ENV=test npm run test:lint && npm run test:jest --onlyFailures",
     "test:lint": "eslint \"src/**/*.js\"",
     "test:jest": "NODE_ENV=test jest --forceExit --detectOpenHandles -i .",
     "test:integration": "NODE_ENV=test jest --forceExit --detectOpenHandles -i src/tests/practitioner/complex_merge",
@@ -28,13 +29,17 @@
     "test"
   ],
   "jest": {
-    "verbose": true,
+    "verbose": false,
     "testEnvironment": "node",
     "collectCoverage": false,
     "coverageReporters": [
       "text",
       "lcov",
       "json"
+    ],
+    "reporters": [
+      "default",
+      "jest-failure-reporter"
     ],
     "coveragePathIgnorePatterns": [
       "<rootDir>/src/testutils/"
@@ -60,8 +65,7 @@
     "response-time": "^2.3.2",
     "snyk": "^1.319.1",
     "swagger-ui-express": "^4.1.4",
-    "var": "^0.3.2",
-    "wait-for-mongo": "^0.2.0"
+    "var": "^0.3.2"
   },
   "devDependencies": {
     "@shelf/jest-mongodb": "^1.2.3",
@@ -69,7 +73,8 @@
     "cross-env": "^5.1.6",
     "dotenv": "^8.2.0",
     "eslint": "^7.12.0",
-    "jest": "^24.9.0",
+    "jest": "^26.6.3",
+    "jest-failure-reporter": "^1.0.1",
     "nodemon": "^1.18.3",
     "pre-commit": "^1.2.2",
     "prettier": "^2.1.2",

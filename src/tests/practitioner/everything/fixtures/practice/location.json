@@ -65,7 +65,7 @@
                 "text": "Scheduling Department Number"
             },
             "system": "MedstarHealth.org",
-            "value": ""
+            "value": "SCD"
         }
     ],
     "status": "active",
@@ -87,7 +87,7 @@
             "coding": [
                 {
                     "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
-                    "code": "",
+                    "code": "ER",
                     "display": "ER Indicator"
                 }
             ],
