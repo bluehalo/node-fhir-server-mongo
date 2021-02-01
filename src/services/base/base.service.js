@@ -448,7 +448,7 @@ module.exports.searchById = async (args, {req}, resource_name, collection_name) 
 
     let resource;
     try {
-        resource = collection.findOne({id: id.toString()});
+        resource = await collection.findOne({id: id.toString()});
     } catch (e) {
         logger.error(`Error with ${resource_name}.searchById: `, e);
         throw new BadRequestError(e.message);
@@ -1038,7 +1038,7 @@ module.exports.searchByVersionId = async (args, {req}, resource_name, collection
     // Query our collection for this observation
     let resource;
     try {
-        resource = history_collection.findOne(
+        resource = await history_collection.findOne(
             {id: id.toString(), 'meta.versionId': `${version_id}`});
     } catch (e) {
         throw new BadRequestError(e.message);
@@ -1073,7 +1073,7 @@ module.exports.history = async (args, {req}, resource_name, collection_name) => 
     // Query our collection for this observation
     let cursor;
     try {
-        cursor = history_collection.find(query);
+        cursor = await history_collection.find(query);
     } catch (e) {
         throw new NotFoundError(e.message);
     }
@@ -1111,7 +1111,7 @@ module.exports.historyById = async (args, {req}, resource_name, collection_name)
     // Query our collection for this observation
     let cursor;
     try {
-        cursor = history_collection.find(query);
+        cursor = await history_collection.find(query);
     } catch (e) {
         logger.error(`Error with ${resource_name}.historyById: `, e);
         throw new BadRequestError(e.message);
@@ -1141,7 +1141,7 @@ module.exports.patch = async (args, {req}, resource_name, collection_name) => {
     // Query our collection for this observation
     let data;
     try {
-        data = collection.findOne({id: id.toString()});
+        data = await collection.findOne({id: id.toString()});
     } catch (e) {
         logger.error(`Error with ${resource_name}.patch: `, e);
         throw new BadRequestError(e.message);
@@ -1178,7 +1178,7 @@ module.exports.patch = async (args, {req}, resource_name, collection_name) => {
     // Insert/update our resource record
     let res;
     try {
-        res = collection.findOneAndUpdate({id: id}, {$set: doc}, {upsert: true});
+        res = await collection.findOneAndUpdate({id: id}, {$set: doc}, {upsert: true});
     } catch (e) {
         logger.error(`Error with ${resource_name}.update: `, e);
         throw new BadRequestError(e.message);
