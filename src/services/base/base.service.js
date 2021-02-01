@@ -1,12 +1,12 @@
 const {VERSIONS} = require('@asymmetrik/node-fhir-server-core').constants;
 const {resolveSchema} = require('@asymmetrik/node-fhir-server-core');
-const JSONSchemaValidator = require('@asymmetrik/fhir-json-schema-validator');
 const {CLIENT_DB} = require('../../constants');
 const moment = require('moment-timezone');
 const globals = require('../../globals');
 // noinspection JSCheckFunctionSignatures
 const logger = require('@asymmetrik/node-fhir-server-core').loggers.get();
 const {getUuid} = require('../../utils/uid.util');
+const {validateResource} = require('../../utils/validator.util');
 const {NotAllowedError, NotFoundError, BadRequestError, NotValidatedError} = require('../../utils/httpErrors');
 const {validate, applyPatch, compare} = require('fast-json-patch');
 const deepmerge = require('deepmerge');
@@ -290,16 +290,6 @@ let buildDstu2SearchQuery = (args) => {
     return query;
 };
 
-// eslint-disable-next-line no-unused-vars
-let validateSchema = (instance) => {
-
-    // https://github.com/Asymmetrik/node-fhir-server-core/tree/master/packages/fhir-json-schema-validator
-    const validator = new JSONSchemaValidator();
-    let errors = validator.validate(instance);
-    console.log(errors);
-    return errors;
-};
-
 let get_all_args = (req, args) => {
     // asymmetric hides certain query parameters from us so we need to get them from the context
     const my_args = {};
@@ -481,9 +471,9 @@ module.exports.create = async (args, {req}, resource_name, collection_name) => {
     const combined_args = get_all_args(req, args);
     if (env.VALIDATE_SCHEMA || combined_args['_validate']) {
         logInfo('--- validate schema ----');
-        const errors = validateSchema(resource_incoming);
-        if (errors && errors.length > 0) {
-            throw new NotValidatedError(errors);
+        const operationOutcome = validateResource(resource_incoming, resource_name, req.path);
+        if (operationOutcome && operationOutcome.statusCode === 400) {
+            throw new NotValidatedError(operationOutcome);
         }
         logInfo('-----------------');
     }
@@ -555,9 +545,9 @@ module.exports.update = async (args, {req}, resource_name, collection_name) => {
     const combined_args = get_all_args(req, args);
     if (env.VALIDATE_SCHEMA || combined_args['_validate']) {
         logInfo('--- validate schema ----');
-        const errors = validateSchema(resource_incoming);
-        if (errors && errors.length > 0) {
-            throw new NotValidatedError(errors);
+        const operationOutcome = validateResource(resource_incoming, resource_name, req.path);
+        if (operationOutcome && operationOutcome.statusCode === 400) {
+            throw new NotValidatedError(operationOutcome);
         }
         logInfo('-----------------');
     }
@@ -679,10 +669,11 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
         const combined_args = get_all_args(req, args);
         if (env.VALIDATE_SCHEMA || combined_args['_validate']) {
             logInfo('--- validate schema ----');
-            const errors = validateSchema(resource_to_merge);
-            if (errors && errors.length > 0) {
-                throw new NotValidatedError(errors);
+            const operationOutcome = validateResource(resource_to_merge, resource_name, req.path);
+            if (operationOutcome && operationOutcome.statusCode === 400) {
+                throw new NotValidatedError(operationOutcome);
             }
+            logInfo('-----------------');
         }
         try {
             logInfo('-----------------');
@@ -1224,26 +1215,10 @@ module.exports.validate = async (args, {req}, resource_name, collection_name) =>
 
 
     logInfo('--- validate schema ----');
-    const errors = validateSchema(resource_incoming);
-    if (errors && errors.length > 0) {
-        return {
-            resourceType: 'OperationOutcome',
-            issue: errors.map(x => {
-                return {
-                    severity: 'error',
-                    code: 'validation',
-                    details: {
-                        text: x.dataPath + ' ' + x.message
-                    },
-                    expression: [
-                        x.dataPath
-                    ],
-                    diagnostics: JSON.stringify(x)
-                };
-            })
-        };
+    const operationOutcome = validateResource(resource_incoming, resource_name, req.path);
+    if (operationOutcome && operationOutcome.statusCode === 400) {
+        return operationOutcome;
     }
-    logInfo('-----------------');
 
     return {
         resourceType: 'OperationOutcome',

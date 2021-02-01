@@ -29,11 +29,6 @@ const practiceLocationResource = require('./fixtures/practice/location.json');
 
 // expected
 const expectedPractitionerResource = require('./fixtures/expected/expected_practitioner.json');
-// const expectedPractitionerRoleResource = require('./fixtures/expected/expected_practitioner_role.json');
-// const expectedLocationResource = require('./fixtures/expected/expected_location.json');
-// const expectedOrganizationResource = require('./fixtures/expected/expected_organization.json');
-// const expectedInsurancePlanResource = require('./fixtures/expected/expected_insurance_plan.json');
-// const expectedHealthcareServiceResource = require('./fixtures/expected/expected_healthcare_service.json');
 
 const async = require('async');
 const env = require('var');
@@ -141,7 +136,7 @@ describe('Practitioner Everything Tests', () => {
                                 return cb(err, resp);
                             }), (results, cb) =>
                         request
-                            .post('/4_0_0/Organization/HealthcareService/$merge')
+                            .post('/4_0_0/HealthcareService/$merge')
                             .send(practitionerHealthcareServiceResource)
                             .set('Content-Type', 'application/fhir+json')
                             .set('Accept', 'application/fhir+json')
@@ -324,7 +319,7 @@ describe('Practitioner Everything Tests', () => {
                             }),
                     (results, cb) =>
                         request
-                            .post('/4_0_0/Organization/Location/$merge')
+                            .post('/4_0_0/Location/$merge')
                             .send(practiceLocationResource)
                             .set('Content-Type', 'application/fhir+json')
                             .set('Accept', 'application/fhir+json')

@@ -141,7 +141,7 @@ describe('Practitioner Complex Merge Tests', () => {
                                 return cb(err, resp);
                             }), (results, cb) =>
                         request
-                            .post('/4_0_0/Organization/HealthcareService/$merge')
+                            .post('/4_0_0/HealthcareService/$merge')
                             .send(practitionerHealthcareServiceResource)
                             .set('Content-Type', 'application/fhir+json')
                             .set('Accept', 'application/fhir+json')
@@ -324,7 +324,7 @@ describe('Practitioner Complex Merge Tests', () => {
                             }),
                     (results, cb) =>
                         request
-                            .post('/4_0_0/Organization/Location/$merge')
+                            .post('/4_0_0/Location/$merge')
                             .send(practiceLocationResource)
                             .set('Content-Type', 'application/fhir+json')
                             .set('Accept', 'application/fhir+json')
@@ -397,7 +397,7 @@ describe('Practitioner Complex Merge Tests', () => {
                             console.log('------- end response  ------------');
                             // clear out the lastUpdated column since that changes
                             let body = resp.body;
-                            expect(body.length).toBe(2);
+                            expect(body.length).toBe(3);
                             delete body[0]['meta']['lastUpdated'];
                             body.forEach(element => {
                                 delete element['meta']['lastUpdated'];
@@ -426,7 +426,7 @@ describe('Practitioner Complex Merge Tests', () => {
                             console.log('------- end response  ------------');
                             // clear out the lastUpdated column since that changes
                             let body = resp.body;
-                            expect(body.length).toBe(7);
+                            expect(body.length).toBe(5);
                             delete body[0]['meta']['lastUpdated'];
                             body.forEach(element => {
                                 delete element['meta'];
@@ -483,7 +483,7 @@ describe('Practitioner Complex Merge Tests', () => {
                             console.log('------- end response  ------------');
                             // clear out the lastUpdated column since that changes
                             let body = resp.body;
-                            expect(body.length).toBe(2);
+                            expect(body.length).toBe(3);
                             delete body[0]['meta']['lastUpdated'];
                             body.forEach(element => {
                                 delete element['meta']['lastUpdated'];

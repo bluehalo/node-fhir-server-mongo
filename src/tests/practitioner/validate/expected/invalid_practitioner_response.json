@@ -3,25 +3,17 @@
   "issue": [
     {
       "severity": "error",
-      "code": "validation",
+      "code": "invalid",
       "details": {
-        "text": ".identifier[0].type.coding should be array"
-      },
-      "diagnostics": "{\"keyword\":\"type\",\"dataPath\":\".identifier[0].type.coding\",\"schemaPath\":\"#/properties/coding/type\",\"params\":{\"type\":\"array\"},\"message\":\"should be array\"}",
-      "expression": [
-        ".identifier[0].type.coding"
-      ]
+        "text": "/4_0_0/Practitioner/$validate should be array :{\"type\":\"array\"}: at position .identifier[0].type.coding"
+      }
     },
     {
       "severity": "error",
-      "code": "validation",
+      "code": "invalid",
       "details": {
-        "text": " should match exactly one schema in oneOf"
-      },
-      "diagnostics": "{\"keyword\":\"oneOf\",\"dataPath\":\"\",\"schemaPath\":\"#/oneOf\",\"params\":{\"passingSchemas\":null},\"message\":\"should match exactly one schema in oneOf\"}",
-      "expression": [
-        ""
-      ]
+        "text": "/4_0_0/Practitioner/$validate should match exactly one schema in oneOf :{\"passingSchemas\":null}: at position root"
+      }
     }
   ]
 }
