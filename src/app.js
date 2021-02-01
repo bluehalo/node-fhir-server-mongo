@@ -7,6 +7,7 @@ const asyncHandler = require('./lib/async-handler');
 const mongoClient = require('./lib/mongo');
 const {fhirServerConfig, mongoConfig} = require('./config');
 const Prometheus = require('./utils/prometheus.utils');
+const env = require('var');
 
 const app = express();
 app.use(Prometheus.requestCounters);
@@ -59,6 +60,15 @@ class MyFHIRServer extends FHIRServer.Server {
 const fhirApp = new MyFHIRServer(fhirServerConfig).configureMiddleware().configureSession().configureHelmet().configurePassport().setPublicDirectory().setProfileRoutes().setErrorRoutes();
 
 app.get('/health', (req, res) => res.json({status: 'ok'}));
+app.get('/version', (req, res) => {
+    const image = env.DOCKER_IMAGE || '';
+    if (image) {
+        return res.json({version: image.slice(image.lastIndexOf(':') + 1), image: image});
+    } else {
+        return res.json({version: 'unknown', image: 'unknown'});
+    }
+});
+
 app.get('/clean', async (req, res) => {
     console.info('Running clean');
 
@@ -131,7 +141,12 @@ app.get('/stats', async (req, res) => {
             collection_stats.push({name: collection_name, count: count});
         }
         await client.close();
-        res.status(200).json({success: true, database: mongoConfig.db_name, collections: collection_stats});
+        res.status(200).json({
+            success: true,
+            image: env.DOCKER_IMAGE || '',
+            database: mongoConfig.db_name,
+            collections: collection_stats
+        });
     }
 });
 
