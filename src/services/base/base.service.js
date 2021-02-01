@@ -22,8 +22,11 @@ let getMeta = (base_version) => {
     return resolveSchema(base_version, 'Meta');
 };
 
-let logInfo = (msg) => logger.info(msg);
-// let logInfo = () => { };
+let logInfo = (msg) => {
+    if (!env.IS_PRODUCTION) {
+        logger.info(msg);
+    }
+};
 
 const {
     stringQueryBuilder,
