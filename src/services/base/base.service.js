@@ -479,7 +479,7 @@ module.exports.create = async (args, {req}, resource_name, collection_name) => {
     if (env.VALIDATE_SCHEMA || combined_args['_validate']) {
         logInfo('--- validate schema ----');
         const errors = validateSchema(resource_incoming);
-        if (errors.length > 0) {
+        if (errors && errors.length > 0) {
             throw new NotValidatedError(errors);
         }
         logInfo('-----------------');
@@ -553,7 +553,7 @@ module.exports.update = async (args, {req}, resource_name, collection_name) => {
     if (env.VALIDATE_SCHEMA || combined_args['_validate']) {
         logInfo('--- validate schema ----');
         const errors = validateSchema(resource_incoming);
-        if (errors.length > 0) {
+        if (errors && errors.length > 0) {
             throw new NotValidatedError(errors);
         }
         logInfo('-----------------');
@@ -677,7 +677,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
         if (env.VALIDATE_SCHEMA || combined_args['_validate']) {
             logInfo('--- validate schema ----');
             const errors = validateSchema(resource_to_merge);
-            if (errors.length > 0) {
+            if (errors && errors.length > 0) {
                 throw new NotValidatedError(errors);
             }
         }
@@ -1222,7 +1222,7 @@ module.exports.validate = async (args, {req}, resource_name, collection_name) =>
 
     logInfo('--- validate schema ----');
     const errors = validateSchema(resource_incoming);
-    if (errors.length > 0) {
+    if (errors && errors.length > 0) {
         return {
             resourceType: 'OperationOutcome',
             issue: errors.map(x => {

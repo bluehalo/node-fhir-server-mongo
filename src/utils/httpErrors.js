@@ -92,7 +92,7 @@ class NotValidatedError extends ServerError {
             // Set this to make the HTTP status code 409
             statusCode: 400,
             // Add any normal operation outcome stuff here
-            issue: errors.map(x => {
+            issue: errors ? errors.map(x => {
                 return {
                     severity: 'error',
                     code: 'validation',
@@ -104,7 +104,7 @@ class NotValidatedError extends ServerError {
                     ],
                     diagnostics: JSON.stringify(x)
                 };
-            })
+            }) : []
         });
 
         // You can attach relevant information to the error instance
