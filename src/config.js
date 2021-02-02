@@ -2,26 +2,12 @@ const env = require('var');
 const Sentry = require('./middleware/sentry');
 const {profiles} = require('./profiles');
 
-console.log(`MONGO_URL=${env.MONGO_URL}`);
-
-console.log(
-  'Waiting for MongoDB connection: ' + env.MONGO_URL ||
-    `mongodb://${env.MONGO_HOSTNAME}:${env.MONGO_PORT}`
-);
-
-console.log(`MONGO_DB=${env.MONGO_DB_NAME}`);
-console.log(`MONGO_USERNAME=${env.MONGO_USERNAME}`);
-console.log(`MONGO_PASSWORD=${env.MONGO_PASSWORD}`);
-
 let mongoUrl = env.MONGO_URL || `mongodb://${env.MONGO_HOSTNAME}:${env.MONGO_PORT}`;
-console.log('Waiting for MongoDB connection: ' + mongoUrl);
 if (env.MONGO_USERNAME !== undefined) {
   mongoUrl = mongoUrl.replace('mongodb://', `mongodb://${env.MONGO_USERNAME}:${env.MONGO_PASSWORD}@`);
-  // console.log('Waiting for MongoDB connection with username/password: ' + mongoUrl);
 }
 // url-encode the url
 mongoUrl = encodeURI(mongoUrl);
-// console.log('Waiting for URL encoded MongoDB connection: ' + mongoUrl);
 /**
  * @name mongoConfig
  * @summary Configurations for our Mongo instance
