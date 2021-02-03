@@ -28,6 +28,10 @@ let logInfo = (msg) => {
     }
 };
 
+let logRequest = (msg) => {
+    logger.info(msg);
+};
+
 const {
     stringQueryBuilder,
     tokenQueryBuilder,
@@ -313,11 +317,11 @@ let get_all_args = (req, args) => {
  * @param {*} context
  */
 module.exports.search = async (args, {req}, resource_name, collection_name) => {
-    logInfo(resource_name + ' >>> search');
-    logInfo('---- args ----');
-    logInfo(args);
-    logInfo('--------');
     const combined_args = get_all_args(req, args);
+    logRequest(resource_name + ' >>> search');
+    logRequest('---- combined_args ----');
+    logRequest(args);
+    logRequest('--------');
 
     let {base_version} = args;
     let query;
@@ -346,7 +350,8 @@ module.exports.search = async (args, {req}, resource_name, collection_name) => {
         options = {['projection']: properties_to_return_list};
     }
     // Query our collection for this observation
-    let cursor = await collection.find(query, options);
+    const maxMongoTimeMS = 30 * 1000;
+    let cursor = await collection.find(query, options).maxTimeMS(maxMongoTimeMS);
     // noinspection JSUnfilteredForInLoop
     if (combined_args['_sort']) {
         // GET [base]/Observation?_sort=status,-date,category
@@ -417,7 +422,7 @@ module.exports.search = async (args, {req}, resource_name, collection_name) => {
 
 // eslint-disable-next-line no-unused-vars
 module.exports.searchById = async (args, {req}, resource_name, collection_name) => {
-    logInfo(`${resource_name} >>> searchById`);
+    logRequest(`${resource_name} >>> searchById`);
     logInfo(args);
 
     // Common search params
@@ -454,7 +459,7 @@ module.exports.searchById = async (args, {req}, resource_name, collection_name) 
 };
 
 module.exports.create = async (args, {req}, resource_name, collection_name) => {
-    logInfo(`${resource_name} >>> create`);
+    logRequest(`${resource_name} >>> create`);
 
     let resource_incoming = req.body;
 
@@ -529,7 +534,7 @@ module.exports.create = async (args, {req}, resource_name, collection_name) => {
 };
 
 module.exports.update = async (args, {req}, resource_name, collection_name) => {
-    logInfo(`'${resource_name} >>> update`);
+    logRequest(`'${resource_name} >>> update`);
 
     logInfo('--- request ----');
     logInfo(req);
@@ -647,7 +652,7 @@ module.exports.update = async (args, {req}, resource_name, collection_name) => {
 };
 
 module.exports.merge = async (args, {req}, resource_name, collection_name) => {
-    logInfo(`'${resource_name} >>> merge`);
+    logRequest(`'${resource_name} >>> merge`);
 
     // read the incoming resource from request body
     let resources_incoming = req.body;
@@ -842,7 +847,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
     }
 
     if (Array.isArray(resources_incoming)) {
-        logInfo('==================' + resource_name + ': Merge received array ' + '(' + resources_incoming.length + ') ' + '====================');
+        logRequest('==================' + resource_name + ': Merge received array ' + '(' + resources_incoming.length + ') ' + '====================');
         return await Promise.all(resources_incoming.map(async x => merge_resource(x)));
     } else {
         return await merge_resource(resources_incoming);
@@ -851,11 +856,11 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
 
 // eslint-disable-next-line no-unused-vars
 module.exports.everything = async (args, {req}, resource_name, collection_name) => {
-    logInfo(`${resource_name} >>> everything`);
+    logRequest(`${resource_name} >>> everything`);
     try {
         let {base_version, id} = args;
 
-        logInfo(`id=${id}`);
+        logRequest(`id=${id}`);
         logInfo(`req=${req}`);
 
         const host = req.headers.host;
@@ -990,7 +995,7 @@ module.exports.everything = async (args, {req}, resource_name, collection_name) 
 
 // eslint-disable-next-line no-unused-vars
 module.exports.remove = async (args, {req}, resource_name, collection_name) => {
-    logInfo(`${resource_name} >>> remove`);
+    logRequest(`${resource_name} >>> remove`);
 
     let {base_version, id} = args;
 
@@ -1020,7 +1025,7 @@ module.exports.remove = async (args, {req}, resource_name, collection_name) => {
 
 // eslint-disable-next-line no-unused-vars
 module.exports.searchByVersionId = async (args, {req}, resource_name, collection_name) => {
-    logInfo(`${resource_name} >>> searchByVersionId`);
+    logRequest(`${resource_name} >>> searchByVersionId`);
 
     let {base_version, id, version_id} = args;
 
@@ -1046,7 +1051,7 @@ module.exports.searchByVersionId = async (args, {req}, resource_name, collection
 
 // eslint-disable-next-line no-unused-vars
 module.exports.history = async (args, {req}, resource_name, collection_name) => {
-    logInfo(`${resource_name} >>> history`);
+    logRequest(`${resource_name} >>> history`);
 
     // Common search params
     let {base_version} = args;
@@ -1084,7 +1089,7 @@ module.exports.history = async (args, {req}, resource_name, collection_name) => 
 
 // eslint-disable-next-line no-unused-vars
 module.exports.historyById = async (args, {req}, resource_name, collection_name) => {
-    logInfo(`${resource_name} >>> historyById`);
+    logRequest(`${resource_name} >>> historyById`);
 
     let {base_version, id} = args;
     let query = {};
@@ -1123,7 +1128,7 @@ module.exports.historyById = async (args, {req}, resource_name, collection_name)
 
 // eslint-disable-next-line no-unused-vars
 module.exports.patch = async (args, {req}, resource_name, collection_name) => {
-    logInfo('Patient >>> patch');
+    logRequest('Patient >>> patch');
 
     let {base_version, id, patchContent} = args;
 
@@ -1198,7 +1203,7 @@ module.exports.patch = async (args, {req}, resource_name, collection_name) => {
 // noinspection JSUnusedLocalSymbols
 // eslint-disable-next-line no-unused-vars
 module.exports.validate = async (args, {req}, resource_name, collection_name) => {
-    logInfo(`${resource_name} >>> validate`);
+    logRequest(`${resource_name} >>> validate`);
 
     let resource_incoming = req.body;
 
