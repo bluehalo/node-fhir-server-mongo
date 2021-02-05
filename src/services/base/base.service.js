@@ -382,7 +382,7 @@ module.exports.search = async (args, {req}, resource_name, collection_name) => {
         cursor = cursor.limit(nPerPage);
     } else {
         // set a limit so the server does not come down due to volume of data
-        cursor = cursor.limit(1000);
+        cursor = cursor.limit(10);
     }
 
     // Resource is a resource cursor, pull documents out before resolving
