@@ -1,3 +1,4 @@
+const moment = require('moment-timezone');
 /**
  * @name stringQueryBuilder
  * @description builds mongo default query for string inputs, no modifiers
@@ -494,6 +495,18 @@ let dateQueryBuilder = function (date, type, path) {
                         '^' + '(?:' + str + ')|(?:' + match[0].replace('+', '\\+') + ')|(?:' + tempFill,
                         'i'
                     ),
+                };
+            } else {
+                for (let i = 2; i < 10; i++) {
+                    if (match[i]) {
+                        str = str + match[i];
+                    }
+                }
+                const moment_dt = moment(str);
+                // convert to format that mongo uses to store
+                const datetime_utc = moment_dt.utc().format('YYYY-MM-DDTHH:mm:ssZ');
+                return {
+                    [prefix]: datetime_utc
                 };
             }
         }

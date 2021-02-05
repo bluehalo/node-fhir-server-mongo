@@ -102,10 +102,10 @@ let buildR4SearchQuery = (resource_name, args) => {
         logInfo('meta.lastUpdated:' + lastUpdated);
         if (Array.isArray(lastUpdated)) {
             for (const lastUpdatedItem of lastUpdated) {
-                and_segments.push({'meta.lastUpdated': dateQueryBuilder(lastUpdatedItem, 'date', '')});
+                and_segments.push({'meta.lastUpdated': dateQueryBuilder(lastUpdatedItem, 'instant', '')});
             }
         } else {
-            query['meta.lastUpdated'] = dateQueryBuilder(lastUpdated, 'date', '');
+            query['meta.lastUpdated'] = dateQueryBuilder(lastUpdated, 'instant', '');
         }
     }
     if (patient) {
