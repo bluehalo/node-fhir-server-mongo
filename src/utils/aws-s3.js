@@ -36,7 +36,8 @@ module.exports = function sendToS3(resourceType, resource, currentDate, id) {
             if (err) {
                 const sts = new AWS.STS();
                 sts.getCallerIdentity(function (_error, role_data) {
-                    logger.error('[AWS-S3] Failed to put object: ' + key + ' in bucket: ' + AWS_BUCKET + ' with user: ' + role_data);
+                    logger.error('[AWS-S3] Failed to put object: ' +
+                        key + ' in bucket: ' + AWS_BUCKET + ' with user: ' + JSON.stringify(role_data));
                     logger.error(
                         '[AWS-S3] Object: ',
                         JSON.stringify(resource)
