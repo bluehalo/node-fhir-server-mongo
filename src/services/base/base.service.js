@@ -484,6 +484,9 @@ module.exports.create = async (args, {req}, resource_name, collection_name) => {
         if (operationOutcome && operationOutcome.statusCode === 400) {
             const currentDate = moment.utc().format('YYYY-MM-DD');
             const uuid = getUuid(resource_incoming);
+            operationOutcome.expression = [
+                resource_name + '/' + uuid
+            ];
             await sendToS3(resource_name,
                 resource_incoming,
                 currentDate,
@@ -575,6 +578,9 @@ module.exports.update = async (args, {req}, resource_name, collection_name) => {
         if (operationOutcome && operationOutcome.statusCode === 400) {
             const currentDate = moment.utc().format('YYYY-MM-DD');
             const uuid = getUuid(resource_incoming);
+            operationOutcome.expression = [
+                resource_name + '/' + uuid
+            ];
             await sendToS3(resource_name,
                 resource_incoming,
                 currentDate,
@@ -716,6 +722,9 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
             const operationOutcome = validateResource(resource_to_merge, resource_name, req.path);
             if (operationOutcome && operationOutcome.statusCode === 400) {
                 const currentDate = moment.utc().format('YYYY-MM-DD');
+                operationOutcome.expression = [
+                    resource_name + '/' + id
+                ];
                 await sendToS3(resource_name,
                     resource_to_merge,
                     currentDate,
