@@ -1,17 +1,12 @@
 const AWS = require('aws-sdk');
-const logger = require('@asymmetrik/node-fhir-server-core').loggers.get();
+const logger = require('@asymmetrik/node-fhir-server-core').loggers.get({});
 const Sentry = require('./sentry');
 
-const ACCESS_KEY = process.env.AWS_ACCESS_KEY_ID;
-const ACCESS_SECRET =
-    process.env.AWS_SECRET;
-const AWS_BUCKET = process.env.AWS_BUCKET || 'fhir-server';
+const AWS_BUCKET = process.env.AWS_BUCKET;
 const REGION = process.env.AWS_REGION || 'us-east-1';
 const AWS_FOLDER = process.env.AWS_FOLDER;
 
 const s3 = new AWS.S3({
-    accessKeyId: ACCESS_KEY,
-    secretAccessKey: ACCESS_SECRET,
     region: REGION,
 });
 
@@ -25,7 +20,7 @@ const s3 = new AWS.S3({
  * @return {Promise<data|err>}
  */
 module.exports = function sendToS3(resourceType, resource, currentDate, id) {
-    if (!ACCESS_KEY){
+    if (!AWS_BUCKET){
         return Promise.resolve(null);
     }
     return new Promise((resolve, reject) => {
