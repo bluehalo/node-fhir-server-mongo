@@ -482,7 +482,7 @@ module.exports.create = async (args, {req}, resource_name, collection_name) => {
         logInfo('--- validate schema ----');
         const operationOutcome = validateResource(resource_incoming, resource_name, req.path);
         if (operationOutcome && operationOutcome.statusCode === 400) {
-            const currentDate = moment.utc().toDate().format('YYYY-MM-DD');
+            const currentDate = moment.utc().format('YYYY-MM-DD');
             const uuid = getUuid(resource_incoming);
             await sendToS3(resource_name,
                 resource_incoming,
@@ -545,7 +545,7 @@ module.exports.create = async (args, {req}, resource_name, collection_name) => {
     // Insert our resource record to history but don't assign _id
     await history_collection.insertOne(history_doc);
     if (env.LOG_ALL_SAVES) {
-        const currentDate = moment.utc().toDate().format('YYYY-MM-DD');
+        const currentDate = moment.utc().format('YYYY-MM-DD');
         await sendToS3(resource_name,
             doc,
             currentDate,
@@ -573,7 +573,7 @@ module.exports.update = async (args, {req}, resource_name, collection_name) => {
         logInfo('--- validate schema ----');
         const operationOutcome = validateResource(resource_incoming, resource_name, req.path);
         if (operationOutcome && operationOutcome.statusCode === 400) {
-            const currentDate = moment.utc().toDate().format('YYYY-MM-DD');
+            const currentDate = moment.utc().format('YYYY-MM-DD');
             const uuid = getUuid(resource_incoming);
             await sendToS3(resource_name,
                 resource_incoming,
@@ -676,7 +676,7 @@ module.exports.update = async (args, {req}, resource_name, collection_name) => {
     await history_collection.insertOne(history_resource);
 
     if (env.LOG_ALL_SAVES) {
-        const currentDate = moment.utc().toDate().format('YYYY-MM-DD');
+        const currentDate = moment.utc().format('YYYY-MM-DD');
         await sendToS3(resource_name,
             doc,
             currentDate,
@@ -715,7 +715,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
             logInfo('--- validate schema ----');
             const operationOutcome = validateResource(resource_to_merge, resource_name, req.path);
             if (operationOutcome && operationOutcome.statusCode === 400) {
-                const currentDate = moment.utc().toDate().format('YYYY-MM-DD');
+                const currentDate = moment.utc().format('YYYY-MM-DD');
                 await sendToS3(resource_name,
                     resource_to_merge,
                     currentDate,
@@ -867,7 +867,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
             delete history_resource['_id']; // make sure we don't have an _id field when inserting into history
             await history_collection.insertOne(history_resource);
             if (env.LOG_ALL_SAVES) {
-                const currentDate = moment.utc().toDate().format('YYYY-MM-DD');
+                const currentDate = moment.utc().format('YYYY-MM-DD');
                 await sendToS3(resource_name,
                     doc,
                     currentDate,
@@ -898,7 +898,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                     }
                 ]
             };
-            const currentDate = moment.utc().toDate().format('YYYY-MM-DD');
+            const currentDate = moment.utc().format('YYYY-MM-DD');
             await sendToS3(resource_name,
                 resource_to_merge,
                 currentDate,
