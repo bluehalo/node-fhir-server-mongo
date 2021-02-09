@@ -1,9 +1,10 @@
 // const {UserFacingError} = require('./baseErrors');
 const {ServerError} = require('@asymmetrik/node-fhir-server-core');
+const env = require('var');
 
 class BadRequestError extends ServerError {
-    constructor(message, options = {}) {
-        super(message, {
+    constructor(error, options = {}) {
+        super(error.message, {
             // Set this to make the HTTP status code 409
             statusCode: 400,
             // Add any normal operation outcome stuff here
@@ -11,7 +12,8 @@ class BadRequestError extends ServerError {
                 {
                     severity: 'error',
                     code: 'internal',
-                    details: {text: message},
+                    details: {text: error.message},
+                    diagnostics: env.IS_PRODUCTION ? error.message : error.toString(),
                 },
             ],
         });

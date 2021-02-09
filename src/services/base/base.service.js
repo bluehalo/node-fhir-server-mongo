@@ -453,7 +453,7 @@ module.exports.searchById = async (args, {req}, resource_name, collection_name) 
         resource = await collection.findOne({id: id.toString()});
     } catch (e) {
         logger.error(`Error with ${resource_name}.searchById: `, e);
-        throw new BadRequestError(e.message);
+        throw new BadRequestError(e);
     }
     if (resource) {
         return new Resource(resource);
@@ -540,7 +540,7 @@ module.exports.create = async (args, {req}, resource_name, collection_name) => {
     try {
         await collection.insertOne(doc);
     } catch (e) {
-        throw new BadRequestError(e.message);
+        throw new BadRequestError(e);
     }
     // Save the resource to history
     let history_collection = db.collection(`${collection_name}_${base_version}_History`);
@@ -1063,7 +1063,7 @@ module.exports.everything = async (args, {req}, resource_name, collection_name) 
 
     } catch (err) {
         logger.error(`Error with ${resource_name}.searchById: `, err);
-        throw new BadRequestError(err.message);
+        throw new BadRequestError(err);
     }
 };
 
@@ -1114,7 +1114,7 @@ module.exports.searchByVersionId = async (args, {req}, resource_name, collection
         resource = await history_collection.findOne(
             {id: id.toString(), 'meta.versionId': `${version_id}`});
     } catch (e) {
-        throw new BadRequestError(e.message);
+        throw new BadRequestError(e);
     }
     if (resource) {
         return (new Resource(resource));
@@ -1187,7 +1187,7 @@ module.exports.historyById = async (args, {req}, resource_name, collection_name)
         cursor = await history_collection.find(query);
     } catch (e) {
         logger.error(`Error with ${resource_name}.historyById: `, e);
-        throw new BadRequestError(e.message);
+        throw new BadRequestError(e);
     }
     const resources = [];
     while (await cursor.hasNext()) {
@@ -1217,7 +1217,7 @@ module.exports.patch = async (args, {req}, resource_name, collection_name) => {
         data = await collection.findOne({id: id.toString()});
     } catch (e) {
         logger.error(`Error with ${resource_name}.patch: `, e);
-        throw new BadRequestError(e.message);
+        throw new BadRequestError(e);
     }
     if (!data) {
         throw new NotFoundError();
@@ -1226,7 +1226,7 @@ module.exports.patch = async (args, {req}, resource_name, collection_name) => {
     let errors = validate(patchContent, data);
     if (errors && Object.keys(errors).length > 0) {
         logger.error('Error with patch contents');
-        throw new BadRequestError(errors.toString());
+        throw new BadRequestError(errors[0]);
     }
     // Make the changes indicated in the patch
     let resource_incoming = applyPatch(data, patchContent).newDocument;
@@ -1241,7 +1241,7 @@ module.exports.patch = async (args, {req}, resource_name, collection_name) => {
         meta.versionId = `${parseInt(foundResource.meta.versionId) + 1}`;
         resource.meta = meta;
     } else {
-        throw new BadRequestError('Unable to patch resource. Missing either data or metadata.');
+        throw new BadRequestError( new Error('Unable to patch resource. Missing either data or metadata.'));
     }
 
     // Same as update from this point on
@@ -1254,7 +1254,7 @@ module.exports.patch = async (args, {req}, resource_name, collection_name) => {
         res = await collection.findOneAndUpdate({id: id}, {$set: doc}, {upsert: true});
     } catch (e) {
         logger.error(`Error with ${resource_name}.update: `, e);
-        throw new BadRequestError(e.message);
+        throw new BadRequestError(e);
     }
     // Save to history
     let history_collection = db.collection(`${collection_name}_${base_version}_History`);
@@ -1265,7 +1265,7 @@ module.exports.patch = async (args, {req}, resource_name, collection_name) => {
         await history_collection.insertOne(history_resource);
     } catch (e) {
         logger.error(`Error with ${resource_name}History.create: `, e);
-        throw new BadRequestError(e.message);
+        throw new BadRequestError(e);
     }
     return {
         id: doc.id,
