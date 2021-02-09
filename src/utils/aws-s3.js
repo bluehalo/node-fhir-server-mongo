@@ -20,7 +20,7 @@ const s3 = new AWS.S3({
  * @return {Promise<data|err>}
  */
 module.exports = function sendToS3(resourceType, resource, currentDate, id) {
-    if (!AWS_BUCKET){
+    if (!AWS_BUCKET) {
         return Promise.resolve(null);
     }
     return new Promise((resolve, reject) => {
@@ -34,14 +34,17 @@ module.exports = function sendToS3(resourceType, resource, currentDate, id) {
         };
         s3.putObject(params, function (err, data) {
             if (err) {
-                logger.error('[AWS-S3] Failed to put object' + key + ' in bucket: ');
-                logger.error(
-                    '[AWS-S3] Object: ',
-                    JSON.stringify(resource)
-                );
-                logger.error('[AWS-S3] Error: ' + key + ':', err);
-                Sentry.captureException(err);
-                return reject(err);
+                const sts = new AWS.STS();
+                sts.getCallerIdentity(function (_error, role_data) {
+                    logger.error('[AWS-S3] Failed to put object: ' + key + ' in bucket: ' + AWS_BUCKET + ' with user: ' + role_data);
+                    logger.error(
+                        '[AWS-S3] Object: ',
+                        JSON.stringify(resource)
+                    );
+                    logger.error('[AWS-S3] Error: ' + key + ':', err);
+                    Sentry.captureException(err);
+                    return reject(err);
+                });
             } else {
                 logger.info('[AWS-S3] Successfully placed object in bucket');
                 return resolve(data);
