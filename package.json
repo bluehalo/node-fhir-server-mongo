@@ -50,6 +50,7 @@
     "@asymmetrik/fhir-json-schema-validator": "^0.9.8",
     "@asymmetrik/node-fhir-server-core": "^2.1.3",
     "@sentry/node": "^5.29.2",
+    "aws-sdk": "^2.827.0",
     "deep-equal": "^2.0.4",
     "deepcopy": "^2.1.0",
     "deepmerge": "^4.2.2",
