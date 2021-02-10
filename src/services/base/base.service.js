@@ -476,6 +476,15 @@ module.exports.create = async (args, {req}, resource_name, collection_name) => {
     logInfo('--- body ----');
     logInfo(resource_incoming);
     logInfo('-----------------');
+    const uuid = getUuid(resource_incoming);
+
+    if (env.LOG_ALL_SAVES) {
+        const currentDate = moment.utc().format('YYYY-MM-DD');
+        await sendToS3(resource_name,
+            resource_incoming,
+            currentDate,
+            uuid);
+    }
 
     const combined_args = get_all_args(req, args);
     if (env.VALIDATE_SCHEMA || combined_args['_validate']) {
@@ -483,7 +492,6 @@ module.exports.create = async (args, {req}, resource_name, collection_name) => {
         const operationOutcome = validateResource(resource_incoming, resource_name, req.path);
         if (operationOutcome && operationOutcome.statusCode === 400) {
             const currentDate = moment.utc().format('YYYY-MM-DD');
-            const uuid = getUuid(resource_incoming);
             operationOutcome.expression = [
                 resource_name + '/' + uuid
             ];
@@ -547,13 +555,6 @@ module.exports.create = async (args, {req}, resource_name, collection_name) => {
 
     // Insert our resource record to history but don't assign _id
     await history_collection.insertOne(history_doc);
-    if (env.LOG_ALL_SAVES) {
-        const currentDate = moment.utc().format('YYYY-MM-DD');
-        await sendToS3(resource_name,
-            doc,
-            currentDate,
-            id);
-    }
     return {id: doc.id, resource_version: doc.meta.versionId};
 };
 
@@ -570,6 +571,14 @@ module.exports.update = async (args, {req}, resource_name, collection_name) => {
     logInfo(id);
     logInfo('--- body ----');
     logInfo(resource_incoming);
+
+    if (env.LOG_ALL_SAVES) {
+        const currentDate = moment.utc().format('YYYY-MM-DD');
+        await sendToS3(resource_name,
+            resource_incoming,
+            currentDate,
+            id);
+    }
 
     const combined_args = get_all_args(req, args);
     if (env.VALIDATE_SCHEMA || combined_args['_validate']) {
@@ -681,14 +690,6 @@ module.exports.update = async (args, {req}, resource_name, collection_name) => {
     // Insert our resource record to history but don't assign _id
     await history_collection.insertOne(history_resource);
 
-    if (env.LOG_ALL_SAVES) {
-        const currentDate = moment.utc().format('YYYY-MM-DD');
-        await sendToS3(resource_name,
-            doc,
-            currentDate,
-            id);
-    }
-
     return {
         id: id,
         created: res.lastErrorObject && !res.lastErrorObject.updatedExisting,
@@ -742,6 +743,15 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
             logInfo(base_version);
             logInfo('--- body ----');
             logInfo(resource_to_merge);
+
+            if (env.LOG_ALL_SAVES) {
+                const currentDate = moment.utc().format('YYYY-MM-DD');
+                await sendToS3(resource_name,
+                    resource_to_merge,
+                    currentDate,
+                    id);
+            }
+
 
             // Grab an instance of our DB and collection
             let db = globals.get(CLIENT_DB);
@@ -875,14 +885,6 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
             // Insert our resource record to history but don't assign _id
             delete history_resource['_id']; // make sure we don't have an _id field when inserting into history
             await history_collection.insertOne(history_resource);
-            if (env.LOG_ALL_SAVES) {
-                const currentDate = moment.utc().format('YYYY-MM-DD');
-                await sendToS3(resource_name,
-                    doc,
-                    currentDate,
-                    id);
-            }
-
             return {
                 id: id,
                 created: created_entity,
@@ -1241,7 +1243,7 @@ module.exports.patch = async (args, {req}, resource_name, collection_name) => {
         meta.versionId = `${parseInt(foundResource.meta.versionId) + 1}`;
         resource.meta = meta;
     } else {
-        throw new BadRequestError( new Error('Unable to patch resource. Missing either data or metadata.'));
+        throw new BadRequestError(new Error('Unable to patch resource. Missing either data or metadata.'));
     }
 
     // Same as update from this point on
