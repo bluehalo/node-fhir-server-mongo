@@ -501,7 +501,7 @@ module.exports.create = async (args, {req}, resource_name, collection_name) => {
                 resource_incoming,
                 currentDate,
                 uuid);
-            await sendToS3('validation_failures',
+            await sendToS3('validation_failures/' + resource_name,
                 'OperationOutcome',
                 operationOutcome,
                 currentDate,
@@ -611,7 +611,7 @@ module.exports.update = async (args, {req}, resource_name, collection_name) => {
                 resource_incoming,
                 currentDate,
                 uuid);
-            await sendToS3('validation_failures',
+            await sendToS3('validation_failures/' + resource_name,
                 'OperationOutcome',
                 operationOutcome,
                 currentDate,
@@ -762,7 +762,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                     resource_to_merge,
                     currentDate,
                     id);
-                await sendToS3('validation_failures',
+                await sendToS3('validation_failures/' + resource_name,
                     'OperationOutcome',
                     operationOutcome,
                     currentDate,
