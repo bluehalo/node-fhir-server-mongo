@@ -13,18 +13,19 @@ const s3 = new AWS.S3({
 /**
  * @function sendToS3
  * @description In case of FHIR Server failure, dump form body to S3
+ * @param prefix
  * @param resourceType
  * @param {*} resource - parsed form body
  * @param currentDate
  * @param {*} id - first name for key
  * @return {Promise<data|err>}
  */
-module.exports = function sendToS3(resourceType, resource, currentDate, id) {
+module.exports = function sendToS3(prefix, resourceType, resource, currentDate, id) {
     if (!AWS_BUCKET) {
         return Promise.resolve(null);
     }
     return new Promise((resolve, reject) => {
-        const key = `${AWS_FOLDER}/${resourceType}/${currentDate}/${id}.json`;
+        const key = `${AWS_FOLDER}/${prefix}/${resourceType}/${currentDate}/${id}.json`;
         const params = {
             Body: JSON.stringify(resource),
             Bucket: AWS_BUCKET,

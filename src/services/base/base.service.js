@@ -480,7 +480,8 @@ module.exports.create = async (args, {req}, resource_name, collection_name) => {
 
     if (env.LOG_ALL_SAVES) {
         const currentDate = moment.utc().format('YYYY-MM-DD');
-        await sendToS3(resource_name,
+        await sendToS3('logs',
+            resource_name,
             resource_incoming,
             currentDate,
             uuid);
@@ -495,11 +496,13 @@ module.exports.create = async (args, {req}, resource_name, collection_name) => {
             operationOutcome.expression = [
                 resource_name + '/' + uuid
             ];
-            await sendToS3(resource_name,
+            await sendToS3('validation_failures',
+                resource_name,
                 resource_incoming,
                 currentDate,
                 uuid);
-            await sendToS3('OperationOutcome',
+            await sendToS3('validation_failures',
+                'OperationOutcome',
                 operationOutcome,
                 currentDate,
                 uuid);
@@ -508,54 +511,66 @@ module.exports.create = async (args, {req}, resource_name, collection_name) => {
         logInfo('-----------------');
     }
 
-    // Grab an instance of our DB and collection (by version)
-    let db = globals.get(CLIENT_DB);
-    let collection = db.collection(`${collection_name}_${base_version}`);
-
-    // Get current record
-    let Resource = getResource(base_version, resource_name);
-    logInfo(`Resource: ${Resource}`);
-    let resource = new Resource(resource_incoming);
-    // noinspection JSUnresolvedFunction
-    logInfo(`resource: ${resource.toJSON()}`);
-
-    // If no resource ID was provided, generate one.
-    let id = getUuid(resource);
-    logInfo(`id: ${id}`);
-
-    // Create the resource's metadata
-    let Meta = getMeta(base_version);
-    resource.meta = new Meta({
-        versionId: '1',
-        lastUpdated: moment.utc().format('YYYY-MM-DDTHH:mm:ssZ'),
-    });
-
-    // Create the document to be inserted into Mongo
-    // noinspection JSUnresolvedFunction
-    let doc = JSON.parse(JSON.stringify(resource.toJSON()));
-    Object.assign(doc, {id: id});
-
-    // Create a clone of the object without the _id parameter before assigning a value to
-    // the _id parameter in the original document
-    let history_doc = Object.assign({}, doc);
-    Object.assign(doc, {_id: id});
-
-    logInfo('---- inserting doc ---');
-    logInfo(doc);
-    logInfo('----------------------');
-
-    // Insert our resource record
     try {
-        await collection.insertOne(doc);
-    } catch (e) {
-        throw new BadRequestError(e);
-    }
-    // Save the resource to history
-    let history_collection = db.collection(`${collection_name}_${base_version}_History`);
+        // Grab an instance of our DB and collection (by version)
+        let db = globals.get(CLIENT_DB);
+        let collection = db.collection(`${collection_name}_${base_version}`);
 
-    // Insert our resource record to history but don't assign _id
-    await history_collection.insertOne(history_doc);
-    return {id: doc.id, resource_version: doc.meta.versionId};
+        // Get current record
+        let Resource = getResource(base_version, resource_name);
+        logInfo(`Resource: ${Resource}`);
+        let resource = new Resource(resource_incoming);
+        // noinspection JSUnresolvedFunction
+        logInfo(`resource: ${resource.toJSON()}`);
+
+        // If no resource ID was provided, generate one.
+        let id = getUuid(resource);
+        logInfo(`id: ${id}`);
+
+        // Create the resource's metadata
+        let Meta = getMeta(base_version);
+        resource.meta = new Meta({
+            versionId: '1',
+            lastUpdated: moment.utc().format('YYYY-MM-DDTHH:mm:ssZ'),
+        });
+
+        // Create the document to be inserted into Mongo
+        // noinspection JSUnresolvedFunction
+        let doc = JSON.parse(JSON.stringify(resource.toJSON()));
+        Object.assign(doc, {id: id});
+
+        // Create a clone of the object without the _id parameter before assigning a value to
+        // the _id parameter in the original document
+        let history_doc = Object.assign({}, doc);
+        Object.assign(doc, {_id: id});
+
+        logInfo('---- inserting doc ---');
+        logInfo(doc);
+        logInfo('----------------------');
+
+        // Insert our resource record
+        try {
+            await collection.insertOne(doc);
+        } catch (e) {
+            throw new BadRequestError(e);
+        }
+        // Save the resource to history
+        let history_collection = db.collection(`${collection_name}_${base_version}_History`);
+
+        // Insert our resource record to history but don't assign _id
+        await history_collection.insertOne(history_doc);
+        return {id: doc.id, resource_version: doc.meta.versionId};
+    } catch (e) {
+        const currentDate = moment.utc().format('YYYY-MM-DD');
+        logger.error(`Error with merging resource ${resource_name}.merge with id: ${uuid} `, e);
+
+        await sendToS3('errors',
+            resource_name,
+            resource_incoming,
+            currentDate,
+            uuid);
+        throw e;
+    }
 };
 
 module.exports.update = async (args, {req}, resource_name, collection_name) => {
@@ -574,7 +589,8 @@ module.exports.update = async (args, {req}, resource_name, collection_name) => {
 
     if (env.LOG_ALL_SAVES) {
         const currentDate = moment.utc().format('YYYY-MM-DD');
-        await sendToS3(resource_name,
+        await sendToS3('logs',
+            resource_name,
             resource_incoming,
             currentDate,
             id);
@@ -590,11 +606,13 @@ module.exports.update = async (args, {req}, resource_name, collection_name) => {
             operationOutcome.expression = [
                 resource_name + '/' + uuid
             ];
-            await sendToS3(resource_name,
+            await sendToS3('validation_failures',
+                resource_name,
                 resource_incoming,
                 currentDate,
                 uuid);
-            await sendToS3('OperationOutcome',
+            await sendToS3('validation_failures',
+                'OperationOutcome',
                 operationOutcome,
                 currentDate,
                 uuid);
@@ -603,98 +621,110 @@ module.exports.update = async (args, {req}, resource_name, collection_name) => {
         logInfo('-----------------');
     }
 
-    // Grab an instance of our DB and collection
-    let db = globals.get(CLIENT_DB);
-    let collection = db.collection(`${collection_name}_${base_version}`);
+    try {
+        // Grab an instance of our DB and collection
+        let db = globals.get(CLIENT_DB);
+        let collection = db.collection(`${collection_name}_${base_version}`);
 
-    // Get current record
-    // Query our collection for this observation
-    // noinspection JSUnresolvedVariable
-    const data = await collection.findOne({id: id.toString()});
-    // create a resource with incoming data
-    let Resource = getResource(base_version, resource_name);
+        // Get current record
+        // Query our collection for this observation
+        // noinspection JSUnresolvedVariable
+        const data = await collection.findOne({id: id.toString()});
+        // create a resource with incoming data
+        let Resource = getResource(base_version, resource_name);
 
-    let cleaned;
-    let doc;
+        let cleaned;
+        let doc;
 
-    // check if resource was found in database or not
-    // noinspection JSUnresolvedVariable
-    if (data && data.meta) {
-        // found an existing resource
-        logInfo('found resource: ' + data);
-        let foundResource = new Resource(data);
-        logInfo('------ found document --------');
-        logInfo(data);
-        logInfo('------ end found document --------');
+        // check if resource was found in database or not
+        // noinspection JSUnresolvedVariable
+        if (data && data.meta) {
+            // found an existing resource
+            logInfo('found resource: ' + data);
+            let foundResource = new Resource(data);
+            logInfo('------ found document --------');
+            logInfo(data);
+            logInfo('------ end found document --------');
 
-        // use metadata of existing resource (overwrite any passed in metadata)
-        resource_incoming.meta = foundResource.meta;
-        logInfo('------ incoming document --------');
-        logInfo(resource_incoming);
-        logInfo('------ end incoming document --------');
+            // use metadata of existing resource (overwrite any passed in metadata)
+            resource_incoming.meta = foundResource.meta;
+            logInfo('------ incoming document --------');
+            logInfo(resource_incoming);
+            logInfo('------ end incoming document --------');
 
-        // now create a patch between the document in db and the incoming document
-        //  this returns an array of patches
-        let patchContent = compare(data, resource_incoming);
-        // ignore any changes to _id since that's an internal field
-        patchContent = patchContent.filter(item => item.path !== '/_id');
-        logInfo('------ patches --------');
-        logInfo(patchContent);
-        logInfo('------ end patches --------');
-        // see if there are any changes
-        if (patchContent.length === 0) {
-            logInfo('No changes detected in updated resource');
-            return {
-                id: id,
-                created: false,
-                resource_version: foundResource.meta.versionId,
-            };
+            // now create a patch between the document in db and the incoming document
+            //  this returns an array of patches
+            let patchContent = compare(data, resource_incoming);
+            // ignore any changes to _id since that's an internal field
+            patchContent = patchContent.filter(item => item.path !== '/_id');
+            logInfo('------ patches --------');
+            logInfo(patchContent);
+            logInfo('------ end patches --------');
+            // see if there are any changes
+            if (patchContent.length === 0) {
+                logInfo('No changes detected in updated resource');
+                return {
+                    id: id,
+                    created: false,
+                    resource_version: foundResource.meta.versionId,
+                };
+            }
+            // now apply the patches to the found resource
+            let patched_incoming_data = applyPatch(data, patchContent).newDocument;
+            let patched_resource_incoming = new Resource(patched_incoming_data);
+            // update the metadata to increment versionId
+            let meta = foundResource.meta;
+            meta.versionId = `${parseInt(foundResource.meta.versionId) + 1}`;
+            meta.lastUpdated = moment.utc().format('YYYY-MM-DDTHH:mm:ssZ');
+            patched_resource_incoming.meta = meta;
+            logInfo('------ patched document --------');
+            logInfo(patched_resource_incoming);
+            logInfo('------ end patched document --------');
+            // Same as update from this point on
+            cleaned = JSON.parse(JSON.stringify(patched_resource_incoming));
+            doc = Object.assign(cleaned, {_id: id});
+        } else {
+            // not found so insert
+            logInfo('update: new resource: ' + resource_incoming);
+            // create the metadata
+            let Meta = getMeta(base_version);
+            resource_incoming.meta = new Meta({
+                versionId: '1',
+                lastUpdated: moment.utc().format('YYYY-MM-DDTHH:mm:ssZ'),
+            });
+            cleaned = JSON.parse(JSON.stringify(resource_incoming));
+            doc = Object.assign(cleaned, {_id: id});
         }
-        // now apply the patches to the found resource
-        let patched_incoming_data = applyPatch(data, patchContent).newDocument;
-        let patched_resource_incoming = new Resource(patched_incoming_data);
-        // update the metadata to increment versionId
-        let meta = foundResource.meta;
-        meta.versionId = `${parseInt(foundResource.meta.versionId) + 1}`;
-        meta.lastUpdated = moment.utc().format('YYYY-MM-DDTHH:mm:ssZ');
-        patched_resource_incoming.meta = meta;
-        logInfo('------ patched document --------');
-        logInfo(patched_resource_incoming);
-        logInfo('------ end patched document --------');
-        // Same as update from this point on
-        cleaned = JSON.parse(JSON.stringify(patched_resource_incoming));
-        doc = Object.assign(cleaned, {_id: id});
-    } else {
-        // not found so insert
-        logInfo('update: new resource: ' + resource_incoming);
-        // create the metadata
-        let Meta = getMeta(base_version);
-        resource_incoming.meta = new Meta({
-            versionId: '1',
-            lastUpdated: moment.utc().format('YYYY-MM-DDTHH:mm:ssZ'),
-        });
-        cleaned = JSON.parse(JSON.stringify(resource_incoming));
-        doc = Object.assign(cleaned, {_id: id});
+
+        // Insert/update our resource record
+        // When using the $set operator, only the specified fields are updated
+        const res = await collection.findOneAndUpdate({id: id}, {$set: doc}, {upsert: true});
+        // save to history
+        let history_collection = db.collection(`${collection_name}_${base_version}_History`);
+
+        // let history_resource = Object.assign(cleaned, {id: id});
+        let history_resource = Object.assign(cleaned, {_id: id + cleaned.meta.versionId});
+        // delete history_resource['_id']; // make sure we don't have an _id field when inserting into history
+
+        // Insert our resource record to history but don't assign _id
+        await history_collection.insertOne(history_resource);
+
+        return {
+            id: id,
+            created: res.lastErrorObject && !res.lastErrorObject.updatedExisting,
+            resource_version: doc.meta.versionId,
+        };
+    } catch (e) {
+        const currentDate = moment.utc().format('YYYY-MM-DD');
+        logger.error(`Error with merging resource ${resource_name}.merge with id: ${id} `, e);
+
+        await sendToS3('errors',
+            resource_name,
+            resource_incoming,
+            currentDate,
+            id);
+        throw e;
     }
-
-    // Insert/update our resource record
-    // When using the $set operator, only the specified fields are updated
-    const res = await collection.findOneAndUpdate({id: id}, {$set: doc}, {upsert: true});
-    // save to history
-    let history_collection = db.collection(`${collection_name}_${base_version}_History`);
-
-    // let history_resource = Object.assign(cleaned, {id: id});
-    let history_resource = Object.assign(cleaned, {_id: id + cleaned.meta.versionId});
-    // delete history_resource['_id']; // make sure we don't have an _id field when inserting into history
-
-    // Insert our resource record to history but don't assign _id
-    await history_collection.insertOne(history_resource);
-
-    return {
-        id: id,
-        created: res.lastErrorObject && !res.lastErrorObject.updatedExisting,
-        resource_version: doc.meta.versionId,
-    };
 };
 
 module.exports.merge = async (args, {req}, resource_name, collection_name) => {
@@ -713,6 +743,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
     logInfo(resources_incoming);
     logInfo('-----------------');
 
+    // this function is called for each resource
     async function merge_resource(resource_to_merge) {
 
         let id = resource_to_merge.id;
@@ -726,11 +757,13 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                 operationOutcome.expression = [
                     resource_name + '/' + id
                 ];
-                await sendToS3(resource_name,
+                await sendToS3('validation_failures',
+                    resource_name,
                     resource_to_merge,
                     currentDate,
                     id);
-                await sendToS3('OperationOutcome',
+                await sendToS3('validation_failures',
+                    'OperationOutcome',
                     operationOutcome,
                     currentDate,
                     id);
@@ -746,7 +779,8 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
 
             if (env.LOG_ALL_SAVES) {
                 const currentDate = moment.utc().format('YYYY-MM-DD');
-                await sendToS3(resource_name,
+                await sendToS3('logs',
+                    resource_name,
                     resource_to_merge,
                     currentDate,
                     id);
@@ -816,7 +850,6 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
 
                 // data seems to get updated below
                 let resource_merged = deepmerge(data, resource_to_merge, options);
-
 
                 // now create a patch between the document in db and the incoming document
                 //  this returns an array of patches
@@ -892,7 +925,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                 resource_version: doc.meta.versionId
             };
         } catch (e) {
-            logger.error(`Error with merging resource ${resource_name}.merge: `, e);
+            logger.error(`Error with merging resource ${resource_name}.merge with id: ${id} `, e);
             const operationOutcome = {
                 resourceType: 'OperationOutcome',
                 issue: [
@@ -910,11 +943,13 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                 ]
             };
             const currentDate = moment.utc().format('YYYY-MM-DD');
-            await sendToS3(resource_name,
+            await sendToS3('errors',
+                resource_name,
                 resource_to_merge,
                 currentDate,
                 id);
-            await sendToS3('OperationOutcome',
+            await sendToS3('errors',
+                'OperationOutcome',
                 operationOutcome,
                 currentDate,
                 id);
