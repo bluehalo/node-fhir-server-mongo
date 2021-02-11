@@ -119,7 +119,16 @@ let buildR4SearchQuery = (resource_name, args) => {
             query['patient.reference'] = patient_reference;
         } else if (['Appointment'].includes(resource_name)) {
             query['participant.actor.reference'] = patient_reference; //TODO: participant is a list
-        } else if (['CarePlan', 'Condition', 'DocumentReference', 'Encounter', 'MedicationRequest', 'Observation', 'Procedure', 'ServiceRequest', 'CareTeam'].includes(resource_name)) {
+        } else if (['CarePlan',
+            'Condition',
+            'DocumentReference',
+            'Encounter',
+            'MedicationRequest',
+            'Observation',
+            'Procedure',
+            'ServiceRequest',
+            'CareTeam',
+            'QuestionnaireResponse'].includes(resource_name)) {
             query['subject.reference'] = patient_reference;
         } else if (['Coverage'].includes(resource_name)) {
             query['beneficiary.reference'] = patient_reference;
