@@ -14,6 +14,7 @@ const deepcopy = require('deepcopy');
 const deepEqual = require('deep-equal');
 const sendToS3 = require('../../utils/aws-s3');
 
+const async = require('async');
 const env = require('var');
 
 let getResource = (base_version, resource_name) => {
@@ -968,7 +969,23 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
 
     if (Array.isArray(resources_incoming)) {
         logRequest('==================' + resource_name + ': Merge received array ' + '(' + resources_incoming.length + ') ' + '====================');
-        return await Promise.all(resources_incoming.map(async x => merge_resource(x)));
+        // find items without duplicates and run them in parallel
+        // but items with duplicate ids should run in serial so we can merge them properly (otherwise the first item
+        //  may not finish adding to the db before the next item tries to merge
+        // https://stackoverflow.com/questions/53212020/get-list-of-duplicate-objects-in-an-array-of-objects
+        // create a lookup_by_id for duplicate ids
+        const lookup_by_id = resources_incoming.reduce((a, e) => {
+            a[e.id] = ++a[e.id] || 0;
+            return a;
+        }, {});
+
+        const duplicate_id_resources = resources_incoming.filter(e => lookup_by_id[e.id]);
+        const non_duplicate_id_resources = resources_incoming.filter(e => !lookup_by_id[e.id]);
+
+        return await Promise.all([
+            async.map(non_duplicate_id_resources, async x => await merge_resource(x)), // run in parallel
+            async.mapSeries(duplicate_id_resources, async x => await merge_resource(x)) // run in series
+        ]);
     } else {
         return await merge_resource(resources_incoming);
     }
