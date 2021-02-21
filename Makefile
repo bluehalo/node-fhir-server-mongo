@@ -1,6 +1,6 @@
 .PHONY:build
 build:
-	docker build -t imranq2/node-fhir-server-mongo:latest -t imranq2/node-fhir-server-mongo:1.2.71 .
+	docker build -t imranq2/node-fhir-server-mongo:local .
 
 .PHONY:publish
 publish:
@@ -23,13 +23,19 @@ clean: down
 
 .PHONY:init
 init:
+	brew update  # update brew
+	#brew upgrade  # upgrade all installed packages
 	brew install yarn
 	brew install kompose
-	npm install
+	#brew install nvm
+	curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.37.2/install.sh | zsh
+	nvm install 14.15.4
+	make update
 
 .PHONY:update
 update:
-	npm install
+	yarn install --no-optional --verbose
+	npm i --package-lock-only
 
 .PHONY:tests
 tests:

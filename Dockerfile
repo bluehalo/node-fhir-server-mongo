@@ -22,7 +22,7 @@ COPY package.json /srv/src/package.json
 COPY .snyk /srv/src/.snyk
 
 # RUN cd /srv/src && yarn install --verbose
-RUN cd /srv/src && rm --force package-lock.json && yarn install --verbose
+RUN cd /srv/src && rm --force package-lock.json && yarn install --no-optional --verbose
 
 # Copy the remaining application code.
 COPY . /srv/src
