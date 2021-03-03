@@ -32,9 +32,11 @@ init:
 	nvm install 14.15.4
 	make update
 
+# nvm use 14.15.4 && \
+
 .PHONY:update
 update:
-	yarn install --no-optional --verbose
+	yarn install --no-optional --verbose && \
 	npm i --package-lock-only
 
 .PHONY:tests
