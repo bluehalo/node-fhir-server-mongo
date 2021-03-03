@@ -861,6 +861,9 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                 };
 
                 mergeObjectOrArray = (item1, item2) => {
+                    if (deepEqual(item1, item2)) {
+                        return item1;
+                    }
                     if (Array.isArray(item1)) {
                         let result_array = deepcopy(item1); // deep copy so we don't change the original object
                         // see if items are equal then skip them
