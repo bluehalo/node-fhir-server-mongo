@@ -26,7 +26,7 @@ This project is an example project built on `@asymmetrik/node-fhir-server-core` 
 
 ## Next Steps
 
-The server should now be up and running on the default port 3000. You should see the following output:
+The server should now be up and running on the default port 3000. You should see the following output: 
 
 ```shell
 ... - verbose: Server is up and running!
