@@ -860,23 +860,30 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                     }
                 };
 
-                mergeObjectOrArray = (item1, item2) => {
-                    if (deepEqual(item1, item2)) {
-                        return item1;
+                mergeObjectOrArray = (oldItem, newItem) => {
+                    if (deepEqual(oldItem, newItem)) {
+                        return oldItem;
                     }
-                    if (Array.isArray(item1)) {
-                        let result_array = deepcopy(item1); // deep copy so we don't change the original object
-                        // see if items are equal then skip them
-                        for (let i = 0; i < item2.length; i++) {
-                            let my_item = item2[i];
-                            // if item2[i] does not matches any item in item1 then insert
-                            if (item1.every(a => deepEqual(a, my_item) === false)) {
+                    if (Array.isArray(oldItem)) {
+                        let result_array = null;
+                        // iterate through all the new array and find any items that are not present in old array
+                        for (let i = 0; i < newItem.length; i++) {
+                            let my_item = newItem[i];
+                            // if newItem[i] does not matches any item in oldItem then insert
+                            if (oldItem.every(a => deepEqual(a, my_item) === false)) {
+                                if (result_array === null) {
+                                    result_array = deepcopy(oldItem); // deep copy so we don't change the original object
+                                }
                                 result_array.push(my_item);
                             }
                         }
-                        return result_array;
+                        if (result_array !== null) {
+                            return result_array;
+                        } else {
+                            return oldItem;
+                        }
                     }
-                    return deepmerge(item1, item2, options);
+                    return deepmerge(oldItem, newItem, options);
                 };
 
                 // data seems to get updated below
@@ -901,6 +908,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                         message: 'No changes detected in updated resource'
                     };
                 }
+                logRequest(`${resource_name} >>> merging ${id}`);
                 // now apply the patches to the found resource
                 let patched_incoming_data = applyPatch(data, patchContent).newDocument;
                 let patched_resource_incoming = new Resource(patched_incoming_data);
