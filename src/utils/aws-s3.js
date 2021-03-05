@@ -1,6 +1,6 @@
 const AWS = require('aws-sdk');
-const logger = require('@asymmetrik/node-fhir-server-core').loggers.get({});
-const Sentry = require('./sentry');
+const logger = require('@asymmetrik/node-fhir-server-core').loggers.get();
+// const Sentry = require('./sentry');
 
 const AWS_BUCKET = process.env.AWS_BUCKET;
 const REGION = process.env.AWS_REGION || 'us-east-1';
@@ -45,7 +45,7 @@ module.exports = function sendToS3(prefix, resourceType, resource, currentDate, 
                             JSON.stringify(resource)
                         );
                         logger.error('[AWS-S3] Error: ' + key + ':', err);
-                        Sentry.captureException(err);
+                        // Sentry.captureException(err);
                         return reject(err);
                     });
                 } else {
