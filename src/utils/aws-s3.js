@@ -26,15 +26,15 @@ module.exports = function sendToS3(prefix, resourceType, resource, currentDate, 
     }
     return new Promise((resolve, reject) => {
         const key = `${AWS_FOLDER}/${prefix}/${resourceType}/${currentDate}/${id}.json`;
-        const params = {
-            Body: JSON.stringify(resource),
-            Bucket: AWS_BUCKET,
-            Key: key,
-            ContentType: 'application/json',
-            ServerSideEncryption: 'AES256',
-        };
-        s3.putObject(params, function (err, data) {
-            try {
+        try {
+            const params = {
+                Body: JSON.stringify(resource),
+                Bucket: AWS_BUCKET,
+                Key: key,
+                ContentType: 'application/json',
+                ServerSideEncryption: 'AES256',
+            };
+            s3.putObject(params, function (err, data) {
                 if (err) {
                     const sts = new AWS.STS();
                     sts.getCallerIdentity(function (_error, role_data) {
@@ -52,11 +52,11 @@ module.exports = function sendToS3(prefix, resourceType, resource, currentDate, 
                     logger.info('[AWS-S3] Successfully placed object in bucket');
                     return resolve(data);
                 }
-            } catch (e) {
-                logger.error('[AWS-S3] Error to put object: ' +
-                    key + ' in bucket: ' + AWS_BUCKET + '. Error=' + e);
-                return resolve();
-            }
-        });
+            });
+        } catch (e) {
+            logger.error('[AWS-S3] Error to put object: ' +
+                key + ' in bucket: ' + AWS_BUCKET + '. Error=' + e);
+            return resolve(null);
+        }
     });
 };
