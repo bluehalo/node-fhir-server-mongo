@@ -24,8 +24,8 @@ module.exports = function sendToS3(prefix, resourceType, resource, currentDate, 
     if (!AWS_BUCKET) {
         return Promise.resolve(null);
     }
+    const key = `${AWS_FOLDER}/${prefix}/${resourceType}/${currentDate}/${id}.json`;
     return new Promise((resolve, reject) => {
-        const key = `${AWS_FOLDER}/${prefix}/${resourceType}/${currentDate}/${id}.json`;
         try {
             const params = {
                 Body: JSON.stringify(resource),
@@ -58,5 +58,8 @@ module.exports = function sendToS3(prefix, resourceType, resource, currentDate, 
                 key + ' in bucket: ' + AWS_BUCKET + '. Error=' + e);
             return resolve(null);
         }
+    }).catch(function (e) {
+        logger.error('[AWS-S3] Error in promise to put object: ' +
+            key + ' in bucket: ' + AWS_BUCKET + '. Error=' + e);
     });
 };
