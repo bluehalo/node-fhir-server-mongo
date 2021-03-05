@@ -34,22 +34,28 @@ module.exports = function sendToS3(prefix, resourceType, resource, currentDate, 
             ServerSideEncryption: 'AES256',
         };
         s3.putObject(params, function (err, data) {
-            if (err) {
-                const sts = new AWS.STS();
-                sts.getCallerIdentity(function (_error, role_data) {
-                    logger.error('[AWS-S3] Failed to put object: ' +
-                        key + ' in bucket: ' + AWS_BUCKET + ' with user: ' + JSON.stringify(role_data));
-                    logger.error(
-                        '[AWS-S3] Object: ',
-                        JSON.stringify(resource)
-                    );
-                    logger.error('[AWS-S3] Error: ' + key + ':', err);
-                    Sentry.captureException(err);
-                    return reject(err);
-                });
-            } else {
-                logger.info('[AWS-S3] Successfully placed object in bucket');
-                return resolve(data);
+            try {
+                if (err) {
+                    const sts = new AWS.STS();
+                    sts.getCallerIdentity(function (_error, role_data) {
+                        logger.error('[AWS-S3] Failed to put object: ' +
+                            key + ' in bucket: ' + AWS_BUCKET + ' with user: ' + JSON.stringify(role_data));
+                        logger.error(
+                            '[AWS-S3] Object: ',
+                            JSON.stringify(resource)
+                        );
+                        logger.error('[AWS-S3] Error: ' + key + ':', err);
+                        Sentry.captureException(err);
+                        return reject(err);
+                    });
+                } else {
+                    logger.info('[AWS-S3] Successfully placed object in bucket');
+                    return resolve(data);
+                }
+            } catch (e) {
+                logger.error('[AWS-S3] Error to put object: ' +
+                    key + ' in bucket: ' + AWS_BUCKET + '. Error=' + e);
+                return resolve();
             }
         });
     });

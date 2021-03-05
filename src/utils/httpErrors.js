@@ -41,7 +41,7 @@ class NotFoundError extends ServerError {
             issue: [
                 {
                     severity: 'error',
-                    code: 'internal',
+                    code: 'not-found',
                     details: {text: message},
                 },
             ],
@@ -69,7 +69,7 @@ class NotAllowedError extends ServerError {
             issue: [
                 {
                     severity: 'error',
-                    code: 'internal',
+                    code: 'forbidden',
                     details: {text: message},
                 },
             ],
