@@ -767,7 +767,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
             const operationOutcome = validateResource(resource_to_merge, resource_name, req.path);
             if (operationOutcome && operationOutcome.statusCode === 400) {
                 const currentDate = moment.utc().format('YYYY-MM-DD');
-                operationOutcome.expression = [
+                operationOutcome['expression'] = [
                     resource_name + '/' + id
                 ];
                 await sendToS3('validation_failures',
