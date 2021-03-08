@@ -761,6 +761,15 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
 
         let id = resource_to_merge.id;
 
+        if (env.LOG_ALL_SAVES) {
+            const currentDate = moment.utc().format('YYYY-MM-DD');
+            await sendToS3('logs',
+                resource_name,
+                resource_to_merge,
+                currentDate,
+                id);
+        }
+
         const combined_args = get_all_args(req, args);
         if (env.VALIDATE_SCHEMA || combined_args['_validate']) {
             logInfo('--- validate schema ----');
@@ -789,16 +798,6 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
             logInfo(base_version);
             logInfo('--- body ----');
             logInfo(resource_to_merge);
-
-            if (env.LOG_ALL_SAVES) {
-                const currentDate = moment.utc().format('YYYY-MM-DD');
-                await sendToS3('logs',
-                    resource_name,
-                    resource_to_merge,
-                    currentDate,
-                    id);
-            }
-
 
             // Grab an instance of our DB and collection
             let db = globals.get(CLIENT_DB);
