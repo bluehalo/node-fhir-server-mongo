@@ -892,6 +892,19 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                             let my_item = newItem[i];
                             // if newItem[i] does not matches any item in oldItem then insert
                             if (oldItem.every(a => deepEqual(a, my_item) === false)) {
+                                if ('id' in my_item) {
+                                    // find item in oldItem array that matches this one by id
+                                    const matchingOldItemIndex = oldItem.findIndex(x => x['id'] === my_item['id']);
+                                    if (matchingOldItemIndex > -1) {
+                                        // check if id column exists and is the same
+                                        //  then recurse down and merge that item
+                                        if (result_array === null) {
+                                            result_array = deepcopy(oldItem); // deep copy so we don't change the original object
+                                        }
+                                        result_array[matchingOldItemIndex] = deepmerge(oldItem[matchingOldItemIndex], my_item, options);
+                                        continue;
+                                    }
+                                }
                                 if (result_array === null) {
                                     result_array = deepcopy(oldItem); // deep copy so we don't change the original object
                                 }

@@ -231,9 +231,8 @@
       }
     ],
     "meta": {
-      "versionId": "21",
-      "lastUpdated": "2021-03-09T04:06:48+00:00",
-      "source": "https://www.wpshealth.com/medical_claims"
+      "source": "https://www.wpshealth.com/medical_claims",
+      "versionId": "1"
     },
     "outcome": "Complete",
     "patient": {
@@ -342,11 +341,6 @@
   {
     "resourceType": "ExplanationOfBenefit",
     "id": "WPS-Claim-20A078097100",
-    "meta": {
-      "source": "https://www.wpshealth.com/medical_claims",
-      "versionId": "21",
-      "lastUpdated": "2021-03-09T04:06:48+00:00"
-    },
     "identifier": [
       {
         "type": {
@@ -647,6 +641,10 @@
           }
         ]
       }
-    ]
+    ],
+    "meta": {
+      "source": "https://www.wpshealth.com/medical_claims",
+      "versionId": "1"
+    }
   }
 ]
