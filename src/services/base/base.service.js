@@ -929,26 +929,6 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                         message: 'No changes detected in updated resource'
                     };
                 }
-                if (env.LOG_ALL_MERGES) {
-                    await sendToS3('logs',
-                        resource_name,
-                        data,
-                        currentDate,
-                        id,
-                        'merge_' + requestId + '_old');
-                    await sendToS3('logs',
-                        resource_name,
-                        resource_to_merge,
-                        currentDate,
-                        id,
-                        'merge_' + requestId + 'new');
-                    await sendToS3('logs',
-                        resource_name,
-                        patchContent,
-                        currentDate,
-                        id,
-                        'merge_' + requestId + '_patch');
-                }
                 logRequest(`${resource_name} >>> merging ${id}`);
                 // now apply the patches to the found resource
                 let patched_incoming_data = applyPatch(data, patchContent).newDocument;
@@ -969,10 +949,15 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                 if (env.LOG_ALL_MERGES) {
                     await sendToS3('logs',
                         resource_name,
-                        doc,
+                        {
+                            'old': data,
+                            'new': resource_to_merge,
+                            'patch': patchContent,
+                            'after': doc
+                        },
                         currentDate,
                         id,
-                        'merge_' + requestId + '_after');
+                        'merge_' + requestId + '_' + meta.versionId);
                 }
             } else {
                 // not found so insert
