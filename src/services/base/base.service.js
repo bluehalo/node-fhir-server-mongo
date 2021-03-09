@@ -770,7 +770,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
     // logInfo('-----------------');
 
     // Assign a random number to this batch request
-    const requestId = Math.random().toString(36).substring(4);
+    const requestId = Math.random().toString(36).substring(0, 5);
     const currentDate = moment.utc().format('YYYY-MM-DD');
 
     logInfo('--- body ----');
@@ -929,7 +929,19 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                         message: 'No changes detected in updated resource'
                     };
                 }
-                if (env.LOG_ALL_SAVES) {
+                if (env.LOG_ALL_MERGES) {
+                    await sendToS3('logs',
+                        resource_name,
+                        data,
+                        currentDate,
+                        id,
+                        'merge_' + requestId + '_old');
+                    await sendToS3('logs',
+                        resource_name,
+                        resource_to_merge,
+                        currentDate,
+                        id,
+                        'merge_' + requestId + 'new');
                     await sendToS3('logs',
                         resource_name,
                         patchContent,
@@ -954,6 +966,14 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                 // Same as update from this point on
                 cleaned = JSON.parse(JSON.stringify(patched_resource_incoming));
                 doc = Object.assign(cleaned, {_id: id});
+                if (env.LOG_ALL_MERGES) {
+                    await sendToS3('logs',
+                        resource_name,
+                        doc,
+                        currentDate,
+                        id,
+                        'merge_' + requestId + '_after');
+                }
             } else {
                 // not found so insert
                 logInfo(resource_name + ': merge new resource ' + '[' + resource_to_merge.id + ']: ' + resource_to_merge);
