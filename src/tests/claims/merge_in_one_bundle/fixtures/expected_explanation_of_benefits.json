@@ -1,96 +1,18 @@
 [
   {
-    "resourceType": "ExplanationOfBenefit",
-    "id": "WPS-Claim-429017018331",
-    "meta": {
-      "versionId": "1",
-      "lastUpdated": "2021-02-21T03:02:24+00:00",
-      "source": "https://www.wpshealth.com/medical_claims"
-    },
-    "identifier": [
-      {
-        "type": {
-          "coding": [
-            {
-              "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
-              "code": "claimnumber",
-              "display": "Claim Number"
-            }
-          ],
-          "text": "Claim Number"
-        },
-        "system": "https://www.wpshealth.com/",
-        "value": "429017018331"
-      }
-    ],
-    "status": "active",
-    "type": {
-      "coding": [
-        {
-          "system": "https://hl7.org/FHIR/codesystem-claim-type.html",
-          "code": "Institutional"
-        }
-      ],
-      "text": "Claim Type"
-    },
-    "use": "Claim",
-    "patient": {
-      "reference": "Patient/WPS-5458231534"
-    },
-    "insurer": {
-      "reference": "Organization/WPS-Health"
-    },
-    "provider": {
-      "reference": "Organization/1376656959"
-    },
-    "payee": {
-      "type": {
-        "coding": [
-          {
-            "system": "http://terminology.hl7.org/CodeSystem/payeetype",
-            "code": "Provider"
-          }
-        ]
-      }
-    },
-    "outcome": "Complete",
     "careTeam": [],
-    "supportingInfo": [
-      {
-        "sequence": 1,
-        "category": {
-          "coding": [
-            {
-              "system": "http://terminology.hl7.org/CodeSystem/claiminformationcategory",
-              "code": "Discharge"
-            }
-          ]
-        }
-      }
-    ],
     "diagnosis": [
       {
-        "sequence": 1,
         "diagnosisCodeableConcept": {
           "coding": [
             {
+              "code": "N921",
               "system": "http://hl7.org/fhir/sid/icd-10",
-              "version": "ICD10",
-              "code": "N921"
+              "version": "ICD10"
             }
           ],
           "text": "DIAGNOSIS_1"
         },
-        "type": [
-          {
-            "coding": [
-              {
-                "system": "http://terminology.hl7.org/CodeSystem/ex-diagnosistype",
-                "code": "RetrospectiveDiagnosis"
-              }
-            ]
-          }
-        ],
         "packageCode": {
           "coding": [
             {
@@ -98,30 +20,30 @@
               "version": "MS-DRG"
             }
           ]
-        }
+        },
+        "sequence": 1,
+        "type": [
+          {
+            "coding": [
+              {
+                "code": "RetrospectiveDiagnosis",
+                "system": "http://terminology.hl7.org/CodeSystem/ex-diagnosistype"
+              }
+            ]
+          }
+        ]
       },
       {
-        "sequence": 2,
         "diagnosisCodeableConcept": {
           "coding": [
             {
+              "code": "Z113",
               "system": "http://hl7.org/fhir/sid/icd-10",
-              "version": "ICD10",
-              "code": "Z113"
+              "version": "ICD10"
             }
           ],
           "text": "DIAGNOSIS_2"
         },
-        "type": [
-          {
-            "coding": [
-              {
-                "system": "http://terminology.hl7.org/CodeSystem/ex-diagnosistype",
-                "code": "RetrospectiveDiagnosis"
-              }
-            ]
-          }
-        ],
         "packageCode": {
           "coding": [
             {
@@ -129,34 +51,164 @@
               "version": "MS-DRG"
             }
           ]
-        }
+        },
+        "sequence": 2,
+        "type": [
+          {
+            "coding": [
+              {
+                "code": "RetrospectiveDiagnosis",
+                "system": "http://terminology.hl7.org/CodeSystem/ex-diagnosistype"
+              }
+            ]
+          }
+        ]
       }
     ],
-    "procedure": [
+    "id": "WPS-Claim-429017018331",
+    "identifier": [
       {
-        "sequence": 2,
-        "procedureCodeableConcept": {
+        "system": "https://www.wpshealth.com/",
+        "type": {
           "coding": [
             {
-              "system": "http://hl7.org/fhir/sid/ex-icd-10-procedures",
-              "code": "87591"
+              "code": "claimnumber",
+              "display": "Claim Number",
+              "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
             }
-          ]
-        }
+          ],
+          "text": "Claim Number"
+        },
+        "value": "429017018331"
       }
     ],
     "insurance": [
       {
-        "focal": true,
         "coverage": {
           "reference": "Coverage/WPS-5458231534"
-        }
+        },
+        "focal": true
       }
     ],
+    "insurer": {
+      "reference": "Organization/WPS-Health"
+    },
     "item": [
       {
+        "adjudication": [
+          {
+            "amount": {
+              "value": 206.69
+            },
+            "category": {
+              "coding": [
+                {
+                  "code": "submitted",
+                  "display": "Submitted Amount",
+                  "system": "http://terminology.hl7.org/CodeSystem/adjudication"
+                }
+              ]
+            }
+          },
+          {
+            "amount": {
+              "value": 127.82
+            },
+            "category": {
+              "coding": [
+                {
+                  "code": "eligible",
+                  "display": "Eligible Amount",
+                  "system": "http://terminology.hl7.org/CodeSystem/adjudication"
+                }
+              ]
+            }
+          },
+          {
+            "amount": {
+              "value": 0
+            },
+            "category": {
+              "coding": [
+                {
+                  "code": "deductible",
+                  "display": "Deductible",
+                  "system": "http://terminology.hl7.org/CodeSystem/adjudication"
+                }
+              ]
+            }
+          },
+          {
+            "amount": {
+              "value": 0
+            },
+            "category": {
+              "coding": [
+                {
+                  "code": "coins",
+                  "display": "CoInsurance Amount",
+                  "system": "http://terminology.hl7.org/CodeSystem/adjudication"
+                }
+              ]
+            }
+          },
+          {
+            "amount": {
+              "value": 0
+            },
+            "category": {
+              "coding": [
+                {
+                  "code": "copay",
+                  "display": "Copay Amount",
+                  "system": "http://terminology.hl7.org/CodeSystem/adjudication"
+                }
+              ]
+            }
+          },
+          {
+            "amount": {
+              "value": 0
+            },
+            "category": {
+              "coding": [
+                {
+                  "code": "cob",
+                  "display": "Coordination of Benefit Paid Amount",
+                  "system": "http://terminology.hl7.org/CodeSystem/adjudication"
+                }
+              ]
+            }
+          },
+          {
+            "amount": {
+              "value": 127.82
+            },
+            "category": {
+              "coding": [
+                {
+                  "code": "paidtoprovider",
+                  "display": "Amount Paid to Provider",
+                  "system": "http://terminology.hl7.org/CodeSystem/adjudication"
+                }
+              ]
+            }
+          }
+        ],
         "id": "WPS-Claim-429017018331-2",
-        "sequence": 2,
+        "locationCodeableConcept": {
+          "coding": [
+            {
+              "code": "11",
+              "system": "http://terminology.hl7.org/CodeSystem/ex-serviceplace"
+            }
+          ]
+        },
+        "modifier": [],
+        "productOrService": {},
+        "quantity": {
+          "value": 1
+        },
         "revenue": {
           "coding": [
             {
@@ -164,215 +216,84 @@
             }
           ]
         },
-        "productOrService": {},
-        "modifier": [],
-        "servicedPeriod": {},
-        "locationCodeableConcept": {
-          "coding": [
-            {
-              "system": "http://terminology.hl7.org/CodeSystem/ex-serviceplace",
-              "code": "11"
-            }
-          ]
-        },
-        "quantity": {
-          "value": 1
-        },
-        "adjudication": [
-          {
-            "category": {
-              "coding": [
-                {
-                  "system": "http://terminology.hl7.org/CodeSystem/adjudication",
-                  "code": "submitted",
-                  "display": "Submitted Amount"
-                }
-              ]
-            },
-            "amount": {
-              "value": 206.69
-            }
-          },
-          {
-            "category": {
-              "coding": [
-                {
-                  "system": "http://terminology.hl7.org/CodeSystem/adjudication",
-                  "code": "eligible",
-                  "display": "Eligible Amount"
-                }
-              ]
-            },
-            "amount": {
-              "value": 127.82
-            }
-          },
-          {
-            "category": {
-              "coding": [
-                {
-                  "system": "http://terminology.hl7.org/CodeSystem/adjudication",
-                  "code": "deductible",
-                  "display": "Deductible"
-                }
-              ]
-            },
-            "amount": {
-              "value": 0
-            }
-          },
-          {
-            "category": {
-              "coding": [
-                {
-                  "system": "http://terminology.hl7.org/CodeSystem/adjudication",
-                  "code": "coins",
-                  "display": "CoInsurance Amount"
-                }
-              ]
-            },
-            "amount": {
-              "value": 0
-            }
-          },
-          {
-            "category": {
-              "coding": [
-                {
-                  "system": "http://terminology.hl7.org/CodeSystem/adjudication",
-                  "code": "copay",
-                  "display": "Copay Amount"
-                }
-              ]
-            },
-            "amount": {
-              "value": 0
-            }
-          },
-          {
-            "category": {
-              "coding": [
-                {
-                  "system": "http://terminology.hl7.org/CodeSystem/adjudication",
-                  "code": "cob",
-                  "display": "Coordination of Benefit Paid Amount"
-                }
-              ]
-            },
-            "amount": {
-              "value": 0
-            }
-          },
-          {
-            "category": {
-              "coding": [
-                {
-                  "system": "http://terminology.hl7.org/CodeSystem/adjudication",
-                  "code": "paidtoprovider",
-                  "display": "Amount Paid to Provider"
-                }
-              ]
-            },
-            "amount": {
-              "value": 127.82
-            }
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "resourceType": "ExplanationOfBenefit",
-    "id": "WPS-Claim-230916613369",
-    "meta": {
-      "versionId": "2",
-      "lastUpdated": "2021-02-21T03:02:24+00:00",
-      "source": "https://www.wpshealth.com/medical_claims"
-    },
-    "identifier": [
-      {
-        "type": {
-          "coding": [
-            {
-              "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
-              "code": "claimnumber",
-              "display": "Claim Number"
-            }
-          ],
-          "text": "Claim Number"
-        },
-        "system": "https://www.wpshealth.com/",
-        "value": "230916613369"
+        "sequence": 2,
+        "servicedPeriod": {}
       }
     ],
-    "status": "active",
-    "type": {
-      "coding": [
-        {
-          "system": "https://hl7.org/FHIR/codesystem-claim-type.html",
-          "code": "Institutional"
-        }
-      ],
-      "text": "Claim Type"
+    "meta": {
+      "source": "https://www.wpshealth.com/medical_claims",
+      "versionId": "1"
     },
-    "use": "Claim",
+    "outcome": "Complete",
     "patient": {
-      "reference": "Patient/WPS-6678928210"
-    },
-    "insurer": {
-      "reference": "Organization/WPS-Health"
-    },
-    "provider": {
-      "reference": "Organization/1376656959"
+      "reference": "Patient/WPS-5458231534"
     },
     "payee": {
       "type": {
         "coding": [
           {
-            "system": "http://terminology.hl7.org/CodeSystem/payeetype",
-            "code": "Provider"
+            "code": "Provider",
+            "system": "http://terminology.hl7.org/CodeSystem/payeetype"
           }
         ]
       }
     },
-    "outcome": "Complete",
-    "careTeam": [],
+    "procedure": [
+      {
+        "procedureCodeableConcept": {
+          "coding": [
+            {
+              "code": "87591",
+              "system": "http://hl7.org/fhir/sid/ex-icd-10-procedures"
+            }
+          ]
+        },
+        "sequence": 2
+      }
+    ],
+    "provider": {
+      "reference": "Organization/1376656959"
+    },
+    "resourceType": "ExplanationOfBenefit",
+    "status": "active",
     "supportingInfo": [
       {
-        "sequence": 1,
         "category": {
           "coding": [
             {
-              "system": "http://terminology.hl7.org/CodeSystem/claiminformationcategory",
-              "code": "Discharge"
+              "code": "Discharge",
+              "system": "http://terminology.hl7.org/CodeSystem/claiminformationcategory"
             }
           ]
-        }
+        },
+        "sequence": 1
       }
     ],
+    "type": {
+      "coding": [
+        {
+          "code": "Institutional",
+          "system": "https://hl7.org/FHIR/codesystem-claim-type.html"
+        }
+      ],
+      "text": "Claim Type"
+    },
+    "use": "Claim"
+  },
+  {
+    "careTeam": [],
     "diagnosis": [
       {
-        "sequence": 1,
         "diagnosisCodeableConcept": {
           "coding": [
             {
+              "code": "M25571",
               "system": "http://hl7.org/fhir/sid/icd-10",
-              "version": "ICD10",
-              "code": "M25571"
+              "version": "ICD10"
             }
           ],
           "text": "DIAGNOSIS_1"
         },
-        "type": [
-          {
-            "coding": [
-              {
-                "system": "http://terminology.hl7.org/CodeSystem/ex-diagnosistype",
-                "code": "RetrospectiveDiagnosis"
-              }
-            ]
-          }
-        ],
         "packageCode": {
           "coding": [
             {
@@ -380,30 +301,30 @@
               "version": "MS-DRG"
             }
           ]
-        }
+        },
+        "sequence": 1,
+        "type": [
+          {
+            "coding": [
+              {
+                "code": "RetrospectiveDiagnosis",
+                "system": "http://terminology.hl7.org/CodeSystem/ex-diagnosistype"
+              }
+            ]
+          }
+        ]
       },
       {
-        "sequence": 1,
         "diagnosisCodeableConcept": {
           "coding": [
             {
+              "code": "E063",
               "system": "http://hl7.org/fhir/sid/icd-10",
-              "version": "ICD10",
-              "code": "E063"
+              "version": "ICD10"
             }
           ],
           "text": "DIAGNOSIS_1"
         },
-        "type": [
-          {
-            "coding": [
-              {
-                "system": "http://terminology.hl7.org/CodeSystem/ex-diagnosistype",
-                "code": "RetrospectiveDiagnosis"
-              }
-            ]
-          }
-        ],
         "packageCode": {
           "coding": [
             {
@@ -411,51 +332,170 @@
               "version": "MS-DRG"
             }
           ]
-        }
+        },
+        "sequence": 1,
+        "type": [
+          {
+            "coding": [
+              {
+                "code": "RetrospectiveDiagnosis",
+                "system": "http://terminology.hl7.org/CodeSystem/ex-diagnosistype"
+              }
+            ]
+          }
+        ]
       }
     ],
-    "procedure": [
+    "id": "WPS-Claim-230916613369",
+    "identifier": [
       {
-        "sequence": 2,
-        "procedureCodeableConcept": {
+        "system": "https://www.wpshealth.com/",
+        "type": {
           "coding": [
             {
-              "system": "http://hl7.org/fhir/sid/ex-icd-10-procedures",
-              "code": "97530"
+              "code": "claimnumber",
+              "display": "Claim Number",
+              "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
             }
-          ]
-        }
-      },
-      {
-        "sequence": 1,
-        "procedureCodeableConcept": {
-          "coding": [
-            {
-              "system": "http://hl7.org/fhir/sid/ex-icd-10-procedures",
-              "code": "80061"
-            }
-          ]
-        }
+          ],
+          "text": "Claim Number"
+        },
+        "value": "230916613369"
       }
     ],
     "insurance": [
       {
-        "focal": true,
         "coverage": {
           "reference": "Coverage/WPS-0559166162"
-        }
+        },
+        "focal": true
       },
       {
-        "focal": true,
         "coverage": {
           "reference": "Coverage/WPS-6678928210"
-        }
+        },
+        "focal": true
       }
     ],
+    "insurer": {
+      "reference": "Organization/WPS-Health"
+    },
     "item": [
       {
-        "id": "WPS-Claim-230916613369-2",
-        "sequence": 2,
+        "adjudication": [
+          {
+            "amount": {
+              "value": 78.86
+            },
+            "category": {
+              "coding": [
+                {
+                  "code": "submitted",
+                  "display": "Submitted Amount",
+                  "system": "http://terminology.hl7.org/CodeSystem/adjudication"
+                }
+              ]
+            }
+          },
+          {
+            "amount": {
+              "value": 57.86
+            },
+            "category": {
+              "coding": [
+                {
+                  "code": "eligible",
+                  "display": "Eligible Amount",
+                  "system": "http://terminology.hl7.org/CodeSystem/adjudication"
+                }
+              ]
+            }
+          },
+          {
+            "amount": {
+              "value": 57.86
+            },
+            "category": {
+              "coding": [
+                {
+                  "code": "deductible",
+                  "display": "Deductible",
+                  "system": "http://terminology.hl7.org/CodeSystem/adjudication"
+                }
+              ]
+            }
+          },
+          {
+            "amount": {
+              "value": 0
+            },
+            "category": {
+              "coding": [
+                {
+                  "code": "coins",
+                  "display": "CoInsurance Amount",
+                  "system": "http://terminology.hl7.org/CodeSystem/adjudication"
+                }
+              ]
+            }
+          },
+          {
+            "amount": {
+              "value": 0
+            },
+            "category": {
+              "coding": [
+                {
+                  "code": "copay",
+                  "display": "Copay Amount",
+                  "system": "http://terminology.hl7.org/CodeSystem/adjudication"
+                }
+              ]
+            }
+          },
+          {
+            "amount": {
+              "value": 0
+            },
+            "category": {
+              "coding": [
+                {
+                  "code": "cob",
+                  "display": "Coordination of Benefit Paid Amount",
+                  "system": "http://terminology.hl7.org/CodeSystem/adjudication"
+                }
+              ]
+            }
+          },
+          {
+            "amount": {
+              "value": 0
+            },
+            "category": {
+              "coding": [
+                {
+                  "code": "paidtoprovider",
+                  "display": "Amount Paid to Provider",
+                  "system": "http://terminology.hl7.org/CodeSystem/adjudication"
+                }
+              ]
+            }
+          }
+        ],
+        "id": "WPS-Claim-146207456706-1",
+        "locationCodeableConcept": {
+          "coding": [
+            {
+              "code": "11",
+              "system": "http://terminology.hl7.org/CodeSystem/ex-serviceplace"
+            }
+          ]
+        },
+        "modifier": [],
+        "productOrService": {},
+        "quantity": {
+          "value": 1
+        },
         "revenue": {
           "coding": [
             {
@@ -463,7 +503,119 @@
             }
           ]
         },
-        "productOrService": {},
+        "sequence": 1,
+        "servicedPeriod": {}
+      },
+      {
+        "adjudication": [
+          {
+            "amount": {
+              "value": 0
+            },
+            "category": {
+              "coding": [
+                {
+                  "code": "submitted",
+                  "display": "Submitted Amount",
+                  "system": "http://terminology.hl7.org/CodeSystem/adjudication"
+                }
+              ]
+            }
+          },
+          {
+            "amount": {
+              "value": 0
+            },
+            "category": {
+              "coding": [
+                {
+                  "code": "eligible",
+                  "display": "Eligible Amount",
+                  "system": "http://terminology.hl7.org/CodeSystem/adjudication"
+                }
+              ]
+            }
+          },
+          {
+            "amount": {
+              "value": 0
+            },
+            "category": {
+              "coding": [
+                {
+                  "code": "deductible",
+                  "display": "Deductible",
+                  "system": "http://terminology.hl7.org/CodeSystem/adjudication"
+                }
+              ]
+            }
+          },
+          {
+            "amount": {
+              "value": 0
+            },
+            "category": {
+              "coding": [
+                {
+                  "code": "coins",
+                  "display": "CoInsurance Amount",
+                  "system": "http://terminology.hl7.org/CodeSystem/adjudication"
+                }
+              ]
+            }
+          },
+          {
+            "amount": {
+              "value": 0
+            },
+            "category": {
+              "coding": [
+                {
+                  "code": "copay",
+                  "display": "Copay Amount",
+                  "system": "http://terminology.hl7.org/CodeSystem/adjudication"
+                }
+              ]
+            }
+          },
+          {
+            "amount": {
+              "value": 0
+            },
+            "category": {
+              "coding": [
+                {
+                  "code": "cob",
+                  "display": "Coordination of Benefit Paid Amount",
+                  "system": "http://terminology.hl7.org/CodeSystem/adjudication"
+                }
+              ]
+            }
+          },
+          {
+            "amount": {
+              "value": 27.55
+            },
+            "category": {
+              "coding": [
+                {
+                  "code": "paidtoprovider",
+                  "display": "Amount Paid to Provider",
+                  "system": "http://terminology.hl7.org/CodeSystem/adjudication"
+                }
+              ]
+            }
+          }
+        ],
+        "id": "WPS-Claim-230916613369-2",
+        "locationCodeableConcept": {
+          "coding": [
+            {
+              "code": "11",
+              "system": "http://terminology.hl7.org/CodeSystem/ex-serviceplace"
+            }
+          ]
+        },
         "modifier": [
           {
             "coding": [
@@ -474,122 +626,10 @@
             "text": "Procedure Modifier 1"
           }
         ],
-        "servicedPeriod": {},
-        "locationCodeableConcept": {
-          "coding": [
-            {
-              "system": "http://terminology.hl7.org/CodeSystem/ex-serviceplace",
-              "code": "11"
-            }
-          ]
-        },
+        "productOrService": {},
         "quantity": {
           "value": 1
         },
-        "adjudication": [
-          {
-            "category": {
-              "coding": [
-                {
-                  "system": "http://terminology.hl7.org/CodeSystem/adjudication",
-                  "code": "submitted",
-                  "display": "Submitted Amount"
-                }
-              ]
-            },
-            "amount": {
-              "value": 0
-            }
-          },
-          {
-            "category": {
-              "coding": [
-                {
-                  "system": "http://terminology.hl7.org/CodeSystem/adjudication",
-                  "code": "eligible",
-                  "display": "Eligible Amount"
-                }
-              ]
-            },
-            "amount": {
-              "value": 0
-            }
-          },
-          {
-            "category": {
-              "coding": [
-                {
-                  "system": "http://terminology.hl7.org/CodeSystem/adjudication",
-                  "code": "deductible",
-                  "display": "Deductible"
-                }
-              ]
-            },
-            "amount": {
-              "value": 0
-            }
-          },
-          {
-            "category": {
-              "coding": [
-                {
-                  "system": "http://terminology.hl7.org/CodeSystem/adjudication",
-                  "code": "coins",
-                  "display": "CoInsurance Amount"
-                }
-              ]
-            },
-            "amount": {
-              "value": 0
-            }
-          },
-          {
-            "category": {
-              "coding": [
-                {
-                  "system": "http://terminology.hl7.org/CodeSystem/adjudication",
-                  "code": "copay",
-                  "display": "Copay Amount"
-                }
-              ]
-            },
-            "amount": {
-              "value": 0
-            }
-          },
-          {
-            "category": {
-              "coding": [
-                {
-                  "system": "http://terminology.hl7.org/CodeSystem/adjudication",
-                  "code": "cob",
-                  "display": "Coordination of Benefit Paid Amount"
-                }
-              ]
-            },
-            "amount": {
-              "value": 0
-            }
-          },
-          {
-            "category": {
-              "coding": [
-                {
-                  "system": "http://terminology.hl7.org/CodeSystem/adjudication",
-                  "code": "paidtoprovider",
-                  "display": "Amount Paid to Provider"
-                }
-              ]
-            },
-            "amount": {
-              "value": 27.55
-            }
-          }
-        ]
-      },
-      {
-        "id": "WPS-Claim-146207456706-1",
-        "sequence": 1,
         "revenue": {
           "coding": [
             {
@@ -597,121 +637,79 @@
             }
           ]
         },
-        "productOrService": {},
-        "modifier": [],
-        "servicedPeriod": {},
-        "locationCodeableConcept": {
-          "coding": [
-            {
-              "system": "http://terminology.hl7.org/CodeSystem/ex-serviceplace",
-              "code": "11"
-            }
-          ]
-        },
-        "quantity": {
-          "value": 1
-        },
-        "adjudication": [
+        "sequence": 2,
+        "servicedPeriod": {}
+      }
+    ],
+    "meta": {
+      "source": "https://www.wpshealth.com/medical_claims",
+      "versionId": "2"
+    },
+    "outcome": "Complete",
+    "patient": {
+      "reference": "Patient/WPS-6678928210"
+    },
+    "payee": {
+      "type": {
+        "coding": [
           {
-            "category": {
-              "coding": [
-                {
-                  "system": "http://terminology.hl7.org/CodeSystem/adjudication",
-                  "code": "submitted",
-                  "display": "Submitted Amount"
-                }
-              ]
-            },
-            "amount": {
-              "value": 78.86
-            }
-          },
-          {
-            "category": {
-              "coding": [
-                {
-                  "system": "http://terminology.hl7.org/CodeSystem/adjudication",
-                  "code": "eligible",
-                  "display": "Eligible Amount"
-                }
-              ]
-            },
-            "amount": {
-              "value": 57.86
-            }
-          },
-          {
-            "category": {
-              "coding": [
-                {
-                  "system": "http://terminology.hl7.org/CodeSystem/adjudication",
-                  "code": "deductible",
-                  "display": "Deductible"
-                }
-              ]
-            },
-            "amount": {
-              "value": 57.86
-            }
-          },
-          {
-            "category": {
-              "coding": [
-                {
-                  "system": "http://terminology.hl7.org/CodeSystem/adjudication",
-                  "code": "coins",
-                  "display": "CoInsurance Amount"
-                }
-              ]
-            },
-            "amount": {
-              "value": 0
-            }
-          },
-          {
-            "category": {
-              "coding": [
-                {
-                  "system": "http://terminology.hl7.org/CodeSystem/adjudication",
-                  "code": "copay",
-                  "display": "Copay Amount"
-                }
-              ]
-            },
-            "amount": {
-              "value": 0
-            }
-          },
-          {
-            "category": {
-              "coding": [
-                {
-                  "system": "http://terminology.hl7.org/CodeSystem/adjudication",
-                  "code": "cob",
-                  "display": "Coordination of Benefit Paid Amount"
-                }
-              ]
-            },
-            "amount": {
-              "value": 0
-            }
-          },
-          {
-            "category": {
-              "coding": [
-                {
-                  "system": "http://terminology.hl7.org/CodeSystem/adjudication",
-                  "code": "paidtoprovider",
-                  "display": "Amount Paid to Provider"
-                }
-              ]
-            },
-            "amount": {
-              "value": 0
-            }
+            "code": "Provider",
+            "system": "http://terminology.hl7.org/CodeSystem/payeetype"
           }
         ]
       }
-    ]
+    },
+    "procedure": [
+      {
+        "procedureCodeableConcept": {
+          "coding": [
+            {
+              "code": "80061",
+              "system": "http://hl7.org/fhir/sid/ex-icd-10-procedures"
+            }
+          ]
+        },
+        "sequence": 1
+      },
+      {
+        "procedureCodeableConcept": {
+          "coding": [
+            {
+              "code": "97530",
+              "system": "http://hl7.org/fhir/sid/ex-icd-10-procedures"
+            }
+          ]
+        },
+        "sequence": 2
+      }
+    ],
+    "provider": {
+      "reference": "Organization/1376656959"
+    },
+    "resourceType": "ExplanationOfBenefit",
+    "status": "active",
+    "supportingInfo": [
+      {
+        "category": {
+          "coding": [
+            {
+              "code": "Discharge",
+              "system": "http://terminology.hl7.org/CodeSystem/claiminformationcategory"
+            }
+          ]
+        },
+        "sequence": 1
+      }
+    ],
+    "type": {
+      "coding": [
+        {
+          "code": "Institutional",
+          "system": "https://hl7.org/FHIR/codesystem-claim-type.html"
+        }
+      ],
+      "text": "Claim Type"
+    },
+    "use": "Claim"
   }
 ]
