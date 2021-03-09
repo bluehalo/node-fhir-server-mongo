@@ -495,7 +495,9 @@ module.exports.create = async (args, {req}, resource_name, collection_name) => {
             resource_name,
             resource_incoming,
             currentDate,
-            uuid);
+            uuid,
+            'create'
+        );
     }
 
     const combined_args = get_all_args(req, args);
@@ -511,12 +513,14 @@ module.exports.create = async (args, {req}, resource_name, collection_name) => {
                 resource_name,
                 resource_incoming,
                 currentDate,
-                uuid);
-            await sendToS3('validation_failures/' + resource_name,
+                uuid,
+                'create');
+            await sendToS3('validation_failures',
                 'OperationOutcome',
                 operationOutcome,
                 currentDate,
-                uuid);
+                uuid,
+                'create_failure');
             throw new NotValidatedError(operationOutcome);
         }
         logInfo('-----------------');
@@ -580,7 +584,8 @@ module.exports.create = async (args, {req}, resource_name, collection_name) => {
             resource_name,
             resource_incoming,
             currentDate,
-            uuid);
+            uuid,
+            'create');
         throw e;
     }
 };
@@ -605,7 +610,8 @@ module.exports.update = async (args, {req}, resource_name, collection_name) => {
             resource_name,
             resource_incoming,
             currentDate,
-            id);
+            id,
+            'update');
     }
 
     const combined_args = get_all_args(req, args);
@@ -622,12 +628,14 @@ module.exports.update = async (args, {req}, resource_name, collection_name) => {
                 resource_name,
                 resource_incoming,
                 currentDate,
-                uuid);
-            await sendToS3('validation_failures/' + resource_name,
-                'OperationOutcome',
+                uuid,
+                'update');
+            await sendToS3('validation_failures',
+                resource_name,
                 operationOutcome,
                 currentDate,
-                uuid);
+                uuid,
+                'update_failure');
             throw new NotValidatedError(operationOutcome);
         }
         logInfo('-----------------');
@@ -680,6 +688,15 @@ module.exports.update = async (args, {req}, resource_name, collection_name) => {
                     created: false,
                     resource_version: foundResource.meta.versionId,
                 };
+            }
+            if (env.LOG_ALL_SAVES) {
+                const currentDate = moment.utc().format('YYYY-MM-DD');
+                await sendToS3('logs',
+                    resource_name,
+                    patchContent,
+                    currentDate,
+                    id,
+                    'update_patch');
             }
             // now apply the patches to the found resource
             let patched_incoming_data = applyPatch(data, patchContent).newDocument;
@@ -734,7 +751,8 @@ module.exports.update = async (args, {req}, resource_name, collection_name) => {
             resource_name,
             resource_incoming,
             currentDate,
-            id);
+            id,
+            'update');
         throw e;
     }
 };
@@ -751,6 +769,10 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
     // logInfo(req);
     // logInfo('-----------------');
 
+    // Assign a random number to this batch request
+    const requestId = Math.random().toString(4);
+    const currentDate = moment.utc().format('YYYY-MM-DD');
+
     logInfo('--- body ----');
     logInfo(resources_incoming);
     logInfo('-----------------');
@@ -762,12 +784,12 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
         let id = resource_to_merge.id;
 
         if (env.LOG_ALL_SAVES) {
-            const currentDate = moment.utc().format('YYYY-MM-DD');
             await sendToS3('logs',
                 resource_name,
                 resource_to_merge,
                 currentDate,
-                id);
+                id,
+                'merge_' + requestId);
         }
 
         const combined_args = get_all_args(req, args);
@@ -775,7 +797,6 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
             logInfo('--- validate schema ----');
             const operationOutcome = validateResource(resource_to_merge, resource_name, req.path);
             if (operationOutcome && operationOutcome.statusCode === 400) {
-                const currentDate = moment.utc().format('YYYY-MM-DD');
                 operationOutcome['expression'] = [
                     resource_name + '/' + id
                 ];
@@ -783,12 +804,14 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                     resource_name,
                     resource_to_merge,
                     currentDate,
-                    id);
-                await sendToS3('validation_failures/' + resource_name,
-                    'OperationOutcome',
+                    id,
+                    'merge');
+                await sendToS3('validation_failures',
+                    resource_name,
                     operationOutcome,
                     currentDate,
-                    id);
+                    id,
+                    'merge_failure');
                 return operationOutcome;
             }
             logInfo('-----------------');
@@ -906,6 +929,14 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                         message: 'No changes detected in updated resource'
                     };
                 }
+                if (env.LOG_ALL_SAVES) {
+                    await sendToS3('logs',
+                        resource_name,
+                        patchContent,
+                        currentDate,
+                        id,
+                        'merge_' + requestId + '_patch');
+                }
                 logRequest(`${resource_name} >>> merging ${id}`);
                 // now apply the patches to the found resource
                 let patched_incoming_data = applyPatch(data, patchContent).newDocument;
@@ -979,17 +1010,18 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                     }
                 ]
             };
-            const currentDate = moment.utc().format('YYYY-MM-DD');
             await sendToS3('errors',
                 resource_name,
                 resource_to_merge,
                 currentDate,
-                id);
+                id,
+                'merge');
             await sendToS3('errors',
-                'OperationOutcome',
+                resource_name,
                 operationOutcome,
                 currentDate,
-                id);
+                id,
+                'merge_error');
             return operationOutcome;
         }
     }
