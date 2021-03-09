@@ -770,7 +770,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
     // logInfo('-----------------');
 
     // Assign a random number to this batch request
-    const requestId = Math.random().toString(4);
+    const requestId = Math.random().toString(36).substring(4);
     const currentDate = moment.utc().format('YYYY-MM-DD');
 
     logInfo('--- body ----');

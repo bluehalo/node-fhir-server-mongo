@@ -27,7 +27,7 @@ module.exports = function sendToS3(prefix, resourceType, resource, currentDate, 
         return Promise.resolve(null);
     }
     const currentTime = moment.utc().format('HH-mm-ss');
-    const randomString = Math.random().toString(4);
+    const randomString = Math.random().toString(36).substring(4);
     const key = `${AWS_FOLDER}/${prefix}/${resourceType}/${currentDate}/${id}/${currentTime}-${filename_postfix}-${randomString}.json`;
     return new Promise((resolve, reject) => {
         try {
