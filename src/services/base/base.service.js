@@ -386,6 +386,9 @@ module.exports.search = async (args, {req}, resource_name, collection_name) => {
     }
 
     if (combined_args['_count']) {
+        // for consistency in results while paging, always sort by _id
+        // https://docs.mongodb.com/manual/reference/method/cursor.sort/#sort-cursor-consistent-sorting
+        cursor = cursor.sort({'_id': 1});
         const nPerPage = Number(combined_args['_count']);
 
         if (combined_args['_getpagesoffset']) {
