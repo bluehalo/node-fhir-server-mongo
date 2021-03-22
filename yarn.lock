@@ -1124,6 +1124,7 @@
     "jest-resolve" "^26.6.2"
     "jest-util" "^26.6.2"
     "jest-worker" "^26.6.2"
+    "node-notifier" "^8.0.0"
     "slash" "^3.0.0"
     "source-map" "^0.6.0"
     "string-length" "^4.0.1"
@@ -2140,10 +2141,10 @@
     "postcss" "^7.0.32"
     "postcss-value-parser" "^4.1.0"
 
-"aws-sdk@^2.848.0":
-  "integrity" "sha512-c/e5kaEFl+9aYkrYDkmu5mSZlL+EfP6DnBOMD06fH12gIsaFSMBGtbsDTHABhvSu++LxeI1dJAD148O17MuZvg=="
-  "resolved" "https://registry.npmjs.org/aws-sdk/-/aws-sdk-2.848.0.tgz"
-  "version" "2.848.0"
+"aws-sdk@^2.849.0":
+  "integrity" "sha512-CzpK+0TcycRUzYKOdL5AnFcRmLDty+POWR+ZTeqCIY/rho3mM6jBTSseFreZTFiNxj8lIBBrMTsZ45KZ7Xm2Dg=="
+  "resolved" "https://registry.npmjs.org/aws-sdk/-/aws-sdk-2.849.0.tgz"
+  "version" "2.849.0"
   dependencies:
     "buffer" "4.9.2"
     "events" "1.1.1"
@@ -2869,6 +2870,7 @@
     "anymatch" "^2.0.0"
     "async-each" "^1.0.1"
     "braces" "^2.3.2"
+    "fsevents" "^1.2.7"
     "glob-parent" "^3.1.0"
     "inherits" "^2.0.3"
     "is-binary-path" "^1.0.0"
@@ -2887,6 +2889,7 @@
   dependencies:
     "anymatch" "~3.1.1"
     "braces" "~3.0.2"
+    "fsevents" "~2.3.1"
     "glob-parent" "~5.1.0"
     "is-binary-path" "~2.1.0"
     "is-glob" "~4.0.1"
@@ -3747,9 +3750,9 @@
   "version" "1.1.3"
 
 "defer-to-connect@^2.0.0":
-  "integrity" "sha512-bYL2d05vOSf1JEZNx5vSAtPuBMkX8K9EUutg7zlKvTqKXHt7RhWJFbmd7qakVuf13i+IkGmp6FwSsONOf6VYIg=="
-  "resolved" "https://registry.npmjs.org/defer-to-connect/-/defer-to-connect-2.0.0.tgz"
-  "version" "2.0.0"
+  "integrity" "sha512-4tvttepXG1VaYGrRibk5EwJd1t4udunSOVMdLSAL6mId1ix438oPwPZMALY41FCijukO1L0twNcGsdzS7dHgDg=="
+  "resolved" "https://registry.npmjs.org/defer-to-connect/-/defer-to-connect-2.0.1.tgz"
+  "version" "2.0.1"
 
 "define-properties@^1.1.3":
   "integrity" "sha512-3MqfYKj2lLzdMSf8ZIZE/V+Zuy+BgD6f164e8K2w7dgnpKArBDerGYpM46IYYcjnkdPNMjPk9A6VFB8+3SKlXQ=="
@@ -4330,6 +4333,7 @@
     "estraverse" "^4.2.0"
     "esutils" "^2.0.2"
     "optionator" "^0.8.1"
+    "source-map" "~0.6.1"
   optionalDependencies:
     "source-map" "~0.6.1"
 
@@ -4519,11 +4523,11 @@
   "version" "1.8.1"
 
 "event-loop-spinner@^2.0.0":
-  "integrity" "sha512-1y4j/Mhttr8ordvHkbDsGzGrlQaSYJoXD/3YKUxiOXIk7myEn9UPfybEk/lLtrcU3D4QvCNmVUxVQaPtvAIaUw=="
-  "resolved" "https://registry.npmjs.org/event-loop-spinner/-/event-loop-spinner-2.0.0.tgz"
-  "version" "2.0.0"
+  "integrity" "sha512-RJ10wL8/F9AlfBgRCvYctJIXSb9XkVmSCK3GGUvPD3dJrvTjDeDT0tmhcbEC6I2NEjNM9xD38HQJ4F/f/gb4VQ=="
+  "resolved" "https://registry.npmjs.org/event-loop-spinner/-/event-loop-spinner-2.1.0.tgz"
+  "version" "2.1.0"
   dependencies:
-    "tslib" "^1.10.0"
+    "tslib" "^2.1.0"
 
 "events@1.1.1":
   "integrity" "sha1-nr23Y1rQmccNzEwqH1AEKI6L2SQ="
@@ -5848,9 +5852,9 @@
     "type-fest" "^0.20.2"
 
 "http2-wrapper@^1.0.0-beta.4.5":
-  "integrity" "sha512-xYz9goEyBnC8XwXDTuC/MZ6t+MrKVQZOk4s7+PaDkwIsQd8IwqvM+0M6bA/2lvG8GHXcPdf+MejTUeO2LCPCeQ=="
-  "resolved" "https://registry.npmjs.org/http2-wrapper/-/http2-wrapper-1.0.0-beta.5.2.tgz"
-  "version" "1.0.0-beta.5.2"
+  "integrity" "sha512-V+23sDMr12Wnz7iTcDeJr3O6AIxlnvT/bmaAAAP/Xda35C90p9599p0F1eHR/N1KILWSoWVAiOMFjBBXaXSMxg=="
+  "resolved" "https://registry.npmjs.org/http2-wrapper/-/http2-wrapper-1.0.3.tgz"
+  "version" "1.0.3"
   dependencies:
     "quick-lru" "^5.1.1"
     "resolve-alpn" "^1.0.0"
@@ -6714,6 +6718,7 @@
     "@types/node" "*"
     "anymatch" "^3.0.3"
     "fb-watchman" "^2.0.0"
+    "fsevents" "^2.1.2"
     "graceful-fs" "^4.2.4"
     "jest-regex-util" "^26.0.0"
     "jest-serializer" "^26.6.2"
@@ -7126,6 +7131,7 @@
   "resolved" "https://registry.npmjs.org/jsonfile/-/jsonfile-6.1.0.tgz"
   "version" "6.1.0"
   dependencies:
+    "graceful-fs" "^4.1.6"
     "universalify" "^2.0.0"
   optionalDependencies:
     "graceful-fs" "^4.1.6"
@@ -8129,6 +8135,7 @@
     "lockfile" "^1.0.4"
     "md5-file" "^5.0.0"
     "mkdirp" "^1.0.4"
+    "mongodb" "^3.5.9"
     "semver" "^7.3.2"
     "tar-stream" "^2.1.3"
     "tmp" "^0.2.1"
@@ -8154,6 +8161,7 @@
     "denque" "^1.4.1"
     "require_optional" "^1.0.1"
     "safe-buffer" "^5.1.2"
+    "saslprep" "^1.0.0"
   optionalDependencies:
     "saslprep" "^1.0.0"
 
@@ -8591,9 +8599,9 @@
   "version" "1.1.0"
 
 "p-cancelable@^2.0.0":
-  "integrity" "sha512-wvPXDmbMmu2ksjkB4Z3nZWTSkJEb9lqVdMaCKpZUGJG9TMiNp9XcbG3fn9fPKjem04fJMJnXoyFPk2FmgiaiNg=="
-  "resolved" "https://registry.npmjs.org/p-cancelable/-/p-cancelable-2.0.0.tgz"
-  "version" "2.0.0"
+  "integrity" "sha512-HAZyB3ZodPo+BDpb4/Iu7Jv4P6cSazBz9ZM0ChhEXp70scx834aWCEjQRwgt41UzzejUAPdbqqONfRWTPYrPAQ=="
+  "resolved" "https://registry.npmjs.org/p-cancelable/-/p-cancelable-2.1.0.tgz"
+  "version" "2.1.0"
 
 "p-each-series@^2.1.0":
   "integrity" "sha512-ycIL2+1V32th+8scbpTvyHNaHe02z0sjgh91XXjAk+ZeXoPN4Z46DVUnzdso0aX4KckKw0FNNFHdjZ2UsZvxiA=="
@@ -9333,6 +9341,8 @@
   "integrity" "sha512-c29LVsqOaLbBHuIbsTxaKENh1N2EQBOHaWv7gkHN4dgRbxSREqDnDbtFJYdpPauS4YCplMSNCABQ6Eeor69bAA=="
   "resolved" "https://registry.npmjs.org/prismjs/-/prismjs-1.23.0.tgz"
   "version" "1.23.0"
+  dependencies:
+    "clipboard" "^2.0.0"
   optionalDependencies:
     "clipboard" "^2.0.0"
 
@@ -10669,7 +10679,7 @@
     "@snyk/composer-lockfile-parser" "^1.4.1"
     "tslib" "1.11.1"
 
-"snyk-poetry-lockfile-parser@^1.1.5":
+"snyk-poetry-lockfile-parser@^1.1.6":
   "integrity" "sha512-MoekbWOZPj9umfukjk2bd2o3eRj0OyO+58sxq9crMtHmTlze4h0/Uj4+fb0JFPBOtBO3c2zwbA+dvFQmpKoOTA=="
   "resolved" "https://registry.npmjs.org/snyk-poetry-lockfile-parser/-/snyk-poetry-lockfile-parser-1.1.6.tgz"
   "version" "1.1.6"
@@ -10695,13 +10705,13 @@
     "snyk-try-require" "^1.3.1"
     "then-fs" "^2.0.0"
 
-"snyk-python-plugin@1.19.4":
-  "integrity" "sha512-d1c/QKb3Il3xF1HY0IYoqQ+16+i0Ex5ai+J4KqOMbcKFvNcfkiOSPpCsrgSNJtBa50srbRleUrILdorALxaV2w=="
-  "resolved" "https://registry.npmjs.org/snyk-python-plugin/-/snyk-python-plugin-1.19.4.tgz"
-  "version" "1.19.4"
+"snyk-python-plugin@1.19.5":
+  "integrity" "sha512-wgfhloo6PZ8V+6eIUU7pLcVfHx4yo5LQPPQX6rLfTSZ6p9uRYazIvw/NoUmIjb8Qrn9GdD3zUJY9/83TyTgKLw=="
+  "resolved" "https://registry.npmjs.org/snyk-python-plugin/-/snyk-python-plugin-1.19.5.tgz"
+  "version" "1.19.5"
   dependencies:
     "@snyk/cli-interface" "^2.0.3"
-    "snyk-poetry-lockfile-parser" "^1.1.5"
+    "snyk-poetry-lockfile-parser" "^1.1.6"
     "tmp" "0.0.33"
 
 "snyk-resolve-deps@4.7.2":
@@ -10761,10 +10771,10 @@
     "lru-cache" "^4.0.0"
     "then-fs" "^2.0.0"
 
-"snyk@^1.334.0", "snyk@^1.458.0":
-  "integrity" "sha512-w/ZCb8rOyFDn09OmoyuLDQcmW63rSfbVsXINM+bvT9UJ4ML4JRWA2qKURcaMy9RnkXEK3gPYstly7ezb9iF82g=="
-  "resolved" "https://registry.npmjs.org/snyk/-/snyk-1.458.0.tgz"
-  "version" "1.458.0"
+"snyk@^1.334.0", "snyk@^1.459.0":
+  "integrity" "sha512-Dw52JjpbZLueEc2OoI7+e2QdpvhZILSA3h9UkgolSO8oFQLvWDeou096OXK3TDZnwQ3vpqaTkreEOMGSmxHKDQ=="
+  "resolved" "https://registry.npmjs.org/snyk/-/snyk-1.459.0.tgz"
+  "version" "1.459.0"
   dependencies:
     "@open-policy-agent/opa-wasm" "^1.2.0"
     "@snyk/cli-interface" "2.11.0"
@@ -10816,7 +10826,7 @@
     "snyk-nuget-plugin" "1.21.0"
     "snyk-php-plugin" "1.9.2"
     "snyk-policy" "1.14.1"
-    "snyk-python-plugin" "1.19.4"
+    "snyk-python-plugin" "1.19.5"
     "snyk-resolve" "1.0.1"
     "snyk-resolve-deps" "4.7.2"
     "snyk-sbt-plugin" "2.11.0"
@@ -11721,6 +11731,11 @@
   "resolved" "https://registry.npmjs.org/tslib/-/tslib-2.1.0.tgz"
   "version" "2.1.0"
 
+"tslib@^2.1.0":
+  "integrity" "sha512-hcVC3wYEziELGGmEEXue7D75zbwIIVUMWAVbHItGPx0ziyXxrOMQx4rQEVEV45Ut/1IotuEvwqPopzIOkDMf0A=="
+  "resolved" "https://registry.npmjs.org/tslib/-/tslib-2.1.0.tgz"
+  "version" "2.1.0"
+
 "tslib@1.11.1":
   "integrity" "sha512-aZW88SY8kQbU7gpV19lN24LtXh/yD4ZZg6qieAJDDg+YBsJcSmLGK9QpnUjAKVG/xefmvJGd1WUmfpT/g6AJGA=="
   "resolved" "https://registry.npmjs.org/tslib/-/tslib-1.11.1.tgz"
@@ -12209,7 +12224,7 @@
     "readable-stream" "^2.3.7"
     "triple-beam" "^1.2.0"
 
-"winston@^3.2.1":
+"winston@^3.2.1", "winston@^3.3.3":
   "integrity" "sha512-oEXTISQnC8VlSAKf1KYSSd7J6IWuRPQqDdo8eoRNaYKLvwSb5+79Z3Yi1lrl6KDpU6/VWaxpakDAtb1oQ4n9aw=="
   "resolved" "https://registry.npmjs.org/winston/-/winston-3.3.3.tgz"
   "version" "3.3.3"
@@ -12383,9 +12398,9 @@
   "version" "4.0.0"
 
 "yaml@^1.9.2":
-  "integrity" "sha512-yr2icI4glYaNG+KWONODapy2/jDdMSDnrONSjblABjD9B4Z5LgiircSt8m8sRZFNi08kG9Sm0uSHtEmP3zaEGg=="
-  "resolved" "https://registry.npmjs.org/yaml/-/yaml-1.10.0.tgz"
-  "version" "1.10.0"
+  "integrity" "sha512-r3vXyErRCYJ7wg28yvBY5VSoAF8ZvlcW9/BwUzEtUsjvX/DKs24dIkuwjtuprwJJHsbyUbLApepYTR1BN4uHrg=="
+  "resolved" "https://registry.npmjs.org/yaml/-/yaml-1.10.2.tgz"
+  "version" "1.10.2"
 
 "yamljs@^0.2.1":
   "integrity" "sha1-SBzHwlynOvWfWR8MluPOVsdXpA8="
