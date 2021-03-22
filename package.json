@@ -66,7 +66,7 @@
     "object-hash": "^2.1.1",
     "prom-client": "^13.1.0",
     "response-time": "^2.3.2",
-    "snyk": "^1.459.0",
+    "snyk": "^1.462.0",
     "swagger-ui-express": "^4.1.6",
     "var": "^0.4.0",
     "winston": "^3.3.3"
