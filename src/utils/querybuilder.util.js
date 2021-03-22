@@ -105,12 +105,22 @@ let tokenQueryBuilder = function (target, type, field, required) {
  * @name referenceQueryBuilder
  * @param {string} target
  * @param {string} field
+ * @param {?boolean} exists_flag
  * @return {JSON} queryBuilder
  */
-let referenceQueryBuilder = function (target, field) {
+let referenceQueryBuilder = function (target, field, exists_flag) {
+    let queryBuilder = {};
+    // noinspection JSIncompatibleTypesComparison
+    if (target === null || exists_flag === false) {
+        queryBuilder[field] = {$exists: false};
+        return queryBuilder;
+    }
+    if (exists_flag === true) {
+        queryBuilder[field] = {$exists: true};
+        return queryBuilder;
+    }
     const regex = /http(.*)?\/(\w+\/.+)$/;
     const match = target.match(regex);
-    let queryBuilder = {};
 
     // Check if target is a url
     if (match) {
