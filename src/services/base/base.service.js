@@ -440,6 +440,15 @@ let get_all_args = (req, args) => {
     return combined_args;
 };
 
+let check_fhir_mismatch = (cleaned, patched) => {
+    if (deepEqual(cleaned, patched) === false) {
+        let diff = compare(cleaned, patched);
+        logger.warn('Possible FHIR mismatch - ' + cleaned.resourceType + cleaned.id + ':' + cleaned.resourceType);
+        logger.warn(diff);
+    }
+};
+
+
 /**
  * does a FHIR Search
  * @param {string[]} args
@@ -933,6 +942,7 @@ module.exports.update = async (args, {req}, resource_name, collection_name) => {
             // Same as update from this point on
             cleaned = JSON.parse(JSON.stringify(patched_resource_incoming));
             doc = Object.assign(cleaned, {_id: id});
+            check_fhir_mismatch(cleaned, patched_incoming_data);
         } else {
             // not found so insert
             logInfo('update: new resource: ' + resource_incoming);
@@ -1309,6 +1319,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                 logInfo('------ end patched document --------');
                 // Same as update from this point on
                 cleaned = JSON.parse(JSON.stringify(patched_resource_incoming));
+                check_fhir_mismatch(cleaned, patched_incoming_data);
                 doc = Object.assign(cleaned, {_id: id});
                 if (env.LOG_ALL_MERGES) {
                     await sendToS3('logs',
