@@ -179,7 +179,7 @@ let buildR4SearchQuery = (resource_name, args) => {
         // each Resource type has a different place to put the patient info
         if (['Patient'].includes(resource_name)) {
             query.id = patient;
-        } else if (['AllergyIntolerance', 'Immunization', 'RelatedPerson', 'Device'].includes(resource_name)) {
+        } else if (['AllergyIntolerance', 'Immunization', 'RelatedPerson', 'Device', 'ExplanationOfBenefit', 'Claim'].includes(resource_name)) {
             and_segments.push(referenceQueryBuilder(patient_reference, 'patient.reference', patient_exists_flag));
         } else if (['Appointment'].includes(resource_name)) {
             //TODO: participant is a list
