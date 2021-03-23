@@ -49,7 +49,7 @@
   "dependencies": {
     "@asymmetrik/fhir-json-schema-validator": "^0.9.8",
     "@asymmetrik/node-fhir-server-core": "^2.2.3",
-    "@sentry/node": "^6.2.0",
+    "@sentry/node": "^6.2.1",
     "aws-sdk": "^2.853.0",
     "chokidar": "^3.5.1",
     "deepcopy": "^2.1.0",
