@@ -16,11 +16,15 @@ services:
       AUTH_SERVER_URI: http://myauthzserver.com
       CLIENT_ID: client
       CLIENT_SECRET: secret
-      INTROSPECTION_URL: https://myauthzserver.com/introspect
+      AUTH_CONFIGURATION_URI: https://cognito-idp.us-east-1.amazonaws.com/us-east-1_wrEVOihnT/.well-known/openid-configuration
+      AUTH_JWKS_URL: https://cognito-idp.us-east-1.amazonaws.com/us-east-1_wrEVOihnT/.well-known/jwks.json
+      AUTH_ISSUER: https://cognito-idp.us-east-1.amazonaws.com/us-east-1_wrEVOihnT
+      AUTH_ENABLED: 1
     ports:
       - '3000:3000'
     volumes:
       - ./src:/srv/src/src
+      - ./package.json:/srv/src/package.json
     command: npm run dev
 
   mongo:

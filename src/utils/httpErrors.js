@@ -110,9 +110,69 @@ class NotValidatedError extends ServerError {
     }
 }
 
+class UnauthorizedError extends ServerError {
+    constructor(message, options = {}) {
+        super(message, {
+            // Set this to make the HTTP status code 401
+            statusCode: 401,
+            // Add any normal operation outcome stuff here
+            issue: [
+                {
+                    severity: 'error',
+                    code: 'security',
+                    details: {text: message},
+                },
+            ],
+        });
+
+        // You can attach relevant information to the error instance
+        // (e.g.. the username)
+
+        for (const [key, value] of Object.entries(options)) {
+            this[key] = value;
+        }
+    }
+
+    get statusCode() {
+        return 401;
+    }
+}
+
+class ForbiddenError extends ServerError {
+    constructor(message, options = {}) {
+        super(message, {
+            // Set this to make the HTTP status code 401
+            statusCode: 403,
+            // Add any normal operation outcome stuff here
+            // https://www.hl7.org/fhir/valueset-issue-type.html
+            issue: [
+                {
+                    severity: 'error',
+                    code: 'forbidden',
+                    details: {text: message},
+                },
+            ],
+        });
+
+        // You can attach relevant information to the error instance
+        // (e.g.. the username)
+
+        for (const [key, value] of Object.entries(options)) {
+            this[key] = value;
+        }
+    }
+
+    get statusCode() {
+        return 403;
+    }
+}
+
+
 module.exports = {
     BadRequestError,
     NotFoundError,
     NotAllowedError,
-    NotValidatedError
+    NotValidatedError,
+    UnauthorizedError,
+    ForbiddenError
 };
