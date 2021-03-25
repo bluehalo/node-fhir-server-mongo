@@ -4784,6 +4784,13 @@
   optionalDependencies:
     "source-map" "~0.6.1"
 
+"eslint-plugin-security@^1.4.0":
+  "integrity" "sha512-xlS7P2PLMXeqfhyf3NpqbvbnW04kN8M9NtmhpR3XGyOvt/vNKS7XPXT5EDbwKW9vCjWH4PpfQvgD/+JgN0VJKA=="
+  "resolved" "https://registry.npmjs.org/eslint-plugin-security/-/eslint-plugin-security-1.4.0.tgz"
+  "version" "1.4.0"
+  dependencies:
+    "safe-regex" "^1.1.0"
+
 "eslint-scope@^5.0.0", "eslint-scope@^5.1.1":
   "integrity" "sha512-2NxwbF/hZ0KpepYN0cNbo+FN6XoK7GaHlQhgx/hIZl6Va0bF45RQOOwhLIy8lQDbuCiadSLCBnH2CFYquit5bw=="
   "resolved" "https://registry.npmjs.org/eslint-scope/-/eslint-scope-5.1.1.tgz"

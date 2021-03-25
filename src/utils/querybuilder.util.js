@@ -6,7 +6,9 @@ const moment = require('moment-timezone');
  * @return a mongo regex query
  */
 let stringQueryBuilder = function (target) {
-    let t2 = target.replace(/[\\(\\)\\-\\_\\+\\=\\/\\.]/g, '\\$&');
+    // noinspection RegExpDuplicateCharacterInClass
+    const t2 = target.replace(/[\\(\\)\\-\\_\\+\\=\\/\\.]/g, '\\$&');
+    // eslint-disable-next-line security/detect-non-literal-regexp
     return {$regex: new RegExp('^' + t2, 'i')};
 };
 
@@ -24,12 +26,18 @@ let addressQueryBuilder = function (target) {
     for (let index in totalSplit) {
         ors.push({
             $or: [
-                {'address.line': {$regex: new RegExp(`${totalSplit[index]}`, 'i')}},
-                {'address.city': {$regex: new RegExp(`${totalSplit[index]}`, 'i')}},
-                {'address.district': {$regex: new RegExp(`${totalSplit[index]}`, 'i')}},
-                {'address.state': {$regex: new RegExp(`${totalSplit[index]}`, 'i')}},
-                {'address.postalCode': {$regex: new RegExp(`${totalSplit[index]}`, 'i')}},
-                {'address.country': {$regex: new RegExp(`${totalSplit[index]}`, 'i')}},
+                // eslint-disable-next-line security/detect-non-literal-regexp
+                {'address.line': {$regex: new RegExp(`${totalSplit[`${index}`]}`, 'i')}},
+                // eslint-disable-next-line security/detect-non-literal-regexp
+                {'address.city': {$regex: new RegExp(`${totalSplit[`${index}`]}`, 'i')}},
+                // eslint-disable-next-line security/detect-non-literal-regexp
+                {'address.district': {$regex: new RegExp(`${totalSplit[`${index}`]}`, 'i')}},
+                // eslint-disable-next-line security/detect-non-literal-regexp
+                {'address.state': {$regex: new RegExp(`${totalSplit[`${index}`]}`, 'i')}},
+                // eslint-disable-next-line security/detect-non-literal-regexp
+                {'address.postalCode': {$regex: new RegExp(`${totalSplit[`${index}`]}`, 'i')}},
+                // eslint-disable-next-line security/detect-non-literal-regexp
+                {'address.country': {$regex: new RegExp(`${totalSplit[`${index}`]}`, 'i')}},
             ],
         });
     }
@@ -50,11 +58,16 @@ let nameQueryBuilder = function (target) {
     for (let i in split) {
         ors.push({
             $or: [
-                {'name.text': {$regex: new RegExp(`${split[i]}`, 'i')}},
-                {'name.family': {$regex: new RegExp(`${split[i]}`, 'i')}},
-                {'name.given': {$regex: new RegExp(`${split[i]}`, 'i')}},
-                {'name.suffix': {$regex: new RegExp(`${split[i]}`, 'i')}},
-                {'name.prefix': {$regex: new RegExp(`${split[i]}`, 'i')}},
+                // eslint-disable-next-line security/detect-non-literal-regexp
+                {'name.text': {$regex: new RegExp(`${split[`${i}`]}`, 'i')}},
+                // eslint-disable-next-line security/detect-non-literal-regexp
+                {'name.family': {$regex: new RegExp(`${split[`${i}`]}`, 'i')}},
+                // eslint-disable-next-line security/detect-non-literal-regexp
+                {'name.given': {$regex: new RegExp(`${split[`${i}`]}`, 'i')}},
+                // eslint-disable-next-line security/detect-non-literal-regexp
+                {'name.suffix': {$regex: new RegExp(`${split[`${i}`]}`, 'i')}},
+                // eslint-disable-next-line security/detect-non-literal-regexp
+                {'name.prefix': {$regex: new RegExp(`${split[`${i}`]}`, 'i')}},
             ],
         });
     }
@@ -79,7 +92,7 @@ let nameQueryBuilder = function (target) {
 let tokenQueryBuilder = function (target, type, field, required) {
     let queryBuilder = {};
     let system = '';
-    let value = '';
+    let value;
 
     if (target.includes('|')) {
         [system, value] = target.split('|');
@@ -112,28 +125,30 @@ let referenceQueryBuilder = function (target, field, exists_flag) {
     let queryBuilder = {};
     // noinspection JSIncompatibleTypesComparison
     if (target === null || exists_flag === false) {
-        queryBuilder[field] = {$exists: false};
+        queryBuilder[`${field}`] = {$exists: false};
         return queryBuilder;
     }
     if (exists_flag === true) {
-        queryBuilder[field] = {$exists: true};
+        queryBuilder[`${field}`] = {$exists: true};
         return queryBuilder;
     }
+    // eslint-disable-next-line security/detect-unsafe-regex
     const regex = /http(.*)?\/(\w+\/.+)$/;
     const match = target.match(regex);
 
     // Check if target is a url
     if (match) {
-        queryBuilder[field] = match[2];
+        queryBuilder[`${field}`] = match[2];
     }
     // target = type/id
     else if (target.includes('/')) {
         let [type, id] = target.split('/');
-        queryBuilder[field] = `${type}/${id}`;
+        queryBuilder[`${field}`] = `${type}/${id}`;
     }
     // target = id The type may be there so we need to check the end of the field for the id
     else {
-        queryBuilder[field] = {$regex: new RegExp(`${target}$`)};
+        // eslint-disable-next-line security/detect-non-literal-regexp
+        queryBuilder[`${field}`] = {$regex: new RegExp(`${target}$`)};
     }
 
     return queryBuilder;
@@ -148,8 +163,8 @@ let referenceQueryBuilder = function (target, field, exists_flag) {
  */
 let numberQueryBuilder = function (target) {
     let prefix = '';
-    let number = '';
-    let sigfigs = '';
+    let number;
+    let sigfigs;
 
     // Check if there is a prefix
     if (isNaN(target)) {
@@ -281,6 +296,8 @@ let getDateFromNum = function (days) {
 //  UNLESS, the search parameter is teh exact same as what is stored.  So, if something is stored as 2016-06-03T05:00-03:00, then the search parameter must be 2016-06-03T05:00-03:00
 //It's important to make sure formatting is right, dont forget a leading 0 when dealing with single digit times.
 let dateQueryBuilder = function (date, type, path) {
+    // noinspection RegExpSingleCharAlternation
+    // eslint-disable-next-line security/detect-unsafe-regex
     let regex = /^(\D{2})?(\d{4})(-\d{2})?(-\d{2})?(?:(T\d{2}:\d{2})(:\d{2})?)?(Z|(\+|-)(\d{2}):(\d{2}))?$/;
     let match = date.match(regex);
     let str = '';
@@ -297,8 +314,8 @@ let dateQueryBuilder = function (date, type, path) {
             //add parts of date that are available
             for (let i = 2; i < 5; i++) {
                 //add up the date parts in a string
-                if (match[i]) {
-                    str = str + match[i];
+                if (match[`${i}`]) {
+                    str = str + match[`${i}`];
                     pArr[i - 2] = str + '$';
                 }
             }
@@ -306,6 +323,7 @@ let dateQueryBuilder = function (date, type, path) {
 
                 //below we have to check if the search gave more information than what is actually stored
                 return {
+                    // eslint-disable-next-line security/detect-non-literal-regexp
                     $regex: new RegExp(
                         '^' + '(?:' + str + ')|(?:' + pArr[0] + ')|(?:' + pArr[1] + ')|(?:' + pArr[2] + ')',
                         'i'
@@ -324,7 +342,7 @@ let dateQueryBuilder = function (date, type, path) {
                 if (match[5]) {
                     //to see if time is included
                     for (let i = 2; i < 6; i++) {
-                        str = str + match[i];
+                        str = str + match[`${i}`];
                         if (i === 5) {
                             pArr[i - 2] = str + 'Z?$';
                         } else {
@@ -339,8 +357,8 @@ let dateQueryBuilder = function (date, type, path) {
                     }
                     if (match[9]) {
                         // we know there is a +|-hh:mm at the end
-                        let mins = 0;
-                        let hrs = 0;
+                        let mins;
+                        let hrs;
                         if (match[8] === '+') {
                             //time is ahead of UTC so we must subtract
                             let hM = match[5].split(':');
@@ -404,6 +422,7 @@ let dateQueryBuilder = function (date, type, path) {
                         }
                         pArr[5] = str + '$';
                         str = str + 'T' + ('0' + hrs).slice(-2) + ':' + ('0' + mins).slice(-2); //proper formatting for leading 0's
+                        // eslint-disable-next-line security/detect-unsafe-regex
                         let match2 = str.match(/^(\d{4})(-\d{2})?(-\d{2})(?:(T\d{2}:\d{2})(:\d{2})?)?/);
                         if (match2 && match2.length >= 1) {
                             pArr[0] = match2[1] + '$'; //YYYY
@@ -432,13 +451,14 @@ let dateQueryBuilder = function (date, type, path) {
                 } else {
                     for (let i = 2; i < 5; i++) {
                         //add up the date parts in a string, done to make sure to update anything if timezone changed anything
-                        if (match[i]) {
-                            str = str + match[i];
+                        if (match[`${i}`]) {
+                            str = str + match[`${i}`];
                             pArr[i - 2] = str + '$';
                         }
                     }
                 }
                 let regPoss = {
+                    // eslint-disable-next-line security/detect-non-literal-regexp
                     $regex: new RegExp(
                         '^' +
                         '(?:' +
@@ -478,6 +498,7 @@ let dateQueryBuilder = function (date, type, path) {
                     toRet = [
                         {
                             [pDT]: {
+                                // eslint-disable-next-line security/detect-non-literal-regexp
                                 $regex: new RegExp(
                                     '^' + '(?:' + str + ')|(?:' + match[0].replace('+', '\\+') + ')|(?:' + tempFill,
                                     'i'
@@ -501,6 +522,7 @@ let dateQueryBuilder = function (date, type, path) {
                     return toRet;
                 }
                 return {
+                    // eslint-disable-next-line security/detect-non-literal-regexp
                     $regex: new RegExp(
                         '^' + '(?:' + str + ')|(?:' + match[0].replace('+', '\\+') + ')|(?:' + tempFill,
                         'i'
@@ -508,8 +530,8 @@ let dateQueryBuilder = function (date, type, path) {
                 };
             } else {
                 for (let i = 2; i < 10; i++) {
-                    if (match[i]) {
-                        str = str + match[i];
+                    if (match[`${i}`]) {
+                        str = str + match[`${i}`];
                     }
                 }
                 const moment_dt = moment(str);
@@ -553,7 +575,7 @@ let compositeQueryBuilder = function (target, field1, field2) {
             });
             break;
         case 'reference':
-            composite.push(referenceQueryBuilder(target1, path1));
+            composite.push(referenceQueryBuilder(target1, path1, null));
             break;
         case 'quantity':
             composite.push(quantityQueryBuilder(target1, path1));
