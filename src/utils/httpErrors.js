@@ -22,7 +22,7 @@ class BadRequestError extends ServerError {
         // (e.g.. the username)
 
         for (const [key, value] of Object.entries(options)) {
-            this[key] = value;
+            this[`${key}`] = value;
         }
     }
 
@@ -51,7 +51,7 @@ class NotFoundError extends ServerError {
         // (e.g.. the username)
 
         for (const [key, value] of Object.entries(options)) {
-            this[key] = value;
+            this[`${key}`] = value;
         }
     }
 
@@ -79,7 +79,7 @@ class NotAllowedError extends ServerError {
         // (e.g.. the username)
 
         for (const [key, value] of Object.entries(options)) {
-            this[key] = value;
+            this[`${key}`] = value;
         }
     }
 
@@ -101,7 +101,7 @@ class NotValidatedError extends ServerError {
         // (e.g.. the username)
 
         for (const [key, value] of Object.entries(options)) {
-            this[key] = value;
+            this[`${key}`] = value;
         }
     }
 
@@ -129,7 +129,7 @@ class UnauthorizedError extends ServerError {
         // (e.g.. the username)
 
         for (const [key, value] of Object.entries(options)) {
-            this[key] = value;
+            this[`${key}`] = value;
         }
     }
 
@@ -158,7 +158,7 @@ class ForbiddenError extends ServerError {
         // (e.g.. the username)
 
         for (const [key, value] of Object.entries(options)) {
-            this[key] = value;
+            this[`${key}`] = value;
         }
     }
 

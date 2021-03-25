@@ -85,7 +85,7 @@ app.get('/clean', async (req, res) => {
 
         console.info('Collection_names:' + collection_names);
         for (const collection_index in collection_names) {
-            const collection_name = collection_names[collection_index];
+            const collection_name = collection_names[parseInt(collection_index)];
             console.log(collection_name);
             console.log(['Removing: ', await db.collection(collection_name).countDocuments({}), ' documents from ', collection_name].join(''));
             await db.collection(collection_name).deleteMany({});
@@ -123,7 +123,7 @@ app.get('/stats', async (req, res) => {
         var collection_stats = [];
         console.info('Collection_names:' + collection_names);
         for (const collection_index in collection_names) {
-            const collection_name = collection_names[collection_index];
+            const collection_name = collection_names[parseInt(collection_index)];
             console.log(collection_name);
             const count = await db.collection(collection_name).countDocuments({});
             console.log(['Found: ', count, ' documents in ', collection_name].join(''));
@@ -189,7 +189,7 @@ app.get('/index', async (req, res) => {
         const collection_stats = [];
         console.info('Collection_names:' + collection_names);
         for (const collection_index in collection_names) {
-            const collection_name = collection_names[collection_index];
+            const collection_name = collection_names[parseInt(collection_index)];
             console.log(collection_name);
             // check if index exists
             let createdIndex = await create_index_if_not_exists(db, 'id', collection_name);

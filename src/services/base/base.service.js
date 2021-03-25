@@ -322,7 +322,7 @@ let buildR4SearchQuery = (resource_name, args) => {
             if (name) {
                 let orsName = nameQueryBuilder(name);
                 for (let i = 0; i < orsName.length; i++) {
-                    and_segments.push(orsName[i]);
+                    and_segments.push(orsName[`${i}`]);
                 }
             }
         } else {
@@ -336,7 +336,7 @@ let buildR4SearchQuery = (resource_name, args) => {
     if (address) {
         let orsAddress = addressQueryBuilder(address);
         for (let i = 0; i < orsAddress.length; i++) {
-            and_segments.push(orsAddress[i]);
+            and_segments.push(orsAddress[`${i}`]);
         }
     }
 
@@ -358,9 +358,12 @@ let buildR4SearchQuery = (resource_name, args) => {
 
     if (identifier) {
         let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier', '');
+        /**
+         * @type {string}
+         */
         for (let i in queryBuilder) {
             // noinspection JSUnfilteredForInLoop
-            query[i] = queryBuilder[i];
+            query[`${i}`] = queryBuilder[`${i}`];
         }
     }
     if (active) {
@@ -376,7 +379,7 @@ let buildR4SearchQuery = (resource_name, args) => {
         let queryBuilder = tokenQueryBuilder(email, 'value', 'telecom', 'email');
         for (let i in queryBuilder) {
             // noinspection JSUnfilteredForInLoop
-            query[i] = queryBuilder[i];
+            query[`${i}`] = queryBuilder[`${i}`];
         }
     }
 
@@ -385,7 +388,7 @@ let buildR4SearchQuery = (resource_name, args) => {
         let queryBuilder = tokenQueryBuilder(phone, 'value', 'telecom', 'phone');
         for (let i in queryBuilder) {
             // noinspection JSUnfilteredForInLoop
-            query[i] = queryBuilder[i];
+            query[`${i}`] = queryBuilder[`${i}`];
         }
     }
 
@@ -581,7 +584,7 @@ module.exports.search = async (args, {req}, resource_name, collection_name) => {
             /**
              * @type {string}
              */
-            const x = sort_properties_list[i];
+            const x = sort_properties_list[`${i}`];
             if (x.startsWith('-')) {
                 // eslint-disable-next-line no-unused-vars
                 /**
@@ -647,7 +650,7 @@ module.exports.search = async (args, {req}, resource_name, collection_name) => {
             for (const property of properties_to_return_list) {
                 if (property in element_to_return) {
                     // noinspection JSUnfilteredForInLoop
-                    element_to_return[property] = element[property];
+                    element_to_return[`${property}`] = element[`${property}`];
                 }
             }
             resources.push(element_to_return);
@@ -1239,7 +1242,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                             /**
                              * @type {Object}
                              */
-                            let my_item = newItem[i];
+                            let my_item = newItem[`${i}`];
                             // if newItem[i] does not matches any item in oldItem then insert
                             if (oldItem.every(a => deepEqual(a, my_item) === false)) {
                                 if ('id' in my_item) {
@@ -1254,7 +1257,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                                         if (result_array === null) {
                                             result_array = deepcopy(oldItem); // deep copy so we don't change the original object
                                         }
-                                        result_array[matchingOldItemIndex] = deepmerge(oldItem[matchingOldItemIndex], my_item, options);
+                                        result_array[`${matchingOldItemIndex}`] = deepmerge(oldItem[`${matchingOldItemIndex}`], my_item, options);
                                         continue;
                                     }
                                 }
@@ -1278,7 +1281,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                                         /**
                                          * @type {Object}
                                          */
-                                        const element = oldItem[index];
+                                        const element = oldItem[`${index}`];
                                         // if item has not already been inserted then insert before the next sequence
                                         if (!insertedItem && (element['sequence'] > my_item['sequence'])) {
                                             result_array.push(my_item); // add the new item before
@@ -1566,7 +1569,7 @@ module.exports.everything = async (args, {req}, resource_name, collection_name) 
             // const practitioner_roles = items;
             for (const index in practitioner_roles) {
                 // noinspection JSUnfilteredForInLoop
-                const practitioner_role = practitioner_roles[index];
+                const practitioner_role = practitioner_roles[`${index}`];
                 // for some reason a simple append doesn't work here
                 entries = entries.concat(
                     [
