@@ -24,7 +24,7 @@ services:
     command: npm run dev
 
   mongo:
-    image: mongo:3.6.1
+    image: mongo:4.0.0
     command: mongod --port 27017
     ports:
       - '27017:27017'

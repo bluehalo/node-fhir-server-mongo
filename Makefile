@@ -9,7 +9,10 @@ publish:
 
 .PHONY:up
 up:
-	docker-compose -p fhir-dev -f docker-compose.yml up --detach
+	docker-compose -f docker-compose.yml  -p fhir-dev build --parallel && \
+	docker-compose -p fhir-dev -f docker-compose.yml up --detach && \
+	echo FHIR server: http://localhost:3000/stats && \
+	echo FHIR server: http://localhost:3000/4_0_0/Practitioner/
 
 .PHONY:down
 down:
@@ -32,11 +35,12 @@ init:
 	nvm install 14.15.4
 	make update
 
-# nvm use 14.15.4 && \
+# nvm use 15.12.0 && \
 
 .PHONY:update
 update:
-	yarn install --no-optional --verbose && \
+	echo "NOTE: Run nvm use 15.12.0 if you get node conflicts" && \
+	yarn install --no-optional && \
 	npm i --package-lock-only
 
 .PHONY:tests
@@ -55,3 +59,6 @@ tests_everything:
 generate:
 	python3 src/services/generate_services.py
 
+.PHONY:shell
+shell: ## Brings up the bash shell in dev docker
+	docker-compose -p fhir-dev -f docker-compose.yml run --rm --name fhir fhir /bin/sh
