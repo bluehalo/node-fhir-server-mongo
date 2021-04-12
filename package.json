@@ -64,7 +64,7 @@
     "fast-json-patch": "^3.0.0-1",
     "helmet": "^4.4.1",
     "http-terminator": "^3.0.0",
-    "immer": "^8.0.1",
+    "immer": "^8.0.2",
     "joi": "^17.4.0",
     "jwks-rsa": "^2.0.1",
     "moment-timezone": "^0.5.33",
