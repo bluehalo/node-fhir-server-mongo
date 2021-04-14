@@ -9,6 +9,7 @@ const {fhirServerConfig, mongoConfig} = require('./config');
 const Prometheus = require('./utils/prometheus.utils');
 const env = require('var');
 const helmet = require('helmet');
+const https = require('https');
 
 const app = express();
 app.use(helmet());
@@ -212,7 +213,23 @@ app.get('/index', async (req, res) => {
 
 app.get('/.well-known/smart-configuration', (req, res) => {
     if (env.AUTH_CONFIGURATION_URI) {
-        return res.redirect(env.AUTH_CONFIGURATION_URI);
+        https.get(env.AUTH_CONFIGURATION_URI, (resp) => {
+            let data = '';
+
+            // A chunk of data has been received.
+            resp.on('data', (chunk) => {
+                data += chunk;
+            });
+
+            // The whole response has been received. Print out the result.
+            resp.on('end', () => {
+                res.json(JSON.parse(data));
+            });
+
+        }).on('error', (err) => {
+            console.log('Error: ' + err.message);
+            res.json({'error': err.message});
+        });
     } else {
         return res.json();
     }
