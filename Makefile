@@ -35,11 +35,11 @@ init:
 	nvm install 14.15.4
 	make update
 
-# nvm use 15.12.0 && \
+# nvm use 15.14.0 && \
 
 .PHONY:update
 update:
-	echo "NOTE: Run nvm use 15.12.0 if you get node conflicts" && \
+	echo "NOTE: Run nvm use 15.14.0 if you get node conflicts" && \
 	yarn install --no-optional && \
 	npm i --package-lock-only
 

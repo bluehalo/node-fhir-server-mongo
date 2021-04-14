@@ -1,4 +1,4 @@
-FROM node:15.12.0-slim
+FROM node:15.14-slim
 
 # Enable apt-get to run from the new sources.
 RUN printf "deb http://archive.debian.org/debian/ \

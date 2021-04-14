@@ -210,6 +210,15 @@ app.get('/index', async (req, res) => {
     }
 });
 
+app.get('/.well-known/smart-configuration', (req, res) => {
+    if (env.AUTH_CONFIGURATION_URI) {
+        return res.redirect(env.AUTH_CONFIGURATION_URI);
+    } else {
+        return res.json();
+    }
+});
+
+
 app.use(fhirApp.app);
 
 
