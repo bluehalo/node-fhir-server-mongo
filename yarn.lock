@@ -2488,10 +2488,10 @@
     "postcss" "^7.0.32"
     "postcss-value-parser" "^4.1.0"
 
-"aws-sdk@^2.854.0":
-  "integrity" "sha512-Sj9H+OH1sizBJt6WyTFBvCthZ1hRNUi4qRFO922agf+cOfmq1r+PYLOcG/0qgLMe2aelRwfT2qE2AZ97mADiOw=="
-  "resolved" "https://registry.npmjs.org/aws-sdk/-/aws-sdk-2.869.0.tgz"
-  "version" "2.869.0"
+"aws-sdk@^2.870.0":
+  "integrity" "sha512-jFRVrdyvBEYmSSrriA92dXDn1VgCXnz6Rax6wRGQDhyCWH+9NzZ7ZvIag2Yy2SLpvoRU7IaiEmiBLbNe/BksgA=="
+  "resolved" "https://registry.npmjs.org/aws-sdk/-/aws-sdk-2.887.0.tgz"
+  "version" "2.887.0"
   dependencies:
     "buffer" "4.9.2"
     "events" "1.1.1"
@@ -6587,10 +6587,10 @@
   "resolved" "https://registry.npmjs.org/immediate/-/immediate-3.0.6.tgz"
   "version" "3.0.6"
 
-"immer@^8.0.2":
-  "integrity" "sha512-PC9UlH8GYfBCoTbPbDEULuXhdmr21+tlv10IzA9Eycpi2Qrgas0j8pUt8Z2ZxVJ/OHIzQq4W8AWymMGkCJplBA=="
-  "resolved" "https://registry.npmjs.org/immer/-/immer-8.0.2.tgz"
-  "version" "8.0.2"
+"immer@^8.0.4":
+  "integrity" "sha512-jMfL18P+/6P6epANRvRk6q8t+3gGhqsJ9EuJ25AXE+9bNTYtssvzeYbEd0mXRYWCmmXSIbnlpz6vd6iJlmGGGQ=="
+  "resolved" "https://registry.npmjs.org/immer/-/immer-8.0.4.tgz"
+  "version" "8.0.4"
 
 "immer@8.0.1":
   "integrity" "sha512-aqXhGP7//Gui2+UrEtvxZxSquQVXTpZ7KDxfCcKAF3Vysvw0CViVaW9RZ1j1xlIYqaaaipBoqdqeibkc18PNvA=="
