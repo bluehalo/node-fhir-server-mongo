@@ -32,7 +32,7 @@ init:
 	brew install kompose
 	#brew install nvm
 	curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.37.2/install.sh | zsh
-	nvm install 14.15.4
+	nvm install 15.14
 	make update
 
 # nvm use 15.14.0 && \
