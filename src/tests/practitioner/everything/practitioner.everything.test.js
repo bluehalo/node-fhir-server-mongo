@@ -29,6 +29,7 @@ const practiceLocationResource = require('./fixtures/practice/location.json');
 
 // expected
 const expectedPractitionerResource = require('./fixtures/expected/expected_practitioner.json');
+const expectedEverythingResource = require('./fixtures/expected/expected_everything.json');
 
 const async = require('async');
 const env = require('var');
@@ -361,15 +362,24 @@ describe('Practitioner Everything Tests', () => {
                             console.log('------- response Practitioner 1679033641 $everything ------------');
                             console.log(JSON.stringify(resp.body, null, 2));
                             console.log('------- end response  ------------');
-                            // clear out the lastUpdated column since that changes
-                            // let body = resp.body;
-                            // expect(body.length).toBe(1);
-                            // delete body[0]['meta']['lastUpdated'];
-                            // let expected = expectedPractitionerResource;
-                            // // delete expected[0]['meta']['lastUpdated'];
-                            // delete expected[0]['$schema'];
-                            // expected[0]['meta'] = { 'versionId': '2' };
-                            // expect(body).toStrictEqual(expected);
+                            let body = resp.body;
+                            body.entry.forEach(element => {
+                                delete element['link'];
+                                delete element['resource']['meta']['versionId'];
+                                delete element['resource']['meta']['lastUpdated'];
+                            });
+                            let expected = expectedEverythingResource;
+                            expected.entry.forEach(element => {
+                                delete element['link'];
+                                if ('meta' in element['resource']) {
+                                    delete element['resource']['meta']['versionId'];
+                                    delete element['resource']['meta']['lastUpdated'];
+                                }
+                                if ('$schema' in element) {
+                                    delete element['$schema'];
+                                }
+                            });
+                            expect(body).toStrictEqual(expected);
                         }, cb)
                 ],
                 (err, results) => {

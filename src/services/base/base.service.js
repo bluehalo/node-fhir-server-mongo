@@ -11,7 +11,13 @@ const globals = require('../../globals');
 const logger = require('@asymmetrik/node-fhir-server-core').loggers.get();
 const {getUuid} = require('../../utils/uid.util');
 const {validateResource} = require('../../utils/validator.util');
-const {NotAllowedError, NotFoundError, BadRequestError, NotValidatedError, ForbiddenError} = require('../../utils/httpErrors');
+const {
+    NotAllowedError,
+    NotFoundError,
+    BadRequestError,
+    NotValidatedError,
+    ForbiddenError
+} = require('../../utils/httpErrors');
 const {validate, applyPatch, compare} = require('fast-json-patch');
 const deepmerge = require('deepmerge');
 const deepcopy = require('deepcopy');
@@ -1468,7 +1474,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
         }
     }
 
-        /**
+    /**
      * Tries to merge and retries if there is an error to protect against race conditions where 2 calls are happening
      *  in parallel for the same resource. Both of them see that the resource does not exist, one of them inserts it
      *  and then the other ones tries to insert too
@@ -1530,6 +1536,103 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
 module.exports.everything = async (args, {req}, resource_name, collection_name) => {
     logRequest(`${resource_name} >>> everything`);
     verifyHasValidScopes(resource_name, 'read', req.user, req.authInfo && req.authInfo.scope);
+
+    /**
+     * Gets related resources
+     * @param db
+     * @param collectionName
+     * @param base_version
+     * @param parent parent entity
+     * @param host
+     * @param property name of property to link
+     * @param filterProperty (Optional) filter the sublist by this property
+     * @param filterValue (Optional) match filterProperty to this value
+     * @return {Promise<[{resource: Resource, link: string}]|*[]>}
+     */
+    async function get_related_resources(db, collectionName, base_version, parent, host, property, filterProperty, filterValue) {
+        const collection = db.collection(`${collectionName}_${base_version}`);
+        const RelatedResource = getResource(base_version, collectionName);
+        // eslint-disable-next-line security/detect-object-injection
+        let relatedResourceProperty = parent[property];
+        let entries = [];
+        if (relatedResourceProperty) {
+            // check if property is a list or not.  If not make it a list to make the code below handle both
+            if (!(Array.isArray(relatedResourceProperty))) {
+                relatedResourceProperty = [relatedResourceProperty];
+            }
+            for (const relatedResourceIndex in relatedResourceProperty) {
+                // noinspection JSUnfilteredForInLoop
+                const relatedResourcePropertyCurrent = relatedResourceProperty[`${relatedResourceIndex}`];
+                if (filterProperty !== null) {
+                    // eslint-disable-next-line security/detect-object-injection
+                    if (relatedResourcePropertyCurrent[filterProperty] !== filterValue) {
+                        continue;
+                    }
+                }
+                // eslint-disable-next-line security/detect-object-injection
+                const related_resource_id = relatedResourcePropertyCurrent.reference.replace(collectionName + '/', '');
+
+                const found_related_resource = await collection.findOne({id: related_resource_id.toString()});
+                if (found_related_resource) {
+                    // noinspection UnnecessaryLocalVariableJS
+                    entries = entries.concat([{
+                        'link': `https://${host}/${base_version}/${found_related_resource.resourceType}/${found_related_resource.id}`,
+                        'resource': new RelatedResource(found_related_resource)
+                    }]);
+                }
+            }
+        }
+        return entries;
+    }
+
+    /**
+     * Gets related resources
+     * @param db
+     * @param parentCollectionName
+     * @param relatedResourceCollectionName
+     * @param base_version
+     * @param parent parent entity
+     * @param host
+     * @param filterProperty (Optional) filter the sublist by this property
+     * @param filterValue (Optional) match filterProperty to this value
+     * @param reverse_property (Optional) Do a reverse link from child to parent using this property
+     * @return {Promise<[{resource: Resource, link: string}]|*[]>}
+     */
+    async function get_reverse_related_resources(db, parentCollectionName, relatedResourceCollectionName, base_version, parent, host, filterProperty, filterValue, reverse_property) {
+        if (!(reverse_property)) {
+            throw new Error('reverse_property must be set');
+        }
+        const collection = db.collection(`${relatedResourceCollectionName}_${base_version}`);
+        const RelatedResource = getResource(base_version, relatedResourceCollectionName);
+        let relatedResourceProperty;
+        // find elements in other collection that link to this object
+        const query = {
+            [reverse_property + '.reference']: parentCollectionName + '/' + parent['id']
+        };
+        const cursor = collection.find(query);
+        // noinspection JSUnresolvedFunction
+        relatedResourceProperty = await cursor.toArray();
+        let entries = [];
+        if (relatedResourceProperty) {
+            for (const relatedResourceIndex in relatedResourceProperty) {
+                // noinspection JSUnfilteredForInLoop
+                const relatedResourcePropertyCurrent = relatedResourceProperty[`${relatedResourceIndex}`];
+                if (filterProperty !== null) {
+                    // eslint-disable-next-line security/detect-object-injection
+                    if (relatedResourcePropertyCurrent[filterProperty] !== filterValue) {
+                        continue;
+                    }
+                }
+                entries = entries.concat([{
+                    'link': `https://${host}/${base_version}/${relatedResourcePropertyCurrent.resourceType}/${relatedResourcePropertyCurrent.id}`,
+                    'resource': new RelatedResource(relatedResourcePropertyCurrent)
+                }]);
+
+            }
+        }
+        return entries;
+    }
+
     try {
         let {base_version, id} = args;
 
@@ -1537,129 +1640,162 @@ module.exports.everything = async (args, {req}, resource_name, collection_name) 
         logInfo(`req=${req}`);
 
         const host = req.headers.host;
-        // for now we only support Practitioner
         let query = {};
         query.id = id;
         // Grab an instance of our DB and collection
         let db = globals.get(CLIENT_DB);
-        collection_name = 'Practitioner'; // for now we only support this for Practitioner
-        let collection = db.collection(`${collection_name}_${base_version}`);
-        const PractitionerResource = getResource(base_version, resource_name);
+        if (collection_name === 'Practitioner') {
+            let collection = db.collection(`${collection_name}_${base_version}`);
+            const PractitionerResource = getResource(base_version, resource_name);
 
-        let practitioner = await collection.findOne({id: id.toString()});
-        // noinspection JSUnresolvedFunction
-        if (practitioner) {
-            // first add the Practitioner
-            let entries = [{
-                'link': `https://${host}/${base_version}/${practitioner.resourceType}/${practitioner.id}`,
-                'resource': new PractitionerResource(practitioner)
-            }];
-            // now look for practitioner_role
-            collection_name = 'PractitionerRole';
-            collection = db.collection(`${collection_name}_${base_version}`);
-            const PractitionerRoleResource = getResource(base_version, collection_name);
-            query = {
-                'practitioner.reference': 'Practitioner/' + id
-            };
-            const cursor = collection.find(query);
+            let practitioner = await collection.findOne({id: id.toString()});
             // noinspection JSUnresolvedFunction
-            const practitioner_roles = await cursor.toArray();
-
-            // noinspection JSUnresolvedFunction
-            // const practitioner_roles = items;
-            for (const index in practitioner_roles) {
-                // noinspection JSUnfilteredForInLoop
-                const practitioner_role = practitioner_roles[`${index}`];
-                // for some reason a simple append doesn't work here
-                entries = entries.concat(
-                    [
-                        {
-                            'link': `https://${host}/${base_version}/${practitioner_role.resourceType}/${practitioner_role.id}`,
-                            'resource': new PractitionerRoleResource(practitioner_role)
-                        }
-                    ]
+            if (practitioner) {
+                // first add the Practitioner
+                let entries = [{
+                    'link': `https://${host}/${base_version}/${practitioner.resourceType}/${practitioner.id}`,
+                    'resource': new PractitionerResource(practitioner)
+                }];
+                // now look for practitioner_role
+                verifyHasValidScopes('PractitionerRole', 'read', req.user, req.authInfo && req.authInfo.scope);
+                const practitioner_role_entries = await get_reverse_related_resources(
+                    db,
+                    'Practitioner',
+                    'PractitionerRole',
+                    base_version,
+                    practitioner,
+                    host,
+                    null,
+                    null,
+                    'practitioner'
                 );
-                // entries += {
-                //     'resource': 'foo'
-                // };
-                // now for each PractitionerRole, get the Organization
-                collection_name = 'Organization';
-                collection = db.collection(`${collection_name}_${base_version}`);
-                const OrganizationRoleResource = getResource(base_version, collection_name);
-                if (practitioner_role.organization) {
-                    const organization_id = practitioner_role.organization.reference.replace(collection_name + '/', '');
 
-                    const organization = await collection.findOne({id: organization_id.toString()});
-                    if (organization) {
-                        entries = entries.concat(
-                            [{
-                                'link': `https://${host}/${base_version}/${organization.resourceType}/${organization.id}`,
-                                'resource': new OrganizationRoleResource(organization)
-                            }]);
-                    }
-                }
-                // now for each PractitionerRole, get the Location
-                collection_name = 'Location';
-                collection = db.collection(`${collection_name}_${base_version}`);
-                const LocationRoleResource = getResource(base_version, collection_name);
-                if (practitioner_role.location && practitioner_role.location.length > 0) {
-                    const location_id = practitioner_role.location[0].reference.replace(collection_name + '/', '');
+                entries = entries.concat(practitioner_role_entries);
 
-                    const location = await collection.findOne({id: location_id.toString()});
-                    if (location) {
-                        entries = entries.concat(
-                            [{
-                                'link': `https://${host}/${base_version}/${location.resourceType}/${location.id}`,
-                                'resource': new LocationRoleResource(location)
-                            }]);
-                    }
-                }
-                // now for each PractitionerRole, get the HealthcareService
-                collection_name = 'HealthcareService';
-                collection = db.collection(`${collection_name}_${base_version}`);
-                const HealthcareServiceRoleResource = getResource(base_version, collection_name);
-                if (practitioner_role.healthcareService && practitioner_role.healthcareService.length > 0) {
-                    const healthcareService_id = practitioner_role.healthcareService[0].reference.replace(collection_name + '/', '');
+                const practitioner_roles = practitioner_role_entries.map(e => e.resource);
 
-                    const healthcareService = await collection.findOne({id: healthcareService_id.toString()});
-                    if (healthcareService) {
-                        entries = entries.concat(
-                            [{
-                                'link': `https://${host}/${base_version}/${healthcareService.resourceType}/${healthcareService.id}`,
-                                'resource': new HealthcareServiceRoleResource(healthcareService)
-                            }]);
-                    }
-                }
-                // now for each PractitionerRole, get the InsurancePlan
-                collection_name = 'InsurancePlan';
-                collection = db.collection(`${collection_name}_${base_version}`);
-                const InsurancePlanResource = getResource(base_version, collection_name);
-                if (practitioner_role.extension && practitioner_role.extension.length > 0) {
-                    const first_level_extension = practitioner_role.extension[0];
-                    if (first_level_extension.url.endsWith('insurance_plan') && first_level_extension.extension.length > 0) {
-                        const insurancePlanId = first_level_extension.extension[0].valueReference.reference.replace(collection_name + '/', '');
+                for (const index in practitioner_roles) {
+                    // noinspection JSUnfilteredForInLoop
+                    const practitioner_role = practitioner_roles[`${index}`];
+                    // now for each PractitionerRole, get the Organization
+                    verifyHasValidScopes('Organization', 'read', req.user, req.authInfo && req.authInfo.scope);
+                    entries = entries.concat(
+                        await get_related_resources(
+                            db,
+                            'Organization',
+                            base_version,
+                            practitioner_role,
+                            host,
+                            'organization'
+                        )
+                    );
+                    // now for each PractitionerRole, get the Location
+                    verifyHasValidScopes('Location', 'read', req.user, req.authInfo && req.authInfo.scope);
+                    entries = entries.concat(
+                        await get_related_resources(
+                            db,
+                            'Location',
+                            base_version,
+                            practitioner_role,
+                            host,
+                            'location'
+                        )
+                    );
+                    // now for each PractitionerRole, get the HealthcareService
+                    verifyHasValidScopes('HealthcareService', 'read', req.user, req.authInfo && req.authInfo.scope);
+                    entries = entries.concat(
+                        await get_related_resources(
+                            db,
+                            'HealthcareService',
+                            base_version,
+                            practitioner_role,
+                            host,
+                            'healthcareService'
+                        )
+                    );
+                    // now for each PractitionerRole, get the InsurancePlan
+                    verifyHasValidScopes('InsurancePlan', 'read', req.user, req.authInfo && req.authInfo.scope);
+                    collection_name = 'InsurancePlan';
+                    collection = db.collection(`${collection_name}_${base_version}`);
+                    const InsurancePlanResource = getResource(base_version, collection_name);
+                    if (practitioner_role.extension && practitioner_role.extension.length > 0) {
+                        const first_level_extension = practitioner_role.extension[0];
+                        if (first_level_extension.url.endsWith('insurance_plan') && first_level_extension.extension.length > 0) {
+                            const insurancePlanId = first_level_extension.extension[0].valueReference.reference.replace(collection_name + '/', '');
 
-                        const insurancePlan = await collection.findOne({id: insurancePlanId.toString()});
-                        if (insurancePlan) {
-                            entries = entries.concat(
-                                [{
-                                    'link': `https://${host}/${base_version}/${insurancePlan.resourceType}/${insurancePlan.id}`,
-                                    'resource': new InsurancePlanResource(insurancePlan)
-                                }]);
+                            const insurancePlan = await collection.findOne({id: insurancePlanId.toString()});
+                            if (insurancePlan) {
+                                entries = entries.concat(
+                                    [{
+                                        'link': `https://${host}/${base_version}/${insurancePlan.resourceType}/${insurancePlan.id}`,
+                                        'resource': new InsurancePlanResource(insurancePlan)
+                                    }]);
+                            }
                         }
                     }
                 }
+
+                // create a bundle
+                return (
+                    {
+                        'resourceType': 'Bundle',
+                        'id': 'bundle-example',
+                        'entry': entries
+                    });
             }
+        } else if (collection_name === 'Organization') {
+            let collection = db.collection(`${collection_name}_${base_version}`);
+            const OrganizationResource = getResource(base_version, resource_name);
 
-            // create a bundle
-            return (
-                {
-                    'resourceType': 'Bundle',
-                    'id': 'bundle-example',
-                    'entry': entries
-                });
+            let organization = await collection.findOne({id: id.toString()});
+            // noinspection JSUnresolvedFunction
+            if (organization) {
+                // first add the Practitioner
+                let entries = [{
+                    'link': `https://${host}/${base_version}/${organization.resourceType}/${organization.id}`,
+                    'resource': new OrganizationResource(organization)
+                }];
+                // now for each Organization, get the Location
+                verifyHasValidScopes('Location', 'read', req.user, req.authInfo && req.authInfo.scope);
+                entries = entries.concat(
+                    await get_reverse_related_resources(
+                        db,
+                        'Organization',
+                        'Location',
+                        base_version,
+                        organization,
+                        host,
+                        null,
+                        null,
+                        'managingOrganization'
+                    )
+                );
+                // now for each Organization, get the HealthcareService
+                verifyHasValidScopes('HealthcareService', 'read', req.user, req.authInfo && req.authInfo.scope);
+                entries = entries.concat(
+                    await get_reverse_related_resources(
+                        db,
+                        'Organization',
+                        'HealthcareService',
+                        base_version,
+                        organization,
+                        host,
+                        null,
+                        null,
+                        'providedBy'
+                    )
+                );
+                // create a bundle
+                return (
+                    {
+                        'resourceType': 'Bundle',
+                        'id': 'bundle-example',
+                        'entry': entries
+                    });
+            }
+        } else {
+            throw new Error('$everything is not supported for resource: ' + collection_name);
         }
-
     } catch (err) {
         logger.error(`Error with ${resource_name}.searchById: `, err);
         throw new BadRequestError(err);
