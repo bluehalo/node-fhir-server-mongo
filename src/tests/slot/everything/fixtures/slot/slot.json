@@ -1,0 +1,23 @@
+{
+  "resourceType": "Slot",
+  "id": "1275501447-UHG-MMMA-existing",
+  "meta": {
+    "versionId": "1",
+    "lastUpdated": "2021-04-19T10:01:17+00:00"
+  },
+  "serviceType": [
+    {
+      "coding": [
+        {
+          "system": "http://medstarhealth.org",
+          "code": "EXISTING"
+        }
+      ]
+    }
+  ],
+  "schedule": {
+    "reference": "Schedule/1275501447-UHG-MMMA"
+  },
+  "start": "2021-11-04T14:00:00.000+08:00",
+  "end": "2021-11-04T14:00:00.000+08:00"
+}

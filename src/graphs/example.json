@@ -1,0 +1,194 @@
+{
+  "fullUrl": "https://data.developer.nhs.uk/ccri-fhir/STU3/GraphDefinition/7",
+  "resource": {
+    "resourceType": "GraphDefinition",
+    "id": "7",
+    "url": "https://fhir.mayfield-is.co.uk/GraphDefinition/GPC-GetStructuredRecord-1",
+    "name": "GPC Patient Structured Record",
+    "status": "draft",
+    "date": "2019-11-10T00:00:00+00:00",
+    "publisher": "Kevin Mayfield",
+    "contact": [
+      {
+        "telecom": [
+          {
+            "system": "url",
+            "value": "http://fhir.nhs.uk"
+          }
+        ]
+      }
+    ],
+    "description": "A Graph Definition for Practitioner everything",
+    "start": "Bundle",
+    "profile": "https://fhir.nhs.uk/STU3/StructureDefinition/GPConnect-StructuredRecord-Bundle-1",
+    "link": [
+      {
+        "path": "Bundle.entry.resource[0]",
+        "min": 1,
+        "max": "1",
+        "description": "Practitioner",
+        "target": [
+          {
+            "type": "Practitioner",
+            "link": [
+              {
+                "path": "Practitioner.generalPractitioner",
+                "min": 1,
+                "max": "1",
+                "description": "Patient usual GP",
+                "target": [
+                  {
+                    "type": "Practitioner",
+                    "profile": "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Practitioner-1"
+                  }
+                ]
+              },
+              {
+                "path": "Patient.managingOrganization[x]",
+                "min": 1,
+                "max": "1",
+                "description": "Patient Surgery",
+                "target": [
+                  {
+                    "type": "Organization",
+                    "profile": "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Organization-1"
+                  }
+                ]
+              },
+              {
+                "path": "Patient.managingOrganization[x]",
+                "min": 1,
+                "max": "1",
+                "description": "Patient Usual GP Role",
+                "target": [
+                  {
+                    "type": "PractitionerRole",
+                    "profile": "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-PractitionerRole-1",
+                    "link": [
+                      {
+                        "path": "PractitionerRole.practitioner",
+                        "min": 1,
+                        "max": "1",
+                        "description": "GP",
+                        "target": [
+                          {
+                            "type": "Practitioner",
+                            "profile": "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Practitioner-1"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "path": "Bundle.entry.resource[x]",
+        "min": 0,
+        "max": "1",
+        "description": "List - Allergies and Intolerances. Return when includeAllegies is set. Rule: List.code = SNOMED Concept = 886921000000105",
+        "target": [
+          {
+            "type": "List",
+            "profile": "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1",
+            "link": [
+              {
+                "path": "List.entry[x].item",
+                "min": 0,
+                "max": "*",
+                "description": "Active Allergies. Rule: AllergyIntolerance.clinicalStatus = active",
+                "target": [
+                  {
+                    "type": "AllergyIntolerance",
+                    "profile": "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "path": "Bundle.entry.resource[x]",
+        "min": 0,
+        "max": "1",
+        "description": "List - Allergies and Intolerances (Ended). Return when includeResolvedAllergies = true. Rule: List.code = SNOMED Concept = 1103671000000101",
+        "target": [
+          {
+            "type": "List",
+            "profile": "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1",
+            "link": [
+              {
+                "path": "List.entry[x].item",
+                "min": 0,
+                "max": "*",
+                "description": "Resolved Allergies. Rule: AllergyIntolerance.clinicalStatus = resolved",
+                "target": [
+                  {
+                    "type": "AllergyIntolerance",
+                    "profile": "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "path": "Bundle.entry.resource[x]",
+        "min": 0,
+        "max": "1",
+        "description": "List - Medications. Return when includeMedications is set. Rule: List.code = SNOMED Concept = 933361000000108",
+        "target": [
+          {
+            "type": "List",
+            "profile": "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1",
+            "link": [
+              {
+                "path": "List.entry[x].item",
+                "min": 0,
+                "max": "*",
+                "description": "Current and past Medications",
+                "target": [
+                  {
+                    "type": "MedicationStatement",
+                    "profile": "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1",
+                    "link": [
+                      {
+                        "path": "MedicationStatement.basedOn",
+                        "min": 1,
+                        "max": "1",
+                        "description": "Prescription plan. Rule = MediationRequest.intent = plan",
+                        "target": [
+                          {
+                            "type": "MedicationRequest",
+                            "profile": "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationRequest-1",
+                            "link": [
+                              {
+                                "path": "[reversed]",
+                                "description": "Prescription Issue (order). Rule = MediationRequest.intent = order",
+                                "target": [
+                                  {
+                                    "type": "MedicationRequest",
+                                    "profile": "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationRequest-1"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

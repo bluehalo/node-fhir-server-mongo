@@ -1,6 +1,7 @@
 {
   "resourceType": "Bundle",
   "id": "bundle-example",
+  "type": "collection",
   "entry": [
     {
       "link": "https://127.0.0.1:55016/4_0_0/Organization/733797173",

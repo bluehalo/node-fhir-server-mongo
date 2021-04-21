@@ -1,0 +1,50 @@
+{
+  "name": "provider_everything",
+  "status": "active",
+  "start": "Practitioner",
+  "link": [
+    {
+      "description": "Practitioner Roles for this Practitioner",
+      "params": "practitioner={ref}",
+      "target": [
+        {
+          "type": "PractitionerRole"
+        }
+      ],
+      "link": [
+        {
+          "path": "organization",
+          "target": [
+            {
+              "type": "Organization"
+            }
+          ]
+        },
+        {
+          "path": "location[x]",
+          "target": [
+            {
+              "type": "Location"
+            }
+          ]
+        },
+        {
+          "path": "healthcareService[x]",
+          "target": [
+            {
+              "type": "HealthcareService"
+            }
+          ]
+        },
+        {
+          "path": "extension:url=insurance_plan",
+          "target": [
+            {
+              "type": "InsurancePlan"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "resourceType": "PractitionerRole",
+  "id": "1275501447-UHG-MMMA",
+  "meta": {
+    "versionId": "2",
+    "lastUpdated": "2021-04-09T09:29:24+00:00",
+    "source": "http://medstarhealth.org/provider"
+  },
+  "identifier": [
+    {
+      "use": "usual",
+      "type": {
+        "coding": [
+          {
+            "system": "http://medstarhealth.org",
+            "code": "Medstar Provider-Protocol",
+            "display": "Medstar Provider-Protocol"
+          }
+        ]
+      },
+      "system": "http://medstarhealth.org",
+      "value": "1275501447-UHG-MMMA"
+    }
+  ],
+  "practitioner": {
+    "reference": "Practitioner/1275501447"
+  },
+  "organization": {
+    "reference": "Organization/Medstar-Alias-UHG-MMMA"
+  },
+  "code": [
+    {
+      "coding": [
+        {
+          "system": "http://terminology.hl7.org/CodeSystem/practitioner-role",
+          "code": "doctor"
+        }
+      ]
+    },
+    {
+      "coding": [
+        {
+          "system": "http://terminology.hl7.org/CodeSystem/practitioner-role",
+          "code": "doctor",
+          "display": "Doctor"
+        }
+      ],
+      "text": "Doctor"
+    }
+  ],
+  "specialty": [
+    {
+      "coding": [
+        {
+          "system": "http://nucc.org/provider-taxonomy",
+          "code": "261QP2300X",
+          "display": "Primary Care"
+        }
+      ],
+      "text": "Primary Care Flag"
+    }
+  ],
+  "location": [
+    {
+      "reference": "Location/Medstar-Alias-UHG-MMMA"
+    }
+  ],
+  "healthcareService": [
+    {
+      "reference": "HealthcareService/1275501447-UHG-MMMA"
+    }
+  ]
+}
