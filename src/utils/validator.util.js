@@ -38,7 +38,7 @@ function validateResource(resourceBody, resourceName, path) {
                     severity: 'error',
                     code: 'invalid',
                     details: {
-                        text: `${path} does not match request payload ${resourceBody.resourceType}`,
+                        text: `Validation failed for data posted to ${path} for resource ${resourceBody.resourceType}`,
                     },
                 },
             ],

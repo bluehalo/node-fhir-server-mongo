@@ -12,7 +12,7 @@ const env = require('var');
 
 const request = supertest(app);
 
-describe('Practitioner Merge Tests', () => {
+describe('Practitioner Merge Bundle Tests', () => {
     let connection;
     let db;
     // let resourceId;

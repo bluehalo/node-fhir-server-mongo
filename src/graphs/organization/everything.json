@@ -1,29 +1,31 @@
 {
+  "resourceType": "GraphDefinition",
+  "id": "o",
   "name": "organization_everything",
   "status": "active",
   "start": "Organization",
   "link": [
     {
-      "params": "managingOrganization={ref}",
       "target": [
         {
-          "type": "Location"
+          "type": "Location",
+          "params": "managingOrganization={ref}"
         }
       ]
     },
     {
-      "params": "providedBy={ref}",
       "target": [
         {
-          "type": "HealthcareService"
+          "type": "HealthcareService",
+          "params": "providedBy={ref}"
         }
       ]
     },
     {
-      "params": "participatingOrganization={ref}",
       "target": [
         {
-          "type": "OrganizationAffiliation"
+          "type": "OrganizationAffiliation",
+          "params": "participatingOrganization={ref}"
         }
       ]
     }

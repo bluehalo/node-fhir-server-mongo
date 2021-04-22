@@ -1,4 +1,6 @@
 {
+  "resourceType": "GraphDefinition",
+  "id": "o",
   "name": "organization_everything",
   "status": "active",
   "start": "Organization",
@@ -7,23 +9,23 @@
       "path": "schedule",
       "target": [
         {
-          "type": "Schedule"
-        }
-      ],
-      "link": [
-        {
-          "path": "actor",
-          "target": [
-            {
-              "type": "PractitionerRole"
-            }
-          ],
+          "type": "Schedule",
           "link": [
             {
-              "path": "practitioner",
+              "path": "actor",
               "target": [
                 {
-                  "type": "Practitioner"
+                  "type": "PractitionerRole",
+                  "link": [
+                    {
+                      "path": "practitioner",
+                      "target": [
+                        {
+                          "type": "Practitioner"
+                        }
+                      ]
+                    }
+                  ]
                 }
               ]
             }

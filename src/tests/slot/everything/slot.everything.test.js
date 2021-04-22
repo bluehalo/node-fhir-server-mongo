@@ -140,11 +140,13 @@ describe('Slot Everything Tests', () => {
                             console.log(JSON.stringify(resp.body, null, 2));
                             console.log('------- end response  ------------');
                             let body = resp.body;
+                            delete body['timestamp'];
                             body.entry.forEach(element => {
                                 delete element['link'];
                                 delete element['resource']['meta']['lastUpdated'];
                             });
                             let expected = expectedEverythingResource;
+                            delete expected['timestamp'];
                             expected.entry.forEach(element => {
                                 delete element['link'];
                                 if ('meta' in element['resource']) {

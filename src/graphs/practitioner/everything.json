@@ -1,46 +1,57 @@
 {
+  "resourceType": "GraphDefinition",
+  "id": "o",
   "name": "provider_everything",
   "status": "active",
   "start": "Practitioner",
   "link": [
     {
       "description": "Practitioner Roles for this Practitioner",
-      "params": "practitioner={ref}",
       "target": [
         {
-          "type": "PractitionerRole"
-        }
-      ],
-      "link": [
-        {
-          "path": "organization",
-          "target": [
+          "type": "PractitionerRole",
+          "params": "practitioner={ref}",
+          "link": [
             {
-              "type": "Organization"
-            }
-          ]
-        },
-        {
-          "path": "location[x]",
-          "target": [
+              "path": "organization",
+              "target": [
+                {
+                  "type": "Organization"
+                }
+              ]
+            },
             {
-              "type": "Location"
-            }
-          ]
-        },
-        {
-          "path": "healthcareService[x]",
-          "target": [
+              "path": "location[x]",
+              "target": [
+                {
+                  "type": "Location"
+                }
+              ]
+            },
             {
-              "type": "HealthcareService"
-            }
-          ]
-        },
-        {
-          "path": "extension:url=insurance_plan",
-          "target": [
+              "path": "healthcareService[x]",
+              "target": [
+                {
+                  "type": "HealthcareService"
+                }
+              ]
+            },
             {
-              "type": "InsurancePlan"
+              "path": "extension.extension:url=plan",
+              "target": [
+                {
+                  "link": [
+                    {
+                      "path": "valueReference",
+                      "target": [
+                        {
+                          "type": "InsurancePlan"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
             }
           ]
         }
