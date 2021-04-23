@@ -3,7 +3,7 @@
   "id": "o",
   "name": "organization_everything",
   "status": "active",
-  "start": "Organization",
+  "start": "Slot",
   "link": [
     {
       "path": "schedule",
