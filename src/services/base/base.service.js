@@ -170,6 +170,8 @@ let buildR4SearchQuery = (resource_name, args) => {
     let source = args['source'];
     let versionId = args['versionId'];
     let lastUpdated = args['_lastUpdated']; // _lastUpdated=gt2010-10-01
+    let security = args['_security'];
+    let tag = args['_tag'];
     // Search Result params
 
     // let extension_missing = args['extension:missing'];
@@ -370,6 +372,26 @@ let buildR4SearchQuery = (resource_name, args) => {
 
     if (identifier) {
         let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier', '');
+        /**
+         * @type {string}
+         */
+        for (let i in queryBuilder) {
+            // noinspection JSUnfilteredForInLoop
+            query[`${i}`] = queryBuilder[`${i}`];
+        }
+    }
+    if (security) {
+        let queryBuilder = tokenQueryBuilder(security, 'code', 'meta.security', '');
+        /**
+         * @type {string}
+         */
+        for (let i in queryBuilder) {
+            // noinspection JSUnfilteredForInLoop
+            query[`${i}`] = queryBuilder[`${i}`];
+        }
+    }
+    if (tag) {
+        let queryBuilder = tokenQueryBuilder(tag, 'code', 'meta.tag', '');
         /**
          * @type {string}
          */
