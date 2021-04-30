@@ -2212,9 +2212,7 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
         /**
          * @type {[[{resource: Resource, fullUrl: string}]]}]
          */
-        const entriesById = await Promise.all([
-            async.map(id, async x => await processSingleId(x))
-        ]);
+        const entriesById = await async.map(id, async x => await processSingleId(x));
         /**
          * @type {[{resource: Resource, fullUrl: string}]}
          */

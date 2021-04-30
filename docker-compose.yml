@@ -28,19 +28,19 @@ services:
     command: npm run dev
 
   mongo:
-    image: mongo:4.0.0
+    image: mongo:4.0.24
     command: mongod --port 27017
     ports:
       - '27017:27017'
     volumes:
       - mongo_data:/data/db
 
-  mongoclient:
-    image: imranq2/mongoclient-aws:0.1.1
-    ports:
-      - '3010:3000'
-    environment:
-      MONGOCLIENT_DEFAULT_CONNECTION_URL: mongodb://mongo:27017
+#  mongoclient:
+#    image: imranq2/mongoclient-aws:0.1.1
+#    ports:
+#      - '3010:3000'
+#    environment:
+#      MONGOCLIENT_DEFAULT_CONNECTION_URL: mongodb://mongo:27017
 
 volumes:
   mongo_data:
