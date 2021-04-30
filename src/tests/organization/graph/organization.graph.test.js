@@ -11,16 +11,18 @@ const practiceOrganizationResource = require('./fixtures/practice/practice_organ
 const practiceOrganization2Resource = require('./fixtures/practice/practice_organization2.json');
 const practiceParentOrganizationResource = require('./fixtures/practice/parent_organization.json');
 const practiceLocationResource = require('./fixtures/practice/location.json');
+// graph
+const graphDefinitionResource = require('./fixtures/graph/my_graph.json');
 
 // expected
-const expectedEverythingResource = require('./fixtures/expected/expected_everything.json');
+const expectedResource = require('./fixtures/expected/expected.json');
 
 const async = require('async');
 const env = require('var');
 
 const request = supertest(app);
 
-describe('Organization Multiple Everything Tests', () => {
+describe('Organization Graph Contained Tests', () => {
     let connection;
     let db;
     // let resourceId;
@@ -52,8 +54,8 @@ describe('Organization Multiple Everything Tests', () => {
         await connection.close();
     });
 
-    describe('Everything Tests', () => {
-        test('Everything works properly', (done) => {
+    describe('Graph Contained Tests', () => {
+        test('Graph contained works properly', (done) => {
             async.waterfall([
                     (cb) => // first confirm there are no practitioners
                         request
@@ -148,12 +150,13 @@ describe('Organization Multiple Everything Tests', () => {
                                 return cb(err, resp);
                             }),
                     (results, cb) => request
-                        .get('/4_0_0/Organization/1/$everything?id=733797173,1234')
+                        .post('/4_0_0/Organization/$graph?id=733797173,1234&contained=true')
+                        .send(graphDefinitionResource)
                         .set('Content-Type', 'application/fhir+json')
                         .set('Accept', 'application/fhir+json')
                         .expect(200, cb)
                         .expect((resp) => {
-                            console.log('------- response Organization 733797173 $everything ------------');
+                            console.log('------- response Organization 733797173 $graph ------------');
                             console.log(JSON.stringify(resp.body, null, 2));
                             console.log('------- end response  ------------');
                             let body = resp.body;
@@ -161,8 +164,13 @@ describe('Organization Multiple Everything Tests', () => {
                             body.entry.forEach(element => {
                                 delete element['fullUrl'];
                                 delete element['resource']['meta']['lastUpdated'];
+                                if (element['resource']['contained']) {
+                                    element['resource']['contained'].forEach(containedElement => {
+                                        delete containedElement['meta']['lastUpdated'];
+                                    });
+                                }
                             });
-                            let expected = expectedEverythingResource;
+                            let expected = expectedResource;
                             delete expected['timestamp'];
                             expected.entry.forEach(element => {
                                 delete element['fullUrl'];
@@ -172,6 +180,11 @@ describe('Organization Multiple Everything Tests', () => {
                                 element['resource']['meta'] = {'versionId': '1'};
                                 if ('$schema' in element) {
                                     delete element['$schema'];
+                                }
+                                if (element['resource']['contained']) {
+                                    element['resource']['contained'].forEach(containedElement => {
+                                        delete containedElement['meta']['lastUpdated'];
+                                    });
                                 }
                             });
                             expect(body).toStrictEqual(expected);

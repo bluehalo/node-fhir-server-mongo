@@ -132,11 +132,11 @@ let verifyHasValidScopes = (name, action, user, scope) => {
 
 /**
  * returns whether the parameter is false or a string "false"
- * @param {string | boolean} s
+ * @param {string | boolean | null} s
  * @returns {boolean}
  */
 let isTrue = function (s) {
-    return String(s).toLowerCase() === 'true';
+    return String(s).toLowerCase() === 'true' || String(s).toLowerCase() === '1';
 };
 
 /**
@@ -1908,7 +1908,7 @@ module.exports.validate = async (args, {req}, resource_name, collection_name) =>
  * @param {IncomingMessage} req
  * @param {string} resource_name
  * @param {string} collection_name
- * @return {Promise<{entry: {resource: Resource, link: string}[], id: string, resourceType: string}|{entry: *[], id: string, resourceType: string}>}
+ * @return {Promise<{entry: {resource: Resource, fullUrl: string}[], id: string, resourceType: string}|{entry: *[], id: string, resourceType: string}>}
  */
 module.exports.graph = async (args, {req}, resource_name, collection_name) => {
     logRequest(`${resource_name} >>> everything`);
@@ -1924,7 +1924,7 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
      * @param {string} property name of property to link
      * @param {string | null} filterProperty (Optional) filter the sublist by this property
      * @param {*} filterValue (Optional) match filterProperty to this value
-     * @return {Promise<[{resource: Resource, link: string}]|*[]>}
+     * @return {Promise<[{resource: Resource, fullUrl: string}]|*[]>}
      */
     async function get_related_resources(db, collectionName, base_version, parent, host, property, filterProperty, filterValue) {
         const collection = db.collection(`${collectionName}_${base_version}`);
@@ -1933,7 +1933,7 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
         let relatedResourceProperty = parent[property];
         /**
          * entries
-         * @type {[{resource: Resource, link: string}]}
+         * @type {[{resource: Resource, fullUrl: string}]}
          */
         let entries = [];
         if (relatedResourceProperty) {
@@ -1960,7 +1960,7 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
                 if (found_related_resource) {
                     // noinspection UnnecessaryLocalVariableJS
                     entries = entries.concat([{
-                        'link': `https://${host}/${base_version}/${found_related_resource.resourceType}/${found_related_resource.id}`,
+                        'fullUrl': `https://${host}/${base_version}/${found_related_resource.resourceType}/${found_related_resource.id}`,
                         'resource': new RelatedResource(found_related_resource)
                     }]);
                 }
@@ -1980,7 +1980,7 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
      * @param {string | null} filterProperty (Optional) filter the sublist by this property
      * @param {*} filterValue (Optional) match filterProperty to this value
      * @param {string} reverse_property (Optional) Do a reverse link from child to parent using this property
-     * @return {Promise<[{resource: Resource, link: string}]>}
+     * @return {Promise<[{resource: Resource, fullUrl: string}]>}
      */
     async function get_reverse_related_resources(db, parentCollectionName, relatedResourceCollectionName, base_version, parent, host, filterProperty, filterValue, reverse_property) {
         if (!(reverse_property)) {
@@ -1998,7 +1998,7 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
         relatedResourceProperty = await cursor.toArray();
         /**
          * entries
-         * @type {[{resource: Resource, link: string}]}
+         * @type {[{resource: Resource, fullUrl: string}]}
          */
         let entries = [];
         if (relatedResourceProperty) {
@@ -2016,7 +2016,7 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
                     }
                 }
                 entries = entries.concat([{
-                    'link': `https://${host}/${base_version}/${relatedResourcePropertyCurrent.resourceType}/${relatedResourcePropertyCurrent.id}`,
+                    'fullUrl': `https://${host}/${base_version}/${relatedResourcePropertyCurrent.resourceType}/${relatedResourcePropertyCurrent.id}`,
                     'resource': new RelatedResource(relatedResourcePropertyCurrent)
                 }]);
 
@@ -2032,9 +2032,10 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
      * @param {string} host
      * @param {string | string[]} id (accepts a single id or a list of ids)
      * @param {*} graphDefinitionJson (a GraphDefinition resource)
-     * @return {Promise<{entry: [{resource: Resource, link: string}], id: string, resourceType: string}|{entry: *[], id: string, resourceType: string}>}
+     * @param {boolean} contained
+     * @return {Promise<{entry: [{resource: Resource, fullUrl: string}], id: string, resourceType: string}|{entry: *[], id: string, resourceType: string}>}
      */
-    async function processGraph(db, base_version, host, id, graphDefinitionJson) {
+    async function processGraph(db, base_version, host, id, graphDefinitionJson, contained) {
         const GraphDefinitionResource = getResource(base_version, 'GraphDefinition');
         const graphDefinition = new GraphDefinitionResource(graphDefinitionJson);
         // first get the top level object
@@ -2050,12 +2051,12 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
          * processes a list of graph links
          * @param {Resource | [Resource]} parent_entity
          * @param {[{path:string, params: string,target:[{type: string}]}]} linkItems
-         * @return {Promise<[{resource: Resource, link: string}]>}
+         * @return {Promise<[{resource: Resource, fullUrl: string}]>}
          */
         async function processGraphLinks(parent_entity, linkItems) {
             /**
              * entries
-             * @type {[{resource: Resource, link: string}]}
+             * @type {[{resource: Resource, fullUrl: string}]}
              */
             let entries = [];
             const parentEntities = Array.isArray(parent_entity) ? parent_entity : [parent_entity];
@@ -2063,7 +2064,7 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
                 for (const parentEntity of parentEntities) {
                     /**
                      * entries
-                     * @type {[{resource: Resource, link: string}]}
+                     * @type {[{resource: Resource, fullUrl: string}]}
                      */
                     let entries_for_current_link = [];
                     if (link.target) {
@@ -2121,7 +2122,7 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
                                         entries_for_current_link = entries_for_current_link.concat([
                                             {
                                                 'resource': p,
-                                                'link': ''
+                                                'fullUrl': ''
                                             }
                                         ]);
                                     }
@@ -2157,7 +2158,7 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
                         }
                     }
                     entries = entries.concat(
-                        entries_for_current_link.filter(e => e.resource['resourceType'] && e.link)
+                        entries_for_current_link.filter(e => e.resource['resourceType'] && e.fullUrl)
                     );
                     const childLinks = link.target[0].link;
                     if (childLinks) {
@@ -2172,26 +2173,55 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
             return entries;
         }
 
-        /**
-         * @type {[{resource: Resource, link: string}]}
-         */
-        let entries = [];
-        for (const id1 of id) {
+        async function processSingleId(id1) {
+            /**
+             * @type {[{resource: Resource, fullUrl: string}]}
+             */
+            let entries = [];
             let start_entry = await collection.findOne({id: id1.toString()});
 
             if (start_entry) {
                 // first add this object
-                entries = entries.concat([{
-                    'link': `https://${host}/${base_version}/${start_entry.resourceType}/${start_entry.id}`,
+                const current_entity = {
+                    'fullUrl': `https://${host}/${base_version}/${start_entry.resourceType}/${start_entry.id}`,
                     'resource': new StartResource(start_entry)
-                }]);
+                };
                 const linkItems = graphDefinition.link;
-                entries = entries.concat(await processGraphLinks(start_entry, linkItems));
+                // add related resources as container
+                /**
+                 * @type {[{resource: Resource, fullUrl: string}]}
+                 */
+                const related_entries = await processGraphLinks(start_entry, linkItems);
+                if (contained) {
+                    /**
+                     * @type {{Resource}[]}
+                     */
+                    const related_resources = related_entries.map(e => e.resource);
+                    if (related_resources.length > 0) {
+                        current_entity['resource']['contained'] = related_resources;
+                    }
+                }
+                entries = entries.concat([current_entity]);
+                if (!contained) {
+                    entries = entries.concat(related_entries);
+                }
             }
+            return entries;
         }
+
+        /**
+         * @type {[[{resource: Resource, fullUrl: string}]]}]
+         */
+        const entriesById = await Promise.all([
+            async.map(id, async x => await processSingleId(x))
+        ]);
+        /**
+         * @type {[{resource: Resource, fullUrl: string}]}
+         */
+        let entries = entriesById.flat(2);
         // remove duplicate resources
         /**
-         * @type {[{resource: Resource, link: string}]}
+         * @type {[{resource: Resource, fullUrl: string}]}
          */
         const uniqueEntries = entries.reduce((acc, item) => {
             if (!acc.find(a => a.resourceType === item.resource.resourceType && a.id === item.resource.id)) {
@@ -2223,6 +2253,10 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
             id = combined_args['id'];
         }
         id = id.split(',');
+        /**
+         * @type {boolean}
+         */
+        const contained = isTrue(combined_args['contained']);
         // Grab an instance of our DB and collection
         let db = globals.get(CLIENT_DB);
         // get GraphDefinition from body
@@ -2232,13 +2266,20 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
         if (operationOutcome && operationOutcome.statusCode === 400) {
             return operationOutcome;
         }
-        return await processGraph(
+        // noinspection UnnecessaryLocalVariableJS
+        const result = await processGraph(
             db,
             base_version,
             host,
             id,
-            graphDefinitionRaw
+            graphDefinitionRaw,
+            contained
         );
+        // const operationOutcomeResult = validateResource(result, 'Bundle', req.path);
+        // if (operationOutcomeResult && operationOutcomeResult.statusCode === 400) {
+        //     return operationOutcomeResult;
+        // }
+        return result;
     } catch (err) {
         logger.error(`Error with ${resource_name}.searchById: `, err);
         throw new BadRequestError(err);

@@ -20,7 +20,7 @@ const env = require('var');
 
 const request = supertest(app);
 
-describe('Organization Multiple Everything Tests', () => {
+describe('Organization Multiple Everything Contained Tests', () => {
     let connection;
     let db;
     // let resourceId;
@@ -52,8 +52,8 @@ describe('Organization Multiple Everything Tests', () => {
         await connection.close();
     });
 
-    describe('Everything Tests', () => {
-        test('Everything works properly', (done) => {
+    describe('Everything Multiple Contained Tests', () => {
+        test('Everything multiple contained works properly', (done) => {
             async.waterfall([
                     (cb) => // first confirm there are no practitioners
                         request
@@ -148,7 +148,7 @@ describe('Organization Multiple Everything Tests', () => {
                                 return cb(err, resp);
                             }),
                     (results, cb) => request
-                        .get('/4_0_0/Organization/1/$everything?id=733797173,1234')
+                        .get('/4_0_0/Organization/1/$everything?id=733797173,1234&contained=true')
                         .set('Content-Type', 'application/fhir+json')
                         .set('Accept', 'application/fhir+json')
                         .expect(200, cb)
@@ -161,6 +161,11 @@ describe('Organization Multiple Everything Tests', () => {
                             body.entry.forEach(element => {
                                 delete element['fullUrl'];
                                 delete element['resource']['meta']['lastUpdated'];
+                                if (element['resource']['contained']) {
+                                    element['resource']['contained'].forEach(containedElement => {
+                                        delete containedElement['meta']['lastUpdated'];
+                                    });
+                                }
                             });
                             let expected = expectedEverythingResource;
                             delete expected['timestamp'];
@@ -172,6 +177,11 @@ describe('Organization Multiple Everything Tests', () => {
                                 element['resource']['meta'] = {'versionId': '1'};
                                 if ('$schema' in element) {
                                     delete element['$schema'];
+                                }
+                                if (element['resource']['contained']) {
+                                    element['resource']['contained'].forEach(containedElement => {
+                                        delete containedElement['meta']['lastUpdated'];
+                                    });
                                 }
                             });
                             expect(body).toStrictEqual(expected);
