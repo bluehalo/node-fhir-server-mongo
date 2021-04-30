@@ -170,13 +170,13 @@ describe('Organization Everything Tests', () => {
                             let body = resp.body;
                             delete body['timestamp'];
                             body.entry.forEach(element => {
-                                delete element['link'];
+                                delete element['fullUrl'];
                                 delete element['resource']['meta']['lastUpdated'];
                             });
                             let expected = expectedEverythingResource;
                             delete expected['timestamp'];
                             expected.entry.forEach(element => {
-                                delete element['link'];
+                                delete element['fullUrl'];
                                 if ('meta' in element['resource']) {
                                     delete element['resource']['meta']['lastUpdated'];
                                 }

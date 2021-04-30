@@ -1,0 +1,33 @@
+{
+  "resourceType": "GraphDefinition",
+  "id": "o",
+  "name": "organization_everything",
+  "status": "active",
+  "start": "Organization",
+  "link": [
+    {
+      "target": [
+        {
+          "type": "Location",
+          "params": "managingOrganization={ref}"
+        }
+      ]
+    },
+    {
+      "target": [
+        {
+          "type": "HealthcareService",
+          "params": "providedBy={ref}"
+        }
+      ]
+    },
+    {
+      "target": [
+        {
+          "type": "OrganizationAffiliation",
+          "params": "participatingOrganization={ref}"
+        }
+      ]
+    }
+  ]
+}

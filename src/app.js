@@ -1,3 +1,5 @@
+// noinspection JSCheckFunctionSignatures
+
 const express = require('express');
 const compression = require('compression');
 const bodyParser = require('body-parser');
@@ -9,8 +11,9 @@ const {fhirServerConfig, mongoConfig} = require('./config');
 const Prometheus = require('./utils/prometheus.utils');
 const env = require('var');
 const helmet = require('helmet');
+// noinspection NodeCoreCodingAssistance
 const https = require('https');
-
+const async = require('async');
 const app = express();
 app.use(helmet());
 app.use(Prometheus.requestCounters);
@@ -109,6 +112,20 @@ app.get('/stats', async (req, res) => {
     let [mongoError, client] = await asyncHandler(
         mongoClient(mongoConfig.connection, mongoConfig.options)
     );
+
+    /**
+     * gets stats for a collection
+     * @param {string} collection_name
+     * @param {Db} db
+     * @return {Promise<{name, count: *}>}
+     */
+    async function getStatsForCollection(collection_name, db) {
+        console.log(collection_name);
+        const count = await db.collection(collection_name).countDocuments({});
+        console.log(['Found: ', count, ' documents in ', collection_name].join(''));
+        return {name: collection_name, count: count};
+    }
+
     if (mongoError) {
         console.error(mongoError.message);
         console.error(mongoConfig.connection);
@@ -127,15 +144,11 @@ app.get('/stats', async (req, res) => {
             }
         });
 
-        let collection_stats = [];
         console.info('Collection_names:' + collection_names);
-        for (const collection_index in collection_names) {
-            const collection_name = collection_names[parseInt(collection_index)];
-            console.log(collection_name);
-            const count = await db.collection(collection_name).countDocuments({});
-            console.log(['Found: ', count, ' documents in ', collection_name].join(''));
-            collection_stats.push({name: collection_name, count: count});
-        }
+        const collection_stats = await async.map(
+            collection_names,
+            async collection_name => await getStatsForCollection(collection_name, db)
+        );
         await client.close();
         res.status(200).json({
             success: true,
@@ -154,6 +167,13 @@ app.get('/index', async (req, res) => {
         mongoClient(mongoConfig.connection, mongoConfig.options)
     );
 
+    /**
+     * creates an index if it does not exist
+     * @param {Db} db
+     * @param {string} property_to_index
+     * @param {string} collection_name
+     * @return {Promise<boolean>}
+     */
     async function create_index_if_not_exists(db, property_to_index, collection_name) {
         const index_name = property_to_index + '_1';
         if (!await db.collection(collection_name).indexExists(index_name)) {
@@ -164,6 +184,28 @@ app.get('/index', async (req, res) => {
             return true;
         }
         return false;
+    }
+
+    /**
+     * creates indexes on a collection
+     * @param {string} collection_name
+     * @param {Db} db
+     * @return {Promise<{indexes: *, createdIndex: boolean, name, count: *}>}
+     */
+    async function indexCollection(collection_name, db) {
+        console.log(collection_name);
+        // check if index exists
+        let createdIndex = await create_index_if_not_exists(db, 'id', collection_name);
+        createdIndex = await create_index_if_not_exists(db, 'meta.lastUpdated', collection_name) || createdIndex;
+        const indexes = await db.collection(collection_name).indexes();
+        const count = await db.collection(collection_name).countDocuments({});
+        console.log(['Found: ', count, ' documents in ', collection_name].join(''));
+        return {
+            name: collection_name,
+            count: count,
+            createdIndex: createdIndex,
+            indexes: indexes
+        };
     }
 
     if (mongoError) {
@@ -193,19 +235,12 @@ app.get('/index', async (req, res) => {
         }
 
         // now add indices on id column for every collection
-        const collection_stats = [];
         console.info('Collection_names:' + collection_names);
-        for (const collection_index in collection_names) {
-            const collection_name = collection_names[parseInt(collection_index)];
-            console.log(collection_name);
-            // check if index exists
-            let createdIndex = await create_index_if_not_exists(db, 'id', collection_name);
-            createdIndex = await create_index_if_not_exists(db, 'meta.lastUpdated', collection_name) || createdIndex;
-            const indexes = await db.collection(collection_name).indexes();
-            const count = await db.collection(collection_name).countDocuments({});
-            console.log(['Found: ', count, ' documents in ', collection_name].join(''));
-            collection_stats.push({name: collection_name, count: count, createdIndex: createdIndex, indexes: indexes});
-        }
+        const collection_stats = await async.map(
+            collection_names,
+            async collection_name => await indexCollection(collection_name, db)
+        );
+
         await client.close();
         res.status(200).json({success: true, collections: collection_stats});
     }

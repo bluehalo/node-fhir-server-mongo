@@ -2,16 +2,16 @@
   "resourceType": "Bundle",
   "id": "bundle-example",
   "type": "collection",
-  "timestamp": "2021-04-22T08:11:13.1313Z",
+  "timestamp": "2021-04-30T02:52:31.3131Z",
   "entry": [
     {
-      "link": "https://127.0.0.1:59809/4_0_0/Organization/733797173",
+      "fullUrl": "https://127.0.0.1:50501/4_0_0/Organization/733797173",
       "resource": {
         "resourceType": "Organization",
         "id": "733797173",
         "meta": {
           "versionId": "1",
-          "lastUpdated": "2021-04-22T20:11:13+00:00"
+          "lastUpdated": "2021-04-30T02:52:30+00:00"
         },
         "extension": [
           {
@@ -101,13 +101,13 @@
       }
     },
     {
-      "link": "https://127.0.0.1:59809/4_0_0/Location/UHG-MDER",
+      "fullUrl": "https://127.0.0.1:50501/4_0_0/Location/UHG-MDER",
       "resource": {
         "resourceType": "Location",
         "id": "UHG-MDER",
         "meta": {
           "versionId": "1",
-          "lastUpdated": "2021-04-22T20:11:13+00:00"
+          "lastUpdated": "2021-04-30T02:52:31+00:00"
         },
         "identifier": [
           {
@@ -241,13 +241,13 @@
       }
     },
     {
-      "link": "https://127.0.0.1:59809/4_0_0/HealthcareService/-733797173",
+      "fullUrl": "https://127.0.0.1:50501/4_0_0/HealthcareService/-733797173",
       "resource": {
         "resourceType": "HealthcareService",
         "id": "-733797173",
         "meta": {
           "versionId": "1",
-          "lastUpdated": "2021-04-22T20:11:13+00:00"
+          "lastUpdated": "2021-04-30T02:52:30+00:00"
         },
         "identifier": [
           {
@@ -274,13 +274,13 @@
       }
     },
     {
-      "link": "https://127.0.0.1:59809/4_0_0/Organization/1234",
+      "fullUrl": "https://127.0.0.1:50501/4_0_0/Organization/1234",
       "resource": {
         "resourceType": "Organization",
         "id": "1234",
         "meta": {
           "versionId": "1",
-          "lastUpdated": "2021-04-22T20:11:13+00:00"
+          "lastUpdated": "2021-04-30T02:52:31+00:00"
         },
         "extension": [
           {

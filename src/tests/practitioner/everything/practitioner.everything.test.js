@@ -365,14 +365,14 @@ describe('Practitioner Everything Tests', () => {
                             let body = resp.body;
                             delete body['timestamp'];
                             body.entry.forEach(element => {
-                                delete element['link'];
+                                delete element['fullUrl'];
                                 delete element['resource']['meta']['versionId'];
                                 delete element['resource']['meta']['lastUpdated'];
                             });
                             let expected = expectedEverythingResource;
                             expected.entry.forEach(element => {
                                 delete expected['timestamp'];
-                                delete element['link'];
+                                delete element['fullUrl'];
                                 if ('meta' in element['resource']) {
                                     delete element['resource']['meta']['versionId'];
                                     delete element['resource']['meta']['lastUpdated'];
