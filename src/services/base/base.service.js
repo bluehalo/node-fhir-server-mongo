@@ -1600,7 +1600,7 @@ module.exports.everything = async (args, {req}, resource_name, collection_name) 
             throw new Error('$everything is not supported for resource: ' + collection_name);
         }
     } catch (err) {
-        logger.error(`Error with ${resource_name}.searchById: `, err);
+        logger.error(`Error with ${resource_name}.everything: `, err);
         throw new BadRequestError(err);
     }
 };
@@ -1911,7 +1911,7 @@ module.exports.validate = async (args, {req}, resource_name, collection_name) =>
  * @return {Promise<{entry: {resource: Resource, link: string}[], id: string, resourceType: string}|{entry: *[], id: string, resourceType: string}>}
  */
 module.exports.graph = async (args, {req}, resource_name, collection_name) => {
-    logRequest(`${resource_name} >>> everything`);
+    logRequest(`${resource_name} >>> graph`);
     verifyHasValidScopes(resource_name, 'read', req.user, req.authInfo && req.authInfo.scope);
 
     /**
@@ -2213,15 +2213,27 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
     try {
         let {base_version, id} = args;
 
+        const host = req.headers.host;
+        const combined_args = get_all_args(req, args);
+
+        if (combined_args['id']) {
+            // prefer to use id from query string if it was provided
+            id = combined_args['id'];
+        }
+
+        /*
+         * the default POST controller in node-fhir-server-core messes with the args, so we have to
+         * manually extract it from the request. See
+         * https://github.com/Asymmetrik/node-fhir-server-core/blob/master/packages/node-fhir-server-core/src/server/operations/operations.controller.js
+         */
+
+        if (!id && req.sanitized_args && req.sanitized_args['id']) {
+            id = req.sanitized_args['id'];
+        }
+
         logRequest(`id=${id}`);
         logInfo(`req=${req}`);
 
-        const host = req.headers.host;
-        const combined_args = get_all_args(req, args);
-        if (combined_args['id']) {
-            // if id is passed in query string
-            id = combined_args['id'];
-        }
         id = id.split(',');
         // Grab an instance of our DB and collection
         let db = globals.get(CLIENT_DB);
@@ -2230,6 +2242,7 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
         logInfo('--- validate schema of GraphDefinition ----');
         const operationOutcome = validateResource(graphDefinitionRaw, 'GraphDefinition', req.path);
         if (operationOutcome && operationOutcome.statusCode === 400) {
+            logInfo('GraphDefinition schema failed validation');
             return operationOutcome;
         }
         return await processGraph(
@@ -2240,7 +2253,7 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
             graphDefinitionRaw
         );
     } catch (err) {
-        logger.error(`Error with ${resource_name}.searchById: `, err);
+        logger.error(`Error with ${resource_name}.graph: `, err);
         throw new BadRequestError(err);
     }
 };
