@@ -10,7 +10,7 @@
   },
   "scripts": {
     "start": "NODE_ENV=production node src/index.js",
-    "dev": "NODE_ENV=development ./node_modules/pm2/bin/pm2-runtime start ./src/index.js;",
+    "dev": "NODE_ENV=development ./node_modules/pm2/bin/pm2-dev start ./src/index.js;",
     "test": "NODE_ENV=test npm run test:lint && npm run test:jest",
     "failed_tests": "NODE_ENV=test npm run test:lint && npm run test:jest --onlyFailures",
     "test:lint": "eslint \"src/**/*.js\"",
