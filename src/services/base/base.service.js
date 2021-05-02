@@ -492,21 +492,27 @@ let buildDstu2SearchQuery = (args) => {
  */
 let get_all_args = (req, args) => {
     // asymmetric hides certain query parameters from us so we need to get them from the context
-    const my_args = {};
+    const query_param_args = {};
     /**
      * args array
      * @type {[string][]}
      */
-    const my_args_array = Object.entries(req.query);
-    my_args_array.forEach(x => {
-        my_args[x[0]] = x[1];
+    const query_args_array = Object.entries(req.query);
+    query_args_array.forEach(x => {
+        query_param_args[x[0]] = x[1];
+    });
+
+    const sanitized_args = {};
+    const sanitized_args_array = Object.entries(req.sanitized_args);
+    sanitized_args_array.forEach(x => {
+        sanitized_args[x[0]] = x[1];
     });
 
     /**
      * combined args
      * @type {string[]}
      */
-    const combined_args = Object.assign({}, args, my_args);
+    const combined_args = Object.assign({}, args, sanitized_args, query_param_args);
     logInfo('---- combined_args ----');
     logInfo(combined_args);
     logInfo('--------');
@@ -2239,25 +2245,9 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
     }
 
     try {
-        let {base_version, id} = args;
-
         const host = req.headers.host;
         const combined_args = get_all_args(req, args);
-
-        if (combined_args['id']) {
-            // prefer to use id from query string if it was provided
-            id = combined_args['id'];
-        }
-
-        /*
-         * the default POST controller in node-fhir-server-core messes with the args, so we have to
-         * manually extract it from the request. See
-         * https://github.com/Asymmetrik/node-fhir-server-core/blob/master/packages/node-fhir-server-core/src/server/operations/operations.controller.js
-         */
-
-        if (!id && req.sanitized_args && req.sanitized_args['id']) {
-            id = req.sanitized_args['id'];
-        }
+        let {base_version, id} = combined_args;
 
         logRequest(`id=${id}`);
         logInfo(`req=${req}`);
