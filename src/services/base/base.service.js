@@ -492,21 +492,27 @@ let buildDstu2SearchQuery = (args) => {
  */
 let get_all_args = (req, args) => {
     // asymmetric hides certain query parameters from us so we need to get them from the context
-    const my_args = {};
+    const query_param_args = {};
     /**
      * args array
      * @type {[string][]}
      */
-    const my_args_array = Object.entries(req.query);
-    my_args_array.forEach(x => {
-        my_args[x[0]] = x[1];
+    const query_args_array = Object.entries(req.query);
+    query_args_array.forEach(x => {
+        query_param_args[x[0]] = x[1];
+    });
+
+    const sanitized_args = {};
+    const sanitized_args_array = Object.entries(req.sanitized_args);
+    sanitized_args_array.forEach(x => {
+        sanitized_args[x[0]] = x[1];
     });
 
     /**
      * combined args
      * @type {string[]}
      */
-    const combined_args = Object.assign({}, args, my_args);
+    const combined_args = Object.assign({}, args, sanitized_args, query_param_args);
     logInfo('---- combined_args ----');
     logInfo(combined_args);
     logInfo('--------');
@@ -1600,7 +1606,7 @@ module.exports.everything = async (args, {req}, resource_name, collection_name) 
             throw new Error('$everything is not supported for resource: ' + collection_name);
         }
     } catch (err) {
-        logger.error(`Error with ${resource_name}.searchById: `, err);
+        logger.error(`Error with ${resource_name}.everything: `, err);
         throw new BadRequestError(err);
     }
 };
@@ -1911,7 +1917,7 @@ module.exports.validate = async (args, {req}, resource_name, collection_name) =>
  * @return {Promise<{entry: {resource: Resource, fullUrl: string}[], id: string, resourceType: string}|{entry: *[], id: string, resourceType: string}>}
  */
 module.exports.graph = async (args, {req}, resource_name, collection_name) => {
-    logRequest(`${resource_name} >>> everything`);
+    logRequest(`${resource_name} >>> graph`);
     verifyHasValidScopes(resource_name, 'read', req.user, req.authInfo && req.authInfo.scope);
 
     /**
@@ -2239,17 +2245,13 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
     }
 
     try {
-        let {base_version, id} = args;
+        const host = req.headers.host;
+        const combined_args = get_all_args(req, args);
+        let {base_version, id} = combined_args;
 
         logRequest(`id=${id}`);
         logInfo(`req=${req}`);
 
-        const host = req.headers.host;
-        const combined_args = get_all_args(req, args);
-        if (combined_args['id']) {
-            // if id is passed in query string
-            id = combined_args['id'];
-        }
         id = id.split(',');
         /**
          * @type {boolean}
@@ -2262,6 +2264,7 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
         logInfo('--- validate schema of GraphDefinition ----');
         const operationOutcome = validateResource(graphDefinitionRaw, 'GraphDefinition', req.path);
         if (operationOutcome && operationOutcome.statusCode === 400) {
+            logInfo('GraphDefinition schema failed validation');
             return operationOutcome;
         }
         // noinspection UnnecessaryLocalVariableJS
@@ -2279,7 +2282,7 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
         // }
         return result;
     } catch (err) {
-        logger.error(`Error with ${resource_name}.searchById: `, err);
+        logger.error(`Error with ${resource_name}.graph: `, err);
         throw new BadRequestError(err);
     }
 };
