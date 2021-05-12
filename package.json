@@ -68,7 +68,7 @@
     "joi": "^17.4.0",
     "jwks-rsa": "^2.0.2",
     "moment-timezone": "^0.5.33",
-    "mongodb": "^3.6.5",
+    "mongodb": "^3.6.6",
     "object-hash": "^2.1.1",
     "passport-http-bearer": "^1.0.1",
     "passport-jwt": "^4.0.0",
