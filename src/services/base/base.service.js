@@ -163,6 +163,7 @@ let buildR4SearchQuery = (resource_name, args) => {
     let address_state = args['address-state'];
 
     let identifier = args['identifier'];
+    let type_ = args['type'];
 
     let gender = args['gender'];
     let email = args['email'];
@@ -372,6 +373,16 @@ let buildR4SearchQuery = (resource_name, args) => {
 
     if (identifier) {
         let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier', '');
+        /**
+         * @type {string}
+         */
+        for (let i in queryBuilder) {
+            // noinspection JSUnfilteredForInLoop
+            query[`${i}`] = queryBuilder[`${i}`];
+        }
+    }
+    if (type_) {
+        let queryBuilder = tokenQueryBuilder(type_, 'code', 'type.coding', '');
         /**
          * @type {string}
          */
