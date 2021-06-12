@@ -74,7 +74,7 @@
     "passport-jwt": "^4.0.0",
     "prom-client": "^13.1.0",
     "response-time": "^2.3.2",
-    "snyk": "^1.596.0",
+    "snyk": "^1.605.0",
     "superagent": "^6.1.0",
     "swagger-ui-express": "^4.1.6",
     "var": "^0.4.0",
