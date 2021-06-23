@@ -64,8 +64,10 @@ app.get('/version', (req, res) => {
     }
 });
 
-app.get('/clean', async (req, res) => {
-    if (!env.IS_PRODUCTION) {
+app.get('/clean/:collection?', async (req, res) => {
+    // const query_args_array = Object.entries(req.query);
+    // return res.status(200).json(req.params);
+    if (!env.DISABLE_CLEAN_ENDPOINT) {
         console.info('Running clean');
 
         // Connect to mongo and pass any options here
@@ -83,10 +85,22 @@ app.get('/clean', async (req, res) => {
             let collection_names = [];
             // const collections = await db.listCollections().toArray();
 
+            const specific_collection = req.params['collection'];
+            console.log('specific_collection: ' + specific_collection);
+            if (env.IS_PRODUCTION && !specific_collection) {
+                return res.status(400).json({message: 'IS_PRODUCTION env var is set so you must pass a specific collection to clean'});
+            }
+
             await db.listCollections().forEach(collection => {
                 console.log(collection.name);
                 if (collection.name.indexOf('system.') === -1) {
-                    collection_names.push(collection.name);
+                    if (
+                        !specific_collection || (
+                            collection.name === (specific_collection + '_4_0_0') || collection.name === (specific_collection + '_4_0_0_History')
+                        )
+                    ) {
+                        collection_names.push(collection.name);
+                    }
                 }
             });
 
