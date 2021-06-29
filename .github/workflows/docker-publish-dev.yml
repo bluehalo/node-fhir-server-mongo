@@ -6,7 +6,7 @@ on:
 
 env:
   IMAGE_NAME: helix.fhir-server
-  REPOSITORY_URL: public.ecr.aws/y2s0p2p4
+  REPOSITORY_URL: 875300655693.dkr.ecr.us-east-1.amazonaws.com
 
 jobs:
   # See also https://docs.docker.com/docker-hub/builds/
