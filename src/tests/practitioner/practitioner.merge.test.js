@@ -1,42 +1,22 @@
 /* eslint-disable no-unused-vars */
-const {MongoClient} = require('mongodb');
 const supertest = require('supertest');
 
 const {app} = require('../../app');
-const globals = require('../../globals');
-const {CLIENT, CLIENT_DB} = require('../../constants');
 const practitionerResource = require('./fixtures/providers/practitioner.json');
 const practitionerResourcev2 = require('./fixtures/providers/practitioner_v2.json');
-const locationResource = require('./fixtures/providers/location.json');
-const practitionerRoleResource = require('./fixtures/providers/practitioner_role.json');
-const expectedPractitionerResource = require('./fixtures/providers/expected_practitioner.json');
 const expectedPractitionerResource_v2 = require('./fixtures/providers/expected_practitioner_v2.json');
 const async = require('async');
-const env = require('var');
 
 const request = supertest(app);
+const {commonBeforeEach, commonAfterEach, getHeaders} = require('../common');
 
 describe('Practitioner Merge Tests', () => {
-    let connection;
-    let db;
-    // let resourceId;
-
     beforeEach(async () => {
-        connection = await MongoClient.connect(process.env.MONGO_URL, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
-        db = await connection.db();
-
-        globals.set(CLIENT, connection);
-        globals.set(CLIENT_DB, db);
-        jest.setTimeout(30000);
-        env['VALIDATE_SCHEMA'] = true;
+        await commonBeforeEach();
     });
 
     afterEach(async () => {
-        await db.dropDatabase();
-        await connection.close();
+        await commonAfterEach();
     });
 
     describe('Practitioner Merges', () => {
@@ -45,8 +25,7 @@ describe('Practitioner Merge Tests', () => {
                     (cb) => // first confirm there are no practitioners
                         request
                             .get('/4_0_0/Practitioner')
-                            .set('Content-Type', 'application/fhir+json')
-                            .set('Accept', 'application/fhir+json')
+                                .set(getHeaders())
                             .expect(200, (err, resp) => {
                                 expect(resp.body.length).toBe(0);
                                 console.log('------- response 1 ------------');
@@ -58,8 +37,7 @@ describe('Practitioner Merge Tests', () => {
                         request
                             .post('/4_0_0/Practitioner/4657/$merge')
                             .send(practitionerResource)
-                            .set('Content-Type', 'application/fhir+json')
-                            .set('Accept', 'application/fhir+json')
+                                .set(getHeaders())
                             .expect(200, (err, resp) => {
                                 console.log('------- response 2 ------------');
                                 console.log(JSON.stringify(resp.body, null, 2));
@@ -70,8 +48,7 @@ describe('Practitioner Merge Tests', () => {
                         request
                             .post('/4_0_0/Practitioner/4657/$merge')
                             .send(practitionerResource)
-                            .set('Content-Type', 'application/fhir+json')
-                            .set('Accept', 'application/fhir+json')
+                                .set(getHeaders())
                             .expect(200, (err, resp) => {
                                 if (!err) {
                                     console.log('------- response 3 ------------');
@@ -84,8 +61,7 @@ describe('Practitioner Merge Tests', () => {
                         request
                             .post('/4_0_0/Practitioner/4657/$merge')
                             .send(practitionerResourcev2)
-                            .set('Content-Type', 'application/fhir+json')
-                            .set('Accept', 'application/fhir+json')
+                                .set(getHeaders())
                             .expect(200, (err, resp) => {
                                 if (!err) {
                                     console.log('------- response 3 ------------');
@@ -96,8 +72,7 @@ describe('Practitioner Merge Tests', () => {
                             }),
                     (results, cb) => request
                         .get('/4_0_0/Practitioner')
-                        .set('Content-Type', 'application/fhir+json')
-                        .set('Accept', 'application/fhir+json')
+                                .set(getHeaders())
                         .expect(200, cb)
                         .expect((resp) => {
                             // clear out the lastUpdated column since that changes

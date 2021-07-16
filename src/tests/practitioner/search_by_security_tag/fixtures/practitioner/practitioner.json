@@ -5,7 +5,7 @@
     "lastUpdated": "2021-01-14T23:42:00+00:00",
     "security": [
       {
-        "system": "http://www.foo.com/bar",
+        "system": "https://www.icanbwell.com/access",
         "code": "medstar"
       }
     ]

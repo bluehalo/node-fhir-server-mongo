@@ -12,6 +12,12 @@
         "system": "http://www.foo.com/bar",
         "code": "medstar"
       }
+    ],
+    "security": [
+      {
+        "system": "https://www.icanbwell.com/access",
+        "code": "medstar"
+      }
     ]
   },
   "id": "1",

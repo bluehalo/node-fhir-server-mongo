@@ -1,7 +1,16 @@
 {
     "resourceType": "Location",
     "id": "UHG-MDER",
-    "identifier": [
+    "meta": {
+      "source": "https://www.foo.com",
+      "security": [
+        {
+          "system": "https://www.icanbwell.com/access",
+          "code": "medstar"
+        }
+      ]
+    },
+  "identifier": [
         {
             "type": {
                 "coding": [

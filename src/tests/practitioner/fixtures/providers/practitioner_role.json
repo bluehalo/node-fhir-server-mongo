@@ -1,6 +1,14 @@
 {
   "resourceType": "PractitionerRole",
   "id": "4657-3437",
+    "meta": {
+      "security": [
+        {
+          "system": "https://www.icanbwell.com/access",
+          "code": "medstar"
+        }
+      ]
+    },
   "practitioner": {
     "reference": "Practitioner/4657"
   },

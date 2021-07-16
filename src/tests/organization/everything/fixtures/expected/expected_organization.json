@@ -4,7 +4,14 @@
     "id": "733797173",
     "meta": {
       "versionId": "1",
-      "lastUpdated": "2021-04-20T02:44:45+00:00"
+      "lastUpdated": "2021-04-20T02:44:45+00:00",
+      "source": "https://www.foo.com",
+      "security": [
+        {
+          "system": "https://www.icanbwell.com/access",
+          "code": "medstar"
+        }
+      ]
     },
     "extension": [
       {
@@ -97,7 +104,14 @@
     "id": "MedStar-Medical-Group",
     "meta": {
       "versionId": "1",
-      "lastUpdated": "2021-04-20T02:44:45+00:00"
+      "lastUpdated": "2021-04-20T02:44:45+00:00",
+      "source": "https://www.foo.com",
+      "security": [
+        {
+          "system": "https://www.icanbwell.com/access",
+          "code": "medstar"
+        }
+      ]
     },
     "type": [
       {

@@ -1,7 +1,16 @@
 {
     "resourceType": "Organization",
     "id": "MedStar-Medical-Group",
-    "type": [
+    "meta": {
+      "source": "https://www.foo.com",
+      "security": [
+        {
+          "system": "https://www.icanbwell.com/access",
+          "code": "medstar"
+        }
+      ]
+    },
+  "type": [
         {
             "coding": [
                 {

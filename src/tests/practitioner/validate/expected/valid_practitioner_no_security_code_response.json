@@ -1,0 +1,15 @@
+{
+  "resourceType": "OperationOutcome",
+  "issue": [
+    {
+      "severity": "error",
+      "code": "invalid",
+      "details": {
+        "text": "Resource is missing a security access tag with system: https://www.icanbwell.com/access"
+      },
+      "expression": [
+        "Practitioner"
+      ]
+    }
+  ]
+}

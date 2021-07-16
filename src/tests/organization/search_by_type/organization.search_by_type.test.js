@@ -16,37 +16,15 @@ const async = require('async');
 const env = require('var');
 
 const request = supertest(app);
+const {commonBeforeEach, commonAfterEach, getHeaders} = require('../../common');
 
 describe('Organization Everything Tests', () => {
-    let connection;
-    let db;
-    // let resourceId;
-
     beforeEach(async () => {
-        connection = await MongoClient.connect(process.env.MONGO_URL, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-            server: {
-                auto_reconnect: true,
-                socketOptions: {
-
-                    keepAlive: 1,
-                    connectTimeoutMS: 60000,
-                    socketTimeoutMS: 60000,
-                }
-            }
-        });
-        db = connection.db();
-
-        globals.set(CLIENT, connection);
-        globals.set(CLIENT_DB, db);
-        jest.setTimeout(30000);
-        env['VALIDATE_SCHEMA'] = true;
+        await commonBeforeEach();
     });
 
     afterEach(async () => {
-        await db.dropDatabase();
-        await connection.close();
+        await commonAfterEach();
     });
 
     describe('Everything Tests', () => {
@@ -55,8 +33,7 @@ describe('Organization Everything Tests', () => {
                     (cb) => // first confirm there are no practitioners
                         request
                             .get('/4_0_0/Organization')
-                            .set('Content-Type', 'application/fhir+json')
-                            .set('Accept', 'application/fhir+json')
+                                .set(getHeaders())
                             .expect(200, (err, resp) => {
                                 expect(resp.body.length).toBe(0);
                                 console.log('------- response 1 ------------');
@@ -68,8 +45,7 @@ describe('Organization Everything Tests', () => {
                         request
                             .post('/4_0_0/Organization/733797173/$merge')
                             .send(practiceOrganizationResource)
-                            .set('Content-Type', 'application/fhir+json')
-                            .set('Accept', 'application/fhir+json')
+                                .set(getHeaders())
                             .expect(200, (err, resp) => {
                                 if (err) {
                                     console.log(err);
@@ -84,8 +60,7 @@ describe('Organization Everything Tests', () => {
                         request
                             .post('/4_0_0/Organization/1234/$merge')
                             .send(practiceOrganizationResource2)
-                            .set('Content-Type', 'application/fhir+json')
-                            .set('Accept', 'application/fhir+json')
+                                .set(getHeaders())
                             .expect(200, (err, resp) => {
                                 if (err) {
                                     console.log(err);
@@ -98,8 +73,7 @@ describe('Organization Everything Tests', () => {
                             }),
                     (results, cb) => request
                         .get('/4_0_0/Organization?type=http://terminology.hl7.org/CodeSystem/organization-type|prov')
-                        .set('Content-Type', 'application/fhir+json')
-                        .set('Accept', 'application/fhir+json')
+                                .set(getHeaders())
                         .expect(200, cb)
                         .expect((resp) => {
                             console.log('------- response Practitioner ------------');
@@ -116,7 +90,7 @@ describe('Organization Everything Tests', () => {
                                 if ('meta' in element) {
                                     delete element['meta']['lastUpdated'];
                                 }
-                                element['meta'] = {'versionId': '1'};
+                                element['meta']['versionId'] = '1';
                                 if ('$schema' in element) {
                                     delete element['$schema'];
                                 }

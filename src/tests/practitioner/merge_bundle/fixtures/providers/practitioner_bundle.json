@@ -7,6 +7,16 @@
       "resource": {
         "resourceType": "Practitioner",
         "id": "1",
+        "meta": {
+          "versionId": "1",
+          "lastUpdated": "2021-01-21T03:54:38+00:00",
+          "security": [
+            {
+              "system": "https://www.icanbwell.com/access",
+              "code": "medstar"
+            }
+          ]
+        },
         "identifier": [
           {
             "use": "usual",
@@ -68,6 +78,16 @@
       "resource": {
         "resourceType": "Practitioner",
         "id": "2",
+        "meta": {
+          "versionId": "1",
+          "lastUpdated": "2021-01-21T03:54:38+00:00",
+          "security": [
+            {
+              "system": "https://www.icanbwell.com/access",
+              "code": "medstar"
+            }
+          ]
+        },
         "identifier": [
           {
             "use": "usual",

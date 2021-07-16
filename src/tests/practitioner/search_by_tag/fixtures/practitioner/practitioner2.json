@@ -8,7 +8,13 @@
         "system": "http://www.foo.com/bar",
         "code": "thedacare"
       }
-    ]
+    ],
+      "security": [
+        {
+          "system": "https://www.icanbwell.com/access",
+          "code": "medstar"
+        }
+      ]
   },
   "id": "0",
   "identifier": [

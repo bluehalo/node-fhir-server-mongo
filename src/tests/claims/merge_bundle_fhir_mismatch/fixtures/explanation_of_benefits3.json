@@ -3,7 +3,13 @@
     "resourceType": "ExplanationOfBenefit",
     "id": "WPS-Claim-20A824417300",
     "meta": {
-      "lastUpdated": "2021-03-05T20:15:14+00:00"
+      "lastUpdated": "2021-03-05T20:15:14+00:00",
+      "security": [
+        {
+          "system": "https://www.icanbwell.com/access",
+          "code": "medstar"
+        }
+      ]
     },
     "identifier": [
       {

@@ -44,16 +44,19 @@
     "coveragePathIgnorePatterns": [
       "<rootDir>/src/testutils/"
     ],
-    "preset": "@shelf/jest-mongodb"
+    "preset": "@shelf/jest-mongodb",
+    "setupFiles": [
+      "<rootDir>/jest/setEnvVars.js"
+    ]
   },
   "dependencies": {
     "@asymmetrik/fhir-json-schema-validator": "^0.9.8",
     "@asymmetrik/node-fhir-server-core": "^2.2.3",
     "@asymmetrik/sof-scope-checker": "^1.0.7",
     "@sentry/node": "^6.5.0",
-    "aws-sdk": "^2.923.0",
+    "aws-sdk": "^2.946.0",
     "body-parser": "^1.19.0",
-    "chokidar": "^3.5.1",
+    "chokidar": "^3.5.2",
     "compression": "^1.7.4",
     "deepcopy": "^2.1.0",
     "deepmerge": "^4.2.2",
@@ -74,7 +77,7 @@
     "passport-jwt": "^4.0.0",
     "prom-client": "^13.1.0",
     "response-time": "^2.3.2",
-    "snyk": "^1.622.0",
+    "snyk": "^1.661.0",
     "superagent": "^6.1.0",
     "swagger-ui-express": "^4.1.6",
     "var": "^0.4.0",
@@ -89,10 +92,13 @@
     "eslint-plugin-security": "^1.4.0",
     "jest": "^26.6.3",
     "jest-failure-reporter": "^1.0.1",
+    "jose": "~2.0.5",
+    "jsonwebtoken": "^8.5.1",
     "pm2": "^4.5.5",
     "pre-commit": "^1.2.2",
     "prettier": "^2.2.1",
-    "supertest": "^6.1.3"
+    "supertest": "^6.1.3",
+    "nock": "^13.0.0"
   },
   "private": false,
   "snyk": false

@@ -232,7 +232,14 @@
     ],
     "meta": {
       "source": "https://www.wpshealth.com/medical_claims",
-      "versionId": "1"
+      "versionId": "1",
+      "security": [
+        {
+          "system": "https://www.icanbwell.com/access",
+          "code": "medstar"
+        }
+      ]
+
     },
     "outcome": "Complete",
     "patient": {
@@ -644,7 +651,13 @@
     ],
     "meta": {
       "source": "https://www.wpshealth.com/medical_claims",
-      "versionId": "1"
+      "versionId": "1",
+      "security": [
+        {
+          "system": "https://www.icanbwell.com/access",
+          "code": "medstar"
+        }
+      ]
     }
   }
 ]

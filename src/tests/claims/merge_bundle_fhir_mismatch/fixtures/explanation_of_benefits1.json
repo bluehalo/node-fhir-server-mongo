@@ -3,7 +3,13 @@
     "resourceType": "ExplanationOfBenefit",
     "id": "WPS-Claim-20A824417300",
     "meta": {
-      "source": "https://www.wpshealth.com/medical_claims"
+      "source": "https://www.wpshealth.com/medical_claims",
+      "security": [
+        {
+          "system": "https://www.icanbwell.com/access",
+          "code": "medstar"
+        }
+      ]
     },
     "identifier": [
       {

@@ -108,7 +108,14 @@ let tokenQueryBuilder = function (target, type, field, required) {
         queryBuilder[`${field}.system`] = system;
     }
     if (value) {
-        queryBuilder[`${field}.${type}`] = value;
+        if (value.includes(',')) {
+            const values = value.split(',');
+            queryBuilder[`${field}.${type}`] = {
+                $in: values
+            };
+        } else {
+            queryBuilder[`${field}.${type}`] = value;
+        }
     }
 
     return queryBuilder;

@@ -18,37 +18,15 @@ const async = require('async');
 const env = require('var');
 
 const request = supertest(app);
+const {commonBeforeEach, commonAfterEach, getHeaders} = require('../../common');
 
 describe('Slot Everything Tests', () => {
-    let connection;
-    let db;
-    // let resourceId;
-
     beforeEach(async () => {
-        connection = await MongoClient.connect(process.env.MONGO_URL, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-            server: {
-                auto_reconnect: true,
-                socketOptions: {
-
-                    keepAlive: 1,
-                    connectTimeoutMS: 60000,
-                    socketTimeoutMS: 60000,
-                }
-            }
-        });
-        db = connection.db();
-
-        globals.set(CLIENT, connection);
-        globals.set(CLIENT_DB, db);
-        jest.setTimeout(30000);
-        env['VALIDATE_SCHEMA'] = true;
+        await commonBeforeEach();
     });
 
     afterEach(async () => {
-        await db.dropDatabase();
-        await connection.close();
+        await commonAfterEach();
     });
 
     describe('Everything Tests', () => {
@@ -57,8 +35,7 @@ describe('Slot Everything Tests', () => {
                     (cb) => // first confirm there are no practitioners
                         request
                             .get('/4_0_0/Practitioner')
-                            .set('Content-Type', 'application/fhir+json')
-                            .set('Accept', 'application/fhir+json')
+                                .set(getHeaders())
                             .expect(200, (err, resp) => {
                                 expect(resp.body.length).toBe(0);
                                 console.log('------- response 1 ------------');
@@ -70,8 +47,7 @@ describe('Slot Everything Tests', () => {
                         request
                             .post('/4_0_0/Slot/1/$merge')
                             .send(slotResource)
-                            .set('Content-Type', 'application/fhir+json')
-                            .set('Accept', 'application/fhir+json')
+                                .set(getHeaders())
                             .expect(200, (err, resp) => {
                                 if (err) {
                                     console.log(err);
@@ -86,8 +62,7 @@ describe('Slot Everything Tests', () => {
                         request
                             .post('/4_0_0/Schedule/1/$merge')
                             .send(slotScheduleResource)
-                            .set('Content-Type', 'application/fhir+json')
-                            .set('Accept', 'application/fhir+json')
+                                .set(getHeaders())
                             .expect(200, (err, resp) => {
                                 if (err) {
                                     console.log(err);
@@ -102,8 +77,7 @@ describe('Slot Everything Tests', () => {
                         request
                             .post('/4_0_0/PractitionerRole/1/$merge')
                             .send(slotPractitionerRoleResource)
-                            .set('Content-Type', 'application/fhir+json')
-                            .set('Accept', 'application/fhir+json')
+                                .set(getHeaders())
                             .expect(200, (err, resp) => {
                                 if (err) {
                                     console.log(err);
@@ -118,8 +92,7 @@ describe('Slot Everything Tests', () => {
                         request
                             .post('/4_0_0/Practitioner/$merge')
                             .send(slotPractitionerResource)
-                            .set('Content-Type', 'application/fhir+json')
-                            .set('Accept', 'application/fhir+json')
+                                .set(getHeaders())
                             .expect(200, (err, resp) => {
                                 if (err) {
                                     console.log(err);
@@ -132,8 +105,7 @@ describe('Slot Everything Tests', () => {
                             }),
                     (results, cb) => request
                         .get('/4_0_0/Slot/1275501447-UHG-MMMA-existing/$everything')
-                        .set('Content-Type', 'application/fhir+json')
-                        .set('Accept', 'application/fhir+json')
+                                .set(getHeaders())
                         .expect(200, cb)
                         .expect((resp) => {
                             console.log('------- response Slot 1275501447-UHG-MMMA-existing $everything ------------');

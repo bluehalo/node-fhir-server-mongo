@@ -1,10 +1,7 @@
 /* eslint-disable no-unused-vars */
-const {MongoClient} = require('mongodb');
 const supertest = require('supertest');
 
 const {app} = require('../../../app');
-const globals = require('../../../globals');
-const {CLIENT, CLIENT_DB} = require('../../../constants');
 // practice
 const practiceHealthcareServiceResource = require('./fixtures/practice/healthcare_service.json');
 const practiceOrganizationResource = require('./fixtures/practice/practice_organization.json');
@@ -16,40 +13,17 @@ const practiceLocationResource = require('./fixtures/practice/location.json');
 const expectedEverythingResource = require('./fixtures/expected/expected_everything.json');
 
 const async = require('async');
-const env = require('var');
 
 const request = supertest(app);
+const {commonBeforeEach, commonAfterEach, getHeaders} = require('../../common');
 
 describe('Organization Multiple Everything Tests', () => {
-    let connection;
-    let db;
-    // let resourceId;
-
     beforeEach(async () => {
-        connection = await MongoClient.connect(process.env.MONGO_URL, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-            server: {
-                auto_reconnect: true,
-                socketOptions: {
-
-                    keepAlive: 1,
-                    connectTimeoutMS: 60000,
-                    socketTimeoutMS: 60000,
-                }
-            }
-        });
-        db = connection.db();
-
-        globals.set(CLIENT, connection);
-        globals.set(CLIENT_DB, db);
-        jest.setTimeout(30000);
-        env['VALIDATE_SCHEMA'] = true;
+        await commonBeforeEach();
     });
 
     afterEach(async () => {
-        await db.dropDatabase();
-        await connection.close();
+        await commonAfterEach();
     });
 
     describe('Everything Tests', () => {
@@ -58,8 +32,7 @@ describe('Organization Multiple Everything Tests', () => {
                     (cb) => // first confirm there are no practitioners
                         request
                             .get('/4_0_0/Practitioner')
-                            .set('Content-Type', 'application/fhir+json')
-                            .set('Accept', 'application/fhir+json')
+                                .set(getHeaders())
                             .expect(200, (err, resp) => {
                                 expect(resp.body.length).toBe(0);
                                 console.log('------- response 1 ------------');
@@ -71,8 +44,7 @@ describe('Organization Multiple Everything Tests', () => {
                         request
                             .post('/4_0_0/HealthcareService/MWHC_Department-207RE0101X/$merge')
                             .send(practiceHealthcareServiceResource)
-                            .set('Content-Type', 'application/fhir+json')
-                            .set('Accept', 'application/fhir+json')
+                                .set(getHeaders())
                             .expect(200, (err, resp) => {
                                 if (err) {
                                     console.log(err);
@@ -87,8 +59,7 @@ describe('Organization Multiple Everything Tests', () => {
                         request
                             .post('/4_0_0/Organization/MWHC/$merge')
                             .send(practiceOrganizationResource)
-                            .set('Content-Type', 'application/fhir+json')
-                            .set('Accept', 'application/fhir+json')
+                                .set(getHeaders())
                             .expect(200, (err, resp) => {
                                 if (err) {
                                     console.log(err);
@@ -103,8 +74,7 @@ describe('Organization Multiple Everything Tests', () => {
                         request
                             .post('/4_0_0/Organization/1234/$merge')
                             .send(practiceOrganization2Resource)
-                            .set('Content-Type', 'application/fhir+json')
-                            .set('Accept', 'application/fhir+json')
+                                .set(getHeaders())
                             .expect(200, (err, resp) => {
                                 if (err) {
                                     console.log(err);
@@ -119,8 +89,7 @@ describe('Organization Multiple Everything Tests', () => {
                         request
                             .post('/4_0_0/Organization/MedStarMedicalGroup/$merge')
                             .send(practiceParentOrganizationResource)
-                            .set('Content-Type', 'application/fhir+json')
-                            .set('Accept', 'application/fhir+json')
+                                .set(getHeaders())
                             .expect(200, (err, resp) => {
                                 if (err) {
                                     console.log(err);
@@ -135,8 +104,7 @@ describe('Organization Multiple Everything Tests', () => {
                         request
                             .post('/4_0_0/Location/$merge')
                             .send(practiceLocationResource)
-                            .set('Content-Type', 'application/fhir+json')
-                            .set('Accept', 'application/fhir+json')
+                                .set(getHeaders())
                             .expect(200, (err, resp) => {
                                 if (err) {
                                     console.log(err);
@@ -149,8 +117,7 @@ describe('Organization Multiple Everything Tests', () => {
                             }),
                     (results, cb) => request
                         .get('/4_0_0/Organization/1/$everything?id=733797173,1234')
-                        .set('Content-Type', 'application/fhir+json')
-                        .set('Accept', 'application/fhir+json')
+                                .set(getHeaders())
                         .expect(200, cb)
                         .expect((resp) => {
                             console.log('------- response Organization 733797173 $everything ------------');
@@ -169,7 +136,7 @@ describe('Organization Multiple Everything Tests', () => {
                                 if ('meta' in element['resource']) {
                                     delete element['resource']['meta']['lastUpdated'];
                                 }
-                                element['resource']['meta'] = {'versionId': '1'};
+                                element['resource']['meta']['versionId'] = '1';
                                 if ('$schema' in element) {
                                     delete element['$schema'];
                                 }

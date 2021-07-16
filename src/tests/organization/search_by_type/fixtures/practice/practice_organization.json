@@ -9,6 +9,15 @@
       "valueDecimal": 39.32792
     }
   ],
+    "meta": {
+      "source": "https://www.foo.com",
+      "security": [
+        {
+          "system": "https://www.icanbwell.com/access",
+          "code": "medstar"
+        }
+      ]
+    },
   "identifier": [
     {
       "use": "usual",

@@ -4,7 +4,13 @@
     "id": "Stanford-Medical-School",
     "meta": {
       "versionId": "1",
-      "lastUpdated": "2021-02-01T22:45:05+00:00"
+      "lastUpdated": "2021-02-01T22:45:05+00:00",
+      "security": [
+        {
+          "system": "https://www.icanbwell.com/access",
+          "code": "medstar"
+        }
+      ]
     },
     "type": [
       {
@@ -24,7 +30,14 @@
     "id": "AETNA",
     "meta": {
       "versionId": "1",
-      "lastUpdated": "2021-02-01T22:45:05+00:00"
+      "lastUpdated": "2021-02-01T22:45:05+00:00",
+      "security": [
+        {
+          "system": "https://www.icanbwell.com/access",
+          "code": "medstar"
+        }
+      ]
+
     },
     "identifier": [
       {
@@ -57,7 +70,14 @@
     "id": "MWHC",
     "meta": {
       "versionId": "1",
-      "lastUpdated": "2021-02-01T22:45:05+00:00"
+      "lastUpdated": "2021-02-01T22:45:05+00:00",
+      "security": [
+        {
+          "system": "https://www.icanbwell.com/access",
+          "code": "medstar"
+        }
+      ]
+
     },
     "identifier": [
       {
@@ -90,7 +110,14 @@
     "id": "-733797173",
     "meta": {
       "versionId": "1",
-      "lastUpdated": "2021-02-01T22:45:05+00:00"
+      "lastUpdated": "2021-02-01T22:45:05+00:00",
+      "security": [
+        {
+          "system": "https://www.icanbwell.com/access",
+          "code": "medstar"
+        }
+      ]
+
     },
     "extension": [
       {
@@ -183,7 +210,14 @@
     "id": "MedStar-Medical-Group",
     "meta": {
       "versionId": "1",
-      "lastUpdated": "2021-02-01T22:45:05+00:00"
+      "lastUpdated": "2021-02-01T22:45:05+00:00",
+      "security": [
+        {
+          "system": "https://www.icanbwell.com/access",
+          "code": "medstar"
+        }
+      ]
+
     },
     "type": [
       {

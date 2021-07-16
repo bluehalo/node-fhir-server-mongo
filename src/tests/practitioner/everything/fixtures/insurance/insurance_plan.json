@@ -1,7 +1,17 @@
 {
     "resourceType": "InsurancePlan",
     "id": "AETNA-Aetna-Elect-Choice--EPO--Aetna-Health-Fund--Innovation-He",
-    "name": "AETNA-Aetna Elect Choice/ EPO (Aetna Health Fund) Innovation Health: Network Only Plus",
+    "meta": {
+      "versionId": "1",
+      "lastUpdated": "2021-01-21T03:54:38+00:00",
+      "security": [
+        {
+          "system": "https://www.icanbwell.com/access",
+          "code": "medstar"
+        }
+      ]
+    },
+  "name": "AETNA-Aetna Elect Choice/ EPO (Aetna Health Fund) Innovation Health: Network Only Plus",
     "ownedBy": {
         "reference": "Organization/AETNA"
     },

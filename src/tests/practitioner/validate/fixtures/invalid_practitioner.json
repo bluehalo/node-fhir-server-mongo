@@ -1,15 +1,22 @@
 {
   "resourceType": "Practitioner",
   "id": "4657",
+  "meta": {
+    "security": [
+      {
+        "system": "https://www.icanbwell.com/access",
+        "code": "medstar"
+      }
+    ]
+  },
   "identifier": [
     {
       "use": "usual",
       "type": {
-        "coding":
-          {
-            "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
-            "code": "PRN"
-          }
+        "coding": {
+          "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+          "code": "PRN"
+        }
       },
       "system": "medstarhealth.org",
       "value": "4657"

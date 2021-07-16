@@ -4,7 +4,14 @@
   "meta": {
     "versionId": "3",
     "lastUpdated": "2021-04-09T09:39:07+00:00",
-    "source": "http://medstarhealth.org/provider_headshots"
+    "source": "http://medstarhealth.org/provider_headshots",
+      "security": [
+        {
+          "system": "https://www.icanbwell.com/access",
+          "code": "medstar"
+        }
+      ]
+
   },
   "identifier": [
     {

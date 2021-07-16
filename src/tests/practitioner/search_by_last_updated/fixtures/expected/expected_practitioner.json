@@ -3,7 +3,13 @@
     "resourceType": "Practitioner",
     "meta": {
       "versionId": "1",
-      "lastUpdated": "2021-01-14T23:42:00+00:00"
+      "lastUpdated": "2021-01-14T23:42:00+00:00",
+      "security": [
+        {
+          "system": "https://www.icanbwell.com/access",
+          "code": "medstar"
+        }
+      ]
     },
     "id": "1679033641",
     "identifier": [

@@ -11,28 +11,15 @@ const async = require('async');
 const env = require('var');
 
 const request = supertest(app);
+const {commonBeforeEach, commonAfterEach, getHeaders} = require('../../common');
 
 describe('Practitioner Merge Bundle Tests', () => {
-    let connection;
-    let db;
-    // let resourceId;
-
     beforeEach(async () => {
-        connection = await MongoClient.connect(process.env.MONGO_URL, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
-        db = await connection.db();
-
-        globals.set(CLIENT, connection);
-        globals.set(CLIENT_DB, db);
-                jest.setTimeout(30000);
-        env['VALIDATE_SCHEMA'] = true;
+        await commonBeforeEach();
     });
 
     afterEach(async () => {
-        await db.dropDatabase();
-        await connection.close();
+        await commonAfterEach();
     });
 
     describe('Practitioner Merge Bundles', () => {
@@ -41,8 +28,7 @@ describe('Practitioner Merge Bundle Tests', () => {
                     (cb) => // first confirm there are no practitioners
                         request
                             .get('/4_0_0/Practitioner')
-                            .set('Content-Type', 'application/fhir+json')
-                            .set('Accept', 'application/fhir+json')
+                            .set(getHeaders())
                             .expect(200, (err, resp) => {
                                 expect(resp.body.length).toBe(0);
                                 console.log('------- response 1 ------------');
@@ -54,8 +40,7 @@ describe('Practitioner Merge Bundle Tests', () => {
                         request
                             .post('/4_0_0/Practitioner/4657/$merge')
                             .send(practitionerBundleResource)
-                            .set('Content-Type', 'application/fhir+json')
-                            .set('Accept', 'application/fhir+json')
+                            .set(getHeaders())
                             .expect(200, (err, resp) => {
                                 console.log('------- response 2 ------------');
                                 console.log(JSON.stringify(resp.body, null, 2));
@@ -64,8 +49,7 @@ describe('Practitioner Merge Bundle Tests', () => {
                             }),
                     (results, cb) => request
                         .get('/4_0_0/Practitioner')
-                        .set('Content-Type', 'application/fhir+json')
-                        .set('Accept', 'application/fhir+json')
+                        .set(getHeaders())
                         .expect(200, cb)
                         .expect((resp) => {
                             // clear out the lastUpdated column since that changes
@@ -82,7 +66,7 @@ describe('Practitioner Merge Bundle Tests', () => {
                                 if ('meta' in element) {
                                     delete element['meta']['lastUpdated'];
                                 }
-                                element['meta'] = {'versionId': '1'};
+                                element['meta']['versionId'] = '1';
                                 if ('$schema' in element) {
                                     delete element['$schema'];
                                 }

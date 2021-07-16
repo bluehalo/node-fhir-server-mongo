@@ -17,37 +17,15 @@ const async = require('async');
 const env = require('var');
 
 const request = supertest(app);
+const {commonBeforeEach, commonAfterEach, getHeaders} = require('../../common');
 
 describe('search_by_security_tag', () => {
-    let connection;
-    let db;
-    // let resourceId;
-
     beforeEach(async () => {
-        connection = await MongoClient.connect(process.env.MONGO_URL, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-            server: {
-                auto_reconnect: true,
-                socketOptions: {
-
-                    keepAlive: 1,
-                    connectTimeoutMS: 60000,
-                    socketTimeoutMS: 60000,
-                }
-            }
-        });
-        db = connection.db();
-
-        globals.set(CLIENT, connection);
-        globals.set(CLIENT_DB, db);
-        jest.setTimeout(30000);
-        env['VALIDATE_SCHEMA'] = true;
+        await commonBeforeEach();
     });
 
     afterEach(async () => {
-        await db.dropDatabase();
-        await connection.close();
+        await commonAfterEach();
     });
 
     function sleep(milliseconds) {
@@ -64,8 +42,7 @@ describe('search_by_security_tag', () => {
                     (cb) => // first confirm there are no practitioners
                         request
                             .get('/4_0_0/Practitioner')
-                            .set('Content-Type', 'application/fhir+json')
-                            .set('Accept', 'application/fhir+json')
+                                .set(getHeaders())
                             .expect(200, (err, resp) => {
                                 expect(resp.body.length).toBe(0);
                                 console.log('------- response 1 ------------');
@@ -77,8 +54,7 @@ describe('search_by_security_tag', () => {
                         request
                             .post('/4_0_0/Practitioner/1679033641/$merge?validate=true')
                             .send(practitionerResource)
-                            .set('Content-Type', 'application/fhir+json')
-                            .set('Accept', 'application/fhir+json')
+                                .set(getHeaders())
                             .expect(200, (err, resp) => {
                                 console.log('------- response practitionerResource ------------');
                                 console.log(JSON.stringify(resp.body, null, 2));
@@ -90,8 +66,7 @@ describe('search_by_security_tag', () => {
                         request
                             .post('/4_0_0/Practitioner/0/$merge')
                             .send(practitionerResource2)
-                            .set('Content-Type', 'application/fhir+json')
-                            .set('Accept', 'application/fhir+json')
+                                .set(getHeaders())
                             .expect(200, (err, resp) => {
                                 console.log('------- response practitionerResource ------------');
                                 console.log(JSON.stringify(resp.body, null, 2));
@@ -103,8 +78,7 @@ describe('search_by_security_tag', () => {
                         request
                             .post('/4_0_0/Practitioner/0/$merge')
                             .send(practitionerResource3)
-                            .set('Content-Type', 'application/fhir+json')
-                            .set('Accept', 'application/fhir+json')
+                                .set(getHeaders())
                             .expect(200, (err, resp) => {
                                 console.log('------- response practitionerResource3 ------------');
                                 console.log(JSON.stringify(resp.body, null, 2));
@@ -115,8 +89,7 @@ describe('search_by_security_tag', () => {
                     (results, cb) =>
                         request
                             .get('/4_0_0/Practitioner')
-                            .set('Content-Type', 'application/fhir+json')
-                            .set('Accept', 'application/fhir+json')
+                                .set(getHeaders())
                             .expect(200, (err, resp) => {
                                 console.log('------- response 3 ------------');
                                 console.log(JSON.stringify(resp.body, null, 2));
@@ -124,9 +97,8 @@ describe('search_by_security_tag', () => {
                                 return cb(err, resp);
                             }),
                     (results, cb) => request
-                        .get('/4_0_0/Practitioner?_security=http://www.foo.com/bar|medstar')
-                        .set('Content-Type', 'application/fhir+json')
-                        .set('Accept', 'application/fhir+json')
+                        .get('/4_0_0/Practitioner?_security=https://www.icanbwell.com/access|medstar')
+                                .set(getHeaders())
                         .expect(200, cb)
                         .expect((resp) => {
                             console.log('------- response Practitioner sorted ------------');

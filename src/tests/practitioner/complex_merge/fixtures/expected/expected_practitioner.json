@@ -4,7 +4,13 @@
         "id": "1679033641",
         "meta": {
             "versionId": "2",
-            "lastUpdated": "2020-11-29T02:53:21+00:00"
+            "lastUpdated": "2020-11-29T02:53:21+00:00",
+      "security": [
+        {
+          "system": "https://www.icanbwell.com/access",
+          "code": "medstar"
+        }
+      ]
         },
         "identifier": [
             {

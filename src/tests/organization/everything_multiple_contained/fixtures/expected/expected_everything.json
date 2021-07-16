@@ -11,7 +11,14 @@
         "id": "733797173",
         "meta": {
           "versionId": "1",
-          "lastUpdated": "2021-04-30T03:02:41+00:00"
+          "lastUpdated": "2021-04-30T03:02:41+00:00",
+          "source": "https://www.foo.com",
+          "security": [
+            {
+              "system": "https://www.icanbwell.com/access",
+              "code": "medstar"
+            }
+          ]
         },
         "contained": [
           {
@@ -19,7 +26,14 @@
             "id": "UHG-MDER",
             "meta": {
               "versionId": "1",
-              "lastUpdated": "2021-04-30T03:02:41+00:00"
+              "lastUpdated": "2021-04-30T03:02:41+00:00",
+              "source": "https://www.foo.com",
+              "security": [
+                {
+                  "system": "https://www.icanbwell.com/access",
+                  "code": "medstar"
+                }
+              ]
             },
             "identifier": [
               {
@@ -156,7 +170,14 @@
             "id": "-733797173",
             "meta": {
               "versionId": "1",
-              "lastUpdated": "2021-04-30T03:02:41+00:00"
+              "lastUpdated": "2021-04-30T03:02:41+00:00",
+              "source": "https://www.foo.com",
+              "security": [
+                {
+                  "system": "https://www.icanbwell.com/access",
+                  "code": "medstar"
+                }
+              ]
             },
             "identifier": [
               {
@@ -276,7 +297,14 @@
         "id": "1234",
         "meta": {
           "versionId": "1",
-          "lastUpdated": "2021-04-30T03:02:41+00:00"
+          "lastUpdated": "2021-04-30T03:02:41+00:00",
+          "source": "https://www.foo.com",
+          "security": [
+            {
+              "system": "https://www.icanbwell.com/access",
+              "code": "medstar"
+            }
+          ]
         },
         "extension": [
           {

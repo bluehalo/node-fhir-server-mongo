@@ -55,6 +55,10 @@ tests_integration:
 tests_everything:
 	npm run test:everything
 
+.PHONY:lint
+lint:
+	npm run test:lint
+
 .PHONY:generate
 generate:
 	python3 src/services/generate_services.py
@@ -62,3 +66,15 @@ generate:
 .PHONY:shell
 shell: ## Brings up the bash shell in dev docker
 	docker-compose -p fhir-dev -f docker-compose.yml run --rm --name fhir fhir /bin/sh
+
+.PHONY:clean-pre-commit
+clean-pre-commit: ## removes pre-commit hook
+	rm -f .git/hooks/pre-commit
+
+.PHONY:setup-pre-commit
+setup-pre-commit: Pipfile.lock
+	cp ./pre-commit-hook ./.git/hooks/pre-commit
+
+.PHONY:run-pre-commit
+run-pre-commit: setup-pre-commit
+	./.git/hooks/pre-commit

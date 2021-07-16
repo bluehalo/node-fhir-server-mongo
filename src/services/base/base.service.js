@@ -1,3 +1,5 @@
+// noinspection ExceptionCaughtLocallyJS
+
 const {VERSIONS} = require('@asymmetrik/node-fhir-server-core').constants;
 const {resolveSchema} = require('@asymmetrik/node-fhir-server-core');
 const scopeChecker = require('@asymmetrik/sof-scope-checker');
@@ -61,7 +63,7 @@ const {
  * @param {string} resource_name
  * @returns {function(?Object):Resource}
  */
-let getResource = (base_version, resource_name) => {
+const getResource = (base_version, resource_name) => {
     return resolveSchema(base_version, resource_name);
 };
 
@@ -70,7 +72,7 @@ let getResource = (base_version, resource_name) => {
  * @param {string} base_version
  * @returns {function({Object}):Meta} Meta class
  */
-let getMeta = (base_version) => {
+const getMeta = (base_version) => {
     return resolveSchema(base_version, 'Meta');
 };
 
@@ -78,7 +80,7 @@ let getMeta = (base_version) => {
  * Logs as info if env.IS_PRODUCTION is not set
  * @param {*} msg
  */
-let logInfo = (msg) => {
+const logInfo = (msg) => {
     if (!env.IS_PRODUCTION) {
         logger.info(msg);
     }
@@ -88,7 +90,7 @@ let logInfo = (msg) => {
  * Always logs regardless of env.IS_PRODUCTION
  * @param {*} msg
  */
-let logRequest = (msg) => {
+const logRequest = (msg) => {
     logger.info(msg);
 };
 
@@ -97,7 +99,7 @@ let logRequest = (msg) => {
  * @param {string} scope
  * @return {string[]}
  */
-let parseScopes = (scope) => {
+const parseScopes = (scope) => {
     if (!scope) {
         return [];
     }
@@ -111,7 +113,7 @@ let parseScopes = (scope) => {
  * @param {string} user
  * @param {?string} scope
  */
-let verifyHasValidScopes = (name, action, user, scope) => {
+const verifyHasValidScopes = (name, action, user, scope) => {
     if (env.AUTH_ENABLED === '1') {
         // http://www.hl7.org/fhir/smart-app-launch/scopes-and-launch-context/index.html
         /**
@@ -129,13 +131,52 @@ let verifyHasValidScopes = (name, action, user, scope) => {
     }
 };
 
+/**
+ * Returns all the access codes present in scopes
+ * @param {string} action
+ * @param {string} user
+ * @param {?string} scope
+ * @return {string[]}
+ */
+const getAccessCodesFromScopes = (action, user, scope) => {
+    if (env.AUTH_ENABLED === '1') {
+        // http://www.hl7.org/fhir/smart-app-launch/scopes-and-launch-context/index.html
+        /**
+         * @type {string[]}
+         */
+        let scopes = parseScopes(scope);
+        /**
+         * @type {string[]}
+         */
+        const access_codes = [];
+        /**
+         * @type {string}
+         */
+        for (const scope1 of scopes) {
+            if (scope1.startsWith('access')) {
+                // ex: access/medstar.*
+                /**
+                 * @type {string}
+                 */
+                const inner_scope = scope1.replace('access/', '');
+                /**
+                 * @type {string}
+                 */
+                const access_code = inner_scope.split('.')[0];
+                access_codes.push(access_code);
+            }
+        }
+        return access_codes;
+    }
+};
+
 
 /**
  * returns whether the parameter is false or a string "false"
  * @param {string | boolean | null} s
  * @returns {boolean}
  */
-let isTrue = function (s) {
+const isTrue = function (s) {
     return String(s).toLowerCase() === 'true' || String(s).toLowerCase() === '1';
 };
 
@@ -145,7 +186,7 @@ let isTrue = function (s) {
  * @param {string[]} args
  * @returns {Object} A query object to use with Mongo
  */
-let buildR4SearchQuery = (resource_name, args) => {
+const buildR4SearchQuery = (resource_name, args) => {
     // Common search params
     let {id} = args;
     let patient = args['patient'];
@@ -448,7 +489,7 @@ let buildR4SearchQuery = (resource_name, args) => {
  * @param {string[]} args
  * @returns {Object}
  */
-let buildStu3SearchQuery = (args) => {
+const buildStu3SearchQuery = (args) => {
     // Common search params
     let {id} = args;
 
@@ -475,7 +516,7 @@ let buildStu3SearchQuery = (args) => {
  * @param {string[]} args
  * @returns {Object}
  */
-let buildDstu2SearchQuery = (args) => {
+const buildDstu2SearchQuery = (args) => {
     // Common search params
     let {id} = args;
 
@@ -501,7 +542,7 @@ let buildDstu2SearchQuery = (args) => {
  * @param {string[]} args
  * @returns {string[]} array of combined arguments
  */
-let get_all_args = (req, args) => {
+const get_all_args = (req, args) => {
     // asymmetric hides certain query parameters from us so we need to get them from the context
     const query_param_args = {};
     /**
@@ -530,7 +571,7 @@ let get_all_args = (req, args) => {
     return combined_args;
 };
 
-let check_fhir_mismatch = (cleaned, patched) => {
+const check_fhir_mismatch = (cleaned, patched) => {
     if (deepEqual(cleaned, patched) === false) {
         let diff = compare(cleaned, patched);
         logger.warn('Possible FHIR mismatch - ' + cleaned.resourceType + cleaned.id + ':' + cleaned.resourceType);
@@ -538,6 +579,87 @@ let check_fhir_mismatch = (cleaned, patched) => {
     }
 };
 
+/**
+ * Checks whether the resource has any access codes that are in the passed in accessCodes list
+ * @param {string[]} accessCodes
+ * @param {string} user
+ * @param {string} scope
+ * @param {Resource} resource
+ * @return {boolean}
+ */
+const doesResourceHaveAnyAccessCodeFromThisList = (accessCodes, user, scope, resource) => {
+    // fail if there are no access codes
+    if (!accessCodes || accessCodes.length === 0) {
+        return false;
+    }
+
+    // see if we have the * access code
+    if (accessCodes.includes('*')) {
+        // no security check since user has full access to everything
+        return true;
+    }
+
+    if (!resource.meta || !resource.meta.security) {
+        // resource has not meta or security tags so don't return it
+        return false;
+    }
+    /**
+     * @type {string[]}
+     */
+    const accessCodesForResource = resource.meta.security
+        .filter(s => s.system === 'https://www.icanbwell.com/access')
+        .map(s => s.code);
+    /**
+     * @type {string}
+     */
+    for (const accessCode of accessCodes) {
+        if (accessCodesForResource.includes(accessCode)) {
+            return true;
+        }
+    }
+    return false;
+};
+
+/**
+ * Returns true if resource can be accessed with scope
+ * @param {Resource} resource
+ * @param {IncomingMessage} req
+ * @return {boolean}
+ */
+const isAccessToResourceAllowedBySecurityTags = (resource, req) => {
+    // add any access codes from scopes
+    /**
+     * @type {string}
+     */
+    const user = req.user;
+    /**
+     * @type {?string}
+     */
+    const scope = req.authInfo ? req.authInfo.scope : null;
+    /**
+     * @type {string[]}
+     */
+    const accessCodes = getAccessCodesFromScopes('read', user, req.authInfo && scope);
+    if (accessCodes.length === 0) {
+        let errorMessage = 'user ' + user + ' with scopes [' + scope + '] has no access scopes';
+        throw new ForbiddenError(errorMessage);
+    }
+    return doesResourceHaveAnyAccessCodeFromThisList(accessCodes, user, scope, resource);
+};
+
+/**
+ * Returns whether the resource has an access tag
+ * @param {Resource} resource
+ * @return {boolean}
+ */
+const doesResourceHaveAccessTags = (resource) => {
+    return !!(
+        resource &&
+        resource.meta &&
+        resource.meta.security &&
+        resource.meta.security.some(s => s.system === 'https://www.icanbwell.com/access')
+    );
+};
 
 /**
  * does a FHIR Search
@@ -561,6 +683,28 @@ module.exports.search = async (args, {req}, resource_name, collection_name) => {
     logRequest(args);
     logRequest('--------');
 
+    // add any access codes from scopes
+    const accessCodes = getAccessCodesFromScopes('read', req.user, req.authInfo && req.authInfo.scope);
+    // fail if there are no access codes
+    if (accessCodes.length === 0) {
+        let errorMessage = 'user ' + req.user + ' with scopes [' + req.authInfo.scope + '] has no access scopes';
+        throw new ForbiddenError(errorMessage);
+    }
+    // see if we have the * access code
+    else if (accessCodes.includes('*')) {
+        // no security check since user has full access to everything
+    } else {
+        /**
+         * @type {string}
+         */
+        for (const accessCode of accessCodes) {
+            if (combined_args['_security']) {
+                combined_args['_security'] = combined_args['_security'] + ',' + accessCode;
+            } else {
+                combined_args['_security'] = 'https://www.icanbwell.com/access|' + accessCode;
+            }
+        }
+    }
     /**
      * @type {string}
      */
@@ -772,6 +916,11 @@ module.exports.searchById = async (args, {req}, resource_name, collection_name) 
         throw new BadRequestError(e);
     }
     if (resource) {
+        if (!(isAccessToResourceAllowedBySecurityTags(resource, req))) {
+            throw new ForbiddenError(
+                'user ' + req.user + ' with scopes [' + req.authInfo.scope + '] has no access to resource ' +
+                resource.resourceType + ' with id ' + id);
+        }
         return new Resource(resource);
     } else {
         throw new NotFoundError();
@@ -852,6 +1001,12 @@ module.exports.create = async (args, {req}, resource_name, collection_name) => {
         // noinspection JSUnresolvedFunction
         logInfo(`resource: ${resource.toJSON()}`);
 
+        if (env.CHECK_ACCESS_TAG_ON_SAVE === '1') {
+            if (!doesResourceHaveAccessTags(resource)) {
+                throw new BadRequestError(new Error('Resource is missing a security access tag with system: https://www.icanbwell.com/access '));
+            }
+        }
+
         // If no resource ID was provided, generate one.
         let id = getUuid(resource);
         logInfo(`id: ${id}`);
@@ -861,10 +1016,15 @@ module.exports.create = async (args, {req}, resource_name, collection_name) => {
          * @type {function({Object}): Meta}
          */
         let Meta = getMeta(base_version);
-        resource.meta = new Meta({
-            versionId: '1',
-            lastUpdated: moment.utc().format('YYYY-MM-DDTHH:mm:ssZ'),
-        });
+        if (!resource_incoming.meta) {
+            resource_incoming.meta = new Meta({
+                versionId: '1',
+                lastUpdated: moment.utc().format('YYYY-MM-DDTHH:mm:ssZ'),
+            });
+        } else {
+            resource_incoming.meta['versionId'] = '1';
+            resource_incoming.meta['lastUpdated'] = moment.utc().format('YYYY-MM-DDTHH:mm:ssZ');
+        }
 
         // Create the document to be inserted into Mongo
         // noinspection JSUnresolvedFunction
@@ -895,7 +1055,7 @@ module.exports.create = async (args, {req}, resource_name, collection_name) => {
         return {id: doc.id, resource_version: doc.meta.versionId};
     } catch (e) {
         const currentDate = moment.utc().format('YYYY-MM-DD');
-        logger.error(`Error with merging resource ${resource_name}.merge with id: ${uuid} `, e);
+        logger.error(`Error with creating resource ${resource_name} with id: ${uuid} `, e);
 
         await sendToS3('errors',
             resource_name,
@@ -988,6 +1148,12 @@ module.exports.update = async (args, {req}, resource_name, collection_name) => {
             // found an existing resource
             logInfo('found resource: ' + data);
             let foundResource = new Resource(data);
+            if (!(isAccessToResourceAllowedBySecurityTags(foundResource, req))) {
+                throw new ForbiddenError(
+                    'user ' + req.user + ' with scopes [' + req.authInfo.scope + '] has no access to resource ' +
+                    foundResource.resourceType + ' with id ' + id);
+            }
+
             logInfo('------ found document --------');
             logInfo(data);
             logInfo('------ end found document --------');
@@ -1045,12 +1211,24 @@ module.exports.update = async (args, {req}, resource_name, collection_name) => {
         } else {
             // not found so insert
             logInfo('update: new resource: ' + resource_incoming);
+            if (env.CHECK_ACCESS_TAG_ON_SAVE === '1') {
+                if (!doesResourceHaveAccessTags(resource_incoming)) {
+                    throw new BadRequestError(new Error('Resource is missing a security access tag with system: https://www.icanbwell.com/access '));
+                }
+            }
+
             // create the metadata
             let Meta = getMeta(base_version);
-            resource_incoming.meta = new Meta({
-                versionId: '1',
-                lastUpdated: moment.utc().format('YYYY-MM-DDTHH:mm:ssZ'),
-            });
+            if (!resource_incoming.meta) {
+                resource_incoming.meta = new Meta({
+                    versionId: '1',
+                    lastUpdated: moment.utc().format('YYYY-MM-DDTHH:mm:ssZ'),
+                });
+            } else {
+                resource_incoming.meta['versionId'] = '1';
+                resource_incoming.meta['lastUpdated'] = moment.utc().format('YYYY-MM-DDTHH:mm:ssZ');
+            }
+
             cleaned = JSON.parse(JSON.stringify(resource_incoming));
             doc = Object.assign(cleaned, {_id: id});
         }
@@ -1179,6 +1357,13 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
             }
             logInfo('-----------------');
         }
+
+        if (env.CHECK_ACCESS_TAG_ON_SAVE === '1') {
+            if (!doesResourceHaveAccessTags(resource_to_merge)) {
+                throw new BadRequestError(new Error('Resource is missing a security access tag with system: https://www.icanbwell.com/access '));
+            }
+        }
+
         try {
             logInfo('-----------------');
             logInfo(base_version);
@@ -1228,6 +1413,11 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                 logInfo('------ found document --------');
                 logInfo(data);
                 logInfo('------ end found document --------');
+                if (!(isAccessToResourceAllowedBySecurityTags(foundResource, req))) {
+                    throw new ForbiddenError(
+                        'user ' + req.user + ' with scopes [' + req.authInfo.scope + '] has no access to resource ' +
+                        foundResource.resourceType + ' with id ' + id);
+                }
 
                 // use metadata of existing resource (overwrite any passed in metadata)
                 if (!resource_to_merge.meta) {
@@ -1437,6 +1627,12 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
             } else {
                 // not found so insert
                 logInfo(resource_name + ': merge new resource ' + '[' + resource_to_merge.id + ']: ' + resource_to_merge);
+                if (env.CHECK_ACCESS_TAG_ON_SAVE === '1') {
+                    if (!doesResourceHaveAccessTags(resource_to_merge)) {
+                        throw new BadRequestError(new Error('Resource is missing a security access tag with system: https://www.icanbwell.com/access '));
+                    }
+                }
+
                 if (!resource_to_merge.meta) {
                     // create the metadata
                     /**
@@ -1688,6 +1884,11 @@ module.exports.searchByVersionId = async (args, {req}, resource_name, collection
         throw new BadRequestError(e);
     }
     if (resource) {
+        if (!(isAccessToResourceAllowedBySecurityTags(resource, req))) {
+            throw new ForbiddenError(
+                'user ' + req.user + ' with scopes [' + req.authInfo.scope + '] has no access to resource ' +
+                resource.resourceType + ' with id ' + id);
+        }
         return (new Resource(resource));
     } else {
         throw new NotFoundError();
@@ -1732,7 +1933,10 @@ module.exports.history = async (args, {req}, resource_name, collection_name) => 
     const resources = [];
     while (await cursor.hasNext()) {
         const element = await cursor.next();
-        resources.push(new Resource(element));
+        const resource = new Resource(element);
+        if (isAccessToResourceAllowedBySecurityTags(resource, req)) {
+            resources.push(resource);
+        }
     }
     if (resources.length === 0) {
         throw new NotFoundError();
@@ -1779,7 +1983,10 @@ module.exports.historyById = async (args, {req}, resource_name, collection_name)
     const resources = [];
     while (await cursor.hasNext()) {
         const element = await cursor.next();
-        resources.push(new Resource(element));
+        const resource = new Resource(element);
+        if (isAccessToResourceAllowedBySecurityTags(resource, req)) {
+            resources.push(resource);
+        }
     }
     if (resources.length === 0) {
         throw new NotFoundError();
@@ -1902,6 +2109,23 @@ module.exports.validate = async (args, {req}, resource_name, collection_name) =>
         return operationOutcome;
     }
 
+    if (!doesResourceHaveAccessTags(resource_incoming)) {
+        return {
+            resourceType: 'OperationOutcome',
+            issue: [
+                {
+                    severity: 'error',
+                    code: 'invalid',
+                    details: {
+                        text: 'Resource is missing a security access tag with system: https://www.icanbwell.com/access'
+                    },
+                    expression: [
+                        resource_name
+                    ]
+                }
+            ]
+        };
+    }
     return {
         resourceType: 'OperationOutcome',
         issue: [
@@ -1930,6 +2154,8 @@ module.exports.validate = async (args, {req}, resource_name, collection_name) =>
 module.exports.graph = async (args, {req}, resource_name, collection_name) => {
     logRequest(`${resource_name} >>> graph`);
     verifyHasValidScopes(resource_name, 'read', req.user, req.authInfo && req.authInfo.scope);
+
+    const accessCodes = getAccessCodesFromScopes('read', req.user, req.authInfo && req.authInfo.scope);
 
     /**
      * Gets related resources
@@ -2211,9 +2437,14 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
                 const related_entries = await processGraphLinks(start_entry, linkItems);
                 if (contained) {
                     /**
-                     * @type {{Resource}[]}
+                     * @type {Resource[]}
                      */
-                    const related_resources = related_entries.map(e => e.resource);
+                    const related_resources = related_entries.map(e => e.resource).filter(
+                        resource => doesResourceHaveAnyAccessCodeFromThisList(
+                            accessCodes, req.user, req.authInfo.scope, resource
+                        )
+                    );
+
                     if (related_resources.length > 0) {
                         current_entity['resource']['contained'] = related_resources;
                     }
@@ -2243,7 +2474,11 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
                 acc.push(item);
             }
             return acc;
-        }, []);
+        }, []).filter(
+            e => doesResourceHaveAnyAccessCodeFromThisList(
+                accessCodes, req.user, req.authInfo.scope, e.resource
+            )
+        );
         // create a bundle
         return (
             {

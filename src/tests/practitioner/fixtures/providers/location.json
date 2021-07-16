@@ -1,7 +1,15 @@
 {
     "resourceType": "Location",
     "id": "3437",
-    "alias": [
+    "meta": {
+      "security": [
+        {
+          "system": "https://www.icanbwell.com/access",
+          "code": "medstar"
+        }
+      ]
+    },
+  "alias": [
         "UF3-UADM"
     ],
     "address": {

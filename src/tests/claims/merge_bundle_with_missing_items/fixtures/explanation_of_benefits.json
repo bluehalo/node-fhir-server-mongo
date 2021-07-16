@@ -5,7 +5,13 @@
     "meta": {
       "versionId": "1",
       "lastUpdated": "2021-02-21T03:02:24+00:00",
-      "source": "https://www.wpshealth.com/medical_claims"
+      "source": "https://www.wpshealth.com/medical_claims",
+      "security": [
+        {
+          "system": "https://www.icanbwell.com/access",
+          "code": "medstar"
+        }
+      ]
     },
     "identifier": [
       {
