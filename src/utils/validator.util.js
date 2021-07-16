@@ -38,7 +38,7 @@ function validateResource(resourceBody, resourceName, path) {
                     severity: 'error',
                     code: 'invalid',
                     details: {
-                        text: `Validation failed for data posted to ${path} for resource ${resourceBody.resourceType}`,
+                        text: `Validation failed for data posted to ${path} for resource ${resourceBody.resourceType}. ResourceType does not match the endpoint you are posting to.`,
                     },
                 },
             ],

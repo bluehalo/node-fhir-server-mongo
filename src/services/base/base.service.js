@@ -167,6 +167,8 @@ const getAccessCodesFromScopes = (action, user, scope) => {
             }
         }
         return access_codes;
+    } else {
+        return [];
     }
 };
 
@@ -588,6 +590,10 @@ const check_fhir_mismatch = (cleaned, patched) => {
  * @return {boolean}
  */
 const doesResourceHaveAnyAccessCodeFromThisList = (accessCodes, user, scope, resource) => {
+    if (env.AUTH_ENABLED !== '1') {
+        return true;
+    }
+
     // fail if there are no access codes
     if (!accessCodes || accessCodes.length === 0) {
         return false;
@@ -627,6 +633,9 @@ const doesResourceHaveAnyAccessCodeFromThisList = (accessCodes, user, scope, res
  * @return {boolean}
  */
 const isAccessToResourceAllowedBySecurityTags = (resource, req) => {
+    if (env.AUTH_ENABLED !== '1') {
+        return true;
+    }
     // add any access codes from scopes
     /**
      * @type {string}
@@ -640,7 +649,7 @@ const isAccessToResourceAllowedBySecurityTags = (resource, req) => {
      * @type {string[]}
      */
     const accessCodes = getAccessCodesFromScopes('read', user, req.authInfo && scope);
-    if (accessCodes.length === 0) {
+    if (!accessCodes || accessCodes.length === 0) {
         let errorMessage = 'user ' + user + ' with scopes [' + scope + '] has no access scopes';
         throw new ForbiddenError(errorMessage);
     }
@@ -1253,7 +1262,7 @@ module.exports.update = async (args, {req}, resource_name, collection_name) => {
         };
     } catch (e) {
         const currentDate = moment.utc().format('YYYY-MM-DD');
-        logger.error(`Error with merging resource ${resource_name}.merge with id: ${id} `, e);
+        logger.error(`Error with updating resource ${resource_name}.update with id: ${id} `, e);
 
         await sendToS3('errors',
             resource_name,
