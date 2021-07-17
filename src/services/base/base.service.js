@@ -1285,7 +1285,17 @@ module.exports.update = async (args, {req}, resource_name, collection_name) => {
 module.exports.merge = async (args, {req}, resource_name, collection_name) => {
     logRequest(`'${resource_name} >>> merge`);
 
-    verifyHasValidScopes(resource_name, 'write', req.user, req.authInfo && req.authInfo.scope);
+    /**
+     * @type {string}
+     */
+    const scope = req.authInfo && req.authInfo.scope;
+    /**
+     * @type {string[]}
+     */
+    const scopes = parseScopes(scope);
+
+    verifyHasValidScopes(resource_name, 'write', req.user, scope);
+
     // read the incoming resource from request body
     /**
      * @type {Object[]}
@@ -1318,18 +1328,44 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
     // this function is called for each resource
     // returns an OperationOutcome
     /**
+     * Merges a single resource
      * @param {Object} resource_to_merge
-     * @return {Promise<{issue: [{severity: string, diagnostics: *, code: string, expression: [string], details: {text: string}}], resourceType: string}|{created: boolean, id: String, message: string, updated: boolean, resource_version}|{created: (*|boolean), id: String, updated: *, resource_version}|*>}
+     * @return {Promise<{issue: {severity: string, diagnostics: string, code: string, expression: [string], details: {text: string}}, created: boolean, id: String, updated: boolean}>}
      */
     async function merge_resource(resource_to_merge) {
         /**
          * @type {String}
          */
         let id = resource_to_merge.id;
+        if (!(resource_to_merge.resourceType)) {
+            const operationOutcome = {
+                resourceType: 'OperationOutcome',
+                issue: [
+                    {
+                        severity: 'error',
+                        code: 'exception',
+                        details: {
+                            text: 'Error merging: ' + JSON.stringify(resource_to_merge)
+                        },
+                        diagnostics: 'resource is missing resourceType',
+                        expression: [
+                            resource_name + '/' + id
+                        ]
+                    }
+                ]
+            };
+            return {
+                id: id,
+                created: false,
+                updated: false,
+                issue: (operationOutcome.issue && operationOutcome.issue.length > 0) ? operationOutcome.issue[0] : null,
+                operationOutcome: operationOutcome
+            };
+        }
 
         if (env.LOG_ALL_SAVES) {
             await sendToS3('logs',
-                resource_name,
+                resource_to_merge.resourceType,
                 resource_to_merge,
                 currentDate,
                 id,
@@ -1340,36 +1376,93 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
          * @type {string[]}
          */
         const combined_args = get_all_args(req, args);
+        if (isTrue(env.AUTH_ENABLED)) {
+            let {success} = scopeChecker(resource_to_merge.resourceType, 'write', scopes);
+            if (!success) {
+                const operationOutcome = {
+                    resourceType: 'OperationOutcome',
+                    issue: [
+                        {
+                            severity: 'error',
+                            code: 'exception',
+                            details: {
+                                text: 'Error merging: ' + JSON.stringify(resource_to_merge)
+                            },
+                            diagnostics: 'user ' + req.user + ' with scopes [' + scopes + '] failed access check to [' + resource_to_merge.resourceType + '.' + 'write' + ']',
+                            expression: [
+                                resource_to_merge.resourceType + '/' + id
+                            ]
+                        }
+                    ]
+                };
+                return {
+                    id: id,
+                    created: false,
+                    updated: false,
+                    issue: (operationOutcome.issue && operationOutcome.issue.length > 0) ? operationOutcome.issue[0] : null,
+                    operationOutcome: operationOutcome
+                };
+            }
+        }
+
         if (env.VALIDATE_SCHEMA || combined_args['_validate']) {
             logInfo('--- validate schema ----');
             /**
              * @type {?OperationOutcome}
              */
-            const operationOutcome = validateResource(resource_to_merge, resource_name, req.path);
+            const operationOutcome = validateResource(resource_to_merge, resource_to_merge.resourceType, req.path);
             if (operationOutcome && operationOutcome.statusCode === 400) {
                 operationOutcome['expression'] = [
-                    resource_name + '/' + id
+                    resource_to_merge.resourceType + '/' + id
                 ];
                 await sendToS3('validation_failures',
-                    resource_name,
+                    resource_to_merge.resourceType,
                     resource_to_merge,
                     currentDate,
                     id,
                     'merge');
                 await sendToS3('validation_failures',
-                    resource_name,
+                    resource_to_merge.resourceType,
                     operationOutcome,
                     currentDate,
                     id,
                     'merge_failure');
-                return operationOutcome;
+                return {
+                    id: id,
+                    created: false,
+                    updated: false,
+                    issue: (operationOutcome.issue && operationOutcome.issue.length > 0) ? operationOutcome.issue[0] : null,
+                    operationOutcome: operationOutcome
+                };
             }
             logInfo('-----------------');
         }
 
         if (env.CHECK_ACCESS_TAG_ON_SAVE === '1') {
             if (!doesResourceHaveAccessTags(resource_to_merge)) {
-                throw new BadRequestError(new Error('Resource is missing a security access tag with system: https://www.icanbwell.com/access '));
+                const operationOutcome = {
+                    resourceType: 'OperationOutcome',
+                    issue: [
+                        {
+                            severity: 'error',
+                            code: 'exception',
+                            details: {
+                                text: 'Error merging: ' + JSON.stringify(resource_to_merge)
+                            },
+                            diagnostics: 'Resource is missing a meta.security tag with system: https://www.icanbwell.com/access',
+                            expression: [
+                                resource_to_merge.resourceType + '/' + id
+                            ]
+                        }
+                    ]
+                };
+                return {
+                    id: id,
+                    created: false,
+                    updated: false,
+                    issue: (operationOutcome.issue && operationOutcome.issue.length > 0) ? operationOutcome.issue[0] : null,
+                    operationOutcome: operationOutcome
+                };
             }
         }
 
@@ -1387,7 +1480,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
             /**
              * @type {Collection}
              */
-            let collection = db.collection(`${collection_name}_${base_version}`);
+            let collection = db.collection(`${resource_to_merge.resourceType}_${base_version}`);
 
             // Query our collection for this id
             /**
@@ -1399,7 +1492,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
             /**
              * @type {function({Object}):Resource}
              */
-            let Resource = getResource(base_version, resource_name);
+            let Resource = getResource(base_version, resource_to_merge.resourceType);
 
             /**
              * @type {Object}
@@ -1414,7 +1507,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
             // noinspection JSUnusedLocalSymbols
             if (data && data.meta) {
                 // found an existing resource
-                logInfo(resource_name + ': merge found resource ' + '[' + data.id + ']: ' + data);
+                logInfo(resource_to_merge.resourceType + ': merge found resource ' + '[' + data.id + ']: ' + data);
                 /**
                  * @type {Resource}
                  */
@@ -1592,7 +1685,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                         message: 'No changes detected in updated resource'
                     };
                 }
-                logRequest(`${resource_name} >>> merging ${id}`);
+                logRequest(`${resource_to_merge.resourceType} >>> merging ${id}`);
                 // now apply the patches to the found resource
                 // noinspection JSCheckFunctionSignatures
                 /**
@@ -1622,7 +1715,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                 doc = Object.assign(cleaned, {_id: id});
                 if (env.LOG_ALL_MERGES) {
                     await sendToS3('logs',
-                        resource_name,
+                        resource_to_merge.resourceType,
                         {
                             'old': data,
                             'new': resource_to_merge,
@@ -1635,7 +1728,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                 }
             } else {
                 // not found so insert
-                logInfo(resource_name + ': merge new resource ' + '[' + resource_to_merge.id + ']: ' + resource_to_merge);
+                logInfo(resource_to_merge.resourceType + ': merge new resource ' + '[' + resource_to_merge.id + ']: ' + resource_to_merge);
                 if (env.CHECK_ACCESS_TAG_ON_SAVE === '1') {
                     if (!doesResourceHaveAccessTags(resource_to_merge)) {
                         throw new BadRequestError(new Error('Resource is missing a security access tag with system: https://www.icanbwell.com/access '));
@@ -1691,7 +1784,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                 resource_version: doc.meta.versionId
             };
         } catch (e) {
-            logger.error(`Error with merging resource ${resource_name}.merge with id: ${id} `, e);
+            logger.error(`Error with merging resource ${resource_to_merge.resourceType}.merge with id: ${id} `, e);
             const operationOutcome = {
                 resourceType: 'OperationOutcome',
                 issue: [
@@ -1699,28 +1792,34 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                         severity: 'error',
                         code: 'exception',
                         details: {
-                            text: 'Error merging: ' + resource_to_merge
+                            text: 'Error merging: ' + JSON.stringify(resource_to_merge)
                         },
                         diagnostics: e.toString(),
                         expression: [
-                            resource_name + '/' + id
+                            resource_to_merge.resourceType + '/' + id
                         ]
                     }
                 ]
             };
             await sendToS3('errors',
-                resource_name,
+                resource_to_merge.resourceType,
                 resource_to_merge,
                 currentDate,
                 id,
                 'merge');
             await sendToS3('errors',
-                resource_name,
+                resource_to_merge.resourceType,
                 operationOutcome,
                 currentDate,
                 id,
                 'merge_error');
-            return operationOutcome;
+            return {
+                id: id,
+                created: false,
+                updated: false,
+                issue: (operationOutcome.issue && operationOutcome.issue.length > 0) ? operationOutcome.issue[0] : null,
+                operationOutcome: operationOutcome
+            };
         }
     }
 
@@ -1730,6 +1829,11 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
      *  and then the other ones tries to insert too
      * @param {Object} resource_to_merge
      * @return {Promise<{issue: [{severity: string, diagnostics: *, code: string, expression: [string], details: {text: string}}], resourceType: string}|{created: boolean, id: String, message: string, updated: boolean, resource_version}|{created: (*|boolean), id: String, updated: *, resource_version}|*>}
+     */
+    /**
+     * merges resources and retries on error
+     * @param resource_to_merge
+     * @return {Promise<{issue: {severity: string, diagnostics: string, code: string, expression: string[], details: {text: string}}[], created: boolean, id: String, updated: boolean}>}
      */
     async function merge_resource_with_retry(resource_to_merge) {
         let triesLeft = 2;
@@ -1776,10 +1880,11 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
          */
         const non_duplicate_id_resources = resources_incoming.filter(e => !lookup_by_id[e.id]);
 
-        return await Promise.all([
+        const result = await Promise.all([
             async.map(non_duplicate_id_resources, async x => await merge_resource_with_retry(x)), // run in parallel
             async.mapSeries(duplicate_id_resources, async x => await merge_resource_with_retry(x)) // run in series
         ]);
+        return result.flat(1);
     } else {
         return await merge_resource_with_retry(resources_incoming);
     }

@@ -1,0 +1,84 @@
+[
+  {
+    "id": "WPS-Claim-429017018331",
+    "created": false,
+    "updated": false,
+    "issue": {
+      "severity": "error",
+      "code": "exception",
+      "details": {
+        "text": "Error merging: {\"resourceType\":\"ExplanationOfBenefit\",\"id\":\"WPS-Claim-429017018331\",\"identifier\":[{\"type\":{\"coding\":[{\"system\":\"http://terminology.hl7.org/CodeSystem/v2-0203\",\"code\":\"claimnumber\",\"display\":\"Claim Number\"}],\"text\":\"Claim Number\"},\"system\":\"https://www.wpshealth.com/\",\"value\":\"429017018331\"}],\"status\":\"active\",\"type\":{\"coding\":[{\"system\":\"https://hl7.org/FHIR/codesystem-claim-type.html\",\"code\":\"Institutional\"}],\"text\":\"Claim Type\"},\"use\":\"Claim\",\"patient\":{\"reference\":\"Patient/WPS-5458231534\"},\"insurer\":{\"reference\":\"Organization/WPS-Health\"},\"provider\":{\"reference\":\"Organization/1376656959\"},\"payee\":{\"type\":{\"coding\":[{\"system\":\"http://terminology.hl7.org/CodeSystem/payeetype\",\"code\":\"Provider\"}]}},\"outcome\":\"Complete\",\"careTeam\":[],\"supportingInfo\":[{\"sequence\":1,\"category\":{\"coding\":[{\"system\":\"http://terminology.hl7.org/CodeSystem/claiminformationcategory\",\"code\":\"Discharge\"}]}}],\"diagnosis\":[{\"sequence\":1,\"diagnosisCodeableConcept\":{\"coding\":[{\"system\":\"http://hl7.org/fhir/sid/icd-10\",\"version\":\"ICD10\",\"code\":\"N921\"}],\"text\":\"DIAGNOSIS_1\"},\"type\":[{\"coding\":[{\"system\":\"http://terminology.hl7.org/CodeSystem/ex-diagnosistype\",\"code\":\"RetrospectiveDiagnosis\"}]}],\"packageCode\":{\"coding\":[{\"system\":\"http://terminology.hl7.org/CodeSystem/ex-diagnosisrelatedgroup\",\"version\":\"MS-DRG\"}]}},{\"sequence\":2,\"diagnosisCodeableConcept\":{\"coding\":[{\"system\":\"http://hl7.org/fhir/sid/icd-10\",\"version\":\"ICD10\",\"code\":\"Z113\"}],\"text\":\"DIAGNOSIS_2\"},\"type\":[{\"coding\":[{\"system\":\"http://terminology.hl7.org/CodeSystem/ex-diagnosistype\",\"code\":\"RetrospectiveDiagnosis\"}]}],\"packageCode\":{\"coding\":[{\"system\":\"http://terminology.hl7.org/CodeSystem/ex-diagnosisrelatedgroup\",\"version\":\"MS-DRG\"}]}}],\"procedure\":[{\"sequence\":2,\"procedureCodeableConcept\":{\"coding\":[{\"system\":\"http://hl7.org/fhir/sid/ex-icd-10-procedures\",\"code\":\"87591\"}]}}],\"insurance\":[{\"focal\":true,\"coverage\":{\"reference\":\"Coverage/WPS-5458231534\"}}],\"item\":[{\"id\":\"WPS-Claim-429017018331-2\",\"sequence\":2,\"revenue\":{\"coding\":[{\"system\":\"http://terminology.hl7.org/CodeSystem/ex-revenue-center\"}]},\"productOrService\":[{\"coding\":[{\"system\":\"http://hl7.org/fhir/sid/ex-icd-10-procedures\",\"code\":\"A\"}]}],\"modifier\":[],\"servicedPeriod\":{},\"locationCodeableConcept\":{\"coding\":[{\"system\":\"http://terminology.hl7.org/CodeSystem/ex-serviceplace\",\"code\":\"11\"}]},\"quantity\":{\"value\":1},\"adjudication\":[{\"category\":{\"coding\":[{\"system\":\"http://terminology.hl7.org/CodeSystem/adjudication\",\"code\":\"submitted\",\"display\":\"Submitted Amount\"}]},\"amount\":{\"value\":206.69}},{\"category\":{\"coding\":[{\"system\":\"http://terminology.hl7.org/CodeSystem/adjudication\",\"code\":\"eligible\",\"display\":\"Eligible Amount\"}]},\"amount\":{\"value\":127.82}},{\"category\":{\"coding\":[{\"system\":\"http://terminology.hl7.org/CodeSystem/adjudication\",\"code\":\"deductible\",\"display\":\"Deductible\"}]},\"amount\":{\"value\":0}},{\"category\":{\"coding\":[{\"system\":\"http://terminology.hl7.org/CodeSystem/adjudication\",\"code\":\"coins\",\"display\":\"CoInsurance Amount\"}]},\"amount\":{\"value\":0}},{\"category\":{\"coding\":[{\"system\":\"http://terminology.hl7.org/CodeSystem/adjudication\",\"code\":\"copay\",\"display\":\"Copay Amount\"}]},\"amount\":{\"value\":0}},{\"category\":{\"coding\":[{\"system\":\"http://terminology.hl7.org/CodeSystem/adjudication\",\"code\":\"cob\",\"display\":\"Coordination of Benefit Paid Amount\"}]},\"amount\":{\"value\":0}},{\"category\":{\"coding\":[{\"system\":\"http://terminology.hl7.org/CodeSystem/adjudication\",\"code\":\"paidtoprovider\",\"display\":\"Amount Paid to Provider\"}]},\"amount\":{\"value\":127.82}}]}]}"
+      },
+      "diagnostics": "Resource is missing a meta.security tag with system: https://www.icanbwell.com/access",
+      "expression": [
+        "ExplanationOfBenefit/WPS-Claim-429017018331"
+      ]
+    },
+    "operationOutcome": {
+      "resourceType": "OperationOutcome",
+      "issue": [
+        {
+          "severity": "error",
+          "code": "exception",
+          "details": {
+            "text": "Error merging: {\"resourceType\":\"ExplanationOfBenefit\",\"id\":\"WPS-Claim-429017018331\",\"identifier\":[{\"type\":{\"coding\":[{\"system\":\"http://terminology.hl7.org/CodeSystem/v2-0203\",\"code\":\"claimnumber\",\"display\":\"Claim Number\"}],\"text\":\"Claim Number\"},\"system\":\"https://www.wpshealth.com/\",\"value\":\"429017018331\"}],\"status\":\"active\",\"type\":{\"coding\":[{\"system\":\"https://hl7.org/FHIR/codesystem-claim-type.html\",\"code\":\"Institutional\"}],\"text\":\"Claim Type\"},\"use\":\"Claim\",\"patient\":{\"reference\":\"Patient/WPS-5458231534\"},\"insurer\":{\"reference\":\"Organization/WPS-Health\"},\"provider\":{\"reference\":\"Organization/1376656959\"},\"payee\":{\"type\":{\"coding\":[{\"system\":\"http://terminology.hl7.org/CodeSystem/payeetype\",\"code\":\"Provider\"}]}},\"outcome\":\"Complete\",\"careTeam\":[],\"supportingInfo\":[{\"sequence\":1,\"category\":{\"coding\":[{\"system\":\"http://terminology.hl7.org/CodeSystem/claiminformationcategory\",\"code\":\"Discharge\"}]}}],\"diagnosis\":[{\"sequence\":1,\"diagnosisCodeableConcept\":{\"coding\":[{\"system\":\"http://hl7.org/fhir/sid/icd-10\",\"version\":\"ICD10\",\"code\":\"N921\"}],\"text\":\"DIAGNOSIS_1\"},\"type\":[{\"coding\":[{\"system\":\"http://terminology.hl7.org/CodeSystem/ex-diagnosistype\",\"code\":\"RetrospectiveDiagnosis\"}]}],\"packageCode\":{\"coding\":[{\"system\":\"http://terminology.hl7.org/CodeSystem/ex-diagnosisrelatedgroup\",\"version\":\"MS-DRG\"}]}},{\"sequence\":2,\"diagnosisCodeableConcept\":{\"coding\":[{\"system\":\"http://hl7.org/fhir/sid/icd-10\",\"version\":\"ICD10\",\"code\":\"Z113\"}],\"text\":\"DIAGNOSIS_2\"},\"type\":[{\"coding\":[{\"system\":\"http://terminology.hl7.org/CodeSystem/ex-diagnosistype\",\"code\":\"RetrospectiveDiagnosis\"}]}],\"packageCode\":{\"coding\":[{\"system\":\"http://terminology.hl7.org/CodeSystem/ex-diagnosisrelatedgroup\",\"version\":\"MS-DRG\"}]}}],\"procedure\":[{\"sequence\":2,\"procedureCodeableConcept\":{\"coding\":[{\"system\":\"http://hl7.org/fhir/sid/ex-icd-10-procedures\",\"code\":\"87591\"}]}}],\"insurance\":[{\"focal\":true,\"coverage\":{\"reference\":\"Coverage/WPS-5458231534\"}}],\"item\":[{\"id\":\"WPS-Claim-429017018331-2\",\"sequence\":2,\"revenue\":{\"coding\":[{\"system\":\"http://terminology.hl7.org/CodeSystem/ex-revenue-center\"}]},\"productOrService\":[{\"coding\":[{\"system\":\"http://hl7.org/fhir/sid/ex-icd-10-procedures\",\"code\":\"A\"}]}],\"modifier\":[],\"servicedPeriod\":{},\"locationCodeableConcept\":{\"coding\":[{\"system\":\"http://terminology.hl7.org/CodeSystem/ex-serviceplace\",\"code\":\"11\"}]},\"quantity\":{\"value\":1},\"adjudication\":[{\"category\":{\"coding\":[{\"system\":\"http://terminology.hl7.org/CodeSystem/adjudication\",\"code\":\"submitted\",\"display\":\"Submitted Amount\"}]},\"amount\":{\"value\":206.69}},{\"category\":{\"coding\":[{\"system\":\"http://terminology.hl7.org/CodeSystem/adjudication\",\"code\":\"eligible\",\"display\":\"Eligible Amount\"}]},\"amount\":{\"value\":127.82}},{\"category\":{\"coding\":[{\"system\":\"http://terminology.hl7.org/CodeSystem/adjudication\",\"code\":\"deductible\",\"display\":\"Deductible\"}]},\"amount\":{\"value\":0}},{\"category\":{\"coding\":[{\"system\":\"http://terminology.hl7.org/CodeSystem/adjudication\",\"code\":\"coins\",\"display\":\"CoInsurance Amount\"}]},\"amount\":{\"value\":0}},{\"category\":{\"coding\":[{\"system\":\"http://terminology.hl7.org/CodeSystem/adjudication\",\"code\":\"copay\",\"display\":\"Copay Amount\"}]},\"amount\":{\"value\":0}},{\"category\":{\"coding\":[{\"system\":\"http://terminology.hl7.org/CodeSystem/adjudication\",\"code\":\"cob\",\"display\":\"Coordination of Benefit Paid Amount\"}]},\"amount\":{\"value\":0}},{\"category\":{\"coding\":[{\"system\":\"http://terminology.hl7.org/CodeSystem/adjudication\",\"code\":\"paidtoprovider\",\"display\":\"Amount Paid to Provider\"}]},\"amount\":{\"value\":127.82}}]}]}"
+          },
+          "diagnostics": "Resource is missing a meta.security tag with system: https://www.icanbwell.com/access",
+          "expression": [
+            "ExplanationOfBenefit/WPS-Claim-429017018331"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "WPS-Claim-230916613370",
+    "created": false,
+    "updated": false,
+    "issue": {
+      "severity": "error",
+      "code": "invalid",
+      "details": {
+        "text": "/4_0_0/ExplanationOfBenefit/1/$merge should NOT have additional properties :{\"additionalProperty\":\"typeInvalid\"}: at position root"
+      }
+    },
+    "operationOutcome": {
+      "resourceType": "OperationOutcome",
+      "issue": [
+        {
+          "severity": "error",
+          "code": "invalid",
+          "details": {
+            "text": "/4_0_0/ExplanationOfBenefit/1/$merge should NOT have additional properties :{\"additionalProperty\":\"typeInvalid\"}: at position root"
+          }
+        },
+        {
+          "severity": "error",
+          "code": "invalid",
+          "details": {
+            "text": "/4_0_0/ExplanationOfBenefit/1/$merge should have required property 'type' :{\"missingProperty\":\"type\"}: at position root"
+          }
+        },
+        {
+          "severity": "error",
+          "code": "invalid",
+          "details": {
+            "text": "/4_0_0/ExplanationOfBenefit/1/$merge should match exactly one schema in oneOf :{\"passingSchemas\":null}: at position root"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "WPS-Claim-230916613369",
+    "created": true,
+    "updated": false,
+    "resource_version": "1"
+  },
+  {
+    "id": "WPS-Claim-230916613369",
+    "created": false,
+    "updated": true,
+    "resource_version": "2"
+  }
+]
