@@ -662,7 +662,7 @@ const isAccessToResourceAllowedBySecurityTags = (resource, req) => {
  * @return {boolean}
  */
 const doesResourceHaveAccessTags = (resource) => {
-    return !!(
+    return (
         resource &&
         resource.meta &&
         resource.meta.security &&
