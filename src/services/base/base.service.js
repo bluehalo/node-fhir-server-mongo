@@ -58,6 +58,14 @@ const {
  */
 
 /**
+ * @typedef OperationOutcome
+ * @type {object}
+ * @property {string} resourceType
+ * @property {?[{severity: string, code: string, details: {text: string}, diagnostics: string, expression:{[string]}}]} issue
+ */
+
+
+/**
  * Gets class for the given resource_name and version
  * @param {string} base_version
  * @param {string} resource_name
@@ -78,20 +86,22 @@ const getMeta = (base_version) => {
 
 /**
  * Logs as info if env.IS_PRODUCTION is not set
+ * @param {string} user
  * @param {*} msg
  */
-const logDebug = (msg) => {
+const logDebug = (user, msg) => {
     if (!env.IS_PRODUCTION || (env.LOGLEVEL === 'DEBUG')) {
-        logger.info(msg);
+        logger.info(user + ': ' + msg);
     }
 };
 
 /**
  * Always logs regardless of env.IS_PRODUCTION
+ * @param {string} user
  * @param {*} msg
  */
-const logRequest = (msg) => {
-    logger.info(msg);
+const logRequest = (user, msg) => {
+    logger.info(user + ': ' + msg);
 };
 
 /**
@@ -252,7 +262,6 @@ const buildR4SearchQuery = (resource_name, args) => {
     }
 
     if (lastUpdated) {
-        logDebug('meta.lastUpdated:' + lastUpdated);
         if (Array.isArray(lastUpdated)) {
             for (const lastUpdatedItem of lastUpdated) {
                 and_segments.push({'meta.lastUpdated': dateQueryBuilder(lastUpdatedItem, 'instant', '')});
@@ -567,9 +576,9 @@ const get_all_args = (req, args) => {
      * @type {string[]}
      */
     const combined_args = Object.assign({}, args, sanitized_args, query_param_args);
-    logDebug('---- combined_args ----');
-    logDebug(combined_args);
-    logDebug('--------');
+    logDebug(req.user, '---- combined_args ----');
+    logDebug(req.user, combined_args);
+    logDebug(req.user, '--------');
     return combined_args;
 };
 
@@ -684,13 +693,13 @@ module.exports.search = async (args, {req}, resource_name, collection_name) => {
      * @type {string[]}
      */
     const combined_args = get_all_args(req, args);
-    logRequest(resource_name + ' >>> search');
+    logRequest(req.user, resource_name + ' >>> search' + ' scope:' + req.authInfo && req.authInfo.scope);
     // logRequest('user: ' + req.user);
     // logRequest('scope: ' + req.authInfo.scope);
     verifyHasValidScopes(resource_name, 'read', req.user, req.authInfo && req.authInfo.scope);
-    logRequest('---- combined_args ----');
-    logRequest(args);
-    logRequest('--------');
+    logRequest(req.user, '---- combined_args ----');
+    logRequest(req.user, args);
+    logRequest(req.user, '--------');
 
     // add any access codes from scopes
     const accessCodes = getAccessCodesFromScopes('read', req.user, req.authInfo && req.authInfo.scope);
@@ -747,9 +756,9 @@ module.exports.search = async (args, {req}, resource_name, collection_name) => {
      */
     let Resource = getResource(base_version, resource_name);
 
-    logDebug('---- query ----');
-    logDebug(query);
-    logDebug('--------');
+    logDebug(req.user, '---- query ----');
+    logDebug(req.user, query);
+    logDebug(req.user, '--------');
 
     /**
      * @type {Object}
@@ -893,8 +902,8 @@ module.exports.search = async (args, {req}, resource_name, collection_name) => {
  */
 // eslint-disable-next-line no-unused-vars
 module.exports.searchById = async (args, {req}, resource_name, collection_name) => {
-    logRequest(`${resource_name} >>> searchById`);
-    logDebug(args);
+    logRequest(req.user, `${resource_name} >>> searchById`);
+    logDebug(req.user, args);
 
     verifyHasValidScopes(resource_name, 'read', req.user, req.authInfo && req.authInfo.scope);
 
@@ -902,8 +911,8 @@ module.exports.searchById = async (args, {req}, resource_name, collection_name) 
     let {id} = args;
     let {base_version} = args;
 
-    logDebug(`id: ${id}`);
-    logDebug(`base_version: ${base_version}`);
+    logDebug(req.user, `id: ${id}`);
+    logDebug(req.user, `base_version: ${base_version}`);
 
     // Search Result param
 
@@ -944,7 +953,7 @@ module.exports.searchById = async (args, {req}, resource_name, collection_name) 
  * @param {string} collection_name
  */
 module.exports.create = async (args, {req}, resource_name, collection_name) => {
-    logRequest(`${resource_name} >>> create`);
+    logRequest(req.user, `${resource_name} >>> create`);
 
     verifyHasValidScopes(resource_name, 'write', req.user, req.authInfo && req.authInfo.scope);
 
@@ -952,13 +961,13 @@ module.exports.create = async (args, {req}, resource_name, collection_name) => {
 
     let {base_version} = args;
 
-    logDebug('--- request ----');
-    logDebug(req);
-    logDebug('-----------------');
+    logDebug(req.user, '--- request ----');
+    logDebug(req.user, req);
+    logDebug(req.user, '-----------------');
 
-    logDebug('--- body ----');
-    logDebug(resource_incoming);
-    logDebug('-----------------');
+    logDebug(req.user, '--- body ----');
+    logDebug(req.user, resource_incoming);
+    logDebug(req.user, '-----------------');
     const uuid = getUuid(resource_incoming);
 
     if (env.LOG_ALL_SAVES) {
@@ -974,7 +983,7 @@ module.exports.create = async (args, {req}, resource_name, collection_name) => {
 
     const combined_args = get_all_args(req, args);
     if (env.VALIDATE_SCHEMA || combined_args['_validate']) {
-        logDebug('--- validate schema ----');
+        logDebug(req.user, '--- validate schema ----');
         const operationOutcome = validateResource(resource_incoming, resource_name, req.path);
         if (operationOutcome && operationOutcome.statusCode === 400) {
             const currentDate = moment.utc().format('YYYY-MM-DD');
@@ -995,7 +1004,7 @@ module.exports.create = async (args, {req}, resource_name, collection_name) => {
                 'create_failure');
             throw new NotValidatedError(operationOutcome);
         }
-        logDebug('-----------------');
+        logDebug(req.user, '-----------------');
     }
 
     try {
@@ -1005,10 +1014,10 @@ module.exports.create = async (args, {req}, resource_name, collection_name) => {
 
         // Get current record
         let Resource = getResource(base_version, resource_name);
-        logDebug(`Resource: ${Resource}`);
+        logDebug(req.user, `Resource: ${Resource}`);
         let resource = new Resource(resource_incoming);
         // noinspection JSUnresolvedFunction
-        logDebug(`resource: ${resource.toJSON()}`);
+        logDebug(req.user, `resource: ${resource.toJSON()}`);
 
         if (env.CHECK_ACCESS_TAG_ON_SAVE === '1') {
             if (!doesResourceHaveAccessTags(resource)) {
@@ -1018,7 +1027,7 @@ module.exports.create = async (args, {req}, resource_name, collection_name) => {
 
         // If no resource ID was provided, generate one.
         let id = getUuid(resource);
-        logDebug(`id: ${id}`);
+        logDebug(req.user, `id: ${id}`);
 
         // Create the resource's metadata
         /**
@@ -1045,9 +1054,9 @@ module.exports.create = async (args, {req}, resource_name, collection_name) => {
         let history_doc = Object.assign({}, doc);
         Object.assign(doc, {_id: id});
 
-        logDebug('---- inserting doc ---');
-        logDebug(doc);
-        logDebug('----------------------');
+        logDebug(req.user, '---- inserting doc ---');
+        logDebug(req.user, doc);
+        logDebug(req.user, '----------------------');
 
         // Insert our resource record
         try {
@@ -1084,20 +1093,20 @@ module.exports.create = async (args, {req}, resource_name, collection_name) => {
  * @param {string} collection_name
  */
 module.exports.update = async (args, {req}, resource_name, collection_name) => {
-    logRequest(`'${resource_name} >>> update`);
+    logRequest(req.user, `'${resource_name} >>> update`);
 
     verifyHasValidScopes(resource_name, 'write', req.user, req.authInfo && req.authInfo.scope);
 
-    logDebug('--- request ----');
-    logDebug(req);
+    logDebug(req.user, '--- request ----');
+    logDebug(req.user, req);
 
     // read the incoming resource from request body
     let resource_incoming = req.body;
     let {base_version, id} = args;
-    logDebug(base_version);
-    logDebug(id);
-    logDebug('--- body ----');
-    logDebug(resource_incoming);
+    logDebug(req.user, base_version);
+    logDebug(req.user, id);
+    logDebug(req.user, '--- body ----');
+    logDebug(req.user, resource_incoming);
 
     if (env.LOG_ALL_SAVES) {
         const currentDate = moment.utc().format('YYYY-MM-DD');
@@ -1111,7 +1120,7 @@ module.exports.update = async (args, {req}, resource_name, collection_name) => {
 
     const combined_args = get_all_args(req, args);
     if (env.VALIDATE_SCHEMA || combined_args['_validate']) {
-        logDebug('--- validate schema ----');
+        logDebug(req.user, '--- validate schema ----');
         const operationOutcome = validateResource(resource_incoming, resource_name, req.path);
         if (operationOutcome && operationOutcome.statusCode === 400) {
             const currentDate = moment.utc().format('YYYY-MM-DD');
@@ -1133,7 +1142,7 @@ module.exports.update = async (args, {req}, resource_name, collection_name) => {
                 'update_failure');
             throw new NotValidatedError(operationOutcome);
         }
-        logDebug('-----------------');
+        logDebug(req.user, '-----------------');
     }
 
     try {
@@ -1155,7 +1164,7 @@ module.exports.update = async (args, {req}, resource_name, collection_name) => {
         // noinspection JSUnresolvedVariable
         if (data && data.meta) {
             // found an existing resource
-            logDebug('found resource: ' + data);
+            logDebug(req.user, 'found resource: ' + data);
             let foundResource = new Resource(data);
             if (!(isAccessToResourceAllowedBySecurityTags(foundResource, req))) {
                 throw new ForbiddenError(
@@ -1163,27 +1172,27 @@ module.exports.update = async (args, {req}, resource_name, collection_name) => {
                     foundResource.resourceType + ' with id ' + id);
             }
 
-            logDebug('------ found document --------');
-            logDebug(data);
-            logDebug('------ end found document --------');
+            logDebug(req.user, '------ found document --------');
+            logDebug(req.user, data);
+            logDebug(req.user, '------ end found document --------');
 
             // use metadata of existing resource (overwrite any passed in metadata)
             resource_incoming.meta = foundResource.meta;
-            logDebug('------ incoming document --------');
-            logDebug(resource_incoming);
-            logDebug('------ end incoming document --------');
+            logDebug(req.user, '------ incoming document --------');
+            logDebug(req.user, resource_incoming);
+            logDebug(req.user, '------ end incoming document --------');
 
             // now create a patch between the document in db and the incoming document
             //  this returns an array of patches
             let patchContent = compare(data, resource_incoming);
             // ignore any changes to _id since that's an internal field
             patchContent = patchContent.filter(item => item.path !== '/_id');
-            logDebug('------ patches --------');
-            logDebug(patchContent);
-            logDebug('------ end patches --------');
+            logDebug(req.user, '------ patches --------');
+            logDebug(req.user, patchContent);
+            logDebug(req.user, '------ end patches --------');
             // see if there are any changes
             if (patchContent.length === 0) {
-                logDebug('No changes detected in updated resource');
+                logDebug(req.user, 'No changes detected in updated resource');
                 return {
                     id: id,
                     created: false,
@@ -1210,16 +1219,16 @@ module.exports.update = async (args, {req}, resource_name, collection_name) => {
             meta.versionId = `${parseInt(foundResource.meta.versionId) + 1}`;
             meta.lastUpdated = moment.utc().format('YYYY-MM-DDTHH:mm:ssZ');
             patched_resource_incoming.meta = meta;
-            logDebug('------ patched document --------');
-            logDebug(patched_resource_incoming);
-            logDebug('------ end patched document --------');
+            logDebug(req.user, '------ patched document --------');
+            logDebug(req.user, patched_resource_incoming);
+            logDebug(req.user, '------ end patched document --------');
             // Same as update from this point on
             cleaned = JSON.parse(JSON.stringify(patched_resource_incoming));
             doc = Object.assign(cleaned, {_id: id});
             check_fhir_mismatch(cleaned, patched_incoming_data);
         } else {
             // not found so insert
-            logDebug('update: new resource: ' + resource_incoming);
+            logDebug(req.user, 'update: new resource: ' + resource_incoming);
             if (env.CHECK_ACCESS_TAG_ON_SAVE === '1') {
                 if (!doesResourceHaveAccessTags(resource_incoming)) {
                     throw new BadRequestError(new Error('Resource is missing a security access tag with system: https://www.icanbwell.com/access '));
@@ -1283,12 +1292,12 @@ module.exports.update = async (args, {req}, resource_name, collection_name) => {
  * @return {Resource | Resource[]}
  */
 module.exports.merge = async (args, {req}, resource_name, collection_name) => {
-    logRequest(`'${resource_name} >>> merge`);
-
     /**
      * @type {string}
      */
     const scope = req.authInfo && req.authInfo.scope;
+    logRequest(req.user, `'${resource_name} >>> merge` + ' scopes:' + scope);
+
     /**
      * @type {string[]}
      */
@@ -1301,7 +1310,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
      * @type {Object[]}
      */
     let resources_incoming = req.body;
-    logDebug(args);
+    logDebug(req.user, args);
     /**
      * @type {String}
      */
@@ -1321,16 +1330,16 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
      */
     const currentDate = moment.utc().format('YYYY-MM-DD');
 
-    logDebug('--- body ----');
-    logDebug(resources_incoming);
-    logDebug('-----------------');
+    logDebug(req.user, '--- body ----');
+    logDebug(req.user, resources_incoming);
+    logDebug(req.user, '-----------------');
 
     // this function is called for each resource
     // returns an OperationOutcome
     /**
      * Merges a single resource
      * @param {Object} resource_to_merge
-     * @return {Promise<{issue: {severity: string, diagnostics: string, code: string, expression: [string], details: {text: string}}, created: boolean, id: String, updated: boolean}>}
+     * @return {Promise<{operationOutcome: ?OperationOutcome, issue: {severity: string, diagnostics: string, code: string, expression: [string], details: {text: string}}, created: boolean, id: String, updated: boolean}>}
      */
     async function merge_resource(resource_to_merge) {
         /**
@@ -1338,6 +1347,9 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
          */
         let id = resource_to_merge.id;
         if (!(resource_to_merge.resourceType)) {
+            /**
+             * @type {OperationOutcome}
+             */
             const operationOutcome = {
                 resourceType: 'OperationOutcome',
                 issue: [
@@ -1406,7 +1418,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
         }
 
         if (env.VALIDATE_SCHEMA || combined_args['_validate']) {
-            logDebug('--- validate schema ----');
+            logDebug(req.user, '--- validate schema ----');
             /**
              * @type {?OperationOutcome}
              */
@@ -1442,7 +1454,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                     operationOutcome: operationOutcome
                 };
             }
-            logDebug('-----------------');
+            logDebug(req.user, '-----------------');
         }
 
         if (env.CHECK_ACCESS_TAG_ON_SAVE === '1') {
@@ -1474,10 +1486,10 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
         }
 
         try {
-            logDebug('-----------------');
-            logDebug(base_version);
-            logDebug('--- body ----');
-            logDebug(resource_to_merge);
+            logDebug(req.user, '-----------------');
+            logDebug(req.user, base_version);
+            logDebug(req.user, '--- body ----');
+            logDebug(req.user, resource_to_merge);
 
             // Grab an instance of our DB and collection
             /**
@@ -1514,14 +1526,14 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
             // noinspection JSUnusedLocalSymbols
             if (data && data.meta) {
                 // found an existing resource
-                logDebug(resource_to_merge.resourceType + ': merge found resource ' + '[' + data.id + ']: ' + data);
+                logDebug(req.user, resource_to_merge.resourceType + ': merge found resource ' + '[' + data.id + ']: ' + data);
                 /**
                  * @type {Resource}
                  */
                 let foundResource = new Resource(data);
-                logDebug('------ found document --------');
-                logDebug(data);
-                logDebug('------ end found document --------');
+                logDebug(req.user, '------ found document --------');
+                logDebug(req.user, data);
+                logDebug(req.user, '------ end found document --------');
                 // use metadata of existing resource (overwrite any passed in metadata)
                 if (!resource_to_merge.meta) {
                     resource_to_merge.meta = {};
@@ -1534,9 +1546,9 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                 resource_to_merge.meta.versionId = foundResource.meta.versionId;
                 resource_to_merge.meta.lastUpdated = foundResource.meta.lastUpdated;
                 resource_to_merge.meta.source = foundResource.meta.source;
-                logDebug('------ incoming document --------');
-                logDebug(resource_to_merge);
-                logDebug('------ end incoming document --------');
+                logDebug(req.user, '------ incoming document --------');
+                logDebug(req.user, resource_to_merge);
+                logDebug(req.user, '------ end incoming document --------');
 
                 /**
                  * @type {Object}
@@ -1546,7 +1558,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
 
                 // for speed, first check if the incoming resource is exactly the same
                 if (deepEqual(my_data, resource_to_merge) === true) {
-                    logDebug('No changes detected in updated resource');
+                    logDebug(req.user, 'No changes detected in updated resource');
                     return {
                         id: id,
                         created: false,
@@ -1672,12 +1684,12 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                 let patchContent = compare(data, resource_merged);
                 // ignore any changes to _id since that's an internal field
                 patchContent = patchContent.filter(item => item.path !== '/_id');
-                logDebug('------ patches --------');
-                logDebug(patchContent);
-                logDebug('------ end patches --------');
+                logDebug(req.user, '------ patches --------');
+                logDebug(req.user, patchContent);
+                logDebug(req.user, '------ end patches --------');
                 // see if there are any changes
                 if (patchContent.length === 0) {
-                    logDebug('No changes detected in updated resource');
+                    logDebug(req.user, 'No changes detected in updated resource');
                     return {
                         id: id,
                         created: false,
@@ -1691,7 +1703,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                         'user ' + req.user + ' with scopes [' + req.authInfo.scope + '] has no access to resource ' +
                         foundResource.resourceType + ' with id ' + id);
                 }
-                logRequest(`${resource_to_merge.resourceType} >>> merging ${id}`);
+                logRequest(req.user, `${resource_to_merge.resourceType} >>> merging ${id}`);
                 // now apply the patches to the found resource
                 // noinspection JSCheckFunctionSignatures
                 /**
@@ -1712,9 +1724,9 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                 // set the source from the incoming resource
                 meta.source = original_source;
                 patched_resource_incoming.meta = meta;
-                logDebug('------ patched document --------');
-                logDebug(patched_resource_incoming);
-                logDebug('------ end patched document --------');
+                logDebug(req.user, '------ patched document --------');
+                logDebug(req.user, patched_resource_incoming);
+                logDebug(req.user, '------ end patched document --------');
                 // Same as update from this point on
                 cleaned = JSON.parse(JSON.stringify(patched_resource_incoming));
                 check_fhir_mismatch(cleaned, patched_incoming_data);
@@ -1734,7 +1746,12 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                 }
             } else {
                 // not found so insert
-                logDebug(resource_to_merge.resourceType + ': merge new resource ' + '[' + resource_to_merge.id + ']: ' + resource_to_merge);
+                logDebug(req.user,
+                    resource_to_merge.resourceType +
+                    ': merge new resource ' +
+                    '[' + resource_to_merge.id + ']: '
+                    + resource_to_merge
+                );
                 if (env.CHECK_ACCESS_TAG_ON_SAVE === '1') {
                     if (!doesResourceHaveAccessTags(resource_to_merge)) {
                         throw new BadRequestError(new Error('Resource is missing a security access tag with system: https://www.icanbwell.com/access '));
@@ -1834,12 +1851,12 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
      *  in parallel for the same resource. Both of them see that the resource does not exist, one of them inserts it
      *  and then the other ones tries to insert too
      * @param {Object} resource_to_merge
-     * @return {Promise<{issue: [{severity: string, diagnostics: *, code: string, expression: [string], details: {text: string}}], resourceType: string}|{created: boolean, id: String, message: string, updated: boolean, resource_version}|{created: (*|boolean), id: String, updated: *, resource_version}|*>}
+     * @return {Promise<{operationOutcome: ?OperationOutcome, issue: {severity: string, diagnostics: string, code: string, expression: [string], details: {text: string}}, created: boolean, id: String, updated: boolean}>}
      */
     /**
      * merges resources and retries on error
      * @param resource_to_merge
-     * @return {Promise<{issue: {severity: string, diagnostics: string, code: string, expression: [string], details: {text: string}}, created: boolean, id: String, updated: boolean}>}
+     * @return {Promise<{operationOutcome: ?OperationOutcome, issue: {severity: string, diagnostics: string, code: string, expression: [string], details: {text: string}}, created: boolean, id: String, updated: boolean}>}
      */
     async function merge_resource_with_retry(resource_to_merge) {
         let triesLeft = 2;
@@ -1855,7 +1872,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
 
     // if the incoming request is a bundle then unwrap the bundle
     if ((!(Array.isArray(resources_incoming))) && resources_incoming['resourceType'] === 'Bundle') {
-        logDebug('--- validate schema of Bundle ----');
+        logDebug(req.user, '--- validate schema of Bundle ----');
         const operationOutcome = validateResource(resources_incoming, 'Bundle', req.path);
         if (operationOutcome && operationOutcome.statusCode === 400) {
             return operationOutcome;
@@ -1865,7 +1882,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
     }
     if (Array.isArray(resources_incoming)) {
         const ids_of_resources = resources_incoming.map(r => r.id);
-        logRequest(
+        logRequest(req.user,
             '==================' + resource_name + ': Merge received array ' +
             ', len= ' + resources_incoming.length +
             ' [' + ids_of_resources.toString() + '] ' +
@@ -1897,15 +1914,15 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
             async.mapSeries(duplicate_id_resources, async x => await merge_resource_with_retry(x)) // run in series
         ]);
         const returnVal = result.flat(1);
-        logDebug('--- Merge array result ----');
-        logDebug(returnVal);
-        logDebug('-----------------');
+        logDebug(req.user, '--- Merge array result ----');
+        logDebug(req.user, returnVal);
+        logDebug(req.user, '-----------------');
         return returnVal;
     } else {
         const returnVal = await merge_resource_with_retry(resources_incoming);
-        logDebug('--- Merge result ----');
-        logDebug(returnVal);
-        logDebug('-----------------');
+        logDebug(req.user, '--- Merge result ----');
+        logDebug(req.user, returnVal);
+        logDebug(req.user, '-----------------');
         return returnVal;
     }
 };
@@ -1918,14 +1935,14 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
  * @param {string} collection_name
  */
 module.exports.everything = async (args, {req}, resource_name, collection_name) => {
-    logRequest(`${resource_name} >>> everything`);
+    logRequest(req.user, `${resource_name} >>> everything`);
     verifyHasValidScopes(resource_name, 'read', req.user, req.authInfo && req.authInfo.scope);
 
     try {
         let {id} = args;
 
-        logRequest(`id=${id}`);
-        logDebug(`req=${req}`);
+        logRequest(req.user, `id=${id}`);
+        logDebug(req.user, `req=${req}`);
 
         let query = {};
         query.id = id;
@@ -1961,12 +1978,12 @@ module.exports.everything = async (args, {req}, resource_name, collection_name) 
  */
 // eslint-disable-next-line no-unused-vars
 module.exports.remove = async (args, {req}, resource_name, collection_name) => {
-    logRequest(`${resource_name} >>> remove`);
+    logRequest(req.user, `${resource_name} >>> remove`);
     verifyHasValidScopes(resource_name, 'write', req.user, req.authInfo && req.authInfo.scope);
 
     let {base_version, id} = args;
 
-    logDebug(`Deleting id=${id}`);
+    logDebug(req.user, `Deleting id=${id}`);
 
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
@@ -1999,7 +2016,7 @@ module.exports.remove = async (args, {req}, resource_name, collection_name) => {
  */
 // eslint-disable-next-line no-unused-vars
 module.exports.searchByVersionId = async (args, {req}, resource_name, collection_name) => {
-    logRequest(`${resource_name} >>> searchByVersionId`);
+    logRequest(req.user, `${resource_name} >>> searchByVersionId`);
     verifyHasValidScopes(resource_name, 'read', req.user, req.authInfo && req.authInfo.scope);
 
     let {base_version, id, version_id} = args;
@@ -2038,7 +2055,7 @@ module.exports.searchByVersionId = async (args, {req}, resource_name, collection
  */
 // eslint-disable-next-line no-unused-vars
 module.exports.history = async (args, {req}, resource_name, collection_name) => {
-    logRequest(`${resource_name} >>> history`);
+    logRequest(req.user, `${resource_name} >>> history`);
     verifyHasValidScopes(resource_name, 'read', req.user, req.authInfo && req.authInfo.scope);
 
     // Common search params
@@ -2087,7 +2104,7 @@ module.exports.history = async (args, {req}, resource_name, collection_name) => 
  */
 // eslint-disable-next-line no-unused-vars
 module.exports.historyById = async (args, {req}, resource_name, collection_name) => {
-    logRequest(`${resource_name} >>> historyById`);
+    logRequest(req.user, `${resource_name} >>> historyById`);
     verifyHasValidScopes(resource_name, 'read', req.user, req.authInfo && req.authInfo.scope);
 
     let {base_version, id} = args;
@@ -2137,7 +2154,7 @@ module.exports.historyById = async (args, {req}, resource_name, collection_name)
  */
 // eslint-disable-next-line no-unused-vars
 module.exports.patch = async (args, {req}, resource_name, collection_name) => {
-    logRequest('Patient >>> patch');
+    logRequest(req.user, 'Patient >>> patch');
     verifyHasValidScopes(resource_name, 'write', req.user, req.authInfo && req.authInfo.scope);
 
     let {base_version, id, patchContent} = args;
@@ -2218,7 +2235,7 @@ module.exports.patch = async (args, {req}, resource_name, collection_name) => {
  * @param {string} collection_name
  */
 module.exports.validate = async (args, {req}, resource_name, collection_name) => {
-    logRequest(`${resource_name} >>> validate`);
+    logRequest(req.user, `${resource_name} >>> validate`);
 
     // no auth check needed to call validate
 
@@ -2227,17 +2244,17 @@ module.exports.validate = async (args, {req}, resource_name, collection_name) =>
     // eslint-disable-next-line no-unused-vars
     // let {base_version} = args;
 
-    logDebug('--- request ----');
-    logDebug(req);
-    logDebug(collection_name);
-    logDebug('-----------------');
+    logDebug(req.user, '--- request ----');
+    logDebug(req.user, req);
+    logDebug(req.user, collection_name);
+    logDebug(req.user, '-----------------');
 
-    logDebug('--- body ----');
-    logDebug(resource_incoming);
-    logDebug('-----------------');
+    logDebug(req.user, '--- body ----');
+    logDebug(req.user, resource_incoming);
+    logDebug(req.user, '-----------------');
 
 
-    logDebug('--- validate schema ----');
+    logDebug(req.user, '--- validate schema ----');
     const operationOutcome = validateResource(resource_incoming, resource_name, req.path);
     if (operationOutcome && operationOutcome.statusCode === 400) {
         return operationOutcome;
@@ -2286,7 +2303,7 @@ module.exports.validate = async (args, {req}, resource_name, collection_name) =>
  * @return {Promise<{entry: {resource: Resource, fullUrl: string}[], id: string, resourceType: string}|{entry: *[], id: string, resourceType: string}>}
  */
 module.exports.graph = async (args, {req}, resource_name, collection_name) => {
-    logRequest(`${resource_name} >>> graph`);
+    logRequest(req.user, `${resource_name} >>> graph`);
     verifyHasValidScopes(resource_name, 'read', req.user, req.authInfo && req.authInfo.scope);
 
     const accessCodes = getAccessCodesFromScopes('read', req.user, req.authInfo && req.authInfo.scope);
@@ -2629,8 +2646,8 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
         const combined_args = get_all_args(req, args);
         let {base_version, id} = combined_args;
 
-        logRequest(`id=${id}`);
-        logDebug(`req=${req}`);
+        logRequest(req.user, `id=${id}`);
+        logDebug(req.user, `req=${req}`);
 
         id = id.split(',');
         /**
@@ -2641,10 +2658,10 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
         let db = globals.get(CLIENT_DB);
         // get GraphDefinition from body
         const graphDefinitionRaw = req.body;
-        logDebug('--- validate schema of GraphDefinition ----');
+        logDebug(req.user, '--- validate schema of GraphDefinition ----');
         const operationOutcome = validateResource(graphDefinitionRaw, 'GraphDefinition', req.path);
         if (operationOutcome && operationOutcome.statusCode === 400) {
-            logDebug('GraphDefinition schema failed validation');
+            logDebug(req.user, 'GraphDefinition schema failed validation');
             return operationOutcome;
         }
         // noinspection UnnecessaryLocalVariableJS
