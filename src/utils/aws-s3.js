@@ -43,7 +43,7 @@ module.exports = function sendToS3(prefix, resourceType, resource, currentDate, 
                     const sts = new AWS.STS();
                     sts.getCallerIdentity(function (_error, role_data) {
                         logger.error('[AWS-S3] Failed to put object: ' +
-                            key + ' in bucket: ' + AWS_BUCKET + ' with user: ' + JSON.stringify(role_data));
+                            key + ' in bucket: ' + AWS_BUCKET + ': ' + key + ' with user: ' + JSON.stringify(role_data));
                         logger.error(
                             '[AWS-S3] Object: ',
                             JSON.stringify(resource)
@@ -53,17 +53,17 @@ module.exports = function sendToS3(prefix, resourceType, resource, currentDate, 
                         return reject(err);
                     });
                 } else {
-                    logger.info('[AWS-S3] Successfully placed object in bucket');
+                    logger.info('[AWS-S3] Successfully placed object in bucket' + AWS_BUCKET + ': ' + key);
                     return resolve(data);
                 }
             });
         } catch (e) {
             logger.error('[AWS-S3] Error to put object: ' +
-                key + ' in bucket: ' + AWS_BUCKET + '. Error=' + e);
+                key + ' in bucket: ' + AWS_BUCKET + ': ' + key + '. Error=' + e);
             return resolve(null);
         }
     }).catch(function (e) {
         logger.error('[AWS-S3] Error in promise to put object: ' +
-            key + ' in bucket: ' + AWS_BUCKET + '. Error=' + e);
+            key + ' in bucket: ' + AWS_BUCKET + ': ' + key + '. Error=' + e);
     });
 };
