@@ -577,7 +577,7 @@ const get_all_args = (req, args) => {
      */
     const combined_args = Object.assign({}, args, sanitized_args, query_param_args);
     logDebug(req.user, '---- combined_args ----');
-    logDebug(req.user, combined_args);
+    logDebug(req.user, JSON.stringify(combined_args));
     logDebug(req.user, '--------');
     return combined_args;
 };
@@ -966,7 +966,7 @@ module.exports.create = async (args, {req}, resource_name, collection_name) => {
     logDebug(req.user, '-----------------');
 
     logDebug(req.user, '--- body ----');
-    logDebug(req.user, resource_incoming);
+    logDebug(req.user, JSON.stringify(resource_incoming));
     logDebug(req.user, '-----------------');
     const uuid = getUuid(resource_incoming);
 
@@ -1106,7 +1106,7 @@ module.exports.update = async (args, {req}, resource_name, collection_name) => {
     logDebug(req.user, base_version);
     logDebug(req.user, id);
     logDebug(req.user, '--- body ----');
-    logDebug(req.user, resource_incoming);
+    logDebug(req.user, JSON.stringify(resource_incoming));
 
     if (env.LOG_ALL_SAVES) {
         const currentDate = moment.utc().format('YYYY-MM-DD');
@@ -1310,7 +1310,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
      * @type {Object[]}
      */
     let resources_incoming = req.body;
-    logDebug(req.user, args);
+    logDebug(req.user, JSON.stringify(args));
     /**
      * @type {String}
      */
@@ -1331,7 +1331,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
     const currentDate = moment.utc().format('YYYY-MM-DD');
 
     logDebug(req.user, '--- body ----');
-    logDebug(req.user, resources_incoming);
+    logDebug(req.user, JSON.stringify(resources_incoming));
     logDebug(req.user, '-----------------');
 
     // this function is called for each resource
@@ -1915,13 +1915,13 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
         ]);
         const returnVal = result.flat(1);
         logDebug(req.user, '--- Merge array result ----');
-        logDebug(req.user, returnVal);
+        logDebug(req.user, JSON.stringify(returnVal));
         logDebug(req.user, '-----------------');
         return returnVal;
     } else {
         const returnVal = await merge_resource_with_retry(resources_incoming);
         logDebug(req.user, '--- Merge result ----');
-        logDebug(req.user, returnVal);
+        logDebug(req.user, JSON.stringify(returnVal));
         logDebug(req.user, '-----------------');
         return returnVal;
     }
