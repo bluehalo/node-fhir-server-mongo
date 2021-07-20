@@ -1415,6 +1415,13 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                 operationOutcome['expression'] = [
                     resource_to_merge.resourceType + '/' + id
                 ];
+                if (!(operationOutcome['details']) || !(operationOutcome['details']['text'])) {
+                    operationOutcome['details'] = {
+                        text: ''
+                    };
+                }
+                operationOutcome['details']['text'] = operationOutcome['details']['text'] + ',' + JSON.stringify(resource_to_merge);
+
                 await sendToS3('validation_failures',
                     resource_to_merge.resourceType,
                     resource_to_merge,
