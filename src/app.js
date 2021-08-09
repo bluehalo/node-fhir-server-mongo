@@ -15,6 +15,7 @@ const helmet = require('helmet');
 const https = require('https');
 const async = require('async');
 const app = express();
+
 app.use(helmet());
 app.use(Prometheus.requestCounters);
 app.use(Prometheus.responseCounters);
@@ -23,7 +24,6 @@ Prometheus.startCollection();
 
 // implement our subclass to set higher request limit
 class MyFHIRServer extends FHIRServer.Server {
-
     configureMiddleware() {
         //Enable error tracking request handler if supplied in config
         if (this.config.errorTracking && this.config.errorTracking.requestHandler) {
@@ -53,6 +53,47 @@ class MyFHIRServer extends FHIRServer.Server {
 
 // const fhirApp = MyFHIRServer.initialize(fhirServerConfig);
 const fhirApp = new MyFHIRServer(fhirServerConfig).configureMiddleware().configureSession().configureHelmet().configurePassport().setPublicDirectory().setProfileRoutes().setErrorRoutes();
+
+app.use(function (req, res, next) {
+            res.setHeader(
+              'Content-Security-Policy',
+              "default-src 'self'; object-src data: 'unsafe-eval'; font-src 'self'; img-src 'self' 'unsafe-inline' 'unsafe-hashes' 'unsafe-eval' data:; script-src 'self' 'unsafe-inline' https://ajax.googleapis.com/ https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline'; frame-src 'self'; connect-src 'self' " + env.AUTH_CODE_FLOW_URL + '/oauth2/token;'
+            );
+            next();
+        });
+
+const swaggerUi = require('swagger-ui-express');
+// eslint-disable-next-line security/detect-non-literal-require
+var swaggerDocument = require(env.SWAGGER_CONFIG_URL);
+
+var options = {
+    explorer: true,
+    swaggerOptions: {
+        oauth2RedirectUrl: env.HOST_SERVER + '/api-docs/oauth2-redirect.html',
+        oauth: {
+            appName: 'Swagger Doc',
+            usePkceWithAuthorizationCodeGrant: true
+        }
+    }
+};
+
+app.use(
+    '/api-docs',
+    swaggerUi.serve,
+    swaggerUi.setup(swaggerDocument, options)
+);
+
+var path = require('path');
+app.use(express.static(path.join(__dirname, 'oauth')));
+
+app.get('/authcallback', (req, res) => {
+    res.redirect(`/callback.html?code=${req.query.code}&resourceUrl=${req.query.state}&clientId=${env.AUTH_CODE_FLOW_CLIENT_ID}&redirectUri=${env.HOST_SERVER}/authcallback&tokenUrl=${env.AUTH_CODE_FLOW_URL}/oauth2/token`);
+});
+
+app.get('/fhir', (req, res) => {
+    var resourceUrl = req.query.resource;
+    var redirectUrl = `${env.AUTH_CODE_FLOW_URL}/login?response_type=code&client_id=${env.AUTH_CODE_FLOW_CLIENT_ID}&redirect_uri=${env.HOST_SERVER}/authcallback&state=${resourceUrl}`;
+    res.redirect(redirectUrl);});
 
 app.get('/health', (req, res) => res.json({status: 'ok'}));
 app.get('/version', (req, res) => {

@@ -1,0 +1,103 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "b.Well FHIR Server API",
+    "description": "b.Well FHIR Server API documentation",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://fhir.dev.bwell.zone",
+      "description": "DEV environment"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Patient",
+      "description": "API for Patient information"
+    }
+  ],
+  "schemes": [
+    "https"
+  ],
+  "components": {
+    "securitySchemes": {
+      "OAuth2": {
+        "type": "oauth2",
+        "description": "This API supports OAuth 2",
+        "in": "header",
+        "scheme": "bearer",
+        "bearerFormat": "jwt",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://bwell-dev.auth.us-east-1.amazoncognito.com/oauth2/authorize",
+            "tokenUrl": "https://bwell-dev.auth.us-east-1.amazoncognito.com/oauth2/token",
+            "scopes": {}
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "OAuth2": []
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/4_0_0/Patient/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "ID of patient that we want to find",
+          "type": "string"
+        }
+      ],
+      "get": {
+          "tags": [
+            "Patient"
+          ],
+          "summary": "Get R4 Patient",
+          "responses": {
+            "200": {
+              "description": "OK"
+            }
+          }
+        }
+    },
+    "/4_0_0/ExplanationOfBenefit/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "ID of EOB that we want to find",
+          "type": "string"
+        }
+      ],
+      "get": {
+          "tags": [
+            "Explanation Of Benefit"
+          ],
+          "summary": "Get R4 Explanation Of Benefit",
+          "responses": {
+            "200": {
+              "description": "OK"
+            }
+          }
+        }
+    }
+  }
+}
+
