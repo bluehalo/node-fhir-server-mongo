@@ -39,7 +39,7 @@ init:
 
 .PHONY:update
 update:
-	echo "NOTE: Run nvm use 15.14.0 if you get node conflicts" && \
+	. ${NVM_DIR}/nvm.sh && nvm use 15.14.0 && \
 	yarn install --no-optional && \
 	npm i --package-lock-only
 
