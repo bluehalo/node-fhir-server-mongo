@@ -21,9 +21,9 @@
   "resolved" "https://registry.npmjs.org/@asymmetrik/fhir-response-util/-/fhir-response-util-1.2.4.tgz"
   "version" "1.2.4"
 
-"@asymmetrik/node-fhir-server-core@^2.2.3":
-  "integrity" "sha512-npSlB4yF3WJWNeOeNOEKJI40jLDQ7Dvt78JQxb+NxH+pX+wHpCP2MKFjXx3ih7bIG1qEJlKHlk8YZxtah17bnQ=="
-  "resolved" "https://registry.npmjs.org/@asymmetrik/node-fhir-server-core/-/node-fhir-server-core-2.2.3.tgz"
+"@asymmetrik/node-fhir-server-core@https://gitpkg.now.sh/icanbwell/node-fhir-server-core/packages/node-fhir-server-core?master":
+  "integrity" "sha512-p07yejrfu+zZMDaAvq/BJ62lT1yFe4xE+95o8rylhgSYRTwwgbiV2JgdNCkgrxe4p5al31qr5187MJ7/YSsSJg=="
+  "resolved" "https://gitpkg.now.sh/icanbwell/node-fhir-server-core/packages/node-fhir-server-core?master"
   "version" "2.2.3"
   dependencies:
     "@asymmetrik/fhir-response-util" "^1.2.4"

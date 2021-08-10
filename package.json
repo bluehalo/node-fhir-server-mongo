@@ -51,7 +51,7 @@
   },
   "dependencies": {
     "@asymmetrik/fhir-json-schema-validator": "^0.9.8",
-    "@asymmetrik/node-fhir-server-core": "^2.2.3",
+    "@asymmetrik/node-fhir-server-core": "https://gitpkg.now.sh/icanbwell/node-fhir-server-core/packages/node-fhir-server-core?master",
     "@asymmetrik/sof-scope-checker": "^1.0.7",
     "@sentry/node": "^6.5.0",
     "aws-sdk": "^2.946.0",

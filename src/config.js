@@ -104,7 +104,8 @@ if (env.AUTH_ENABLED === '1') {
         strategy: {
             name: 'jwt',
             useSession: false,
-            service: './src/strategies/jwt.bearer.strategy.js'
+            service: './src/strategies/jwt.bearer.strategy.js',
+            failureRedirect: 'https://www.cnn.com'
         },
     };
 }
