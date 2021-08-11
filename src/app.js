@@ -16,6 +16,9 @@ const https = require('https');
 const async = require('async');
 const app = express();
 
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
+
 app.use(helmet());
 app.use(Prometheus.requestCounters);
 app.use(Prometheus.responseCounters);

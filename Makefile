@@ -38,12 +38,12 @@ init:
 #   We use gitpkg to expose the subfolder as a package here.
 #	When you change the package go here to create a new link: https://gitpkg.vercel.app/ using the path:
 # https://github.com/icanbwell/node-fhir-server-core/tree/master/packages/node-fhir-server-core
+# 	yarn cache clean && \
+ #	yarn --update-checksums && \
 
 .PHONY:update
 update:
 	. ${NVM_DIR}/nvm.sh && nvm use 15.14.0 && \
-	yarn cache clean && \
-	yarn --update-checksums && \
 	yarn install --no-optional && \
 	npm i --package-lock-only && \
 	cd node_modules/@asymmetrik/node-fhir-server-core && yarn install
