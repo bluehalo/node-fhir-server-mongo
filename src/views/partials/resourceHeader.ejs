@@ -1,4 +1,5 @@
 <h2><%= res.resourceType %> (id: <%= res.id %>)</h2>
+<a href="/4_0_0/<%= res.resourceType %>/<%= res.id %>"><%= res.resourceType %>/<%= res.id %></a>
 <% if (res.identifier) { %>
 <div>
     <h4>Identifiers</h4>
@@ -17,14 +18,18 @@
           <td><%= identifier.value %></td>
           <td><%= identifier.system %></td>
           <td>
+            <% if (identifier.type && identifier.type.coding) { %>
             <% identifier.type.coding.forEach(function(coding){ %>
             <%= coding.code %> &nbsp;
             <%})%>
+            <%}%>
           </td>
           <td>
+            <% if (identifier.type && identifier.type.coding) { %>
             <% identifier.type.coding.forEach(function(coding){ %>
             <%= coding.system %> &nbsp;
             <%})%>
+            <%}%>
           </td>
         </tr>
     <%})%>
@@ -46,13 +51,14 @@
         </tr>
       </thead>
       <tbody>
-    <% res.meta.security.forEach(function(security){ %>
+      <% if (res.meta.security) { %>
+        <% res.meta.security.forEach(function(security){ %>
         <tr>
           <td><%= security.code %></td>
           <td><%= security.system %></td>
         </tr>
-    <%})%>
-
+        <%})%>
+    <%}%>
       </tbody>
     </table>
 </div>

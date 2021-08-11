@@ -13,21 +13,29 @@
   <div class="jumbotron">
     <% resources.forEach(function(res){ %>
         <%- include('../partials/resourceHeader', {res: res}); %>
+
+        <% if (res.name) { %>
         <div>
             <h4>Names</h4>
             <% res.name.forEach(function(name){ %>
                 <div>
-                    <%= name.family %>, <% name.given.forEach(function(given){ %> <%= given %> <%})%>
+                    <%= name.family %> <% if (name.given) { %>, <% name.given.forEach(function(given){ %> <%= given %> <%})%> <%}%>
                 </div>
             <%})%>
         </div>
-        <div>Gender: <%= res.gender %></div>
+        <%}%>
+
+        <div><h4>Gender</h4><%= res.gender %></div>
+
+        <% if (res.generalPractitioner) { %>
         <div>
             <h4>General Practitioners</h4>
             <% res.generalPractitioner.forEach(function(generalPractitioner){ %>
                 <div><a href="/4_0_0/<%= generalPractitioner.reference %>"><%= generalPractitioner.display %></a></div>
             <%})%>
         </div>
+        <%}%>
+
         <%- include('../partials/json', {res: res}); %>
     <%})%>
   </div>
