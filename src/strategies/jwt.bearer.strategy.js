@@ -4,6 +4,15 @@ const jwksRsa = require('jwks-rsa');
 const env = require('var');
 
 /**
+ * returns whether the parameter is false or a string "false"
+ * @param {string | boolean | null} s
+ * @returns {boolean}
+ */
+const isTrue = function (s) {
+    return String(s).toLowerCase() === 'true' || String(s).toLowerCase() === '1';
+};
+
+/**
  * extracts the client_id and scope from the decoded token
  * @param jwt_payload
  * @param done
@@ -47,7 +56,7 @@ class MyJwtStrategy extends JwtStrategy {
         // console.log(req);
         // console.log('Accepts text/html: ' + req.accepts('text/html'));
 
-        if (!token && req.accepts('text/html')) {
+        if (!token && req.accepts('text/html') && req.useragent && req.useragent.isDesktop && isTrue(env.REDIRECT_TO_LOGIN)) {
             const resourceUrl = req.url;
             const redirectUrl = `${env.AUTH_CODE_FLOW_URL}/login?response_type=code&client_id=${env.AUTH_CODE_FLOW_CLIENT_ID}&redirect_uri=${env.HOST_SERVER}/authcallback&state=${resourceUrl}`;
             return self.redirect(redirectUrl);
@@ -88,7 +97,7 @@ module.exports.strategy = new MyJwtStrategy({
             jwksRequestsPerMinute: 5,
             jwksUri: env.AUTH_JWKS_URL
         }),
-       /* specify a list of extractors and it will use the first one that returns the token */
+        /* specify a list of extractors and it will use the first one that returns the token */
         jwtFromRequest: ExtractJwt.fromExtractors([
             ExtractJwt.fromAuthHeaderAsBearerToken(),
             cookieExtractor,

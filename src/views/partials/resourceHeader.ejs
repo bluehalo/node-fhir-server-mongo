@@ -1,0 +1,59 @@
+<h2><%= res.resourceType %> (id: <%= res.id %>)</h2>
+<% if (res.identifier) { %>
+<div>
+    <h4>Identifiers</h4>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Value</th>
+          <th scope="col">System</th>
+          <th scope="col">Type Code</th>
+          <th scope="col">Type System</th>
+        </tr>
+      </thead>
+      <tbody>
+    <% res.identifier.forEach(function(identifier){ %>
+        <tr>
+          <td><%= identifier.value %></td>
+          <td><%= identifier.system %></td>
+          <td>
+            <% identifier.type.coding.forEach(function(coding){ %>
+            <%= coding.code %> &nbsp;
+            <%})%>
+          </td>
+          <td>
+            <% identifier.type.coding.forEach(function(coding){ %>
+            <%= coding.system %> &nbsp;
+            <%})%>
+          </td>
+        </tr>
+    <%})%>
+      </tbody>
+    </table>
+
+</div>
+<%}%>
+<% if (res.meta) { %>
+<div>
+    <h4>Meta</h4>
+    <div>Source: <%= res.meta.source %></div>
+    <h5>Security</h5>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Code</th>
+          <th scope="col">System</th>
+        </tr>
+      </thead>
+      <tbody>
+    <% res.meta.security.forEach(function(security){ %>
+        <tr>
+          <td><%= security.code %></td>
+          <td><%= security.system %></td>
+        </tr>
+    <%})%>
+
+      </tbody>
+    </table>
+</div>
+<%}%>

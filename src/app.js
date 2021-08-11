@@ -14,16 +14,34 @@ const helmet = require('helmet');
 // noinspection NodeCoreCodingAssistance
 const https = require('https');
 const async = require('async');
+const path = require('path');
+const useragent = require('express-useragent');
+
 const app = express();
 
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
+
+app.use(useragent.express());
 
 app.use(helmet());
 app.use(Prometheus.requestCounters);
 app.use(Prometheus.responseCounters);
 Prometheus.injectMetricsRoute(app);
 Prometheus.startCollection();
+
+// Set EJS as templating engine
+app.set('views', path.join(__dirname, '/views'));
+app.set('view engine', 'ejs');
+
+/**
+ * returns whether the parameter is false or a string "false"
+ * @param {string | boolean | null} s
+ * @returns {boolean}
+ */
+const isTrue = function (s) {
+    return String(s).toLowerCase() === 'true' || String(s).toLowerCase() === '1';
+};
 
 // implement our subclass to set higher request limit
 class MyFHIRServer extends FHIRServer.Server {
@@ -52,18 +70,63 @@ class MyFHIRServer extends FHIRServer.Server {
 
         return this;
     }
+
+    configureHtmlRenderer() {
+        if (isTrue(env.RENDER_HTML)) {
+            this.app.use((req, res, next) => {
+                // console.log('--- user agent ----');
+                // console.log(req.useragent);
+                const parts = req.url.split(/[/?,&]+/);
+                // console.log('----- parts -----');
+                // console.log(parts);
+                // console.log(parts.length);
+                if (parts && parts.length > 2 && !parts.includes('raw=1') && parts[1] === '4_0_0') {
+                    const resourceName = parts[2].toLowerCase();
+                    if (req.accepts('text/html') && req.method === 'GET' && req.useragent && req.useragent.isDesktop) {
+                        let oldJson = res.json;
+                        res.json = (data) => {
+                            // const myReq = req;
+                            // const myReq = req;
+                            let parsedData = JSON.parse(JSON.stringify(data));
+                            // console.log(parsedData); // do something with the data
+                            if (parsedData.entry) {
+                                parsedData = parsedData.entry.map((entry) => entry.resource);
+                            } else if (!Array.isArray(parsedData)) {
+                                parsedData = [parsedData];
+                            }
+                            res.json = oldJson; // set function back to avoid the 'double-send'
+                            // return res.json(data); // just call as normal with data
+                            res.set('Content-Type', 'text/html');
+                            // This is so we can include the bootstrap css from CDN
+                            res.set('Content-Security-Policy', "style-src 'self' stackpath.bootstrapcdn.com;");
+                            // console.log('resource: ' + resourceName);
+                            const customViews = ['patient', 'practitioner', 'practitionerrole'];
+                            const options = {resources: parsedData, url: req.url};
+                            if (customViews.includes(resourceName)) {
+                                return res.render(__dirname + '/views/pages/' + resourceName, options);
+                            } else {
+                                return res.render(__dirname + '/views/pages/index', options);
+                            }
+                        };
+                    }
+                }
+                next();
+            });
+        }
+        return this;
+    }
 }
 
 // const fhirApp = MyFHIRServer.initialize(fhirServerConfig);
-const fhirApp = new MyFHIRServer(fhirServerConfig).configureMiddleware().configureSession().configureHelmet().configurePassport().setPublicDirectory().setProfileRoutes().setErrorRoutes();
+const fhirApp = new MyFHIRServer(fhirServerConfig).configureMiddleware().configureSession().configureHelmet().configurePassport().configureHtmlRenderer().setPublicDirectory().setProfileRoutes().setErrorRoutes();
 
 app.use(function (req, res, next) {
-            res.setHeader(
-              'Content-Security-Policy',
-              "default-src 'self'; object-src data: 'unsafe-eval'; font-src 'self'; img-src 'self' 'unsafe-inline' 'unsafe-hashes' 'unsafe-eval' data:; script-src 'self' 'unsafe-inline' https://ajax.googleapis.com/ https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline'; frame-src 'self'; connect-src 'self' " + env.AUTH_CODE_FLOW_URL + '/oauth2/token;'
-            );
-            next();
-        });
+    res.setHeader(
+        'Content-Security-Policy',
+        "default-src 'self'; object-src data: 'unsafe-eval'; font-src 'self'; img-src 'self' 'unsafe-inline' 'unsafe-hashes' 'unsafe-eval' data:; script-src 'self' 'unsafe-inline' https://ajax.googleapis.com/ https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline'; frame-src 'self'; connect-src 'self' " + env.AUTH_CODE_FLOW_URL + '/oauth2/token;'
+    );
+    next();
+});
 
 const swaggerUi = require('swagger-ui-express');
 // eslint-disable-next-line security/detect-non-literal-require
@@ -86,7 +149,6 @@ app.use(
     swaggerUi.setup(swaggerDocument, options)
 );
 
-var path = require('path');
 app.use(express.static(path.join(__dirname, 'oauth')));
 
 app.get('/authcallback', (req, res) => {
@@ -96,7 +158,8 @@ app.get('/authcallback', (req, res) => {
 app.get('/fhir', (req, res) => {
     var resourceUrl = req.query.resource;
     var redirectUrl = `${env.AUTH_CODE_FLOW_URL}/login?response_type=code&client_id=${env.AUTH_CODE_FLOW_CLIENT_ID}&redirect_uri=${env.HOST_SERVER}/authcallback&state=${resourceUrl}`;
-    res.redirect(redirectUrl);});
+    res.redirect(redirectUrl);
+});
 
 app.get('/health', (req, res) => res.json({status: 'ok'}));
 app.get('/version', (req, res) => {

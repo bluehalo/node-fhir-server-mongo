@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+<body class="container">
+
+<header>
+  <%- include('../partials/header'); %>
+</header>
+
+<main>
+  <div class="jumbotron">
+    <% resources.forEach(function(res){ %>
+        <%- include('../partials/resourceHeader', {res: res}); %>
+
+        <div>
+            <h4>Names</h4>
+            <% res.name.forEach(function(name){ %>
+                <div>
+                    <%= name.family %>, <% name.given.forEach(function(given){ %> <%= given %> <%})%>
+                </div>
+            <%})%>
+        </div>
+        <div><h4>Gender</h4><%= res.gender %></div>
+
+        <% if (res.qualification) { %>
+        <div>
+            <h4>Qualifications</h4>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Code</th>
+                  <th scope="col">Display</th>
+                  <th scope="col">System</th>
+                </tr>
+              </thead>
+              <tbody>
+            <% res.qualification.forEach(function(qualification){ %>
+                <% if (qualification.code) { %>
+                    <% qualification.code.coding.forEach(function(coding){ %>
+                <tr>
+                  <td><%= coding.code %></td>
+                  <td><%= coding.display %></td>
+                  <td><%= coding.system %></td>
+                </tr>
+                    <%})%>
+                <%}%>
+            <%})%>
+              </tbody>
+            </table>
+        </div>
+        <%}%>
+
+        <% if (res.communication) { %>
+        <div>
+            <h4>Communication</h4>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Code</th>
+                  <th scope="col">Display</th>
+                  <th scope="col">System</th>
+                </tr>
+              </thead>
+              <tbody>
+            <% res.communication.forEach(function(communication){ %>
+                <% if (communication.coding) { %>
+                    <% communication.coding.forEach(function(coding){ %>
+                <tr>
+                  <td><%= coding.code %></td>
+                  <td><%= coding.display %></td>
+                  <td><%= coding.system %></td>
+                </tr>
+                    <%})%>
+                <%}%>
+            <%})%>
+              </tbody>
+            </table>
+        </div>
+        <%}%>
+
+        <% if (res.telecom) { %>
+        <div>
+            <h4>Telecom</h4>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Value</th>
+                  <th scope="col">Display</th>
+                  <th scope="col">System</th>
+                </tr>
+              </thead>
+              <tbody>
+            <% res.telecom.forEach(function(telecom){ %>
+                <tr>
+                  <td><%= telecom.value %></td>
+                  <td><%= telecom.display %></td>
+                  <td><%= telecom.system %></td>
+                </tr>
+            <%})%>
+              </tbody>
+            </table>
+        </div>
+        <%}%>
+
+        <div>
+            <h4>Practitioner Roles</h4>
+            <a href="/4_0_0/PractitionerRole?practitioner=<%= res.id %>">PractitionerRole?practitioner=<%= res.id %></a>
+        </div>
+
+        <%- include('../partials/json', {res: res}); %>
+    <%})%>
+  </div>
+</main>
+
+<footer>
+  <%- include('../partials/footer'); %>
+</footer>
+
+</body>
+</html>
