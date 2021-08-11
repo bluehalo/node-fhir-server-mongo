@@ -14,14 +14,17 @@
     <% resources.forEach(function(res){ %>
         <%- include('../partials/resourceHeader', {res: res}); %>
 
+        <% if (res.name) { %>
         <div>
             <h4>Names</h4>
             <% res.name.forEach(function(name){ %>
                 <div>
-                    <%= name.family %>, <% name.given.forEach(function(given){ %> <%= given %> <%})%>
+                    <%= name.family %> <% if (name.given) { %>, <% name.given.forEach(function(given){ %> <%= given %> <%})%> <%}%>
                 </div>
             <%})%>
         </div>
+        <%}%>
+
         <div><h4>Gender</h4><%= res.gender %></div>
 
         <% if (res.qualification) { %>
