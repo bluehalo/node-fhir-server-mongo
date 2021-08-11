@@ -70,3 +70,10 @@ module.exports.getHeaders = (scope) => {
     };
 };
 
+module.exports.getUnAuthenticatedHeaders = () => {
+    return {
+        'Content-Type': 'application/fhir+json',
+        'Accept': 'application/fhir+json'
+    };
+};
+

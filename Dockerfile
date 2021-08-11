@@ -23,6 +23,9 @@ COPY .snyk /srv/src/.snyk
 # RUN cd /srv/src && yarn install --verbose
 RUN cd /srv/src && rm --force package-lock.json && yarn install --no-optional
 
+# This is needed when we use the custom version of node-fhir-server-core
+# RUN cd /srv/src/node_modules/@asymmetrik/node-fhir-server-core && yarn install
+
 # Copy the remaining application code.
 COPY . /srv/src
 
