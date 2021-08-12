@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+<body class="container">
+
+<header>
+  <%- include('../partials/header', {resources: resources}); %>
+</header>
+
+<main>
+  <div class="jumbotron">
+    <% resources.forEach(function(res){ %>
+        <%- include('../partials/resourceHeader', {res: res}); %>
+
+        <% if (res.address) { %>
+        <div>
+            <h4>Addresses</h4>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Line</th>
+                  <th scope="col">City</th>
+                  <th scope="col">State</th>
+                  <th scope="col">Zip</th>
+                </tr>
+              </thead>
+              <tbody>
+            <% res.address.forEach(function(address){ %>
+                <tr>
+                    <td>
+                    <% if (address.line) { %>
+                        <% address.line.forEach(function(line){ %>
+                        <%= line %>
+                        <%})%>
+                    <%}%>
+                    </td>
+                  <td><%= address.city %></td>
+                  <td><%= address.state %></td>
+                  <td><%= address.postalCode %></td>
+                </tr>
+            <%})%>
+              </tbody>
+            </table>
+        </div>
+        <%}%>
+
+        <div>
+            <h4>Practitioner Roles</h4>
+            <a href="/4_0_0/PractitionerRole?organization=<%= res.id %>">PractitionerRole?organization=<%= res.id %></a>
+        </div>
+
+        <div>
+            <h4>Healthcare Services</h4>
+            <a href="/4_0_0/HealthcareService?organization=<%= res.id %>">HealthcareService?organization=<%= res.id %></a>
+        </div>
+
+        <div>
+            <h4>Locations</h4>
+            <a href="/4_0_0/Location?organization=<%= res.id %>">Location?organization=<%= res.id %></a>
+        </div>
+
+        <%- include('../partials/json', {res: res}); %>
+    <%})%>
+  </div>
+</main>
+
+<footer>
+  <%- include('../partials/footer', {url: url}); %>
+</footer>
+
+</body>
+</html>

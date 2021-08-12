@@ -6,7 +6,7 @@
 <body class="container">
 
 <header>
-  <%- include('../partials/header'); %>
+  <%- include('../partials/header', {resources: resources}); %>
 </header>
 
 <main>
@@ -20,7 +20,7 @@
 </main>
 
 <footer>
-  <%- include('../partials/footer'); %>
+  <%- include('../partials/footer', {url: url}); %>
 </footer>
 
 </body>

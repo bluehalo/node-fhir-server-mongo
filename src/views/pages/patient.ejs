@@ -6,7 +6,7 @@
 <body class="container">
 
 <header>
-  <%- include('../partials/header'); %>
+  <%- include('../partials/header', {resources: resources}); %>
 </header>
 
 <main>
@@ -14,16 +14,7 @@
     <% resources.forEach(function(res){ %>
         <%- include('../partials/resourceHeader', {res: res}); %>
 
-        <% if (res.name) { %>
-        <div>
-            <h4>Names</h4>
-            <% res.name.forEach(function(name){ %>
-                <div>
-                    <%= name.family %> <% if (name.given) { %>, <% name.given.forEach(function(given){ %> <%= given %> <%})%> <%}%>
-                </div>
-            <%})%>
-        </div>
-        <%}%>
+        <%- include('../partials/humanNames', {names: res.name, resourceType: res.resourceType}); %>
 
         <div><h4>Gender</h4><%= res.gender %></div>
 
@@ -42,7 +33,7 @@
 </main>
 
 <footer>
-  <%- include('../partials/footer'); %>
+  <%- include('../partials/footer', {url: url}); %>
 </footer>
 
 </body>

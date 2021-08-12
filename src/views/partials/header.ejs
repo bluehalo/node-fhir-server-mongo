@@ -1,11 +1,12 @@
+<% if (resources.length > 1) { %>
 <nav className="navbar navbar-expand-lg navbar-light bg-light">
-<!--     <a className="navbar-brand" href="/">EJS Is Fun</a> -->
-<!--     <ul className="navbar-nav mr-auto"> -->
-<!--         <li className="nav-item"> -->
-<!--             <a className="nav-link" href="/">Home</a> -->
-<!--         </li> -->
-<!--         <li className="nav-item"> -->
-<!--             <a className="nav-link" href="/about">About</a> -->
-<!--         </li> -->
-<!--     </ul> -->
+    <a className="navbar-brand" href="/">Resources In Current Page (<%= resources.length %>)</a>
+    <ul className="navbar-nav mr-auto">
+    <% resources.forEach(function(res){ %>
+        <li className="nav-item">
+            <a className="nav-link" href="#<%= res.id %>"><%= res.id %></a>
+        </li>
+    <%})%>
+    </ul>
 </nav>
+<%}%>

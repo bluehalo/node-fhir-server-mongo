@@ -1,5 +1,6 @@
+<a name="<%= res.id %>"></a>
 <h2><%= res.resourceType %> (id: <%= res.id %>)</h2>
-<a href="/4_0_0/<%= res.resourceType %>/<%= res.id %>"><%= res.resourceType %>/<%= res.id %></a>
+<a title="Direct link to Resource" href="/4_0_0/<%= res.resourceType %>/<%= res.id %>"><%= res.resourceType %>/<%= res.id %></a>
 <% if (res.identifier) { %>
 <div>
     <h4>Identifiers</h4>
@@ -35,13 +36,14 @@
     <%})%>
       </tbody>
     </table>
-
 </div>
 <%}%>
 <% if (res.meta) { %>
 <div>
     <h4>Meta</h4>
-    <div>Source: <%= res.meta.source %></div>
+    <div><b>Last Updated:</b> <%= res.meta.lastUpdated %> <a title="Get <%= res.resourceType %> resources before this date" href="/4_0_0/<%= res.resourceType %>?_lastUpdated=lt<%= res.meta.lastUpdated %>">[Before This]</a>&nbsp;<a title="Get <%= res.resourceType %> resources after this date" href="/4_0_0/<%= res.resourceType %>?_lastUpdated=gt<%= res.meta.lastUpdated %>">[After This]</a></div>
+    <div><b>Version:</b> <%= res.meta.versionId %>&nbsp;<a title="Show history for this resource" href="/4_0_0/<%= res.resourceType %>/<%= res.id %>/_history">[History]</a> </div>
+    <div><b>Source:</b> <a title="Filter <%= res.resourceType %> by <%= res.meta.source %>" href="/4_0_0/<%= res.resourceType %>?source=<%= res.meta.source %>"><%= res.meta.source %></a></div>
     <h5>Security</h5>
     <table class="table">
       <thead>
@@ -54,7 +56,7 @@
       <% if (res.meta.security) { %>
         <% res.meta.security.forEach(function(security){ %>
         <tr>
-          <td><%= security.code %></td>
+          <td><a title="Filter <%= res.resourceType %> by <%= security.code %>" href="/4_0_0/<%= res.resourceType %>?_security=<%= security.system %>|<%= security.code %>"><%= security.code %></a></td>
           <td><%= security.system %></td>
         </tr>
         <%})%>
