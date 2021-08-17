@@ -1,0 +1,47 @@
+[
+  {
+    "resourceType": "Organization",
+    "id": "733797173",
+    "meta": {
+      "source": "https://www.foo.com",
+      "security": [
+        {
+          "system": "https://www.icanbwell.com/access",
+          "code": "medstar"
+        }
+      ]
+    },
+    "name": "MedStar Medical Group Dermatology at Honeygo",
+    "alias": [
+      "MedStar Medical Group Derm at Honeygo"
+    ],
+    "telecom": [
+      {
+        "system": "phone",
+        "value": "(410) 256-5858"
+      },
+      {
+        "system": "fax",
+        "value": "(866) 733-0434"
+      }
+    ],
+    "partOf": {
+      "type": "Organization",
+      "display": "MedStar Medical Group"
+    }
+  },
+  {
+    "resourceType": "Organization",
+    "id": "MedStar-Medical-Group",
+    "meta": {
+      "source": "https://www.foo.com",
+      "security": [
+        {
+          "system": "https://www.icanbwell.com/access",
+          "code": "medstar"
+        }
+      ]
+    },
+    "name": "MedStar Medical Group"
+  }
+]
