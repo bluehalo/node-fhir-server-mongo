@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+<body class="container">
+
+<header>
+  <%- include('../partials/header', {resources: resources}); %>
+</header>
+
+<main>
+  <div class="jumbotron">
+    <% resources.forEach(function(res){ %>
+        <%- include('../partials/resourceHeader', {res: res}); %>
+
+        <%- include('../partials/humanNames', {names: res.name, resourceType: res.resourceType}); %>
+
+        <div><h4>Gender</h4><%= res.gender %></div>
+
+        <% if (res.generalPractitioner) { %>
+        <div>
+            <h4>General Practitioners</h4>
+            <% res.generalPractitioner.forEach(function(generalPractitioner){ %>
+                <div><a href="/4_0_0/<%= generalPractitioner.reference %>"><%= generalPractitioner.display %></a></div>
+            <%})%>
+        </div>
+        <%}%>
+
+        <%- include('../partials/json', {res: res}); %>
+    <%})%>
+  </div>
+</main>
+
+<footer>
+  <%- include('../partials/footer', {url: url}); %>
+</footer>
+
+</body>
+</html>

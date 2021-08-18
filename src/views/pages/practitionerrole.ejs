@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+<body class="container">
+
+<header>
+  <%- include('../partials/header', {resources: resources}); %>
+</header>
+
+<main>
+  <div class="jumbotron">
+    <% resources.forEach(function(res){ %>
+        <%- include('../partials/resourceHeader', {res: res}); %>
+
+        <% if (res.practitioner) { %>
+        <div>
+            <h4>Practitioner</h4>
+            <a href="/4_0_0/<%= res.practitioner.reference %>"><%= res.practitioner.reference %></a>
+        </div>
+        <%}%>
+
+        <% if (res.organization) { %>
+        <div>
+            <h4>Organization</h4>
+            <a href="/4_0_0/<%= res.organization.reference %>"><%= res.organization.reference %></a>
+        </div>
+        <%}%>
+
+        <% if (res.location) { %>
+        <div>
+            <h4>Locations</h4>
+            <% res.location.forEach(function(location){ %>
+            <a href="/4_0_0/<%= location.reference %>"><%= location.reference %></a>
+            <%})%>
+        </div>
+        <%}%>
+
+        <% if (res.healthcareService) { %>
+        <div>
+            <h4>Healthcare Services</h4>
+            <% res.healthcareService.forEach(function(healthcareService){ %>
+            <a href="/4_0_0/<%= healthcareService.reference %>"><%= healthcareService.reference %></a>
+            <%})%>
+        </div>
+        <%}%>
+
+        <% if (res.specialty) { %>
+        <div>
+            <h4>Specialty</h4>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Code</th>
+                  <th scope="col">Display</th>
+                  <th scope="col">System</th>
+                </tr>
+              </thead>
+              <tbody>
+            <% res.specialty.forEach(function(specialty){ %>
+                <% if (specialty.coding) { %>
+                <% specialty.coding.forEach(function(coding){ %>
+                <tr>
+                  <td><%= coding.code %></td>
+                  <td><%= coding.display %></td>
+                  <td><%= coding.system %></td>
+                </tr>
+                <%})%>
+                <%}%>
+            <%})%>
+              </tbody>
+            </table>
+        </div>
+        <%}%>
+
+        <%- include('../partials/json', {res: res}); %>
+    <%})%>
+  </div>
+</main>
+
+<footer>
+  <%- include('../partials/footer', {url: url}); %>
+</footer>
+
+</body>
+</html>

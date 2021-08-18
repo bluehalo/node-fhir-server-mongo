@@ -4,21 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
+            integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <title>b.Well FHIR Server</title>
 </head>
 <body>
-    <pre></pre>
+<pre></pre>
 </body>
 <script type="text/javascript">
-    $(document).ready(function() {
-        var parameters = getUrlVars();
+    $(document).ready(function () {
+        const parameters = getUrlVars();
 
-        var authCode = parameters['code'];
-        console.log(authCode);
+        const authCode = parameters['code'];
         // get token
-        var tokenUrl = parameters['tokenUrl']; 
+        const tokenUrl = parameters['tokenUrl'];
 
         const data = {
             grant_type: 'authorization_code',
@@ -27,7 +31,7 @@
             redirect_uri: window.location.origin + '/authcallback'
         };
 
-        var querystring = $.param(data);
+        const querystring = $.param(data);
 
         axios.request({
             url: tokenUrl,
@@ -36,32 +40,45 @@
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
-        }).then(function(res) {
-            var accessToken = res.data.access_token;
+        }).then(function (res) {
+            const accessToken = res.data.access_token;
+            var jwt = parseJwt(accessToken);
             
-            axios.request({
-                url: window.location.origin + parameters['resourceUrl'],
-                method: 'get',
-                headers: {
-                    'Authorization': 'Bearer ' + accessToken
-                }
-            }).then(function(resp) {
-                $('pre').text(JSON.stringify(resp.data, null, 2));
-            });
+            setCookie(
+                "jwt",
+                accessToken,
+                jwt.exp
+            )
+
+            window.location.assign(parameters['resourceUrl'])
         });
     });
 
-    function getUrlVars()
-    {
-        var vars = [], hash;
-        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-        for(var i = 0; i < hashes.length; i++)
-        {
+    function getUrlVars() {
+        let vars = [], hash;
+        const hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+        for (let i = 0; i < hashes.length; i++) {
             hash = hashes[i].split('=');
             vars.push(hash[0]);
             vars[hash[0]] = hash[1];
         }
         return vars;
     }
+
+    function setCookie(cookie_name, cookie_value, expirationTime) {
+        const d = new Date(expirationTime * 1000);
+        let expires = "expires=" + d.toUTCString();
+        document.cookie = cookie_name + "=" + cookie_value + ";" + expires + ";path=/; samesite=strict";
+    }
+
+    function parseJwt (token) {
+        var base64Url = token.split('.')[1];
+        var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+
+        return JSON.parse(jsonPayload);
+    };
 </script>
 </html>
