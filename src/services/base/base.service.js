@@ -423,8 +423,12 @@ const buildR4SearchQuery = (resource_name, args) => {
         query['address.state'] = stringQueryBuilder(address_state);
     }
 
-    if (identifier) {
-        let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier', '');
+    if (identifier || args['identifier:missing']) {
+        let identifier_exists_flag = null;
+        if (args['identifier:missing']) {
+            identifier_exists_flag = !isTrue(args['identifier:missing']);
+        }
+        let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier', '', identifier_exists_flag);
         /**
          * @type {string}
          */
