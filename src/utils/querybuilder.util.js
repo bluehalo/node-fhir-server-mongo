@@ -89,10 +89,19 @@ let nameQueryBuilder = function (target) {
  * Use in an or query
  *      query.$or = [tokenQueryBuilder(identifier, 'value', 'identifier'), tokenQueryBuilder(type, 'code', 'type.coding')];
  */
-let tokenQueryBuilder = function (target, type, field, required) {
+let tokenQueryBuilder = function (target, type, field, required, exists_flag = null) {
     let queryBuilder = {};
     let system = '';
     let value;
+
+    if (target === null || exists_flag === false) {
+        queryBuilder[`${field}`] = {$exists: false};
+        return queryBuilder;
+    }
+    if (exists_flag === true) {
+        queryBuilder[`${field}`] = {$exists: true};
+        return queryBuilder;
+    }
 
     if (target.includes('|')) {
         [system, value] = target.split('|');

@@ -14,16 +14,35 @@ const helmet = require('helmet');
 // noinspection NodeCoreCodingAssistance
 const https = require('https');
 const async = require('async');
+const path = require('path');
+const useragent = require('express-useragent');
+const {htmlRenderer} = require('./middleware/htmlRenderer');
+
 const app = express();
 
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
+
+app.use(useragent.express());
 
 app.use(helmet());
 app.use(Prometheus.requestCounters);
 app.use(Prometheus.responseCounters);
 Prometheus.injectMetricsRoute(app);
 Prometheus.startCollection();
+
+// Set EJS as templating engine
+app.set('views', path.join(__dirname, '/views'));
+app.set('view engine', 'ejs');
+
+/**
+ * returns whether the parameter is false or a string "false"
+ * @param {string | boolean | null} s
+ * @returns {boolean}
+ */
+const isTrue = function (s) {
+    return String(s).toLowerCase() === 'true' || String(s).toLowerCase() === '1';
+};
 
 // implement our subclass to set higher request limit
 class MyFHIRServer extends FHIRServer.Server {
@@ -52,18 +71,26 @@ class MyFHIRServer extends FHIRServer.Server {
 
         return this;
     }
+
+    configureHtmlRenderer() {
+        if (isTrue(env.RENDER_HTML)) {
+            this.app.use(htmlRenderer);
+        }
+        return this;
+    }
+
 }
 
 // const fhirApp = MyFHIRServer.initialize(fhirServerConfig);
-const fhirApp = new MyFHIRServer(fhirServerConfig).configureMiddleware().configureSession().configureHelmet().configurePassport().setPublicDirectory().setProfileRoutes().setErrorRoutes();
+const fhirApp = new MyFHIRServer(fhirServerConfig).configureMiddleware().configureSession().configureHelmet().configurePassport().configureHtmlRenderer().setPublicDirectory().setProfileRoutes().setErrorRoutes();
 
 app.use(function (req, res, next) {
-            res.setHeader(
-              'Content-Security-Policy',
-              "default-src 'self'; object-src data: 'unsafe-eval'; font-src 'self'; img-src 'self' 'unsafe-inline' 'unsafe-hashes' 'unsafe-eval' data:; script-src 'self' 'unsafe-inline' https://ajax.googleapis.com/ https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline'; frame-src 'self'; connect-src 'self' " + env.AUTH_CODE_FLOW_URL + '/oauth2/token;'
-            );
-            next();
-        });
+    res.setHeader(
+        'Content-Security-Policy',
+        "default-src 'self'; object-src data: 'unsafe-eval'; font-src 'self'; img-src 'self' 'unsafe-inline' 'unsafe-hashes' 'unsafe-eval' data:; script-src 'self' 'unsafe-inline' https://ajax.googleapis.com/ https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline'; frame-src 'self'; connect-src 'self' " + env.AUTH_CODE_FLOW_URL + '/oauth2/token;'
+    );
+    next();
+});
 
 const swaggerUi = require('swagger-ui-express');
 // eslint-disable-next-line security/detect-non-literal-require
@@ -86,7 +113,6 @@ app.use(
     swaggerUi.setup(swaggerDocument, options)
 );
 
-var path = require('path');
 app.use(express.static(path.join(__dirname, 'oauth')));
 
 app.get('/authcallback', (req, res) => {
@@ -96,7 +122,8 @@ app.get('/authcallback', (req, res) => {
 app.get('/fhir', (req, res) => {
     var resourceUrl = req.query.resource;
     var redirectUrl = `${env.AUTH_CODE_FLOW_URL}/login?response_type=code&client_id=${env.AUTH_CODE_FLOW_CLIENT_ID}&redirect_uri=${env.HOST_SERVER}/authcallback&state=${resourceUrl}`;
-    res.redirect(redirectUrl);});
+    res.redirect(redirectUrl);
+});
 
 app.get('/health', (req, res) => res.json({status: 'ok'}));
 app.get('/version', (req, res) => {

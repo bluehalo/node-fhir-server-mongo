@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+<body class="container">
+
+<header>
+  <%- include('../partials/header', {resources: resources}); %>
+</header>
+
+<main>
+  <div class="jumbotron">
+    <% resources.forEach(function(res){ %>
+        <%- include('../partials/resourceHeader', {res: res}); %>
+
+        <h4>Status</h4>
+        <%= res.status %>
+
+        <h4>Outcome</h4>
+        <%= res.outcome %>
+
+        <% if (res.type) { %>
+        <div>
+            <h4>Type</h4>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Code</th>
+                  <th scope="col">System</th>
+                  <th scope="col">Text</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if (res.type.coding) { %>
+                    <% res.type.coding.forEach(function(coding){ %>
+                <tr>
+                  <td><%= coding.code %></td>
+                  <td><%= coding.system %></td>
+                  <td><%= res.type.text %></td>
+                </tr>
+                    <%})%>
+                <%}%>
+              </tbody>
+            </table>
+        </div>
+        <%}%>
+
+        <% if (res.patient) { %>
+        <div>
+            <h4>Patient</h4>
+            <a href="/4_0_0/<%= res.patient.reference %>"><%= res.patient.reference %></a>
+        </div>
+        <%}%>
+
+        <% if (res.insurer) { %>
+        <div>
+            <h4>Insurer</h4>
+            <a href="/4_0_0/<%= res.insurer.reference %>"><%= res.insurer.reference %></a>
+        </div>
+        <%}%>
+
+        <% if (res.provider) { %>
+        <div>
+            <h4>Provider</h4>
+            <a href="/4_0_0/<%= res.provider.reference %>"><%= res.provider.reference %></a>
+        </div>
+        <%}%>
+
+        <% if (res.claim) { %>
+        <div>
+            <h4>Claim</h4>
+            <a href="/4_0_0/<%= res.claim.reference %>"><%= res.claim.reference %></a>
+        </div>
+        <%}%>
+
+        <% if (res.item) { %>
+        <div>
+            <h4>Items</h4>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Sequence</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">Code</th>
+                  <th scope="col">Quantity</th>
+                </tr>
+              </thead>
+              <tbody>
+            <% res.item.forEach(function(item){ %>
+                <tr>
+                <td><%= item.sequence %></td>
+                <td><%= item.servicedDate %></td>
+                <td>
+                    <% if (item.productOrService) { %>
+                        <% item.productOrService.coding.forEach(function(coding){ %>
+                            <%= coding.code %> (<%= coding.system %>)
+                        <%})%>
+                    <%}%>
+                 </td>
+                 <td>
+                    <% if (item.quantity) { %>
+                        <%= item.quantity.value %>
+                    <%}%>
+                 </td>
+                 </tr>
+            <%})%>
+              </tbody>
+            </table>
+        </div>
+        <%}%>
+
+        <% if (res.total) { %>
+        <div>
+            <h4>Totals</h4>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Code</th>
+                  <th scope="col">Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+            <% res.total.forEach(function(total){ %>
+                <tr>
+                <td>
+                    <% if (total.category) { %>
+                        <% total.category.coding.forEach(function(coding){ %>
+                            <%= coding.code %> (<%= coding.system %>)
+                        <%})%>
+                    <%}%>
+                 </td>
+                 <td>
+                    <% if (total.amount) { %>
+                        <%= total.amount.value %>
+                    <%}%>
+                 </td>
+                 </tr>
+            <%})%>
+              </tbody>
+            </table>
+        </div>
+        <%}%>
+
+        <% if (res.supportingInfo) { %>
+        <div>
+            <h4>Supporting Info</h4>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Sequence</th>
+                  <th scope="col">Code</th>
+                  <th scope="col">Quantity</th>
+                </tr>
+              </thead>
+              <tbody>
+            <% res.supportingInfo.forEach(function(item){ %>
+                <tr>
+                <td><%= item.sequence %></td>
+                <td>
+                    <% if (item.category) { %>
+                        <% item.category.coding.forEach(function(coding){ %>
+                            <%= coding.code %> (<%= coding.system %>)
+                        <%})%>
+                    <%}%>
+                 </td>
+                 <td>
+                    <% if (item.valueQuantity) { %>
+                        <%= item.valueQuantity.value %>
+                    <%}%>
+                    <% if (item.valueString) { %>
+                        <%= item.valueString %>
+                    <%}%>
+                 </td>
+                 </tr>
+            <%})%>
+              </tbody>
+            </table>
+        </div>
+        <%}%>
+
+
+        <%- include('../partials/json', {res: res}); %>
+    <%})%>
+  </div>
+</main>
+
+<footer>
+  <%- include('../partials/footer', {url: url}); %>
+</footer>
+
+</body>
+</html>

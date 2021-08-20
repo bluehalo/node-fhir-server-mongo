@@ -80,7 +80,7 @@ clean-pre-commit: ## removes pre-commit hook
 	rm -f .git/hooks/pre-commit
 
 .PHONY:setup-pre-commit
-setup-pre-commit: Pipfile.lock
+setup-pre-commit:
 	cp ./pre-commit-hook ./.git/hooks/pre-commit
 
 .PHONY:run-pre-commit

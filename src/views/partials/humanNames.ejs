@@ -1,0 +1,29 @@
+<% if (names) { %>
+<div>
+    <h4>Names</h4>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Use</th>
+          <th scope="col">Family</th>
+          <th scope="col">Given</th>
+          <th scope="col">text</th>
+          <th scope="col">Period Start</th>
+          <th scope="col">Period End</th>
+        </tr>
+      </thead>
+      <tbody>
+    <% names.forEach(function(name){ %>
+        <tr>
+          <td><%= name.use %></td>
+          <td><a title="Search for <%= name.family %>" href="/4_0_0/<%= resourceType %>?name=<%= name.family %>"><%= name.family %></a>  </td>
+          <td><% if (name.given) { %><% name.given.forEach(function(given){ %> <%= given %> <%})%> <%}%></td>
+          <td><%= name.text %></td>
+          <td><% if (name.period) { %> <%= name.period.start %> <%}%></td>
+          <td><% if (name.period) { %> <%= name.period.end %> <%}%></td>
+        </tr>
+    <%})%>
+      </tbody>
+    </table>
+</div>
+<%}%>
