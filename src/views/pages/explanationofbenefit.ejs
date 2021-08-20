@@ -11,6 +11,7 @@
 
 <main>
   <div class="jumbotron">
+    <%- include('../partials/nav'); %>
     <% resources.forEach(function(res){ %>
         <%- include('../partials/resourceHeader', {res: res}); %>
 
@@ -190,4 +191,5 @@
 </footer>
 
 </body>
+<%- include('../partials/logout.ejs'); %>
 </html>
