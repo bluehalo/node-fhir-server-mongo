@@ -1563,6 +1563,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
         }
 
         let mergeObjectOrArray;
+
         /**
          * @type {{customMerge: (function(*): *)}}
          */
@@ -1573,13 +1574,17 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                     return mergeObjectOrArray;
                 }
             };
+
         /**
          * @param {?Object | Object[]} oldItem
          * @param {?Object | Object[]} newItem
          * @return {?Object | Object[]}
          */
         mergeObjectOrArray = (oldItem, newItem) => {
-            logDebug('oldItem: ', oldItem);
+            logDebug('adhMergeDebug - typeof oldItem', typeof oldItem);
+            logDebug('adhMergeDebug - typeof newItem', typeof newItem);
+            logDebug('adhMergeDebug - oldItem', JSON.stringify(oldItem));
+            logDebug('adhMergeDebug - newItem', JSON.stringify(newItem));
             if (deepEqual(oldItem, newItem)) {
                 return oldItem;
             }
