@@ -423,12 +423,8 @@ const buildR4SearchQuery = (resource_name, args) => {
         query['address.state'] = stringQueryBuilder(address_state);
     }
 
-    if (identifier || args['identifier:missing']) {
-        let identifier_exists_flag = null;
-        if (args['identifier:missing']) {
-            identifier_exists_flag = !isTrue(args['identifier:missing']);
-        }
-        let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier', '', identifier_exists_flag);
+    if (identifier) {
+        let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier', '');
         /**
          * @type {string}
          */
@@ -1338,9 +1334,8 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
     logDebug(req.user, JSON.stringify(resources_incoming));
     logDebug(req.user, '-----------------');
 
-    async function preMergeChecks(resourceToMerge) {
-        let id = resourceToMerge.id;
-        if (!(resourceToMerge.resourceType)) {
+    async function validateResourceType(resource, operation) {
+        if (!(resource.resourceType)) {
             /**
              * @type {OperationOutcome}
              */
@@ -1351,27 +1346,28 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                         severity: 'error',
                         code: 'exception',
                         details: {
-                            text: 'Error merging: ' + JSON.stringify(resourceToMerge)
+                            text: 'Error with operation ' + operation + ': ' + JSON.stringify(resource)
                         },
                         diagnostics: 'resource is missing resourceType',
                         expression: [
-                            resource_name + '/' + id
+                            resource_name + '/' + resource.id
                         ]
                     }
                 ]
             };
             return {
-                id: id,
+                id: resource.id,
                 created: false,
                 updated: false,
                 issue: (operationOutcome.issue && operationOutcome.issue.length > 0) ? operationOutcome.issue[0] : null,
                 operationOutcome: operationOutcome
             };
         }
+    }
 
-        const combined_args = get_all_args(req, args);
+    async function validateAuth(resource, operation) {
         if (isTrue(env.AUTH_ENABLED)) {
-            let {success} = scopeChecker(resourceToMerge.resourceType, 'write', scopes);
+            let {success} = scopeChecker(resource.resourceType, 'write', scopes);
             if (!success) {
                 const operationOutcome = {
                     resourceType: 'OperationOutcome',
@@ -1380,17 +1376,17 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                             severity: 'error',
                             code: 'exception',
                             details: {
-                                text: 'Error merging: ' + JSON.stringify(resourceToMerge)
+                                text: 'Error with operation ' + operation + ': ' + JSON.stringify(resource)
                             },
-                            diagnostics: 'user ' + req.user + ' with scopes [' + scopes + '] failed access check to [' + resourceToMerge.resourceType + '.' + 'write' + ']',
+                            diagnostics: 'user ' + req.user + ' with scopes [' + scopes + '] failed access check to [' + resource.resourceType + '.' + 'write' + ']',
                             expression: [
-                                resourceToMerge.resourceType + '/' + id
+                                resource.resourceType + '/' + resource.id
                             ]
                         }
                     ]
                 };
                 return {
-                    id: id,
+                    id: resource.id,
                     created: false,
                     updated: false,
                     issue: (operationOutcome.issue && operationOutcome.issue.length > 0) ? operationOutcome.issue[0] : null,
@@ -1398,38 +1394,40 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                 };
             }
         }
+    }
 
-        if (env.VALIDATE_SCHEMA || combined_args['_validate']) {
+    async function validateResourceSchema(resource, combinedArgs, operation) {
+        if (env.VALIDATE_SCHEMA || combinedArgs['_validate']) {
             logDebug(req.user, '--- validate schema ----');
             /**
              * @type {?OperationOutcome}
              */
-            const operationOutcome = validateResource(resourceToMerge, resourceToMerge.resourceType, req.path);
+            const operationOutcome = validateResource(resource, resource.resourceType, req.path);
             if (operationOutcome && operationOutcome.statusCode === 400) {
                 operationOutcome['expression'] = [
-                    resourceToMerge.resourceType + '/' + id
+                    resource.resourceType + '/' + resource.id
                 ];
                 if (!(operationOutcome['details']) || !(operationOutcome['details']['text'])) {
                     operationOutcome['details'] = {
                         text: ''
                     };
                 }
-                operationOutcome['details']['text'] = operationOutcome['details']['text'] + ',' + JSON.stringify(resourceToMerge);
+                operationOutcome['details']['text'] = operationOutcome['details']['text'] + ',' + JSON.stringify(resource);
 
                 await sendToS3('validation_failures',
-                    resourceToMerge.resourceType,
-                    resourceToMerge,
+                    resource.resourceType,
+                    resource,
                     currentDate,
-                    id,
-                    'merge');
+                    resource.id,
+                    operation);
                 await sendToS3('validation_failures',
-                    resourceToMerge.resourceType,
+                    resource.resourceType,
                     operationOutcome,
                     currentDate,
-                    id,
-                    'merge_failure');
+                    resource.id,
+                    operation + '_failure');
                 return {
-                    id: id,
+                    id: resource.id,
                     created: false,
                     updated: false,
                     issue: (operationOutcome.issue && operationOutcome.issue.length > 0) ? operationOutcome.issue[0] : null,
@@ -1438,9 +1436,11 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
             }
             logDebug(req.user, '-----------------');
         }
+    }
 
+    async function validateResourceAccess(resource, operation) {
         if (env.CHECK_ACCESS_TAG_ON_SAVE === '1') {
-            if (!doesResourceHaveAccessTags(resourceToMerge)) {
+            if (!doesResourceHaveAccessTags(resource)) {
                 const operationOutcome = {
                     resourceType: 'OperationOutcome',
                     issue: [
@@ -1448,17 +1448,17 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                             severity: 'error',
                             code: 'exception',
                             details: {
-                                text: 'Error merging: ' + JSON.stringify(resourceToMerge)
+                                text: 'Error with operation ' + operation + ': ' + JSON.stringify(resource)
                             },
                             diagnostics: 'Resource is missing a meta.security tag with system: https://www.icanbwell.com/access',
                             expression: [
-                                resourceToMerge.resourceType + '/' + id
+                                resource.resourceType + '/' + resource.id
                             ]
                         }
                     ]
                 };
                 return {
-                    id: id,
+                    id: resource.id,
                     created: false,
                     updated: false,
                     issue: (operationOutcome.issue && operationOutcome.issue.length > 0) ? operationOutcome.issue[0] : null,
@@ -1466,12 +1466,39 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                 };
             }
         }
-
-        return false;
     }
 
-    async function performMergeDbUpdate(resourceToMerge, doc, cleaned) {
-        let id = resourceToMerge.id;
+    async function preMergeChecks(resourceToMerge) {
+        const resourceTypeFailures = await validateResourceType(resourceToMerge, 'merge');
+        if (resourceTypeFailures) {
+            return resourceTypeFailures;
+        }
+
+        /**
+         * @type {string[]}
+         */
+        const combinedArgs = get_all_args(req, args);
+        const authFailures = await validateAuth(resourceToMerge, 'merge');
+        if (authFailures) {
+            return authFailures;
+        }
+
+        const schemaValidationFailures = await validateResourceSchema(resourceToMerge, combinedArgs, 'merge');
+        if (schemaValidationFailures) {
+            return schemaValidationFailures;
+        }
+
+        const accessValidationFailures = await validateResourceAccess(resourceToMerge, 'merge');
+        if (accessValidationFailures) {
+            return accessValidationFailures;
+        }
+    }
+
+    async function writeMergedDoc(id, doc, cleaned) {
+        // Insert/update our resource record
+        // When using the $set operator, only the specified fields are updated
+
+        // Grab an instance of our DB and collection
         /**
          * @type {Db}
          */
@@ -1479,9 +1506,8 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
         /**
          * @type {Collection}
          */
-        let collection = db.collection(`${resourceToMerge.resourceType}_${base_version}`);
-        // Insert/update our resource record
-        // When using the $set operator, only the specified fields are updated
+        let collection = db.collection(`${collection_name}_${base_version}`);
+
         /**
          * @type {Object}
          */
@@ -1511,8 +1537,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
         };
     }
 
-    async function mergeExisting(resourceToMerge, data) {
-        let id = resourceToMerge.id;
+    async function mergeUpdate(resourceToMerge, data) {
         // create a resource with incoming data
         /**
          * @type {function({Object}):Resource}
@@ -1528,6 +1553,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
         logDebug(req.user, '------ found document --------');
         logDebug(req.user, data);
         logDebug(req.user, '------ end found document --------');
+
         // use metadata of existing resource (overwrite any passed in metadata)
         if (!resourceToMerge.meta) {
             resourceToMerge.meta = {};
@@ -1554,7 +1580,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
         if (deepEqual(my_data, resourceToMerge) === true) {
             logDebug(req.user, 'No changes detected in updated resource');
             return {
-                id: id,
+                id: resourceToMerge.id,
                 created: false,
                 updated: false,
                 resource_version: foundResource.meta.versionId,
@@ -1563,7 +1589,6 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
         }
 
         let mergeObjectOrArray;
-
         /**
          * @type {{customMerge: (function(*): *)}}
          */
@@ -1581,10 +1606,6 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
          * @return {?Object | Object[]}
          */
         mergeObjectOrArray = (oldItem, newItem) => {
-            logDebug('adhMergeDebug - typeof oldItem', typeof oldItem);
-            logDebug('adhMergeDebug - typeof newItem', typeof newItem);
-            logDebug('adhMergeDebug - oldItem', JSON.stringify(oldItem));
-            logDebug('adhMergeDebug - newItem', JSON.stringify(oldItem));
             if (deepEqual(oldItem, newItem)) {
                 return oldItem;
             }
@@ -1674,14 +1695,14 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
         /**
          * @type {Object}
          */
-        let resource_merged = deepmerge(data, resourceToMerge, options);
+        let resourceMerged = deepmerge(data, resourceToMerge, options);
 
         // now create a patch between the document in db and the incoming document
         //  this returns an array of patches
         /**
          * @type {Operation[]}
          */
-        let patchContent = compare(data, resource_merged);
+        let patchContent = compare(data, resourceMerged);
         // ignore any changes to _id since that's an internal field
         patchContent = patchContent.filter(item => item.path !== '/_id');
         logDebug(req.user, '------ patches --------');
@@ -1691,7 +1712,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
         if (patchContent.length === 0) {
             logDebug(req.user, 'No changes detected in updated resource');
             return {
-                id: id,
+                id: resourceToMerge.id,
                 created: false,
                 updated: false,
                 resource_version: foundResource.meta.versionId,
@@ -1701,9 +1722,9 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
         if (!(isAccessToResourceAllowedBySecurityTags(foundResource, req))) {
             throw new ForbiddenError(
                 'user ' + req.user + ' with scopes [' + req.authInfo.scope + '] has no access to resource ' +
-                foundResource.resourceType + ' with id ' + id);
+                foundResource.resourceType + ' with id ' + resourceToMerge.id);
         }
-        logRequest(req.user, `${resourceToMerge.resourceType} >>> merging ${id}`);
+        logRequest(req.user, `${resourceToMerge.resourceType} >>> merging ${resourceToMerge.id}`);
         // now apply the patches to the found resource
         // noinspection JSCheckFunctionSignatures
         /**
@@ -1730,7 +1751,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
         // Same as update from this point on
         const cleaned = JSON.parse(JSON.stringify(patched_resource_incoming));
         check_fhir_mismatch(cleaned, patched_incoming_data);
-        const doc = Object.assign(cleaned, {_id: id});
+        const doc = Object.assign(cleaned, {_id: resourceToMerge.id});
         if (env.LOG_ALL_MERGES) {
             await sendToS3('logs',
                 resourceToMerge.resourceType,
@@ -1741,14 +1762,14 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                     'after': doc
                 },
                 currentDate,
-                id,
+                resourceToMerge.id,
                 'merge_' + meta.versionId + '_' + requestId);
         }
-        return await performMergeDbUpdate(resourceToMerge, doc, cleaned);
+
+        return await writeMergedDoc(resourceToMerge.id, doc, cleaned, collection_name);
     }
 
     async function mergeInsert(resourceToMerge) {
-        let id = resourceToMerge.id;
         // not found so insert
         logDebug(req.user,
             resourceToMerge.resourceType +
@@ -1778,43 +1799,77 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
         }
 
         const cleaned = JSON.parse(JSON.stringify(resourceToMerge));
-        const doc = Object.assign(cleaned, {_id: id});
+        const doc = Object.assign(cleaned, {_id: resourceToMerge.id});
+        return await writeMergedDoc(resourceToMerge.id, doc, cleaned, collection_name);
+    }
 
-        return await performMergeDbUpdate(resourceToMerge, doc, cleaned);
+    async function handleMergeException(e, resourceToMerge) {
+        const id = resourceToMerge.id;
+        logger.error(`Error with merging resource ${resourceToMerge.resourceType}.merge with id: ${id} `, e);
+        const operationOutcome = {
+            resourceType: 'OperationOutcome',
+            issue: [
+                {
+                    severity: 'error',
+                    code: 'exception',
+                    details: {
+                        text: 'Error merging: ' + JSON.stringify(resourceToMerge)
+                    },
+                    diagnostics: e.toString(),
+                    expression: [
+                        resourceToMerge.resourceType + '/' + id
+                    ]
+                }
+            ]
+        };
+        await sendToS3('errors',
+            resourceToMerge.resourceType,
+            resourceToMerge,
+            currentDate,
+            id,
+            'merge');
+        await sendToS3('errors',
+            resourceToMerge.resourceType,
+            operationOutcome,
+            currentDate,
+            id,
+            'merge_error');
+        return {
+            id: id,
+            created: false,
+            updated: false,
+            issue: (operationOutcome.issue && operationOutcome.issue.length > 0) ? operationOutcome.issue[0] : null,
+            operationOutcome: operationOutcome
+        };
     }
 
     // this function is called for each resource
     // returns an OperationOutcome
     /**
      * Merges a single resource
-     * @param {Object} resource_to_merge
+     * @param {Object} resourceToMerge
      * @return {Promise<{operationOutcome: ?OperationOutcome, issue: {severity: string, diagnostics: string, code: string, expression: [string], details: {text: string}}, created: boolean, id: String, updated: boolean}>}
      */
-    async function merge_resource(resource_to_merge) {
-        /**
-         * @type {String}
-         */
-        let id = resource_to_merge.id;
+    async function merge_resource(resourceToMerge) {
+        const preMergeCheckFailures = await preMergeChecks(resourceToMerge);
+        if (preMergeCheckFailures) {
+            return preMergeCheckFailures;
+        }
 
         if (env.LOG_ALL_SAVES) {
             await sendToS3('logs',
-                resource_to_merge.resourceType,
-                resource_to_merge,
+                resourceToMerge.resourceType,
+                resourceToMerge,
                 currentDate,
-                id,
+                resourceToMerge.id,
                 'merge_' + requestId);
-        }
-
-        const preMergeCheckFailures = await preMergeChecks(resource_to_merge);
-        if (preMergeCheckFailures) {
-            return preMergeCheckFailures;
         }
 
         try {
             logDebug(req.user, '-----------------');
             logDebug(req.user, base_version);
             logDebug(req.user, '--- body ----');
-            logDebug(req.user, resource_to_merge);
+            logDebug(req.user, resourceToMerge);
 
             // Grab an instance of our DB and collection
             /**
@@ -1824,67 +1879,27 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
             /**
              * @type {Collection}
              */
-            let collection = db.collection(`${resource_to_merge.resourceType}_${base_version}`);
+            let collection = db.collection(`${resourceToMerge.resourceType}_${base_version}`);
 
             // Query our collection for this id
             /**
              * @type {Object}
              */
-            let data = await collection.findOne({id: id.toString()});
+            let data = await collection.findOne({id: resourceToMerge.id.toString()});
 
-            logDebug('test?', '------- data -------');
-            logDebug('test?', `${resource_to_merge.resourceType}_${base_version}`);
-            logDebug('test?', data);
-            logDebug('test?', '------- end data -------');
-
-            let res;
-
-            // check if resource was found in database or not
+            // If we found a matching resource in the db, we need to do an update. If not, we can just insert the
+            // given record.
             // noinspection JSUnusedLocalSymbols
             if (data && data.meta) {
-                res = await mergeExisting(resource_to_merge, data);
+                const mergeUpdateResult = await mergeUpdate(resourceToMerge, data, collection_name);
+                return mergeUpdateResult;
             } else {
-                res = await mergeInsert(resource_to_merge);
+                const mergeInsertResult = await mergeInsert(resourceToMerge, collection_name);
+                return mergeInsertResult;
             }
-
-            return res;
         } catch (e) {
-            logger.error(`Error with merging resource ${resource_to_merge.resourceType}.merge with id: ${id} `, e);
-            const operationOutcome = {
-                resourceType: 'OperationOutcome',
-                issue: [
-                    {
-                        severity: 'error',
-                        code: 'exception',
-                        details: {
-                            text: 'Error merging: ' + JSON.stringify(resource_to_merge)
-                        },
-                        diagnostics: e.toString(),
-                        expression: [
-                            resource_to_merge.resourceType + '/' + id
-                        ]
-                    }
-                ]
-            };
-            await sendToS3('errors',
-                resource_to_merge.resourceType,
-                resource_to_merge,
-                currentDate,
-                id,
-                'merge');
-            await sendToS3('errors',
-                resource_to_merge.resourceType,
-                operationOutcome,
-                currentDate,
-                id,
-                'merge_error');
-            return {
-                id: id,
-                created: false,
-                updated: false,
-                issue: (operationOutcome.issue && operationOutcome.issue.length > 0) ? operationOutcome.issue[0] : null,
-                operationOutcome: operationOutcome
-            };
+            const exceptionResult = await handleMergeException(e, resourceToMerge);
+            return exceptionResult;
         }
     }
 
