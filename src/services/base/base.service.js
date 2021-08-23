@@ -1520,7 +1520,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
         let Resource = getResource(base_version, resourceToMerge.resourceType);
 
         // found an existing resource
-        logDebug(req.user, resourceToMerge.resourceType + ': merge found resource ' + '[' + data.id + ']: ' + data);
+        logDebug(req.user, resourceToMerge.resourceType + ': merge found resource ' + '[' + data.id + ']: ' + JSON.stringify(data));
         /**
          * @type {Resource}
          */
@@ -1581,10 +1581,6 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
          * @return {?Object | Object[]}
          */
         mergeObjectOrArray = (oldItem, newItem) => {
-            logDebug('adhMergeDebug - typeof oldItem', typeof oldItem);
-            logDebug('adhMergeDebug - typeof newItem', typeof newItem);
-            logDebug('adhMergeDebug - oldItem', JSON.stringify(oldItem));
-            logDebug('adhMergeDebug - newItem', JSON.stringify(newItem));
             if (deepEqual(oldItem, newItem)) {
                 return oldItem;
             }
@@ -1599,9 +1595,14 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                      * @type {Object}
                      */
                     let my_item = newItem[`${i}`];
+
+                    if (my_item === null) {
+                        continue;
+                    }
+
                     // if newItem[i] does not matches any item in oldItem then insert
                     if (oldItem.every(a => deepEqual(a, my_item) === false)) {
-                        if ('id' in my_item) {
+                        if (typeof my_item === 'object' && my_item !== null && 'id' in my_item) {
                             // find item in oldItem array that matches this one by id
                             /**
                              * @type {number}
@@ -1618,7 +1619,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                             }
                         }
                         // insert based on sequence if present
-                        if ('sequence' in my_item) {
+                        if (typeof my_item === 'object' && my_item !== null && 'sequence' in my_item) {
                             /**
                              * @type {Object[]}
                              */
