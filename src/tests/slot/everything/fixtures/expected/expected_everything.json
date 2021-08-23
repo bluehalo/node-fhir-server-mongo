@@ -30,7 +30,7 @@
           }
         ],
         "schedule": {
-          "reference": "Schedule/1275501447-UHG-MMMA"
+          "reference": "#Schedule/1275501447-UHG-MMMA"
         },
         "start": "2021-11-04T14:00:00.000+08:00",
         "end": "2021-11-04T14:00:00.000+08:00"

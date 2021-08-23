@@ -2350,18 +2350,16 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
      * @param {Db} db
      * @param {string} collectionName
      * @param {string} base_version
-     * @param {Resource} parent parent entity
      * @param {string} host
-     * @param {string} property name of property to link
+     * @param {string} relatedResourceProperty property to link
      * @param {string | null} filterProperty (Optional) filter the sublist by this property
      * @param {*} filterValue (Optional) match filterProperty to this value
      * @return {Promise<[{resource: Resource, fullUrl: string}]|*[]>}
      */
-    async function get_related_resources(db, collectionName, base_version, parent, host, property, filterProperty, filterValue) {
+    async function get_related_resources(db, collectionName, base_version, host, relatedResourceProperty, filterProperty, filterValue) {
         const collection = db.collection(`${collectionName}_${base_version}`);
         const RelatedResource = getResource(base_version, collectionName);
         // eslint-disable-next-line security/detect-object-injection
-        let relatedResourceProperty = parent[property];
         /**
          * entries
          * @type {[{resource: Resource, fullUrl: string}]}
@@ -2529,14 +2527,26 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
                                  */
                                 let parentEntityProperty = parentEntity;
                                 for (const propertyName of property_split) {
+                                    let resultParentEntityProperty = [];
                                     if (parentEntityProperty) {
-                                        if (Array.isArray(parentEntityProperty)) {
-                                            parentEntityProperty = parentEntityProperty[0];
+                                        parentEntityProperty = (
+                                            Array.isArray(parentEntityProperty)
+                                            ? parentEntityProperty
+                                            : [parentEntityProperty]
+                                        );
+                                        for (const entity of parentEntityProperty) {
+                                            if (entity[propertyName]) {
+                                                if (Array.isArray(entity[propertyName])) {
+                                                    resultParentEntityProperty = resultParentEntityProperty.concat(entity[propertyName]);
+                                                }
+                                                else {
+                                                    resultParentEntityProperty.push(entity[propertyName]);
+                                                }
+                                            }
                                         }
-                                        if (parentEntityProperty) {
-                                            // eslint-disable-next-line security/detect-object-injection
-                                            parentEntityProperty = parentEntityProperty[propertyName];
-                                        }
+                                        parentEntityProperty = resultParentEntityProperty;
+                                    } else {
+                                        break;
                                     }
                                 }
                                 if (parentEntityProperty) {
@@ -2548,14 +2558,26 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
                                             // eslint-disable-next-line security/detect-object-injection
                                             .filter(e => e[filterProperty] === filterValue);
                                     }
-                                    for (const p of parentEntityProperty) {
-                                        // if no target specified then we don't write the resource but try to process the links
-                                        entries_for_current_link = entries_for_current_link.concat([
-                                            {
-                                                'resource': p,
-                                                'fullUrl': ''
-                                            }
-                                        ]);
+                                    if (link.target && link.target[0].link) {
+                                        for (const p of parentEntityProperty) {
+                                            // if no target specified then we don't write the resource but try to process the links
+                                            entries_for_current_link = entries_for_current_link.concat([
+                                                {
+                                                    'resource': p,
+                                                    'fullUrl': ''
+                                                }
+                                            ]);
+                                        }
+                                    } else {
+                                        entries_for_current_link = await get_related_resources(
+                                            db,
+                                            resourceType,
+                                            base_version,
+                                            host,
+                                            parentEntityProperty,
+                                            filterProperty,
+                                            filterValue
+                                        );
                                     }
                                 }
                             } else {
@@ -2564,9 +2586,8 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
                                     db,
                                     resourceType,
                                     base_version,
-                                    parentEntity,
                                     host,
-                                    property,
+                                    parentEntity[property],
                                     filterProperty,
                                     filterValue
                                 );
@@ -2604,6 +2625,22 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
             return entries;
         }
 
+        /**
+         * prepends # character in references
+         * @param {Resource} parent_entity
+         * @param {[reference:string]} linkReferences
+         * @return {Promise<[{resource: Resource, fullUrl: string}]>}
+         */
+        async function processReferences(parent_entity, linkReferences) {
+            if (parent_entity) {
+                for (const link_reference of linkReferences) {
+                    let re = new RegExp('\\b' + link_reference + '\\b', 'g');
+                    parent_entity = JSON.parse(JSON.stringify(parent_entity).replace(re, '#'.concat(link_reference)));
+                }
+            }
+            return parent_entity;
+        }
+
         async function processSingleId(id1) {
             /**
              * @type {[{resource: Resource, fullUrl: string}]}
@@ -2613,7 +2650,7 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
 
             if (start_entry) {
                 // first add this object
-                const current_entity = {
+                var current_entity = {
                     'fullUrl': `https://${host}/${base_version}/${start_entry.resourceType}/${start_entry.id}`,
                     'resource': new StartResource(start_entry)
                 };
@@ -2623,6 +2660,11 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
                  * @type {[{resource: Resource, fullUrl: string}]}
                  */
                 const related_entries = await processGraphLinks(start_entry, linkItems);
+                const related_references = [];
+                for (const related_item of related_entries) {
+                    related_references.push(related_item['resource']['resourceType'].concat('/', related_item['resource']['id']));
+                }
+                current_entity = await processReferences(current_entity, related_references);
                 if (contained) {
                     /**
                      * @type {Resource[]}
