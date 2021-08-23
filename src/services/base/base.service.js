@@ -1595,9 +1595,14 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                      * @type {Object}
                      */
                     let my_item = newItem[`${i}`];
+
+                    if (my_item === null) {
+                        continue;
+                    }
+
                     // if newItem[i] does not matches any item in oldItem then insert
                     if (oldItem.every(a => deepEqual(a, my_item) === false)) {
-                        if (typeof my_item === 'object' && 'id' in my_item) {
+                        if (typeof my_item === 'object' && my_item !== null && 'id' in my_item) {
                             // find item in oldItem array that matches this one by id
                             /**
                              * @type {number}
@@ -1614,7 +1619,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                             }
                         }
                         // insert based on sequence if present
-                        if (typeof my_item === 'object' && 'sequence' in my_item) {
+                        if (typeof my_item === 'object' && my_item !== null && 'sequence' in my_item) {
                             /**
                              * @type {Object[]}
                              */
