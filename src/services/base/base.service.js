@@ -1584,7 +1584,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
             logDebug('adhMergeDebug - typeof oldItem', typeof oldItem);
             logDebug('adhMergeDebug - typeof newItem', typeof newItem);
             logDebug('adhMergeDebug - oldItem', JSON.stringify(oldItem));
-            logDebug('adhMergeDebug - newItem', JSON.stringify(oldItem));
+            logDebug('adhMergeDebug - newItem', JSON.stringify(newItem));
             if (deepEqual(oldItem, newItem)) {
                 return oldItem;
             }
