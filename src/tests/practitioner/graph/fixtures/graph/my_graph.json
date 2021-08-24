@@ -1,0 +1,17 @@
+{
+  "resourceType": "GraphDefinition",
+  "id": "o",
+  "name": "practitioner_references",
+  "status": "active",
+  "start": "Practitioner",
+  "link": [
+    {
+      "path": "qualification[x].issuer",
+      "target": [
+        {
+          "type": "Organization"
+        }
+      ]
+    }
+  ]
+}

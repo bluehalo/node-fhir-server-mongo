@@ -2462,9 +2462,10 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
      * @param {string | string[]} id (accepts a single id or a list of ids)
      * @param {*} graphDefinitionJson (a GraphDefinition resource)
      * @param {boolean} contained
+     * @param {boolean} hash_references
      * @return {Promise<{entry: [{resource: Resource, fullUrl: string}], id: string, resourceType: string}|{entry: *[], id: string, resourceType: string}>}
      */
-    async function processGraph(db, base_version, host, id, graphDefinitionJson, contained) {
+    async function processGraph(db, base_version, host, id, graphDefinitionJson, contained, hash_references) {
         const GraphDefinitionResource = getResource(base_version, 'GraphDefinition');
         const graphDefinition = new GraphDefinitionResource(graphDefinitionJson);
         // first get the top level object
@@ -2660,11 +2661,16 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
                  * @type {[{resource: Resource, fullUrl: string}]}
                  */
                 const related_entries = await processGraphLinks(start_entry, linkItems);
-                const related_references = [];
-                for (const related_item of related_entries) {
-                    related_references.push(related_item['resource']['resourceType'].concat('/', related_item['resource']['id']));
+                if (env.HASH_REFERENCE || hash_references) {
+                    /**
+                     * @type {function({Object}):Resource}
+                     */
+                    const related_references = [];
+                    for (const related_item of related_entries) {
+                        related_references.push(related_item['resource']['resourceType'].concat('/', related_item['resource']['id']));
+                    }
+                    current_entity = await processReferences(current_entity, related_references);
                 }
-                current_entity = await processReferences(current_entity, related_references);
                 if (contained) {
                     /**
                      * @type {Resource[]}
@@ -2733,6 +2739,7 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
          * @type {boolean}
          */
         const contained = isTrue(combined_args['contained']);
+        const hash_references = isTrue(combined_args['_hash_references']);
         // Grab an instance of our DB and collection
         let db = globals.get(CLIENT_DB);
         // get GraphDefinition from body
@@ -2750,7 +2757,8 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
             host,
             id,
             graphDefinitionRaw,
-            contained
+            contained,
+            hash_references
         );
         // const operationOutcomeResult = validateResource(result, 'Bundle', req.path);
         // if (operationOutcomeResult && operationOutcomeResult.statusCode === 400) {
