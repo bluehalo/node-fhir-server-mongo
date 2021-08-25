@@ -23,6 +23,7 @@ services:
       CHECK_ACCESS_TAG_ON_SAVE: 1
       RENDER_HTML: 1
       REDIRECT_TO_LOGIN: 1
+#      HASH_REFERENCE: 1
 #      RETURN_BUNDLE: "1"
     ports:
       - '3000:3000'
