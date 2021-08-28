@@ -15,6 +15,10 @@ const htmlRenderer = (req, res, next) => {
                 // const myReq = req;
                 let parsedData = JSON.parse(JSON.stringify(data));
                 // console.log(parsedData); // do something with the data
+                let total = 0;
+                if (parsedData.total) {
+                    total = parsedData.total;
+                }
                 if (parsedData.entry) {
                     parsedData = parsedData.entry.map((entry) => entry.resource);
                 } else if (!Array.isArray(parsedData)) {
@@ -25,11 +29,20 @@ const htmlRenderer = (req, res, next) => {
                 res.set('Content-Type', 'text/html');
                 // This is so we can include the bootstrap css from CDN
                 res.set('Content-Security-Policy', "style-src 'self' stackpath.bootstrapcdn.com;");
+                res.set('Cache-Control', 'no-cache, no-store, must-revalidate'); // HTTP 1.1.
+                res.set('Pragma', 'no-cache'); // HTTP 1.0.
+                res.set('Expires', '0'); // Proxies.
                 // console.log('resource: ' + resourceName);
                 const env = require('var');
 
                 const customViews = ['patient', 'practitioner', 'practitionerrole', 'location', 'organization', 'explanationofbenefit'];
-                const options = {resources: parsedData, url: req.url, idpUrl: env.AUTH_CODE_FLOW_URL, clientId: env.AUTH_CODE_FLOW_CLIENT_ID};
+                const options = {
+                    resources: parsedData,
+                    url: req.url,
+                    idpUrl: env.AUTH_CODE_FLOW_URL,
+                    clientId: env.AUTH_CODE_FLOW_CLIENT_ID,
+                    total: total
+                };
                 if (customViews.includes(resourceName)) {
                     return res.render(__dirname + '/../views/pages/' + resourceName, options);
                 } else {

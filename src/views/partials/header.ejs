@@ -1,12 +1,13 @@
-<% if (resources.length > 1) { %>
+<%- include('../partials/nav'); %>
 <nav className="navbar navbar-expand-lg navbar-light bg-light">
-    <a className="navbar-brand" href="/">Resources In Current Page (<%= resources.length %>)</a>
-    <ul className="navbar-nav mr-auto">
+    <% if (total > 0) { %>
+    <a className="navbar-brand" href="/">Resources (<%= resources.length %> out of <%= total %> total): </a>
+    <% } else { %>
+    <a className="navbar-brand" href="/">Resources (<%= resources.length %>): </a>
+    <%}%>
+<% if (resources.length > 0) { %>
     <% resources.forEach(function(res){ %>
-        <li className="nav-item">
-            <a className="nav-link" href="#<%= res.id %>"><%= res.id %></a>
-        </li>
+        <a className="nav-link" href="#<%= res.id %>"><%= res.id %></a>&nbsp;&nbsp;
     <%})%>
-    </ul>
-</nav>
 <%}%>
+</nav>

@@ -94,9 +94,10 @@ app.use(function (req, res, next) {
 
 const swaggerUi = require('swagger-ui-express');
 // eslint-disable-next-line security/detect-non-literal-require
-var swaggerDocument = require(env.SWAGGER_CONFIG_URL);
+const swaggerDocument = require(env.SWAGGER_CONFIG_URL);
 
-var options = {
+// noinspection SpellCheckingInspection
+const options = {
     explorer: true,
     swaggerOptions: {
         oauth2RedirectUrl: env.HOST_SERVER + '/api-docs/oauth2-redirect.html',
@@ -120,8 +121,8 @@ app.get('/authcallback', (req, res) => {
 });
 
 app.get('/fhir', (req, res) => {
-    var resourceUrl = req.query.resource;
-    var redirectUrl = `${env.AUTH_CODE_FLOW_URL}/login?response_type=code&client_id=${env.AUTH_CODE_FLOW_CLIENT_ID}&redirect_uri=${env.HOST_SERVER}/authcallback&state=${resourceUrl}`;
+    const resourceUrl = req.query.resource;
+    const redirectUrl = `${env.AUTH_CODE_FLOW_URL}/login?response_type=code&client_id=${env.AUTH_CODE_FLOW_CLIENT_ID}&redirect_uri=${env.HOST_SERVER}/authcallback&state=${resourceUrl}`;
     res.redirect(redirectUrl);
 });
 
@@ -133,6 +134,11 @@ app.get('/version', (req, res) => {
     } else {
         return res.json({version: 'unknown', image: 'unknown'});
     }
+});
+app.get('/logout', (req, res) => {
+    res.writeHead(200, {'Content-Type': 'text/html'});
+    res.write('<html><head></head><body>Logout Successful</body></html>');
+    res.end();
 });
 
 app.get('/clean/:collection?', async (req, res) => {
