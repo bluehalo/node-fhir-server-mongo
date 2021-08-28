@@ -107,7 +107,7 @@ describe('PractitionerReturnIdTests', () => {
                                 return cb(err, resp);
                             }),
                     (results, cb) => request
-                        .get('/4_0_0/Practitioner?_elements=id&_bundle=true')
+                        .get('/4_0_0/Practitioner?_elements=id&_bundle=true&_total=accurate')
                                 .set(getHeaders())
                         .expect(200, cb)
                         .expect((resp) => {

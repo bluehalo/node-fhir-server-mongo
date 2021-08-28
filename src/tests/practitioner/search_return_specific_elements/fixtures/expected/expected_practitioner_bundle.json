@@ -8,5 +8,6 @@
     }
   ],
   "resourceType": "Bundle",
-  "type": "searchset"
+  "type": "searchset",
+  "total": 1
 }

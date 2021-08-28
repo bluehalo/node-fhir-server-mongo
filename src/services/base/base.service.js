@@ -783,6 +783,12 @@ module.exports.search = async (args, {req}, resource_name, collection_name) => {
      * @type {Cursor}
      */
     let cursor = await collection.find(query, options).maxTimeMS(maxMongoTimeMS);
+    let total_count = 0;
+    if (combined_args['_total'] && (['accurate', 'estimate'].includes(combined_args['_total']))) {
+        // https://www.hl7.org/fhir/search.html#total
+        // if _total is passed then calculate the total count for matching records also
+        total_count = await cursor.count();
+    }
     // noinspection JSUnfilteredForInLoop
     if (combined_args['_sort']) {
         // GET [base]/Observation?_sort=status,-date,category
@@ -890,7 +896,8 @@ module.exports.search = async (args, {req}, resource_name, collection_name) => {
         return new Bundle({
             type: 'searchset',
             timestamp: moment.utc().format('YYYY-MM-DDThh:mm:ss.sss') + 'Z',
-            entry: entries
+            entry: entries,
+            total: total_count
         });
     } else {
         return resources;
@@ -2538,15 +2545,14 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
                                     if (parentEntityProperty) {
                                         parentEntityProperty = (
                                             Array.isArray(parentEntityProperty)
-                                            ? parentEntityProperty
-                                            : [parentEntityProperty]
+                                                ? parentEntityProperty
+                                                : [parentEntityProperty]
                                         );
                                         for (const entity of parentEntityProperty) {
                                             if (entity[propertyName]) {
                                                 if (Array.isArray(entity[propertyName])) {
                                                     resultParentEntityProperty = resultParentEntityProperty.concat(entity[propertyName]);
-                                                }
-                                                else {
+                                                } else {
                                                     resultParentEntityProperty.push(entity[propertyName]);
                                                 }
                                             }
