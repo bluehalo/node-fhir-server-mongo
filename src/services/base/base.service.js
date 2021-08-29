@@ -589,7 +589,7 @@ const get_all_args = (req, args) => {
 const check_fhir_mismatch = (cleaned, patched) => {
     if (deepEqual(cleaned, patched) === false) {
         let diff = compare(cleaned, patched);
-        logger.warn('Possible FHIR mismatch - ' + cleaned.resourceType + cleaned.id + ':' + cleaned.resourceType);
+        logger.warn('Possible FHIR mismatch between incoming resource and updated resource - ' + cleaned.resourceType + cleaned.id + ':' + cleaned.resourceType);
         logger.warn(diff);
     }
 };
@@ -1731,7 +1731,17 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
         meta.lastUpdated = moment.utc().format('YYYY-MM-DDTHH:mm:ssZ');
         // set the source from the incoming resource
         meta.source = original_source;
-        patched_resource_incoming.meta = meta;
+        // These properties are set automatically
+        patched_resource_incoming.meta.versionId = meta.versionId;
+        patched_resource_incoming.meta.lastUpdated = meta.lastUpdated;
+        // If not source is provided then use the source of the previous entity
+        if (!(patched_resource_incoming.meta.source)) {
+            patched_resource_incoming.meta.source = meta.source;
+        }
+        // If no security tags are provided then use the source of the previous entity
+        if (!(patched_resource_incoming.meta.security)) {
+            patched_resource_incoming.meta.security = meta.security;
+        }
         logDebug(req.user, '------ patched document --------');
         logDebug(req.user, patched_resource_incoming);
         logDebug(req.user, '------ end patched document --------');
