@@ -17,6 +17,7 @@ const async = require('async');
 const path = require('path');
 const useragent = require('express-useragent');
 const {htmlRenderer} = require('./middleware/htmlRenderer');
+const {slackErrorHandler} = require('./middleware/slackErrorHandler');
 
 const app = express();
 
@@ -79,10 +80,17 @@ class MyFHIRServer extends FHIRServer.Server {
         return this;
     }
 
+    configureSlackErrorHandler() {
+        if (env.SLACK_TOKEN) {
+            this.app.use(slackErrorHandler);
+        }
+        return this;
+    }
+
 }
 
 // const fhirApp = MyFHIRServer.initialize(fhirServerConfig);
-const fhirApp = new MyFHIRServer(fhirServerConfig).configureMiddleware().configureSession().configureHelmet().configurePassport().configureHtmlRenderer().setPublicDirectory().setProfileRoutes().setErrorRoutes();
+const fhirApp = new MyFHIRServer(fhirServerConfig).configureMiddleware().configureSession().configureHelmet().configurePassport().configureHtmlRenderer().setPublicDirectory().setProfileRoutes().configureSlackErrorHandler().setErrorRoutes();
 
 app.use(function (req, res, next) {
     res.setHeader(

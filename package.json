@@ -80,6 +80,7 @@
     "passport-jwt": "^4.0.0",
     "prom-client": "^13.2.0",
     "response-time": "^2.3.2",
+    "@slack/web-api": "^6.4.0",
     "snyk": "^1.679.0",
     "superagent": "^6.1.0",
     "swagger-ui-express": "^4.1.6",

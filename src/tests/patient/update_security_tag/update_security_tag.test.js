@@ -27,6 +27,8 @@ describe('PractitionerUpdateSecurityTagTests', () => {
         test('UpdateSecurityTag works', (done) => {
             const oldValue = env['CHECK_ACCESS_TAG_ON_SAVE'];
             env['CHECK_ACCESS_TAG_ON_SAVE'] = 0;
+            // env['SLACK_TOKEN'] = '';
+            // env['SLACK_CHANNEL'] = '#helix_pipeline_notifications_dev';
             async.waterfall([
                     (cb) => // first confirm there are no practitioners
                         request
