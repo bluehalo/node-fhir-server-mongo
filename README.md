@@ -14,5 +14,5 @@ For example:
 5. Added support for checking user/x.x and access/x.x scopes
 
 ## Cheat sheet
-[Cheatsheet](cheatseheet.md)
+[Cheatsheet](cheatsheet.md)
 
