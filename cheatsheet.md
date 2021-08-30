@@ -93,9 +93,9 @@ When you get no resources back then this means you've reached the end.
 | By ids or list of ids  | id=a,b | https://fhir.icanbwell.com/4_0_0/Practitioner?id=1194724047,546333  | All |  |
 | By name | name=Jordan | https://fhir.icanbwell.com/4_0_0/Practitioner?name=Jordan | Patient, Practitioner |  |
 | By family name | family=Jordan | https://fhir.icanbwell.com/4_0_0/Practitioner?family=Jordan | Patient, Practitioner |  |
-| By identifier | identifier=system&#124;value | https://fhir.icanbwell.com/4_0_0/Practitioner/?identifier=http://hl7.org/fhir/sid/us-npi&#124;1487831681 | All |  |
+| By identifier | identifier=system&#124;value | [https://fhir.icanbwell.com/4_0_0/Practitioner/?identifier=http://hl7.org/fhir/sid/us-npi&#124;1487831681](https://fhir.icanbwell.com/4_0_0/Practitioner/?identifier=http://hl7.org/fhir/sid/us-npi&#124;1487831681) | All |  |
 | By source |  source=url | https://fhir.icanbwell.com/4_0_0/Practitioner?source=http://somehealth.org/insurance  | All |  |
-| By security tag | _security=https://www.icanbwell.com/{access or owner or vendor}&#124;{value} | https://fhir.icanbwell.com/4_0_0/Organization?_security=https://www.icanbwell.com/access&#124;somehealth | All |  |
+| By security tag | _security=[https://www.icanbwell.com/{access/owner/vendor}&#124;{value}](https://www.icanbwell.com/{access/owner/vendor}&#124;{value}) | [https://fhir.icanbwell.com/4_0_0/Organization?_security=https://www.icanbwell.com/access&#124;somehealth](https://fhir.icanbwell.com/4_0_0/Organization?_security=https://www.icanbwell.com/access&#124;somehealth) | All |  |
 | By versionId | versionId=x | https://fhir.icanbwell.com/4_0_0/Practitioner?versionId=2 | All |  |
 | Updated after a datetime | _lastUpdated=gt{date} | https://fhir.icanbwell.com/4_0_0/QuestionnaireResponse?_lastUpdated=gt2021-01-18 | All |  |
 | Updated before a datetime | _lastUpdated=lt{date} | https://fhir.icanbwell.com/4_0_0/QuestionnaireResponse?_lastUpdated=lt2021-01-18 | All |  |
