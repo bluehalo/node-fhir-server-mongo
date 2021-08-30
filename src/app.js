@@ -81,7 +81,7 @@ class MyFHIRServer extends FHIRServer.Server {
     }
 
     configureSlackErrorHandler() {
-        if (env.SLACK_TOKEN) {
+        if (env.SLACK_TOKEN && env.SLACK_CHANNEL) {
             this.app.use(slackErrorHandler);
         }
         return this;
