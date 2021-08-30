@@ -1,10 +1,11 @@
 <%- include('../partials/nav'); %>
 <nav className="navbar navbar-expand-lg navbar-light bg-light">
-    <% if (total > 0) { %>
+    <img src="/helix.png" height="32px" />
+<% if (total > 0) { %>
     <a className="navbar-brand" href="/">Resources (<%= resources.length %> out of <%= total %> total): </a>
-    <% } else { %>
+<% } else { %>
     <a className="navbar-brand" href="/">Resources (<%= resources.length %>): </a>
-    <%}%>
+<%}%>
 <% if (resources.length > 0) { %>
     <% resources.forEach(function(res){ %>
         <a className="nav-link" href="#<%= res.id %>"><%= res.id %></a>&nbsp;&nbsp;

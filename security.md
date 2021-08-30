@@ -17,10 +17,10 @@ The b.well FHIR server implements the OAuth2 Client Credentials workflow (https:
 4. Caller calls OAuth server token url specified in well-known configuration and passes in their `client id` and `client secret`.
 5. OAuth server returns Access Token
 6. Caller calls the FHIR server passing the Access Token (e.g., https://fhir.icanbwell.com/4_0_0/Patient)
-7. FHIR Server decrypts and verifies the Access Token using the public keys from AWS Cognito.  It also checks the Access Token is not expired.
+7. FHIR Server decrypts and verifies the Access Token using the public keys from OAuth server.  It also checks the Access Token is not expired.
 8. Then we continue with the Authorization flow below
 
-Note: The Access Token expires so if the caller gets an `Unauthorized` error code on any call to the FHIR server they should get a new Access Token from AWS Cognito.
+Note: The Access Token expires so if the caller gets an `Unauthorized` error code on any call to the FHIR server they should get a new Access Token from OAuth Server.
 
 #### 2.2 Example Code
 Javascript:

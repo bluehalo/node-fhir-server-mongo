@@ -369,6 +369,11 @@ app.get('/.well-known/smart-configuration', (req, res) => {
     }
 });
 
+app.use('/favicon.ico', express.static('images/favicon.ico'));
+
+app.use('/helix.png', express.static('/images/helix.png'));
+
+app.use(express.static(path.join(__dirname, 'images')));
 
 app.use(fhirApp.app);
 
