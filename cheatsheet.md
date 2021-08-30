@@ -1,16 +1,67 @@
 # FHIR Server Cheatsheet
 
+## 0. Accessing FHIR Server
+You access FHIR server using REST API requests which are just standard HTTP calls (https://www.hl7.org/fhir/http.html).
+
+
+Typically, this is done via:
+1. A tool like Postman (https://www.postman.com/) to do the calls manually for testing
+2. A command line tool like curl (https://curl.se/)
+```shell
+curl --location --request GET 'https://fhir.icanbwell.com/4_0_0/Patient' \
+--header 'Authorization: Bearer {token here}' --header 'Content-Type: application/fhir+json'
+```
+3. Code in Javascript or Python or other programming language
+
+Javascript Example:
+```javascript
+var xhr = new XMLHttpRequest();
+xhr.withCredentials = true;
+
+xhr.addEventListener("readystatechange", function() {
+  if(this.readyState === 4) {
+    console.log(this.responseText);
+  }
+});
+
+xhr.open("GET", "https://fhir.icanbwell.com/4_0_0/Patient");
+xhr.setRequestHeader("Authorization", "Bearer {token here}");
+xhr.setRequestHeader("Content-Type", "application/fhir+json");
+
+xhr.send();
+```
+Python Example:
+```python
+import requests
+
+url = "https://fhir.icanbwell.com/4_0_0/Patient"
+
+payload={}
+headers = {
+    'Authorization': 'Bearer {token here}',
+    'Content-Type': 'application/fhir+json'
+}
+
+response = requests.request("GET", url, headers=headers, data=payload)
+
+print(response.text)
+
+```
 **Note:** Make sure you set `Content-Type: application/fhir+json` header in your HTTP call to the FHIR server.
 
 ## 1. Searching for Resources
 You can search for resources by going to the /4_0_0/{resource} url e.g., 
-https://fhir.prod-mstarvac.icanbwell.com/4_0_0/Patient
+https://fhir.icanbwell.com/4_0_0/Patient
+
+**Note**: The server will return only 10 records unless the _count query parameter is specified per below.
 
 ### 1.1 Specifying how many records to return
 Use the `_count` query parameter e.g., 
 https://fhir.icanbwell.com/4_0_0/Practitioner?_count=10
 
 The default is 10
+
+FHIR Specification: https://www.hl7.org/fhir/search.html#count
 
 ### 1.2 Select only specific fields from the resource
 Specify a comma separated list in `_elements` query parameter e.g.,
