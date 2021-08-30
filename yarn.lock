@@ -1423,6 +1423,11 @@
   dependencies:
     "debug" "^4.3.1"
 
+"@popperjs/core@^2.9.3":
+  "integrity" "sha512-xDu17cEfh7Kid/d95kB6tZsLOmSWKCZKtprnhVepjsSaCij+lM3mItSJDuuHDMbCWTh8Ejmebwb+KONcCJ0eXQ=="
+  "resolved" "https://registry.npmjs.org/@popperjs/core/-/core-2.9.3.tgz"
+  "version" "2.9.3"
+
 "@sentry/core@6.11.0":
   "integrity" "sha512-09TB+f3pqEq8LFahFWHO6I/4DxHo+NcS52OkbWMDqEi6oNZRD7PhPn3i14LfjsYVv3u3AESU8oxSEGbFrr2UjQ=="
   "resolved" "https://registry.npmjs.org/@sentry/core/-/core-6.11.0.tgz"
@@ -3060,6 +3065,11 @@
   "integrity" "sha512-RwywHlpCRc3/Wh81MiCKun4ydaIFyW5Ea6JbL6sRCVx5q5irDw7pMXBUFYF/jArQ6YrG36q0kpovc9P/Kd3I4g=="
   "resolved" "https://registry.npmjs.org/boolean/-/boolean-3.0.2.tgz"
   "version" "3.0.2"
+
+"bootstrap@^5.1.0":
+  "integrity" "sha512-bs74WNI9BgBo3cEovmdMHikSKoXnDgA6VQjJ7TyTotU6L7d41ZyCEEelPwkYEzsG/Zjv3ie9IE3EMAje0W9Xew=="
+  "resolved" "https://registry.npmjs.org/bootstrap/-/bootstrap-5.1.0.tgz"
+  "version" "5.1.0"
 
 "bottleneck@2.19.5":
   "integrity" "sha512-VHiNCbI1lKdl44tGrhNfU3lup0Tj/ZBMJB5/2ZbNXRCPuRCO7ed2mgcK4r17y+KB2EfuYuRaVlwNbAeaWGSpbw=="

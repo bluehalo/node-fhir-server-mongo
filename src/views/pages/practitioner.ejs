@@ -11,30 +11,36 @@
 </header>
 
 <main>
-  <div class="jumbotron">
-    <form class="form-inline">
-      <div class="form-group">
-        <label for="inputName">Name</label>
-        <input type="text" class="form-control" id="inputName" placeholder="Name">
-      </div>
-      <div class="form-group">
-        <label for="inputNpi">NPI</label>
-        <input type="text" class="form-control" id="inputNpi" placeholder="NPI">
-      </div>
-      <div class="form-group">
-        <label for="inputSource">Source</label>
-        <input type="text" class="form-control" id="inputSource" placeholder="Source">
-      </div>
-      <div class="form-group">
-        <label for="inputLastUpdatedGreaterThan">Updated After</label>
-        <input type="text" class="form-control" id="inputLastUpdatedGreaterThan" placeholder="2021-01-18">
-      </div>
-      <div class="form-group">
-        <label for="inputLastUpdatedLessThan">Updated Before</label>
-        <input type="text" class="form-control" id="inputLastUpdatedLessThan" placeholder="2021-01-18">
-      </div>
-      <button type="button" class="btn btn-default" onclick="search();">Search</button>
-    </form>
+  <div>
+      <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+        <form class="row g-3">
+          <div class="col-auto">
+            <label for="inputName" class="visually-hidden">Name</label>
+            <input type="text" class="form-control" id="inputName" placeholder="Name">
+          </div>
+          <div class="col-auto">
+            <label for="inputNpi" class="visually-hidden">NPI</label>
+            <input type="text" class="form-control" id="inputNpi" placeholder="NPI">
+          </div>
+          <div class="col-auto">
+            <label for="inputSource" class="visually-hidden">Source</label>
+            <input type="text" class="form-control" id="inputSource" placeholder="Source">
+          </div>
+          <div class="col-auto">
+            <label for="inputLastUpdatedGreaterThan" class="visually-hidden">Updated After</label>
+            <input type="text" class="form-control" id="inputLastUpdatedGreaterThan" placeholder="Updated After">
+          </div>
+          <div class="col-auto">
+            <label for="inputLastUpdatedLessThan" class="visually-hidden">Updated Before</label>
+            <input type="text" class="form-control" id="inputLastUpdatedLessThan" placeholder="Updated Before">
+          </div>
+          <div class="col-auto">
+            <button type="button" class="btn btn-primary mb-3" id="search" onclick="search();">Search</button>
+          </div>
+        </form>
+        </div>
+    </nav>
     <script>
         function search(){
             let url = "/4_0_0/Practitioner"

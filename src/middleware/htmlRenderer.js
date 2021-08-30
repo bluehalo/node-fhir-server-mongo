@@ -28,7 +28,7 @@ const htmlRenderer = (req, res, next) => {
                 // return res.json(data); // just call as normal with data
                 res.set('Content-Type', 'text/html');
                 // This is so we can include the bootstrap css from CDN
-                res.set('Content-Security-Policy', "style-src 'self' stackpath.bootstrapcdn.com;");
+                // res.set('Content-Security-Policy', "style-src 'self' stackpath.bootstrapcdn.com;");
                 res.set('Cache-Control', 'no-cache, no-store, must-revalidate'); // HTTP 1.1.
                 res.set('Pragma', 'no-cache'); // HTTP 1.0.
                 res.set('Expires', '0'); // Proxies.

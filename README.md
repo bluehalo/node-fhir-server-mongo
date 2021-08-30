@@ -12,6 +12,7 @@ For example:
 3. Added support for $graph endpoint
 4. Added support for authentication
 5. Added support for checking user/x.x and access/x.x scopes
+6. Provides a WebUI to explore the FHIR data using the web browser
 
 ## Cheat sheet
 [Cheatsheet](cheatsheet.md)
