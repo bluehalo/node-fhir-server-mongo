@@ -4,7 +4,7 @@
 
 Helix FHIR server supports the `well-known confiuration` feature so you can get the token-url from the FHIR server.  (The helix fhir client sdk   does this automatically)
 
-https://fhir-auth.dev.bwell.zone/.well-known/smart-configuration
+https://fhir.icanbwell.com/.well-known/smart-configuration
 
 ### 2. Authentication
 
@@ -14,9 +14,9 @@ The b.well FHIR server implements the OAuth2 Client Credentials workflow (https:
 1. Caller calls the FHIR server without Access Token
 2. FHIR server returns `Unauthorized` error code
 3. (Note: Step 1 & 2 can be skipped by the caller by acquiring an access token before calling the FHIR server)
-4. Caller calls OAuth server token url specified in well-known configuration (e.g., https://staging-icanbwell.auth.us-east-1.amazoncognito.com/oauth2/token) and passes in their `client id` and `client secret`.
+4. Caller calls OAuth server token url specified in well-known configuration and passes in their `client id` and `client secret`.
 5. OAuth server returns Access Token
-6. Caller calls the FHIR server passing the Access Token (e.g., https://fhir.staging.bwell.zone/4_0_0/Patient)
+6. Caller calls the FHIR server passing the Access Token (e.g., https://fhir.icanbwell.com/4_0_0/Patient)
 7. FHIR Server decrypts and verifies the Access Token using the public keys from AWS Cognito.  It also checks the Access Token is not expired.
 8. Then we continue with the Authorization flow below
 
@@ -45,6 +45,9 @@ request(options, function (error, response) {
   console.log(response.body);
 });
 ```
+Python:
+
+We recommend using the FHIR Client SDK: https://github.com/icanbwell/helix.fhir.client.sdk
 
 ### 3. Authorization
 The b.well FHIR server implements the SMART on FHIR authorization workflow: http://www.hl7.org/fhir/smart-app-launch/scopes-and-launch-context/index.html
@@ -63,7 +66,7 @@ Javascript:
 var request = require('request');
 var options = {
   'method': 'GET',
-  'url': 'https://fhir-testing.prod-mstarvac.icanbwell.com/4_0_0/Patient',
+  'url': 'https://fhir.icanbwell.com/4_0_0/Patient',
   'headers': {
     'Authorization': 'Bearer [put access token from above here]'
   }
@@ -73,6 +76,9 @@ request(options, function (error, response) {
   console.log(response.body);
 });
 ```
+Python:
+
+We recommend using the FHIR Client SDK: https://github.com/icanbwell/helix.fhir.client.sdk
 
 ### 4. Access Control
 FHIR Server has two mechanisms to control access:
@@ -100,7 +106,7 @@ In addition we support wildcard scopes e.g., user/*.* or user/*.read.  The forme
 
 In addition to giving users permissions to access resources, we can also control what data in those resources the user can access.  All resources in the b.well FHIR server must specify access tags. 
 
-The FHIR server looks for scopes that start with “access/”.  These are in the form access/<access code>.* e.g., access/medstar.*  This scope grants the user access to resources where the security access tag is set to medstar.
+The FHIR server looks for scopes that start with “access/”.  These are in the form access/<access code>.* e.g., access/somehealth.*  This scope grants the user access to resources where the security access tag is set to somehealth.
 
 A user can have multiple access scopes and they will have permission to resources that match EITHER access code.
 
@@ -113,13 +119,13 @@ Note that the final access for a user is a combination of both of the above meth
 ##### 4.4.1 Example 1
 A user has scopes:
 ```
-user/Practitioner.read user/Practitioner.write user/Organization.read access/medstar access/thedacare
+user/Practitioner.read user/Practitioner.write user/Organization.read access/somehealth access/goodhealth
 ``` 
 
 This means:
 1. User can read Practitioner and Organization resources
 2. User can write to Practitioner resource only
-3. When reading or writing, the user can access any resource where the security access tag is medstar or thedacare only
+3. When reading or writing, the user can access any resource where the security access tag is somehealth or goodhealth only
 
  
 

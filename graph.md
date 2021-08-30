@@ -185,6 +185,6 @@ This means return extensions where url property is equal to “plan”.
 By default, the FHIR returns all the related resources in the top level bundle.  
 However if you pass in the `contained` query parameter then the FHIR server will put the related resources in a `contained` field under each resource.
 
-For example: https://fhir.dev.bwell.zone/4_0_0/Organization/$graph?id=733797173,1234&contained=true
+For example: https://fhir.icanbwell.com/4_0_0/Organization/$graph?id=733797173,1234&contained=true
 
 FHIR Specification: https://www.hl7.org/fhir/references.html#contained
