@@ -1,6 +1,6 @@
 <%- include('../partials/nav'); %>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container-fluid">
+  <div class="container">
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item">
@@ -13,7 +13,7 @@
     <% if (resources.length > 0) { %>
         <% resources.forEach(function(res){ %>
         <li class="nav-item">
-            <a class="nav-link" href="#<%= res.id %>"><%= res.id %></a>
+            <a class="nav-link  text-truncate" href="#<%= res.id %>" style="max-width: 250px"><%= res.id %></a>
         </li>
         <%})%>
     <%}%>

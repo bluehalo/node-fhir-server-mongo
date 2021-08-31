@@ -151,7 +151,7 @@ app.get('/logout', (req, res) => {
 
 app.get('/', (req, res) => {
     res.writeHead(200, {'Content-Type': 'text/html'});
-    res.write('<html><head></head><body><h2><img src="/helix.png" height="32px" />&nbsp;Helix FHIR Server</h2><div>Documentation:&nbsp;<a href="https://github.com/icanbwell/fhir-server/blob/master/cheatsheet.md">https://github.com/icanbwell/fhir-server/blob/master/cheatsheet.md</a></div><div>&nbsp;</div><div>To access data:&nbsp;<a href="/4_0_0/Patient">/4_0_0/Patient</a>&nbsp;(Requires Authentication) </div></body></html>');
+    res.write('<html><head></head><body><h2><img src="/images/helix.png" height="32px" />&nbsp;Helix FHIR Server</h2><div>Documentation:&nbsp;<a href="https://github.com/icanbwell/fhir-server/blob/master/cheatsheet.md">https://github.com/icanbwell/fhir-server/blob/master/cheatsheet.md</a></div><div>&nbsp;</div><div>To access data:&nbsp;<a href="/4_0_0/Patient">/4_0_0/Patient</a>&nbsp;(Requires Authentication) </div></body></html>');
     res.end();
 });
 

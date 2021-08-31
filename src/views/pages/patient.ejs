@@ -10,7 +10,88 @@
 </header>
 
 <main>
+
   <div class="jumbotron">
+      <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+        <form class="row g-3">
+          <div class="col-auto">
+            <label for="inputName" class="visually-hidden">Name</label>
+            <input type="text" class="form-control" id="inputName" placeholder="Name">
+          </div>
+          <div class="col-auto">
+            <label for="inputFamily" class="visually-hidden">Family</label>
+            <input type="text" class="form-control" id="inputFamily" placeholder="Family">
+          </div>
+          <div class="col-auto">
+            <label for="inputSource" class="visually-hidden">Source</label>
+            <input type="text" class="form-control" id="inputSource" placeholder="Source">
+          </div>
+          <div class="col-auto">
+            <label for="inputIdentifierSystem" class="visually-hidden">Identifier System</label>
+            <input type="text" class="form-control" id="inputIdentifierSystem" placeholder="Identifier System">
+          </div>
+          <div class="col-auto">
+            <label for="inputIdentifierValue" class="visually-hidden">Identifier Value</label>
+            <input type="text" class="form-control" id="inputIdentifierValue" placeholder="Identifier Value">
+          </div>
+          <div class="col-auto">
+            <label for="inputLastUpdatedGreaterThan" class="visually-hidden">Updated After</label>
+            <input type="text" class="form-control" id="inputLastUpdatedGreaterThan" placeholder="Updated After">
+          </div>
+          <div class="col-auto">
+            <label for="inputLastUpdatedLessThan" class="visually-hidden">Updated Before</label>
+            <input type="text" class="form-control" id="inputLastUpdatedLessThan" placeholder="Updated Before">
+          </div>
+          <div class="col-auto">
+            <button type="button" class="btn btn-primary mb-3" id="search" onclick="searchIt()">Search</button>
+          </div>
+        </form>
+        </div>
+    </nav>
+      <script>
+        function searchIt(){
+            let url = "/4_0_0/Patient"
+            let hasSearchItem = false;
+            // Selecting the input element and get its value
+            var inputName = document.getElementById("inputName").value;
+            if (inputName){
+                url = url + (hasSearchItem ? "&" : "?") + "name=" + inputName
+                hasSearchItem = true;
+            }
+
+            var inputNpi = document.getElementById("inputFamily").value;
+            if (inputNpi){
+                url = url + (hasSearchItem ? "&" : "?") + "family=" + inputName
+                hasSearchItem = true;
+            }
+
+            var inputSource = document.getElementById("inputSource").value;
+            if (inputSource){
+                 url = url + (hasSearchItem ? "&" : "?") + "source=" + inputSource
+                hasSearchItem = true;
+            }
+            var inputIdentifierSystem = document.getElementById("inputIdentifierSystem").value;
+            var inputIdentifierValue = document.getElementById("inputIdentifierValue").value;
+            if (inputIdentifierSystem && inputIdentifierValue){
+                 url = url + (hasSearchItem ? "&" : "?") + "identifier=" + inputIdentifierSystem + "|" + inputIdentifierValue
+                hasSearchItem = true;
+            }
+            var inputLastUpdatedGreaterThan = document.getElementById("inputLastUpdatedGreaterThan").value;
+            if (inputLastUpdatedGreaterThan){
+                url = url + (hasSearchItem ? "&" : "?") + "_lastUpdated=gt" + inputLastUpdatedGreaterThan
+                hasSearchItem = true;
+            }
+            var inputLastUpdatedLessThan = document.getElementById("inputLastUpdatedLessThan").value;
+            if (inputLastUpdatedLessThan) {
+                url = url + (hasSearchItem ? "&" : "?") + "_lastUpdated=lt" + inputLastUpdatedLessThan
+                hasSearchItem = true;
+            }
+
+            window.location.assign(url);
+        }
+    </script>
+
     <% resources.forEach(function(res){ %>
         <%- include('../partials/resourceHeader', {res: res}); %>
 
