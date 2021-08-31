@@ -21,7 +21,6 @@ module.exports.commonBeforeEach = async () => {
     connection = await MongoClient.connect(process.env.MONGO_URL, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
-        auto_reconnect: true
     });
     db = connection.db();
 

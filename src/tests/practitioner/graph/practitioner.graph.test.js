@@ -1,10 +1,7 @@
 /* eslint-disable no-unused-vars */
-const {MongoClient} = require('mongodb');
 const supertest = require('supertest');
 
 const {app} = require('../../../app');
-const globals = require('../../../globals');
-const {CLIENT, CLIENT_DB} = require('../../../constants');
 // practice
 const practitionerResource = require('./fixtures/practitioner/practitioner.json');
 const organizationResource = require('./fixtures/practitioner/organization.json');
@@ -17,7 +14,6 @@ const expectedResource = require('./fixtures/expected/expected.json');
 const expectedHashReferencesResource = require('./fixtures/expected/expected_hash_references.json');
 
 const async = require('async');
-const env = require('var');
 
 const request = supertest(app);
 const {commonBeforeEach, commonAfterEach, getHeaders} = require('../../common');
@@ -32,8 +28,8 @@ describe('Organization Graph Contained Tests', () => {
     });
 
     describe('Graph Contained Tests', () => {
-        test('Graph contained works properly', (done) => {
-            async.waterfall([
+        test('Graph contained works properly', async () => {
+            await async.waterfall([
                     (cb) => // first confirm there are no practitioners
                         request
                             .get('/4_0_0/Practitioner')
@@ -153,18 +149,7 @@ describe('Organization Graph Contained Tests', () => {
                             });
                             expect(body).toStrictEqual(expected);
                         }, cb)
-                ],
-                (err) => {
-                    if (!err) {
-                        console.log('done');
-                    }
-
-                    if (err) {
-                        console.error(err);
-                        done.fail(err);
-                    }
-                    done();
-                });
+                ]);
         });
     });
 });

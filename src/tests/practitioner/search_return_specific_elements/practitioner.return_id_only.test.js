@@ -2,7 +2,6 @@
 const supertest = require('supertest');
 
 const {app} = require('../../../app');
-const {CLIENT, CLIENT_DB} = require('../../../constants');
 // provider file
 const practitionerResource = require('./fixtures/practitioner/practitioner.json');
 
@@ -25,8 +24,8 @@ describe('PractitionerReturnIdTests', () => {
     });
 
     describe('PractitionerReturnId Tests', () => {
-        test('Id works properly', (done) => {
-            async.waterfall([
+        test('Id works properly', async () => {
+            await async.waterfall([
                     (cb) => // first confirm there are no practitioners
                         request
                             .get('/4_0_0/Practitioner')
@@ -68,21 +67,10 @@ describe('PractitionerReturnIdTests', () => {
                             // expected[0]['meta'] = { 'versionId': '2' };
                             expect(body).toStrictEqual(expected);
                         }, cb),
-                ],
-                (err, results) => {
-                    if (!err) {
-                        console.log('done');
-                    }
-
-                    if (err) {
-                        console.error(err);
-                        done.fail(err);
-                    }
-                    done();
-                });
+                ]);
         });
-        test('Id works properly with bundle', (done) => {
-            async.waterfall([
+        test('Id works properly with bundle', async () => {
+            await async.waterfall([
                     (cb) => // first confirm there are no practitioners
                         request
                             .get('/4_0_0/Practitioner?_bundle=true')
@@ -120,18 +108,7 @@ describe('PractitionerReturnIdTests', () => {
                             delete body['timestamp'];
                             expect(body).toStrictEqual(expectedPractitionerResourceBundle);
                         }, cb),
-                ],
-                (err, results) => {
-                    if (!err) {
-                        console.log('done');
-                    }
-
-                    if (err) {
-                        console.error(err);
-                        done.fail(err);
-                    }
-                    done();
-                });
+                ]);
         });
     });
 });

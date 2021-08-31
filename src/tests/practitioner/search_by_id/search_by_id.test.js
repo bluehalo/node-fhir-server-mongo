@@ -23,8 +23,8 @@ describe('PractitionerReturnIdTests', () => {
     });
 
     describe('Practitioner Search By Id Tests', () => {
-        test('search by single id works', (done) => {
-            async.waterfall([
+        test('search by single id works', async () => {
+            await async.waterfall([
                     (cb) => // first confirm there are no practitioners
                         request
                             .get('/4_0_0/Practitioner')
@@ -88,21 +88,10 @@ describe('PractitionerReturnIdTests', () => {
 
                             expect(body).toStrictEqual(expected);
                         }, cb),
-                ],
-                (err) => {
-                    if (!err) {
-                        console.log('done');
-                    }
-
-                    if (err) {
-                        console.error(err);
-                        done.fail(err);
-                    }
-                    done();
-                });
+                ]);
         });
-        test('search by single id fails if there is no access', (done) => {
-            async.waterfall([
+        test('search by single id fails if there is no access', async () => {
+            await async.waterfall([
                     (cb) => // first confirm there are no practitioners
                         request
                             .get('/4_0_0/Practitioner')
@@ -152,21 +141,10 @@ describe('PractitionerReturnIdTests', () => {
                         .get('/4_0_0/Practitioner/0')
                         .set(getHeaders('user/*.read user/*.write'))
                         .expect(403, cb)
-                ],
-                (err) => {
-                    if (!err) {
-                        console.log('done');
-                    }
-
-                    if (err) {
-                        console.error(err);
-                        done.fail(err);
-                    }
-                    done();
-                });
+                ]);
         });
-        test('search by single id fails if access does not match', (done) => {
-            async.waterfall([
+        test('search by single id fails if access does not match', async () => {
+            await async.waterfall([
                     (cb) => // first confirm there are no practitioners
                         request
                             .get('/4_0_0/Practitioner')
@@ -216,18 +194,7 @@ describe('PractitionerReturnIdTests', () => {
                         .get('/4_0_0/Practitioner/0')
                         .set(getHeaders('user/*.read user/*.write access/foo.*'))
                         .expect(403, cb)
-                ],
-                (err) => {
-                    if (!err) {
-                        console.log('done');
-                    }
-
-                    if (err) {
-                        console.error(err);
-                        done.fail(err);
-                    }
-                    done();
-                });
+                ]);
         });
     });
 });

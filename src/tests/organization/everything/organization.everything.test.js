@@ -27,8 +27,8 @@ describe('Organization Everything Tests', () => {
     });
 
     describe('Everything Tests', () => {
-        test('Everything works properly', (done) => {
-            async.waterfall([
+        test('Everything works properly', async () => {
+            await async.waterfall([
                     (cb) => // first confirm there are no practitioners
                         request
                             .get('/4_0_0/Practitioner')
@@ -154,18 +154,7 @@ describe('Organization Everything Tests', () => {
                             });
                             expect(body).toStrictEqual(expected);
                         }, cb)
-                ],
-                (err) => {
-                    if (!err) {
-                        console.log('done');
-                    }
-
-                    if (err) {
-                        console.error(err);
-                        done.fail(err);
-                    }
-                    done();
-                });
+                ]);
         });
     });
 });

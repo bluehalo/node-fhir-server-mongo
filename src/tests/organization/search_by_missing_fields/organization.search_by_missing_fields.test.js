@@ -1,17 +1,13 @@
 /* eslint-disable no-unused-vars */
-const {MongoClient} = require('mongodb');
 const supertest = require('supertest');
 
 const {app} = require('../../../app');
-const globals = require('../../../globals');
-const {CLIENT, CLIENT_DB} = require('../../../constants');
 const organizationResponseBundle1 = require('./fixtures/organization1.json');
 const organizationResponseBundle2 = require('./fixtures/organization2.json');
 const organizationResponseBundle3 = require('./fixtures/organization3.json');
 const expectedOrganizationResponseBundle = require('./fixtures/expected_organization_responses.json');
 const expectedOrganizationResponseBundle2 = require('./fixtures/expected_organization_responses_2.json');
 const async = require('async');
-const env = require('var');
 
 const request = supertest(app);
 const {commonBeforeEach, commonAfterEach, getHeaders} = require('../../common');
@@ -26,9 +22,9 @@ describe('Organization Response Tests', () => {
     });
 
     describe('OrganizationResponse Bundles', () => {
-        test('OrganizationResponse can search by null', (done) => {
+        test('OrganizationResponse can search by null', async () => {
             // noinspection JSUnusedLocalSymbols
-            async.waterfall([
+            await async.waterfall([
                     (cb) => // first confirm there are no records
                         request
                             .get('/4_0_0/Organization')
@@ -124,18 +120,7 @@ describe('Organization Response Tests', () => {
                             });
                             expect(body).toStrictEqual(expected);
                         }, cb),
-                ],
-                (err, results) => {
-                    if (!err) {
-                        console.log('done');
-                    }
-
-                    if (err) {
-                        console.error(err);
-                        done.fail(err);
-                    }
-                    done();
-                });
+                ]);
         });
     });
 });

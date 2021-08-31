@@ -23,8 +23,8 @@ describe('PractitionerSearchAllWithCountTests', () => {
     });
 
     describe('Practitioner Search All With Count Tests', () => {
-        test('search all with count works', (done) => {
-            async.waterfall([
+        test('search all with count works', async () => {
+            await async.waterfall([
                     (cb) => // first confirm there are no practitioners
                         request
                             .get('/4_0_0/Practitioner')
@@ -92,18 +92,7 @@ describe('PractitionerSearchAllWithCountTests', () => {
                             // expected[0]['meta'] = { 'versionId': '2' };
                             expect(body).toStrictEqual(expected);
                         }, cb),
-                ],
-                (err) => {
-                    if (!err) {
-                        console.log('done');
-                    }
-
-                    if (err) {
-                        console.error(err);
-                        done.fail(err);
-                    }
-                    done();
-                });
+                ]);
         });
     });
 });

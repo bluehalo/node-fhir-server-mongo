@@ -18,7 +18,6 @@ let mongoConfig = {
     options: {
         useNewUrlParser: true,
         useUnifiedTopology: true,
-        auto_reconnect: true,
         keepAlive: 1,
         connectTimeoutMS: 60000,
         socketTimeoutMS: 60000,

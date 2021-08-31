@@ -32,8 +32,8 @@ describe('PractitionerReturnIdTests', () => {
     }
 
     describe('Practitioner Sort Tests', () => {
-        test('sort equals', (done) => {
-            async.waterfall([
+        test('sort equals', async () => {
+            await async.waterfall([
                     (cb) => // first confirm there are no practitioners
                         request
                             .get('/4_0_0/Practitioner')
@@ -101,21 +101,10 @@ describe('PractitionerReturnIdTests', () => {
                             // expected[0]['meta'] = { 'versionId': '2' };
                             expect(body).toStrictEqual(expected);
                         }, cb),
-                ],
-                (err, results) => {
-                    if (!err) {
-                        console.log('done');
-                    }
-
-                    if (err) {
-                        console.error(err);
-                        done.fail(err);
-                    }
-                    done();
-                });
+                ]);
         });
-        test('sort equals nested descending', (done) => {
-            async.waterfall([
+        test('sort equals nested descending', async () => {
+            await async.waterfall([
                     (cb) => // first confirm there are no practitioners
                         request
                             .get('/4_0_0/Practitioner')
@@ -184,18 +173,7 @@ describe('PractitionerReturnIdTests', () => {
                             // expected[0]['meta'] = { 'versionId': '2' };
                             expect(body).toStrictEqual(expected);
                         }, cb),
-                ],
-                (err, results) => {
-                    if (!err) {
-                        console.log('done');
-                    }
-
-                    if (err) {
-                        console.error(err);
-                        done.fail(err);
-                    }
-                    done();
-                });
+                ]);
         });
     });
 });

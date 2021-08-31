@@ -22,7 +22,7 @@ describe('Claim Merge Tests', () => {
     });
 
     describe('Claim Merge with overlapping items', () => {
-        test('Claims with same claim number in different bundles and similar items merge properly', async (done) => {
+        test('Claims with same claim number in different bundles and similar items merge properly', async () => {
             // noinspection JSUnusedLocalSymbols
             await async.waterfall([
                     (cb) => // first confirm there are no records
@@ -96,18 +96,7 @@ describe('Claim Merge Tests', () => {
                             });
                             expect(body).toStrictEqual(expected);
                         }, cb),
-                ],
-                (err, results) => {
-                    if (!err) {
-                        console.log('done');
-                    }
-
-                    if (err) {
-                        console.error(err);
-                        done.fail(err);
-                    }
-                    done();
-                });
+                ]);
         });
     });
 });

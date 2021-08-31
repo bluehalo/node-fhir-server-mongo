@@ -1,16 +1,10 @@
 /* eslint-disable no-unused-vars */
-const {MongoClient} = require('mongodb');
 const supertest = require('supertest');
 
 const {app} = require('../../app');
-const globals = require('../../globals');
-const {CLIENT, CLIENT_DB} = require('../../constants');
 const practitionerResource = require('./fixtures/providers/practitioner.json');
-const locationResource = require('./fixtures/providers/location.json');
-const practitionerRoleResource = require('./fixtures/providers/practitioner_role.json');
 const expectedPractitionerResource = require('./fixtures/providers/expected_practitioner.json');
 const async = require('async');
-const env = require('var');
 
 const request = supertest(app);
 const {commonBeforeEach, commonAfterEach, getHeaders} = require('../common');
@@ -25,8 +19,8 @@ describe('Practitioner Update Tests', () => {
     });
 
     describe('Practitioner Merges', () => {
-        test('Multiple calls to Practitioner merge properly', (done) => {
-            async.waterfall([
+        test('Multiple calls to Practitioner merge properly', async () => {
+            await async.waterfall([
                     (cb) => // first confirm there are no practitioners
                         request
                             .get('/4_0_0/Practitioner')
@@ -76,15 +70,7 @@ describe('Practitioner Update Tests', () => {
                             console.log(JSON.stringify(resp.body, null, 2));
                             console.log('------- end response 5  ------------');
                         }, cb),
-                ],
-                (err, results) => {
-                    console.log('done');
-                    if (err) {
-                        console.error(err);
-                        done.fail(err);
-                    }
-                    done();
-                });
+                ]);
         });
     });
 });

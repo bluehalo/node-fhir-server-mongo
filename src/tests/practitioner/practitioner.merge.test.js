@@ -20,7 +20,7 @@ describe('Practitioner Merge Tests', () => {
     });
 
     describe('Practitioner Merges', () => {
-        test('Multiple calls to Practitioner merge properly', async (done) => {
+        test('Multiple calls to Practitioner merge properly', async () => {
             await async.waterfall([
                     (cb) => // first confirm there are no practitioners
                         request
@@ -87,18 +87,7 @@ describe('Practitioner Merge Tests', () => {
                             expected[0]['meta']['versionId'] = '2';
                             expect(body).toStrictEqual(expected);
                         }, cb),
-                ],
-                (err, results) => {
-                    if (!err) {
-                        console.log('done');
-                    }
-
-                    if (err) {
-                        console.error(err);
-                        done.fail(err);
-                    }
-                    done();
-                });
+                ]);
         });
     });
 });

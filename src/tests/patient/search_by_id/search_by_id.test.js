@@ -22,8 +22,8 @@ describe('PractitionerReturnIdTests', () => {
     });
 
     describe('Patient Search By Id Tests', () => {
-        test('search by single id works', (done) => {
-            async.waterfall([
+        test('search by single id works', async () => {
+            await async.waterfall([
                     (cb) => // first confirm there are no practitioners
                         request
                             .get('/4_0_0/Patient')
@@ -75,18 +75,7 @@ describe('PractitionerReturnIdTests', () => {
 
                             expect(body).toStrictEqual(expected);
                         }, cb),
-                ],
-                (err) => {
-                    if (!err) {
-                        console.log('done');
-                    }
-
-                    if (err) {
-                        console.error(err);
-                        done.fail(err);
-                    }
-                    done();
-                });
+                ]);
         });
     });
 });

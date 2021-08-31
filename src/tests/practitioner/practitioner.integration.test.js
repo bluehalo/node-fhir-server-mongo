@@ -2,7 +2,6 @@
 const supertest = require('supertest');
 
 const {app} = require('../../app');
-const globals = require('../../globals');
 const practitionerResource = require('./fixtures/providers/practitioner.json');
 const locationResource = require('./fixtures/providers/location.json');
 const practitionerRoleResource = require('./fixtures/providers/practitioner_role.json');
@@ -22,8 +21,8 @@ describe('Practitioner Integration Tests', () => {
     });
 
     describe('Practitioner Integration Tests', () => {
-        test('Provider Files Loads', (done) => {
-            async.waterfall([
+        test('Provider Files Loads', async () => {
+            await async.waterfall([
                     (cb) => // first confirm there are no practitioners
                         request
                             .get('/4_0_0/Practitioner')
@@ -83,15 +82,7 @@ describe('Practitioner Integration Tests', () => {
                             console.log(JSON.stringify(resp.body, null, 2));
                             console.log('------- end response 5  ------------');
                         }, cb),
-                ],
-                (err, results) => {
-                    console.log('done');
-                    if (err) {
-                        console.error(err);
-                        done.fail(err);
-                    }
-                    done();
-                });
+                ]);
         });
     });
 });

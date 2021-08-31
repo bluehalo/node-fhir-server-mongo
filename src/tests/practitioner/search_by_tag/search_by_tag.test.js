@@ -33,8 +33,8 @@ describe('search_by_tag', () => {
     }
 
     describe('Practitioner Search By Tag Tests', () => {
-        test('search by tag works', (done) => {
-            async.waterfall([
+        test('search by tag works', async () => {
+            await async.waterfall([
                     (cb) => // first confirm there are no practitioners
                         request
                             .get('/4_0_0/Practitioner')
@@ -114,18 +114,7 @@ describe('search_by_tag', () => {
                             // expected[0]['meta'] = { 'versionId': '2' };
                             expect(body).toStrictEqual(expected);
                         }, cb),
-                ],
-                (err, results) => {
-                    if (!err) {
-                        console.log('done');
-                    }
-
-                    if (err) {
-                        console.error(err);
-                        done.fail(err);
-                    }
-                    done();
-                });
+                ]);
         });
     });
 });

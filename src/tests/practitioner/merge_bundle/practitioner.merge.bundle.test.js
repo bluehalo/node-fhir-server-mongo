@@ -1,14 +1,10 @@
 /* eslint-disable no-unused-vars */
-const {MongoClient} = require('mongodb');
 const supertest = require('supertest');
 
 const {app} = require('../../../app');
-const globals = require('../../../globals');
-const {CLIENT, CLIENT_DB} = require('../../../constants');
 const practitionerBundleResource = require('./fixtures/providers/practitioner_bundle.json');
 const expectedPractitionerBundleResource = require('./fixtures/providers/expected_practitioner_bundle.json');
 const async = require('async');
-const env = require('var');
 
 const request = supertest(app);
 const {commonBeforeEach, commonAfterEach, getHeaders} = require('../../common');
@@ -23,7 +19,7 @@ describe('Practitioner Merge Bundle Tests', () => {
     });
 
     describe('Practitioner Merge Bundles', () => {
-        test('Multiple calls to Practitioner merge bundles properly', async (done) => {
+        test('Multiple calls to Practitioner merge bundles properly', async () => {
             await async.waterfall([
                     (cb) => // first confirm there are no practitioners
                         request
@@ -73,18 +69,7 @@ describe('Practitioner Merge Bundle Tests', () => {
                             });
                             expect(body).toStrictEqual(expected);
                         }, cb),
-                ],
-                (err, results) => {
-                    if (!err) {
-                        console.log('done');
-                    }
-
-                    if (err) {
-                        console.error(err);
-                        done.fail(err);
-                    }
-                    done();
-                });
+                ]);
         });
     });
 });

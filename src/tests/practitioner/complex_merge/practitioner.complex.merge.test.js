@@ -47,8 +47,8 @@ describe('Practitioner Complex Merge Tests', () => {
     });
 
     describe('Practitioner Merges', () => {
-        test('Multiple calls to Practitioner merge properly', (done) => {
-            async.waterfall([
+        test('Multiple calls to Practitioner merge properly', async () => {
+            await async.waterfall([
                     (cb) => // first confirm there are no practitioners
                         request
                             .get('/4_0_0/Practitioner')
@@ -451,18 +451,7 @@ describe('Practitioner Complex Merge Tests', () => {
 
                             expect(body).toStrictEqual(expected);
                         }, cb),
-                ],
-                (err, results) => {
-                    if (!err) {
-                        console.log('done');
-                    }
-
-                    if (err) {
-                        console.error(err);
-                        done.fail(err);
-                    }
-                    done();
-                });
+                ]);
         });
     });
 });

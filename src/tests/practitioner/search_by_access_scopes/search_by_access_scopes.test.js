@@ -29,8 +29,8 @@ describe('search_by_security_tag', () => {
     });
 
     describe('Practitioner Search By Security Tests', () => {
-        test('search by security tag works', (done) => {
-            async.waterfall([
+        test('search by security tag works', async () => {
+            await async.waterfall([
                     (cb) => // first confirm there are no practitioners
                         request
                             .get('/4_0_0/Practitioner')
@@ -122,21 +122,10 @@ describe('search_by_security_tag', () => {
                             // expected[0]['meta'] = { 'versionId': '2' };
                             expect(body).toStrictEqual(expected);
                         }, cb),
-                ],
-                (err) => {
-                    if (!err) {
-                        console.log('done');
-                    }
-
-                    if (err) {
-                        console.error(err);
-                        done.fail(err);
-                    }
-                    done();
-                });
+                ]);
         });
-        test('search without scopes fails', (done) => {
-            async.waterfall([
+        test('search without scopes fails', async () => {
+            await async.waterfall([
                     (cb) => // first confirm there are no practitioners
                         request
                             .get('/4_0_0/Practitioner')
@@ -144,18 +133,7 @@ describe('search_by_security_tag', () => {
                             .expect(403, (err, resp) => {
                                 return cb(err, resp);
                             })
-                ],
-                (err) => {
-                    if (!err) {
-                        console.log('done');
-                    }
-
-                    if (err) {
-                        console.error(err);
-                        done.fail(err);
-                    }
-                    done();
-                });
+                ]);
         });
     });
 });

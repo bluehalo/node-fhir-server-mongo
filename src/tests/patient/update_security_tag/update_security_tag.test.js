@@ -24,12 +24,12 @@ describe('PractitionerUpdateSecurityTagTests', () => {
     });
 
     describe('Patient UpdateSecurityTag Tests', () => {
-        test('UpdateSecurityTag works', (done) => {
+        test('UpdateSecurityTag works', async () => {
             const oldValue = env['CHECK_ACCESS_TAG_ON_SAVE'];
             env['CHECK_ACCESS_TAG_ON_SAVE'] = 0;
             // env['SLACK_TOKEN'] = '';
             // env['SLACK_CHANNEL'] = '#helix_pipeline_notifications_dev';
-            async.waterfall([
+            await async.waterfall([
                     (cb) => // first confirm there are no practitioners
                         request
                             .get('/4_0_0/Patient')
@@ -84,19 +84,8 @@ describe('PractitionerUpdateSecurityTagTests', () => {
 
                             expect(body).toStrictEqual(expected);
                         }, cb),
-                ],
-                (err) => {
-                    env['CHECK_ACCESS_TAG_ON_SAVE'] = oldValue;
-                    if (!err) {
-                        console.log('done');
-                    }
-
-                    if (err) {
-                        console.error(err);
-                        done.fail(err);
-                    }
-                    done();
-                });
+                ]);
+            env['CHECK_ACCESS_TAG_ON_SAVE'] = oldValue;
         });
     });
 });

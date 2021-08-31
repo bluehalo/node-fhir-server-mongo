@@ -1,10 +1,7 @@
 /* eslint-disable no-unused-vars */
-const {MongoClient} = require('mongodb');
 const supertest = require('supertest');
 
 const {app} = require('../../../app');
-const globals = require('../../../globals');
-const {CLIENT, CLIENT_DB} = require('../../../constants');
 
 const validPractitionerResource = require('./fixtures/valid_practitioner.json');
 const validPractitionerNoSecurityCodeResource = require('./fixtures/valid_practitioner_no_security_code.json');
@@ -15,7 +12,6 @@ const expectedValidPractitionerNoSecurityCodeResponse = require('./expected/vali
 const expectedInvalidPractitionerResponse = require('./expected/invalid_practitioner_response.json');
 
 const async = require('async');
-const env = require('var');
 
 const request = supertest(app);
 const {commonBeforeEach, commonAfterEach, getHeaders} = require('../../common');
@@ -30,9 +26,9 @@ describe('Practitioner Update Tests', () => {
     });
 
     describe('Practitioner Validate', () => {
-        test('Valid resource', (done) => {
+        test('Valid resource', async () => {
             // noinspection UnnecessaryLocalVariableJS
-            async.waterfall([
+            await async.waterfall([
                     (cb) => // first confirm there are no practitioners
                         request
                             .get('/4_0_0/Practitioner')
@@ -57,19 +53,11 @@ describe('Practitioner Update Tests', () => {
                                 expect(body).toStrictEqual(expectedValidPractitionerResponse);
                                 return cb(err, resp);
                             }),
-                ],
-                (err, results) => {
-                    console.log('done');
-                    if (err) {
-                        console.error(err);
-                        done.fail(err);
-                    }
-                    done();
-                });
+                ]);
         });
-        test('Valid resource but no security code', (done) => {
+        test('Valid resource but no security code', async () => {
             // noinspection UnnecessaryLocalVariableJS
-            async.waterfall([
+            await async.waterfall([
                     (cb) => // first confirm there are no practitioners
                         request
                             .get('/4_0_0/Practitioner')
@@ -94,19 +82,11 @@ describe('Practitioner Update Tests', () => {
                                 expect(body).toStrictEqual(expectedValidPractitionerNoSecurityCodeResponse);
                                 return cb(err, resp);
                             }),
-                ],
-                (err, results) => {
-                    console.log('done');
-                    if (err) {
-                        console.error(err);
-                        done.fail(err);
-                    }
-                    done();
-                });
+                ]);
         });
-        test('Invalid resource', (done) => {
+        test('Invalid resource', async () => {
             // noinspection UnnecessaryLocalVariableJS
-            async.waterfall([
+            await async.waterfall([
                     (cb) => // first confirm there are no practitioners
                         request
                             .get('/4_0_0/Practitioner')
@@ -131,15 +111,7 @@ describe('Practitioner Update Tests', () => {
                                 expect(body).toStrictEqual(expectedInvalidPractitionerResponse);
                                 return cb(err, resp);
                             }),
-                ],
-                (err, results) => {
-                    console.log('done');
-                    if (err) {
-                        console.error(err);
-                        done.fail(err);
-                    }
-                    done();
-                });
+                ]);
         });
     });
 });

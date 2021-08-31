@@ -1,10 +1,7 @@
 /* eslint-disable no-unused-vars */
-const {MongoClient} = require('mongodb');
 const supertest = require('supertest');
 
 const {app} = require('../../../app');
-const globals = require('../../../globals');
-const {CLIENT, CLIENT_DB} = require('../../../constants');
 // practice
 const slotResource = require('./fixtures/slot/slot.json');
 const slotScheduleResource = require('./fixtures/slot/schedule.json');
@@ -15,7 +12,6 @@ const slotPractitionerResource = require('./fixtures/slot/practitioner.json');
 const expectedEverythingResource = require('./fixtures/expected/expected_everything.json');
 
 const async = require('async');
-const env = require('var');
 
 const request = supertest(app);
 const {commonBeforeEach, commonAfterEach, getHeaders} = require('../../common');
@@ -30,8 +26,8 @@ describe('Slot Everything Tests', () => {
     });
 
     describe('Everything Tests', () => {
-        test('Everything works properly', (done) => {
-            async.waterfall([
+        test('Everything works properly', async () => {
+            await async.waterfall([
                     (cb) => // first confirm there are no practitioners
                         request
                             .get('/4_0_0/Practitioner')
@@ -130,18 +126,7 @@ describe('Slot Everything Tests', () => {
                             });
                             expect(body).toStrictEqual(expected);
                         }, cb)
-                ],
-                (err) => {
-                    if (!err) {
-                        console.log('done');
-                    }
-
-                    if (err) {
-                        console.error(err);
-                        done.fail(err);
-                    }
-                    done();
-                });
+                ]);
         });
     });
 });

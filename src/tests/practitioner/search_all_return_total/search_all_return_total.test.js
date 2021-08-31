@@ -23,8 +23,8 @@ describe('PractitionerSearchAllReturnTotalTests', () => {
     });
 
     describe('Practitioner Search All Return Total Tests', () => {
-        test('search all return total works', (done) => {
-            async.waterfall([
+        test('search all return total works', async () => {
+            await async.waterfall([
                     (cb) => // first confirm there are no practitioners
                         request
                             .get('/4_0_0/Practitioner')
@@ -106,18 +106,7 @@ describe('PractitionerSearchAllReturnTotalTests', () => {
                             expect(body.entry.length).toBe(1);
                             expect(body.total).toStrictEqual(1);
                         }, cb),
-                ],
-                (err) => {
-                    if (!err) {
-                        console.log('done');
-                    }
-
-                    if (err) {
-                        console.error(err);
-                        done.fail(err);
-                    }
-                    done();
-                });
+                ]);
         });
     });
 });

@@ -20,7 +20,7 @@ describe('Claim Merge Tests', () => {
     });
 
     describe('Claim Merge Bundles', () => {
-        test('Claims with one bad record merge properly', async (done) => {
+        test('Claims with one bad record merge properly', async () => {
             // noinspection JSUnusedLocalSymbols
             await async.waterfall([
                     (cb) => // first confirm there are no records
@@ -74,18 +74,7 @@ describe('Claim Merge Tests', () => {
                             });
                             expect(body).toStrictEqual(expected);
                         }, cb),
-                ],
-                (err, results) => {
-                    if (!err) {
-                        console.log('done');
-                    }
-
-                    if (err) {
-                        console.error(err);
-                        done.fail(err);
-                    }
-                    done();
-                });
+                ]);
         });
     });
 });

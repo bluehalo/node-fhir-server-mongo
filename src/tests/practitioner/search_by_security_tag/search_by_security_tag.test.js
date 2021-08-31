@@ -1,10 +1,7 @@
 /* eslint-disable no-unused-vars */
-const {MongoClient} = require('mongodb');
 const supertest = require('supertest');
 
 const {app} = require('../../../app');
-const globals = require('../../../globals');
-const {CLIENT, CLIENT_DB} = require('../../../constants');
 // provider file
 const practitionerResource = require('./fixtures/practitioner/practitioner.json');
 const practitionerResource2 = require('./fixtures/practitioner/practitioner2.json');
@@ -14,7 +11,6 @@ const practitionerResource3 = require('./fixtures/practitioner/practitioner3.jso
 const expectedPractitionerResource = require('./fixtures/expected/expected_practitioner.json');
 
 const async = require('async');
-const env = require('var');
 
 const request = supertest(app);
 const {commonBeforeEach, commonAfterEach, getHeaders} = require('../../common');
@@ -37,8 +33,8 @@ describe('search_by_security_tag', () => {
     }
 
     describe('Practitioner Search By Security Tests', () => {
-        test('search by security tag works', (done) => {
-            async.waterfall([
+        test('search by security tag works', async () => {
+            await async.waterfall([
                     (cb) => // first confirm there are no practitioners
                         request
                             .get('/4_0_0/Practitioner')
@@ -118,18 +114,7 @@ describe('search_by_security_tag', () => {
                             // expected[0]['meta'] = { 'versionId': '2' };
                             expect(body).toStrictEqual(expected);
                         }, cb),
-                ],
-                (err, results) => {
-                    if (!err) {
-                        console.log('done');
-                    }
-
-                    if (err) {
-                        console.error(err);
-                        done.fail(err);
-                    }
-                    done();
-                });
+                ]);
         });
     });
 });

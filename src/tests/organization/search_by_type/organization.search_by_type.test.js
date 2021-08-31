@@ -1,10 +1,7 @@
 /* eslint-disable no-unused-vars */
-const {MongoClient} = require('mongodb');
 const supertest = require('supertest');
 
 const {app} = require('../../../app');
-const globals = require('../../../globals');
-const {CLIENT, CLIENT_DB} = require('../../../constants');
 // practice
 const practiceOrganizationResource = require('./fixtures/practice/practice_organization.json');
 const practiceOrganizationResource2 = require('./fixtures/practice/practice_organization2.json');
@@ -13,7 +10,6 @@ const practiceOrganizationResource2 = require('./fixtures/practice/practice_orga
 const expectedOrganizationResource = require('./fixtures/expected/expected_organization.json');
 
 const async = require('async');
-const env = require('var');
 
 const request = supertest(app);
 const {commonBeforeEach, commonAfterEach, getHeaders} = require('../../common');
@@ -28,8 +24,8 @@ describe('Organization Everything Tests', () => {
     });
 
     describe('Everything Tests', () => {
-        test('Everything works properly', (done) => {
-            async.waterfall([
+        test('Everything works properly', async () => {
+            await async.waterfall([
                     (cb) => // first confirm there are no practitioners
                         request
                             .get('/4_0_0/Organization')
@@ -97,18 +93,7 @@ describe('Organization Everything Tests', () => {
                             });
                             expect(body).toStrictEqual(expected);
                         }, cb),
-                ],
-                (err) => {
-                    if (!err) {
-                        console.log('done');
-                    }
-
-                    if (err) {
-                        console.error(err);
-                        done.fail(err);
-                    }
-                    done();
-                });
+                ]);
         });
     });
 });

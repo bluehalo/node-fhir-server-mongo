@@ -1,15 +1,11 @@
 /* eslint-disable no-unused-vars */
-const {MongoClient} = require('mongodb');
 const supertest = require('supertest');
 
 const {app} = require('../../../app');
-const globals = require('../../../globals');
-const {CLIENT, CLIENT_DB} = require('../../../constants');
 
 const validResource = require('./fixtures/questionnaireresponse.json');
 
 const async = require('async');
-const env = require('var');
 
 const request = supertest(app);
 const {commonBeforeEach, commonAfterEach, getHeaders} = require('../../common');
@@ -24,9 +20,9 @@ describe('Practitioner Update Tests', () => {
     });
 
     describe('Practitioner Validate', () => {
-        test('POST Valid resource', (done) => {
+        test('POST Valid resource', async () => {
             // noinspection UnnecessaryLocalVariableJS
-            async.waterfall([
+            await async.waterfall([
                     (cb) => // first confirm there are no practitioners
                         request
                             .get('/4_0_0/QuestionnaireResponse')
@@ -50,15 +46,7 @@ describe('Practitioner Update Tests', () => {
                                 console.log('------- end response 1 ------------');
                                 return cb(err, resp);
                             }),
-                ],
-                (err, results) => {
-                    console.log('done');
-                    if (err) {
-                        console.error(err);
-                        done.fail(err);
-                    }
-                    done();
-                });
+                ]);
         });
     });
 });

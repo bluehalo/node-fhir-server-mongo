@@ -1,10 +1,7 @@
 /* eslint-disable no-unused-vars */
-const {MongoClient} = require('mongodb');
 const supertest = require('supertest');
 
 const {app} = require('../../../app');
-const globals = require('../../../globals');
-const {CLIENT, CLIENT_DB} = require('../../../constants');
 const moment = require('moment-timezone');
 // provider file
 const practitionerResource = require('./fixtures/practitioner/practitioner.json');
@@ -13,7 +10,6 @@ const practitionerResource = require('./fixtures/practitioner/practitioner.json'
 const expectedPractitionerResource = require('./fixtures/expected/expected_practitioner.json');
 
 const async = require('async');
-const env = require('var');
 
 const request = supertest(app);
 const {commonBeforeEach, commonAfterEach, getHeaders} = require('../../common');
@@ -27,15 +23,12 @@ describe('Practitioner Last Updated Time', () => {
         await commonAfterEach();
     });
 
-    let today = new Date();
-    // current date
-    let today_text = moment.utc().format('YYYY-MM-DD');
     let today_minus_10_minutes = moment.utc().subtract(10, 'minutes').format();
     let today_plus_30_minutes = moment.utc().add(30, 'minutes').format();
 
     describe('Practitioner Search By Last Updated Time Tests', () => {
-        test('search by lastUpdated time greater than or equals', (done) => {
-            async.waterfall([
+        test('search by lastUpdated time greater than or equals', async () => {
+            await async.waterfall([
                     (cb) => // first confirm there are no practitioners
                         request
                             .get('/4_0_0/Practitioner')
@@ -87,21 +80,10 @@ describe('Practitioner Last Updated Time', () => {
                             // expected[0]['meta'] = { 'versionId': '2' };
                             expect(body).toStrictEqual(expected);
                         }, cb),
-                ],
-                (err, results) => {
-                    if (!err) {
-                        console.log('done');
-                    }
-
-                    if (err) {
-                        console.error(err);
-                        done.fail(err);
-                    }
-                    done();
-                });
+                ]);
         });
-        test('search by lastUpdated greater than', (done) => {
-            async.waterfall([
+        test('search by lastUpdated greater than', async () => {
+            await async.waterfall([
                     (cb) => // first confirm there are no practitioners
                         request
                             .get('/4_0_0/Practitioner')
@@ -153,21 +135,10 @@ describe('Practitioner Last Updated Time', () => {
                             // expected[0]['meta'] = { 'versionId': '2' };
                             expect(body).toStrictEqual(expected);
                         }, cb),
-                ],
-                (err, results) => {
-                    if (!err) {
-                        console.log('done');
-                    }
-
-                    if (err) {
-                        console.error(err);
-                        done.fail(err);
-                    }
-                    done();
-                });
+                ]);
         });
-        test('search by lastUpdated less than or equals', (done) => {
-            async.waterfall([
+        test('search by lastUpdated less than or equals', async () => {
+            await async.waterfall([
                     (cb) => // first confirm there are no practitioners
                         request
                             .get('/4_0_0/Practitioner')
@@ -219,21 +190,10 @@ describe('Practitioner Last Updated Time', () => {
                             // expected[0]['meta'] = { 'versionId': '2' };
                             expect(body).toStrictEqual(expected);
                         }, cb),
-                ],
-                (err, results) => {
-                    if (!err) {
-                        console.log('done');
-                    }
-
-                    if (err) {
-                        console.error(err);
-                        done.fail(err);
-                    }
-                    done();
-                });
+                ]);
         });
-        test('search by lastUpdated less than', (done) => {
-            async.waterfall([
+        test('search by lastUpdated less than', async () => {
+            await async.waterfall([
                     (cb) => // first confirm there are no practitioners
                         request
                             .get('/4_0_0/Practitioner')
@@ -285,21 +245,10 @@ describe('Practitioner Last Updated Time', () => {
                             // expected[0]['meta'] = { 'versionId': '2' };
                             expect(body).toStrictEqual(expected);
                         }, cb),
-                ],
-                (err, results) => {
-                    if (!err) {
-                        console.log('done');
-                    }
-
-                    if (err) {
-                        console.error(err);
-                        done.fail(err);
-                    }
-                    done();
-                });
+                ]);
         });
-        test('search by lastUpdated less than and greater than (found)', (done) => {
-            async.waterfall([
+        test('search by lastUpdated less than and greater than (found)', async () => {
+            await async.waterfall([
                     (cb) => // first confirm there are no practitioners
                         request
                             .get('/4_0_0/Practitioner')
@@ -351,21 +300,10 @@ describe('Practitioner Last Updated Time', () => {
                             // expected[0]['meta'] = { 'versionId': '2' };
                             expect(body).toStrictEqual(expected);
                         }, cb),
-                ],
-                (err, results) => {
-                    if (!err) {
-                        console.log('done');
-                    }
-
-                    if (err) {
-                        console.error(err);
-                        done.fail(err);
-                    }
-                    done();
-                });
+                ]);
         });
-        test('search by lastUpdated less than and greater than (not found)', (done) => {
-            async.waterfall([
+        test('search by lastUpdated less than and greater than (not found)', async () => {
+            await async.waterfall([
                     (cb) => // first confirm there are no practitioners
                         request
                             .get('/4_0_0/Practitioner')
@@ -411,18 +349,7 @@ describe('Practitioner Last Updated Time', () => {
                             let body = resp.body;
                             expect(body.length).toBe(0);
                         }, cb),
-                ],
-                (err, results) => {
-                    if (!err) {
-                        console.log('done');
-                    }
-
-                    if (err) {
-                        console.error(err);
-                        done.fail(err);
-                    }
-                    done();
-                });
+                ]);
         });
     });
 });
