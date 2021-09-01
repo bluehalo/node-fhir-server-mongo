@@ -14,32 +14,56 @@ function createCodeBlock(title, code) {
 }
 
 const sendErrorToSlack = (token, channel, err, req) => {
-    const web = new WebClient(token);
     const request = {
         method: req.method,
         url: req.url,
         headers: req.headers,
         query: req.query,
-        body: req.body || {}
+        body: req.body || {},
+        user: req.user
     };
     const attachment = {
         fallback: 'FHIR Server Error',
         color: err.statusCode < 500 ? 'warning' : 'danger',
         author_name: req.headers.host,
         title: 'FHIR Server Error',
-        fields: [{title: 'Request URL', value: req.url, short: true}, {
-            title: 'Request Method',
-            value: req.method,
-            short: true
-        }, {title: 'Status Code', value: err.statusCode, short: true}, {
-            title: 'Remote Address',
-            value: getRemoteAddress(req),
-            short: true
-        }],
-        text: [{title: 'Stack trace:', code: err.stack}, {
-            title: 'Request',
-            code: request
-        }].map(function (data) {
+        fields: [
+            {
+                title: 'Request Method',
+                value: req.method,
+                short: true
+            },
+            {
+                title: 'Request URL',
+                value: req.url,
+                short: true
+            },
+            {
+                title: 'User',
+                value: req.user,
+                short: true
+            },
+            {
+                title: 'Remote Address',
+                value: getRemoteAddress(req),
+                short: true
+            },
+
+            {
+                title: 'Status Code',
+                value: err.statusCode,
+                short: true
+            }
+        ],
+        text: [
+            {
+                title: 'Stack trace:', code: err.stack
+            },
+            {
+                title: 'Request',
+                code: request
+            }
+        ].map(function (data) {
             return createCodeBlock(data.title, data.code);
         }).join(''),
         mrkdwn_in: ['text'],
@@ -47,6 +71,8 @@ const sendErrorToSlack = (token, channel, err, req) => {
         ts: parseInt(Date.now() / 1000)
     };
     (async () => {
+        const web = new WebClient(token);
+
         // console.log(`Sending error message ${attachment} in channel ${channel}`);
 
         // Post a message to the channel, and await the result.
