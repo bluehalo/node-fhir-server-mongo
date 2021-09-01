@@ -24,14 +24,14 @@ const sendErrorToSlack = (token, channel, err, req) => {
     };
     const attachment = {
         fallback: 'FHIR Server Error',
-        color: err.status < 500 ? 'warning' : 'danger',
+        color: err.statusCode < 500 ? 'warning' : 'danger',
         author_name: req.headers.host,
         title: 'FHIR Server Error',
         fields: [{title: 'Request URL', value: req.url, short: true}, {
             title: 'Request Method',
             value: req.method,
             short: true
-        }, {title: 'Status Code', value: err.status, short: true}, {
+        }, {title: 'Status Code', value: err.statusCode, short: true}, {
             title: 'Remote Address',
             value: getRemoteAddress(req),
             short: true
@@ -63,12 +63,23 @@ const sendErrorToSlack = (token, channel, err, req) => {
 };
 
 const slackErrorHandler = (err, req, res, next) => {
-    // console.log('slackErrorHandler');
-    const options = {token: env.SLACK_TOKEN, channel: env.SLACK_CHANNEL};
-    err.status = err.status || 500;
-    // if (skip !== false && skip(err, req, res)) return next(err);
-    sendErrorToSlack(options.token, options.channel, err, req);
-    next(err);
+    // console.log('env.SLACK_STATUS_CODES_TO_IGNORE', env.SLACK_STATUS_CODES_TO_IGNORE);
+    /**
+     * status codes to ignore
+     * @type {number[]}
+     */
+    const statusCodeToIgnore = env.SLACK_STATUS_CODES_TO_IGNORE ? env.SLACK_STATUS_CODES_TO_IGNORE.split(',').map(x => parseInt(x)) : [401, 404];
+    // console.log('slackErrorHandler', err);
+    if (statusCodeToIgnore.includes(err.statusCode)) {
+        next(err);
+    } else {
+        console.log('slackErrorHandler logging', err);
+        const options = {token: env.SLACK_TOKEN, channel: env.SLACK_CHANNEL};
+        err.statusCode = err.statusCode || 500;
+        // if (skip !== false && skip(err, req, res)) return next(err);
+        sendErrorToSlack(options.token, options.channel, err, req);
+        next(err);
+    }
 };
 
 module.exports.slackErrorHandler = slackErrorHandler;

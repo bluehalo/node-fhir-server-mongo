@@ -23,6 +23,7 @@ services:
       CHECK_ACCESS_TAG_ON_SAVE: 1
       RENDER_HTML: 1
       REDIRECT_TO_LOGIN: 1
+      SLACK_STATUS_CODES_TO_IGNORE: "401,404"
 #      SLACK_TOKEN: ""
 #      SLACK_CHANNEL: "#helix_pipeline_notifications_dev"
 #      HASH_REFERENCE: 1

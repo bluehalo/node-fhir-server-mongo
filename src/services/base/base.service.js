@@ -702,7 +702,7 @@ module.exports.search = async (args, {req}, resource_name, collection_name) => {
     // logRequest('scope: ' + req.authInfo.scope);
     verifyHasValidScopes(resource_name, 'read', req.user, req.authInfo && req.authInfo.scope);
     logRequest(req.user, '---- combined_args ----');
-    logRequest(req.user, args);
+    logRequest(req.user, JSON.stringify(combined_args));
     logRequest(req.user, '--------');
 
     // add any access codes from scopes
@@ -914,7 +914,7 @@ module.exports.search = async (args, {req}, resource_name, collection_name) => {
 // eslint-disable-next-line no-unused-vars
 module.exports.searchById = async (args, {req}, resource_name, collection_name) => {
     logRequest(req.user, `${resource_name} >>> searchById`);
-    logDebug(req.user, args);
+    logDebug(req.user, JSON.stringify(args));
 
     verifyHasValidScopes(resource_name, 'read', req.user, req.authInfo && req.authInfo.scope);
 

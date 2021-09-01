@@ -292,6 +292,27 @@ app.get('/index', async (req, res) => {
     }
 
     /**
+     * creates an multi key index if it does not exist
+     * @param {Db} db
+     * @param {string[]} properties_to_index
+     * @param {string} collection_name
+     * @return {Promise<boolean>}
+     */
+    async function create_multikey_index_if_not_exists(db, properties_to_index, collection_name) {
+        const index_name = properties_to_index.join('_') + '_1';
+        if (!await db.collection(collection_name).indexExists(index_name)) {
+            console.log('Creating multi key index ' + index_name + ' in ' + collection_name);
+            const my_dict = {};
+            for (const property_to_index of properties_to_index){
+                my_dict[String(property_to_index)] = 1;
+            }
+            await db.collection(collection_name).createIndex(my_dict);
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * creates indexes on a collection
      * @param {string} collection_name
      * @param {Db} db
@@ -302,6 +323,8 @@ app.get('/index', async (req, res) => {
         // check if index exists
         let createdIndex = await create_index_if_not_exists(db, 'id', collection_name);
         createdIndex = await create_index_if_not_exists(db, 'meta.lastUpdated', collection_name) || createdIndex;
+        createdIndex = await create_index_if_not_exists(db, 'meta.source', collection_name) || createdIndex;
+        createdIndex = await create_multikey_index_if_not_exists(db, ['meta.security.system', 'meta.security.code'], collection_name) || createdIndex;
         const indexes = await db.collection(collection_name).indexes();
         const count = await db.collection(collection_name).countDocuments({});
         console.log(['Found: ', count, ' documents in ', collection_name].join(''));
