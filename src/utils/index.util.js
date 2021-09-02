@@ -23,7 +23,12 @@ const customIndexes = {
  * @return {Promise<boolean>}
  */
 async function create_index_if_not_exists(db, property_to_index, collection_name) {
-    const index_name = (property_to_index + '_1').slice(0, env.MAX_INDEX_NAME_LENGTH ? parseInt(env.MAX_INDEX_NAME_LENGTH) - 1 : 124); // max index name length is 125 in mongo
+    // from https://docs.aws.amazon.com/documentdb/latest/developerguide/limits.html#limits.naming
+    // Index name: <col>$<index> :	 Length is [3–63] characters.
+    // total length combines both collection name and index name
+    const mex_index_name_length = (env.MAX_INDEX_NAME_LENGTH ? parseInt(env.MAX_INDEX_NAME_LENGTH) : 63) - collection_name.length - 1;
+
+    const index_name = (property_to_index + '_1').slice(0, mex_index_name_length - 1); // max index name length is 125 in mongo
     try {
         // https://www.tutorialspoint.com/mongodb/mongodb_indexing_limitations.htm#:~:text=A%20collection%20cannot%20have%20more,have%20maximum%2031%20fields%20indexed.
         if (!await db.collection(collection_name).indexExists(index_name)) {
@@ -49,7 +54,12 @@ async function create_index_if_not_exists(db, property_to_index, collection_name
  * @return {Promise<boolean>}
  */
 async function create_multikey_index_if_not_exists(db, properties_to_index, collection_name) {
-    const index_name = (properties_to_index.join('_1_') + '_1').slice(0, env.MAX_INDEX_NAME_LENGTH ? parseInt(env.MAX_INDEX_NAME_LENGTH) - 1 : 124); // max index name length is 125 in mongo
+    // from https://docs.aws.amazon.com/documentdb/latest/developerguide/limits.html#limits.naming
+    // Index name: <col>$<index> :	 Length is [3–63] characters.
+    // total length combines both collection name and index name
+    const mex_index_name_length = (env.MAX_INDEX_NAME_LENGTH ? parseInt(env.MAX_INDEX_NAME_LENGTH) : 63) - collection_name.length - 1;
+
+    const index_name = (properties_to_index.join('_1_') + '_1').slice(0, mex_index_name_length - 1);
     try {
         if (!await db.collection(collection_name).indexExists(index_name)) {
             console.log('Creating multi key index ' + index_name + ' in ' + collection_name);
