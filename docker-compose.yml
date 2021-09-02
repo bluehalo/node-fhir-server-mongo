@@ -39,7 +39,7 @@ services:
         test: ["CMD-SHELL", "curl --silent --fail localhost:3000/health || exit 1"]
 
   mongo:
-    image: mongo:4.0.24
+    image: mongo:4.4.8
     command: mongod --port 27017
     ports:
       - '27017:27017'
