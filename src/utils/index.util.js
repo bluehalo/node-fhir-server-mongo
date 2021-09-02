@@ -3,6 +3,7 @@ const asyncHandler = require('../lib/async-handler');
 const mongoClient = require('../lib/mongo');
 const {mongoConfig} = require('../config');
 const async = require('async');
+const env = require('var');
 
 const customIndexes = {
     'PractitionerRole_4_0_0': [
@@ -20,12 +21,13 @@ const customIndexes = {
  * @return {Promise<boolean>}
  */
 async function create_index_if_not_exists(db, property_to_index, collection_name) {
-    const index_name = property_to_index + '_1';
+    // https://www.tutorialspoint.com/mongodb/mongodb_indexing_limitations.htm#:~:text=A%20collection%20cannot%20have%20more,have%20maximum%2031%20fields%20indexed.
+    const index_name = (property_to_index + '_1').slice(0, env.MAX_INDEX_NAME_LENGTH ? parseInt(env.MAX_INDEX_NAME_LENGTH) - 1 : 124); // max index name length is 125 in mongo
     if (!await db.collection(collection_name).indexExists(index_name)) {
         console.log('Creating index ' + index_name + ' in ' + collection_name);
         const my_dict = {};
         my_dict[String(property_to_index)] = 1;
-        await db.collection(collection_name).createIndex(my_dict);
+        await db.collection(collection_name).createIndex(my_dict, {name: index_name});
         return true;
     }
     return false;
@@ -39,14 +41,14 @@ async function create_index_if_not_exists(db, property_to_index, collection_name
  * @return {Promise<boolean>}
  */
 async function create_multikey_index_if_not_exists(db, properties_to_index, collection_name) {
-    const index_name = properties_to_index.join('_1_') + '_1';
+    const index_name = (properties_to_index.join('_1_') + '_1').slice(0, env.MAX_INDEX_NAME_LENGTH ? parseInt(env.MAX_INDEX_NAME_LENGTH) - 1 : 124); // max index name length is 125 in mongo
     if (!await db.collection(collection_name).indexExists(index_name)) {
         console.log('Creating multi key index ' + index_name + ' in ' + collection_name);
         const my_dict = {};
         for (const property_to_index of properties_to_index) {
             my_dict[String(property_to_index)] = 1;
         }
-        await db.collection(collection_name).createIndex(my_dict);
+        await db.collection(collection_name).createIndex(my_dict, {name: index_name});
         return true;
     }
     return false;
