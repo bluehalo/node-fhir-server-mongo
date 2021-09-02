@@ -2,35 +2,20 @@
  * 3rd party Error Tracking Middleware
  */
 const Sentry = require('@sentry/node');
-const {WebClient} = require('@slack/web-api');
-const env = require('var');
+const {logErrorToSlack} = require('../utils/slack.logger');
 
 Sentry.init({dsn: process.env.SENTRY_DSN});
 
-function logErrorToSlack(err) {
-    if (env.SLACK_TOKEN && env.SLACK_CHANNEL) {
-        const options = {token: env.SLACK_TOKEN, channel: env.SLACK_CHANNEL};
-        (async () => {
-            const web = new WebClient(options.token);
-            // Post a message to the channel, and await the result.
-            // Find more arguments and details of the response: https://api.slack.com/methods/chat.postMessage
-            await web.chat.postMessage({
-                text: err.stack,
-                channel: options.channel,
-            });
-        })();
-    }
-}
 
-process.on('uncaughtException', (err) => {
+process.on('uncaughtException', async (err) => {
     Sentry.captureException(err);
-    logErrorToSlack(err);
+    await logErrorToSlack(err);
     process.exit(1);
 });
 
-process.on('unhandledRejection', (err) => {
+process.on('unhandledRejection', async (err) => {
     Sentry.captureException(err);
-    logErrorToSlack(err);
+    await logErrorToSlack(err);
     process.exit(1);
 });
 
