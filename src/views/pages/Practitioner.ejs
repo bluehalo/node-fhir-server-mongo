@@ -119,10 +119,7 @@
 
          <%- include('../partials/contactpoint', {contacts: res.telecom, name: "Telecom"}); %>
 
-        <div>
-            <h4>Practitioner Roles</h4>
-            <a href="/4_0_0/PractitionerRole?practitioner=<%= res.id %>">PractitionerRole?practitioner=<%= res.id %></a>
-        </div>
+        <%- include('../partials/reverse_reference', {reverseReferences: [{target:'PractitionerRole', property:'practitioner'}], id:res.id, name: "Practitioner Role"}); %>
 
         <%- include('../partials/json', {res: res}); %>
     <%})%>

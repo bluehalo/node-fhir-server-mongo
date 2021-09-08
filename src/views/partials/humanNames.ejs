@@ -4,6 +4,7 @@
     <table class="table">
       <thead>
         <tr>
+          <th scope="col">Id</th>
           <th scope="col">Use</th>
           <th scope="col">Family</th>
           <th scope="col">Given</th>
@@ -15,6 +16,7 @@
       <tbody>
     <% names.forEach(function(name){ %>
         <tr>
+          <td><%= name.id %></td>
           <td><%= name.use %></td>
           <td><a title="Search for <%= name.family %>" href="/4_0_0/<%= resourceType %>?name=<%= name.family %>"><%= name.family %></a>  </td>
           <td><% if (name.given) { %><% name.given.forEach(function(given){ %> <%= given %> <%})%> <%}%></td>

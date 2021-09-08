@@ -3,6 +3,7 @@
 <table class="table">
     <thead>
         <tr>
+          <th scope="col">Id</th>
           <th scope="col">Url</th>
           <th scope="col">Detail Url</th>
           <th scope="col">Value</th>
@@ -10,9 +11,11 @@
     </thead>
     <tbody>
     <% extensions.forEach(function(extension){ %>
-        <% if (extension.extension) { %>
+        <% if (extension && extension.extension) { %>
             <% extension.extension.forEach(function(detailExtension){ %>
+            <% if (detailExtension) {%>
             <tr>
+                <td><%= extension.id %></td>
                 <td><%= extension.url %></td>
                 <td><%= detailExtension.url %></td>
                 <td>
@@ -25,9 +28,11 @@
                 <% } %>
                 </td>
             </tr>
+            <%}%>
             <%})%>
-        <%} else {%>
+        <%} else if (extension) {%>
             <tr>
+                <td><%= extension.id %></td>
                 <td><%= extension.url %></td>
                 <td></td>
                 <td>
