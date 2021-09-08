@@ -20,6 +20,7 @@ const {
     NotValidatedError,
     ForbiddenError
 } = require('../../utils/httpErrors');
+const {MongoError} = require('../../utils/mongoErrors');
 const {validate, applyPatch, compare} = require('fast-json-patch');
 const deepmerge = require('deepmerge');
 const deepcopy = require('deepcopy');
@@ -837,125 +838,130 @@ module.exports.search = async (args, {req}, resource_name, collection_name) => {
      * mongo db cursor
      * @type {Cursor}
      */
-    let cursor = await collection.find(query, options).maxTimeMS(maxMongoTimeMS);
-    let total_count = 0;
-    if (combined_args['_total'] && (['accurate', 'estimate'].includes(combined_args['_total']))) {
-        // https://www.hl7.org/fhir/search.html#total
-        // if _total is passed then calculate the total count for matching records also
-        total_count = await cursor.count();
-    }
-    // noinspection JSUnfilteredForInLoop
-    if (combined_args['_sort']) {
-        // GET [base]/Observation?_sort=status,-date,category
-        // Each item in the comma separated list is a search parameter, optionally with a '-' prefix.
-        // The prefix indicates decreasing order; in its absence, the parameter is applied in increasing order.
-        /**
-         * @type {string}
-         */
-        const sort_properties_as_csv = combined_args['_sort'];
-        /**
-         * @type {string[]}
-         */
-        const sort_properties_list = sort_properties_as_csv.split(',');
-        for (let i in sort_properties_list) {
-            // noinspection JSUnfilteredForInLoop
+    try {
+
+        let cursor = await collection.find(query, options).maxTimeMS(maxMongoTimeMS);
+        let total_count = 0;
+        if (combined_args['_total'] && (['accurate', 'estimate'].includes(combined_args['_total']))) {
+            // https://www.hl7.org/fhir/search.html#total
+            // if _total is passed then calculate the total count for matching records also
+            total_count = await cursor.count();
+        }
+        // noinspection JSUnfilteredForInLoop
+        if (combined_args['_sort']) {
+            // GET [base]/Observation?_sort=status,-date,category
+            // Each item in the comma separated list is a search parameter, optionally with a '-' prefix.
+            // The prefix indicates decreasing order; in its absence, the parameter is applied in increasing order.
             /**
              * @type {string}
              */
-            const x = sort_properties_list[`${i}`];
-            if (x.startsWith('-')) {
-                // eslint-disable-next-line no-unused-vars
-                /**
-                 * @type {string}
-                 */
-                const x1 = x.substring(1);
-                cursor = cursor.sort({[x1]: -1});
-            } else {
-                cursor = cursor.sort({[x]: 1});
-            }
-        }
-    }
-
-    if (combined_args['_count']) {
-        // for consistency in results while paging, always sort by _id
-        // https://docs.mongodb.com/manual/reference/method/cursor.sort/#sort-cursor-consistent-sorting
-        cursor = cursor.sort({'_id': 1});
-        /**
-         * @type {number}
-         */
-        const nPerPage = Number(combined_args['_count']);
-
-        if (combined_args['_getpagesoffset']) {
-            /**
-             * @type {number}
-             */
-            const pageNumber = Number(combined_args['_getpagesoffset']);
-            cursor = cursor.skip(pageNumber > 0 ? (pageNumber * nPerPage) : 0);
-        }
-        cursor = cursor.limit(nPerPage);
-    } else {
-        if (!combined_args['id'] && !combined_args['_elements']) {
-            // set a limit so the server does not come down due to volume of data
-            cursor = cursor.limit(10);
-        }
-    }
-
-    // Resource is a resource cursor, pull documents out before resolving
-    /**
-     * resources to return
-     * @type {Resource[]}
-     */
-    const resources = [];
-    while (await cursor.hasNext()) {
-        /**
-         * element
-         * @type {Object}
-         */
-        const element = await cursor.next();
-        if (combined_args['_elements']) {
-            /**
-             * @type {string}
-             */
-            const properties_to_return_as_csv = combined_args['_elements'];
+            const sort_properties_as_csv = combined_args['_sort'];
             /**
              * @type {string[]}
              */
-            const properties_to_return_list = properties_to_return_as_csv.split(',');
-            /**
-             * @type {Resource}
-             */
-            const element_to_return = new Resource(null);
-            for (const property of properties_to_return_list) {
-                if (property in element_to_return) {
-                    // noinspection JSUnfilteredForInLoop
-                    element_to_return[`${property}`] = element[`${property}`];
+            const sort_properties_list = sort_properties_as_csv.split(',');
+            for (let i in sort_properties_list) {
+                // noinspection JSUnfilteredForInLoop
+                /**
+                 * @type {string}
+                 */
+                const x = sort_properties_list[`${i}`];
+                if (x.startsWith('-')) {
+                    // eslint-disable-next-line no-unused-vars
+                    /**
+                     * @type {string}
+                     */
+                    const x1 = x.substring(1);
+                    cursor = cursor.sort({[x1]: -1});
+                } else {
+                    cursor = cursor.sort({[x]: 1});
                 }
             }
-            resources.push(element_to_return);
-        } else {
-            resources.push(new Resource(element));
         }
-    }
 
-    if (env.RETURN_BUNDLE || combined_args['_bundle']) {
+        if (combined_args['_count']) {
+            // for consistency in results while paging, always sort by _id
+            // https://docs.mongodb.com/manual/reference/method/cursor.sort/#sort-cursor-consistent-sorting
+            cursor = cursor.sort({'_id': 1});
+            /**
+             * @type {number}
+             */
+            const nPerPage = Number(combined_args['_count']);
+
+            if (combined_args['_getpagesoffset']) {
+                /**
+                 * @type {number}
+                 */
+                const pageNumber = Number(combined_args['_getpagesoffset']);
+                cursor = cursor.skip(pageNumber > 0 ? (pageNumber * nPerPage) : 0);
+            }
+            cursor = cursor.limit(nPerPage);
+        } else {
+            if (!combined_args['id'] && !combined_args['_elements']) {
+                // set a limit so the server does not come down due to volume of data
+                cursor = cursor.limit(10);
+            }
+        }
+
+        // Resource is a resource cursor, pull documents out before resolving
         /**
-         * @type {function({Object}):Resource}
+         * resources to return
+         * @type {Resource[]}
          */
-        const Bundle = getResource(base_version, 'bundle');
-        /**
-         * @type {{resource: Resource}[]}
-         */
-        const entries = resources.map(resource => {
-            return {resource: resource};
-        });
-        return new Bundle({
-            type: 'searchset',
-            timestamp: moment.utc().format('YYYY-MM-DDThh:mm:ss.sss') + 'Z',
-            entry: entries,
-            total: total_count
-        });
-    } else {
-        return resources;
+        const resources = [];
+        while (await cursor.hasNext()) {
+            /**
+             * element
+             * @type {Object}
+             */
+            const element = await cursor.next();
+            if (combined_args['_elements']) {
+                /**
+                 * @type {string}
+                 */
+                const properties_to_return_as_csv = combined_args['_elements'];
+                /**
+                 * @type {string[]}
+                 */
+                const properties_to_return_list = properties_to_return_as_csv.split(',');
+                /**
+                 * @type {Resource}
+                 */
+                const element_to_return = new Resource(null);
+                for (const property of properties_to_return_list) {
+                    if (property in element_to_return) {
+                        // noinspection JSUnfilteredForInLoop
+                        element_to_return[`${property}`] = element[`${property}`];
+                    }
+                }
+                resources.push(element_to_return);
+            } else {
+                resources.push(new Resource(element));
+            }
+        }
+
+        if (env.RETURN_BUNDLE || combined_args['_bundle']) {
+            /**
+             * @type {function({Object}):Resource}
+             */
+            const Bundle = getResource(base_version, 'bundle');
+            /**
+             * @type {{resource: Resource}[]}
+             */
+            const entries = resources.map(resource => {
+                return {resource: resource};
+            });
+            return new Bundle({
+                type: 'searchset',
+                timestamp: moment.utc().format('YYYY-MM-DDThh:mm:ss.sss') + 'Z',
+                entry: entries,
+                total: total_count
+            });
+        } else {
+            return resources;
+        }
+    } catch (e) {
+        throw new MongoError(e.message, query);
     }
 };
 
