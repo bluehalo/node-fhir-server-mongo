@@ -65,7 +65,8 @@ tests_everything:
 
 .PHONY:lint
 lint:
-	npm run test:lint
+	npm run test:lint && \
+	npm run test:ejslint
 
 .PHONY:generate
 generate:
