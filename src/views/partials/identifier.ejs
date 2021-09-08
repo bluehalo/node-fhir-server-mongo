@@ -13,6 +13,7 @@
       </thead>
       <tbody>
     <% identifiers.forEach(function(identifier){ %>
+        <% if (identifier) {%>
         <tr>
           <td><%= identifier.id %></td>
           <td><%= identifier.value %></td>
@@ -32,6 +33,7 @@
             <%}%>
           </td>
         </tr>
+        <%}%>
     <%})%>
       </tbody>
     </table>

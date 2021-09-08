@@ -63,6 +63,8 @@
 
         <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Organization', property:'location'}], id:res.id, name: "Organization"}); %>
 
+        <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Schedule', property:'location'}], id:res.id, name: "Schedule"}); %>
+
         <%- include('../partials/json', {res: res}); %>
     <%})%>
   </div>

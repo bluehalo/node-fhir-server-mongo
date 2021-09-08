@@ -10,10 +10,12 @@
       </thead>
       <tbody>
     <% periods.forEach(function(period){ %>
+        <% if (period) {%>
         <tr>
           <td><%= period.start %></td>
           <td><%= period.end %></td>
         </tr>
+        <%}%>
     <%})%>
       </tbody>
     </table>

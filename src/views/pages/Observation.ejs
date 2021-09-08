@@ -19,11 +19,7 @@
         <%- include('../partials/codeableConcept', {codeableConcepts: res.category, name: "Category"}); %>
         <%- include('../partials/codeableConcept', {codeableConcepts: [res.code], name: "Code"}); %>
 
-        <% if (res.subject) { %>
-        <h4>Subject</h4>
-        <p>Reference: <%= res.subject.reference %></p>
-        <p>Display: <%= res.subject.display %></p>
-        <% } %>
+       <%- include('../partials/reference', {references: [res.subject], name: "Subject"}); %>
 
         <%- include('../partials/reference', {references: [res.encounter], name: "Encounter"}); %>
 

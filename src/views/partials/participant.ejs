@@ -13,7 +13,7 @@
       </thead>
       <tbody>
     <% participants.forEach(function(participant){ %>
-       <% if (participant.type) {%>
+       <% if (participant && participant.type) {%>
         <% participant.type.forEach(function(type){ %>
             <% if (type.coding) {%>
                 <% type.coding.forEach(function(coding){ %>

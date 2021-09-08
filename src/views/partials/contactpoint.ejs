@@ -14,6 +14,7 @@
       </thead>
       <tbody>
     <% contacts.forEach(function(contact){ %>
+        <% if (contact) {%>
         <tr>
           <td><%= contact.id %></td>
           <td><%= contact.system %></td>
@@ -22,6 +23,7 @@
           <td><%= contact.rank %></td>
           <td><%= contact.period %></td>
         </tr>
+        <%}%>
     <%})%>
       </tbody>
     </table>

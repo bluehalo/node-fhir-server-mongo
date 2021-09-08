@@ -28,6 +28,8 @@
 
         <%- include('../partials/reverse_reference', {reverseReferences: [{target:'PractitionerRole', property:'healthcareService'}], id:res.id, name: "Practitioner Role"}); %>
 
+        <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Schedule', property:'healthcareService'}], id:res.id, name: "Schedule"}); %>
+
         <%- include('../partials/json', {res: res}); %>
     <%})%>
   </div>

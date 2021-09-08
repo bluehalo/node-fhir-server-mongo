@@ -15,6 +15,7 @@
       </thead>
       <tbody>
     <% names.forEach(function(name){ %>
+        <% if (name) {%>
         <tr>
           <td><%= name.id %></td>
           <td><%= name.use %></td>
@@ -24,6 +25,7 @@
           <td><% if (name.period) { %> <%= name.period.start %> <%}%></td>
           <td><% if (name.period) { %> <%= name.period.end %> <%}%></td>
         </tr>
+        <%}%>
     <%})%>
       </tbody>
     </table>

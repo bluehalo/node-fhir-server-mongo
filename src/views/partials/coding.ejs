@@ -11,11 +11,13 @@
       </thead>
       <tbody>
     <% codings.forEach(function(coding){ %>
+        <% if (coding) {%>
         <tr>
           <td><%= coding.system %></td>
           <td><%= coding.code %></td>
           <td><%= coding.display %></td>
         </tr>
+        <%}%>
     <%})%>
       </tbody>
     </table>

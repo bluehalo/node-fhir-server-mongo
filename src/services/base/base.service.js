@@ -329,6 +329,8 @@ const buildR4SearchQuery = (resource_name, args) => {
             query.id = practitioner;
         } else if (['PractitionerRole'].includes(resource_name)) {
             and_segments.push(referenceQueryBuilder(practitioner_reference, 'practitioner.reference', practitioner_exists_flag));
+        } else if (['Schedule'].includes(resource_name)) {
+            and_segments.push(referenceQueryBuilder(practitioner_reference, 'actor.reference', practitioner_exists_flag));
         } else {
             logger.error(`No mapping for searching by practitioner for ${resource_name}: `);
         }
@@ -371,6 +373,8 @@ const buildR4SearchQuery = (resource_name, args) => {
             query.id = location;
         } else if (['PractitionerRole'].includes(resource_name)) {
             and_segments.push(referenceQueryBuilder(location_reference, 'location.reference', location_exists_flag));
+        } else if (['Schedule'].includes(resource_name)) {
+            and_segments.push(referenceQueryBuilder(location_reference, 'actor.reference', location_exists_flag));
         } else {
             logger.error(`No mapping for searching by location for ${resource_name}: `);
         }
@@ -390,6 +394,8 @@ const buildR4SearchQuery = (resource_name, args) => {
             query.id = healthcareService;
         } else if (['PractitionerRole'].includes(resource_name)) {
             and_segments.push(referenceQueryBuilder(healthcareService_reference, 'healthcareService.reference', healthcareService_exists_flag));
+        } else if (['Schedule'].includes(resource_name)) {
+            and_segments.push(referenceQueryBuilder(healthcareService_reference, 'actor.reference', healthcareService_exists_flag));
         } else {
             logger.error(`No mapping for searching by healthcareService for ${resource_name}: `);
         }
