@@ -20,6 +20,8 @@
 
         <%- include('../partials/reference', {references: res.actor, name: "Actor"}); %>
 
+        <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Slot', property:'schedule'}], id:res.id, name: "Slot"}); %>
+
         <%- include('../partials/json', {res: res}); %>
     <%})%>
   </div>

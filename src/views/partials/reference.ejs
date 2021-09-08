@@ -2,7 +2,9 @@
 <div>
     <h4><%= name %></h4>
     <% references.forEach(function(reference){ %>
+    <% if (reference){%>
     <a href="/4_0_0/<%= reference.reference %>"><% if (reference.display) { %><%= reference.display %><% } else {%><%= reference.reference %><% } %></a>
+    <%}%>
     <%})%>
 </div>
 <%}%>
