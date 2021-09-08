@@ -14,65 +14,20 @@
     <% resources.forEach(function(res){ %>
         <%- include('../partials/resourceHeader', {res: res}); %>
 
-        <h4>Status</h4>
-        <%= res.status %>
+        <h4>Status</h4><%= res.status %>
 
-        <h4>Outcome</h4>
-        <%= res.outcome %>
+        <h4>Outcome</h4><%= res.outcome %>
+        <h4>Created</h4><%= res.created %>
 
-        <% if (res.type) { %>
-        <div>
-            <h4>Type</h4>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th scope="col">Code</th>
-                  <th scope="col">System</th>
-                  <th scope="col">Text</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% if (res.type.coding) { %>
-                    <% res.type.coding.forEach(function(coding){ %>
-                <tr>
-                  <td><%= coding.code %></td>
-                  <td><%= coding.system %></td>
-                  <td><%= res.type.text %></td>
-                </tr>
-                    <%})%>
-                <%}%>
-              </tbody>
-            </table>
-        </div>
-        <%}%>
+        <%- include('../partials/codeableConcept', {codeableConcepts: [res.type], name: "Type"}); %>
 
-        <% if (res.patient) { %>
-        <div>
-            <h4>Patient</h4>
-            <a href="/4_0_0/<%= res.patient.reference %>"><%= res.patient.reference %></a>
-        </div>
-        <%}%>
+        <%- include('../partials/reference', {references: [res.patient], name: "Patient"}); %>
 
-        <% if (res.insurer) { %>
-        <div>
-            <h4>Insurer</h4>
-            <a href="/4_0_0/<%= res.insurer.reference %>"><%= res.insurer.reference %></a>
-        </div>
-        <%}%>
+        <%- include('../partials/reference', {references: [res.insurer], name: "Insurer"}); %>
 
-        <% if (res.provider) { %>
-        <div>
-            <h4>Provider</h4>
-            <a href="/4_0_0/<%= res.provider.reference %>"><%= res.provider.reference %></a>
-        </div>
-        <%}%>
+        <%- include('../partials/reference', {references: [res.provider], name: "Provider"}); %>
 
-        <% if (res.claim) { %>
-        <div>
-            <h4>Claim</h4>
-            <a href="/4_0_0/<%= res.claim.reference %>"><%= res.claim.reference %></a>
-        </div>
-        <%}%>
+        <%- include('../partials/reference', {references: [res.claim], name: "Claim"}); %>
 
         <% if (res.item) { %>
         <div>
@@ -103,6 +58,50 @@
                         <%= item.quantity.value %>
                     <%}%>
                  </td>
+                 </tr>
+            <%})%>
+              </tbody>
+            </table>
+        </div>
+        <%}%>
+
+        <% if (res.careTeam) { %>
+        <div>
+            <h4>Care Team</h4>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Sequence</th>
+                  <th scope="col">Provider</th>
+                </tr>
+              </thead>
+              <tbody>
+            <% res.careTeam.forEach(function(item){ %>
+                <tr>
+                    <td><%= item.sequence %></td>
+                    <td><a href="/4_0_0/<%= item.provider.reference %>"><%= item.provider.reference %></a></td>
+                 </tr>
+            <%})%>
+              </tbody>
+            </table>
+        </div>
+        <%}%>
+
+        <% if (res.insurance) { %>
+        <div>
+            <h4>Insurance</h4>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Focal</th>
+                  <th scope="col">Coverage</th>
+                </tr>
+              </thead>
+              <tbody>
+            <% res.insurance.forEach(function(item){ %>
+                <tr>
+                    <td><%= item.focal %></td>
+                    <td><a href="/4_0_0/<%= item.coverage.reference %>"><%= item.coverage.reference %></a></td>
                  </tr>
             <%})%>
               </tbody>
@@ -158,7 +157,7 @@
                 <tr>
                 <td><%= item.sequence %></td>
                 <td>
-                    <% if (item.category) { %>
+                    <% if (item.category && item.category.coding) { %>
                         <% item.category.coding.forEach(function(coding){ %>
                             <%= coding.code %> (<%= coding.system %>)
                         <%})%>

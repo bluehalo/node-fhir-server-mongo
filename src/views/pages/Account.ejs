@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+<body class="container">
+
+<header>
+  <%- include('../partials/header', {resources: resources}); %>
+</header>
+
+<main>
+  <div class="jumbotron">
+    <% resources.forEach(function(res){ %>
+        <%- include('../partials/resourceHeader', {res: res}); %>
+
+        <%- include('../partials/reference', {references: res.subject, name: "Subject"}); %>
+
+        <%- include('../partials/json', {res: res}); %>
+    <%})%>
+  </div>
+</main>
+
+<footer>
+  <%- include('../partials/footer', {url: url}); %>
+</footer>
+
+</body>
+</html>

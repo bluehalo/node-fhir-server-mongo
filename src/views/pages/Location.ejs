@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+<body class="container">
+
+<header>
+  <%- include('../partials/header', {resources: resources}); %>
+</header>
+
+<main>
+  <div class="jumbotron">
+    <% resources.forEach(function(res){ %>
+        <%- include('../partials/resourceHeader', {res: res}); %>
+
+        <h4>Status</h4><%= res.status %>
+        <h4>Name</h4><%= res.name %>
+        <h4>Mode</h4><%= res.mode %>
+
+        <%- include('../partials/codeableConcept', {codeableConcepts: res.type, name: "Type"}); %>
+
+         <%- include('../partials/contactpoint', {contacts: res.telecom, name: "Telecom"}); %>
+
+         <%- include('../partials/address', {addresses: [res.address], name: "Address"}); %>
+
+        <%- include('../partials/codeableConcept', {codeableConcepts: [res.physicalType], name: "Physical Type"}); %>
+
+        <%- include('../partials/position', {positions: [res.position], name: "Position"}); %>
+
+        <%- include('../partials/reference', {references: [res.managingOrganization], name: "Managing Organization"}); %>
+
+        <% if (res.hoursOfOperation) {%>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Days Of Week</th>
+              <th scope="col">Opening Time</th>
+              <th scope="col">Closing Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% res.hoursOfOperation.forEach(function(hoursOfOperation){%>
+            <tr>
+                <td>
+                <% if (hoursOfOperation.daysOfWeek) {%>
+                <% hoursOfOperation.daysOfWeek.forEach(function(daysOfWeek){%>
+                    <%= daysOfWeek %>
+                <%})%>
+                <%}%>
+                </td>
+                <td><%= hoursOfOperation.openingTime %></td>
+                <td><%= hoursOfOperation.closingTime %></td>
+            </tr>
+            <%})%>
+          </tbody>
+        </table>
+        <%}%>
+
+        <%- include('../partials/reverse_reference', {reverseReferences: [{target:'PractitionerRole', property:'location'}], id:res.id, name: "PractitionerRole"}); %>
+
+        <%- include('../partials/reverse_reference', {reverseReferences: [{target:'HealthcareService', property:'location'}], id:res.id, name: "HealthcareService"}); %>
+
+        <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Organization', property:'location'}], id:res.id, name: "Organization"}); %>
+
+        <%- include('../partials/json', {res: res}); %>
+    <%})%>
+  </div>
+</main>
+
+<footer>
+  <%- include('../partials/footer', {url: url}); %>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+<body class="container">
+
+<header>
+  <%- include('../partials/header', {resources: resources}); %>
+</header>
+
+<main>
+  <div class="jumbotron">
+    <% resources.forEach(function(res){ %>
+        <%- include('../partials/resourceHeader', {res: res}); %>
+
+        <h4>Name</h4><%= res.name %>
+
+        <h4>Status</h4><%= res.status %>
+
+        <%- include('../partials/codeableConcept', {codeableConcepts: res.category, name: "Category"}); %>
+
+        <%- include('../partials/reference', {references: [res.subject], name: "Subject"}); %>
+
+        <% if (res.participant) { %>
+            <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Member</th>
+                    <th scope="col">Role</th>
+                </tr>
+            </thead>
+            <tbody>
+            <% res.participant.forEach(function(participant) { %>
+                <tr>
+                    <td>
+                    <% if (participant.member){ %>
+                        <a href="/4_0_0/<%= participant.member.reference %>"><%= participant.member.reference %></a>
+                     <%}%>
+                    </td>
+                    <td>
+                       <% if (participant.role){ %>
+                       <% participant.role.forEach(function(role){%>
+                            <% if (role.coding){ %>
+                            <% role.coding.forEach(function(coding){%>
+                                <%= coding.code %> (<%= coding.display %>)
+                            <%})%>
+                            <%}%>
+                        <%})%>
+                        <%}%>
+                    </td>
+                </tr>
+            <%})%>
+            </tbody>
+            </table>
+        <%}%>
+        <%- include('../partials/json', {res: res}); %>
+    <%})%>
+  </div>
+</main>
+
+<footer>
+  <%- include('../partials/footer', {url: url}); %>
+</footer>
+
+</body>
+</html>

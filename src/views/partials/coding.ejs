@@ -1,0 +1,23 @@
+<% if (codings) { %>
+<div>
+    <h4><%= name %></h4>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">System</th>
+          <th scope="col">Code</th>
+          <th scope="col">Display</th>
+        </tr>
+      </thead>
+      <tbody>
+    <% codings.forEach(function(coding){ %>
+        <tr>
+          <td><%= coding.system %></td>
+          <td><%= coding.code %></td>
+          <td><%= coding.display %></td>
+        </tr>
+    <%})%>
+      </tbody>
+    </table>
+</div>
+<%}%>

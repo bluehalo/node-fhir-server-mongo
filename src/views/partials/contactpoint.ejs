@@ -1,0 +1,29 @@
+<% if (contacts) { %>
+<div>
+    <h4><%= name %></h4>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">System</th>
+          <th scope="col">Value</th>
+          <th scope="col">Use</th>
+          <th scope="col">Rank</th>
+          <th scope="col">Period</th>
+        </tr>
+      </thead>
+      <tbody>
+    <% contacts.forEach(function(contact){ %>
+        <tr>
+          <td><%= contact.id %></td>
+          <td><%= contact.system %></td>
+          <td><%= contact.value %></td>
+          <td><%= contact.use %></td>
+          <td><%= contact.rank %></td>
+          <td><%= contact.period %></td>
+        </tr>
+    <%})%>
+      </tbody>
+    </table>
+</div>
+<%}%>

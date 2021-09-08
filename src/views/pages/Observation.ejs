@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+<body class="container">
+
+<header>
+  <%- include('../partials/header', {resources: resources}); %>
+</header>
+
+<main>
+  <div class="jumbotron">
+    <% resources.forEach(function(res){ %>
+        <%- include('../partials/resourceHeader', {res: res}); %>
+
+        <div><h4>Status</h4><%= res.status %></div>
+
+        <%- include('../partials/codeableConcept', {codeableConcepts: res.category, name: "Category"}); %>
+        <%- include('../partials/codeableConcept', {codeableConcepts: [res.code], name: "Code"}); %>
+
+        <% if (res.subject) { %>
+        <h4>Subject</h4>
+        <p>Reference: <%= res.subject.reference %></p>
+        <p>Display: <%= res.subject.display %></p>
+        <% } %>
+
+        <%- include('../partials/reference', {references: [res.encounter], name: "Encounter"}); %>
+
+        <h4>Effective</h4><%= res.effectiveDateTime %>
+        <h4>Issued</h4><%= res.issued %>
+
+        <%- include('../partials/reference', {references: res.performer, name: "Performer"}); %>
+
+        <%- include('../partials/codeableConceptWithValue', {codeableConceptsWithValue: res.component, codePropertyName: "code", name: "Code"}); %>
+
+        <%- include('../partials/json', {res: res}); %>
+    <%})%>
+  </div>
+</main>
+
+<footer>
+  <%- include('../partials/footer', {url: url}); %>
+</footer>
+
+</body>
+</html>

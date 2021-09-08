@@ -1,0 +1,46 @@
+<% if (extensions) { %>
+<h4>Extension</h4>
+<table class="table">
+    <thead>
+        <tr>
+          <th scope="col">Url</th>
+          <th scope="col">Detail Url</th>
+          <th scope="col">Value</th>
+        </tr>
+    </thead>
+    <tbody>
+    <% extensions.forEach(function(extension){ %>
+        <% if (extension.extension) { %>
+            <% extension.extension.forEach(function(detailExtension){ %>
+            <tr>
+                <td><%= extension.url %></td>
+                <td><%= detailExtension.url %></td>
+                <td>
+                <% if (detailExtension.valueCodeableConcept) { %>
+                    <%= detailExtension.valueCodeableConcept.coding[0].code %> (<%= detailExtension.valueCodeableConcept.text %>)
+                <% } else if (detailExtension.valueRange) { %>
+                    <%= detailExtension.valueRange.low.value %> <%= detailExtension.valueRange.low.unit %> to <%= detailExtension.valueRange.high.value %> <%= detailExtension.valueRange.high.unit %>
+                <% } else { %>
+                    <%= detailExtension.valueString %><%= detailExtension.valueUri %>
+                <% } %>
+                </td>
+            </tr>
+            <%})%>
+        <%} else {%>
+            <tr>
+                <td><%= extension.url %></td>
+                <td></td>
+                <td>
+                <% if (extension.valueCodeableConcept) { %>
+                    <%= extension.valueCodeableConcept.coding[0].code %> (<%= extension.valueCodeableConcept.text %>)
+                <% } else { %>
+                    <%= extension.valueString %><%= extension.valueUri %>
+                <% } %>
+
+                </td>
+            </tr>
+        <%}%>
+    <%})%>
+    </tbody>
+</table>
+<%}%>

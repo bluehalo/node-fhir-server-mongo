@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+<body class="container">
+
+<header>
+  <%- include('../partials/header', {resources: resources}); %>
+</header>
+
+<main>
+
+  <div class="jumbotron">
+    <% resources.forEach(function(res){ %>
+        <%- include('../partials/resourceHeader', {res: res}); %>
+
+        <% if (res.type) { %>
+        <%- include('../partials/coding', {codings: [res.type], name: "Type"}); %>
+        <%}%>
+
+        <% if (res.subtype) { %>
+        <%- include('../partials/coding', {codings: res.subtype, name: "SubType"}); %>
+        <%}%>
+
+        <h4>Recorded</h4><%= res.recorded %>
+
+        <% if (res.agent) { %>
+        <h4>Agents</h4>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Type</th>
+                  <th scope="col">Role</th>
+                  <th scope="col">Who</th>
+                </tr>
+              </thead>
+              <tbody>
+            <% res.agent.forEach(function(agent){ %>
+                <tr>
+                  <td><% if (agent.type && agent.type.coding && agent.type.coding.length > 0) { %><%= agent.type.coding[0].code %><%}%></td>
+                  <td><% if (agent.role && agent.role.length > 0 && agent.role[0].coding) { %><%= agent.role[0].coding[0].code %><%}%></td>
+                  <td><% if (agent.who) { %><%= agent.who.reference %><%}%></td>
+                </tr>
+             <%})%>
+              </tbody>
+            </table>
+        <%}%>
+
+        <% if (res.source) { %>
+        <h4>Source</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                  <th scope="col">Site</th>
+                  <th scope="col">Observer</th>
+                  <th scope="col">Type System</th>
+                  <th scope="col">Type Code</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><% if (res.source) { %><%= res.source.site %><%}%></td>
+                    <td><% if (res.source && res.source.observer) { %><%= res.source.observer.reference %><%}%></td>
+                    <td><% if (res.source && res.source.type && res.source.type.length > 0) { %><%= res.source.type[0].system %><%}%></td>
+                    <td><% if (res.source && res.source.type && res.source.type.length > 0) { %><%= res.source.type[0].code %><%}%></td>
+                </tr>
+            </tbody>
+        </table>
+        <%}%>
+
+        <% if (res.entity) { %>
+        <h4>Entity</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                  <th scope="col">Type</th>
+                  <th scope="col">Value</th>
+                </tr>
+            </thead>
+            <tbody>
+            <% res.entity.forEach(function(entity){ %>
+                <% if (entity.detail) { %>
+                    <% entity.detail.forEach(function(detail){ %>
+                <tr>
+                    <td><%= detail.type %></td>
+                    <td><%= detail.valueString %></td>
+                </tr>
+                    <%})%>
+                <%}%>
+            <%})%>
+            </tbody>
+        </table>
+        <%}%>
+
+        <%- include('../partials/json', {res: res}); %>
+    <%})%>
+  </div>
+</main>
+
+<footer>
+  <%- include('../partials/footer', {url: url}); %>
+</footer>
+
+</body>
+</html>

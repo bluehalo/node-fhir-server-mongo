@@ -3,6 +3,20 @@
   <div class="container">
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
+        <% if (resourceDefinition) {%>
+        <li class="nav-item">
+            <a class="nav-link" href="<%= resourceDefinition.url %>"><%= resourceDefinition.name %>: <%= resourceDefinition.description %>
+            </a>
+        </li>
+        <%}%>
+      </ul>
+    </div>
+  </div>
+</nav>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container">
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
         <li class="nav-item">
         <% if (total > 0) { %>
             <a class="nav-link" href="#">Resources (<%= resources.length %> out of <%= total %> total): </a>
@@ -13,7 +27,7 @@
     <% if (resources.length > 0) { %>
         <% resources.forEach(function(res){ %>
         <li class="nav-item">
-            <a class="nav-link  text-truncate" href="#<%= res.id %>" style="max-width: 250px"><%= res.id %></a>
+            <a class="nav-link text-truncate" href="#<%= res.id %>" style="max-width: 250px"><%= res.id %></a>
         </li>
         <%})%>
     <%}%>

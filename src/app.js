@@ -23,6 +23,7 @@ const {slackErrorHandler} = require('./middleware/slackErrorHandler');
 const childProcess = require('child_process');
 
 const {getIndexesInAllCollections} = require('./utils/index.util');
+const {resourceDefinitions} = require('./utils/resourceDefinitions');
 
 const app = express();
 
@@ -155,10 +156,10 @@ app.get('/logout', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-    res.writeHead(200, {'Content-Type': 'text/html'});
-    // noinspection HtmlUnknownTarget
-    res.write('<html lang="en"><head><title>Helix FHIR Server</title></head><body><h2><img src="/images/helix.png" height="32px" alt="Helix" />&nbsp;Helix FHIR Server</h2><div>Documentation:&nbsp;<a href="https://github.com/icanbwell/fhir-server/blob/master/cheatsheet.md">https://github.com/icanbwell/fhir-server/blob/master/cheatsheet.md</a></div><div>&nbsp;</div><div>To access data:&nbsp;<a href="/4_0_0/Patient">/4_0_0/Patient</a>&nbsp;(Requires Authentication) </div></body></html>');
-    res.end();
+    const home_options = {
+        resources: resourceDefinitions,
+    };
+    return res.render(__dirname + '/views/pages/home', home_options);
 });
 
 app.get('/clean/:collection?', async (req, res) => {

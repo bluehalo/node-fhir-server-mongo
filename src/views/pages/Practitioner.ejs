@@ -7,11 +7,11 @@
 
 <header>
   <%- include('../partials/header', {resources: resources}); %>
+
 </header>
 
 <main>
-
-  <div class="jumbotron">
+  <div>
       <nav class="navbar navbar-light bg-light">
         <div class="container-fluid">
         <form class="row g-3">
@@ -20,20 +20,12 @@
             <input type="text" class="form-control" id="inputName" placeholder="Name">
           </div>
           <div class="col-auto">
-            <label for="inputFamily" class="visually-hidden">Family</label>
-            <input type="text" class="form-control" id="inputFamily" placeholder="Family">
+            <label for="inputNpi" class="visually-hidden">NPI</label>
+            <input type="text" class="form-control" id="inputNpi" placeholder="NPI">
           </div>
           <div class="col-auto">
             <label for="inputSource" class="visually-hidden">Source</label>
             <input type="text" class="form-control" id="inputSource" placeholder="Source">
-          </div>
-          <div class="col-auto">
-            <label for="inputIdentifierSystem" class="visually-hidden">Identifier System</label>
-            <input type="text" class="form-control" id="inputIdentifierSystem" placeholder="Identifier System">
-          </div>
-          <div class="col-auto">
-            <label for="inputIdentifierValue" class="visually-hidden">Identifier Value</label>
-            <input type="text" class="form-control" id="inputIdentifierValue" placeholder="Identifier Value">
           </div>
           <div class="col-auto">
             <label for="inputLastUpdatedGreaterThan" class="visually-hidden">Updated After</label>
@@ -51,9 +43,9 @@
         </form>
         </div>
     </nav>
-      <script>
+    <script>
         function searchIt(){
-            let url = "/4_0_0/Patient"
+            let url = "/4_0_0/Practitioner"
             let hasSearchItem = false;
             // Selecting the input element and get its value
             var inputName = document.getElementById("inputName").value;
@@ -62,21 +54,15 @@
                 hasSearchItem = true;
             }
 
-            var inputNpi = document.getElementById("inputFamily").value;
+            var inputNpi = document.getElementById("inputNpi").value;
             if (inputNpi){
-                url = url + (hasSearchItem ? "&" : "?") + "family=" + inputName
+                url = url + (hasSearchItem ? "&" : "?") + "identifier=http://hl7.org/fhir/sid/us-npi|" + inputNpi
                 hasSearchItem = true;
             }
 
             var inputSource = document.getElementById("inputSource").value;
             if (inputSource){
                  url = url + (hasSearchItem ? "&" : "?") + "source=" + inputSource
-                hasSearchItem = true;
-            }
-            var inputIdentifierSystem = document.getElementById("inputIdentifierSystem").value;
-            var inputIdentifierValue = document.getElementById("inputIdentifierValue").value;
-            if (inputIdentifierSystem && inputIdentifierValue){
-                 url = url + (hasSearchItem ? "&" : "?") + "identifier=" + inputIdentifierSystem + "|" + inputIdentifierValue
                 hasSearchItem = true;
             }
             var inputLastUpdatedGreaterThan = document.getElementById("inputLastUpdatedGreaterThan").value;
@@ -101,14 +87,42 @@
 
         <div><h4>Gender</h4><%= res.gender %></div>
 
-        <% if (res.generalPractitioner) { %>
+        <% if (res.qualification) { %>
         <div>
-            <h4>General Practitioners</h4>
-            <% res.generalPractitioner.forEach(function(generalPractitioner){ %>
-                <div><a href="/4_0_0/<%= generalPractitioner.reference %>"><%= generalPractitioner.display %></a></div>
+            <h4>Qualifications</h4>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Code</th>
+                  <th scope="col">Display</th>
+                  <th scope="col">System</th>
+                </tr>
+              </thead>
+              <tbody>
+            <% res.qualification.forEach(function(qualification){ %>
+                <% if (qualification.code && qualification.code.coding) { %>
+                    <% qualification.code.coding.forEach(function(coding){ %>
+                <tr>
+                  <td><%= coding.code %></td>
+                  <td><%= coding.display %></td>
+                  <td><%= coding.system %></td>
+                </tr>
+                    <%})%>
+                <%}%>
             <%})%>
+              </tbody>
+            </table>
         </div>
         <%}%>
+
+        <%- include('../partials/codeableConcept', {codeableConcepts: res.communication, name: "Communication"}); %>
+
+         <%- include('../partials/contactpoint', {contacts: res.telecom, name: "Telecom"}); %>
+
+        <div>
+            <h4>Practitioner Roles</h4>
+            <a href="/4_0_0/PractitionerRole?practitioner=<%= res.id %>">PractitionerRole?practitioner=<%= res.id %></a>
+        </div>
 
         <%- include('../partials/json', {res: res}); %>
     <%})%>

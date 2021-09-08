@@ -1,0 +1,27 @@
+<% if (meta) { %>
+<div>
+    <h4>Meta</h4>
+    <div><b>Last Updated:</b> <%= meta.lastUpdated %> <a title="Get <%= res.resourceType %> resources before this date" href="/4_0_0/<%= res.resourceType %>?_lastUpdated=lt<%= meta.lastUpdated %>">[Before This]</a>&nbsp;<a title="Get <%= res.resourceType %> resources after this date" href="/4_0_0/<%= res.resourceType %>?_lastUpdated=gt<%= meta.lastUpdated %>">[After This]</a></div>
+    <div><b>Version:</b> <%= meta.versionId %>&nbsp;<a title="Show history for this resource" href="/4_0_0/<%= res.resourceType %>/<%= res.id %>/_history">[History]</a> </div>
+    <div><b>Source:</b> <a title="Filter <%= res.resourceType %> by <%= meta.source %>" href="/4_0_0/<%= res.resourceType %>?source=<%= meta.source %>"><%= meta.source %></a></div>
+    <h5>Security</h5>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Code</th>
+          <th scope="col">System</th>
+        </tr>
+      </thead>
+      <tbody>
+      <% if (meta.security) { %>
+        <% meta.security.forEach(function(security){ %>
+        <tr>
+          <td><a title="Filter <%= res.resourceType %> by <%= security.code %>" href="/4_0_0/<%= res.resourceType %>?_security=<%= security.system %>|<%= security.code %>"><%= security.code %></a></td>
+          <td><%= security.system %></td>
+        </tr>
+        <%})%>
+    <%}%>
+      </tbody>
+    </table>
+</div>
+<%}%>

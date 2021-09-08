@@ -1,0 +1,43 @@
+<% if (codeableConceptsWithValue && codeableConceptsWithValue.length > 0) { %>
+<div>
+    <h4><%= name %></h4>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Text</th>
+          <th scope="col">Code System</th>
+          <th scope="col">Code</th>
+          <th scope="col">Value</th>
+        </tr>
+      </thead>
+      <tbody>
+    <% codeableConceptsWithValue.forEach(function(codeableConceptWithValue){ %>
+       <% if(codeableConceptWithValue[codePropertyName] && codeableConceptWithValue[codePropertyName].coding){%>
+        <% codeableConceptWithValue[codePropertyName].coding.forEach(function(coding){ %>
+        <tr>
+          <td><%= codeableConceptWithValue[codePropertyName].text %></td>
+          <td><%= coding.system %></td>
+          <td><%= coding.code %></td>
+          <td>
+          <% if (codeableConceptWithValue.valueQuantity) { %>
+            <%= codeableConceptWithValue.valueQuantity.value %> <%= codeableConceptWithValue.valueQuantity.unit %>
+          <% } else if (codeableConceptWithValue.value) { %>
+            <%= codeableConceptWithValue.value %>
+          <% } else if (codeableConceptWithValue.valueString) { %>
+            <%= codeableConceptWithValue.valueString %>
+          <% } else if (codeableConceptWithValue.valueBoolean) { %>
+            <%= codeableConceptWithValue.valueBoolean %>
+          <% } else if (codeableConceptWithValue.valueInteger) { %>
+            <%= codeableConceptWithValue.valueInteger %>
+          <% } else if (codeableConceptWithValue.valueRange) { %>
+            <%= codeableConceptWithValue.valueRange.low %> to <%= codeableConceptWithValue.valueRange.high %>
+          <% } %>
+          </td>
+        </tr>
+           <%})%>
+        <%}%>
+    <%})%>
+      </tbody>
+    </table>
+</div>
+<%}%>

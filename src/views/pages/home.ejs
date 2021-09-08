@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Helix FHIR Server</title>
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+
+    <link rel="stylesheet" href="/icons/bootstrap-icons.css">
+</head>
+<body class="container">
+
+<header>
+</header>
+
+<main>
+  <div class="jumbotron">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <img src="/images/helix.png" height="64px" />
+            <a class="navbar-brand"><h2>Helix FHIR Server</h2></a>
+            <form class="d-flex">
+            </form>
+        </div>
+    </nav>
+    <div>&nbsp;</div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Resource</th>
+          <th scope="col">Description</th>
+          <th scope="col">Url</th>
+        </tr>
+      </thead>
+      <tbody>
+      <% resources.forEach(function(resource){%>
+      <tr>
+        <td><a href="<%= resource.url %>" title="FHIR Specification for <%= resource.name %>"><%= resource.name %></a></td>
+        <td><%= resource.description %></td>
+        <td>
+            <a href="/4_0_0/<%= resource.name %>">/4_0_0/<%= resource.name %></a>
+        </td>
+      </tr>
+      <%})%>
+      </tbody>
+    </table>
+  </div>
+</main>
+
+<footer>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <p class="">&copy; Copyright 2021 b.well Connected Health</p>
+        </div>
+    </nav>
+</footer>
+
+</body>
+</html>

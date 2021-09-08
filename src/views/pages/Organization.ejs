@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+<body class="container">
+
+<header>
+  <%- include('../partials/header', {resources: resources}); %>
+</header>
+
+<main>
+  <div class="jumbotron">
+    <% resources.forEach(function(res){ %>
+        <%- include('../partials/resourceHeader', {res: res}); %>
+
+        <h4>Active</h4><%= res.active %>
+        <h4>Name</h4><%= res.name %>
+
+        <%- include('../partials/codeableConcept', {codeableConcepts: res.type, name: "Type"}); %>
+
+         <%- include('../partials/address', {addresses: res.address, name: "Address"}); %>
+
+         <%- include('../partials/contactpoint', {contacts: res.telecom, name: "Telecom"}); %>
+
+        <%- include('../partials/reverse_reference', {reverseReferences: [{target:'PractitionerRole', property:'organization'}], id:res.id, name: "Practitioner Role"}); %>
+
+        <%- include('../partials/reverse_reference', {reverseReferences: [{target:'HealthcareService', property:'organization'}], id:res.id, name: "Healthcare Service"}); %>
+
+        <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Location', property:'organization'}], id:res.id, name: "Location"}); %>
+
+        <%- include('../partials/json', {res: res}); %>
+    <%})%>
+  </div>
+</main>
+
+<footer>
+  <%- include('../partials/footer', {url: url}); %>
+</footer>
+
+</body>
+</html>

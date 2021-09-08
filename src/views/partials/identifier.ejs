@@ -1,0 +1,39 @@
+<% if (identifiers) { %>
+<div>
+    <h4><%= name %></h4>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Value</th>
+          <th scope="col">System</th>
+          <th scope="col">Type Code</th>
+          <th scope="col">Type System</th>
+        </tr>
+      </thead>
+      <tbody>
+    <% identifiers.forEach(function(identifier){ %>
+        <tr>
+          <td><%= identifier.id %></td>
+          <td><%= identifier.value %></td>
+          <td><%= identifier.system %></td>
+          <td>
+            <% if (identifier.type && identifier.type.coding) { %>
+            <% identifier.type.coding.forEach(function(coding){ %>
+            <%= coding.code %> &nbsp;
+            <%})%>
+            <%}%>
+          </td>
+          <td>
+            <% if (identifier.type && identifier.type.coding) { %>
+            <% identifier.type.coding.forEach(function(coding){ %>
+            <%= coding.system %> &nbsp;
+            <%})%>
+            <%}%>
+          </td>
+        </tr>
+    <%})%>
+      </tbody>
+    </table>
+</div>
+<%}%>

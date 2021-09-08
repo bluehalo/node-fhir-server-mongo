@@ -1,0 +1,23 @@
+<% if (positions) { %>
+<div>
+    <h4><%= name %></h4>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Latitude</th>
+          <th scope="col">Longitude</th>
+          <th scope="col">Map</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% positions.forEach(function(position){%>
+        <tr>
+          <td><%= position.latitude %></td>
+          <td><%= position.longitude %></td>
+          <td><a target="_blank" href="https://www.google.com/maps/search/?api=1&query=<%= position.latitude %>%2C<%= position.longitude %>">Map</a></td>
+        </tr>
+        <%})%>
+      </tbody>
+    </table>
+</div>
+<%}%>

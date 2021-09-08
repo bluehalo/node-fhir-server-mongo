@@ -1,0 +1,31 @@
+<% if (addresses) { %>
+<div>
+    <h4><%= name %></h4>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Use</th>
+          <th scope="col">Type</th>
+          <th scope="col">Line</th>
+          <th scope="col">City</th>
+          <th scope="col">State</th>
+          <th scope="col">PostalCode</th>
+        </tr>
+      </thead>
+      <tbody>
+    <% addresses.forEach(function(address){ %>
+        <tr>
+          <td><%= address.id %></td>
+          <td><%= address.use %></td>
+          <td><%= address.type %></td>
+          <td><%= address.line %></td>
+          <td><%= address.city %></td>
+          <td><%= address.state %></td>
+          <td><%= address.postalCode %></td>
+        </tr>
+    <%})%>
+      </tbody>
+    </table>
+</div>
+<%}%>

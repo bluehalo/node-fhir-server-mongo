@@ -1,3 +1,5 @@
+const {resourceDefinitions} = require('../utils/resourceDefinitions');
+
 const htmlRenderer = (req, res, next) => {
     // console.log('--- user agent ----');
     // console.log(req.useragent);
@@ -6,7 +8,7 @@ const htmlRenderer = (req, res, next) => {
     // console.log(parts);
     // console.log(parts.length);
     if (parts && parts.length > 2 && !parts.includes('raw=1') && parts[1] === '4_0_0') {
-        const resourceName = parts[2].toLowerCase();
+        const resourceName = parts[2];
         if (req.accepts('text/html') && req.method === 'GET' && req.useragent && req.useragent.isDesktop) {
             // override the json function so we can intercept the data being sent the client
             let oldJson = res.json;
@@ -35,15 +37,19 @@ const htmlRenderer = (req, res, next) => {
                 // console.log('resource: ' + resourceName);
                 const env = require('var');
 
-                const customViews = ['patient', 'practitioner', 'practitionerrole', 'location', 'organization', 'explanationofbenefit'];
+                const resourceDefinition = resourceDefinitions.find(r => r.name === resourceName);
+
                 const options = {
                     resources: parsedData,
                     url: req.url,
                     idpUrl: env.AUTH_CODE_FLOW_URL,
                     clientId: env.AUTH_CODE_FLOW_CLIENT_ID,
-                    total: total
+                    total: total,
+                    resourceDefinition: resourceDefinition,
+                    environment: env.ENV || 'local'
                 };
-                if (customViews.includes(resourceName)) {
+
+                if (resourceDefinition) {
                     return res.render(__dirname + '/../views/pages/' + resourceName, options);
                 } else {
                     return res.render(__dirname + '/../views/pages/index', options);

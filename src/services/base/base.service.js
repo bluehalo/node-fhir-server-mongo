@@ -287,7 +287,9 @@ const buildR4SearchQuery = (resource_name, args) => {
         } else if (['Appointment'].includes(resource_name)) {
             //TODO: participant is a list
             and_segments.push(referenceQueryBuilder(patient_reference, 'participant.actor.reference', patient_exists_flag));
-        } else if (['CarePlan',
+        } else if ([
+            'Account',
+            'CarePlan',
             'Condition',
             'DocumentReference',
             'Encounter',
@@ -296,10 +298,17 @@ const buildR4SearchQuery = (resource_name, args) => {
             'Procedure',
             'ServiceRequest',
             'CareTeam',
-            'QuestionnaireResponse'].includes(resource_name)) {
+            'QuestionnaireResponse',
+            'MeasureReport'].includes(resource_name)) {
             and_segments.push(referenceQueryBuilder(patient_reference, 'subject.reference', patient_exists_flag));
         } else if (['Coverage'].includes(resource_name)) {
             and_segments.push(referenceQueryBuilder(patient_reference, 'beneficiary.reference', patient_exists_flag));
+        } else if (['AuditEvent'].includes(resource_name)) {
+            and_segments.push(referenceQueryBuilder(patient_reference, 'agent.who.reference', patient_exists_flag));
+        } else if (['Person'].includes(resource_name)) {
+            and_segments.push(referenceQueryBuilder(patient_reference, 'link.target.reference', patient_exists_flag));
+        } else if (['Schedule'].includes(resource_name)) {
+            and_segments.push(referenceQueryBuilder(patient_reference, 'actor.reference', patient_exists_flag));
         } else {
             logger.error(`No mapping for searching by patient for ${resource_name}: `);
         }
