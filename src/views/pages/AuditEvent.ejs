@@ -40,7 +40,7 @@
                 <tr>
                   <td><% if (agent.type && agent.type.coding && agent.type.coding.length > 0) { %><%= agent.type.coding[0].code %><%}%></td>
                   <td><% if (agent.role && agent.role.length > 0 && agent.role[0].coding) { %><%= agent.role[0].coding[0].code %><%}%></td>
-                  <td><% if (agent.who) { %><%= agent.who.reference %><%}%></td>
+                  <td><% if (agent.who) { %><a href="/4_0_0/<%= agent.who.reference %>"><% if (agent.who.display) { %><%= agent.who.display %><% } else {%><%= agent.who.reference %><% } %></a><%}%></td>
                 </tr>
              <%})%>
               </tbody>

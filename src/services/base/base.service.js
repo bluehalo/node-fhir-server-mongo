@@ -207,6 +207,7 @@ const buildR4SearchQuery = (resource_name, args) => {
     let location = args['location'];
     let healthcareService = args['healthcareService'];
     let schedule = args['schedule'];
+    let agent = args['agent'];
     let name = args['name'];
     let family = args['family'];
 
@@ -417,6 +418,25 @@ const buildR4SearchQuery = (resource_name, args) => {
             and_segments.push(referenceQueryBuilder(schedule_reference, 'schedule.reference', schedule_exists_flag));
         } else {
             logger.error(`No mapping for searching by schedule for ${resource_name}: `);
+        }
+    }
+    if (agent || args['agent:missing']) {
+        const agent_reference = agent.includes('/') ? agent : ('Person/' + agent);
+        /**
+         * @type {?boolean}
+         */
+        let agent_exists_flag = null;
+        if (args['agent:missing']) {
+            agent_exists_flag = !isTrue(args['agent:missing']);
+        }
+
+        // each Resource type has a different place to put the patient info
+        if (['Person'].includes(resource_name)) {
+            query.id = agent;
+        } else if (['AuditEvent'].includes(resource_name)) {
+            and_segments.push(referenceQueryBuilder(agent_reference, 'agent.who.reference', agent_exists_flag));
+        } else {
+            logger.error(`No mapping for searching by agent for ${resource_name}: `);
         }
     }
     if (name) {

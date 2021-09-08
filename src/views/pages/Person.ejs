@@ -46,6 +46,9 @@
             </tbody>
             </table>
         <%}%>
+
+        <%- include('../partials/reverse_reference', {reverseReferences: [{target:'AuditEvent', property:'agent'}], id:res.id, name: "Audit Event"}); %>
+
         <%- include('../partials/json', {res: res}); %>
     <%})%>
   </div>
