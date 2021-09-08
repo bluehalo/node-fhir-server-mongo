@@ -49,10 +49,10 @@ const logErrorAndRequestToSlack = async (token, channel, err, req) => {
         user: req.user
     };
     const attachment = {
-        fallback: 'FHIR Server Error',
+        fallback: 'FHIR Server Error: ' + err.message,
         color: err.statusCode < 500 ? 'warning' : 'danger',
         author_name: req.headers.host,
-        title: 'FHIR Server Error',
+        title: 'FHIR Server Error: ' + err.message,
         fields: [
             {
                 title: 'Request Method',
@@ -82,6 +82,9 @@ const logErrorAndRequestToSlack = async (token, channel, err, req) => {
             }
         ],
         text: [
+            {
+                title: 'Error:', code: err.message
+            },
             {
                 title: 'Stack trace:', code: err.stack
             },
