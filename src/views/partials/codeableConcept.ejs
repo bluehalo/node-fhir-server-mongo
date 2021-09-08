@@ -12,7 +12,7 @@
       </thead>
       <tbody>
     <% codeableConcepts.forEach(function(codeableConcept){ %>
-       <% if (codeableConcept.coding) {%>
+       <% if (codeableConcept && codeableConcept.coding) {%>
             <% codeableConcept.coding.forEach(function(coding){ %>
         <tr>
            <td><%= coding.id %></td>

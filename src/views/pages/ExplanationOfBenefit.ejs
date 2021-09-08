@@ -115,6 +115,7 @@
             <table class="table">
               <thead>
                 <tr>
+                  <th scope="col">id</th>
                   <th scope="col">Code</th>
                   <th scope="col">Amount</th>
                 </tr>
@@ -122,6 +123,7 @@
               <tbody>
             <% res.total.forEach(function(total){ %>
                 <tr>
+                <td><%= total.id %></td>
                 <td>
                     <% if (total.category) { %>
                         <% total.category.coding.forEach(function(coding){ %>
@@ -149,7 +151,7 @@
                 <tr>
                   <th scope="col">Sequence</th>
                   <th scope="col">Code</th>
-                  <th scope="col">Quantity</th>
+                  <th scope="col">Value</th>
                 </tr>
               </thead>
               <tbody>
@@ -166,8 +168,11 @@
                  <td>
                     <% if (item.valueQuantity) { %>
                         <%= item.valueQuantity.value %>
-                    <%}%>
-                    <% if (item.valueString) { %>
+                    <%} else if (item.code && item.code.coding && item.code.coding.length > 0) { %>
+                        <% item.code.coding.forEach(function(coding){%>
+                            <%= coding.code %> <% if (item.valueString) {%>(<%= item.valueString %>)<%}%>
+                        <%})%>
+                    <%} else if (item.valueString) { %>
                         <%= item.valueString %>
                     <%}%>
                  </td>
