@@ -66,6 +66,13 @@ const {
  */
 
 
+// This is needed for JSON.stringify() can handle regex
+// https://stackoverflow.com/questions/12075927/serialization-of-regexp
+// eslint-disable-next-line no-extend-native
+Object.defineProperty(RegExp.prototype, 'toJSON', {
+  value: RegExp.prototype.toString
+});
+
 /**
  * Gets class for the given resource_name and version
  * @param {string} base_version
@@ -257,7 +264,7 @@ const buildR4SearchQuery = (resource_name, args) => {
     }
 
     if (source) {
-        query['meta.source'] = stringQueryBuilder(source);
+        query['meta.source'] = source;
     }
 
     if (versionId) {
@@ -839,7 +846,6 @@ module.exports.search = async (args, {req}, resource_name, collection_name) => {
      * @type {Cursor}
      */
     try {
-
         let cursor = await collection.find(query, options).maxTimeMS(maxMongoTimeMS);
         let total_count = 0;
         if (combined_args['_total'] && (['accurate', 'estimate'].includes(combined_args['_total']))) {
