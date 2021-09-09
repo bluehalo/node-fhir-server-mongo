@@ -26,6 +26,7 @@ services:
       SLACK_STATUS_CODES_TO_IGNORE: "401,404"
       MAX_INDEX_NAME_LENGTH: 65
       ENV: foo
+      MONGO_TIMEOUT: 30000
 #      SLACK_TOKEN: ""
 #      SLACK_CHANNEL: "#helix_pipeline_notifications_dev"
 #      HASH_REFERENCE: 1

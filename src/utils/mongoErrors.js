@@ -3,11 +3,13 @@ class MongoError extends Error {
      * Creates an error for mongo
      * @param {string} message
      * @param {Error} error
+     * @param {string} collection
      * @param {*} query
      * @param {*} options
      */
-    constructor(message, error, query, options = {}) {
-        super(message + ': ' + JSON.stringify(query));
+    constructor(message, error, collection, query, options = {}) {
+        super(message + ': ' + collection + ': ' + JSON.stringify(query) + ' | ' + JSON.stringify(options));
+        this.collection = collection;
         this.query = query;
         for (const [key, value] of Object.entries(options)) {
             this[`${key}`] = value;

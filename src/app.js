@@ -228,12 +228,12 @@ app.get('/stats', async (req, res) => {
     /**
      * gets stats for a collection
      * @param {string} collection_name
-     * @param {IDBDatabase} db
+     * @param {import('mongodb').Db} db
      * @return {Promise<{name, count: *}>}
      */
     async function getStatsForCollection(collection_name, db) {
         console.log(collection_name);
-        const count = await db.collection(collection_name).countDocuments({});
+        const count = await db.collection(collection_name).estimatedDocumentCount();
         console.log(['Found: ', count, ' documents in ', collection_name].join(''));
         return {name: collection_name, count: count};
     }
