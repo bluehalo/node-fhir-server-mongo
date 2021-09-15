@@ -900,9 +900,11 @@ module.exports.search = async (args, {req}, resource_name, collection_name) => {
 
         // if _count is specified then limit mongo query to that
         if (combined_args['_count']) {
-            // for consistency in results while paging, always sort by _id
-            // https://docs.mongodb.com/manual/reference/method/cursor.sort/#sort-cursor-consistent-sorting
-            options['sort'] = {'_id': 1};
+            if (!('sort' in options)) {
+                // for consistency in results while paging, always sort by _id
+                // https://docs.mongodb.com/manual/reference/method/cursor.sort/#sort-cursor-consistent-sorting
+                options['sort'] = {'_id': 1};
+            }
             /**
              * @type {number}
              */

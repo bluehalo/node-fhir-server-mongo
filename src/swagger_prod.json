@@ -97,6 +97,28 @@
             }
           }
         }
+    },
+    "/4_0_0/Coverage/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "ID of Coverage that we want to find",
+          "type": "string"
+        }
+      ],
+      "get": {
+          "tags": [
+            "Coverage"
+          ],
+          "summary": "Get R4 Coverage",
+          "responses": {
+            "200": {
+              "description": "OK"
+            }
+          }
+        }
     }
   }
 }
