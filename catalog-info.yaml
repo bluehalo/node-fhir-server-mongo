@@ -1,0 +1,12 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: fhir-server
+  description: Core FHIR API Service
+  annotations:
+    github.com/project-slug: icanbwell/fhir-server
+    opsgenie.com/component-selector: 'tag:"service:fhir-server"'
+spec:
+  type: service
+  owner: helix-group
+  lifecycle: production
