@@ -18,6 +18,7 @@ const path = require('path');
 const useragent = require('express-useragent');
 const {htmlRenderer} = require('./middleware/htmlRenderer');
 const {slackErrorHandler} = require('./middleware/slackErrorHandler');
+const { graphqlish } = require('./middleware/graphql/graphqlish.service');
 
 // eslint-disable-next-line security/detect-child-process
 const childProcess = require('child_process');
@@ -121,6 +122,11 @@ const options = {
         }
     }
 };
+
+app.use('/graphql', bodyParser.json(), async (req, res) => {
+    const request = await graphqlish(req);
+    res.json(request);
+});
 
 app.use(
     '/api-docs',
