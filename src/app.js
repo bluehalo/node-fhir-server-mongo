@@ -18,6 +18,7 @@ const path = require('path');
 const useragent = require('express-useragent');
 const {htmlRenderer} = require('./middleware/htmlRenderer');
 const {slackErrorHandler} = require('./middleware/slackErrorHandler');
+const {graphql} = require('./middleware/graphqlServer');
 
 // eslint-disable-next-line security/detect-child-process
 const childProcess = require('child_process');
@@ -41,6 +42,7 @@ Prometheus.startCollection();
 // Set EJS as templating engine
 app.set('views', path.join(__dirname, '/views'));
 app.set('view engine', 'ejs');
+
 
 /**
  * returns whether the parameter is false or a string "false"
@@ -101,7 +103,7 @@ const fhirApp = new MyFHIRServer(fhirServerConfig).configureMiddleware().configu
 app.use(function (req, res, next) {
     res.setHeader(
         'Content-Security-Policy',
-        "default-src 'self'; object-src data: 'unsafe-eval'; font-src 'self'; img-src 'self' 'unsafe-inline' 'unsafe-hashes' 'unsafe-eval' data:; script-src 'self' 'unsafe-inline' https://ajax.googleapis.com/ https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline'; frame-src 'self'; connect-src 'self' " + env.AUTH_CODE_FLOW_URL + '/oauth2/token;'
+        "default-src 'self'; object-src data: 'unsafe-eval'; font-src 'self' https://fonts.gstatic.com; img-src 'self' 'unsafe-inline' 'unsafe-hashes' 'unsafe-eval' data: http://cdn.jsdelivr.net; script-src 'self' 'unsafe-inline' https://ajax.googleapis.com/ https://cdnjs.cloudflare.com http://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com/ http://cdn.jsdelivr.net; frame-src 'self'; connect-src 'self' " + env.AUTH_CODE_FLOW_URL + '/oauth2/token;'
     );
     next();
 });
@@ -345,6 +347,9 @@ app.use('/css', express.static(path.join(__dirname, 'dist/css')));
 app.use('/js', express.static(path.join(__dirname, 'dist/js')));
 app.use('/icons', express.static(path.join(__dirname, 'dist/icons')));
 
-app.use(fhirApp.app);
+graphql().then(x => {
+    app.use(x);
+    app.use(fhirApp.app);
+});
 
 module.exports = {app, fhirApp};
