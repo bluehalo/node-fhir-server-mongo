@@ -1,0 +1,217 @@
+const {logRequest, logDebug} = require('../common/logging');
+const {
+    verifyHasValidScopes,
+    isAccessToResourceAllowedBySecurityTags,
+    doesResourceHaveAccessTags
+} = require('../security/scopes');
+const env = require('var');
+const moment = require('moment-timezone');
+const sendToS3 = require('../../utils/aws-s3');
+const {validateResource} = require('../../utils/validator.util');
+const {getUuid} = require('../../utils/uid.util');
+const {NotValidatedError, ForbiddenError, BadRequestError} = require('../../utils/httpErrors');
+const globals = require('../../globals');
+const {CLIENT_DB} = require('../../constants');
+const {getResource} = require('../common/getResource');
+const {compare, applyPatch} = require('fast-json-patch');
+const {getMeta} = require('../common/getMeta');
+const {check_fhir_mismatch} = require('../common/check_fhir_mismatch');
+const {logError} = require('../common/logging');
+/**
+ * does a FHIR Update (PUT)
+ * @param {string[]} args
+ * @param {IncomingMessage} req
+ * @param {string} resource_name
+ * @param {string} collection_name
+ */
+module.exports.update = async (args, {req}, resource_name, collection_name) => {
+    logRequest(req.user, `'${resource_name} >>> update`);
+
+    verifyHasValidScopes(resource_name, 'write', req.user, req.authInfo && req.authInfo.scope);
+
+    logDebug(req.user, '--- request ----');
+    logDebug(req.user, req);
+
+    // read the incoming resource from request body
+    let resource_incoming = req.body;
+    let {base_version, id} = args;
+    logDebug(req.user, base_version);
+    logDebug(req.user, id);
+    logDebug(req.user, '--- body ----');
+    logDebug(req.user, JSON.stringify(resource_incoming));
+
+    if (env.LOG_ALL_SAVES) {
+        const currentDate = moment.utc().format('YYYY-MM-DD');
+        await sendToS3('logs',
+            resource_name,
+            resource_incoming,
+            currentDate,
+            id,
+            'update');
+    }
+
+    if (env.VALIDATE_SCHEMA || args['_validate']) {
+        logDebug(req.user, '--- validate schema ----');
+        const operationOutcome = validateResource(resource_incoming, resource_name, req.path);
+        if (operationOutcome && operationOutcome.statusCode === 400) {
+            const currentDate = moment.utc().format('YYYY-MM-DD');
+            const uuid = getUuid(resource_incoming);
+            operationOutcome.expression = [
+                resource_name + '/' + uuid
+            ];
+            await sendToS3('validation_failures',
+                resource_name,
+                resource_incoming,
+                currentDate,
+                uuid,
+                'update');
+            await sendToS3('validation_failures',
+                resource_name,
+                operationOutcome,
+                currentDate,
+                uuid,
+                'update_failure');
+            throw new NotValidatedError(operationOutcome);
+        }
+        logDebug(req.user, '-----------------');
+    }
+
+    try {
+        // Grab an instance of our DB and collection
+        let db = globals.get(CLIENT_DB);
+        let collection = db.collection(`${collection_name}_${base_version}`);
+
+        // Get current record
+        // Query our collection for this observation
+        // noinspection JSUnresolvedVariable
+        const data = await collection.findOne({id: id.toString()});
+        // create a resource with incoming data
+        let Resource = getResource(base_version, resource_name);
+
+        let cleaned;
+        let doc;
+
+        // check if resource was found in database or not
+        // noinspection JSUnresolvedVariable
+        if (data && data.meta) {
+            // found an existing resource
+            logDebug(req.user, 'found resource: ' + data);
+            let foundResource = new Resource(data);
+            if (!(isAccessToResourceAllowedBySecurityTags(foundResource, req))) {
+                // noinspection ExceptionCaughtLocallyJS
+                throw new ForbiddenError(
+                    'user ' + req.user + ' with scopes [' + req.authInfo.scope + '] has no access to resource ' +
+                    foundResource.resourceType + ' with id ' + id);
+            }
+
+            logDebug(req.user, '------ found document --------');
+            logDebug(req.user, data);
+            logDebug(req.user, '------ end found document --------');
+
+            // use metadata of existing resource (overwrite any passed in metadata)
+            resource_incoming.meta = foundResource.meta;
+            logDebug(req.user, '------ incoming document --------');
+            logDebug(req.user, resource_incoming);
+            logDebug(req.user, '------ end incoming document --------');
+
+            // now create a patch between the document in db and the incoming document
+            //  this returns an array of patches
+            let patchContent = compare(data, resource_incoming);
+            // ignore any changes to _id since that's an internal field
+            patchContent = patchContent.filter(item => item.path !== '/_id');
+            logDebug(req.user, '------ patches --------');
+            logDebug(req.user, patchContent);
+            logDebug(req.user, '------ end patches --------');
+            // see if there are any changes
+            if (patchContent.length === 0) {
+                logDebug(req.user, 'No changes detected in updated resource');
+                return {
+                    id: id,
+                    created: false,
+                    resource_version: foundResource.meta.versionId,
+                };
+            }
+            if (env.LOG_ALL_SAVES) {
+                const currentDate = moment.utc().format('YYYY-MM-DD');
+                await sendToS3('logs',
+                    resource_name,
+                    patchContent,
+                    currentDate,
+                    id,
+                    'update_patch');
+            }
+            // now apply the patches to the found resource
+            let patched_incoming_data = applyPatch(data, patchContent).newDocument;
+            let patched_resource_incoming = new Resource(patched_incoming_data);
+            // update the metadata to increment versionId
+            /**
+             * @type {Meta}
+             */
+            let meta = foundResource.meta;
+            meta.versionId = `${parseInt(foundResource.meta.versionId) + 1}`;
+            meta.lastUpdated = moment.utc().format('YYYY-MM-DDTHH:mm:ssZ');
+            patched_resource_incoming.meta = meta;
+            logDebug(req.user, '------ patched document --------');
+            logDebug(req.user, patched_resource_incoming);
+            logDebug(req.user, '------ end patched document --------');
+            // Same as update from this point on
+            cleaned = JSON.parse(JSON.stringify(patched_resource_incoming));
+            doc = Object.assign(cleaned, {_id: id});
+            check_fhir_mismatch(cleaned, patched_incoming_data);
+        } else {
+            // not found so insert
+            logDebug(req.user, 'update: new resource: ' + resource_incoming);
+            if (env.CHECK_ACCESS_TAG_ON_SAVE === '1') {
+                if (!doesResourceHaveAccessTags(resource_incoming)) {
+                    // noinspection ExceptionCaughtLocallyJS
+                    throw new BadRequestError(new Error('Resource is missing a security access tag with system: https://www.icanbwell.com/access '));
+                }
+            }
+
+            // create the metadata
+            let Meta = getMeta(base_version);
+            if (!resource_incoming.meta) {
+                resource_incoming.meta = new Meta({
+                    versionId: '1',
+                    lastUpdated: moment.utc().format('YYYY-MM-DDTHH:mm:ssZ'),
+                });
+            } else {
+                resource_incoming.meta['versionId'] = '1';
+                resource_incoming.meta['lastUpdated'] = moment.utc().format('YYYY-MM-DDTHH:mm:ssZ');
+            }
+
+            cleaned = JSON.parse(JSON.stringify(resource_incoming));
+            doc = Object.assign(cleaned, {_id: id});
+        }
+
+        // Insert/update our resource record
+        // When using the $set operator, only the specified fields are updated
+        const res = await collection.findOneAndUpdate({id: id}, {$set: doc}, {upsert: true});
+        // save to history
+        let history_collection = db.collection(`${collection_name}_${base_version}_History`);
+
+        // let history_resource = Object.assign(cleaned, {id: id});
+        let history_resource = Object.assign(cleaned, {_id: id + cleaned.meta.versionId});
+        // delete history_resource['_id']; // make sure we don't have an _id field when inserting into history
+
+        // Insert our resource record to history but don't assign _id
+        await history_collection.insertOne(history_resource);
+
+        return {
+            id: id,
+            created: res.lastErrorObject && !res.lastErrorObject.updatedExisting,
+            resource_version: doc.meta.versionId,
+        };
+    } catch (e) {
+        const currentDate = moment.utc().format('YYYY-MM-DD');
+        logError(`Error with updating resource ${resource_name}.update with id: ${id} `, e);
+
+        await sendToS3('errors',
+            resource_name,
+            resource_incoming,
+            currentDate,
+            id,
+            'update');
+        throw e;
+    }
+};
