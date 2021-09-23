@@ -7,23 +7,24 @@ const {BadRequestError, ForbiddenError, NotFoundError} = require('../../utils/ht
 /**
  * does a FHIR Search By Id
  * @param {string[]} args
- * @param {IncomingMessage} req
+ * @param {string} user
+ * @param {string} scope
  * @param {string} resource_name
  * @param {string} collection_name
  */
 // eslint-disable-next-line no-unused-vars
-module.exports.searchById = async (args, {req}, resource_name, collection_name) => {
-    logRequest(req.user, `${resource_name} >>> searchById`);
-    logDebug(req.user, JSON.stringify(args));
+module.exports.searchById = async (args, user, scope, resource_name, collection_name) => {
+    logRequest(user, `${resource_name} >>> searchById`);
+    logDebug(user, JSON.stringify(args));
 
-    verifyHasValidScopes(resource_name, 'read', req.user, req.authInfo && req.authInfo.scope);
+    verifyHasValidScopes(resource_name, 'read', user, scope);
 
     // Common search params
     let {id} = args;
     let {base_version} = args;
 
-    logDebug(req.user, `id: ${id}`);
-    logDebug(req.user, `base_version: ${base_version}`);
+    logDebug(user, `id: ${id}`);
+    logDebug(user, `base_version: ${base_version}`);
 
     // Search Result param
 
@@ -45,9 +46,9 @@ module.exports.searchById = async (args, {req}, resource_name, collection_name) 
         throw new BadRequestError(e);
     }
     if (resource) {
-        if (!(isAccessToResourceAllowedBySecurityTags(resource, req))) {
+        if (!(isAccessToResourceAllowedBySecurityTags(resource, user, scope))) {
             throw new ForbiddenError(
-                'user ' + req.user + ' with scopes [' + req.authInfo.scope + '] has no access to resource ' +
+                'user ' + user + ' with scopes [' + scope + '] has no access to resource ' +
                 resource.resourceType + ' with id ' + id);
         }
         return new Resource(resource);

@@ -15,25 +15,26 @@ const {VERSIONS} = require('@asymmetrik/node-fhir-server-core').constants;
 /**
  * does a FHIR Search
  * @param {string[]} args
- * @param {IncomingMessage} req
+ * @param {string} user
+ * @param {string} scope
  * @param {string} resource_name
  * @param {string} collection_name
  * @return {Resource[] | Resource} array of resources
  */
-module.exports.search = async (args, {req}, resource_name, collection_name) => {
-    logRequest(req.user, resource_name + ' >>> search' + ' scope:' + req.authInfo && req.authInfo.scope);
+module.exports.search = async (args, user, scope, resource_name, collection_name) => {
+    logRequest(user, resource_name + ' >>> search' + ' scope:' + scope);
     // logRequest('user: ' + req.user);
     // logRequest('scope: ' + req.authInfo.scope);
-    verifyHasValidScopes(resource_name, 'read', req.user, req.authInfo && req.authInfo.scope);
-    logRequest(req.user, '---- args ----');
-    logRequest(req.user, JSON.stringify(args));
-    logRequest(req.user, '--------');
+    verifyHasValidScopes(resource_name, 'read', user, scope);
+    logRequest(user, '---- args ----');
+    logRequest(user, JSON.stringify(args));
+    logRequest(user, '--------');
 
     // add any access codes from scopes
-    const accessCodes = getAccessCodesFromScopes('read', req.user, req.authInfo && req.authInfo.scope);
+    const accessCodes = getAccessCodesFromScopes('read', user, scope);
     // fail if there are no access codes
     if (accessCodes.length === 0) {
-        let errorMessage = 'user ' + req.user + ' with scopes [' + req.authInfo.scope + '] has no access scopes';
+        let errorMessage = 'user ' + user + ' with scopes [' + scope + '] has no access scopes';
         throw new ForbiddenError(errorMessage);
     }
     // see if we have the * access code
@@ -84,9 +85,9 @@ module.exports.search = async (args, {req}, resource_name, collection_name) => {
      */
     let Resource = getResource(base_version, resource_name);
 
-    logDebug(req.user, '---- query ----');
-    logDebug(req.user, query);
-    logDebug(req.user, '--------');
+    logDebug(user, '---- query ----');
+    logDebug(user, query);
+    logDebug(user, '--------');
 
     /**
      * @type {import('mongodb').FindOptions}

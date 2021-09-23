@@ -16,16 +16,20 @@ const {BadRequestError} = require('../../utils/httpErrors');
 /**
  * Supports $graph
  * @param {string[]} args
- * @param {IncomingMessage} req
+ * @param {string} user
+ * @param {string} scope
+ * @param {Object} body
+ * @param {string} path
+ * @param {string} host_
  * @param {string} resource_name
  * @param {string} collection_name
  * @return {Promise<{entry: {resource: Resource, fullUrl: string}[], id: string, resourceType: string}|{entry: *[], id: string, resourceType: string}>}
  */
-module.exports.graph = async (args, {req}, resource_name, collection_name) => {
-    logRequest(req.user, `${resource_name} >>> graph`);
-    verifyHasValidScopes(resource_name, 'read', req.user, req.authInfo && req.authInfo.scope);
+module.exports.graph = async (args, user, scope, body, path, host_, resource_name, collection_name) => {
+    logRequest(user, `${resource_name} >>> graph`);
+    verifyHasValidScopes(resource_name, 'read', user, scope);
 
-    const accessCodes = getAccessCodesFromScopes('read', req.user, req.authInfo && req.authInfo.scope);
+    const accessCodes = getAccessCodesFromScopes('read', user, scope);
 
     /**
      * Gets related resources
@@ -330,7 +334,7 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
                                          * @type {Resource}
                                          */
                                         for (const parentEntityProperty1 of parentEntityResources) {
-                                            verifyHasValidScopes(parentEntityProperty1.resourceType, 'read', req.user, req.authInfo && req.authInfo.scope);
+                                            verifyHasValidScopes(parentEntityProperty1.resourceType, 'read', user, scope);
                                             entries_for_current_link = entries_for_current_link.concat(
                                                 await get_related_resources(
                                                     db,
@@ -346,7 +350,7 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
                                     }
                                 }
                             } else {
-                                verifyHasValidScopes(parentEntity.resourceType, 'read', req.user, req.authInfo && req.authInfo.scope);
+                                verifyHasValidScopes(parentEntity.resourceType, 'read', user, scope);
                                 entries_for_current_link = entries_for_current_link.concat(
                                     await get_related_resources(
                                         db,
@@ -365,7 +369,7 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
                              * @type {string}
                              */
                             const reverseProperty = link.target[0].params.replace('={ref}', '');
-                            verifyHasValidScopes(parentEntity.resourceType, 'read', req.user, req.authInfo && req.authInfo.scope);
+                            verifyHasValidScopes(parentEntity.resourceType, 'read', user, scope);
                             entries_for_current_link = entries_for_current_link.concat(
                                 await get_reverse_related_resources(
                                     db,
@@ -469,7 +473,7 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
                      */
                     const related_resources = related_entries.map(e => e.resource).filter(
                         resource => doesResourceHaveAnyAccessCodeFromThisList(
-                            accessCodes, req.user, req.authInfo.scope, resource
+                            accessCodes, user, scope, resource
                         )
                     );
 
@@ -504,7 +508,7 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
             return acc;
         }, []).filter(
             e => doesResourceHaveAnyAccessCodeFromThisList(
-                accessCodes, req.user, req.authInfo.scope, e.resource
+                accessCodes, user, scope, e.resource
             )
         );
         // create a bundle
@@ -522,11 +526,10 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
         /**
          * @type {string}
          */
-        const host = req.headers.host;
+        const host = host_;
         let {base_version, id} = args;
 
-        logRequest(req.user, `id=${id}`);
-        logDebug(req.user, `req=${req}`);
+        logRequest(user, `id=${id}`);
 
         id = id.split(',');
         /**
@@ -543,11 +546,11 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
          */
         let db = globals.get(CLIENT_DB);
         // get GraphDefinition from body
-        const graphDefinitionRaw = req.body;
-        logDebug(req.user, '--- validate schema of GraphDefinition ----');
-        const operationOutcome = validateResource(graphDefinitionRaw, 'GraphDefinition', req.path);
+        const graphDefinitionRaw = body;
+        logDebug(user, '--- validate schema of GraphDefinition ----');
+        const operationOutcome = validateResource(graphDefinitionRaw, 'GraphDefinition', path);
         if (operationOutcome && operationOutcome.statusCode === 400) {
-            logDebug(req.user, 'GraphDefinition schema failed validation');
+            logDebug(user, 'GraphDefinition schema failed validation');
             return operationOutcome;
         }
         // noinspection UnnecessaryLocalVariableJS
@@ -569,7 +572,7 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
         // }
         return result;
     } catch (err) {
-        logError(req.user, `Error with ${resource_name}.graph: ${err} `);
+        logError(user, `Error with ${resource_name}.graph: ${err} `);
         throw new BadRequestError(err);
     }
 };

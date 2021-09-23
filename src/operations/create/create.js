@@ -10,29 +10,29 @@ const globals = require('../../globals');
 const {CLIENT_DB} = require('../../constants');
 const {getResource} = require('../common/getResource');
 const {getMeta} = require('../common/getMeta');
+
 /**
  * does a FHIR Create (POST)
  * @param {string[]} args
- * @param {IncomingMessage} req
+ * @param {string} user
+ * @param {string} scope
+ * @param {Object} body
+ * @param {string} path
  * @param {string} resource_name
  * @param {string} collection_name
  */
-module.exports.create = async (args, {req}, resource_name, collection_name) => {
-    logRequest(req.user, `${resource_name} >>> create`);
+module.exports.create = async (args, user, scope, body, path, resource_name, collection_name) => {
+    logRequest(user, `${resource_name} >>> create`);
 
-    verifyHasValidScopes(resource_name, 'write', req.user, req.authInfo && req.authInfo.scope);
+    verifyHasValidScopes(resource_name, 'write', user, scope);
 
-    let resource_incoming = req.body;
+    let resource_incoming = body;
 
     let {base_version} = args;
 
-    logDebug(req.user, '--- request ----');
-    logDebug(req.user, req);
-    logDebug(req.user, '-----------------');
-
-    logDebug(req.user, '--- body ----');
-    logDebug(req.user, JSON.stringify(resource_incoming));
-    logDebug(req.user, '-----------------');
+    logDebug(user, '--- body ----');
+    logDebug(user, JSON.stringify(resource_incoming));
+    logDebug(user, '-----------------');
     const uuid = getUuid(resource_incoming);
 
     if (env.LOG_ALL_SAVES) {
@@ -47,8 +47,8 @@ module.exports.create = async (args, {req}, resource_name, collection_name) => {
     }
 
     if (env.VALIDATE_SCHEMA || args['_validate']) {
-        logDebug(req.user, '--- validate schema ----');
-        const operationOutcome = validateResource(resource_incoming, resource_name, req.path);
+        logDebug(user, '--- validate schema ----');
+        const operationOutcome = validateResource(resource_incoming, resource_name, path);
         if (operationOutcome && operationOutcome.statusCode === 400) {
             const currentDate = moment.utc().format('YYYY-MM-DD');
             operationOutcome.expression = [
@@ -68,7 +68,7 @@ module.exports.create = async (args, {req}, resource_name, collection_name) => {
                 'create_failure');
             throw new NotValidatedError(operationOutcome);
         }
-        logDebug(req.user, '-----------------');
+        logDebug(user, '-----------------');
     }
 
     try {
@@ -78,10 +78,10 @@ module.exports.create = async (args, {req}, resource_name, collection_name) => {
 
         // Get current record
         let Resource = getResource(base_version, resource_name);
-        logDebug(req.user, `Resource: ${Resource}`);
+        logDebug(user, `Resource: ${Resource}`);
         let resource = new Resource(resource_incoming);
         // noinspection JSUnresolvedFunction
-        logDebug(req.user, `resource: ${resource.toJSON()}`);
+        logDebug(user, `resource: ${resource.toJSON()}`);
 
         if (env.CHECK_ACCESS_TAG_ON_SAVE === '1') {
             if (!doesResourceHaveAccessTags(resource)) {
@@ -92,7 +92,7 @@ module.exports.create = async (args, {req}, resource_name, collection_name) => {
 
         // If no resource ID was provided, generate one.
         let id = getUuid(resource);
-        logDebug(req.user, `id: ${id}`);
+        logDebug(user, `id: ${id}`);
 
         // Create the resource's metadata
         /**
@@ -119,9 +119,9 @@ module.exports.create = async (args, {req}, resource_name, collection_name) => {
         let history_doc = Object.assign({}, doc);
         Object.assign(doc, {_id: id});
 
-        logDebug(req.user, '---- inserting doc ---');
-        logDebug(req.user, doc);
-        logDebug(req.user, '----------------------');
+        logDebug(user, '---- inserting doc ---');
+        logDebug(user, doc);
+        logDebug(user, '----------------------');
 
         // Insert our resource record
         try {

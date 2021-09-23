@@ -20,25 +20,25 @@ const {logError} = require('../common/logging');
 /**
  * does a FHIR Update (PUT)
  * @param {string[]} args
- * @param {IncomingMessage} req
+ * @param {string} user
+ * @param {string} scope
+ * @param {Object} body
+ * @param {string} path
  * @param {string} resource_name
  * @param {string} collection_name
  */
-module.exports.update = async (args, {req}, resource_name, collection_name) => {
-    logRequest(req.user, `'${resource_name} >>> update`);
+module.exports.update = async (args, user, scope, body, path, resource_name, collection_name) => {
+    logRequest(user, `'${resource_name} >>> update`);
 
-    verifyHasValidScopes(resource_name, 'write', req.user, req.authInfo && req.authInfo.scope);
-
-    logDebug(req.user, '--- request ----');
-    logDebug(req.user, req);
+    verifyHasValidScopes(resource_name, 'write', user, scope);
 
     // read the incoming resource from request body
-    let resource_incoming = req.body;
+    let resource_incoming = body;
     let {base_version, id} = args;
-    logDebug(req.user, base_version);
-    logDebug(req.user, id);
-    logDebug(req.user, '--- body ----');
-    logDebug(req.user, JSON.stringify(resource_incoming));
+    logDebug(user, base_version);
+    logDebug(user, id);
+    logDebug(user, '--- body ----');
+    logDebug(user, JSON.stringify(resource_incoming));
 
     if (env.LOG_ALL_SAVES) {
         const currentDate = moment.utc().format('YYYY-MM-DD');
@@ -51,8 +51,8 @@ module.exports.update = async (args, {req}, resource_name, collection_name) => {
     }
 
     if (env.VALIDATE_SCHEMA || args['_validate']) {
-        logDebug(req.user, '--- validate schema ----');
-        const operationOutcome = validateResource(resource_incoming, resource_name, req.path);
+        logDebug(user, '--- validate schema ----');
+        const operationOutcome = validateResource(resource_incoming, resource_name, path);
         if (operationOutcome && operationOutcome.statusCode === 400) {
             const currentDate = moment.utc().format('YYYY-MM-DD');
             const uuid = getUuid(resource_incoming);
@@ -73,7 +73,7 @@ module.exports.update = async (args, {req}, resource_name, collection_name) => {
                 'update_failure');
             throw new NotValidatedError(operationOutcome);
         }
-        logDebug(req.user, '-----------------');
+        logDebug(user, '-----------------');
     }
 
     try {
@@ -95,36 +95,37 @@ module.exports.update = async (args, {req}, resource_name, collection_name) => {
         // noinspection JSUnresolvedVariable
         if (data && data.meta) {
             // found an existing resource
-            logDebug(req.user, 'found resource: ' + data);
+            logDebug(user, 'found resource: ' + data);
             let foundResource = new Resource(data);
-            if (!(isAccessToResourceAllowedBySecurityTags(foundResource, req))) {
+            if (!(isAccessToResourceAllowedBySecurityTags(foundResource, user, scope))) {
                 // noinspection ExceptionCaughtLocallyJS
                 throw new ForbiddenError(
-                    'user ' + req.user + ' with scopes [' + req.authInfo.scope + '] has no access to resource ' +
+                    'user ' + user + ' with scopes [' + scope + '] has no access to resource ' +
                     foundResource.resourceType + ' with id ' + id);
             }
 
-            logDebug(req.user, '------ found document --------');
-            logDebug(req.user, data);
-            logDebug(req.user, '------ end found document --------');
+            logDebug(user, '------ found document --------');
+            logDebug(user, data);
+            logDebug(user, '------ end found document --------');
 
             // use metadata of existing resource (overwrite any passed in metadata)
+            // noinspection JSPrimitiveTypeWrapperUsage
             resource_incoming.meta = foundResource.meta;
-            logDebug(req.user, '------ incoming document --------');
-            logDebug(req.user, resource_incoming);
-            logDebug(req.user, '------ end incoming document --------');
+            logDebug(user, '------ incoming document --------');
+            logDebug(user, resource_incoming);
+            logDebug(user, '------ end incoming document --------');
 
             // now create a patch between the document in db and the incoming document
             //  this returns an array of patches
             let patchContent = compare(data, resource_incoming);
             // ignore any changes to _id since that's an internal field
             patchContent = patchContent.filter(item => item.path !== '/_id');
-            logDebug(req.user, '------ patches --------');
-            logDebug(req.user, patchContent);
-            logDebug(req.user, '------ end patches --------');
+            logDebug(user, '------ patches --------');
+            logDebug(user, patchContent);
+            logDebug(user, '------ end patches --------');
             // see if there are any changes
             if (patchContent.length === 0) {
-                logDebug(req.user, 'No changes detected in updated resource');
+                logDebug(user, 'No changes detected in updated resource');
                 return {
                     id: id,
                     created: false,
@@ -151,18 +152,18 @@ module.exports.update = async (args, {req}, resource_name, collection_name) => {
             meta.versionId = `${parseInt(foundResource.meta.versionId) + 1}`;
             meta.lastUpdated = moment.utc().format('YYYY-MM-DDTHH:mm:ssZ');
             patched_resource_incoming.meta = meta;
-            logDebug(req.user, '------ patched document --------');
-            logDebug(req.user, patched_resource_incoming);
-            logDebug(req.user, '------ end patched document --------');
+            logDebug(user, '------ patched document --------');
+            logDebug(user, patched_resource_incoming);
+            logDebug(user, '------ end patched document --------');
             // Same as update from this point on
             cleaned = JSON.parse(JSON.stringify(patched_resource_incoming));
             doc = Object.assign(cleaned, {_id: id});
             check_fhir_mismatch(cleaned, patched_incoming_data);
         } else {
             // not found so insert
-            logDebug(req.user, 'update: new resource: ' + resource_incoming);
+            logDebug(user, 'update: new resource: ' + resource_incoming);
             if (env.CHECK_ACCESS_TAG_ON_SAVE === '1') {
-                if (!doesResourceHaveAccessTags(resource_incoming)) {
+                if (!doesResourceHaveAccessTags(new Resource(resource_incoming))) {
                     // noinspection ExceptionCaughtLocallyJS
                     throw new BadRequestError(new Error('Resource is missing a security access tag with system: https://www.icanbwell.com/access '));
                 }
@@ -171,6 +172,7 @@ module.exports.update = async (args, {req}, resource_name, collection_name) => {
             // create the metadata
             let Meta = getMeta(base_version);
             if (!resource_incoming.meta) {
+                // noinspection JSPrimitiveTypeWrapperUsage
                 resource_incoming.meta = new Meta({
                     versionId: '1',
                     lastUpdated: moment.utc().format('YYYY-MM-DDTHH:mm:ssZ'),

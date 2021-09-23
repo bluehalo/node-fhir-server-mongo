@@ -8,14 +8,15 @@ const {getResource} = require('../common/getResource');
 /**
  * does a FHIR Patch
  * @param {string[]} args
- * @param {IncomingMessage} req
+ * @param {string} user
+ * @param {string} scope
  * @param {string} resource_name
  * @param {string} collection_name
  */
 // eslint-disable-next-line no-unused-vars
-module.exports.patch = async (args, {req}, resource_name, collection_name) => {
-    logRequest(req.user, 'Patient >>> patch');
-    verifyHasValidScopes(resource_name, 'write', req.user, req.authInfo && req.authInfo.scope);
+module.exports.patch = async (args, user, scope, resource_name, collection_name) => {
+    logRequest(user, 'Patient >>> patch');
+    verifyHasValidScopes(resource_name, 'write', user, scope);
 
     let {base_version, id, patchContent} = args;
 
@@ -29,7 +30,7 @@ module.exports.patch = async (args, {req}, resource_name, collection_name) => {
     try {
         data = await collection.findOne({id: id.toString()});
     } catch (e) {
-        logError(req.user, `Error with ${resource_name}.patch: ${e} `);
+        logError(user, `Error with ${resource_name}.patch: ${e} `);
         throw new BadRequestError(e);
     }
     if (!data) {
@@ -38,7 +39,7 @@ module.exports.patch = async (args, {req}, resource_name, collection_name) => {
     // Validate the patch
     let errors = validate(patchContent, data);
     if (errors && Object.keys(errors).length > 0) {
-        logError(req.user, 'Error with patch contents');
+        logError(user, 'Error with patch contents');
         throw new BadRequestError(errors[0]);
     }
     // Make the changes indicated in the patch
@@ -66,7 +67,7 @@ module.exports.patch = async (args, {req}, resource_name, collection_name) => {
     try {
         res = await collection.findOneAndUpdate({id: id}, {$set: doc}, {upsert: true});
     } catch (e) {
-        logError(req.user, `Error with ${resource_name}.update: ${e}`);
+        logError(user, `Error with ${resource_name}.update: ${e}`);
         throw new BadRequestError(e);
     }
     // Save to history
@@ -77,7 +78,7 @@ module.exports.patch = async (args, {req}, resource_name, collection_name) => {
     try {
         await history_collection.insertOne(history_resource);
     } catch (e) {
-        logError(req.user, `Error with ${resource_name}History.create: ${e}`);
+        logError(user, `Error with ${resource_name}History.create: ${e}`);
         throw new BadRequestError(e);
     }
     return {

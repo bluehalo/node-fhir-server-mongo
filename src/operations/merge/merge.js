@@ -27,31 +27,33 @@ const {logError} = require('../common/logging');
 /**
  * does a FHIR Merge
  * @param {string[]} args
- * @param {IncomingMessage} req
+ * @param {string} user
+ * @param {string} scope
+ * @param {Object[]} body
+ * @param {string} path
  * @param {string} resource_name
  * @param {string} collection_name
  * @return {Resource | Resource[]}
  */
-module.exports.merge = async (args, {req}, resource_name, collection_name) => {
+module.exports.merge = async (args, user, scope, body, path, resource_name, collection_name) => {
     /**
      * @type {string}
      */
-    const scope = req.authInfo && req.authInfo.scope;
-    logRequest(req.user, `'${resource_name} >>> merge` + ' scopes:' + scope);
+    logRequest(user, `'${resource_name} >>> merge` + ' scopes:' + scope);
 
     /**
      * @type {string[]}
      */
     const scopes = parseScopes(scope);
 
-    verifyHasValidScopes(resource_name, 'write', req.user, scope);
+    verifyHasValidScopes(resource_name, 'write', user, scope);
 
     // read the incoming resource from request body
     /**
      * @type {Object[]}
      */
-    let resources_incoming = req.body;
-    logDebug(req.user, JSON.stringify(args));
+    let resources_incoming = body;
+    logDebug(user, JSON.stringify(args));
     /**
      * @type {String}
      */
@@ -71,9 +73,9 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
      */
     const currentDate = moment.utc().format('YYYY-MM-DD');
 
-    logDebug(req.user, '--- body ----');
-    logDebug(req.user, JSON.stringify(resources_incoming));
-    logDebug(req.user, '-----------------');
+    logDebug(user, '--- body ----');
+    logDebug(user, JSON.stringify(resources_incoming));
+    logDebug(user, '-----------------');
 
     async function preMergeChecks(resourceToMerge) {
         let id = resourceToMerge.id;
@@ -118,7 +120,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                             details: {
                                 text: 'Error merging: ' + JSON.stringify(resourceToMerge)
                             },
-                            diagnostics: 'user ' + req.user + ' with scopes [' + scopes + '] failed access check to [' + resourceToMerge.resourceType + '.' + 'write' + ']',
+                            diagnostics: 'user ' + user + ' with scopes [' + scopes + '] failed access check to [' + resourceToMerge.resourceType + '.' + 'write' + ']',
                             expression: [
                                 resourceToMerge.resourceType + '/' + id
                             ]
@@ -136,11 +138,11 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
         }
 
         if (env.VALIDATE_SCHEMA || args['_validate']) {
-            logDebug(req.user, '--- validate schema ----');
+            logDebug(user, '--- validate schema ----');
             /**
              * @type {?OperationOutcome}
              */
-            const operationOutcome = validateResource(resourceToMerge, resourceToMerge.resourceType, req.path);
+            const operationOutcome = validateResource(resourceToMerge, resourceToMerge.resourceType, path);
             if (operationOutcome && operationOutcome.statusCode === 400) {
                 operationOutcome['expression'] = [
                     resourceToMerge.resourceType + '/' + id
@@ -172,7 +174,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                     operationOutcome: operationOutcome
                 };
             }
-            logDebug(req.user, '-----------------');
+            logDebug(user, '-----------------');
         }
 
         if (env.CHECK_ACCESS_TAG_ON_SAVE === '1') {
@@ -256,14 +258,14 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
         let Resource = getResource(base_version, resourceToMerge.resourceType);
 
         // found an existing resource
-        logDebug(req.user, resourceToMerge.resourceType + ': merge found resource ' + '[' + data.id + ']: ' + JSON.stringify(data));
+        logDebug(user, resourceToMerge.resourceType + ': merge found resource ' + '[' + data.id + ']: ' + JSON.stringify(data));
         /**
          * @type {Resource}
          */
         let foundResource = new Resource(data);
-        logDebug(req.user, '------ found document --------');
-        logDebug(req.user, data);
-        logDebug(req.user, '------ end found document --------');
+        logDebug(user, '------ found document --------');
+        logDebug(user, data);
+        logDebug(user, '------ end found document --------');
         // use metadata of existing resource (overwrite any passed in metadata)
         if (!resourceToMerge.meta) {
             resourceToMerge.meta = {};
@@ -276,9 +278,9 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
         resourceToMerge.meta.versionId = foundResource.meta.versionId;
         resourceToMerge.meta.lastUpdated = foundResource.meta.lastUpdated;
         resourceToMerge.meta.source = foundResource.meta.source;
-        logDebug(req.user, '------ incoming document --------');
-        logDebug(req.user, resourceToMerge);
-        logDebug(req.user, '------ end incoming document --------');
+        logDebug(user, '------ incoming document --------');
+        logDebug(user, resourceToMerge);
+        logDebug(user, '------ end incoming document --------');
 
         /**
          * @type {Object}
@@ -288,7 +290,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
 
         // for speed, first check if the incoming resource is exactly the same
         if (deepEqual(my_data, resourceToMerge) === true) {
-            logDebug(req.user, 'No changes detected in updated resource');
+            logDebug(user, 'No changes detected in updated resource');
             return {
                 id: id,
                 created: false,
@@ -421,12 +423,12 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
         let patchContent = compare(data, resource_merged);
         // ignore any changes to _id since that's an internal field
         patchContent = patchContent.filter(item => item.path !== '/_id');
-        logDebug(req.user, '------ patches --------');
-        logDebug(req.user, patchContent);
-        logDebug(req.user, '------ end patches --------');
+        logDebug(user, '------ patches --------');
+        logDebug(user, patchContent);
+        logDebug(user, '------ end patches --------');
         // see if there are any changes
         if (patchContent.length === 0) {
-            logDebug(req.user, 'No changes detected in updated resource');
+            logDebug(user, 'No changes detected in updated resource');
             return {
                 id: id,
                 created: false,
@@ -435,12 +437,12 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
                 message: 'No changes detected in updated resource'
             };
         }
-        if (!(isAccessToResourceAllowedBySecurityTags(foundResource, req))) {
+        if (!(isAccessToResourceAllowedBySecurityTags(foundResource, user, scope))) {
             throw new ForbiddenError(
-                'user ' + req.user + ' with scopes [' + req.authInfo.scope + '] has no access to resource ' +
+                'user ' + user + ' with scopes [' + scope + '] has no access to resource ' +
                 foundResource.resourceType + ' with id ' + id);
         }
-        logRequest(req.user, `${resourceToMerge.resourceType} >>> merging ${id}`);
+        logRequest(user, `${resourceToMerge.resourceType} >>> merging ${id}`);
         // now apply the patches to the found resource
         // noinspection JSCheckFunctionSignatures
         /**
@@ -471,9 +473,9 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
         if (!(patched_resource_incoming.meta.security)) {
             patched_resource_incoming.meta.security = meta.security;
         }
-        logDebug(req.user, '------ patched document --------');
-        logDebug(req.user, patched_resource_incoming);
-        logDebug(req.user, '------ end patched document --------');
+        logDebug(user, '------ patched document --------');
+        logDebug(user, patched_resource_incoming);
+        logDebug(user, '------ end patched document --------');
         // Same as update from this point on
         const cleaned = JSON.parse(JSON.stringify(patched_resource_incoming));
         check_fhir_mismatch(cleaned, patched_incoming_data);
@@ -497,7 +499,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
     async function mergeInsert(resourceToMerge) {
         let id = resourceToMerge.id;
         // not found so insert
-        logDebug(req.user,
+        logDebug(user,
             resourceToMerge.resourceType +
             ': merge new resource ' +
             '[' + resourceToMerge.id + ']: '
@@ -558,10 +560,10 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
         }
 
         try {
-            logDebug(req.user, '-----------------');
-            logDebug(req.user, base_version);
-            logDebug(req.user, '--- body ----');
-            logDebug(req.user, resource_to_merge);
+            logDebug(user, '-----------------');
+            logDebug(user, base_version);
+            logDebug(user, '--- body ----');
+            logDebug(user, resource_to_merge);
 
             // Grab an instance of our DB and collection
             /**
@@ -661,8 +663,8 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
 
     // if the incoming request is a bundle then unwrap the bundle
     if ((!(Array.isArray(resources_incoming))) && resources_incoming['resourceType'] === 'Bundle') {
-        logDebug(req.user, '--- validate schema of Bundle ----');
-        const operationOutcome = validateResource(resources_incoming, 'Bundle', req.path);
+        logDebug(user, '--- validate schema of Bundle ----');
+        const operationOutcome = validateResource(resources_incoming, 'Bundle', path);
         if (operationOutcome && operationOutcome.statusCode === 400) {
             return operationOutcome;
         }
@@ -671,7 +673,7 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
     }
     if (Array.isArray(resources_incoming)) {
         const ids_of_resources = resources_incoming.map(r => r.id);
-        logRequest(req.user,
+        logRequest(user,
             '==================' + resource_name + ': Merge received array ' +
             ', len= ' + resources_incoming.length +
             ' [' + ids_of_resources.toString() + '] ' +
@@ -703,15 +705,15 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
             async.mapSeries(duplicate_id_resources, async x => await merge_resource_with_retry(x)) // run in series
         ]);
         const returnVal = result.flat(1);
-        logDebug(req.user, '--- Merge array result ----');
-        logDebug(req.user, JSON.stringify(returnVal));
-        logDebug(req.user, '-----------------');
+        logDebug(user, '--- Merge array result ----');
+        logDebug(user, JSON.stringify(returnVal));
+        logDebug(user, '-----------------');
         return returnVal;
     } else {
         const returnVal = await merge_resource_with_retry(resources_incoming);
-        logDebug(req.user, '--- Merge result ----');
-        logDebug(req.user, JSON.stringify(returnVal));
-        logDebug(req.user, '-----------------');
+        logDebug(user, '--- Merge result ----');
+        logDebug(user, JSON.stringify(returnVal));
+        logDebug(user, '-----------------');
         return returnVal;
     }
 };

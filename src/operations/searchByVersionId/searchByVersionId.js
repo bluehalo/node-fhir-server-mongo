@@ -7,14 +7,15 @@ const {BadRequestError, ForbiddenError, NotFoundError} = require('../../utils/ht
 /**
  * does a FHIR Search By Version
  * @param {string[]} args
- * @param {IncomingMessage} req
+ * @param {string} user
+ * @param {string} scope
  * @param {string} resource_name
  * @param {string} collection_name
  */
 // eslint-disable-next-line no-unused-vars
-module.exports.searchByVersionId = async (args, {req}, resource_name, collection_name) => {
-    logRequest(req.user, `${resource_name} >>> searchByVersionId`);
-    verifyHasValidScopes(resource_name, 'read', req.user, req.authInfo && req.authInfo.scope);
+module.exports.searchByVersionId = async (args, user, scope, resource_name, collection_name) => {
+    logRequest(user, `${resource_name} >>> searchByVersionId`);
+    verifyHasValidScopes(resource_name, 'read', user, scope);
 
     let {base_version, id, version_id} = args;
 
@@ -32,9 +33,9 @@ module.exports.searchByVersionId = async (args, {req}, resource_name, collection
         throw new BadRequestError(e);
     }
     if (resource) {
-        if (!(isAccessToResourceAllowedBySecurityTags(resource, req))) {
+        if (!(isAccessToResourceAllowedBySecurityTags(resource, user, scope))) {
             throw new ForbiddenError(
-                'user ' + req.user + ' with scopes [' + req.authInfo.scope + '] has no access to resource ' +
+                'user ' + user + ' with scopes [' + scope + '] has no access to resource ' +
                 resource.resourceType + ' with id ' + id);
         }
         return (new Resource(resource));

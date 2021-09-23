@@ -133,26 +133,19 @@ const doesResourceHaveAnyAccessCodeFromThisList = (accessCodes, user, scope, res
 /**
  * Returns true if resource can be accessed with scope
  * @param {Resource} resource
- * @param {IncomingMessage} req
+ * @param {string} user
+ * @param {string} scope
  * @return {boolean}
  */
-const isAccessToResourceAllowedBySecurityTags = (resource, req) => {
+const isAccessToResourceAllowedBySecurityTags = (resource, user, scope) => {
     if (env.AUTH_ENABLED !== '1') {
         return true;
     }
     // add any access codes from scopes
     /**
-     * @type {string}
-     */
-    const user = req.user;
-    /**
-     * @type {?string}
-     */
-    const scope = req.authInfo ? req.authInfo.scope : null;
-    /**
      * @type {string[]}
      */
-    const accessCodes = getAccessCodesFromScopes('read', user, req.authInfo && scope);
+    const accessCodes = getAccessCodesFromScopes('read', user, scope);
     if (!accessCodes || accessCodes.length === 0) {
         let errorMessage = 'user ' + user + ' with scopes [' + scope + '] has no access scopes';
         throw new ForbiddenError(errorMessage);
