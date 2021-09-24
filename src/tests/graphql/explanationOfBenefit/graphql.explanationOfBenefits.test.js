@@ -46,7 +46,7 @@ describe('GraphQL ExplanationOfBenefit Tests', () => {
                         }),
                 (results, cb) => request
                     .get('/graphql/?query={ explanationOfBenefits { id patient { id name { family } } } }')
-                    .set(getUnAuthenticatedHeaders())
+                    .set(getHeaders())
                     .expect(200, cb)
                     .expect((resp) => {
                         // clear out the lastUpdated column since that changes
