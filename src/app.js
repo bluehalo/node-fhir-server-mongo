@@ -352,8 +352,10 @@ app.use('/icons', express.static(path.join(__dirname, 'dist/icons')));
 
 passport.use('graphqlStrategy', strategy);
 
+app.use(passport.initialize());
+
 graphql().then(x => {
-    app.use('/graphql', passport.initialize());
+    // app.use('/graphql', passport.authenticate('graphqlStrategy', {}, null));
     app.use('/graphql', x);
     app.use(fhirApp.app);
 });

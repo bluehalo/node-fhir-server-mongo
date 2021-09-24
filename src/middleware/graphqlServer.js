@@ -4,6 +4,7 @@ const {loadSchemaSync} = require('@graphql-tools/load');
 const {GraphQLFileLoader} = require('@graphql-tools/graphql-file-loader');
 const {addResolversToSchema} = require('@graphql-tools/schema');
 const resolvers = require('../graphql/resolvers');
+const passport = require('passport');
 
 // import loginWithToken from "../users/token";
 // import {configuration as corsConfiguration} from "../../middleware/cors";
@@ -33,7 +34,8 @@ const graphql = async () => {
                 ApolloServerPluginLandingPageGraphQLPlayground(),
                 // ApolloServerPluginLandingPageDisabled()
             ],
-            context: ({req, res}) => {
+            context: async ({req, res}) => {
+                // const {err, user, info} = await passport.authenticate('graphqlStrategy', {}, null);
                 // const token = req?.cookies["app_login_token"];
                 // console.log('context', req.path);
                 const context = {

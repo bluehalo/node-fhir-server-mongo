@@ -7,7 +7,7 @@ const expectedExplanationOfBenefitBundleResource = require('./fixtures/expected_
 const async = require('async');
 
 const request = supertest(app);
-const {commonBeforeEach, commonAfterEach, getHeaders} = require('../../common');
+const {commonBeforeEach, commonAfterEach, getHeaders, getUnAuthenticatedHeaders} = require('../../common');
 
 describe('GraphQL ExplanationOfBenefit Tests', () => {
     beforeEach(async () => {
@@ -46,7 +46,7 @@ describe('GraphQL ExplanationOfBenefit Tests', () => {
                         }),
                 (results, cb) => request
                     .get('/graphql/?query={ explanationOfBenefits { id patient { id name { family } } } }')
-                    .set(getHeaders())
+                    .set(getUnAuthenticatedHeaders())
                     .expect(200, cb)
                     .expect((resp) => {
                         // clear out the lastUpdated column since that changes
