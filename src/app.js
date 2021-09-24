@@ -356,7 +356,14 @@ app.use(passport.initialize());
 
 graphql().then(x => {
     // app.use('/graphql', passport.authenticate('graphqlStrategy', {}, null));
-    app.use('/graphql', x);
+    const router = express.Router();
+    // router.use(passport.authenticate('graphqlStrategy', {}, (err, user, info) => {
+    //         console.log('here');
+    //     })
+    // );
+    router.use(x);
+    // app.use('/graphql', x);
+    app.use('/graphql', router);
     app.use(fhirApp.app);
 });
 
