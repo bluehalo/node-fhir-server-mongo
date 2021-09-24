@@ -1,0 +1,8 @@
+# import HumanName from 'humanName.graphql'
+# import ExplanationOfBenefit from 'explanationOfBenefit.graphql'
+
+type Patient {
+    id: String
+    name: [HumanName]!
+    explanationOfBenefit: [ExplanationOfBenefit]!
+}

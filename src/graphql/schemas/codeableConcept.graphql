@@ -1,0 +1,6 @@
+# import Coding from "coding.graphql"
+
+type CodeableConcept {
+    coding: [Coding]
+    text: String
+}

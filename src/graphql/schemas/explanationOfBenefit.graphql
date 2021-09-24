@@ -1,0 +1,24 @@
+# import CodeableConcept from "codeableConcept.graphql"
+# import Money from "money.graphql"
+# import code from "code.graphql"
+# import Patient from "patient.graphql"
+# import SimpleQuantity from "simpleQuantity.graphql"
+
+type ExplanationOfBenefitItem {
+    sequence: Int!
+    productOrService: CodeableConcept!
+    quantity: SimpleQuantity
+}
+
+type ExplanationOfBenefitTotal {
+    category: CodeableConcept!
+    amount: Money!
+}
+type ExplanationOfBenefit {
+    id: String!
+    status: code!
+    use: String!
+    patient: Patient
+    item: [ExplanationOfBenefitItem]
+    total: [ExplanationOfBenefitTotal]
+}

@@ -1,0 +1,8 @@
+# import code from "code.graphql"
+
+type HumanName {
+    use: code
+    family: String
+    given: [String]
+    text: String
+}
