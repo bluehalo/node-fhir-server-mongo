@@ -361,6 +361,7 @@ graphql().then(x => {
     //         console.log('here');
     //     })
     // );
+    router.use(passport.initialize());
     router.use(x);
     // app.use('/graphql', x);
     app.use('/graphql', router);
