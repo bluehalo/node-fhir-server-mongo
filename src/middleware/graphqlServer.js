@@ -1,6 +1,6 @@
 const {ApolloServer} = require('apollo-server-express');
 const {join} = require('path');
-const { loadSchemaSync} = require('@graphql-tools/load');
+const {loadSchemaSync} = require('@graphql-tools/load');
 const {GraphQLFileLoader} = require('@graphql-tools/graphql-file-loader');
 const {addResolversToSchema} = require('@graphql-tools/schema');
 const resolvers = require('../graphql/resolvers');
@@ -55,8 +55,7 @@ const graphql = async () => {
 
     await server.start();
 
-    const router = await server.getMiddleware();
-    return router;
+    return server.getMiddleware({path: '/'});
 };
 
 // const getGraphQLMiddleware = () => {

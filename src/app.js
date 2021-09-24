@@ -348,7 +348,7 @@ app.use('/js', express.static(path.join(__dirname, 'dist/js')));
 app.use('/icons', express.static(path.join(__dirname, 'dist/icons')));
 
 graphql().then(x => {
-    app.use(x);
+    app.use('/graphql', x);
     app.use(fhirApp.app);
 });
 
