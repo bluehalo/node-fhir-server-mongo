@@ -26,6 +26,9 @@ const childProcess = require('child_process');
 const {getIndexesInAllCollections} = require('./utils/index.util');
 const {resourceDefinitions} = require('./utils/resourceDefinitions');
 
+const passport = require('passport');
+const strategy = require('./strategies/jwt.bearer.strategy');
+
 const app = express();
 
 const cookieParser = require('cookie-parser');
@@ -347,7 +350,10 @@ app.use('/css', express.static(path.join(__dirname, 'dist/css')));
 app.use('/js', express.static(path.join(__dirname, 'dist/js')));
 app.use('/icons', express.static(path.join(__dirname, 'dist/icons')));
 
+passport.use('graphqlStrategy', strategy);
+
 graphql().then(x => {
+    app.use('/graphql', passport.initialize());
     app.use('/graphql', x);
     app.use(fhirApp.app);
 });

@@ -33,9 +33,9 @@ const graphql = async () => {
                 ApolloServerPluginLandingPageGraphQLPlayground(),
                 // ApolloServerPluginLandingPageDisabled()
             ],
-            context: async ({req, res}) => {
+            context: ({req, res}) => {
                 // const token = req?.cookies["app_login_token"];
-
+                // console.log('context', req.path);
                 const context = {
                     req,
                     res,
