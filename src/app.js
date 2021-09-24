@@ -27,7 +27,7 @@ const {getIndexesInAllCollections} = require('./utils/index.util');
 const {resourceDefinitions} = require('./utils/resourceDefinitions');
 
 const passport = require('passport');
-const strategy = require('./strategies/jwt.bearer.strategy');
+const {strategy} = require('./strategies/jwt.bearer.strategy');
 
 const app = express();
 
@@ -352,16 +352,18 @@ app.use('/icons', express.static(path.join(__dirname, 'dist/icons')));
 
 passport.use('graphqlStrategy', strategy);
 
-app.use(passport.initialize());
+// app.use(passport.initialize());
 
 graphql().then(x => {
     // app.use('/graphql', passport.authenticate('graphqlStrategy', {}, null));
     const router = express.Router();
+    router.use(bodyParser.urlencoded({ extended: false }));
+    router.use(passport.initialize());
     // router.use(passport.authenticate('graphqlStrategy', {}, (err, user, info) => {
-    //         console.log('here');
     //     })
     // );
-    router.use(passport.initialize());
+    router.use(passport.authenticate('graphqlStrategy'));
+
     router.use(x);
     // app.use('/graphql', x);
     app.use('/graphql', router);
