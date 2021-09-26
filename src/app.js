@@ -359,19 +359,6 @@ passport.use('graphqlStrategy', strategy);
 graphql().then(x => {
     // eslint-disable-next-line new-cap
     const router = express.Router();
-    // router.use(bodyParser.urlencoded({extended: false}));
-    // router.use(bodyParser.text({ type: 'application/graphql' }));
-    // router.use(bodyParser.urlencoded({
-    //     extended: true,
-    //     limit: '50mb',
-    //     parameterLimit: 50000
-    // }));
-    // router.use(bodyParser.json({
-    //     type: ['application/fhir+json', 'application/json+fhir', 'application/json'],
-    //     limit: '50mb'
-    //
-    // }));
-    router.use(bodyParserGraphQL());
     router.use(passport.initialize());
     router.use(passport.authenticate('graphqlStrategy', {session: false}));
 
