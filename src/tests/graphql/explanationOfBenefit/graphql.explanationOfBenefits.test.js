@@ -44,6 +44,16 @@ describe('GraphQL ExplanationOfBenefit Tests', () => {
                             console.log('------- end response 2  ------------');
                             return cb(err, resp);
                         }),
+                (results, cb) =>
+                    request
+                        .get('/4_0_0/ExplanationOfBenefit/')
+                        .set(getHeaders())
+                        .expect(200, (err, resp) => {
+                            console.log('------- response 2 ------------');
+                            console.log(JSON.stringify(resp.body, null, 2));
+                            console.log('------- end response 2  ------------');
+                            return cb(err, resp);
+                        }),
                 (results, cb) => request
                     .get('/graphql/?query={ explanationOfBenefits { id patient { id name { family } } } }')
                     .set(getHeaders())
@@ -54,7 +64,7 @@ describe('GraphQL ExplanationOfBenefit Tests', () => {
                         console.log('------- response graphql ------------');
                         console.log(JSON.stringify(resp.body, null, 2));
                         console.log('------- end response graphql  ------------');
-                        expect(body.data.explanationOfBenefits.length).toBe(3);
+                        expect(body.data.explanationOfBenefits.length).toBe(2);
                         let expected = expectedExplanationOfBenefitBundleResource;
                         expected.forEach(element => {
                             if ('meta' in element) {
