@@ -4,10 +4,16 @@ const supertest = require('supertest');
 const {app} = require('../../../app');
 const explanationOfBenefitBundleResource = require('./fixtures/explanation_of_benefits.json');
 const expectedExplanationOfBenefitBundleResource = require('./fixtures/expected_explanation_of_benefits.json');
+
+const fs = require('fs');
+const path = require('path');
+
+const explanationOfBenefitQuery = fs.readFileSync(path.resolve(__dirname, './fixtures/query.graphql'), 'utf8');
+
 const async = require('async');
 
 const request = supertest(app);
-const {commonBeforeEach, commonAfterEach, getHeaders, getUnAuthenticatedHeaders} = require('../../common');
+const {commonBeforeEach, commonAfterEach, getHeaders, getUnAuthenticatedHeaders, getGraphQLHeaders} = require('../../common');
 
 describe('GraphQL ExplanationOfBenefit Tests', () => {
     beforeEach(async () => {
@@ -21,6 +27,11 @@ describe('GraphQL ExplanationOfBenefit Tests', () => {
     describe('GraphQL ExplanationOfBenefit', () => {
         test('GraphQL ExplanationOfBenefit properly', async () => {
             // noinspection JSUnusedLocalSymbols
+            const graphqlQueryText = JSON.stringify({
+                query: explanationOfBenefitQuery,
+                operationName: 'foo',
+                variables: {}
+            }).replace(/\\n/g, '');
             await async.waterfall([
                 (cb) => // first confirm there are no records
                     request
@@ -55,8 +66,9 @@ describe('GraphQL ExplanationOfBenefit Tests', () => {
                             return cb(err, resp);
                         }),
                 (results, cb) => request
-                    .get('/graphql/?query={ explanationOfBenefits { id patient { id name { family } } } }')
-                    .set(getHeaders())
+                    .post('/graphql')
+                    .send(graphqlQueryText)
+                    .set(getGraphQLHeaders())
                     .expect(200, cb)
                     .expect((resp) => {
                         // clear out the lastUpdated column since that changes

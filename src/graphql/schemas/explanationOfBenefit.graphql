@@ -20,8 +20,9 @@ type ExplanationOfBenefitItemAdjudication {
 
 type ExplanationOfBenefitItem {
     sequence: Int!
-    productOrService: CodeableConcept!
-    quantity: SimpleQuantity
+    id: String
+    productOrService: CodeableConcept
+    quantity: Quantity
     adjudication: [ExplanationOfBenefitItemAdjudication]
     locationCodeableConcept: CodeableConcept
     modifier: [CodeableConcept]
@@ -70,12 +71,20 @@ type ExplanationOfBenefitSupportingInfo {
     valueReference: Reference
 }
 
+type ExplanationOfBenefitCareTeam {
+    sequence: Int!
+    provider: Reference!
+    responsible: Boolean
+    role: CodeableConcept
+    qualification: CodeableConcept
+}
 type ExplanationOfBenefit {
     id: String!
     resourceType: String!
     identifier: [Identifier]
     meta: Meta
     status: code!
+    careTeam: [ExplanationOfBenefitCareTeam]
     use: String!
     patient: Patient
     diagnosis: [ExplanationOfBenefitDiagnosis]
@@ -85,6 +94,8 @@ type ExplanationOfBenefit {
     insurer: Reference!
     outcome: code!
     item: [ExplanationOfBenefitItem]
+    payee: ExplanationOfBenefitPayee
+    type: CodeableConcept!
     total: [ExplanationOfBenefitTotal]
     supportingInfo: [ExplanationOfBenefitSupportingInfo]
 }
