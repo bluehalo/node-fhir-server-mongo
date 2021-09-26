@@ -13,9 +13,9 @@ module.exports = {
         },
     },
     ExplanationOfBenefit: {
-        // eslint-disable-next-line no-unused-vars
-        patient: async (parent, args, context, info) => {
-            return patients.filter(x => x.id === parent.patient_reference)[0];
-        }
+        // // eslint-disable-next-line no-unused-vars
+        // patient: async (parent, args, context, info) => {
+        //     return patients.filter(x => x.id === parent.patient_reference)[0];
+        // }
     },
 };

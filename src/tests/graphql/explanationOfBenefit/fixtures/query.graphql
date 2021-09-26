@@ -100,6 +100,7 @@
             quantity {
                 system
                 code
+                value
             }
             revenue {
                 coding {
@@ -156,10 +157,7 @@
         }
         use
         patient {
-            id
-            name {
-                family
-            }
+            reference
         }
     }
 }

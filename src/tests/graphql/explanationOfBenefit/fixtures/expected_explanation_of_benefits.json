@@ -205,36 +205,46 @@
           ]
         },
         "modifier": [],
-        "productOrService": {},
+        "productOrService": {
+          "coding": null,
+          "text": null
+        },
         "quantity": {
+          "code": null,
+          "system": null,
           "value": 1
         },
         "revenue": {
           "coding": [
             {
+              "code": null,
               "system": "http://terminology.hl7.org/CodeSystem/ex-revenue-center"
             }
           ]
         },
-        "sequence": 2,
-        "servicedPeriod": {}
+        "servicedPeriod": {
+          "end": null,
+          "start": null
+        }
       }
     ],
     "meta": {
-      "source": "https://www.wpshealth.com/medical_claims",
-      "versionId": "1",
       "security": [
         {
-          "system": "https://www.icanbwell.com/access",
-          "code": "medstar"
+          "code": "medstar",
+          "system": "https://www.icanbwell.com/access"
         }
-      ]
+      ],
+      "source": "https://www.wpshealth.com/medical_claims",
+      "tag": null,
+      "versionId": "1"
     },
     "outcome": "Complete",
     "patient": {
       "reference": "Patient/WPS-5458231534"
     },
     "payee": {
+      "party": null,
       "type": {
         "coding": [
           {
@@ -498,19 +508,27 @@
           ]
         },
         "modifier": [],
-        "productOrService": {},
+        "productOrService": {
+          "coding": null,
+          "text": null
+        },
         "quantity": {
+          "code": null,
+          "system": null,
           "value": 1
         },
         "revenue": {
           "coding": [
             {
+              "code": null,
               "system": "http://terminology.hl7.org/CodeSystem/ex-revenue-center"
             }
           ]
         },
-        "sequence": 1,
-        "servicedPeriod": {}
+        "servicedPeriod": {
+          "end": null,
+          "start": null
+        }
       },
       {
         "adjudication": [
@@ -626,42 +644,53 @@
           {
             "coding": [
               {
-                "code": "59"
+                "code": "59",
+                "system": null
               }
             ],
             "text": "Procedure Modifier 1"
           }
         ],
-        "productOrService": {},
+        "productOrService": {
+          "coding": null,
+          "text": null
+        },
         "quantity": {
+          "code": null,
+          "system": null,
           "value": 1
         },
         "revenue": {
           "coding": [
             {
+              "code": null,
               "system": "http://terminology.hl7.org/CodeSystem/ex-revenue-center"
             }
           ]
         },
-        "sequence": 2,
-        "servicedPeriod": {}
+        "servicedPeriod": {
+          "end": null,
+          "start": null
+        }
       }
     ],
     "meta": {
-      "source": "https://www.wpshealth.com/medical_claims",
-      "versionId": "2",
       "security": [
         {
-          "system": "https://www.icanbwell.com/access",
-          "code": "medstar"
+          "code": "medstar",
+          "system": "https://www.icanbwell.com/access"
         }
-      ]
+      ],
+      "source": "https://www.wpshealth.com/medical_claims",
+      "tag": null,
+      "versionId": "2"
     },
     "outcome": "Complete",
     "patient": {
       "reference": "Patient/WPS-6678928210"
     },
     "payee": {
+      "party": null,
       "type": {
         "coding": [
           {
