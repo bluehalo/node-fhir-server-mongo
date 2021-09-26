@@ -7,7 +7,7 @@ const {BadRequestError} = require('../../utils/httpErrors');
 const {graph} = require('../graph/graph');
 /**
  * does a FHIR $everything
- * @param {string[]} args
+ * @param {Object} args
  * @param {string} user
  * @param {string} scope
  * @param {string} path

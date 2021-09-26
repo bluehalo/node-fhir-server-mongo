@@ -13,7 +13,7 @@ const {getMeta} = require('../common/getMeta');
 
 /**
  * does a FHIR Create (POST)
- * @param {string[]} args
+ * @param {Object} args
  * @param {string} user
  * @param {string} scope
  * @param {Object} body

@@ -26,7 +26,7 @@ const {logError} = require('../common/logging');
 
 /**
  * does a FHIR Merge
- * @param {string[]} args
+ * @param {Object} args
  * @param {string} user
  * @param {string} scope
  * @param {Object[]} body

@@ -9,7 +9,7 @@ const {BadRequestError, NotFoundError} = require('../../utils/httpErrors');
 const {VERSIONS} = require('@asymmetrik/node-fhir-server-core').constants;
 /**
  * does a FHIR History By Id
- * @param {string[]} args
+ * @param {Object} args
  * @param {string} user
  * @param {string} scope
  * @param {string} resource_name

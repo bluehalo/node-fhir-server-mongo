@@ -355,7 +355,7 @@ passport.use('graphqlStrategy', strategy);
 // app.use(passport.initialize());
 
 graphql().then(x => {
-    // app.use('/graphql', passport.authenticate('graphqlStrategy', {}, null));
+    // eslint-disable-next-line new-cap
     const router = express.Router();
     // router.use(bodyParser.urlencoded({extended: false}));
     router.use(bodyParser.text({ type: 'application/graphql' }));

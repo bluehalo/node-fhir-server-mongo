@@ -1,5 +1,6 @@
-const {patients, explanationOfBenefits} = require('../fakedata');
+// const {patients, explanationOfBenefits} = require('../fakedata');
 const {search} = require('../../operations/search/search');
+const {searchById} = require('../../operations/searchById/searchById');
 
 module.exports = {
     Query: {
@@ -9,7 +10,7 @@ module.exports = {
         },
         // eslint-disable-next-line no-unused-vars
         explanationOfBenefit: async (parent, args, context, info) => {
-            return explanationOfBenefits.filter(x => x.id === args.id)[0];
+            return searchById({base_version: '4_0_0'}, context.user, context.scope, 'ExplanationOfBenefit', 'ExplanationOfBenefit');
         },
     },
     ExplanationOfBenefit: {
