@@ -34,8 +34,6 @@ const app = express();
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
-const {bodyParserGraphQL} = require('body-parser-graphql');
-
 app.use(useragent.express());
 
 app.use(helmet());
