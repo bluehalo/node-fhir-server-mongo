@@ -2720,13 +2720,6 @@
   "resolved" "https://registry.npmjs.org/bodec/-/bodec-0.1.0.tgz"
   "version" "0.1.0"
 
-"body-parser-graphql@^1.1.0":
-  "integrity" "sha512-bOBF4n1AnUjcY1SzLeibeIx4XOuYqEkjn/Lm4yKhnN6KedoXMv4hVqgcKHGRnxOMJP64tErqrQU+4cihhpbJXg=="
-  "resolved" "https://registry.npmjs.org/body-parser-graphql/-/body-parser-graphql-1.1.0.tgz"
-  "version" "1.1.0"
-  dependencies:
-    "body-parser" "^1.18.2"
-
 "body-parser@^1.18.2", "body-parser@^1.19.0", "body-parser@1.19.0":
   "integrity" "sha512-dhEPs72UPbDnAQJ9ZKMNTP6ptJaionhP5cBb541nXPlW60Jepo9RV/a4fX4XWW9CuFNK22krhrj1+rgzifNCsw=="
   "resolved" "https://registry.npmjs.org/body-parser/-/body-parser-1.19.0.tgz"
