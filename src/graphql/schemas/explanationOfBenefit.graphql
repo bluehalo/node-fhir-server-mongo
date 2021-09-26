@@ -86,7 +86,7 @@ type ExplanationOfBenefit {
     status: code!
     careTeam: [ExplanationOfBenefitCareTeam]
     use: String!
-    patient: Reference!
+    patient: Patient!
     diagnosis: [ExplanationOfBenefitDiagnosis]
     procedure: [ExplanationOfBenefitProcedure]
     provider: Reference

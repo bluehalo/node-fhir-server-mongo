@@ -79,6 +79,16 @@ describe('GraphQL ExplanationOfBenefit Tests', () => {
                         }),
                 (results, cb) =>
                     request
+                        .get('/4_0_0/Patient/')
+                        .set(getHeaders())
+                        .expect(200, (err, resp) => {
+                            console.log('------- response patient ------------');
+                            console.log(JSON.stringify(resp.body, null, 2));
+                            console.log('------- end response patient  ------------');
+                            return cb(err, resp);
+                        }),
+                (results, cb) =>
+                    request
                         .get('/4_0_0/ExplanationOfBenefit/')
                         .set(getHeaders())
                         .expect(200, (err, resp) => {
