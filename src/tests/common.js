@@ -71,8 +71,8 @@ module.exports.getHeaders = (scope) => {
 
 module.exports.getGraphQLHeaders = (scope) => {
     return {
-        'Content-Type': 'application/graphql',
-        'Accept': '*/*',
+        'Content-Type': 'application/json; charset=utf-8',
+        'accept': '*/*',
         'Authorization': `Bearer ${scope ? getToken(scope) : getFullAccessToken()}`
     };
 };
