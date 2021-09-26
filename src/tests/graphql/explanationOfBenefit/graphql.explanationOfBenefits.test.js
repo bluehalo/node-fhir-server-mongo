@@ -13,7 +13,13 @@ const explanationOfBenefitQuery = fs.readFileSync(path.resolve(__dirname, './fix
 const async = require('async');
 
 const request = supertest(app);
-const {commonBeforeEach, commonAfterEach, getHeaders, getUnAuthenticatedHeaders, getGraphQLHeaders} = require('../../common');
+const {
+    commonBeforeEach,
+    commonAfterEach,
+    getHeaders,
+    getUnAuthenticatedHeaders,
+    getGraphQLHeaders
+} = require('../../common');
 
 describe('GraphQL ExplanationOfBenefit Tests', () => {
     beforeEach(async () => {
@@ -27,11 +33,12 @@ describe('GraphQL ExplanationOfBenefit Tests', () => {
     describe('GraphQL ExplanationOfBenefit', () => {
         test('GraphQL ExplanationOfBenefit properly', async () => {
             // noinspection JSUnusedLocalSymbols
-            const graphqlQueryText = JSON.stringify({
-                query: explanationOfBenefitQuery,
-                operationName: 'foo',
-                variables: {}
-            }).replace(/\\n/g, '');
+            // const graphqlQueryText = {
+            //     query: explanationOfBenefitQuery,
+            //     operationName: 'foo',
+            //     variables: {}
+            // };
+            const graphqlQueryText = '{ explanationOfBenefits { id patient { id name { family } } } }';
             await async.waterfall([
                 (cb) => // first confirm there are no records
                     request
@@ -66,9 +73,8 @@ describe('GraphQL ExplanationOfBenefit Tests', () => {
                             return cb(err, resp);
                         }),
                 (results, cb) => request
-                    .post('/graphql')
-                    .send(graphqlQueryText)
-                    .set(getGraphQLHeaders())
+                    .get('/graphql/?query=' + graphqlQueryText)
+                    .set(getHeaders())
                     .expect(200, cb)
                     .expect((resp) => {
                         // clear out the lastUpdated column since that changes
