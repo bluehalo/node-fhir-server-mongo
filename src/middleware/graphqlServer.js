@@ -4,10 +4,6 @@ const {loadSchemaSync} = require('@graphql-tools/load');
 const {GraphQLFileLoader} = require('@graphql-tools/graphql-file-loader');
 const {addResolversToSchema} = require('@graphql-tools/schema');
 const resolvers = require('../graphql/resolvers');
-const passport = require('passport');
-
-// import loginWithToken from "../users/token";
-// import {configuration as corsConfiguration} from "../../middleware/cors";
 
 const {
     ApolloServerPluginLandingPageGraphQLPlayground,
@@ -15,17 +11,19 @@ const {
 } = require('apollo-server-core');
 
 const graphql = async () => {
+    // load all the schema files
     const schema = loadSchemaSync(join(__dirname, '../graphql/schemas/schema.graphql'), {
         loaders: [
             new GraphQLFileLoader(),
         ]
     });
 
-    // Add resolvers to the schema
+    // Add all the resolvers to the schema
     const schemaWithResolvers = addResolversToSchema({
         schema,
         resolvers,
     });
+    // create the Apollo graphql middleware
     const server = new ApolloServer(
         {
             schema: schemaWithResolvers,
@@ -35,26 +33,16 @@ const graphql = async () => {
                 // ApolloServerPluginLandingPageDisabled()
             ],
             context: async ({req, res}) => {
-                // const {err, user, info} = await passport.authenticate('graphqlStrategy', {}, null);
-                // const token = req?.cookies["app_login_token"];
-                // console.log('context', req.path);
-                const context = {
+                return {
                     req,
                     res,
-                    user: {},
+                    user: req.user,
+                    scope: req.authInfo && req.authInfo.scope
                 };
-
-                // const user = token ? await loginWithToken({token}) : null;
-                // const user = null;
-                //
-                // if (!user?.error) {
-                //     context.user = user;
-                // }
-
-                return context;
             },
         });
 
+    // apollo requires us to start the sever first
     await server.start();
 
     return server.getMiddleware({path: '/'});
