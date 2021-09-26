@@ -33,12 +33,13 @@ describe('GraphQL ExplanationOfBenefit Tests', () => {
     describe('GraphQL ExplanationOfBenefit', () => {
         test('GraphQL ExplanationOfBenefit properly', async () => {
             // noinspection JSUnusedLocalSymbols
-            const graphqlQueryText = '{ explanationOfBenefits { id identifier { system type { coding { code display system } text } value } meta { source versionId security { system code } tag { system code } } careTeam { sequence provider { reference } } diagnosis { sequence diagnosisCodeableConcept { coding { system code version } text } packageCode { coding { system version } } type { coding { code system } } } insurance { focal coverage { reference } } insurer { reference } item { adjudication { amount { value } category { coding { code display system } } } id locationCodeableConcept { coding { code system } } modifier { coding { system code } } productOrService { coding { system code } text } quantity { system code } revenue { coding { system code } } servicedPeriod { start end } } outcome payee { type { coding { system code } } party { reference } } procedure { sequence procedureCodeableConcept { coding { system code } } } provider { reference } resourceType status supportingInfo { sequence category { coding { system code } } } type { coding { system code } } use patient { id name { family } } } }';
-            const graphqlQuery = {
-                query: graphqlQueryText,
-                operationName: 'foo',
-                variables: {}
-            };
+            // const graphqlQueryText = '{ explanationOfBenefits { id identifier { system type { coding { code display system } text } value } meta { source versionId security { system code } tag { system code } } careTeam { sequence provider { reference } } diagnosis { sequence diagnosisCodeableConcept { coding { system code version } text } packageCode { coding { system version } } type { coding { code system } } } insurance { focal coverage { reference } } insurer { reference } item { adjudication { amount { value } category { coding { code display system } } } id locationCodeableConcept { coding { code system } } modifier { coding { system code } } productOrService { coding { system code } text } quantity { system code } revenue { coding { system code } } servicedPeriod { start end } } outcome payee { type { coding { system code } } party { reference } } procedure { sequence procedureCodeableConcept { coding { system code } } } provider { reference } resourceType status supportingInfo { sequence category { coding { system code } } } type { coding { system code } } use patient { id name { family } } } }';
+            const graphqlQueryText = explanationOfBenefitQuery.replace(/\\n/g, '').replace('query ', '');
+            // const graphqlQuery = {
+            //     query: graphqlQueryText,
+            //     operationName: 'foo',
+            //     variables: {}
+            // };
             await async.waterfall([
                 (cb) => // first confirm there are no records
                     request
@@ -76,7 +77,7 @@ describe('GraphQL ExplanationOfBenefit Tests', () => {
                     .get('/graphql/?query=' + graphqlQueryText)
                     .set(getHeaders())
                     // .post('/graphql')
-                    // .send({ query: '{ explanationOfBenefits { id } }'})
+                    // .send(graphqlQuery)
                     .set(getGraphQLHeaders())
                     .expect(200, cb)
                     .expect((resp) => {
