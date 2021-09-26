@@ -21,12 +21,12 @@ module.exports = {
         // eslint-disable-next-line no-unused-vars
         patient: async (parent, args, context, info) => {
             try {
-                const result = await search({
-                    base_version: '4_0_0',
-                    id: parent.patient.reference.split('/')[1]
-                }, context.user, context.scope, 'Patient', 'Patient');
-                return result.length > 0 ? result[0] : null;
-                // return searchById({base_version: '4_0_0', id: parent.patient.reference.split('/')[1]}, context.user, context.scope, 'Patient', 'Patient');
+                // const result = await search({
+                //     base_version: '4_0_0',
+                //     id: parent.patient.reference.split('/')[1]
+                // }, context.user, context.scope, 'Patient', 'Patient');
+                // return result.length > 0 ? result[0] : null;
+                return searchById({base_version: '4_0_0', id: parent.patient.reference.split('/')[1]}, context.user, context.scope, 'Patient', 'Patient');
             } catch (e) {
                 if (e instanceof NotFoundError){
                     return null;
