@@ -77,6 +77,13 @@ module.exports.getGraphQLHeaders = (scope) => {
     };
 };
 
+module.exports.getUnAuthenticatedGraphQLHeaders = () => {
+    return {
+        'Content-Type': 'application/json; charset=utf-8',
+        'accept': '*/*',
+    };
+};
+
 module.exports.getUnAuthenticatedHeaders = () => {
     return {
         'Content-Type': 'application/fhir+json',

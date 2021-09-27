@@ -13,7 +13,7 @@ up:
 	docker-compose -p fhir-dev -f docker-compose.yml up --detach && \
 	echo "waiting for Fhir server to become healthy" && \
 	while [ "`docker inspect --format {{.State.Health.Status}} fhir-dev_fhir_1`" != "healthy" ]; do printf "." && sleep 2; done
-	echo FHIR server: http://localhost:3000/stats && \
+	echo FHIR server GraphQL: http://localhost:3000/graphql && \
 	echo FHIR server: http://localhost:3000/
 
 .PHONY:down

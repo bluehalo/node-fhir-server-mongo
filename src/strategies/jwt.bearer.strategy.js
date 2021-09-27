@@ -49,8 +49,9 @@ class MyJwtStrategy extends JwtStrategy {
         logDebug('', req);
         logDebug('', 'Accepts text/html: ' + req.accepts('text/html'));
 
-        if (!token && req.accepts('text/html') && req.useragent && req.useragent.isDesktop && isTrue(env.REDIRECT_TO_LOGIN) && req.baseUrl !== '/graphql') {
-            const resourceUrl = req.url;
+        if (!token && req.accepts('text/html') && req.useragent && req.useragent.isDesktop && isTrue(env.REDIRECT_TO_LOGIN) && req.method === 'GET') {
+            const resourceUrl = req.originalUrl;
+
             const redirectUrl = `${env.AUTH_CODE_FLOW_URL}/login?response_type=code&client_id=${env.AUTH_CODE_FLOW_CLIENT_ID}&redirect_uri=${env.HOST_SERVER}/authcallback&state=${resourceUrl}`;
             logDebug('', 'Redirecting to ' + redirectUrl);
             return self.redirect(redirectUrl);

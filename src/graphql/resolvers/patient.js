@@ -1,22 +1,28 @@
-const {patients, explanationOfBenefits} = require('../fakedata');
-// const {search} = require('../../operations/search/search');
+const {search} = require('../../operations/search/search');
+const {searchById} = require('../../operations/searchById/searchById');
 
 module.exports = {
     Query: {
         // eslint-disable-next-line no-unused-vars
         patients: async (parent, args, context, info) => {
-            return patients;
-            // return search(args, 'user', 'user/*.read access/*.*', 'Patient', 'Patient_4_0_0');
+            return search({base_version: '4_0_0'}, context.user, context.scope, 'Patient', 'Patient');
         },
         // eslint-disable-next-line no-unused-vars
         patient: async (parent, args, context, info) => {
-            return patients.filter(x => x.id === args.id)[0];
+            return searchById({
+                base_version: '4_0_0',
+                id: args.id
+            }, context.user, context.scope, 'Patient', 'Patient');
+
         },
     },
     Patient: {
         // eslint-disable-next-line no-unused-vars
         explanationOfBenefit: async (parent, args, context, info) => {
-            return explanationOfBenefits.filter(x => x.patient_reference === parent.id);
+            return search({
+                base_version: '4_0_0',
+                'patient': parent.id
+            }, context.user, context.scope, 'ExplanationOfBenefit', 'ExplanationOfBenefit');
         },
     },
 };

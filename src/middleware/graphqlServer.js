@@ -28,8 +28,16 @@ const graphql = async () => {
         {
             schema: schemaWithResolvers,
             plugins: [
+                // request.credentials is set so we receive cookies
+                // https://github.com/graphql/graphql-playground#settings
                 // eslint-disable-next-line new-cap
-                ApolloServerPluginLandingPageGraphQLPlayground(),
+                ApolloServerPluginLandingPageGraphQLPlayground(
+                    {
+                        settings: {
+                            'request.credentials': 'same-origin'
+                        }
+                    }
+                ),
                 // ApolloServerPluginLandingPageDisabled()
             ],
             context: async ({req, res}) => {
@@ -39,7 +47,7 @@ const graphql = async () => {
                     user: req.user,
                     scope: req.authInfo && req.authInfo.scope
                 };
-            },
+            }
         });
 
     // apollo requires us to start the sever first

@@ -134,9 +134,41 @@
                 }
             }
         }
-        provider {
-            reference
+        practitioner {
+            id
+            identifier {
+                system
+                value
+            }
+            name {
+                family
+                given
+            }
         }
+        organization {
+            id
+            identifier {
+                system
+                value
+            }
+            name
+        }
+#        provider {
+#            __typename
+#            ... on Organization {
+#                identifier {
+#                    system
+#                    value
+#                }
+#            }
+#            ... on Practitioner {
+#                id
+#                name {
+#                    family
+#                    given
+#                }
+#            }
+#        }
         resourceType
         status
         supportingInfo {

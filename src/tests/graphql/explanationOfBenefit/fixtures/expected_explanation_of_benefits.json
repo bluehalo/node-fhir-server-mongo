@@ -218,6 +218,16 @@
       "tag": null,
       "versionId": "1"
     },
+    "organization": {
+      "id": "733797173",
+      "identifier": [
+        {
+          "system": "bwell",
+          "value": "-733797173"
+        }
+      ],
+      "name": "MedStar Medical Group Dermatology at Honeygo OLD"
+    },
     "outcome": "Complete",
     "patient": {
       "id": "WPS-0559166162"
@@ -233,6 +243,7 @@
         ]
       }
     },
+    "practitioner": null,
     "procedure": [
       {
         "procedureCodeableConcept": {
@@ -246,9 +257,6 @@
         "sequence": 2
       }
     ],
-    "provider": {
-      "reference": "Organization/1407857790"
-    },
     "resourceType": "ExplanationOfBenefit",
     "status": "active",
     "supportingInfo": [
@@ -515,6 +523,16 @@
       "tag": null,
       "versionId": "1"
     },
+    "organization": {
+      "id": "733797173",
+      "identifier": [
+        {
+          "system": "bwell",
+          "value": "-733797173"
+        }
+      ],
+      "name": "MedStar Medical Group Dermatology at Honeygo OLD"
+    },
     "outcome": "Complete",
     "patient": {
       "id": "WPS-5458231534"
@@ -530,6 +548,7 @@
         ]
       }
     },
+    "practitioner": null,
     "procedure": [
       {
         "procedureCodeableConcept": {
@@ -543,9 +562,6 @@
         "sequence": 2
       }
     ],
-    "provider": {
-      "reference": "Organization/1376656959"
-    },
     "resourceType": "ExplanationOfBenefit",
     "status": "active",
     "supportingInfo": [
