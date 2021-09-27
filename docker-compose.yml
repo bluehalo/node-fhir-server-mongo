@@ -27,6 +27,7 @@ services:
       MAX_INDEX_NAME_LENGTH: 65
       ENV: foo
       MONGO_TIMEOUT: 30000
+      LOGLEVEL: "DEBUG"
 #      SLACK_TOKEN: ""
 #      SLACK_CHANNEL: "#helix_pipeline_notifications_dev"
 #      HASH_REFERENCE: 1

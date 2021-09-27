@@ -15,7 +15,7 @@ const logger = require('@asymmetrik/node-fhir-server-core').loggers.get();
 /**
  * Builds a mongo query for search parameters
  * @param {string} resource_name
- * @param {string[]} args
+ * @param {Object} args
  * @returns {Object} A query object to use with Mongo
  */
 module.exports.buildR4SearchQuery = (resource_name, args) => {

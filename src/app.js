@@ -26,6 +26,9 @@ const childProcess = require('child_process');
 const {getIndexesInAllCollections} = require('./utils/index.util');
 const {resourceDefinitions} = require('./utils/resourceDefinitions');
 
+const passport = require('passport');
+const {strategy} = require('./strategies/jwt.bearer.strategy');
+
 const app = express();
 
 const cookieParser = require('cookie-parser');
@@ -347,8 +350,19 @@ app.use('/css', express.static(path.join(__dirname, 'dist/css')));
 app.use('/js', express.static(path.join(__dirname, 'dist/js')));
 app.use('/icons', express.static(path.join(__dirname, 'dist/icons')));
 
+passport.use('graphqlStrategy', strategy);
+
+// app.use(passport.initialize());
+
 graphql().then(x => {
-    app.use(x);
+    // eslint-disable-next-line new-cap
+    const router = express.Router();
+    router.use(passport.initialize());
+    router.use(passport.authenticate('graphqlStrategy', {session: false}));
+
+    router.use(x);
+    // app.use('/graphql', x);
+    app.use('/graphql', router);
     app.use(fhirApp.app);
 });
 

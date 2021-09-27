@@ -14,7 +14,7 @@ const {VERSIONS} = require('@asymmetrik/node-fhir-server-core').constants;
 
 /**
  * does a FHIR Search
- * @param {string[]} args
+ * @param {Object} args
  * @param {string} user
  * @param {string} scope
  * @param {string} resource_name
