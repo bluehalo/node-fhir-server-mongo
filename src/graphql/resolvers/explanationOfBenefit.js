@@ -1,12 +1,23 @@
 const {search} = require('../../operations/search/search');
 const {searchById} = require('../../operations/searchById/searchById');
 const {NotFoundError} = require('../../utils/httpErrors');
+const {unBundle} = require('../common');
 
 module.exports = {
     Query: {
         // eslint-disable-next-line no-unused-vars
         explanationOfBenefits: async (parent, args, context, info) => {
-            return search({base_version: '4_0_0'}, context.user, context.scope, 'ExplanationOfBenefit', 'ExplanationOfBenefit');
+            return unBundle(
+                await search(
+                    {
+                        base_version: '4_0_0',
+                        _bundle: '1'
+                    },
+                    context.user,
+                    context.scope,
+                    'ExplanationOfBenefit',
+                    'ExplanationOfBenefit'
+                ));
         },
         // eslint-disable-next-line no-unused-vars
         explanationOfBenefit: async (parent, args, context, info) => {
