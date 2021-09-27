@@ -33,10 +33,15 @@ module.exports = {
     Patient: {
         // eslint-disable-next-line no-unused-vars
         explanationOfBenefit: async (parent, args, context, info) => {
-            return search({
-                base_version: '4_0_0',
-                'patient': parent.id
-            }, context.user, context.scope, 'ExplanationOfBenefit', 'ExplanationOfBenefit');
+            return unBundle(
+                await (
+                    search({
+                        base_version: '4_0_0',
+                        _bundle: '1',
+                        'patient': parent.id
+                    }, context.user, context.scope, 'ExplanationOfBenefit', 'ExplanationOfBenefit')
+                )
+            );
         },
     },
 };
