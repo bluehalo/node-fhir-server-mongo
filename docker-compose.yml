@@ -28,6 +28,7 @@ services:
       ENV: foo
       MONGO_TIMEOUT: 30000
       LOGLEVEL: "DEBUG"
+      ENABLE_GRAPHQL: 1
 #      SLACK_TOKEN: ""
 #      SLACK_CHANNEL: "#helix_pipeline_notifications_dev"
 #      HASH_REFERENCE: 1

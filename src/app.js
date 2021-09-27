@@ -354,16 +354,20 @@ passport.use('graphqlStrategy', strategy);
 
 // app.use(passport.initialize());
 
-graphql().then(x => {
-    // eslint-disable-next-line new-cap
-    const router = express.Router();
-    router.use(passport.initialize());
-    router.use(passport.authenticate('graphqlStrategy', {session: false}));
+if (isTrue(env.ENABLE_GRAPHQL)) {
+    graphql().then(x => {
+        // eslint-disable-next-line new-cap
+        const router = express.Router();
+        router.use(passport.initialize());
+        router.use(passport.authenticate('graphqlStrategy', {session: false}));
 
-    router.use(x);
-    // app.use('/graphql', x);
-    app.use('/graphql', router);
+        router.use(x);
+        // app.use('/graphql', x);
+        app.use('/graphql', router);
+        app.use(fhirApp.app);
+    });
+} else {
     app.use(fhirApp.app);
-});
+}
 
 module.exports = {app, fhirApp};
