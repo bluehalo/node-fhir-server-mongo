@@ -27,6 +27,7 @@ const graphql = async () => {
     const server = new ApolloServer(
         {
             schema: schemaWithResolvers,
+            introspection: true,
             plugins: [
                 // request.credentials is set so we receive cookies
                 // https://github.com/graphql/graphql-playground#settings
@@ -34,7 +35,8 @@ const graphql = async () => {
                 ApolloServerPluginLandingPageGraphQLPlayground(
                     {
                         settings: {
-                            'request.credentials': 'same-origin'
+                            'request.credentials': 'same-origin',
+                            'schema.polling.enable': false, // enables automatic schema polling
                         }
                     }
                 ),
@@ -56,13 +58,4 @@ const graphql = async () => {
     return server.getMiddleware({path: '/'});
 };
 
-// const getGraphQLMiddleware = () => {
-//     const router = (async () => {
-//         await graphql();
-//     })();
-//
-//     return router;
-// };
-
 module.exports.graphql = graphql;
-// module.exports.getGraphQLMiddleware = getGraphQLMiddleware;
