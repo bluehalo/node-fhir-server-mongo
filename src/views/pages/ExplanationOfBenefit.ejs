@@ -18,6 +18,7 @@
 
         <h4>Outcome</h4><%= res.outcome %>
         <h4>Created</h4><%= res.created %>
+        <% if (res.billablePeriod) {%><h4>Billable Period</h4><%= res.billablePeriod.start %> to <%= res.billablePeriod.start %><%}%>
 
         <%- include('../partials/codeableConcept', {codeableConcepts: [res.type], name: "Type"}); %>
 
@@ -29,27 +30,114 @@
 
         <%- include('../partials/reference', {references: [res.claim], name: "Claim"}); %>
 
+        <% if (res.diagnosis) { %>
+        <div>
+            <h4>Diagnosis</h4>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Sequence</th>
+                  <th scope="col">Code</th>
+                  <th scope="col">Type</th>
+                </tr>
+              </thead>
+              <tbody>
+            <% res.diagnosis.forEach(function(diagnosisItem){ %>
+                <tr>
+                    <td><%= diagnosisItem.sequence %></td>
+                    <td>
+                        <% if (diagnosisItem.diagnosisCodeableConcept){%>
+                        <% diagnosisItem.diagnosisCodeableConcept.coding.forEach(function(coding) {%>
+                            <%= coding.code %> (<%= coding.system.split('/').pop() %>)
+                        <%})%>
+                        <%}%>
+                    </td>
+                    <td>
+                        <% if (diagnosisItem.type){%>
+                        <% diagnosisItem.type.forEach(function(type) {%>
+                            <% type.coding.forEach(function(coding) {%>
+                                <%= coding.code %> (<%= coding.system.split('/').pop() %>)
+                            <%})%>
+                        <%})%>
+                        <%}%>
+                    </td>
+                 </tr>
+            <%})%>
+              </tbody>
+            </table>
+        </div>
+        <%}%>
+
+        <% if (res.procedure) { %>
+        <div>
+            <h4>Procedure</h4>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Sequence</th>
+                  <th scope="col">Code</th>
+                </tr>
+              </thead>
+              <tbody>
+            <% res.procedure.forEach(function(procedure){ %>
+                <tr>
+                    <td><%= procedure.sequence %></td>
+                    <td>
+                        <% if (procedure.procedureCodeableConcept){%>
+                        <% procedure.procedureCodeableConcept.coding.forEach(function(coding) {%>
+                            <%= coding.code %> (<%= coding.system.split('/').pop() %>)
+                        <%})%>
+                        <%}%>
+                    </td>
+                 </tr>
+            <%})%>
+              </tbody>
+            </table>
+        </div>
+        <%}%>
+
+
         <% if (res.item) { %>
         <div>
             <h4>Items</h4>
-            <table class="table">
+            <table class="table table-bordered table-sm">
               <thead>
                 <tr>
                   <th scope="col">Sequence</th>
                   <th scope="col">Date</th>
                   <th scope="col">Code</th>
                   <th scope="col">Quantity</th>
+                  <th scope="col">Revenue</th>
+                  <th scope="col">Submitted</th>
+                  <th scope="col">Allowed</th>
+                  <th scope="col">Deductible</th>
+                  <th scope="col">Coinsurance</th>
+                  <th scope="col">CoPay</th>
+                  <th scope="col">Non-covered</th>
+                  <th scope="col">COB</th>
+                  <th scope="col">Payment</th>
+                  <th scope="col">Patient</th>
                 </tr>
               </thead>
               <tbody>
             <% res.item.forEach(function(item){ %>
                 <tr>
                 <td><%= item.sequence %></td>
-                <td><%= item.servicedDate %></td>
+                <td>
+                    <% if (item.servicedDate) { %>
+                        <%= item.servicedDate %>
+                    <%} else if (item.servicedPeriod) {%>
+                        <% if (item.servicedPeriod.start != item.servicedPeriod.end) {%>
+                            <%= item.servicedPeriod.start %> - <%= item.servicedPeriod.end %>
+                        <% } else { %>
+                            <%= item.servicedPeriod.start %>
+                        <%}%>
+                    <%}%>
+                </td>
                 <td>
                     <% if (item.productOrService) { %>
                         <% item.productOrService.coding.forEach(function(coding){ %>
-                            <%= coding.code %> (<%= coding.system %>)
+                            <%= coding.code %> (<%= coding.system.split('/').pop() %>)
                         <%})%>
                     <%}%>
                  </td>
@@ -58,8 +146,202 @@
                         <%= item.quantity.value %>
                     <%}%>
                  </td>
+                 <td>
+                    <% if (item.revenue) { %>
+                       <% item.revenue.coding.forEach(function(coding){ %>
+                            <%= coding.code %>
+                        <%})%>
+                    <%}%>
+                 </td>
+                 <td>
+                    <% if (item.adjudication) {%>
+                        <% item.adjudication.filter(x => x.category && x.category.coding && x.category.coding.some(y => y.code === 'submittedamount')).forEach(function(adjudication){%>
+                           <% adjudication.category.coding.forEach(function(coding){ %>
+                                <%= adjudication.amount.value %>
+                            <%})%>
+                        <%})%>
+                    <%}%>
+                 </td>
+                 <td>
+                    <% if (item.adjudication) {%>
+                        <% item.adjudication.filter(x => x.category && x.category.coding && x.category.coding.some(y => y.code === 'allowedamount')).forEach(function(adjudication){%>
+                           <% adjudication.category.coding.forEach(function(coding){ %>
+                                <%= adjudication.amount.value %>
+                            <%})%>
+                        <%})%>
+                    <%}%>
+                 </td>
+                 <td>
+                    <% if (item.adjudication) {%>
+                        <% item.adjudication.filter(x => x.category && x.category.coding && x.category.coding.some(y => y.code === 'deductibleamount')).forEach(function(adjudication){%>
+                           <% adjudication.category.coding.forEach(function(coding){ %>
+                                <%= adjudication.amount.value %>
+                            <%})%>
+                        <%})%>
+                    <%}%>
+                 </td>
+                 <td>
+                    <% if (item.adjudication) {%>
+                        <% item.adjudication.filter(x => x.category && x.category.coding && x.category.coding.some(y => y.code === 'coinsuranceamount')).forEach(function(adjudication){%>
+                           <% adjudication.category.coding.forEach(function(coding){ %>
+                                <%= adjudication.amount.value %>
+                            <%})%>
+                        <%})%>
+                    <%}%>
+                 </td>
+                 <td>
+                    <% if (item.adjudication) {%>
+                        <% item.adjudication.filter(x => x.category && x.category.coding && x.category.coding.some(y => y.code === 'copayamount')).forEach(function(adjudication){%>
+                           <% adjudication.category.coding.forEach(function(coding){ %>
+                                <%= adjudication.amount.value %>
+                            <%})%>
+                        <%})%>
+                    <%}%>
+                 </td>
+                 <td>
+                    <% if (item.adjudication) {%>
+                        <% item.adjudication.filter(x => x.category && x.category.coding && x.category.coding.some(y => y.code === 'noncoveredamount')).forEach(function(adjudication){%>
+                           <% adjudication.category.coding.forEach(function(coding){ %>
+                                <%= adjudication.amount.value %>
+                            <%})%>
+                        <%})%>
+                    <%}%>
+                 </td>
+                 <td>
+                    <% if (item.adjudication) {%>
+                        <% item.adjudication.filter(x => x.category && x.category.coding && x.category.coding.some(y => y.code === 'cobamount')).forEach(function(adjudication){%>
+                           <% adjudication.category.coding.forEach(function(coding){ %>
+                                <%= adjudication.amount.value %>
+                            <%})%>
+                        <%})%>
+                    <%}%>
+                 </td>
+                 <td>
+                    <% if (item.adjudication) {%>
+                        <% item.adjudication.filter(x => x.category && x.category.coding && x.category.coding.some(y => y.code === 'paymentamount')).forEach(function(adjudication){%>
+                           <% adjudication.category.coding.forEach(function(coding){ %>
+                                <%= adjudication.amount.value %>
+                            <%})%>
+                        <%})%>
+                    <%}%>
+                 </td>
+                 <td>
+                    <% if (item.adjudication) {%>
+                        <% item.adjudication.filter(x => x.category && x.category.coding && x.category.coding.some(y => y.code === 'patientpayamount')).forEach(function(adjudication){%>
+                           <% adjudication.category.coding.forEach(function(coding){ %>
+                                <%= adjudication.amount.value %>
+                            <%})%>
+                        <%})%>
+                    <%}%>
+                 </td>
                  </tr>
             <%})%>
+              </tbody>
+            </table>
+        </div>
+        <%}%>
+
+        <% if (res.adjudication) { %>
+        <div>
+            <h4>Adjudication</h4>
+            <table class="table table-bordered table-sm">
+              <thead>
+                <tr>
+                  <th scope="col">Submitted</th>
+                  <th scope="col">Allowed</th>
+                  <th scope="col">Deductible</th>
+                  <th scope="col">Coinsurance</th>
+                  <th scope="col">CoPay</th>
+                  <th scope="col">Non-covered</th>
+                  <th scope="col">COB</th>
+                  <th scope="col">Payment</th>
+                  <th scope="col">Patient</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                 <td>
+                    <% if (res.adjudication) {%>
+                        <% res.adjudication.filter(x => x.category && x.category.coding && x.category.coding.some(y => y.code === 'submittedamount')).forEach(function(adjudication){%>
+                           <% adjudication.category.coding.forEach(function(coding){ %>
+                                <%= adjudication.amount.value %>
+                            <%})%>
+                        <%})%>
+                    <%}%>
+                 </td>
+                 <td>
+                    <% if (res.adjudication) {%>
+                        <% res.adjudication.filter(x => x.category && x.category.coding && x.category.coding.some(y => y.code === 'allowedamount')).forEach(function(adjudication){%>
+                           <% adjudication.category.coding.forEach(function(coding){ %>
+                                <%= adjudication.amount.value %>
+                            <%})%>
+                        <%})%>
+                    <%}%>
+                 </td>
+                 <td>
+                    <% if (res.adjudication) {%>
+                        <% res.adjudication.filter(x => x.category && x.category.coding && x.category.coding.some(y => y.code === 'deductibleamount')).forEach(function(adjudication){%>
+                           <% adjudication.category.coding.forEach(function(coding){ %>
+                                <%= adjudication.amount.value %>
+                            <%})%>
+                        <%})%>
+                    <%}%>
+                 </td>
+                 <td>
+                    <% if (res.adjudication) {%>
+                        <% res.adjudication.filter(x => x.category && x.category.coding && x.category.coding.some(y => y.code === 'coinsuranceamount')).forEach(function(adjudication){%>
+                           <% adjudication.category.coding.forEach(function(coding){ %>
+                                <%= adjudication.amount.value %>
+                            <%})%>
+                        <%})%>
+                    <%}%>
+                 </td>
+                 <td>
+                    <% if (res.adjudication) {%>
+                        <% res.adjudication.filter(x => x.category && x.category.coding && x.category.coding.some(y => y.code === 'copayamount')).forEach(function(adjudication){%>
+                           <% adjudication.category.coding.forEach(function(coding){ %>
+                                <%= adjudication.amount.value %>
+                            <%})%>
+                        <%})%>
+                    <%}%>
+                 </td>
+                 <td>
+                    <% if (res.adjudication) {%>
+                        <% res.adjudication.filter(x => x.category && x.category.coding && x.category.coding.some(y => y.code === 'noncoveredamount')).forEach(function(adjudication){%>
+                           <% adjudication.category.coding.forEach(function(coding){ %>
+                                <%= adjudication.amount.value %>
+                            <%})%>
+                        <%})%>
+                    <%}%>
+                 </td>
+                 <td>
+                    <% if (res.adjudication) {%>
+                        <% res.adjudication.filter(x => x.category && x.category.coding && x.category.coding.some(y => y.code === 'cobamount')).forEach(function(adjudication){%>
+                           <% adjudication.category.coding.forEach(function(coding){ %>
+                                <%= adjudication.amount.value %>
+                            <%})%>
+                        <%})%>
+                    <%}%>
+                 </td>
+                 <td>
+                    <% if (res.adjudication) {%>
+                        <% res.adjudication.filter(x => x.category && x.category.coding && x.category.coding.some(y => y.code === 'paymentamount')).forEach(function(adjudication){%>
+                           <% adjudication.category.coding.forEach(function(coding){ %>
+                                <%= adjudication.amount.value %>
+                            <%})%>
+                        <%})%>
+                    <%}%>
+                 </td>
+                 <td>
+                    <% if (res.adjudication) {%>
+                        <% res.adjudication.filter(x => x.category && x.category.coding && x.category.coding.some(y => y.code === 'patientpayamount')).forEach(function(adjudication){%>
+                           <% adjudication.category.coding.forEach(function(coding){ %>
+                                <%= adjudication.amount.value %>
+                            <%})%>
+                        <%})%>
+                    <%}%>
+                 </td>
+                 </tr>
               </tbody>
             </table>
         </div>
@@ -73,6 +355,7 @@
                 <tr>
                   <th scope="col">Sequence</th>
                   <th scope="col">Provider</th>
+                  <th scope="col">Role</th>
                 </tr>
               </thead>
               <tbody>
@@ -80,6 +363,13 @@
                 <tr>
                     <td><%= item.sequence %></td>
                     <td><a href="/4_0_0/<%= item.provider.reference %>"><%= item.provider.reference %></a></td>
+                    <td>
+                        <% if (item.role && item.role.coding){%>
+                            <% item.role.coding.forEach(function(coding){%>
+                                <%= coding.code %> (<%= coding.system.split('/').pop() %>)
+                            <%})%>
+                        <%}%>
+                    </td>
                  </tr>
             <%})%>
               </tbody>
@@ -127,7 +417,7 @@
                 <td>
                     <% if (total.category) { %>
                         <% total.category.coding.forEach(function(coding){ %>
-                            <%= coding.code %> (<%= coding.system %>)
+                            <%= coding.code %> (<%= coding.system.split('/').pop() %>)
                         <%})%>
                     <%}%>
                  </td>
@@ -161,7 +451,7 @@
                 <td>
                     <% if (item.category && item.category.coding) { %>
                         <% item.category.coding.forEach(function(coding){ %>
-                            <%= coding.code %> (<%= coding.system %>)
+                            <%= coding.code %> (<%= coding.system.split('/').pop() %>)
                         <%})%>
                     <%}%>
                  </td>
