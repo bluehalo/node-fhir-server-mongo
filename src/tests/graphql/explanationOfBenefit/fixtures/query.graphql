@@ -1,4 +1,4 @@
-{
+query {
     explanationOfBenefits {
         id
         identifier {

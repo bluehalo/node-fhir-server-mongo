@@ -11,7 +11,8 @@ module.exports = {
                 await search(
                     {
                         base_version: '4_0_0',
-                        _bundle: '1'
+                        _bundle: '1',
+                        ...args
                     },
                     context.user,
                     context.scope,

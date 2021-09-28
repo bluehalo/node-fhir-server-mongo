@@ -37,7 +37,7 @@ describe('GraphQL ExplanationOfBenefit Tests', () => {
     describe('GraphQL ExplanationOfBenefit', () => {
         test('GraphQL ExplanationOfBenefit properly', async () => {
             // noinspection JSUnusedLocalSymbols
-            const graphqlQueryText = explanationOfBenefitQuery.replace(/\\n/g, '').replace('query ', '');
+            const graphqlQueryText = explanationOfBenefitQuery.replace(/\\n/g, '');
             await async.waterfall([
                 (cb) => // first confirm there are no records
                     request
