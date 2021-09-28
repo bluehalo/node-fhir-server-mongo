@@ -1,0 +1,5 @@
+# import Meta from "meta.graphql"
+type Resource {
+        id_: id
+        meta: Meta
+}
