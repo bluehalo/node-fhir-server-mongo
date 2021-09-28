@@ -6,5 +6,5 @@ type PersonLink {
         modifierExtension: [Extension]
 
         target: Reference!
-        assurance: IdentityAssuranceLevel
+        assurance: IdentityAssuranceLevelCode
 }

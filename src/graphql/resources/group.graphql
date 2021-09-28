@@ -14,7 +14,7 @@ type Group {
         identifier: [Identifier]
 
         active: Boolean
-        type_: GroupType!
+        type_: code!
         actual: Boolean!
         code: CodeableConcept
         name: String

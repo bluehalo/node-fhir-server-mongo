@@ -13,7 +13,7 @@ type CareTeam {
 
         identifier: [Identifier]
 
-        status: CareTeamStatus
+        status: code
         category: [CodeableConcept]
 
         name: String

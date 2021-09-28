@@ -13,7 +13,7 @@ type Account {
 
         identifier: [Identifier]
 
-        status: AccountStatus!
+        status: code!
         type_: CodeableConcept
         name: String
         subject: [Reference]

@@ -6,7 +6,7 @@ type ExplanationOfBenefitProcessNote {
         modifierExtension: [Extension]
 
         number: Int
-        type_: NoteType
+        type_: NoteTypeCode
         text: String
         language: CodeableConcept
 }

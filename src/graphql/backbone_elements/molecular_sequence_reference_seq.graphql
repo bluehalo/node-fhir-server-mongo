@@ -7,11 +7,11 @@ type MolecularSequenceReferenceSeq {
 
         chromosome: CodeableConcept
         genomeBuild: String
-        orientation: orientationType
+        orientation: OrientationTypeCode
         referenceSeqId: CodeableConcept
         referenceSeqPointer: Reference
         referenceSeqString: String
-        strand: strandType
+        strand: StrandTypeCode
         windowStart: Int
         windowEnd: Int
 }

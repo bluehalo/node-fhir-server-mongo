@@ -6,5 +6,5 @@ type AuditEventNetwork {
         modifierExtension: [Extension]
 
         address: String
-        type_: AuditEventAgentNetworkType
+        type_: AuditEventAgentNetworkTypeCode
 }

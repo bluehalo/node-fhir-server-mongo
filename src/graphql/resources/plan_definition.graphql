@@ -19,7 +19,7 @@ type PlanDefinition {
         title: String
         subtitle: String
         type_: CodeableConcept
-        status: PublicationStatus!
+        status: code!
         experimental: Boolean
         subjectCodeableConcept: CodeableConcept
         subjectReference: Reference

@@ -17,7 +17,7 @@ type FamilyMemberHistory {
 
         instantiatesUri: [uri]
 
-        status: FamilyHistoryStatus!
+        status: code!
         dataAbsentReason: CodeableConcept
         patient: Reference!
         date: dateTime

@@ -20,5 +20,5 @@ type EvidenceVariableCharacteristic {
         participantEffectiveDuration: Duration
         participantEffectiveTiming: Timing
         timeFromStart: Duration
-        groupMeasure: GroupMeasure
+        groupMeasure: GroupMeasureCode
 }

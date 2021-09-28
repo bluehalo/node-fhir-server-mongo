@@ -18,7 +18,7 @@ type Patient {
 
         telecom: [ContactPoint]
 
-        gender: AdministrativeGender
+        gender: code
         birthDate: date
         deceasedBoolean: Boolean
         deceasedDateTime: dateTime

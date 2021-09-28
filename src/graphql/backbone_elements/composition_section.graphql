@@ -11,7 +11,7 @@ type CompositionSection {
 
         focus: Reference
         text: Narrative
-        mode: ListMode
+        mode: ListModeCode
         orderedBy: CodeableConcept
         entry: [Reference]
 

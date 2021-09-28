@@ -14,7 +14,7 @@ type CompartmentDefinition {
         url: uri!
         version: String
         name: String!
-        status: PublicationStatus!
+        status: code!
         experimental: Boolean
         date: dateTime
         publisher: String
@@ -24,7 +24,7 @@ type CompartmentDefinition {
         useContext: [UsageContext]
 
         purpose: markdown
-        code: CompartmentType!
+        code: code!
         search: Boolean!
         resource: [CompartmentDefinitionResource]
 

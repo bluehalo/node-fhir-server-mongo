@@ -5,6 +5,6 @@ type StructureDefinitionContext {
 
         modifierExtension: [Extension]
 
-        type_: ExtensionContextType!
+        type_: ExtensionContextTypeCode!
         expression: String!
 }

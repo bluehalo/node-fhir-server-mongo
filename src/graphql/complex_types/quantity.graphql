@@ -4,7 +4,7 @@ type Quantity {
         extension: [Extension]
 
         value: decimal
-        comparator: QuantityComparator
+        comparator: QuantityComparatorCode
         unit: String
         system: uri
         code: code

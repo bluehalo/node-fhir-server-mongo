@@ -19,12 +19,12 @@ type ResearchElementDefinitionCharacteristic {
         studyEffectiveDuration: Duration
         studyEffectiveTiming: Timing
         studyEffectiveTimeFromStart: Duration
-        studyEffectiveGroupMeasure: GroupMeasure
+        studyEffectiveGroupMeasure: GroupMeasureCode
         participantEffectiveDescription: String
         participantEffectiveDateTime: dateTime
         participantEffectivePeriod: Period
         participantEffectiveDuration: Duration
         participantEffectiveTiming: Timing
         participantEffectiveTimeFromStart: Duration
-        participantEffectiveGroupMeasure: GroupMeasure
+        participantEffectiveGroupMeasure: GroupMeasureCode
 }

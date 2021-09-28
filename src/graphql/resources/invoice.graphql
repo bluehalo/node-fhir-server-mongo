@@ -13,7 +13,7 @@ type Invoice {
 
         identifier: [Identifier]
 
-        status: InvoiceStatus!
+        status: code!
         cancelledReason: String
         type_: CodeableConcept
         subject: Reference

@@ -20,7 +20,7 @@ type Practitioner {
 
         address: [Address]
 
-        gender: AdministrativeGender
+        gender: code
         birthDate: date
         photo: [Attachment]
 

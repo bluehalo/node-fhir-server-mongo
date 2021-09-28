@@ -7,6 +7,6 @@ type CapabilityStatementSearchParam {
 
         name: String!
         definition: canonical
-        type_: SearchParamType!
+        type_: SearchParamTypeCode!
         documentation: markdown
 }

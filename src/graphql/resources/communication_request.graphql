@@ -18,11 +18,11 @@ type CommunicationRequest {
         replaces: [Reference]
 
         groupIdentifier: Identifier
-        status: RequestStatus!
+        status: code!
         statusReason: CodeableConcept
         category: [CodeableConcept]
 
-        priority: RequestPriority
+        priority: code
         doNotPerform: Boolean
         medium: [CodeableConcept]
 

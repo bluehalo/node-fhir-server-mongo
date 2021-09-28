@@ -13,7 +13,7 @@ type ClinicalImpression {
 
         identifier: [Identifier]
 
-        status: ClinicalImpressionStatus!
+        status: code!
         statusReason: CodeableConcept
         code: CodeableConcept
         description: String

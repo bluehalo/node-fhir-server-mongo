@@ -6,7 +6,7 @@ type ElementDefinition {
         modifierExtension: [Extension]
 
         path: String!
-        representation: [PropertyRepresentation]
+        representation: [PropertyRepresentationCode]
 
         sliceName: String
         sliceIsConstraining: Boolean

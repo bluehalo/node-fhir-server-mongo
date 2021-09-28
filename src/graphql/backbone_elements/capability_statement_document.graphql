@@ -5,7 +5,7 @@ type CapabilityStatementDocument {
 
         modifierExtension: [Extension]
 
-        mode: DocumentMode!
+        mode: DocumentModeCode!
         documentation: markdown
         profile: canonical!
 }

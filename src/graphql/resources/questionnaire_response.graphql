@@ -17,7 +17,7 @@ type QuestionnaireResponse {
         partOf: [Reference]
 
         questionnaire: canonical
-        status: QuestionnaireResponseStatus!
+        status: code!
         subject: Reference
         encounter: Reference
         authored: dateTime

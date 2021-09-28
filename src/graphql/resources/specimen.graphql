@@ -14,7 +14,7 @@ type Specimen {
         identifier: [Identifier]
 
         accessionIdentifier: Identifier
-        status: SpecimenStatus
+        status: code
         type_: CodeableConcept
         subject: Reference
         receivedTime: dateTime

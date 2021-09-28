@@ -22,11 +22,11 @@ type ServiceRequest {
         replaces: [Reference]
 
         requisition: Identifier
-        status: RequestStatus!
-        intent: RequestIntent!
+        status: code!
+        intent: code!
         category: [CodeableConcept]
 
-        priority: RequestPriority
+        priority: code
         doNotPerform: Boolean
         code: CodeableConcept
         orderDetail: [CodeableConcept]

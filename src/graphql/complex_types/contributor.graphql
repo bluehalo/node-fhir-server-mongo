@@ -3,7 +3,7 @@ type Contributor {
         id_: String
         extension: [Extension]
 
-        type_: ContributorType!
+        type_: ContributorTypeCode!
         name: String!
         contact: [ContactDetail]
 

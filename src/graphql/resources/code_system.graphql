@@ -17,7 +17,7 @@ type CodeSystem {
         version: String
         name: String
         title: String
-        status: PublicationStatus!
+        status: code!
         experimental: Boolean
         date: dateTime
         publisher: String
@@ -32,10 +32,10 @@ type CodeSystem {
         copyright: markdown
         caseSensitive: Boolean
         valueSet: canonical
-        hierarchyMeaning: CodeSystemHierarchyMeaning
+        hierarchyMeaning: code
         compositional: Boolean
         versionNeeded: Boolean
-        content: CodeSystemContentMode!
+        content: code!
         supplements: canonical
         count: unsignedInt
         filter: [CodeSystemFilter]

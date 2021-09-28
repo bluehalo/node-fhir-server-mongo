@@ -5,7 +5,7 @@ type TestReportParticipant {
 
         modifierExtension: [Extension]
 
-        type_: TestReportParticipantType!
+        type_: TestReportParticipantTypeCode!
         uri: uri!
         display: String
 }

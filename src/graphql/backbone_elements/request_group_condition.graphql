@@ -5,6 +5,6 @@ type RequestGroupCondition {
 
         modifierExtension: [Extension]
 
-        kind: ActionConditionKind!
+        kind: ActionConditionKindCode!
         expression: Expression
 }

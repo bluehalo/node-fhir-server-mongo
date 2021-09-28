@@ -13,7 +13,7 @@ type Substance {
 
         identifier: [Identifier]
 
-        status: FHIRSubstanceStatus
+        status: code
         category: [CodeableConcept]
 
         code: CodeableConcept!

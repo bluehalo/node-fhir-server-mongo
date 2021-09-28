@@ -5,6 +5,6 @@ type PaymentReconciliationProcessNote {
 
         modifierExtension: [Extension]
 
-        type_: NoteType
+        type_: NoteTypeCode
         text: String
 }

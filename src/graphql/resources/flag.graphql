@@ -13,7 +13,7 @@ type Flag {
 
         identifier: [Identifier]
 
-        status: FlagStatus!
+        status: code!
         category: [CodeableConcept]
 
         code: CodeableConcept!

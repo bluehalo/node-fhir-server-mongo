@@ -13,7 +13,7 @@ type EnrollmentRequest {
 
         identifier: [Identifier]
 
-        status: FinancialResourceStatusCodes
+        status: code
         created: dateTime
         insurer: Reference
         provider: Reference

@@ -12,8 +12,8 @@ type NamingSystem {
         modifierExtension: [Extension]
 
         name: String!
-        status: PublicationStatus!
-        kind: NamingSystemType!
+        status: code!
+        kind: code!
         date: dateTime!
         publisher: String
         contact: [ContactDetail]

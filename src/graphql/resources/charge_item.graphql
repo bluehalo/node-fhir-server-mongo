@@ -17,7 +17,7 @@ type ChargeItem {
 
         definitionCanonical: [canonical]
 
-        status: ChargeItemStatus!
+        status: code!
         partOf: [Reference]
 
         code: CodeableConcept!

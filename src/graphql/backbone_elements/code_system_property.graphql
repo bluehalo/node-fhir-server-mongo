@@ -8,5 +8,5 @@ type CodeSystemProperty {
         code: code!
         uri: uri
         description: String
-        type_: PropertyType!
+        type_: PropertyTypeCode!
 }

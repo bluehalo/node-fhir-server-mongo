@@ -5,7 +5,7 @@ type MolecularSequenceRepository {
 
         modifierExtension: [Extension]
 
-        type_: repositoryType!
+        type_: RepositoryTypeCode!
         url: uri
         name: String
         datasetId: String

@@ -13,7 +13,7 @@ type Appointment {
 
         identifier: [Identifier]
 
-        status: AppointmentStatus!
+        status: code!
         cancelationReason: CodeableConcept
         serviceCategory: [CodeableConcept]
 

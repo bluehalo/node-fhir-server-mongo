@@ -14,10 +14,10 @@ type AuditEvent {
         type_: Coding!
         subtype: [Coding]
 
-        action: AuditEventAction
+        action: code
         period: Period
         recorded: instant!
-        outcome: AuditEventOutcome
+        outcome: code
         outcomeDesc: String
         purposeOfEvent: [CodeableConcept]
 

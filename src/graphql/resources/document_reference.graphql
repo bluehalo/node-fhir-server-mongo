@@ -14,8 +14,8 @@ type DocumentReference {
         masterIdentifier: Identifier
         identifier: [Identifier]
 
-        status: DocumentReferenceStatus!
-        docStatus: CompositionStatus
+        status: code!
+        docStatus: code
         type_: CodeableConcept
         category: [CodeableConcept]
 

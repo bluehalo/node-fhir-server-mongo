@@ -5,6 +5,6 @@ type CapabilityStatementInteraction {
 
         modifierExtension: [Extension]
 
-        code: TypeRestfulInteraction!
+        code: TypeRestfulInteractionCode!
         documentation: markdown
 }

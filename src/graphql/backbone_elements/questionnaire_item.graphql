@@ -11,10 +11,10 @@ type QuestionnaireItem {
 
         prefix: String
         text: String
-        type_: QuestionnaireItemType!
+        type_: QuestionnaireItemTypeCode!
         enableWhen: [QuestionnaireEnableWhen]
 
-        enableBehavior: EnableWhenBehavior
+        enableBehavior: EnableWhenBehaviorCode
         required: Boolean
         repeats: Boolean
         readOnly: Boolean

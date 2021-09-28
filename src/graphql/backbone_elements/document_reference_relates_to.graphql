@@ -5,6 +5,6 @@ type DocumentReferenceRelatesTo {
 
         modifierExtension: [Extension]
 
-        code: DocumentRelationshipType!
+        code: DocumentRelationshipTypeCode!
         target: Reference!
 }

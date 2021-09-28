@@ -60,7 +60,7 @@ type StructureMapSource {
         defaultValueDosage: Dosage
         defaultValueMeta: Meta
         element: String
-        listMode: StructureMapSourceListMode
+        listMode: StructureMapSourceListModeCode
         variable: id
         condition: String
         check: String

@@ -19,7 +19,7 @@ type Questionnaire {
         title: String
         derivedFrom: [canonical]
 
-        status: PublicationStatus!
+        status: code!
         experimental: Boolean
         subjectType: [code]
 

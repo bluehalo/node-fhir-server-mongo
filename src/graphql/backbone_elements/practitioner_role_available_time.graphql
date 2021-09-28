@@ -5,7 +5,7 @@ type PractitionerRoleAvailableTime {
 
         modifierExtension: [Extension]
 
-        daysOfWeek: [DaysOfWeek]
+        daysOfWeek: [DaysOfWeekCode]
 
         allDay: Boolean
         availableStartTime: time

@@ -6,5 +6,5 @@ type DeviceDeviceName {
         modifierExtension: [Extension]
 
         name: String!
-        type_: DeviceNameType!
+        type_: DeviceNameTypeCode!
 }

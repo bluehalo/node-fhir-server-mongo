@@ -5,7 +5,7 @@ type InvoicePriceComponent {
 
         modifierExtension: [Extension]
 
-        type_: InvoicePriceComponentType!
+        type_: InvoicePriceComponentTypeCode!
         code: CodeableConcept
         factor: decimal
         amount: Money

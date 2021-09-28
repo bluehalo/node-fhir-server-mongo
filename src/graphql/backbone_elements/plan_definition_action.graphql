@@ -9,7 +9,7 @@ type PlanDefinitionAction {
         title: String
         description: String
         textEquivalent: String
-        priority: RequestPriority
+        priority: RequestPriorityCode
         code: [CodeableConcept]
 
         reason: [CodeableConcept]
@@ -39,11 +39,11 @@ type PlanDefinitionAction {
         participant: [PlanDefinitionParticipant]
 
         type_: CodeableConcept
-        groupingBehavior: ActionGroupingBehavior
-        selectionBehavior: ActionSelectionBehavior
-        requiredBehavior: ActionRequiredBehavior
-        precheckBehavior: ActionPrecheckBehavior
-        cardinalityBehavior: ActionCardinalityBehavior
+        groupingBehavior: ActionGroupingBehaviorCode
+        selectionBehavior: ActionSelectionBehaviorCode
+        requiredBehavior: ActionRequiredBehaviorCode
+        precheckBehavior: ActionPrecheckBehaviorCode
+        cardinalityBehavior: ActionCardinalityBehaviorCode
         definitionCanonical: canonical
         definitionUri: uri
         transform: canonical

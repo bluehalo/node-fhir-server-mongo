@@ -6,7 +6,7 @@ type EffectEvidenceSynthesisResultsByExposure {
         modifierExtension: [Extension]
 
         description: String
-        exposureState: ExposureState
+        exposureState: ExposureStateCode
         variantState: CodeableConcept
         riskEvidenceSynthesis: Reference!
 }

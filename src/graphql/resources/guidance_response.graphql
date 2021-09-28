@@ -17,7 +17,7 @@ type GuidanceResponse {
         moduleUri: uri
         moduleCanonical: canonical
         moduleCodeableConcept: CodeableConcept
-        status: GuidanceResponseStatus!
+        status: code!
         subject: Reference
         encounter: Reference
         occurrenceDateTime: dateTime

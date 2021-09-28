@@ -13,7 +13,7 @@ type Encounter {
 
         identifier: [Identifier]
 
-        status: EncounterStatus!
+        status: code!
         statusHistory: [EncounterStatusHistory]
 
         class_: Coding!

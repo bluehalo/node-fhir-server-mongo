@@ -15,7 +15,7 @@ type ImplementationGuide {
         version: String
         name: String!
         title: String
-        status: PublicationStatus!
+        status: code!
         experimental: Boolean
         date: dateTime
         publisher: String
@@ -28,8 +28,8 @@ type ImplementationGuide {
 
         copyright: markdown
         packageId: id!
-        license: SPDXLicense
-        fhirVersion: [FHIRVersion]
+        license: code
+        fhirVersion: [code]
 !
         dependsOn: [ImplementationGuideDependsOn]
 

@@ -5,7 +5,7 @@ type MolecularSequenceQuality {
 
         modifierExtension: [Extension]
 
-        type_: qualityType!
+        type_: QualityTypeCode!
         standardSequence: CodeableConcept
         start: Int
         end: Int

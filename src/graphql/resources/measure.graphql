@@ -18,7 +18,7 @@ type Measure {
         name: String
         title: String
         subtitle: String
-        status: PublicationStatus!
+        status: code!
         experimental: Boolean
         subjectCodeableConcept: CodeableConcept
         subjectReference: Reference

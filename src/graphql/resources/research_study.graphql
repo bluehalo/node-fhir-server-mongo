@@ -18,7 +18,7 @@ type ResearchStudy {
 
         partOf: [Reference]
 
-        status: ResearchStudyStatus!
+        status: code!
         primaryPurposeType: CodeableConcept
         phase: CodeableConcept
         category: [CodeableConcept]

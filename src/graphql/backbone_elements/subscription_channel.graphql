@@ -5,7 +5,7 @@ type SubscriptionChannel {
 
         modifierExtension: [Extension]
 
-        type_: SubscriptionChannelType!
+        type_: SubscriptionChannelTypeCode!
         endpoint: url
         payload: code
         header: [String]

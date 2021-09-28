@@ -5,7 +5,7 @@ type NamingSystemUniqueId {
 
         modifierExtension: [Extension]
 
-        type_: NamingSystemIdentifierType!
+        type_: NamingSystemIdentifierTypeCode!
         value: String!
         preferred: Boolean
         comment: String

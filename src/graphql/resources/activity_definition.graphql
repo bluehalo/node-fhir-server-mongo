@@ -18,7 +18,7 @@ type ActivityDefinition {
         name: String
         title: String
         subtitle: String
-        status: PublicationStatus!
+        status: code!
         experimental: Boolean
         subjectCodeableConcept: CodeableConcept
         subjectReference: Reference
@@ -51,11 +51,11 @@ type ActivityDefinition {
 
         library: [canonical]
 
-        kind: RequestResourceType
+        kind: code
         profile: canonical
         code: CodeableConcept
-        intent: RequestIntent
-        priority: RequestPriority
+        intent: code
+        priority: code
         doNotPerform: Boolean
         timingTiming: Timing
         timingDateTime: dateTime

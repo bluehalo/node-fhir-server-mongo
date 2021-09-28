@@ -13,7 +13,7 @@ type ImmunizationEvaluation {
 
         identifier: [Identifier]
 
-        status: ImmunizationEvaluationStatusCodes!
+        status: code!
         patient: Reference!
         date: dateTime
         authority: Reference

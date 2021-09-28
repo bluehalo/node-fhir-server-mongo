@@ -11,7 +11,7 @@ type Subscription {
 
         modifierExtension: [Extension]
 
-        status: SubscriptionStatus!
+        status: code!
         contact: [ContactPoint]
 
         end: instant

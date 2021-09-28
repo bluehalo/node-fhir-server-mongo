@@ -15,7 +15,7 @@ type CapabilityStatement {
         version: String
         name: String
         title: String
-        status: PublicationStatus!
+        status: code!
         experimental: Boolean
         date: dateTime!
         publisher: String
@@ -28,14 +28,14 @@ type CapabilityStatement {
 
         purpose: markdown
         copyright: markdown
-        kind: CapabilityStatementKind!
+        kind: code!
         instantiates: [canonical]
 
         imports: [canonical]
 
         software: CapabilityStatementSoftware
         implementation: CapabilityStatementImplementation
-        fhirVersion: FHIRVersion!
+        fhirVersion: code!
         format: [code]
 !
         patchFormat: [code]

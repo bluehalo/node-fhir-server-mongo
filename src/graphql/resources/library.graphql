@@ -18,7 +18,7 @@ type Library {
         name: String
         title: String
         subtitle: String
-        status: PublicationStatus!
+        status: code!
         experimental: Boolean
         type_: CodeableConcept!
         subjectCodeableConcept: CodeableConcept

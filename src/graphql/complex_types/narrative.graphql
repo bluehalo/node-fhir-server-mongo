@@ -3,5 +3,5 @@ type Narrative {
         id_: String
         extension: [Extension]
 
-        status: NarrativeStatus!
+        status: NarrativeStatusCode!
 }

@@ -20,11 +20,11 @@ type Task {
         groupIdentifier: Identifier
         partOf: [Reference]
 
-        status: TaskStatus!
+        status: code!
         statusReason: CodeableConcept
         businessStatus: CodeableConcept
-        intent: TaskIntent!
-        priority: RequestPriority
+        intent: code!
+        priority: code
         code: CodeableConcept
         description: String
         focus: Reference

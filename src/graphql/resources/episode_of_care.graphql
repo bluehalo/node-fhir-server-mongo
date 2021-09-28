@@ -13,7 +13,7 @@ type EpisodeOfCare {
 
         identifier: [Identifier]
 
-        status: EpisodeOfCareStatus!
+        status: code!
         statusHistory: [EpisodeOfCareStatusHistory]
 
         type_: [CodeableConcept]

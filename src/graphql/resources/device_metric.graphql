@@ -17,9 +17,9 @@ type DeviceMetric {
         unit: CodeableConcept
         source: Reference
         parent: Reference
-        operationalStatus: DeviceMetricOperationalStatus
-        color: DeviceMetricColor
-        category: DeviceMetricCategory!
+        operationalStatus: code
+        color: code
+        category: code!
         measurementPeriod: Timing
         calibration: [DeviceMetricCalibration]
 

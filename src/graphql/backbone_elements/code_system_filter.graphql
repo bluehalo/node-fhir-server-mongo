@@ -7,7 +7,7 @@ type CodeSystemFilter {
 
         code: code!
         description: String
-        operator: [FilterOperator]
+        operator: [FilterOperatorCode]
 !
         value: String!
 }

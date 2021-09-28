@@ -19,8 +19,8 @@ type NutritionOrder {
 
         instantiates: [uri]
 
-        status: RequestStatus!
-        intent: RequestIntent!
+        status: code!
+        intent: code!
         patient: Reference!
         encounter: Reference
         dateTime: dateTime!

@@ -5,6 +5,6 @@ type EpisodeOfCareStatusHistory {
 
         modifierExtension: [Extension]
 
-        status: EpisodeOfCareStatus!
+        status: EpisodeOfCareStatusCode!
         period: Period!
 }

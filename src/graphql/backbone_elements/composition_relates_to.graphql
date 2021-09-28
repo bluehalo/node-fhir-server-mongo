@@ -5,7 +5,7 @@ type CompositionRelatesTo {
 
         modifierExtension: [Extension]
 
-        code: DocumentRelationshipType!
+        code: DocumentRelationshipTypeCode!
         targetIdentifier: Identifier
         targetReference: Reference
 }

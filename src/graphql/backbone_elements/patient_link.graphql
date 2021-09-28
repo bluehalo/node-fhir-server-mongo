@@ -6,5 +6,5 @@ type PatientLink {
         modifierExtension: [Extension]
 
         other: Reference!
-        type_: LinkType!
+        type_: LinkTypeCode!
 }

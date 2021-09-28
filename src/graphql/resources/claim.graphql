@@ -13,10 +13,10 @@ type Claim {
 
         identifier: [Identifier]
 
-        status: FinancialResourceStatusCodes!
+        status: code!
         type_: CodeableConcept!
         subType: CodeableConcept
-        use: Use!
+        use: code!
         patient: Reference!
         billablePeriod: Period
         created: dateTime!

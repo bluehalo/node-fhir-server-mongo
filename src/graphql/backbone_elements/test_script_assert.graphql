@@ -7,7 +7,7 @@ type TestScriptAssert {
 
         label: String
         description: String
-        direction: AssertionDirectionType
+        direction: AssertionDirectionTypeCode
         compareToSourceId: String
         compareToSourceExpression: String
         compareToSourcePath: String
@@ -16,12 +16,12 @@ type TestScriptAssert {
         headerField: String
         minimumId: String
         navigationLinks: Boolean
-        operator: AssertionOperatorType
+        operator: AssertionOperatorTypeCode
         path: String
-        requestMethod: TestScriptRequestMethodCode
+        requestMethod: TestScriptRequestMethodCodeCode
         requestURL: String
         resource: code
-        response: AssertionResponseTypes
+        response: AssertionResponseTypesCode
         responseCode: String
         sourceId: id
         validateProfileId: id

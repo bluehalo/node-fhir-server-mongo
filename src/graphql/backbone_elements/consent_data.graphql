@@ -5,6 +5,6 @@ type ConsentData {
 
         modifierExtension: [Extension]
 
-        meaning: ConsentDataMeaning!
+        meaning: ConsentDataMeaningCode!
         reference: Reference!
 }

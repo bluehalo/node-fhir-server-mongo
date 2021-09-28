@@ -12,17 +12,17 @@ type TimingRepeat {
         countMax: Int
         duration: decimal
         durationMax: decimal
-        durationUnit: UnitsOfTime
+        durationUnit: UnitsOfTimeCode
         frequency: Int
         frequencyMax: Int
         period: decimal
         periodMax: decimal
-        periodUnit: UnitsOfTime
+        periodUnit: UnitsOfTimeCode
         dayOfWeek: [code]
 
         timeOfDay: [time]
 
-        when: [EventTiming]
+        when: [EventTimingCode]
 
         offset: unsignedInt
 }

@@ -6,6 +6,6 @@ type MessageHeaderResponse {
         modifierExtension: [Extension]
 
         identifier: id!
-        code: ResponseType!
+        code: ResponseTypeCode!
         details: Reference
 }

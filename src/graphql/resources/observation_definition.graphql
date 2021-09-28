@@ -16,7 +16,7 @@ type ObservationDefinition {
         code: CodeableConcept!
         identifier: [Identifier]
 
-        permittedDataType: [ObservationDataType]
+        permittedDataType: [code]
 
         multipleResultsAllowed: Boolean
         method: CodeableConcept

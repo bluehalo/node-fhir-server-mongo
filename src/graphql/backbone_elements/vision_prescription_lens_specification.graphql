@@ -6,7 +6,7 @@ type VisionPrescriptionLensSpecification {
         modifierExtension: [Extension]
 
         product: CodeableConcept!
-        eye: VisionEyes!
+        eye: VisionEyesCode!
         sphere: decimal
         cylinder: decimal
         axis: Int

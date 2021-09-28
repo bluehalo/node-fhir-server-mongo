@@ -5,7 +5,7 @@ type Bundle {
         implicitRules: uri
         language: code
         identifier: Identifier
-        type_: BundleType!
+        type_: code!
         timestamp: instant
         total: unsignedInt
         link: [BundleLink]

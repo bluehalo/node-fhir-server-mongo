@@ -21,7 +21,7 @@ type RelatedPerson {
 
         telecom: [ContactPoint]
 
-        gender: AdministrativeGender
+        gender: code
         birthDate: date
         address: [Address]
 

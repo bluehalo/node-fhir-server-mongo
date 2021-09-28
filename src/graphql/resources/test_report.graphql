@@ -13,9 +13,9 @@ type TestReport {
 
         identifier: Identifier
         name: String
-        status: TestReportStatus!
+        status: code!
         testScript: Reference!
-        result: TestReportResult!
+        result: code!
         score: decimal
         tester: String
         issued: dateTime

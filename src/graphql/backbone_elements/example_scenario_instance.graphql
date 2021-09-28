@@ -6,7 +6,7 @@ type ExampleScenarioInstance {
         modifierExtension: [Extension]
 
         resourceId: String!
-        resourceType: ResourceType!
+        resourceType: ResourceTypeCode!
         name: String
         description: markdown
         version: [ExampleScenarioVersion]

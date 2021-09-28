@@ -15,7 +15,7 @@ type TerminologyCapabilities {
         version: String
         name: String
         title: String
-        status: PublicationStatus!
+        status: code!
         experimental: Boolean
         date: dateTime!
         publisher: String
@@ -28,14 +28,14 @@ type TerminologyCapabilities {
 
         purpose: markdown
         copyright: markdown
-        kind: CapabilityStatementKind!
+        kind: code!
         software: TerminologyCapabilitiesSoftware
         implementation: TerminologyCapabilitiesImplementation
         lockedDate: Boolean
         codeSystem: [TerminologyCapabilitiesCodeSystem]
 
         expansion: TerminologyCapabilitiesExpansion
-        codeSearch: CodeSearchSupport
+        codeSearch: code
         validateCode: TerminologyCapabilitiesValidateCode
         translation: TerminologyCapabilitiesTranslation
         closure: TerminologyCapabilitiesClosure

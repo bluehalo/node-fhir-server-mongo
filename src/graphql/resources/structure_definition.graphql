@@ -17,7 +17,7 @@ type StructureDefinition {
         version: String
         name: String!
         title: String
-        status: PublicationStatus!
+        status: code!
         experimental: Boolean
         date: dateTime
         publisher: String
@@ -32,10 +32,10 @@ type StructureDefinition {
         copyright: markdown
         keyword: [Coding]
 
-        fhirVersion: FHIRVersion
+        fhirVersion: code
         mapping: [StructureDefinitionMapping]
 
-        kind: StructureDefinitionKind!
+        kind: code!
         abstract: Boolean!
         context: [StructureDefinitionContext]
 
@@ -43,7 +43,7 @@ type StructureDefinition {
 
         type_: uri!
         baseDefinition: canonical
-        derivation: TypeDerivationRule
+        derivation: code
         snapshot: StructureDefinitionSnapshot
         differential: StructureDefinitionDifferential
 }

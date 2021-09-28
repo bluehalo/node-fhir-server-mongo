@@ -13,7 +13,7 @@ type MolecularSequence {
 
         identifier: [Identifier]
 
-        type_: sequenceType
+        type_: code
         coordinateSystem: Int!
         patient: Reference
         specimen: Reference

@@ -5,7 +5,7 @@ type DeviceMetricCalibration {
 
         modifierExtension: [Extension]
 
-        type_: DeviceMetricCalibrationType
-        state: DeviceMetricCalibrationState
+        type_: DeviceMetricCalibrationTypeCode
+        state: DeviceMetricCalibrationStateCode
         time: instant
 }

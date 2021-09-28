@@ -3,9 +3,9 @@ type ContactPoint {
         id_: String
         extension: [Extension]
 
-        system: ContactPointSystem
+        system: ContactPointSystemCode
         value: String
-        use: ContactPointUse
+        use: ContactPointUseCode
         rank: Int
         period: Period
 }

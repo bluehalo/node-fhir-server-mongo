@@ -13,7 +13,7 @@ type PaymentNotice {
 
         identifier: [Identifier]
 
-        status: FinancialResourceStatusCodes!
+        status: code!
         request: Reference
         response: Reference
         created: dateTime!

@@ -22,9 +22,9 @@ type DeviceRequest {
         priorRequest: [Reference]
 
         groupIdentifier: Identifier
-        status: RequestStatus
-        intent: RequestIntent!
-        priority: RequestPriority
+        status: code
+        intent: code!
+        priority: code
         codeReference: Reference
         codeCodeableConcept: CodeableConcept
         parameter: [DeviceRequestParameter]

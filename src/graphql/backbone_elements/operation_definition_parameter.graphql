@@ -6,14 +6,14 @@ type OperationDefinitionParameter {
         modifierExtension: [Extension]
 
         name: code!
-        use: OperationParameterUse!
+        use: OperationParameterUseCode!
         min: Int!
         max: String!
         documentation: String
         type_: code
         targetProfile: [canonical]
 
-        searchType: SearchParamType
+        searchType: SearchParamTypeCode
         binding: OperationDefinitionBinding
         referencedFrom: [OperationDefinitionReferencedFrom]
 

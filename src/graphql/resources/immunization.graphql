@@ -13,7 +13,7 @@ type Immunization {
 
         identifier: [Identifier]
 
-        status: ImmunizationStatusCodes!
+        status: code!
         statusReason: CodeableConcept
         vaccineCode: CodeableConcept!
         patient: Reference!

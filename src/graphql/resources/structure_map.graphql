@@ -17,7 +17,7 @@ type StructureMap {
         version: String
         name: String!
         title: String
-        status: PublicationStatus!
+        status: code!
         experimental: Boolean
         date: dateTime
         publisher: String

@@ -22,7 +22,7 @@ type ChargeItemDefinition {
 
         replaces: [canonical]
 
-        status: PublicationStatus!
+        status: code!
         experimental: Boolean
         date: dateTime
         publisher: String

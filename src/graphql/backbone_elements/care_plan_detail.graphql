@@ -5,7 +5,7 @@ type CarePlanDetail {
 
         modifierExtension: [Extension]
 
-        kind: CarePlanActivityKind
+        kind: CarePlanActivityKindCode
         instantiatesCanonical: [canonical]
 
         instantiatesUri: [uri]
@@ -17,7 +17,7 @@ type CarePlanDetail {
 
         goal: [Reference]
 
-        status: CarePlanActivityStatus!
+        status: CarePlanActivityStatusCode!
         statusReason: CodeableConcept
         doNotPerform: Boolean
         scheduledTiming: Timing

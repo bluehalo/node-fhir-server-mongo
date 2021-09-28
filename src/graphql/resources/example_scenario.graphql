@@ -16,7 +16,7 @@ type ExampleScenario {
 
         version: String
         name: String
-        status: PublicationStatus!
+        status: code!
         experimental: Boolean
         date: dateTime
         publisher: String

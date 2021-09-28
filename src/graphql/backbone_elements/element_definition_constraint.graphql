@@ -7,7 +7,7 @@ type ElementDefinitionConstraint {
 
         key: id!
         requirements: String
-        severity: ConstraintSeverity!
+        severity: ConstraintSeverityCode!
         human: String!
         expression: String
         xpath: String

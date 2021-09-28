@@ -16,7 +16,7 @@ type Device {
         definition: Reference
         udiCarrier: [DeviceUdiCarrier]
 
-        status: FHIRDeviceStatus
+        status: code
         statusReason: [CodeableConcept]
 
         distinctIdentifier: String

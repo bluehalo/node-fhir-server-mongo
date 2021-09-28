@@ -6,7 +6,7 @@ type ImplementationGuideResource {
         modifierExtension: [Extension]
 
         reference: Reference!
-        fhirVersion: [FHIRVersion]
+        fhirVersion: [FHIRVersionCode]
 
         name: String
         description: String

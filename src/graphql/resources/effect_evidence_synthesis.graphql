@@ -17,7 +17,7 @@ type EffectEvidenceSynthesis {
         version: String
         name: String
         title: String
-        status: PublicationStatus!
+        status: code!
         date: dateTime
         publisher: String
         contact: [ContactDetail]

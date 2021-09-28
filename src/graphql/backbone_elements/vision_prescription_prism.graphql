@@ -6,5 +6,5 @@ type VisionPrescriptionPrism {
         modifierExtension: [Extension]
 
         amount: decimal!
-        base: VisionBase!
+        base: VisionBaseCode!
 }

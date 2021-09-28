@@ -7,6 +7,6 @@ type StructureMapInput {
 
         name: id!
         type_: String
-        mode: StructureMapInputMode!
+        mode: StructureMapInputModeCode!
         documentation: String
 }

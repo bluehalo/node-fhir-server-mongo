@@ -5,7 +5,7 @@ type Expression {
 
         description: String
         name: id
-        language: ExpressionLanguage!
+        language: ExpressionLanguageCode!
         expression: String
         reference: uri
 }

@@ -6,7 +6,7 @@ type RequestGroupRelatedAction {
         modifierExtension: [Extension]
 
         actionId: id!
-        relationship: ActionRelationshipType!
+        relationship: ActionRelationshipTypeCode!
         offsetDuration: Duration
         offsetRange: Range
 }

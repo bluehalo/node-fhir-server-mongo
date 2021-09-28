@@ -17,7 +17,7 @@ type SupplyDelivery {
 
         partOf: [Reference]
 
-        status: SupplyDeliveryStatus
+        status: code
         patient: Reference
         type_: CodeableConcept
         suppliedItem: SupplyDeliverySuppliedItem

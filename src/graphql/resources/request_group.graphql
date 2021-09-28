@@ -22,9 +22,9 @@ type RequestGroup {
         replaces: [Reference]
 
         groupIdentifier: Identifier
-        status: RequestStatus!
-        intent: RequestIntent!
-        priority: RequestPriority
+        status: code!
+        intent: code!
+        priority: code
         code: CodeableConcept
         subject: Reference
         encounter: Reference

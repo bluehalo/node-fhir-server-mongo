@@ -5,7 +5,7 @@ type ProvenanceEntity {
 
         modifierExtension: [Extension]
 
-        role: ProvenanceEntityRole!
+        role: ProvenanceEntityRoleCode!
         what: Reference!
         agent: [ProvenanceAgent]
 

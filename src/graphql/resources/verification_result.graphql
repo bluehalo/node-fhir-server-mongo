@@ -16,7 +16,7 @@ type VerificationResult {
         targetLocation: [String]
 
         need: CodeableConcept
-        status: status!
+        status: code!
         statusDate: dateTime
         validationType: CodeableConcept
         validationProcess: [CodeableConcept]

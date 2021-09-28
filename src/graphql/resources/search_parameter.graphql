@@ -15,7 +15,7 @@ type SearchParameter {
         version: String
         name: String!
         derivedFrom: canonical
-        status: PublicationStatus!
+        status: code!
         experimental: Boolean
         date: dateTime
         publisher: String
@@ -30,17 +30,17 @@ type SearchParameter {
         code: code!
         base: [code]
 !
-        type_: SearchParamType!
+        type_: code!
         expression: String
         xpath: String
-        xpathUsage: XPathUsageType
+        xpathUsage: code
         target: [code]
 
         multipleOr: Boolean
         multipleAnd: Boolean
-        comparator: [SearchComparator]
+        comparator: [code]
 
-        modifier: [SearchModifierCode]
+        modifier: [code]
 
         chain: [String]
 

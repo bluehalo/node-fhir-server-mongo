@@ -19,7 +19,7 @@ type Evidence {
         title: String
         shortTitle: String
         subtitle: String
-        status: PublicationStatus!
+        status: code!
         date: dateTime
         publisher: String
         contact: [ContactDetail]

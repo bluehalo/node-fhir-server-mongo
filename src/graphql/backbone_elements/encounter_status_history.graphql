@@ -5,6 +5,6 @@ type EncounterStatusHistory {
 
         modifierExtension: [Extension]
 
-        status: EncounterStatus!
+        status: EncounterStatusCode!
         period: Period!
 }

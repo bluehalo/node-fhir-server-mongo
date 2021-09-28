@@ -14,7 +14,7 @@ type GraphDefinition {
         url: uri
         version: String
         name: String!
-        status: PublicationStatus!
+        status: code!
         experimental: Boolean
         date: dateTime
         publisher: String

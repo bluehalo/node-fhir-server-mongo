@@ -5,7 +5,7 @@ type ConsentProvision {
 
         modifierExtension: [Extension]
 
-        type_: ConsentProvisionType
+        type_: ConsentProvisionTypeCode
         period: Period
         actor: [ConsentActor]
 

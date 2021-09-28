@@ -13,7 +13,7 @@ type Coverage {
 
         identifier: [Identifier]
 
-        status: FinancialResourceStatusCodes!
+        status: code!
         type_: CodeableConcept
         policyHolder: Reference
         subscriber: Reference

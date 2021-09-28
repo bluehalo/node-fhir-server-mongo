@@ -5,7 +5,7 @@ type CapabilityStatementRest {
 
         modifierExtension: [Extension]
 
-        mode: RestfulCapabilityMode!
+        mode: RestfulCapabilityModeCode!
         documentation: markdown
         security: CapabilityStatementSecurity
         resource: [CapabilityStatementResource]

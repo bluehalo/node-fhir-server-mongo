@@ -3,7 +3,7 @@ type TriggerDefinition {
         id_: String
         extension: [Extension]
 
-        type_: TriggerType!
+        type_: TriggerTypeCode!
         name: String
         timingTiming: Timing
         timingReference: Reference

@@ -6,13 +6,13 @@ type StructureMapTarget {
         modifierExtension: [Extension]
 
         context: id
-        contextType: StructureMapContextType
+        contextType: StructureMapContextTypeCode
         element: String
         variable: id
-        listMode: [StructureMapTargetListMode]
+        listMode: [StructureMapTargetListModeCode]
 
         listRuleId: id
-        transform: StructureMapTransform
+        transform: StructureMapTransformCode
         parameter: [StructureMapParameter]
 
 }

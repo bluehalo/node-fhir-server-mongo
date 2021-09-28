@@ -13,13 +13,13 @@ type Location {
 
         identifier: [Identifier]
 
-        status: LocationStatus
+        status: code
         operationalStatus: Coding
         name: String
         alias: [String]
 
         description: String
-        mode: LocationMode
+        mode: code
         type_: [CodeableConcept]
 
         telecom: [ContactPoint]

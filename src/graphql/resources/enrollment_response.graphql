@@ -13,7 +13,7 @@ type EnrollmentResponse {
 
         identifier: [Identifier]
 
-        status: FinancialResourceStatusCodes
+        status: code
         request: Reference
         outcome: RemittanceOutcome
         disposition: String

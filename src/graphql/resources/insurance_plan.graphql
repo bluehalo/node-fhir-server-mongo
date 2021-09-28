@@ -13,7 +13,7 @@ type InsurancePlan {
 
         identifier: [Identifier]
 
-        status: PublicationStatus
+        status: code
         type_: [CodeableConcept]
 
         name: String

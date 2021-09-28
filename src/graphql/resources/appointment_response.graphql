@@ -19,6 +19,6 @@ type AppointmentResponse {
         participantType: [CodeableConcept]
 
         actor: Reference
-        participantStatus: ParticipationStatus!
+        participantStatus: code!
         comment: String
 }

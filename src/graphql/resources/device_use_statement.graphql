@@ -15,7 +15,7 @@ type DeviceUseStatement {
 
         basedOn: [Reference]
 
-        status: DeviceUseStatementStatus!
+        status: code!
         subject: Reference!
         derivedFrom: [Reference]
 

@@ -5,7 +5,7 @@ type ConceptMapUnmapped {
 
         modifierExtension: [Extension]
 
-        mode: ConceptMapGroupUnmappedMode!
+        mode: ConceptMapGroupUnmappedModeCode!
         code: code
         display: String
         url: canonical

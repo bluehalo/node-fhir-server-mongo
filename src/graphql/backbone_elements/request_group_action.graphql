@@ -9,7 +9,7 @@ type RequestGroupAction {
         title: String
         description: String
         textEquivalent: String
-        priority: RequestPriority
+        priority: RequestPriorityCode
         code: [CodeableConcept]
 
         documentation: [RelatedArtifact]
@@ -27,11 +27,11 @@ type RequestGroupAction {
         participant: [Reference]
 
         type_: CodeableConcept
-        groupingBehavior: ActionGroupingBehavior
-        selectionBehavior: ActionSelectionBehavior
-        requiredBehavior: ActionRequiredBehavior
-        precheckBehavior: ActionPrecheckBehavior
-        cardinalityBehavior: ActionCardinalityBehavior
+        groupingBehavior: ActionGroupingBehaviorCode
+        selectionBehavior: ActionSelectionBehaviorCode
+        requiredBehavior: ActionRequiredBehaviorCode
+        precheckBehavior: ActionPrecheckBehaviorCode
+        cardinalityBehavior: ActionCardinalityBehaviorCode
         resource: Reference
         action: [RequestGroupAction]
 

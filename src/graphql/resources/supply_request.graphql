@@ -13,9 +13,9 @@ type SupplyRequest {
 
         identifier: [Identifier]
 
-        status: SupplyRequestStatus
+        status: code
         category: CodeableConcept
-        priority: RequestPriority
+        priority: code
         itemCodeableConcept: CodeableConcept
         itemReference: Reference
         quantity: Quantity!

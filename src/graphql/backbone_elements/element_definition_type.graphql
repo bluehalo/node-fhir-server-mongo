@@ -10,7 +10,7 @@ type ElementDefinitionType {
 
         targetProfile: [canonical]
 
-        aggregation: [AggregationMode]
+        aggregation: [AggregationModeCode]
 
-        versioning: ReferenceVersionRules
+        versioning: ReferenceVersionRulesCode
 }

@@ -5,6 +5,6 @@ type ElementDefinitionDiscriminator {
 
         modifierExtension: [Extension]
 
-        type_: DiscriminatorType!
+        type_: DiscriminatorTypeCode!
         path: String!
 }

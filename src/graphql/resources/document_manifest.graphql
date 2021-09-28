@@ -14,7 +14,7 @@ type DocumentManifest {
         masterIdentifier: Identifier
         identifier: [Identifier]
 
-        status: DocumentReferenceStatus!
+        status: code!
         type_: CodeableConcept
         subject: Reference
         created: dateTime

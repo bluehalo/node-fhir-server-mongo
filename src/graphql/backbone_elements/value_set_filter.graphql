@@ -6,6 +6,6 @@ type ValueSetFilter {
         modifierExtension: [Extension]
 
         property: code!
-        op: FilterOperator!
+        op: FilterOperatorCode!
         value: String!
 }

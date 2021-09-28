@@ -21,7 +21,7 @@ type Procedure {
 
         partOf: [Reference]
 
-        status: EventStatus!
+        status: code!
         statusReason: CodeableConcept
         category: CodeableConcept
         code: CodeableConcept

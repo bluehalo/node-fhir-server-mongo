@@ -5,9 +5,9 @@ type GraphDefinitionCompartment {
 
         modifierExtension: [Extension]
 
-        use: GraphCompartmentUse!
-        code: CompartmentType!
-        rule: GraphCompartmentRule!
+        use: GraphCompartmentUseCode!
+        code: CompartmentTypeCode!
+        rule: GraphCompartmentRuleCode!
         expression: String
         description: String
 }

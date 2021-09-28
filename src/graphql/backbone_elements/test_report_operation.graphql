@@ -5,7 +5,7 @@ type TestReportOperation {
 
         modifierExtension: [Extension]
 
-        result: TestReportActionResult!
+        result: TestReportActionResultCode!
         message: markdown
         detail: uri
 }

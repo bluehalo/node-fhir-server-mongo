@@ -15,7 +15,7 @@ type DiagnosticReport {
 
         basedOn: [Reference]
 
-        status: DiagnosticReportStatus!
+        status: code!
         category: [CodeableConcept]
 
         code: CodeableConcept!

@@ -5,6 +5,6 @@ type PlanDefinitionParticipant {
 
         modifierExtension: [Extension]
 
-        type_: ActionParticipantType!
+        type_: ActionParticipantTypeCode!
         role: CodeableConcept
 }

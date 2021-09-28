@@ -2,7 +2,7 @@ import dataclasses
 import logging
 import re
 from pathlib import Path
-from typing import OrderedDict, List, Union, Dict, Optional, Set
+from typing import OrderedDict, List, Union, Dict, Optional, Set, Any
 
 # noinspection PyPackageRequirements
 from lxml import objectify
@@ -25,6 +25,29 @@ class FhirValueSetConcept:
     definition: Optional[str]
     source: str
     value_set_url: str
+
+
+@dataclasses.dataclass
+class FhirValueSet:
+    id_: str
+    name: str
+    fhir_name: str
+    name_snake_case: str
+    cleaned_name: str
+    concepts: List[FhirValueSetConcept]
+    url: str
+    value_set_url: str
+    value_set_url_list: Set[str]
+    documentation: List[str]
+    source: str
+
+
+@dataclasses.dataclass
+class FhirCodeableType:
+    codeable_type: str
+    path: str
+    codeable_type_url: str
+    is_codeable_concept: bool = False
 
 
 @dataclasses.dataclass
@@ -213,7 +236,7 @@ class FhirXmlSchemaParser:
         # and the target resources for references
         FhirXmlSchemaParser.process_types_for_references(fhir_entities)
 
-        # value_sets: List[FhirValueSet] = FhirXmlSchemaParser.get_value_sets()
+        value_sets: List[FhirValueSet] = FhirXmlSchemaParser.get_value_sets()
 
         # and the target types for codeable concepts
         # FhirXmlSchemaParser.process_types_for_codeable_concepts(
@@ -227,33 +250,32 @@ class FhirXmlSchemaParser:
         #             fhir_entity.is_value_set = True
 
         # remove any entities that are already in value_sets
-        # fhir_entities = [
-        #     c
-        #     for c in fhir_entities
-        #     if c.fhir_name not in [b.name for b in value_sets]
-        #     or c.cleaned_name in ["PractitionerRole", "ElementDefinition"]
-        # ]
-        # fhir_entities.extend(
-        #     [
-        #         FhirEntity(
-        #             type_="ValueSet",
-        #             fhir_name=c.fhir_name,
-        #             name_snake_case=c.name_snake_case,
-        #             cleaned_name=c.cleaned_name,
-        #             documentation=c.documentation,
-        #             properties=[],
-        #             is_back_bone_element=False,
-        #             is_value_set=True,
-        #             value_set_concepts=c.concepts,
-        #             value_set_url_list=c.value_set_url_list,
-        #             value_set_url=c.url,
-        #             source=c.source,
-        #             base_type=None,
-        #             base_type_list=[],
-        #         )
-        #         for c in value_sets
-        #     ]
-        # )
+        fhir_entities = [
+            c
+            for c in fhir_entities
+            if c.fhir_name not in [b.name for b in value_sets]
+        ]
+        fhir_entities.extend(
+            [
+                FhirEntity(
+                    type_="ValueSet",
+                    fhir_name=c.fhir_name,
+                    name_snake_case=c.name_snake_case,
+                    cleaned_name=c.cleaned_name,
+                    documentation=c.documentation,
+                    properties=[],
+                    is_back_bone_element=False,
+                    is_value_set=True,
+                    value_set_concepts=c.concepts,
+                    value_set_url_list=c.value_set_url_list,
+                    value_set_url=c.url,
+                    source=c.source,
+                    base_type=None,
+                    base_type_list=[],
+                )
+                for c in value_sets
+            ]
+        )
 
         # update types
         # cleaned_type_mapping: Dict[str, str] = {
@@ -285,7 +307,159 @@ class FhirXmlSchemaParser:
                 ]
                 fhir_entity.is_basic_type = True
 
+        # replace any lists
+        value_set_names: List[str] = [c.name for c in value_sets]
+        for fhir_entity in fhir_entities:
+            for fhir_property in fhir_entity.properties:
+                if not fhir_property.is_code and fhir_property.type_ in value_set_names:
+                    fhir_property.is_code = True
+                    fhir_property.cleaned_type = [
+                        c.cleaned_name
+                        for c in value_sets
+                        if c.name == fhir_property.type_
+                    ][0]
+
         return fhir_entities
+
+    @staticmethod
+    def process_types_for_codeable_concepts(
+        fhir_entities: List[FhirEntity], value_sets: List[FhirValueSet]
+    ) -> None:
+        codeable_types: List[
+            FhirCodeableType
+        ] = FhirXmlSchemaParser.get_types_for_codeable_concepts()
+        codeable_type: FhirCodeableType
+        for codeable_type in codeable_types:
+            name_parts: List[str] = codeable_type.path.split(".")
+            # find the entity corresponding to the name parts
+            entity_name_parts: List[str] = name_parts[0:-1]
+            fhir_entity_list: List[FhirEntity] = []
+            parent_fhir_entity: Optional[FhirEntity] = None
+            # parent_entity_name: Optional[str] = None
+            for entity_name_part in entity_name_parts:
+                if not parent_fhir_entity:
+                    # entity_name = entity_name_part
+                    fhir_entity_list = [
+                        f for f in fhir_entities if f.fhir_name == entity_name_part
+                    ]
+                    if not fhir_entity_list:
+                        logger.warning(
+                            f"WARNING: {entity_name_part} not found in fhir_entity_list"
+                        )
+                    else:
+                        parent_fhir_entity = fhir_entity_list[0]
+                else:
+                    # find the property under the above entity
+                    fhir_property_list = [
+                        p
+                        for p in parent_fhir_entity.properties
+                        if p.name
+                        == FhirXmlSchemaParser.fix_python_keywords(entity_name_part)
+                        or (
+                            entity_name_part.endswith("[x]")
+                            and p.name
+                            == FhirXmlSchemaParser.fix_python_keywords(
+                                entity_name_part.replace("[x]", "") + "CodeableConcept"
+                            )
+                        )
+                    ]
+                    if not fhir_property_list:
+                        logger.warning(
+                            f"WARNING: {entity_name_part} not found in properties of {parent_fhir_entity.fhir_name}"
+                        )
+                    else:
+                        fhir_property = fhir_property_list[0]
+                        parent_entity_name = fhir_property.cleaned_type
+                        fhir_entity_list = [
+                            f
+                            for f in fhir_entities
+                            if f.cleaned_name == parent_entity_name
+                        ]
+                        if not fhir_entity_list:
+                            logger.warning(
+                                f"WARNING: No FHIR entity list for {parent_entity_name}"
+                            )
+                        else:
+                            parent_fhir_entity = fhir_entity_list[0]
+            property_name: str = name_parts[-1]
+            # find the corresponding fhir entity
+            if fhir_entity_list:
+                fhir_entity = fhir_entity_list[0]
+                fhir_property_list = [
+                    p
+                    for p in fhir_entity.properties
+                    if p.name == FhirXmlSchemaParser.fix_python_keywords(property_name)
+                    or (
+                        property_name.endswith("[x]")
+                        and p.name
+                        == FhirXmlSchemaParser.fix_python_keywords(
+                            property_name.replace("[x]", "") + "CodeableConcept"
+                        )
+                    )
+                ]
+
+                if not fhir_property_list:
+                    logger.warning(
+                        f"WARNING: property {property_name} not found in {fhir_entity.fhir_name}"
+                    )
+                if fhir_property_list:
+                    fhir_property = fhir_property_list[0]
+                    value_set_matching = [
+                        c
+                        for c in value_sets
+                        if (
+                            c.url
+                            and codeable_type.codeable_type_url
+                            and c.url.split("|")[0]
+                            == codeable_type.codeable_type_url.split("|")[0]
+                        )
+                        or (
+                            c.value_set_url
+                            and codeable_type.codeable_type_url
+                            and (
+                                c.value_set_url.split("|")[0]
+                                == codeable_type.codeable_type_url.split("|")[0]
+                            )
+                        )
+                    ]
+                    if value_set_matching:
+                        value_set = value_set_matching[0]
+                        if codeable_type.is_codeable_concept:
+                            # if property already has a codeable_type then we have a problem
+                            if fhir_property.codeable_type:
+                                logger.warning(
+                                    f"WARNING: {fhir_property.name} in {fhir_entity.fhir_name} "
+                                    f"already has a codeable type {fhir_property.codeable_type.name} "
+                                    f"but we're trying to set it to {value_set.name}"
+                                )
+                            fhir_property.codeable_type = SmartName(
+                                name=value_set.name,
+                                cleaned_name=value_set.cleaned_name,
+                                snake_case_name=value_set.name_snake_case,
+                            )
+                        else:
+                            fhir_property.type_ = value_set.name
+                            fhir_property.type_snake_case = value_set.name_snake_case
+                            fhir_property.cleaned_type = value_set.cleaned_name
+                            fhir_property.is_code = True
+
+        # set generic type for everything else
+        for fhir_entity in fhir_entities:
+            for property_ in fhir_entity.properties:
+                if (
+                    property_.cleaned_type.lower() in ["codeableconcept", "coding"]
+                    and not property_.codeable_type
+                ):
+                    property_.codeable_type = SmartName(
+                        name="generic_type",
+                        cleaned_name="GenericTypeCode",
+                        snake_case_name="generic_type",
+                    )
+                elif property_.cleaned_type == "code":
+                    property_.type_ = "generic_type"
+                    property_.type_snake_case = "generic_type"
+                    property_.cleaned_type = "GenericTypeCode"
+                    property_.is_code = True
 
     @staticmethod
     def process_types_for_references(fhir_entities: List[FhirEntity]) -> None:
@@ -633,6 +807,67 @@ class FhirXmlSchemaParser:
         return result
 
     @staticmethod
+    def get_all_property_types() -> List[FhirProperty]:
+        data_dir: Path = Path(__file__).parent.joinpath("./")
+
+        # first read fhir-all.xsd to get a list of resources
+        de_xml_file: Path = (
+            data_dir.joinpath("xsd")
+            .joinpath("definitions.xml")
+            .joinpath("dataelements.xml")
+        )
+
+        with open(de_xml_file, "rb") as file:
+            contents: bytes = file.read()
+            root: ObjectifiedElement = objectify.fromstring(contents)
+            entries: ObjectifiedElement = root.entry
+
+            fhir_properties: List[FhirProperty] = []
+            entry: ObjectifiedElement
+            for entry in entries:
+                structure_definition: ObjectifiedElement = entry["resource"][
+                    "StructureDefinition"
+                ]
+                name: str = structure_definition["name"].get("value")
+                documentation: List[str] = structure_definition["description"].get(
+                    "value"
+                )
+                snapshot_element: ObjectifiedElement = structure_definition["snapshot"][
+                    "element"
+                ]
+                types: ObjectifiedElement = snapshot_element["type"]
+                assert isinstance(types, OrderedDict)
+
+                # There are 3 main cases:
+                # 1. A simple scalar type
+                # 2. A complex type
+                # 3. A reference
+                # 4. A codeable type
+                # 5. A value set
+                type_ = types[0]["code"].get("value") if types else ""
+
+                fhir_properties.append(
+                    FhirProperty(
+                        name=name,
+                        fhir_name=name,
+                        type_=type_,
+                        cleaned_type=type_,
+                        type_snake_case=type_,
+                        documentation=documentation,
+                        is_back_bone_element=False,
+                        codeable_type=None,
+                        fhir_type=type_,
+                        is_basic_type=False,
+                        is_list=False,
+                        optional=False,
+                        reference_target_resources_names=[],
+                        reference_target_resources=[],
+                    )
+                )
+
+            return fhir_properties
+
+    @staticmethod
     def get_types_for_references() -> List[FhirReferenceType]:
         data_dir: Path = Path(__file__).parent.joinpath("./")
 
@@ -688,6 +923,262 @@ class FhirXmlSchemaParser:
             return fhir_references
 
     @staticmethod
+    def get_types_for_codeable_concepts() -> List[FhirCodeableType]:
+        data_dir: Path = Path(__file__).parent.joinpath("./")
+
+        # first read fhir-all.xsd to get a list of resources
+        de_xml_file: Path = (
+            data_dir.joinpath("xsd")
+            .joinpath("definitions.xml")
+            .joinpath("dataelements.xml")
+        )
+
+        with open(de_xml_file, "rb") as file:
+            contents: bytes = file.read()
+            root: ObjectifiedElement = objectify.fromstring(contents)
+            entries: ObjectifiedElement = root.entry
+
+            fhir_codeable_types: List[FhirCodeableType] = []
+            entry: ObjectifiedElement
+            for entry in entries:
+                structure_definition: ObjectifiedElement = entry["resource"][
+                    "StructureDefinition"
+                ]
+                # name: str = structure_definition["name"].get("value")
+                snapshot_element: ObjectifiedElement = structure_definition["snapshot"][
+                    "element"
+                ]
+                if hasattr(snapshot_element, "binding"):
+                    types: ObjectifiedElement = snapshot_element["type"]
+                    type_: ObjectifiedElement
+                    if types:
+                        type_ = types
+                        if type_["code"].get("value") in [
+                            "Coding",
+                            "CodeableConcept",
+                            "code",
+                        ]:
+                            bindings: ObjectifiedElement = snapshot_element["binding"]
+                            binding: ObjectifiedElement
+                            for binding in bindings:
+                                extension_code_list = binding["extension"]
+                                url: str = "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName"
+                                value_set_url = (
+                                    binding["valueSet"].get("value")
+                                    if hasattr(binding, "valueSet")
+                                    else None
+                                )
+                                codeable_type_list: List[ObjectifiedElement] = [
+                                    bind
+                                    for bind in extension_code_list
+                                    if bind.get("url") == url
+                                ]
+                                if codeable_type_list:
+                                    codeable_type_obj: ObjectifiedElement = (
+                                        codeable_type_list[0]
+                                    )
+                                    codeable_type: str = codeable_type_obj[
+                                        "valueString"
+                                    ].get("value")
+                                    fhir_codeable_types.append(
+                                        FhirCodeableType(
+                                            path=snapshot_element["path"].get("value"),
+                                            codeable_type=codeable_type,
+                                            codeable_type_url=value_set_url,
+                                            is_codeable_concept=type_["code"].get(
+                                                "value"
+                                            )
+                                            in ["Coding", "CodeableConcept"],
+                                        )
+                                    )
+            return fhir_codeable_types
+
+    @staticmethod
+    def get_value_sets() -> List[FhirValueSet]:
+        data_dir: Path = Path(__file__).parent.joinpath("./")
+
+        fhir_value_sets: List[FhirValueSet] = []
+
+        fhir_v3_code_systems: List[
+            FhirValueSet
+        ] = FhirXmlSchemaParser.get_v3_code_systems(data_dir)
+
+        fhir_v2_code_systems: List[
+            FhirValueSet
+        ] = FhirXmlSchemaParser.get_v2_code_systems(data_dir)
+
+        value_sets_file: Path = (
+            data_dir.joinpath("xsd")
+            .joinpath("definitions.xml")
+            .joinpath("valuesets.xml")
+        )
+        with open(value_sets_file, "rb") as file:
+            contents: bytes = file.read()
+            root: ObjectifiedElement = objectify.fromstring(contents)
+            entries: ObjectifiedElement = root.entry
+
+        entry: ObjectifiedElement
+        for entry in entries:
+            value_set_resource = entry["resource"]
+            is_code_system = hasattr(value_set_resource, "CodeSystem")
+            value_set = (
+                value_set_resource["CodeSystem"]
+                if is_code_system
+                else value_set_resource["ValueSet"]
+            )
+            id_ = value_set["id"].get("value")
+            fhir_name: str = value_set["name"].get("value")
+            name: str = fhir_name.replace("v3.", "")
+            description: Union[List[str], str] = (
+                value_set["description"].get("value")
+                if hasattr(value_set, "description")
+                else ""
+            )
+            if not isinstance(description, list):
+                description = [description]
+            url = value_set["url"].get("value")
+            value_set_url = (
+                value_set["valueSet"].get("value")
+                if hasattr(value_set, "valueSet")
+                else None
+            )
+            value_set_url_list: Set[str] = set()
+            fhir_concepts: List[FhirValueSetConcept] = []
+            if hasattr(value_set, "concept"):
+                concepts: ObjectifiedElement = value_set["concept"]
+                concept: ObjectifiedElement
+                for concept in concepts:
+                    fhir_concepts.append(
+                        FhirXmlSchemaParser.create_concept(
+                            concept, source="valuesets.xml", value_set_url=url
+                        )
+                    )
+            if hasattr(value_set, "compose"):
+                compose_includes: ObjectifiedElement = value_set["compose"]["include"]
+                compose_include: ObjectifiedElement
+                for compose_include in compose_includes:
+                    is_code_system = hasattr(compose_include, "system")
+                    is_value_set = hasattr(compose_include, "valueSet")
+                    if is_code_system or is_value_set:
+                        compose_include_code_system: str = (
+                            compose_include["system"].get("value")
+                            if is_code_system
+                            else compose_include["valueSet"].get("value")
+                        )
+                        # find the corresponding item in code systems
+                        v3_code_systems: List[FhirValueSet] = [
+                            c
+                            for c in fhir_v3_code_systems
+                            if c.url == compose_include_code_system
+                        ]
+                        v2_code_systems: List[FhirValueSet] = [
+                            c
+                            for c in fhir_v2_code_systems
+                            if c.url == compose_include_code_system
+                        ]
+                        if v3_code_systems:
+                            for code_system in v3_code_systems:
+                                fhir_concepts.extend(code_system.concepts)
+                                # value_set_url_list.append(code_system.url)
+                                value_set_url_list.update(
+                                    code_system.value_set_url_list
+                                )
+                        elif v2_code_systems:
+                            for code_system in v2_code_systems:
+                                fhir_concepts.extend(code_system.concepts)
+                                # value_set_url_list.append(code_system.url)
+                                value_set_url_list.update(
+                                    code_system.value_set_url_list
+                                )
+                        elif compose_include_code_system not in value_set_url_list:
+                            if is_code_system:
+                                value_set_url_list.add(compose_include_code_system)
+                    if hasattr(compose_include, "concept"):
+                        concepts = compose_include["concept"]
+                        for concept in concepts:
+                            fhir_concepts.append(
+                                FhirXmlSchemaParser.create_concept(
+                                    concept, source="valuesets.xml", value_set_url=url
+                                )
+                            )
+            if "/" in name:
+                name = name.replace("/", "_or_")
+            if "/" not in name:
+                fhir_value_sets.append(
+                    FhirValueSet(
+                        id_=id_,
+                        name=name,
+                        fhir_name=fhir_name,
+                        name_snake_case=FhirXmlSchemaParser.camel_to_snake(
+                            FhirXmlSchemaParser.clean_name(name)
+                        ),
+                        cleaned_name=FhirXmlSchemaParser.clean_name(name) + "Code",
+                        concepts=fhir_concepts,
+                        url=url,
+                        value_set_url=value_set_url,
+                        value_set_url_list=value_set_url_list or {url},
+                        documentation=description,
+                        source="valuesets.xml",
+                    )
+                )
+            else:
+                logger.warning(f"WARNING: value set {name} contains /")
+
+        fhir_value_sets.extend(
+            [
+                c
+                for c in fhir_v2_code_systems
+                if c.cleaned_name not in [b.cleaned_name for b in fhir_value_sets]
+            ]
+        )
+        fhir_value_sets.extend(
+            [
+                c
+                for c in fhir_v3_code_systems
+                if c.cleaned_name not in [b.cleaned_name for b in fhir_value_sets]
+            ]
+        )
+
+        # for each value_set, if there is a code system and a value system with same name then choose valueset
+        for fhir_value_set in fhir_value_sets:
+            value_set_url_list = set()
+            for value_set_url in fhir_value_set.value_set_url_list:
+                if value_set_url.endswith("/"):
+                    value_set_url = value_set_url[0:-1]
+                value_set_url_name: str = value_set_url.split("/")[-1]
+                if value_set_url_name != "" and value_set_url_name in [
+                    c.split("/")[-1] for c in value_set_url_list
+                ]:
+                    pass
+                else:
+                    value_set_url_list.add(value_set_url)
+            fhir_value_set.value_set_url_list = value_set_url_list
+        return fhir_value_sets
+
+    @staticmethod
+    def create_concept(
+        concept: ObjectifiedElement, source: str, value_set_url: str
+    ) -> FhirValueSetConcept:
+        code: str = concept["code"].get("value")
+        display: str = (
+            concept["display"].get("value") if hasattr(concept, "display") else code
+        )
+        cleaned_display: str = FhirXmlSchemaParser.clean_name(display)
+        definition: Optional[str] = (
+            concept["definition"].get("value")
+            if hasattr(concept, "definition")
+            else None
+        )
+        return FhirValueSetConcept(
+            code=code,
+            display=display,
+            cleaned_display=cleaned_display,
+            definition=definition,
+            source=source,
+            value_set_url=value_set_url,
+        )
+
+    @staticmethod
     def clean_name(display: str) -> str:
         cleaned_display: str = "".join(
             [c[:1].upper() + c[1:] for c in display.split(" ")]
@@ -695,3 +1186,230 @@ class FhirXmlSchemaParser:
         cleaned_display = re.sub("[^0-9a-zA-Z]+", "_", cleaned_display)
         cleaned_display = FhirXmlSchemaParser.fix_python_keywords(cleaned_display)
         return cleaned_display
+
+    @staticmethod
+    def get_v3_code_systems(data_dir: Path) -> List[FhirValueSet]:
+        fhir_value_sets: List[FhirValueSet] = []
+
+        value_sets_json_file: Path = (
+            data_dir.joinpath("xsd")
+            .joinpath("definitions.xml")
+            .joinpath("v3-codesystems.xml")
+        )
+        with open(value_sets_json_file, "rb") as file:
+            contents: bytes = file.read()
+            root: ObjectifiedElement = objectify.fromstring(contents)
+            entries: ObjectifiedElement = root.entry
+
+        # Have to do 2 passes since the compose includes may be later in the file
+        value_set_entry: Dict[str, Any]
+        for value_set_entry in entries:
+            value_set_entry_resource: ObjectifiedElement = value_set_entry["resource"]
+            is_code_system: bool = hasattr(value_set_entry_resource, "CodeSystem")
+            is_value_set: bool = hasattr(value_set_entry_resource, "ValueSet")
+            value_set: ObjectifiedElement = (
+                value_set_entry_resource["ValueSet"]
+                if is_value_set
+                else value_set_entry_resource["CodeSystem"]
+                if is_code_system
+                else value_set_entry["resource"]
+            )
+            id_: str = value_set["id"].get("value")
+            fhir_name: str = value_set["name"].get("value")
+            name: str = fhir_name.replace("v3.", "")
+            clean_name = FhirXmlSchemaParser.clean_name(name)
+            description: Union[List[str], str] = value_set["description"].get("value")
+            if not isinstance(description, list):
+                description = [description]
+            url = value_set["url"].get("value")
+            fhir_concepts: List[FhirValueSetConcept] = []
+            value_set_url_list: Set[str] = set()
+            # value_set_url = None  # value_set["valueSet"]
+            if hasattr(value_set, "concept"):
+                concepts_list: ObjectifiedElement = value_set["concept"]
+                value_set_url_list.add(url)
+                concept: ObjectifiedElement
+                for concept in concepts_list:
+                    code: str = str(concept["code"].get("value"))
+                    display: str = str(
+                        concept["display"].get("value")
+                        if hasattr(concept, "display")
+                        else concept["code"].get("value")
+                    )
+                    cleaned_display = FhirXmlSchemaParser.clean_name(display)
+                    definition: Optional[str] = (
+                        concept["definition"].get("value")
+                        if hasattr(concept, "definition")
+                        else None
+                    )
+                    fhir_concepts.append(
+                        FhirValueSetConcept(
+                            code=code,
+                            display=display,
+                            cleaned_display=cleaned_display,
+                            definition=definition,
+                            source="v3-codesystems.xml",
+                            value_set_url=url,
+                        )
+                    )
+            fhir_value_sets.append(
+                FhirValueSet(
+                    id_=id_,
+                    name=name,
+                    fhir_name=fhir_name,
+                    name_snake_case=FhirXmlSchemaParser.camel_to_snake(name),
+                    cleaned_name=clean_name,
+                    concepts=fhir_concepts,
+                    url=url,
+                    value_set_url="",
+                    value_set_url_list=value_set_url_list,
+                    documentation=description,
+                    source="v3-codesystems.xml",
+                )
+            )
+
+        # Do second pass just for filling out compose.include entries
+        for value_set_entry in entries:
+            value_set_entry_resource = value_set_entry["resource"]
+            is_code_system = hasattr(value_set_entry_resource, "CodeSystem")
+            is_value_set = hasattr(value_set_entry_resource, "ValueSet")
+            value_set = (
+                value_set_entry_resource["ValueSet"]
+                if is_value_set
+                else value_set_entry_resource["CodeSystem"]
+                if is_code_system
+                else value_set_entry["resource"]
+            )
+            id_ = value_set["id"].get("value")
+            url = value_set["url"].get("value")
+            fhir_concepts = []
+            value_set_url_list = set()
+            if hasattr(value_set, "compose"):
+                compose_includes: ObjectifiedElement = value_set["compose"]["include"]
+                compose_include: ObjectifiedElement
+                for compose_include in compose_includes:
+                    is_code_system = hasattr(compose_include, "system")
+                    # is_value_set = "valueSet" in compose_include
+                    if is_code_system or is_value_set:
+                        compose_include_code_system: str = (
+                            compose_include["system"].get("value")
+                            if is_code_system
+                            else compose_include["valueSet"].get("value")
+                        )
+                        # find the corresponding item in code systems
+                        v3_code_systems: List[FhirValueSet] = [
+                            c
+                            for c in fhir_value_sets
+                            if c.url == compose_include_code_system
+                        ]
+                        if v3_code_systems:
+                            for code_system in v3_code_systems:
+                                fhir_concepts.extend(code_system.concepts)
+                                if is_code_system:
+                                    value_set_url_list.add(code_system.url)
+                        # v2_code_systems: List[FhirValueSet] = [
+                        #     c
+                        #     for c in fhir_v2_code_systems
+                        #     if c.url == compose_include_code_system
+                        # ]
+                        # if v2_code_systems:
+                        #     for code_system in v2_code_systems:
+                        #         fhir_concepts.extend(code_system.concepts)
+                        #         value_set_url_list.append(code_system.url)
+
+            # find the appropriate value set and add it there
+            found_value_sets: List[FhirValueSet] = [
+                c for c in fhir_value_sets if c.id_ == id_
+            ]
+            found_value_set: FhirValueSet
+            for found_value_set in found_value_sets:
+                # add concepts from compose.includes
+                missing_concepts = [
+                    c
+                    for c in fhir_concepts
+                    if c.code not in [b.code for b in found_value_set.concepts]
+                ]
+                if missing_concepts:
+                    found_value_set.concepts.extend(missing_concepts)
+                # add any missing value set urls
+                for value_set_url in value_set_url_list:
+                    found_value_set.value_set_url_list.add(value_set_url)
+
+        return fhir_value_sets
+
+    @staticmethod
+    def get_v2_code_systems(data_dir: Path) -> List[FhirValueSet]:
+        fhir_value_sets: List[FhirValueSet] = []
+
+        value_sets_json_file: Path = (
+            data_dir.joinpath("xsd")
+            .joinpath("definitions.xml")
+            .joinpath("v2-tables.xml")
+        )
+        with open(value_sets_json_file, "rb") as file:
+            contents: bytes = file.read()
+            root: ObjectifiedElement = objectify.fromstring(contents)
+            entries: ObjectifiedElement = root.entry
+
+        value_set_entry: ObjectifiedElement
+        for value_set_entry in entries:
+            value_set_entry_resource: ObjectifiedElement = value_set_entry.resource
+            is_code_system: bool = hasattr(value_set_entry_resource, "CodeSystem")
+            is_value_set: bool = hasattr(value_set_entry_resource, "ValueSet")
+            value_set: ObjectifiedElement = (
+                value_set_entry_resource.ValueSet
+                if is_value_set
+                else value_set_entry_resource.CodeSystem
+                if is_code_system
+                else value_set_entry_resource
+            )
+            id_: str = value_set.id.get("value")
+            fhir_name: str = value_set.name.get("value")
+            name: str = fhir_name.replace(".", "_")
+            description: str = value_set.description.get("value")
+            assert isinstance(description, str)
+            url: str = value_set.url.get("value")
+            fhir_concepts: List[FhirValueSetConcept] = []
+            # value_set_url = None  # value_set["valueSet"]
+            if hasattr(value_set, "concept"):
+                concepts_list: ObjectifiedElement = value_set.concept
+                concept: ObjectifiedElement
+                for concept in concepts_list:
+                    code: str = concept.code.get("value")
+                    display: str = str(
+                        concept.display.get("value")
+                        if hasattr(concept, "display")
+                        else concept.code.get("value")
+                    )
+                    cleaned_display = FhirXmlSchemaParser.clean_name(display)
+                    definition: Optional[str] = (
+                        concept["definition"].get("value")
+                        if hasattr(concept, "definition")
+                        else None
+                    )
+                    fhir_concepts.append(
+                        FhirValueSetConcept(
+                            code=code,
+                            display=display,
+                            cleaned_display=cleaned_display,
+                            definition=definition,
+                            source="v2-tables.xml",
+                            value_set_url=url,
+                        )
+                    )
+            fhir_value_sets.append(
+                FhirValueSet(
+                    id_=id_,
+                    name=name,
+                    fhir_name=fhir_name,
+                    name_snake_case=FhirXmlSchemaParser.camel_to_snake(name),
+                    cleaned_name=FhirXmlSchemaParser.clean_name(name),
+                    concepts=fhir_concepts,
+                    url=url,
+                    value_set_url="",
+                    value_set_url_list={url},
+                    documentation=[description],
+                    source="v2-tables.xml",
+                )
+            )
+        return fhir_value_sets

@@ -13,8 +13,8 @@ type List {
 
         identifier: [Identifier]
 
-        status: ListStatus!
-        mode: ListMode!
+        status: code!
+        mode: code!
         title: String
         code: CodeableConcept
         subject: Reference

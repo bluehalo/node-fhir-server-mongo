@@ -15,7 +15,7 @@ type RiskAssessment {
 
         basedOn: Reference
         parent: Reference
-        status: ObservationStatus!
+        status: code!
         method: CodeableConcept
         code: CodeableConcept
         subject: Reference!

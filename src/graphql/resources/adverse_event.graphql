@@ -12,7 +12,7 @@ type AdverseEvent {
         modifierExtension: [Extension]
 
         identifier: Identifier
-        actuality: AdverseEventActuality!
+        actuality: code!
         category: [CodeableConcept]
 
         event: CodeableConcept

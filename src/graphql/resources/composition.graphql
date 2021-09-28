@@ -12,7 +12,7 @@ type Composition {
         modifierExtension: [Extension]
 
         identifier: Identifier
-        status: CompositionStatus!
+        status: code!
         type_: CodeableConcept!
         category: [CodeableConcept]
 

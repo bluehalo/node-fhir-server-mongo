@@ -6,7 +6,7 @@ type ExampleScenarioActor {
         modifierExtension: [Extension]
 
         actorId: String!
-        type_: ExampleScenarioActorType!
+        type_: ExampleScenarioActorTypeCode!
         name: String
         description: markdown
 }

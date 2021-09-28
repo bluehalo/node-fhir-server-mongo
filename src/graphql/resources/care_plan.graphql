@@ -23,8 +23,8 @@ type CarePlan {
 
         partOf: [Reference]
 
-        status: RequestStatus!
-        intent: CarePlanIntent!
+        status: code!
+        intent: code!
         category: [CodeableConcept]
 
         title: String

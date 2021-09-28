@@ -5,6 +5,6 @@ type ImplementationGuideParameter {
 
         modifierExtension: [Extension]
 
-        code: GuideParameterCode!
+        code: GuideParameterCodeCode!
         value: String!
 }

@@ -13,7 +13,7 @@ type Consent {
 
         identifier: [Identifier]
 
-        status: ConsentState!
+        status: code!
         scope: CodeableConcept!
         category: [CodeableConcept]
 !

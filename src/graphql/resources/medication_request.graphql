@@ -18,7 +18,7 @@ type MedicationRequest {
         intent: medicationRequestIntent!
         category: [CodeableConcept]
 
-        priority: RequestPriority
+        priority: code
         doNotPerform: Boolean
         reportedBoolean: Boolean
         reportedReference: Reference

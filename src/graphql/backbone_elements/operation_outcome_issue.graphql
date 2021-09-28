@@ -5,8 +5,8 @@ type OperationOutcomeIssue {
 
         modifierExtension: [Extension]
 
-        severity: IssueSeverity!
-        code: IssueType!
+        severity: IssueSeverityCode!
+        code: IssueTypeCode!
         details: CodeableConcept
         diagnostics: String
         location: [String]

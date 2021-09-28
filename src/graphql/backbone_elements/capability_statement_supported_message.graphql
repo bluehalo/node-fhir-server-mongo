@@ -5,6 +5,6 @@ type CapabilityStatementSupportedMessage {
 
         modifierExtension: [Extension]
 
-        mode: EventCapabilityMode!
+        mode: EventCapabilityModeCode!
         definition: canonical!
 }

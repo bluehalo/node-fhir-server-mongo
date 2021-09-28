@@ -19,7 +19,7 @@ type ResearchElementDefinition {
         title: String
         shortTitle: String
         subtitle: String
-        status: PublicationStatus!
+        status: code!
         experimental: Boolean
         subjectCodeableConcept: CodeableConcept
         subjectReference: Reference
@@ -54,7 +54,7 @@ type ResearchElementDefinition {
 
         library: [canonical]
 
-        type_: ResearchElementType!
+        type_: code!
         variableType: VariableType
         characteristic: [ResearchElementDefinitionCharacteristic]
 !

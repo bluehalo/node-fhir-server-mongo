@@ -5,6 +5,6 @@ type OperationDefinitionBinding {
 
         modifierExtension: [Extension]
 
-        strength: BindingStrength!
+        strength: BindingStrengthCode!
         valueSet: canonical!
 }

@@ -17,7 +17,7 @@ type Media {
 
         partOf: [Reference]
 
-        status: EventStatus!
+        status: code!
         type_: CodeableConcept
         modality: CodeableConcept
         view: CodeableConcept

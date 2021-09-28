@@ -17,7 +17,7 @@ type Observation {
 
         partOf: [Reference]
 
-        status: ObservationStatus!
+        status: code!
         category: [CodeableConcept]
 
         code: CodeableConcept!

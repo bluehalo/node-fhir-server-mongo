@@ -5,6 +5,6 @@ type LinkageItem {
 
         modifierExtension: [Extension]
 
-        type_: LinkageType!
+        type_: LinkageTypeCode!
         resource: Reference!
 }

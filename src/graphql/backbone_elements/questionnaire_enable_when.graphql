@@ -6,7 +6,7 @@ type QuestionnaireEnableWhen {
         modifierExtension: [Extension]
 
         question: String!
-        operator: QuestionnaireItemOperator!
+        operator: QuestionnaireItemOperatorCode!
         answerBoolean: Boolean
         answerDecimal: decimal
         answerInteger: Int

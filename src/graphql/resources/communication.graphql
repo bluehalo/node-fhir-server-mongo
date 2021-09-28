@@ -23,11 +23,11 @@ type Communication {
 
         inResponseTo: [Reference]
 
-        status: EventStatus!
+        status: code!
         statusReason: CodeableConcept
         category: [CodeableConcept]
 
-        priority: RequestPriority
+        priority: code
         medium: [CodeableConcept]
 
         subject: Reference

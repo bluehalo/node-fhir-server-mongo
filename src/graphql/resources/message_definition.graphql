@@ -19,7 +19,7 @@ type MessageDefinition {
         title: String
         replaces: [canonical]
 
-        status: PublicationStatus!
+        status: code!
         experimental: Boolean
         date: dateTime!
         publisher: String
@@ -37,7 +37,7 @@ type MessageDefinition {
 
         eventCoding: Coding
         eventUri: uri
-        category: MessageSignificanceCategory
+        category: code
         focus: [MessageDefinitionFocus]
 
         responseRequired: messageheaderResponseRequest

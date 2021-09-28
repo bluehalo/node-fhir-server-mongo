@@ -9,5 +9,5 @@ type ElementDefinitionSlicing {
 
         description: String
         ordered: Boolean
-        rules: SlicingRules!
+        rules: SlicingRulesCode!
 }

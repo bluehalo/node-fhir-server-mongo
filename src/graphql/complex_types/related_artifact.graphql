@@ -3,7 +3,7 @@ type RelatedArtifact {
         id_: String
         extension: [Extension]
 
-        type_: RelatedArtifactType!
+        type_: RelatedArtifactTypeCode!
         label: String
         display: String
         citation: markdown

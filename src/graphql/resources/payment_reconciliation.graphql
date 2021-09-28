@@ -13,7 +13,7 @@ type PaymentReconciliation {
 
         identifier: [Identifier]
 
-        status: FinancialResourceStatusCodes!
+        status: code!
         period: Period
         created: dateTime!
         paymentIssuer: Reference

@@ -12,14 +12,14 @@ type CapabilityStatementResource {
         documentation: markdown
         interaction: [CapabilityStatementInteraction]
 
-        versioning: ResourceVersionPolicy
+        versioning: ResourceVersionPolicyCode
         readHistory: Boolean
         updateCreate: Boolean
         conditionalCreate: Boolean
-        conditionalRead: ConditionalReadStatus
+        conditionalRead: ConditionalReadStatusCode
         conditionalUpdate: Boolean
-        conditionalDelete: ConditionalDeleteStatus
-        referencePolicy: [ReferenceHandlingPolicy]
+        conditionalDelete: ConditionalDeleteStatusCode
+        referencePolicy: [ReferenceHandlingPolicyCode]
 
         searchInclude: [String]
 

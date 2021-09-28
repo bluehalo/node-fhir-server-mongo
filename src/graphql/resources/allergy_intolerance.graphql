@@ -15,10 +15,10 @@ type AllergyIntolerance {
 
         clinicalStatus: CodeableConcept
         verificationStatus: CodeableConcept
-        type_: AllergyIntoleranceType
-        category: [AllergyIntoleranceCategory]
+        type_: code
+        category: [code]
 
-        criticality: AllergyIntoleranceCriticality
+        criticality: code
         code: CodeableConcept
         patient: Reference!
         encounter: Reference

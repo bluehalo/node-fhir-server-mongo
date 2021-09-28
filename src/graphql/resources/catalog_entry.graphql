@@ -20,7 +20,7 @@ type CatalogEntry {
 
         classification: [CodeableConcept]
 
-        status: PublicationStatus
+        status: code
         validityPeriod: Period
         validTo: dateTime
         lastUpdated: dateTime

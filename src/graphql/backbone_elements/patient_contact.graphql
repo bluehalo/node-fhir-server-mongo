@@ -11,7 +11,7 @@ type PatientContact {
         telecom: [ContactPoint]
 
         address: Address
-        gender: AdministrativeGender
+        gender: AdministrativeGenderCode
         organization: Reference
         period: Period
 }

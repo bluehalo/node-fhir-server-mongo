@@ -19,7 +19,7 @@ type EvidenceVariable {
         title: String
         shortTitle: String
         subtitle: String
-        status: PublicationStatus!
+        status: code!
         date: dateTime
         publisher: String
         contact: [ContactDetail]
@@ -47,7 +47,7 @@ type EvidenceVariable {
 
         relatedArtifact: [RelatedArtifact]
 
-        type_: EvidenceVariableType
+        type_: code
         characteristic: [EvidenceVariableCharacteristic]
 !
 }

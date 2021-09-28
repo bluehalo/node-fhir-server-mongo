@@ -15,7 +15,7 @@ type Contract {
 
         url: uri
         version: String
-        status: ContractResourceStatusCodes
+        status: code
         legalState: CodeableConcept
         instantiatesCanonical: Reference
         instantiatesUri: uri

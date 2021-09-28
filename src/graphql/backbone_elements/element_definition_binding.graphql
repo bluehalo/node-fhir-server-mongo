@@ -5,7 +5,7 @@ type ElementDefinitionBinding {
 
         modifierExtension: [Extension]
 
-        strength: BindingStrength!
+        strength: BindingStrengthCode!
         description: String
         valueSet: canonical
 }

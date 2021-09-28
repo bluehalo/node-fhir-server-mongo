@@ -7,7 +7,7 @@ type SpecimenDefinitionTypeTested {
 
         isDerived: Boolean
         type_: CodeableConcept
-        preference: SpecimenContainedPreference!
+        preference: SpecimenContainedPreferenceCode!
         container: SpecimenDefinitionContainer
         requirement: String
         retentionTime: Duration

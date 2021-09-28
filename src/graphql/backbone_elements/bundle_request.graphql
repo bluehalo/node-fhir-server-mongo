@@ -5,7 +5,7 @@ type BundleRequest {
 
         modifierExtension: [Extension]
 
-        method: HTTPVerb!
+        method: HTTPVerbCode!
         url: uri!
         ifNoneMatch: String
         ifModifiedSince: instant

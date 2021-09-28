@@ -21,7 +21,7 @@ type Slot {
 
         appointmentType: CodeableConcept
         schedule: Reference!
-        status: SlotStatus!
+        status: code!
         start: instant!
         end: instant!
         overbooked: Boolean

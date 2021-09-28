@@ -5,7 +5,7 @@ type CompositionAttester {
 
         modifierExtension: [Extension]
 
-        mode: CompositionAttestationMode!
+        mode: CompositionAttestationModeCode!
         time: dateTime
         party: Reference
 }

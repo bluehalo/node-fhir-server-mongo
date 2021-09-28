@@ -10,7 +10,7 @@ type AllergyIntoleranceReaction {
 !
         description: String
         onset: dateTime
-        severity: AllergyIntoleranceSeverity
+        severity: AllergyIntoleranceSeverityCode
         exposureRoute: CodeableConcept
         note: [Annotation]
 

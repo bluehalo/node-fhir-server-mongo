@@ -8,7 +8,7 @@ type AppointmentParticipant {
         type_: [CodeableConcept]
 
         actor: Reference
-        required: ParticipantRequired
-        status: ParticipationStatus!
+        required: ParticipantRequiredCode
+        status: ParticipationStatusCode!
         period: Period
 }

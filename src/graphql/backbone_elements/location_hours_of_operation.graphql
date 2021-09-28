@@ -5,7 +5,7 @@ type LocationHoursOfOperation {
 
         modifierExtension: [Extension]
 
-        daysOfWeek: [DaysOfWeek]
+        daysOfWeek: [DaysOfWeekCode]
 
         allDay: Boolean
         openingTime: time

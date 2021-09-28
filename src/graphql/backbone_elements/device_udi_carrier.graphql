@@ -10,5 +10,5 @@ type DeviceUdiCarrier {
         jurisdiction: uri
         carrierAIDC: base64Binary
         carrierHRF: String
-        entryType: UDIEntryType
+        entryType: UDIEntryTypeCode
 }

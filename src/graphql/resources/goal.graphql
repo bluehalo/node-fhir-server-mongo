@@ -13,7 +13,7 @@ type Goal {
 
         identifier: [Identifier]
 
-        lifecycleStatus: GoalLifecycleStatus!
+        lifecycleStatus: code!
         achievementStatus: CodeableConcept
         category: [CodeableConcept]
 

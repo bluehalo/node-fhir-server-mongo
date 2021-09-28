@@ -8,7 +8,7 @@ type ImplementationGuidePage {
         nameUrl: url
         nameReference: Reference
         title: String!
-        generation: GuidePageGeneration!
+        generation: GuidePageGenerationCode!
         page: [ImplementationGuidePage]
 
 }

@@ -5,6 +5,6 @@ type CatalogEntryRelatedEntry {
 
         modifierExtension: [Extension]
 
-        relationtype: CatalogEntryRelationType!
+        relationtype: CatalogEntryRelationTypeCode!
         item: Reference!
 }

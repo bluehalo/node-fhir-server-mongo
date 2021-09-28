@@ -5,12 +5,12 @@ type ObservationDefinitionQualifiedInterval {
 
         modifierExtension: [Extension]
 
-        category: ObservationRangeCategory
+        category: ObservationRangeCategoryCode
         range: Range
         context: CodeableConcept
         appliesTo: [CodeableConcept]
 
-        gender: AdministrativeGender
+        gender: AdministrativeGenderCode
         age: Range
         gestationalAge: Range
         condition: String

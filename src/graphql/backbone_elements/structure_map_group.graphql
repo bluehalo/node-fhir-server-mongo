@@ -7,7 +7,7 @@ type StructureMapGroup {
 
         name: id!
         extends: id
-        typeMode: StructureMapGroupTypeMode!
+        typeMode: StructureMapGroupTypeModeCode!
         documentation: String
         input: [StructureMapInput]
 !

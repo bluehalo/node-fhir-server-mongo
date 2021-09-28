@@ -13,7 +13,7 @@ type ImagingStudy {
 
         identifier: [Identifier]
 
-        status: ImagingStudyStatus!
+        status: code!
         modality: [Coding]
 
         subject: Reference!

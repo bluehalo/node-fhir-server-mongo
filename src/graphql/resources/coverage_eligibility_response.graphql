@@ -13,8 +13,8 @@ type CoverageEligibilityResponse {
 
         identifier: [Identifier]
 
-        status: FinancialResourceStatusCodes!
-        purpose: [EligibilityResponsePurpose]
+        status: code!
+        purpose: [code]
 !
         patient: Reference!
         servicedDate: date

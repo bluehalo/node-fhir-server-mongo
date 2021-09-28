@@ -13,8 +13,8 @@ type MeasureReport {
 
         identifier: [Identifier]
 
-        status: MeasureReportStatus!
-        type_: MeasureReportType!
+        status: code!
+        type_: code!
         measure: canonical!
         subject: Reference
         date: dateTime

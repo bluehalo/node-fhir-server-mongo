@@ -13,7 +13,7 @@ type TestScriptOperation {
         contentType: code
         destination: Int
         encodeRequestUrl: Boolean!
-        method: TestScriptRequestMethodCode
+        method: TestScriptRequestMethodCodeCode
         origin: Int
         params: String
         requestHeader: [TestScriptRequestHeader]

@@ -5,6 +5,6 @@ type BundleSearch {
 
         modifierExtension: [Extension]
 
-        mode: SearchEntryMode
+        mode: SearchEntryModeCode
         score: decimal
 }

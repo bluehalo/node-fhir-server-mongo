@@ -3,8 +3,8 @@ type Address {
         id_: String
         extension: [Extension]
 
-        use: AddressUse
-        type_: AddressType
+        use: AddressUseCode
+        type_: AddressTypeCode
         text: String
         line: [String]
 

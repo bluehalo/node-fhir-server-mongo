@@ -6,7 +6,7 @@ type EncounterLocation {
         modifierExtension: [Extension]
 
         location: Reference!
-        status: EncounterLocationStatus
+        status: EncounterLocationStatusCode
         physicalType: CodeableConcept
         period: Period
 }

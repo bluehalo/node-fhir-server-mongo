@@ -9,6 +9,6 @@ type ContractContentDefinition {
         subType: CodeableConcept
         publisher: Reference
         publicationDate: dateTime
-        publicationStatus: ContractResourcePublicationStatusCodes!
+        publicationStatus: ContractResourcePublicationStatusCodesCode!
         copyright: markdown
 }
