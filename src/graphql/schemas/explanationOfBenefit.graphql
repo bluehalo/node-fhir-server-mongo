@@ -81,7 +81,7 @@ type ExplanationOfBenefitCareTeam {
     qualification: CodeableConcept
 }
 
-#union ExplanationOfBenefitProvider = Practitioner | Organization
+union ExplanationOfBenefitProvider = Practitioner | Organization
 
 type ExplanationOfBenefit {
     id: String!
@@ -94,8 +94,7 @@ type ExplanationOfBenefit {
     patient: Patient!
     diagnosis: [ExplanationOfBenefitDiagnosis]
     procedure: [ExplanationOfBenefitProcedure]
-    practitioner: Practitioner
-    organization: Organization
+    provider: ExplanationOfBenefitProvider
     insurance: [ExplanationOfBenefitInsurance]!
     insurer: Reference!
     outcome: code!

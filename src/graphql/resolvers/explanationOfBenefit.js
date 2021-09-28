@@ -28,6 +28,16 @@ module.exports = {
             }, context.user, context.scope, 'ExplanationOfBenefit', 'ExplanationOfBenefit');
         },
     },
+    ExplanationOfBenefitProvider: {
+        // noinspection JSUnusedGlobalSymbols
+        // eslint-disable-next-line no-unused-vars
+        __resolveType(obj, context, info) {
+            if (obj) {
+                return obj.resourceType;
+            }
+            return null; // GraphQLError is thrown
+        },
+    },
     ExplanationOfBenefit: {
         // eslint-disable-next-line no-unused-vars
         patient: async (parent, args, context, info) => {
@@ -49,23 +59,8 @@ module.exports = {
                 }
             }
         },
-        // ExplanationOfBenefitProvider: {
-        //     resolveType(obj, context, info){
-        //         return obj.resourceType;
-        //     }
-        // },
-        // ExplanationOfBenefitProvider: {
-        //     // noinspection JSUnusedGlobalSymbols
-        //     // eslint-disable-next-line no-unused-vars
-        //     __resolveType(obj, context, info) {
-        //         if (obj) {
-        //             return obj.resourceType;
-        //         }
-        //         return null; // GraphQLError is thrown
-        //     },
-        // },
         // eslint-disable-next-line no-unused-vars
-        practitioner: async (parent, args, context, info) => {
+        provider: async (parent, args, context, info) => {
             try {
                 /**
                  * @type {string}
@@ -75,7 +70,7 @@ module.exports = {
                  * @type {string}
                  */
                 const idOfReference = parent.provider.reference.split('/')[1];
-                if (typeOfReference !== 'Practitioner') {
+                if (typeOfReference !== 'Practitioner' && typeOfReference !== 'Organization') {
                     return null;
                 }
                 return await searchById(
@@ -91,32 +86,5 @@ module.exports = {
                 }
             }
         },
-        // eslint-disable-next-line no-unused-vars
-        organization: async (parent, args, context, info) => {
-            try {
-                /**
-                 * @type {string}
-                 */
-                const typeOfReference = parent.provider.reference.split('/')[0];
-                /**
-                 * @type {string}
-                 */
-                const idOfReference = parent.provider.reference.split('/')[1];
-                if (typeOfReference !== 'Organization') {
-                    return null;
-                }
-                return await searchById(
-                    {base_version: '4_0_0', id: idOfReference},
-                    context.user,
-                    context.scope,
-                    typeOfReference,
-                    typeOfReference
-                );
-            } catch (e) {
-                if (e instanceof NotFoundError) {
-                    return null;
-                }
-            }
-        }
     },
 };
