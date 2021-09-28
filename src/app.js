@@ -28,6 +28,7 @@ const {resourceDefinitions} = require('./utils/resourceDefinitions');
 
 const passport = require('passport');
 const {strategy} = require('./strategies/jwt.bearer.strategy');
+const {logMessageToSlack} = require('./utils/slack.logger');
 
 const app = express();
 
@@ -341,6 +342,12 @@ app.get('/.well-known/smart-configuration', (req, res) => {
     }
 });
 
+app.get('/alert', async (req, res) => {
+    await logMessageToSlack('Test Message from FHIR Server');
+    res.status(200).json({
+        message: 'Sent slack message to ' + env.SLACK_CHANNEL
+    });
+});
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
