@@ -7,6 +7,8 @@ type {{fhir_entity.cleaned_name}} {
             {% endif -%}
             {% if property.cleaned_type == "Extension" %}
             {{- 'Extension' -}}
+            {% elif property.is_code %}
+            {{- 'code' -}}
             {% else %}
             {{- property.cleaned_type | replace(".","") -}}
             {%  endif %}
@@ -18,12 +20,13 @@ type {{fhir_entity.cleaned_name}} {
 {#                {%  endif %}#}
 {#            {% endif -%}#}
             {% if property.is_list -%}
-                {{ ']' }}
+                {{ ']' -}}
             {% endif -%}
             {% if not property.optional -%}
-                {{- '!' }}
+                {{- '!' -}}
             {% else -%}
-                {{ '' }}
+                {{ '' -}}
             {% endif %}
+            {{ '' }}
     {% endfor %}
 }

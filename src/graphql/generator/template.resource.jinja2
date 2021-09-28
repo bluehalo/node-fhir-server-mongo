@@ -20,12 +20,13 @@ type {{fhir_entity.cleaned_name}} {
 {#                {%  endif %}#}
 {#            {% endif -%}#}
             {% if property.is_list -%}
-                {{ ']' }}
+                {{ ']' -}}
             {% endif -%}
             {% if not property.optional -%}
-                {{- '!' }}
+                {{- '!' -}}
             {% else -%}
-                {{ '' }}
+                {{ '' -}}
             {% endif %}
+            {{ '' }}
     {% endfor %}
 }
