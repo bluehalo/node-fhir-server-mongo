@@ -1,6 +1,0 @@
-# import dateTime from 'dateTime.graphql'
-
-type Period {
-    start: dateTime
-    end: dateTime
-}
