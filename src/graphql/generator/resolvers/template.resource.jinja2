@@ -1,0 +1,32 @@
+{% macro lower_case_first_letter(text) %}
+    {{- text[0]|lower}}{{text[1:] -}}
+{% endmacro %}
+
+const {search} = require('../../../operations/search/search');
+const {unBundle} = require('../../common');
+
+module.exports = {
+    Query: {
+        // noinspection JSUnusedLocalSymbols
+        // eslint-disable-next-line no-unused-vars
+        {{ lower_case_first_letter(fhir_entity.cleaned_name) -}}: async (parent, args, context, info) => {
+            return unBundle(
+                await (
+                    search(
+                        {
+                            base_version: '4_0_0',
+                            _bundle: '1',
+                            ...args
+                        },
+                        context.user,
+                        context.scope,
+                        '{{fhir_entity.cleaned_name}}',
+                        '{{fhir_entity.cleaned_name}}'
+                    )
+                )
+            );
+        }
+    }
+};
+
+

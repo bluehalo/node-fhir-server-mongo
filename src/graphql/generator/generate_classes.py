@@ -47,12 +47,18 @@ def main() -> int:
     data_dir: Path = Path(__file__).parent.joinpath("./")
     parent_schema_dir = Path(__file__).parent.joinpath("../")
     graphql_schema_dir: Path = parent_schema_dir.joinpath("schemas")
+    graphql_resolvers_dir: Path = parent_schema_dir.joinpath("resolvers")
 
     # clean out old stuff
     resources_folder = graphql_schema_dir.joinpath("resources")
     if os.path.exists(resources_folder):
         shutil.rmtree(resources_folder)
     os.mkdir(resources_folder)
+
+    resolvers_folder = graphql_resolvers_dir.joinpath("resources")
+    if os.path.exists(resolvers_folder):
+        shutil.rmtree(resolvers_folder)
+    os.mkdir(resolvers_folder)
 
     complex_types_folder = graphql_schema_dir.joinpath("complex_types")
     if os.path.exists(complex_types_folder):
@@ -112,8 +118,22 @@ def main() -> int:
                 result = template.render(
                     fhir_entity=fhir_entity,
                 )
+            if not path.exists(file_path):
+                with open(file_path, "w") as file2:
+                    file2.write(result)
+            # write resolvers
+            with open(data_dir.joinpath("resolvers").joinpath("template.resource.jinja2"), "r") as file:
+                template_contents = file.read()
+                from jinja2 import Template
 
-            # print(result)
+                file_path = resolvers_folder.joinpath(f"{entity_file_name}.js")
+                print(f"Writing domain resource resolver: {entity_file_name} to {file_path}...")
+                template = Template(
+                    template_contents, trim_blocks=True, lstrip_blocks=True
+                )
+                result = template.render(
+                    fhir_entity=fhir_entity,
+                )
             if not path.exists(file_path):
                 with open(file_path, "w") as file2:
                     file2.write(result)
