@@ -45,34 +45,34 @@ def clean_duplicate_lines(file_path: Union[Path, str]) -> None:
 
 def main() -> int:
     data_dir: Path = Path(__file__).parent.joinpath("./")
-    parent_dir: Path = Path(__file__).parent.joinpath("../")
+    parent_schema_dir = Path(__file__).parent.joinpath("../")
+    graphql_schema_dir: Path = parent_schema_dir.joinpath("schemas")
 
     # clean out old stuff
-    resources_folder = parent_dir.joinpath("resources")
+    resources_folder = graphql_schema_dir.joinpath("resources")
     if os.path.exists(resources_folder):
         shutil.rmtree(resources_folder)
     os.mkdir(resources_folder)
-    resources_folder.joinpath("__init__.py").touch()
 
-    complex_types_folder = parent_dir.joinpath("complex_types")
+    complex_types_folder = graphql_schema_dir.joinpath("complex_types")
     if os.path.exists(complex_types_folder):
         shutil.rmtree(complex_types_folder)
     os.mkdir(complex_types_folder)
-    complex_types_folder.joinpath("__init__.py").touch()
 
-    extensions_folder = parent_dir.joinpath("extensions")
+    extensions_folder = graphql_schema_dir.joinpath("extensions")
+    if os.path.exists(extensions_folder):
+        shutil.rmtree(extensions_folder)
+    os.mkdir(extensions_folder)
 
-    backbone_elements_folder = parent_dir.joinpath("backbone_elements")
+    backbone_elements_folder = graphql_schema_dir.joinpath("backbone_elements")
     if os.path.exists(backbone_elements_folder):
         shutil.rmtree(backbone_elements_folder)
     os.mkdir(backbone_elements_folder)
-    backbone_elements_folder.joinpath("__init__.py").touch()
 
-    value_sets_folder = parent_dir.joinpath("value_sets")
+    value_sets_folder = graphql_schema_dir.joinpath("value_sets")
     if os.path.exists(value_sets_folder):
         shutil.rmtree(value_sets_folder)
     os.mkdir(value_sets_folder)
-    value_sets_folder.joinpath("__init__.py").touch()
 
     fhir_entities = FhirXmlSchemaParser.generate_classes()
 
