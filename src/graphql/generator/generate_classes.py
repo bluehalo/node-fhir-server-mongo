@@ -5,7 +5,7 @@ from pathlib import Path
 from shutil import copyfile
 from typing import Union, List
 
-from spark_auto_mapper_fhir.generator.fhir_xml_schema_parser import FhirXmlSchemaParser
+from fhir_xml_schema_parser import FhirXmlSchemaParser
 
 
 def my_copytree(
@@ -68,12 +68,6 @@ def main() -> int:
     os.mkdir(backbone_elements_folder)
     backbone_elements_folder.joinpath("__init__.py").touch()
 
-    simple_types_folder = parent_dir.joinpath("simple_types")
-    if os.path.exists(simple_types_folder):
-        shutil.rmtree(simple_types_folder)
-    os.mkdir(simple_types_folder)
-    simple_types_folder.joinpath("__init__.py").touch()
-
     value_sets_folder = parent_dir.joinpath("value_sets")
     if os.path.exists(value_sets_folder):
         shutil.rmtree(value_sets_folder)
@@ -88,28 +82,29 @@ def main() -> int:
         resource_name: str = fhir_entity.cleaned_name
         entity_file_name = fhir_entity.name_snake_case
         if fhir_entity.is_value_set:  # valueset
-            with open(data_dir.joinpath("template.value_set.jinja2"), "r") as file:
-                template_contents = file.read()
-                from jinja2 import Template
-
-                file_path = value_sets_folder.joinpath(f"{entity_file_name}.py")
-                print(f"Writing value_set: {entity_file_name} to {file_path}...")
-                template = Template(
-                    template_contents, trim_blocks=True, lstrip_blocks=True
-                )
-                result = template.render(
-                    fhir_entity=fhir_entity,
-                )
-
-            if not path.exists(file_path):
-                with open(file_path, "w") as file2:
-                    file2.write(result)
+            pass
+            # with open(data_dir.joinpath("template.value_set.jinja2"), "r") as file:
+            #     template_contents = file.read()
+            #     from jinja2 import Template
+            #
+            #     file_path = value_sets_folder.joinpath(f"{entity_file_name}.graphql")
+            #     print(f"Writing value_set: {entity_file_name} to {file_path}...")
+            #     template = Template(
+            #         template_contents, trim_blocks=True, lstrip_blocks=True
+            #     )
+            #     result = template.render(
+            #         fhir_entity=fhir_entity,
+            #     )
+            #
+            # if not path.exists(file_path):
+            #     with open(file_path, "w") as file2:
+            #         file2.write(result)
         elif fhir_entity.is_resource:
             with open(data_dir.joinpath("template.resource.jinja2"), "r") as file:
                 template_contents = file.read()
                 from jinja2 import Template
 
-                file_path = resources_folder.joinpath(f"{entity_file_name}.py")
+                file_path = resources_folder.joinpath(f"{entity_file_name}.graphql")
                 print(f"Writing domain resource: {entity_file_name} to {file_path}...")
                 template = Template(
                     template_contents, trim_blocks=True, lstrip_blocks=True
@@ -129,7 +124,7 @@ def main() -> int:
                 template_contents = file.read()
                 from jinja2 import Template
 
-                file_path = backbone_elements_folder.joinpath(f"{entity_file_name}.py")
+                file_path = backbone_elements_folder.joinpath(f"{entity_file_name}.graphql")
                 print(
                     f"Writing backbone_elements_folder: {entity_file_name} to {file_path}..."
                 )
@@ -148,7 +143,7 @@ def main() -> int:
                 template_contents = file.read()
                 from jinja2 import Template
 
-                file_path = extensions_folder.joinpath(f"{entity_file_name}.py")
+                file_path = extensions_folder.joinpath(f"{entity_file_name}.graphql")
                 print(f"Writing extension: {entity_file_name} to {file_path}...")
                 template = Template(
                     template_contents, trim_blocks=True, lstrip_blocks=True
@@ -164,7 +159,7 @@ def main() -> int:
                 template_contents = file.read()
                 from jinja2 import Template
 
-                file_path = complex_types_folder.joinpath(f"{entity_file_name}.py")
+                file_path = complex_types_folder.joinpath(f"{entity_file_name}.graphql")
                 print(f"Writing complex_type: {entity_file_name} to {file_path}...")
                 template = Template(
                     template_contents, trim_blocks=True, lstrip_blocks=True
@@ -181,7 +176,7 @@ def main() -> int:
                 template_contents = file.read()
                 from jinja2 import Template
 
-                file_path = complex_types_folder.joinpath(f"{entity_file_name}.py")
+                file_path = complex_types_folder.joinpath(f"{entity_file_name}.graphql")
                 print(f"Writing complex_type: {entity_file_name} to {file_path}...")
                 template = Template(
                     template_contents, trim_blocks=True, lstrip_blocks=True
@@ -198,104 +193,7 @@ def main() -> int:
             print(f"{resource_name}: {fhir_entity.type_} is not supported")
         # print(result)
 
-    copy_files_from_base_types_folder(
-        backbone_elements_folder=backbone_elements_folder,
-        complex_types_folder=complex_types_folder,
-        resources_folder=resources_folder,
-        value_sets_folder=value_sets_folder,
-        extensions_folder=extensions_folder,
-    )
-
     return 0
-
-
-def copy_files_from_base_types_folder(
-    *,
-    backbone_elements_folder: Path,
-    complex_types_folder: Path,
-    resources_folder: Path,
-    value_sets_folder: Path,
-    extensions_folder: Path,
-) -> None:
-    # copy resource.py
-    print(
-        f'Copying {resources_folder.joinpath("../base_types/resources")} to {resources_folder}'
-    )
-    from os.path import isfile, join
-
-    # resources
-    resource_files = [
-        f
-        for f in listdir(resources_folder.joinpath("../base_types/resources"))
-        if isfile(join(resources_folder.joinpath("../base_types/resources"), f))
-    ]
-    for resource_file in resource_files:
-        copyfile(
-            resources_folder.joinpath("../base_types/resources").joinpath(
-                resource_file
-            ),
-            resources_folder.joinpath(resource_file),
-        )
-    # value_sets
-    # value_set_files = [
-    #     f
-    #     for f in listdir(value_sets_folder.joinpath("../base_types/value_sets"))
-    #     if isfile(join(value_sets_folder.joinpath("../base_types/value_sets"), f))
-    # ]
-    # for value_set_file in value_set_files:
-    #     copyfile(
-    #         value_sets_folder.joinpath("../base_types/value_sets").joinpath(
-    #             value_set_file
-    #         ),
-    #         value_sets_folder.joinpath(value_set_file),
-    #     )
-    my_copytree(
-        value_sets_folder.joinpath("../base_types/value_sets"), value_sets_folder
-    )
-    # complex types
-    complex_types_files = [
-        f
-        for f in listdir(complex_types_folder.joinpath("../base_types/complex_types"))
-        if isfile(join(complex_types_folder.joinpath("../base_types/complex_types"), f))
-    ]
-    for complex_type_file in complex_types_files:
-        copyfile(
-            complex_types_folder.joinpath("../base_types/complex_types").joinpath(
-                complex_type_file
-            ),
-            complex_types_folder.joinpath(complex_type_file),
-        )
-    # remove duplicate imports
-    resource_files = [
-        f for f in listdir(resources_folder) if isfile(join(resources_folder, f))
-    ]
-    for resource_file in resource_files:
-        clean_duplicate_lines(resources_folder.joinpath(resource_file))
-    backbone_files = [
-        f
-        for f in listdir(backbone_elements_folder)
-        if isfile(join(backbone_elements_folder, f))
-    ]
-    for backbone_file in backbone_files:
-        clean_duplicate_lines(backbone_elements_folder.joinpath(backbone_file))
-    complex_types_files = [
-        f
-        for f in listdir(complex_types_folder)
-        if isfile(join(complex_types_folder, f))
-    ]
-    for complex_types_file in complex_types_files:
-        clean_duplicate_lines(complex_types_folder.joinpath(complex_types_file))
-    value_sets_files = [
-        f for f in listdir(value_sets_folder) if isfile(join(value_sets_folder, f))
-    ]
-    for value_sets_file in value_sets_files:
-        clean_duplicate_lines(value_sets_folder.joinpath(value_sets_file))
-
-    extension_files = [
-        f for f in listdir(extensions_folder) if isfile(join(extensions_folder, f))
-    ]
-    for extension_file in extension_files:
-        clean_duplicate_lines(extensions_folder.joinpath(extension_file))
 
 
 if __name__ == "__main__":
