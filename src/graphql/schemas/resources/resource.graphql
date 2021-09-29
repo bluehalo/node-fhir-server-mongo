@@ -12,3 +12,7 @@ type Resource {
         implicitRules: uri            
         language: code            
 }
+
+extend type Query {
+    resource(id: String): [Resource]
+}

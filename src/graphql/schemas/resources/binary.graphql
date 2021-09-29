@@ -19,3 +19,7 @@ type Binary {
         securityContext: Resource            
         data: base64Binary            
 }
+
+extend type Query {
+    binary(id: String): [Binary]
+}

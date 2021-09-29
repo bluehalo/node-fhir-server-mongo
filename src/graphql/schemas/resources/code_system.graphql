@@ -60,3 +60,7 @@ type CodeSystem {
         property: [CodeSystemProperty]            
         concept: [CodeSystemConcept]            
 }
+
+extend type Query {
+    codeSystem(id: String): [CodeSystem]
+}

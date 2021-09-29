@@ -66,3 +66,7 @@ type MedicationKnowledge {
         regulatory: [MedicationKnowledgeRegulatory]            
         kinetics: [MedicationKnowledgeKinetics]            
 }
+
+extend type Query {
+    medicationKnowledge(id: String): [MedicationKnowledge]
+}

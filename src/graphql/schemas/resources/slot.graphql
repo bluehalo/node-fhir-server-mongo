@@ -38,3 +38,7 @@ type Slot {
         overbooked: Boolean            
         comment: String            
 }
+
+extend type Query {
+    slot(id: String): [Slot]
+}

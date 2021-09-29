@@ -48,3 +48,7 @@ type ExampleScenario {
         process: [ExampleScenarioProcess]            
         workflow: [canonical]            
 }
+
+extend type Query {
+    exampleScenario(id: String): [ExampleScenario]
+}

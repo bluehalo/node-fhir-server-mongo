@@ -65,3 +65,7 @@ type DeviceDefinition {
         parentDevice: DeviceDefinition            
         material: [DeviceDefinitionMaterial]            
 }
+
+extend type Query {
+    deviceDefinition(id: String): [DeviceDefinition]
+}

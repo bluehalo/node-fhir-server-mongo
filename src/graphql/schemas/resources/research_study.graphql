@@ -72,3 +72,7 @@ type ResearchStudy {
         arm: [ResearchStudyArm]            
         objective: [ResearchStudyObjective]            
 }
+
+extend type Query {
+    researchStudy(id: String): [ResearchStudy]
+}

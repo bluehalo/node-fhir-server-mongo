@@ -28,3 +28,7 @@ type Linkage {
         author: LinkageAuthor            
         item: [LinkageItem]!            
 }
+
+extend type Query {
+    linkage(id: String): [Linkage]
+}

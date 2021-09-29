@@ -51,3 +51,7 @@ type PaymentNotice {
         amount: Money!            
         paymentStatus: CodeableConcept            
 }
+
+extend type Query {
+    paymentNotice(id: String): [PaymentNotice]
+}

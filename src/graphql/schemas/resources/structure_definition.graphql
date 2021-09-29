@@ -62,3 +62,7 @@ type StructureDefinition {
         snapshot: StructureDefinitionSnapshot            
         differential: StructureDefinitionDifferential            
 }
+
+extend type Query {
+    structureDefinition(id: String): [StructureDefinition]
+}

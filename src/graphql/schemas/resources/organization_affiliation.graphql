@@ -49,3 +49,7 @@ type OrganizationAffiliation {
         telecom: [ContactPoint]            
         endpoint: [Endpoint]            
 }
+
+extend type Query {
+    organizationAffiliation(id: String): [OrganizationAffiliation]
+}

@@ -40,3 +40,7 @@ type MedicinalProductPackaged {
         batchIdentifier: [MedicinalProductPackagedBatchIdentifier]            
         packageItem: [MedicinalProductPackagedPackageItem]!            
 }
+
+extend type Query {
+    medicinalProductPackaged(id: String): [MedicinalProductPackaged]
+}

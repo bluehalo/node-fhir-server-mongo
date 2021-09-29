@@ -36,3 +36,7 @@ type MedicinalProductInteraction {
         incidence: CodeableConcept            
         management: CodeableConcept            
 }
+
+extend type Query {
+    medicinalProductInteraction(id: String): [MedicinalProductInteraction]
+}

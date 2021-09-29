@@ -52,3 +52,7 @@ type CoverageEligibilityResponse {
         form: CodeableConcept            
         error: [CoverageEligibilityResponseError]            
 }
+
+extend type Query {
+    coverageEligibilityResponse(id: String): [CoverageEligibilityResponse]
+}

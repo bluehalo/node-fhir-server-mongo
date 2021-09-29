@@ -55,3 +55,7 @@ type MessageHeader {
         focus: [Resource]            
         definition: canonical            
 }
+
+extend type Query {
+    messageHeader(id: String): [MessageHeader]
+}

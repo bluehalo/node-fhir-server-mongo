@@ -62,3 +62,7 @@ type DocumentReference {
         content: [DocumentReferenceContent]!            
         context: DocumentReferenceContext            
 }
+
+extend type Query {
+    documentReference(id: String): [DocumentReference]
+}

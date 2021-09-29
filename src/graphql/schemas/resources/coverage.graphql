@@ -58,3 +58,7 @@ type Coverage {
         subrogation: Boolean            
         contract: [Contract]            
 }
+
+extend type Query {
+    coverage(id: String): [Coverage]
+}

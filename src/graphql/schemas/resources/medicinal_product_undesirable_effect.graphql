@@ -32,3 +32,7 @@ type MedicinalProductUndesirableEffect {
         frequencyOfOccurrence: CodeableConcept            
         population: [Population]            
 }
+
+extend type Query {
+    medicinalProductUndesirableEffect(id: String): [MedicinalProductUndesirableEffect]
+}

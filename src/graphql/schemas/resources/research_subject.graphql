@@ -36,3 +36,7 @@ type ResearchSubject {
         actualArm: String            
         consent: Consent            
 }
+
+extend type Query {
+    researchSubject(id: String): [ResearchSubject]
+}

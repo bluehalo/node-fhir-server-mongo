@@ -58,3 +58,7 @@ type TerminologyCapabilities {
         translation: TerminologyCapabilitiesTranslation            
         closure: TerminologyCapabilitiesClosure            
 }
+
+extend type Query {
+    terminologyCapabilities(id: String): [TerminologyCapabilities]
+}

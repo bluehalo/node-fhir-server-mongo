@@ -20,3 +20,7 @@ type DomainResource {
         extension: [Extension]            
         modifierExtension: [Extension]            
 }
+
+extend type Query {
+    domainResource(id: String): [DomainResource]
+}

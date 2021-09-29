@@ -38,3 +38,7 @@ type EnrollmentResponse {
         organization: Organization            
         requestProvider: EnrollmentResponseRequestProvider            
 }
+
+extend type Query {
+    enrollmentResponse(id: String): [EnrollmentResponse]
+}

@@ -26,3 +26,7 @@ type SubstanceProtein {
         disulfideLinkage: [String]            
         subunit: [SubstanceProteinSubunit]            
 }
+
+extend type Query {
+    substanceProtein(id: String): [SubstanceProtein]
+}

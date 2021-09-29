@@ -53,3 +53,7 @@ type SupplyDelivery {
         destination: Location            
         receiver: [SupplyDeliveryReceiver]            
 }
+
+extend type Query {
+    supplyDelivery(id: String): [SupplyDelivery]
+}

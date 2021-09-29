@@ -62,3 +62,7 @@ type MessageDefinition {
         allowedResponse: [MessageDefinitionAllowedResponse]            
         graph: [canonical]            
 }
+
+extend type Query {
+    messageDefinition(id: String): [MessageDefinition]
+}

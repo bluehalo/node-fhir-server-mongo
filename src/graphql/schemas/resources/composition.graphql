@@ -56,3 +56,7 @@ type Composition {
         event: [CompositionEvent]            
         section: [CompositionSection]            
 }
+
+extend type Query {
+    composition(id: String): [Composition]
+}

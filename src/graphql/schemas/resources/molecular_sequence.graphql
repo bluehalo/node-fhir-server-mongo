@@ -52,3 +52,7 @@ type MolecularSequence {
         pointer: [MolecularSequence]            
         structureVariant: [MolecularSequenceStructureVariant]            
 }
+
+extend type Query {
+    molecularSequence(id: String): [MolecularSequence]
+}

@@ -50,3 +50,7 @@ type Location {
         availabilityExceptions: String            
         endpoint: [Endpoint]            
 }
+
+extend type Query {
+    location(id: String): [Location]
+}

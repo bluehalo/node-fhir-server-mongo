@@ -74,3 +74,7 @@ type Library {
         dataRequirement: [DataRequirement]            
         content: [Attachment]            
 }
+
+extend type Query {
+    library(id: String): [Library]
+}

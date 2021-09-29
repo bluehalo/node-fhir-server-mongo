@@ -118,3 +118,7 @@ type MedicationRequest {
         detectedIssue: [DetectedIssue]            
         eventHistory: [Provenance]            
 }
+
+extend type Query {
+    medicationRequest(id: String): [MedicationRequest]
+}

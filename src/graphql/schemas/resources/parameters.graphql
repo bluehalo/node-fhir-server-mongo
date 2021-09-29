@@ -14,3 +14,7 @@ type Parameters {
         language: code            
         parameter: [ParametersParameter]            
 }
+
+extend type Query {
+    parameters(id: String): [Parameters]
+}

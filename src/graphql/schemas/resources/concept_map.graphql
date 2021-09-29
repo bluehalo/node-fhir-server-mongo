@@ -53,3 +53,7 @@ type ConceptMap {
         targetCanonical: canonical            
         group: [ConceptMapGroup]            
 }
+
+extend type Query {
+    conceptMap(id: String): [ConceptMap]
+}

@@ -50,3 +50,7 @@ type Specimen {
         condition: [CodeableConcept]            
         note: [Annotation]            
 }
+
+extend type Query {
+    specimen(id: String): [Specimen]
+}

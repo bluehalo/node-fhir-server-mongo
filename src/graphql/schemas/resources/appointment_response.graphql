@@ -40,3 +40,7 @@ type AppointmentResponse {
         participantStatus: code!            
         comment: String            
 }
+
+extend type Query {
+    appointmentResponse(id: String): [AppointmentResponse]
+}

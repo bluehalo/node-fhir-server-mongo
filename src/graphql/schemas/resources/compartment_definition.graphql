@@ -40,3 +40,7 @@ type CompartmentDefinition {
         search: Boolean!            
         resource: [CompartmentDefinitionResource]            
 }
+
+extend type Query {
+    compartmentDefinition(id: String): [CompartmentDefinition]
+}

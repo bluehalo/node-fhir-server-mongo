@@ -39,3 +39,7 @@ type NamingSystem {
         usage: String            
         uniqueId: [NamingSystemUniqueId]!            
 }
+
+extend type Query {
+    namingSystem(id: String): [NamingSystem]
+}

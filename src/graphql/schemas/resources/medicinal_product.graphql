@@ -66,3 +66,7 @@ type MedicinalProduct {
         manufacturingBusinessOperation: [MedicinalProductManufacturingBusinessOperation]            
         specialDesignation: [MedicinalProductSpecialDesignation]            
 }
+
+extend type Query {
+    medicinalProduct(id: String): [MedicinalProduct]
+}

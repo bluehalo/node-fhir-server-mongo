@@ -56,3 +56,7 @@ type Consent {
         verification: [ConsentVerification]            
         provision: ConsentProvision            
 }
+
+extend type Query {
+    consent(id: String): [Consent]
+}

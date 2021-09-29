@@ -22,3 +22,7 @@ type OperationOutcome {
         modifierExtension: [Extension]            
         issue: [OperationOutcomeIssue]!            
 }
+
+extend type Query {
+    operationOutcome(id: String): [OperationOutcome]
+}

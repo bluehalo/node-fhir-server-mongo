@@ -40,3 +40,7 @@ type BiologicallyDerivedProduct {
         manipulation: BiologicallyDerivedProductManipulation            
         storage: [BiologicallyDerivedProductStorage]            
 }
+
+extend type Query {
+    biologicallyDerivedProduct(id: String): [BiologicallyDerivedProduct]
+}

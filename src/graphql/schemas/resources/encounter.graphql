@@ -76,3 +76,7 @@ type Encounter {
         serviceProvider: Organization            
         partOf: Encounter            
 }
+
+extend type Query {
+    encounter(id: String): [Encounter]
+}

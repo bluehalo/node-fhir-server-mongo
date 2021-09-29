@@ -49,3 +49,7 @@ type CareTeam {
         telecom: [ContactPoint]            
         note: [Annotation]            
 }
+
+extend type Query {
+    careTeam(id: String): [CareTeam]
+}

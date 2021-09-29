@@ -99,3 +99,7 @@ type ChargeItem {
         note: [Annotation]            
         supportingInformation: [Resource]            
 }
+
+extend type Query {
+    chargeItem(id: String): [ChargeItem]
+}

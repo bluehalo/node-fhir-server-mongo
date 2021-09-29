@@ -113,3 +113,7 @@ type ExplanationOfBenefit {
         benefitPeriod: Period            
         benefitBalance: [ExplanationOfBenefitBenefitBalance]            
 }
+
+extend type Query {
+    explanationOfBenefit(id: String): [ExplanationOfBenefit]
+}

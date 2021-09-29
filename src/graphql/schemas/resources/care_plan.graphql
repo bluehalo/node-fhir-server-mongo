@@ -82,3 +82,7 @@ type CarePlan {
         activity: [CarePlanActivity]            
         note: [Annotation]            
 }
+
+extend type Query {
+    carePlan(id: String): [CarePlan]
+}

@@ -88,3 +88,7 @@ type Communication {
         payload: [CommunicationPayload]            
         note: [Annotation]            
 }
+
+extend type Query {
+    communication(id: String): [Communication]
+}

@@ -72,3 +72,7 @@ type SupplyRequest {
         deliverFrom: SupplyRequestDeliverFrom            
         deliverTo: SupplyRequestDeliverTo            
 }
+
+extend type Query {
+    supplyRequest(id: String): [SupplyRequest]
+}

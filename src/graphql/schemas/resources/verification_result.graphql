@@ -44,3 +44,7 @@ type VerificationResult {
         attestation: VerificationResultAttestation            
         validator: [VerificationResultValidator]            
 }
+
+extend type Query {
+    verificationResult(id: String): [VerificationResult]
+}

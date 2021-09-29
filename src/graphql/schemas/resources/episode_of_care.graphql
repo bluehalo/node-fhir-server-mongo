@@ -50,3 +50,7 @@ type EpisodeOfCare {
         team: [CareTeam]            
         account: [Account]            
 }
+
+extend type Query {
+    episodeOfCare(id: String): [EpisodeOfCare]
+}

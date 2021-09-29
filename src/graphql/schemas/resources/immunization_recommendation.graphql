@@ -31,3 +31,7 @@ type ImmunizationRecommendation {
         authority: Organization            
         recommendation: [ImmunizationRecommendationRecommendation]!            
 }
+
+extend type Query {
+    immunizationRecommendation(id: String): [ImmunizationRecommendation]
+}

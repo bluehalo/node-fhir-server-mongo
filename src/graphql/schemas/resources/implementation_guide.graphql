@@ -51,3 +51,7 @@ type ImplementationGuide {
         definition: ImplementationGuideDefinition            
         manifest: ImplementationGuideManifest            
 }
+
+extend type Query {
+    implementationGuide(id: String): [ImplementationGuide]
+}

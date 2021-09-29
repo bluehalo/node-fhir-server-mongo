@@ -85,3 +85,7 @@ type MedicationDispense {
         detectedIssue: [DetectedIssue]            
         eventHistory: [Provenance]            
 }
+
+extend type Query {
+    medicationDispense(id: String): [MedicationDispense]
+}

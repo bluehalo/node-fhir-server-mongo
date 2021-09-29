@@ -53,3 +53,7 @@ type CatalogEntry {
         additionalClassification: [CodeableConcept]            
         relatedEntry: [CatalogEntryRelatedEntry]            
 }
+
+extend type Query {
+    catalogEntry(id: String): [CatalogEntry]
+}

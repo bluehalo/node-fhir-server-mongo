@@ -36,3 +36,7 @@ type MedicinalProductPharmaceutical {
         characteristics: [MedicinalProductPharmaceuticalCharacteristics]            
         routeOfAdministration: [MedicinalProductPharmaceuticalRouteOfAdministration]!            
 }
+
+extend type Query {
+    medicinalProductPharmaceutical(id: String): [MedicinalProductPharmaceutical]
+}

@@ -38,3 +38,7 @@ type Person {
         active: Boolean            
         link: [PersonLink]            
 }
+
+extend type Query {
+    person(id: String): [Person]
+}

@@ -21,7 +21,6 @@ const {
     commonBeforeEach,
     commonAfterEach,
     getHeaders,
-    getUnAuthenticatedHeaders,
     getGraphQLHeaders
 } = require('../../common');
 

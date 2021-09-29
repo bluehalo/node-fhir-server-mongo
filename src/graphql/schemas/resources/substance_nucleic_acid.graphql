@@ -28,3 +28,7 @@ type SubstanceNucleicAcid {
         oligoNucleotideType: CodeableConcept            
         subunit: [SubstanceNucleicAcidSubunit]            
 }
+
+extend type Query {
+    substanceNucleicAcid(id: String): [SubstanceNucleicAcid]
+}

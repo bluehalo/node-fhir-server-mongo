@@ -50,3 +50,7 @@ type InsurancePlan {
         coverage: [InsurancePlanCoverage]            
         plan: [InsurancePlanPlan]            
 }
+
+extend type Query {
+    insurancePlan(id: String): [InsurancePlan]
+}

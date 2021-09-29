@@ -35,3 +35,7 @@ type Basic {
         created: date            
         author: BasicAuthor            
 }
+
+extend type Query {
+    basic(id: String): [Basic]
+}

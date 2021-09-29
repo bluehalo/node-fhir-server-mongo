@@ -76,3 +76,7 @@ type Condition {
         evidence: [ConditionEvidence]            
         note: [Annotation]            
 }
+
+extend type Query {
+    condition(id: String): [Condition]
+}

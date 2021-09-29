@@ -75,3 +75,7 @@ type DiagnosticReport {
         conclusionCode: [CodeableConcept]            
         presentedForm: [Attachment]            
 }
+
+extend type Query {
+    diagnosticReport(id: String): [DiagnosticReport]
+}

@@ -108,3 +108,7 @@ type Procedure {
         usedReference: [ProcedureUsedReference]            
         usedCode: [CodeableConcept]            
 }
+
+extend type Query {
+    procedure(id: String): [Procedure]
+}

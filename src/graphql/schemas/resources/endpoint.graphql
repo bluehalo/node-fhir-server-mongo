@@ -40,3 +40,7 @@ type Endpoint {
         address: url!            
         header: [String]            
 }
+
+extend type Query {
+    endpoint(id: String): [Endpoint]
+}

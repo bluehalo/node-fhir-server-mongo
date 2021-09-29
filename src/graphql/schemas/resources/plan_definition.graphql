@@ -74,3 +74,7 @@ type PlanDefinition {
         goal: [PlanDefinitionGoal]            
         action: [PlanDefinitionAction]            
 }
+
+extend type Query {
+    planDefinition(id: String): [PlanDefinition]
+}

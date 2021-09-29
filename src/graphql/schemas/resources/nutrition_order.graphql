@@ -56,3 +56,7 @@ type NutritionOrder {
         enteralFormula: NutritionOrderEnteralFormula            
         note: [Annotation]            
 }
+
+extend type Query {
+    nutritionOrder(id: String): [NutritionOrder]
+}

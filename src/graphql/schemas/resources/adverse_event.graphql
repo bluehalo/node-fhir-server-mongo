@@ -80,3 +80,7 @@ type AdverseEvent {
         referenceDocument: [DocumentReference]            
         study: [ResearchStudy]            
 }
+
+extend type Query {
+    adverseEvent(id: String): [AdverseEvent]
+}

@@ -37,3 +37,7 @@ type VisionPrescription {
         prescriber: VisionPrescriptionPrescriber!            
         lensSpecification: [VisionPrescriptionLensSpecification]!            
 }
+
+extend type Query {
+    visionPrescription(id: String): [VisionPrescription]
+}

@@ -24,3 +24,7 @@ type Bundle {
         entry: [BundleEntry]            
         signature: Signature            
 }
+
+extend type Query {
+    bundle(id: String): [Bundle]
+}

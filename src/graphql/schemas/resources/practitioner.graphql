@@ -37,3 +37,7 @@ type Practitioner {
         qualification: [PractitionerQualification]            
         communication: [CodeableConcept]            
 }
+
+extend type Query {
+    practitioner(id: String): [Practitioner]
+}

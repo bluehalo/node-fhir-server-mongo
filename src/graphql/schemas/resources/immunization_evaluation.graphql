@@ -45,3 +45,7 @@ type ImmunizationEvaluation {
         seriesDosesPositiveInt: Int            
         seriesDosesString: String            
 }
+
+extend type Query {
+    immunizationEvaluation(id: String): [ImmunizationEvaluation]
+}

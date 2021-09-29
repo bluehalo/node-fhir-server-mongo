@@ -63,3 +63,7 @@ type EvidenceVariable {
         type_: code            
         characteristic: [EvidenceVariableCharacteristic]!            
 }
+
+extend type Query {
+    evidenceVariable(id: String): [EvidenceVariable]
+}

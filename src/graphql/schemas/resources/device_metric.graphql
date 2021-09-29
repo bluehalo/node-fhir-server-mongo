@@ -39,3 +39,7 @@ type DeviceMetric {
         measurementPeriod: Timing            
         calibration: [DeviceMetricCalibration]            
 }
+
+extend type Query {
+    deviceMetric(id: String): [DeviceMetric]
+}

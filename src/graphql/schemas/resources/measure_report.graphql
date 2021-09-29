@@ -51,3 +51,7 @@ type MeasureReport {
         group: [MeasureReportGroup]            
         evaluatedResource: [Resource]            
 }
+
+extend type Query {
+    measureReport(id: String): [MeasureReport]
+}

@@ -119,3 +119,7 @@ type Observation {
         derivedFrom: [ObservationDerivedFrom]            
         component: [ObservationComponent]            
 }
+
+extend type Query {
+    observation(id: String): [Observation]
+}

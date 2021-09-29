@@ -92,3 +92,7 @@ type Measure {
         group: [MeasureGroup]            
         supplementalData: [MeasureSupplementalData]            
 }
+
+extend type Query {
+    measure(id: String): [Measure]
+}

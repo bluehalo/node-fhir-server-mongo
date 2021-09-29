@@ -41,3 +41,7 @@ type MedicinalProductIndication {
         undesirableEffect: [MedicinalProductUndesirableEffect]            
         population: [Population]            
 }
+
+extend type Query {
+    medicinalProductIndication(id: String): [MedicinalProductIndication]
+}

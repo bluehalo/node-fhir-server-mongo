@@ -44,3 +44,7 @@ type GraphDefinition {
         profile: canonical            
         link: [GraphDefinitionLink]            
 }
+
+extend type Query {
+    graphDefinition(id: String): [GraphDefinition]
+}

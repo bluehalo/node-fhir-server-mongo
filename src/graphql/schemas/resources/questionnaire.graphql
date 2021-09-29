@@ -55,3 +55,7 @@ type Questionnaire {
         code: [Coding]            
         item: [QuestionnaireItem]            
 }
+
+extend type Query {
+    questionnaire(id: String): [Questionnaire]
+}

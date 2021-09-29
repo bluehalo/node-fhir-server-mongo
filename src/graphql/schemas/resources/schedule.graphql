@@ -41,3 +41,7 @@ type Schedule {
         planningHorizon: Period            
         comment: String            
 }
+
+extend type Query {
+    schedule(id: String): [Schedule]
+}

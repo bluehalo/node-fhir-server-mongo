@@ -97,3 +97,7 @@ type Contract {
         legallyBindingAttachment: Attachment            
         legallyBindingReference: ContractLegallyBindingReference            
 }
+
+extend type Query {
+    contract(id: String): [Contract]
+}

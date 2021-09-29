@@ -77,3 +77,7 @@ type MedicationStatement {
         note: [Annotation]            
         dosage: [Dosage]            
 }
+
+extend type Query {
+    medicationStatement(id: String): [MedicationStatement]
+}

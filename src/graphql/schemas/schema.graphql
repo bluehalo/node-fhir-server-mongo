@@ -1,9 +1,0 @@
-# import Patient from "patient.graphql"
-# import ExplanationOfBenefit from "explanationOfBenefit.graphql"
-
-type Query {
-  patients: [Patient]
-  patient(id:String): Patient
-  explanationOfBenefits(id:String, patient:String): [ExplanationOfBenefit]
-  explanationOfBenefit(id:String): ExplanationOfBenefit
-}

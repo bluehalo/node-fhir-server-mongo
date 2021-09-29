@@ -36,3 +36,7 @@ type MedicinalProductManufactured {
         physicalCharacteristics: ProdCharacteristic            
         otherCharacteristics: [CodeableConcept]            
 }
+
+extend type Query {
+    medicinalProductManufactured(id: String): [MedicinalProductManufactured]
+}

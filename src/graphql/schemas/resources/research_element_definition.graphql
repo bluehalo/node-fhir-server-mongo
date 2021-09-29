@@ -75,3 +75,7 @@ type ResearchElementDefinition {
         variableType: VariableType            
         characteristic: [ResearchElementDefinitionCharacteristic]!            
 }
+
+extend type Query {
+    researchElementDefinition(id: String): [ResearchElementDefinition]
+}

@@ -82,3 +82,7 @@ type ResearchDefinition {
         exposureAlternative: ResearchElementDefinition            
         outcome: ResearchElementDefinition            
 }
+
+extend type Query {
+    researchDefinition(id: String): [ResearchDefinition]
+}

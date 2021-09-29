@@ -61,3 +61,7 @@ type ChargeItemDefinition {
         applicability: [ChargeItemDefinitionApplicability]            
         propertyGroup: [ChargeItemDefinitionPropertyGroup]            
 }
+
+extend type Query {
+    chargeItemDefinition(id: String): [ChargeItemDefinition]
+}

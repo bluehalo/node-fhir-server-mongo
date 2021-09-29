@@ -47,3 +47,7 @@ type DetectedIssue {
         reference: uri            
         mitigation: [DetectedIssueMitigation]            
 }
+
+extend type Query {
+    detectedIssue(id: String): [DetectedIssue]
+}

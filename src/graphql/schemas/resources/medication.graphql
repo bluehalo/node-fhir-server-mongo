@@ -37,3 +37,7 @@ type Medication {
         ingredient: [MedicationIngredient]            
         batch: MedicationBatch            
 }
+
+extend type Query {
+    medication(id: String): [Medication]
+}

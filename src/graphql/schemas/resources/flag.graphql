@@ -49,3 +49,7 @@ type Flag {
         encounter: Encounter            
         author: FlagAuthor            
 }
+
+extend type Query {
+    flag(id: String): [Flag]
+}

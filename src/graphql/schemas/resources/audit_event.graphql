@@ -38,3 +38,7 @@ type AuditEvent {
         source: AuditEventSource!            
         entity: [AuditEventEntity]            
 }
+
+extend type Query {
+    auditEvent(id: String): [AuditEvent]
+}

@@ -92,3 +92,7 @@ type CommunicationRequest {
         reasonReference: [CommunicationRequestReasonReference]            
         note: [Annotation]            
 }
+
+extend type Query {
+    communicationRequest(id: String): [CommunicationRequest]
+}

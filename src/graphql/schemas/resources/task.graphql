@@ -99,3 +99,7 @@ type Task {
         input: [TaskInput]            
         output: [TaskOutput]            
 }
+
+extend type Query {
+    task(id: String): [Task]
+}

@@ -49,3 +49,7 @@ type StructureMap {
         import_: [canonical]            
         group: [StructureMapGroup]!            
 }
+
+extend type Query {
+    structureMap(id: String): [StructureMap]
+}

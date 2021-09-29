@@ -57,3 +57,7 @@ type DocumentManifest {
         content: [Resource]!            
         related: [DocumentManifestRelated]            
 }
+
+extend type Query {
+    documentManifest(id: String): [DocumentManifest]
+}

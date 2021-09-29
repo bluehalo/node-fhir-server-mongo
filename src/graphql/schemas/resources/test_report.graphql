@@ -39,3 +39,7 @@ type TestReport {
         test: [TestReportTest]            
         teardown: TestReportTeardown            
 }
+
+extend type Query {
+    testReport(id: String): [TestReport]
+}

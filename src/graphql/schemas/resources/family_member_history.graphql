@@ -69,3 +69,7 @@ type FamilyMemberHistory {
         note: [Annotation]            
         condition: [FamilyMemberHistoryCondition]            
 }
+
+extend type Query {
+    familyMemberHistory(id: String): [FamilyMemberHistory]
+}

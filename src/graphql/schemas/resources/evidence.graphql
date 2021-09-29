@@ -69,3 +69,7 @@ type Evidence {
         exposureVariant: [EvidenceVariable]            
         outcome: [EvidenceVariable]            
 }
+
+extend type Query {
+    evidence(id: String): [Evidence]
+}

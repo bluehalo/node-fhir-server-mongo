@@ -47,3 +47,7 @@ type Account {
         guarantor: [AccountGuarantor]            
         partOf: Account            
 }
+
+extend type Query {
+    account(id: String): [Account]
+}

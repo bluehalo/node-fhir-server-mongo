@@ -117,3 +117,7 @@ type ActivityDefinition {
         transform: canonical            
         dynamicValue: [ActivityDefinitionDynamicValue]            
 }
+
+extend type Query {
+    activityDefinition(id: String): [ActivityDefinition]
+}

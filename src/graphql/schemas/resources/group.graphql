@@ -40,3 +40,7 @@ type Group {
         characteristic: [GroupCharacteristic]            
         member: [GroupMember]            
 }
+
+extend type Query {
+    group(id: String): [Group]
+}

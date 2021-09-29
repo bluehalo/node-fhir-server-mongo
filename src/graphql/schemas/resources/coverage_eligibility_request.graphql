@@ -54,3 +54,7 @@ type CoverageEligibilityRequest {
         insurance: [CoverageEligibilityRequestInsurance]            
         item: [CoverageEligibilityRequestItem]            
 }
+
+extend type Query {
+    coverageEligibilityRequest(id: String): [CoverageEligibilityRequest]
+}

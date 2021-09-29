@@ -79,3 +79,7 @@ type Media {
         content: Attachment!            
         note: [Annotation]            
 }
+
+extend type Query {
+    media(id: String): [Media]
+}

@@ -119,3 +119,7 @@ type ServiceRequest {
         patientInstruction: String            
         relevantHistory: [Provenance]            
 }
+
+extend type Query {
+    serviceRequest(id: String): [ServiceRequest]
+}

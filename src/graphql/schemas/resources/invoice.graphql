@@ -56,3 +56,7 @@ type Invoice {
         paymentTerms: markdown            
         note: [Annotation]            
 }
+
+extend type Query {
+    invoice(id: String): [Invoice]
+}

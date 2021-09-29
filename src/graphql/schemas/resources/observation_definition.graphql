@@ -47,3 +47,7 @@ type ObservationDefinition {
         abnormalCodedValueSet: ValueSet            
         criticalCodedValueSet: ValueSet            
 }
+
+extend type Query {
+    observationDefinition(id: String): [ObservationDefinition]
+}

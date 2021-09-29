@@ -77,3 +77,7 @@ type RiskEvidenceSynthesis {
         riskEstimate: RiskEvidenceSynthesisRiskEstimate            
         certainty: [RiskEvidenceSynthesisCertainty]            
 }
+
+extend type Query {
+    riskEvidenceSynthesis(id: String): [RiskEvidenceSynthesis]
+}

@@ -57,3 +57,7 @@ type SearchParameter {
         chain: [String]            
         component: [SearchParameterComponent]            
 }
+
+extend type Query {
+    searchParameter(id: String): [SearchParameter]
+}

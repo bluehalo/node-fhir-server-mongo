@@ -62,3 +62,7 @@ type TestScript {
         test: [TestScriptTest]            
         teardown: TestScriptTeardown            
 }
+
+extend type Query {
+    testScript(id: String): [TestScript]
+}

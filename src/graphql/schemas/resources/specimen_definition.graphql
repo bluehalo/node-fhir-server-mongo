@@ -31,3 +31,7 @@ type SpecimenDefinition {
         collection: [CodeableConcept]            
         typeTested: [SpecimenDefinitionTypeTested]            
 }
+
+extend type Query {
+    specimenDefinition(id: String): [SpecimenDefinition]
+}

@@ -48,3 +48,7 @@ type ValueSet {
         compose: ValueSetCompose            
         expansion: ValueSetExpansion            
 }
+
+extend type Query {
+    valueSet(id: String): [ValueSet]
+}

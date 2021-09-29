@@ -32,3 +32,7 @@ type MedicinalProductIngredient {
         specifiedSubstance: [MedicinalProductIngredientSpecifiedSubstance]            
         substance: MedicinalProductIngredientSubstance            
 }
+
+extend type Query {
+    medicinalProductIngredient(id: String): [MedicinalProductIngredient]
+}

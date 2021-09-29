@@ -86,3 +86,7 @@ type Claim {
         item: [ClaimItem]            
         total: Money            
 }
+
+extend type Query {
+    claim(id: String): [Claim]
+}

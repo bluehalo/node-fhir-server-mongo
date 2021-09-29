@@ -56,3 +56,7 @@ type QuestionnaireResponse {
         source: QuestionnaireResponseSource            
         item: [QuestionnaireResponseItem]            
 }
+
+extend type Query {
+    questionnaireResponse(id: String): [QuestionnaireResponse]
+}

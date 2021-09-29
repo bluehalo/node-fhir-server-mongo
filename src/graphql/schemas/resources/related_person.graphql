@@ -42,3 +42,7 @@ type RelatedPerson {
         period: Period            
         communication: [RelatedPersonCommunication]            
 }
+
+extend type Query {
+    relatedPerson(id: String): [RelatedPerson]
+}

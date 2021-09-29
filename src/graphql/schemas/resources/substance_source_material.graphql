@@ -43,3 +43,7 @@ type SubstanceSourceMaterial {
         organism: SubstanceSourceMaterialOrganism            
         partDescription: [SubstanceSourceMaterialPartDescription]            
 }
+
+extend type Query {
+    substanceSourceMaterial(id: String): [SubstanceSourceMaterial]
+}

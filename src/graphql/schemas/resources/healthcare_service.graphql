@@ -67,3 +67,7 @@ type HealthcareService {
         availabilityExceptions: String            
         endpoint: [Endpoint]            
 }
+
+extend type Query {
+    healthcareService(id: String): [HealthcareService]
+}

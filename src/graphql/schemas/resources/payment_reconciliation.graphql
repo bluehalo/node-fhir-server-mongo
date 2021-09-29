@@ -51,3 +51,7 @@ type PaymentReconciliation {
         formCode: CodeableConcept            
         processNote: [PaymentReconciliationProcessNote]            
 }
+
+extend type Query {
+    paymentReconciliation(id: String): [PaymentReconciliation]
+}

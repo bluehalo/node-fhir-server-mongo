@@ -53,3 +53,7 @@ type Patient {
         managingOrganization: Organization            
         link: [PatientLink]            
 }
+
+extend type Query {
+    patient(id: String): [Patient]
+}

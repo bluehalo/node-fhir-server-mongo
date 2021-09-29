@@ -64,3 +64,7 @@ type GuidanceResponse {
         result: GuidanceResponseResult            
         dataRequirement: [DataRequirement]            
 }
+
+extend type Query {
+    guidanceResponse(id: String): [GuidanceResponse]
+}

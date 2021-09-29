@@ -29,3 +29,7 @@ type Subscription {
         error: String            
         channel: SubscriptionChannel!            
 }
+
+extend type Query {
+    subscription(id: String): [Subscription]
+}

@@ -29,3 +29,7 @@ type SubstanceReferenceInformation {
         classification: [SubstanceReferenceInformationClassification]            
         target: [SubstanceReferenceInformationTarget]            
 }
+
+extend type Query {
+    substanceReferenceInformation(id: String): [SubstanceReferenceInformation]
+}

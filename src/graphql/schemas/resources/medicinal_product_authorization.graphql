@@ -52,3 +52,7 @@ type MedicinalProductAuthorization {
         regulator: Organization            
         procedure: MedicinalProductAuthorizationProcedure            
 }
+
+extend type Query {
+    medicinalProductAuthorization(id: String): [MedicinalProductAuthorization]
+}

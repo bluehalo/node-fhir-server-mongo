@@ -31,3 +31,7 @@ type SubstancePolymer {
         monomerSet: [SubstancePolymerMonomerSet]            
         repeat: [SubstancePolymerRepeat]            
 }
+
+extend type Query {
+    substancePolymer(id: String): [SubstancePolymer]
+}

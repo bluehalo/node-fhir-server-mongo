@@ -35,3 +35,7 @@ type BodyStructure {
         image: [Attachment]            
         patient: Patient!            
 }
+
+extend type Query {
+    bodyStructure(id: String): [BodyStructure]
+}

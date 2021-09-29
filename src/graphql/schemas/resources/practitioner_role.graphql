@@ -51,3 +51,7 @@ type PractitionerRole {
         availabilityExceptions: String            
         endpoint: [Endpoint]            
 }
+
+extend type Query {
+    practitionerRole(id: String): [PractitionerRole]
+}

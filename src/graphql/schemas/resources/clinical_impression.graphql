@@ -66,3 +66,7 @@ type ClinicalImpression {
         supportingInfo: [Resource]            
         note: [Annotation]            
 }
+
+extend type Query {
+    clinicalImpression(id: String): [ClinicalImpression]
+}

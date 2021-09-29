@@ -78,3 +78,7 @@ type ImagingStudy {
         description: String            
         series: [ImagingStudySeries]            
 }
+
+extend type Query {
+    imagingStudy(id: String): [ImagingStudy]
+}

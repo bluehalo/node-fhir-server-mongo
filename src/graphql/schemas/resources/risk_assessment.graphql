@@ -67,3 +67,7 @@ type RiskAssessment {
         mitigation: String            
         note: [Annotation]            
 }
+
+extend type Query {
+    riskAssessment(id: String): [RiskAssessment]
+}

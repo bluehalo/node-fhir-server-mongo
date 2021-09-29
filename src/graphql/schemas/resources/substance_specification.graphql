@@ -62,3 +62,7 @@ type SubstanceSpecification {
         protein: SubstanceProtein            
         sourceMaterial: SubstanceSourceMaterial            
 }
+
+extend type Query {
+    substanceSpecification(id: String): [SubstanceSpecification]
+}

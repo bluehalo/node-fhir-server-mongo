@@ -42,3 +42,7 @@ type Provenance {
         entity: [ProvenanceEntity]            
         signature: [Signature]            
 }
+
+extend type Query {
+    provenance(id: String): [Provenance]
+}

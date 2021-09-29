@@ -38,3 +38,7 @@ type Organization {
         contact: [OrganizationContact]            
         endpoint: [Endpoint]            
 }
+
+extend type Query {
+    organization(id: String): [Organization]
+}

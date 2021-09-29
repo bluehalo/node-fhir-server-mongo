@@ -60,3 +60,7 @@ type OperationDefinition {
         parameter: [OperationDefinitionParameter]            
         overload: [OperationDefinitionOverload]            
 }
+
+extend type Query {
+    operationDefinition(id: String): [OperationDefinition]
+}

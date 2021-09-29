@@ -97,3 +97,7 @@ type DeviceRequest {
         note: [Annotation]            
         relevantHistory: [Provenance]            
 }
+
+extend type Query {
+    deviceRequest(id: String): [DeviceRequest]
+}

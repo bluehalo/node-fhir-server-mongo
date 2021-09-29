@@ -68,3 +68,7 @@ type EventDefinition {
         relatedArtifact: [RelatedArtifact]            
         trigger: [TriggerDefinition]!            
 }
+
+extend type Query {
+    eventDefinition(id: String): [EventDefinition]
+}

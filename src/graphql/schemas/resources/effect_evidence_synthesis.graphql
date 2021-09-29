@@ -82,3 +82,7 @@ type EffectEvidenceSynthesis {
         effectEstimate: [EffectEvidenceSynthesisEffectEstimate]            
         certainty: [EffectEvidenceSynthesisCertainty]            
 }
+
+extend type Query {
+    effectEvidenceSynthesis(id: String): [EffectEvidenceSynthesis]
+}

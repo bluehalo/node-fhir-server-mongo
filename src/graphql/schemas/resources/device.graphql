@@ -67,3 +67,7 @@ type Device {
         safety: [CodeableConcept]            
         parent: Device            
 }
+
+extend type Query {
+    device(id: String): [Device]
+}

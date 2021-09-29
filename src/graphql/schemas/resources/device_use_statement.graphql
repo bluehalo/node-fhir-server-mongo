@@ -66,3 +66,7 @@ type DeviceUseStatement {
         bodySite: CodeableConcept            
         note: [Annotation]            
 }
+
+extend type Query {
+    deviceUseStatement(id: String): [DeviceUseStatement]
+}

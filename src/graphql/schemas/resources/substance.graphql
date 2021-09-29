@@ -32,3 +32,7 @@ type Substance {
         instance: [SubstanceInstance]            
         ingredient: [SubstanceIngredient]            
 }
+
+extend type Query {
+    substance(id: String): [Substance]
+}

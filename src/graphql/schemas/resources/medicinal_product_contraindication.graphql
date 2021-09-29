@@ -37,3 +37,7 @@ type MedicinalProductContraindication {
         otherTherapy: [MedicinalProductContraindicationOtherTherapy]            
         population: [Population]            
 }
+
+extend type Query {
+    medicinalProductContraindication(id: String): [MedicinalProductContraindication]
+}

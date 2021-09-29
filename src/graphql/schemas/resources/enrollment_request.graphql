@@ -38,3 +38,7 @@ type EnrollmentRequest {
         candidate: Patient            
         coverage: Coverage            
 }
+
+extend type Query {
+    enrollmentRequest(id: String): [EnrollmentRequest]
+}

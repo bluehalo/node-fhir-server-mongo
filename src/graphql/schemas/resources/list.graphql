@@ -51,3 +51,7 @@ type List {
         entry: [ListEntry]            
         emptyReason: CodeableConcept            
 }
+
+extend type Query {
+    list(id: String): [List]
+}

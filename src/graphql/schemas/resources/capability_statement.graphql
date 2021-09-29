@@ -63,3 +63,7 @@ type CapabilityStatement {
         messaging: [CapabilityStatementMessaging]            
         document: [CapabilityStatementDocument]            
 }
+
+extend type Query {
+    capabilityStatement(id: String): [CapabilityStatement]
+}

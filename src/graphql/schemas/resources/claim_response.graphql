@@ -75,3 +75,7 @@ type ClaimResponse {
         insurance: [ClaimResponseInsurance]            
         error: [ClaimResponseError]            
 }
+
+extend type Query {
+    claimResponse(id: String): [ClaimResponse]
+}

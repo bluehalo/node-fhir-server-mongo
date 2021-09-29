@@ -63,3 +63,7 @@ type Appointment {
         participant: [AppointmentParticipant]!            
         requestedPeriod: [Period]            
 }
+
+extend type Query {
+    appointment(id: String): [Appointment]
+}
