@@ -5,7 +5,7 @@ const {CLIENT_DB} = require('../../constants');
 const {NotAllowedError} = require('../../utils/httpErrors');
 /**
  * does a FHIR Remove (DELETE)
- * @param {string[]} args
+ * @param {Object} args
  * @param {string} user
  * @param {string} scope
  * @param {string} resource_name

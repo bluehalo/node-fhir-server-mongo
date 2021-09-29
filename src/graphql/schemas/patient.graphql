@@ -1,8 +1,16 @@
 # import HumanName from 'humanName.graphql'
+# import Meta from "meta.graphql"
+# import Identifier from "identifier.graphql"
 # import ExplanationOfBenefit from 'explanationOfBenefit.graphql'
 
 type Patient {
-    id: String
+    id: String!
+    resourceType: String!
+    identifier: [Identifier]
+    meta: Meta
     name: [HumanName]!
+}
+
+extend type Patient {
     explanationOfBenefit: [ExplanationOfBenefit]!
 }

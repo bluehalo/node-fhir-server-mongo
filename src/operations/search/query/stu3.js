@@ -1,6 +1,6 @@
 /**
  * Builds a mongo query for search parameters
- * @param {string[]} args
+ * @param {Object} args
  * @returns {Object}
  */
 module.exports.buildStu3SearchQuery = (args) => {

@@ -2,40 +2,9 @@ const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 const jwksRsa = require('jwks-rsa');
 const env = require('var');
+const {logRequest, logDebug} = require('../operations/common/logging');
+const {isTrue} = require('../operations/common/isTrue');
 const fetch = require('node-fetch');
-
-// noinspection JSCheckFunctionSignatures
-/**
- * @type {import('winston').logger}
- */
-const logger = require('@asymmetrik/node-fhir-server-core').loggers.get();
-
-/**
- * returns whether the parameter is false or a string "false"
- * @param {string | boolean | null} s
- * @returns {boolean}
- */
-const isTrue = function (s) {
-    return String(s).toLowerCase() === 'true' || String(s).toLowerCase() === '1';
-};
-
-/**
- * Logs as info if env.IS_PRODUCTION is not set
- * @param {*} msg
- */
-const logDebug = ( msg) => {
-    if (!env.IS_PRODUCTION || (env.LOGLEVEL === 'DEBUG')) {
-        logger.info(msg);
-    }
-};
-
-/**
- * Always logs regardless of env.IS_PRODUCTION
- * @param {*} msg
- */
-const logInfo = (msg) => {
-    logger.info(msg);
-};
 
 /**
  * Retrieve jwks for URL
@@ -85,7 +54,7 @@ const verify = (jwt_payload, done) => {
          * @type {string}
          */
         const scope = jwt_payload.scope;
-        logInfo('Verified client_id: ' + client_id + 'scope: ' + scope);
+        logRequest('', 'Verified client_id: ' + client_id + 'scope: ' + scope);
         const context = null;
         return done(null, client_id, {scope, context});
     }
@@ -106,14 +75,16 @@ class MyJwtStrategy extends JwtStrategy {
         const self = this;
 
         const token = self._jwtFromRequest(req);
-        logDebug('No token found in request');
-        // logDebug(req);
-        logDebug('Accepts text/html: ' + req.accepts('text/html'));
 
-        if (!token && req.accepts('text/html') && req.useragent && req.useragent.isDesktop && isTrue(env.REDIRECT_TO_LOGIN)) {
-            const resourceUrl = req.url;
+        logDebug('', 'No token found in request');
+        logDebug('', req);
+        logDebug('', 'Accepts text/html: ' + req.accepts('text/html'));
+
+        if (!token && req.accepts('text/html') && req.useragent && req.useragent.isDesktop && isTrue(env.REDIRECT_TO_LOGIN) && req.method === 'GET') {
+            const resourceUrl = req.originalUrl;
+
             const redirectUrl = `${env.AUTH_CODE_FLOW_URL}/login?response_type=code&client_id=${env.AUTH_CODE_FLOW_CLIENT_ID}&redirect_uri=${env.HOST_SERVER}/authcallback&state=${resourceUrl}`;
-            logDebug('Redirecting to ' + redirectUrl);
+            logDebug('', 'Redirecting to ' + redirectUrl);
             return self.redirect(redirectUrl);
         }
 
@@ -125,13 +96,13 @@ class MyJwtStrategy extends JwtStrategy {
 */
 const cookieExtractor = function (req) {
     let token = null;
-    logDebug('Cookie req: ');
-    // logDebug(req);
+    logDebug('', 'Cookie req: ');
+    logDebug('', req);
     if (req && req.accepts('text/html') && req.cookies) {
         token = req.cookies['jwt'];
-        logDebug('Found cookie jwt with value: ' + token);
+        logDebug('', 'Found cookie jwt with value: ' + token);
     } else {
-        logDebug('No cookies found');
+        logDebug('', 'No cookies found');
     }
     return token;
 };

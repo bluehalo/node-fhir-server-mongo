@@ -7,7 +7,7 @@ const {validate, applyPatch} = require('fast-json-patch');
 const {getResource} = require('../common/getResource');
 /**
  * does a FHIR Patch
- * @param {string[]} args
+ * @param {Object} args
  * @param {string} user
  * @param {string} scope
  * @param {string} resource_name

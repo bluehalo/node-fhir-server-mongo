@@ -3,22 +3,104 @@
 # import code from "code.graphql"
 # import Patient from "patient.graphql"
 # import SimpleQuantity from "simpleQuantity.graphql"
+# import Quantity from "quantity.graphql"
+# import Identifier from "identifier.graphql"
+# import decimal from "decimal.graphql"
+# import Period from "period.graphql"
+# import dateTime from "dateTime.graphql"
+# import Reference from "reference.graphql"
+# import Meta from "meta.graphql"
+# import Practitioner from "practitioner.graphql"
+# import Organization from "organization.graphql"
+
+type ExplanationOfBenefitItemAdjudication {
+    category: CodeableConcept!
+    reason: CodeableConcept
+    amount: Money
+    value: decimal
+}
 
 type ExplanationOfBenefitItem {
     sequence: Int!
-    productOrService: CodeableConcept!
-    quantity: SimpleQuantity
+    id: String
+    productOrService: CodeableConcept
+    quantity: Quantity
+    adjudication: [ExplanationOfBenefitItemAdjudication]
+    locationCodeableConcept: CodeableConcept
+    modifier: [CodeableConcept]
+    revenue: CodeableConcept
+    servicedPeriod: Period
 }
 
 type ExplanationOfBenefitTotal {
     category: CodeableConcept!
     amount: Money!
 }
+
+type ExplanationOfBenefitDiagnosis {
+    sequence: Int!
+    diagnosisCodeableConcept: CodeableConcept!
+    type: [CodeableConcept]
+    onAdmission: CodeableConcept
+    packageCode: CodeableConcept
+}
+
+type ExplanationOfBenefitProcedure {
+    sequence: Int!
+    type: [CodeableConcept]
+    date: dateTime
+    procedureCodeableConcept: CodeableConcept!
+}
+
+type ExplanationOfBenefitInsurance {
+    focal: Boolean!
+    coverage: Reference!
+    preAuthRef: [String]
+}
+
+type ExplanationOfBenefitPayee {
+    type: CodeableConcept
+    party: Reference
+}
+
+type ExplanationOfBenefitSupportingInfo {
+    sequence: Int!
+    category: CodeableConcept!
+    code: CodeableConcept
+    valueBoolean: Boolean
+    valueString: String
+    valueQuantity: Quantity
+    valueReference: Reference
+}
+
+type ExplanationOfBenefitCareTeam {
+    sequence: Int!
+    provider: Reference!
+    responsible: Boolean
+    role: CodeableConcept
+    qualification: CodeableConcept
+}
+
+union ExplanationOfBenefitProvider = Practitioner | Organization
+
 type ExplanationOfBenefit {
     id: String!
+    resourceType: String!
+    identifier: [Identifier]
+    meta: Meta
     status: code!
+    careTeam: [ExplanationOfBenefitCareTeam]
     use: String!
-    patient: Patient
+    patient: Patient!
+    diagnosis: [ExplanationOfBenefitDiagnosis]
+    procedure: [ExplanationOfBenefitProcedure]
+    provider: ExplanationOfBenefitProvider
+    insurance: [ExplanationOfBenefitInsurance]!
+    insurer: Reference!
+    outcome: code!
     item: [ExplanationOfBenefitItem]
+    payee: ExplanationOfBenefitPayee
+    type: CodeableConcept!
     total: [ExplanationOfBenefitTotal]
+    supportingInfo: [ExplanationOfBenefitSupportingInfo]
 }

@@ -7,6 +7,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        NODE_ENV: development
     environment:
       SERVER_PORT: 3000
       MONGO_HOSTNAME: mongo
@@ -27,6 +29,9 @@ services:
       MAX_INDEX_NAME_LENGTH: 65
       ENV: foo
       MONGO_TIMEOUT: 30000
+      LOGLEVEL: "DEBUG"
+      ENABLE_GRAPHQL: 1
+      NODE_ENV: "development"
 #      SLACK_TOKEN: ""
 #      SLACK_CHANNEL: "#helix_pipeline_notifications_dev"
 #      HASH_REFERENCE: 1

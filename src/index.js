@@ -42,6 +42,19 @@ const main = async function () {
             process.exit(1);
         }
     });
+
+    // https://snyk.io/wp-content/uploads/10-best-practices-to-containerize-Node.js-web-applications-with-Docker.pdf
+    process.on('SIGINT', async function onSigterm() {
+        fhirApp.logger.info('Beginning shutdown of server for SIGINT');
+        try {
+            await httpTerminator.terminate();
+            fhirApp.logger.info('Successfully shut down server for SIGINT');
+            process.exit(0);
+        } catch (error) {
+            fhirApp.logger.error('Failed to shutdown server for SIGINT: ', error);
+            process.exit(1);
+        }
+    });
 };
 
 main().catch(reason => {

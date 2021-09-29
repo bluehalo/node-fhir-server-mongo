@@ -1,6 +1,7 @@
 const env = require('var');
 const Sentry = require('./middleware/sentry');
 const {profiles} = require('./profiles');
+// const {MongoClientOptions} = require('mongodb');
 
 let mongoUrl = env.MONGO_URL || `mongodb://${env.MONGO_HOSTNAME}:${env.MONGO_PORT}`;
 if (env.MONGO_USERNAME !== undefined) {
@@ -11,16 +12,17 @@ mongoUrl = encodeURI(mongoUrl);
 /**
  * @name mongoConfig
  * @summary Configurations for our Mongo instance
+ * @type {{connection: string, db_name: string, options: import('mongodb').MongoClientOptions }}
  */
 let mongoConfig = {
     connection: mongoUrl,
-    db_name: env.MONGO_DB_NAME,
+    db_name: String(env.MONGO_DB_NAME),
     options: {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        keepAlive: 1,
+        appName: 'fhir',
+        keepAlive: true,
         connectTimeoutMS: 60000,
         socketTimeoutMS: 60000,
+        retryReads: true
     },
 };
 

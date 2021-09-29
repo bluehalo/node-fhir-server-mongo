@@ -1,0 +1,11 @@
+# import Meta from "meta.graphql"
+# import HumanName from "humanName.graphql"
+# import Identifier from "identifier.graphql"
+
+type Practitioner {
+    id: String!
+    resourceType: String!
+    identifier: [Identifier]
+    meta: Meta
+    name: [HumanName]
+}

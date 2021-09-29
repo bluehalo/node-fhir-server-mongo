@@ -6,7 +6,7 @@ const {CLIENT_DB} = require('../../constants');
 const {BadRequestError, ForbiddenError, NotFoundError} = require('../../utils/httpErrors');
 /**
  * does a FHIR Search By Version
- * @param {string[]} args
+ * @param {Object} args
  * @param {string} user
  * @param {string} scope
  * @param {string} resource_name

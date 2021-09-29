@@ -69,6 +69,21 @@ module.exports.getHeaders = (scope) => {
     };
 };
 
+module.exports.getGraphQLHeaders = (scope) => {
+    return {
+        'Content-Type': 'application/json; charset=utf-8',
+        'accept': '*/*',
+        'Authorization': `Bearer ${scope ? getToken(scope) : getFullAccessToken()}`
+    };
+};
+
+module.exports.getUnAuthenticatedGraphQLHeaders = () => {
+    return {
+        'Content-Type': 'application/json; charset=utf-8',
+        'accept': '*/*',
+    };
+};
+
 module.exports.getUnAuthenticatedHeaders = () => {
     return {
         'Content-Type': 'application/fhir+json',

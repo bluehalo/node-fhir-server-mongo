@@ -89,6 +89,7 @@
     "moment-timezone": "^0.5.33",
     "mongodb": "^4.1.2",
     "object-hash": "^2.2.0",
+    "passport": "^0.4.0",
     "passport-http-bearer": "^1.0.1",
     "passport-jwt": "^4.0.0",
     "prom-client": "^14.0.0",
