@@ -17,8 +17,6 @@
 # import SlotStatus from "../simple_types/SlotStatus.graphql"
 # import instant from "../simple_types/instant.graphql"
 # import instant from "../simple_types/instant.graphql"
-# import boolean from "../simple_types/boolean.graphql"
-# import string from "../simple_types/string.graphql"
 
 
 

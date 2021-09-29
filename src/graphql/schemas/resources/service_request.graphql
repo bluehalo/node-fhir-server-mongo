@@ -19,7 +19,6 @@
 # import RequestIntent from "../simple_types/RequestIntent.graphql"
 # import CodeableConcept from "../complex_types/CodeableConcept.graphql"
 # import RequestPriority from "../simple_types/RequestPriority.graphql"
-# import boolean from "../simple_types/boolean.graphql"
 # import CodeableConcept from "../complex_types/CodeableConcept.graphql"
 # import CodeableConcept from "../complex_types/CodeableConcept.graphql"
 # import Quantity from "../complex_types/Quantity.graphql"
@@ -35,7 +34,6 @@
 # import dateTime from "../simple_types/dateTime.graphql"
 # import Period from "../complex_types/Period.graphql"
 # import Timing from "../backbone_elements/Timing.graphql"
-# import boolean from "../simple_types/boolean.graphql"
 # import CodeableConcept from "../complex_types/CodeableConcept.graphql"
 # import dateTime from "../simple_types/dateTime.graphql"
 # import Reference from "../complex_types/Reference.graphql"
@@ -73,7 +71,6 @@
 # import Reference from "../resources/Reference.graphql"
 # import CodeableConcept from "../complex_types/CodeableConcept.graphql"
 # import Annotation from "../complex_types/Annotation.graphql"
-# import string from "../simple_types/string.graphql"
 # import Reference from "../complex_types/Reference.graphql"
 # import Reference from "../resources/Reference.graphql"
 

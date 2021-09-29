@@ -14,8 +14,6 @@
 # import Reference from "../resources/Reference.graphql"
 # import Reference from "../complex_types/Reference.graphql"
 # import Reference from "../resources/Reference.graphql"
-# import string from "../simple_types/string.graphql"
-# import string from "../simple_types/string.graphql"
 # import Reference from "../complex_types/Reference.graphql"
 # import Reference from "../resources/Reference.graphql"
 

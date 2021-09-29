@@ -9,7 +9,6 @@
 # import Extension from "../extensions/Extension.graphql"
 # import Identifier from "../complex_types/Identifier.graphql"
 # import InvoiceStatus from "../simple_types/InvoiceStatus.graphql"
-# import string from "../simple_types/string.graphql"
 # import CodeableConcept from "../complex_types/CodeableConcept.graphql"
 # import Reference from "../complex_types/Reference.graphql"
 # import Reference from "../resources/Reference.graphql"

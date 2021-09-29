@@ -8,7 +8,6 @@
 # import Extension from "../extensions/Extension.graphql"
 # import Extension from "../extensions/Extension.graphql"
 # import Identifier from "../complex_types/Identifier.graphql"
-# import boolean from "../simple_types/boolean.graphql"
 # import HumanName from "../complex_types/HumanName.graphql"
 # import ContactPoint from "../complex_types/ContactPoint.graphql"
 # import Address from "../complex_types/Address.graphql"

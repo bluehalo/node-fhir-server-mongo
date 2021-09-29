@@ -8,7 +8,6 @@
 # import Extension from "../extensions/Extension.graphql"
 # import Extension from "../extensions/Extension.graphql"
 # import Identifier from "../complex_types/Identifier.graphql"
-# import string from "../simple_types/string.graphql"
 # import Reference from "../complex_types/Reference.graphql"
 # import Reference from "../resources/Reference.graphql"
 # import Reference from "../complex_types/Reference.graphql"

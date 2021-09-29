@@ -22,7 +22,6 @@
 # import Reference from "../resources/Reference.graphql"
 # import Reference from "../resources/Reference.graphql"
 # import ParticipationStatus from "../simple_types/ParticipationStatus.graphql"
-# import string from "../simple_types/string.graphql"
 
 union AppointmentResponseActor = Patient | Practitioner | PractitionerRole | RelatedPerson | Device | HealthcareService | Location
 

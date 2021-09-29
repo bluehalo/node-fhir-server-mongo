@@ -7,7 +7,6 @@
 # import ResourceContainer from "../simple_types/ResourceContainer.graphql"
 # import Extension from "../extensions/Extension.graphql"
 # import Extension from "../extensions/Extension.graphql"
-# import string from "../simple_types/string.graphql"
 # import SubstanceReferenceInformationGene from "../backbone_elements/SubstanceReferenceInformationGene.graphql"
 # import SubstanceReferenceInformationGeneElement from "../backbone_elements/SubstanceReferenceInformationGeneElement.graphql"
 # import SubstanceReferenceInformationClassification from "../backbone_elements/SubstanceReferenceInformationClassification.graphql"

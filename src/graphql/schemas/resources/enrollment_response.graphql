@@ -12,7 +12,6 @@
 # import Reference from "../complex_types/Reference.graphql"
 # import Reference from "../resources/Reference.graphql"
 # import RemittanceOutcome from "../simple_types/RemittanceOutcome.graphql"
-# import string from "../simple_types/string.graphql"
 # import dateTime from "../simple_types/dateTime.graphql"
 # import Reference from "../complex_types/Reference.graphql"
 # import Reference from "../resources/Reference.graphql"

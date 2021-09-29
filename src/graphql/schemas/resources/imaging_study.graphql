@@ -46,7 +46,6 @@
 # import Reference from "../resources/Reference.graphql"
 # import Reference from "../resources/Reference.graphql"
 # import Annotation from "../complex_types/Annotation.graphql"
-# import string from "../simple_types/string.graphql"
 # import ImagingStudySeries from "../backbone_elements/ImagingStudySeries.graphql"
 
 union ImagingStudySubject = Patient | Device | Group

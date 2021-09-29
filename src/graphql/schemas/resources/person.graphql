@@ -16,7 +16,6 @@
 # import Attachment from "../complex_types/Attachment.graphql"
 # import Reference from "../complex_types/Reference.graphql"
 # import Reference from "../resources/Reference.graphql"
-# import boolean from "../simple_types/boolean.graphql"
 # import PersonLink from "../backbone_elements/PersonLink.graphql"
 
 

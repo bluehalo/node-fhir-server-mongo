@@ -20,7 +20,6 @@
 # import Reference from "../resources/Reference.graphql"
 # import Reference from "../resources/Reference.graphql"
 # import RemittanceOutcome from "../simple_types/RemittanceOutcome.graphql"
-# import string from "../simple_types/string.graphql"
 # import date from "../simple_types/date.graphql"
 # import Money from "../complex_types/Money.graphql"
 # import Identifier from "../complex_types/Identifier.graphql"

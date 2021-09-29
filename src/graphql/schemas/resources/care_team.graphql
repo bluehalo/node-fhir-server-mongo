@@ -10,7 +10,6 @@
 # import Identifier from "../complex_types/Identifier.graphql"
 # import CareTeamStatus from "../simple_types/CareTeamStatus.graphql"
 # import CodeableConcept from "../complex_types/CodeableConcept.graphql"
-# import string from "../simple_types/string.graphql"
 # import Reference from "../complex_types/Reference.graphql"
 # import Reference from "../resources/Reference.graphql"
 # import Reference from "../resources/Reference.graphql"

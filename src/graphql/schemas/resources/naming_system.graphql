@@ -7,18 +7,14 @@
 # import ResourceContainer from "../simple_types/ResourceContainer.graphql"
 # import Extension from "../extensions/Extension.graphql"
 # import Extension from "../extensions/Extension.graphql"
-# import string from "../simple_types/string.graphql"
 # import PublicationStatus from "../simple_types/PublicationStatus.graphql"
 # import NamingSystemType from "../simple_types/NamingSystemType.graphql"
 # import dateTime from "../simple_types/dateTime.graphql"
-# import string from "../simple_types/string.graphql"
 # import ContactDetail from "../complex_types/ContactDetail.graphql"
-# import string from "../simple_types/string.graphql"
 # import CodeableConcept from "../complex_types/CodeableConcept.graphql"
 # import markdown from "../simple_types/markdown.graphql"
 # import UsageContext from "../complex_types/UsageContext.graphql"
 # import CodeableConcept from "../complex_types/CodeableConcept.graphql"
-# import string from "../simple_types/string.graphql"
 # import NamingSystemUniqueId from "../backbone_elements/NamingSystemUniqueId.graphql"
 
 

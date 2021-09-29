@@ -16,7 +16,6 @@
 # import CodeableConcept from "../complex_types/CodeableConcept.graphql"
 # import CodeableConcept from "../complex_types/CodeableConcept.graphql"
 # import RequestPriority from "../simple_types/RequestPriority.graphql"
-# import boolean from "../simple_types/boolean.graphql"
 # import CodeableConcept from "../complex_types/CodeableConcept.graphql"
 # import Reference from "../complex_types/Reference.graphql"
 # import Reference from "../resources/Reference.graphql"

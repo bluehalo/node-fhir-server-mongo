@@ -22,7 +22,6 @@
 # import Reference from "../complex_types/Reference.graphql"
 # import Reference from "../resources/Reference.graphql"
 # import DetectedIssueEvidence from "../backbone_elements/DetectedIssueEvidence.graphql"
-# import string from "../simple_types/string.graphql"
 # import uri from "../simple_types/uri.graphql"
 # import DetectedIssueMitigation from "../backbone_elements/DetectedIssueMitigation.graphql"
 

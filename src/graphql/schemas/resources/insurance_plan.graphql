@@ -10,8 +10,6 @@
 # import Identifier from "../complex_types/Identifier.graphql"
 # import PublicationStatus from "../simple_types/PublicationStatus.graphql"
 # import CodeableConcept from "../complex_types/CodeableConcept.graphql"
-# import string from "../simple_types/string.graphql"
-# import string from "../simple_types/string.graphql"
 # import Period from "../complex_types/Period.graphql"
 # import Reference from "../complex_types/Reference.graphql"
 # import Reference from "../resources/Reference.graphql"

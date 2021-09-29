@@ -7,7 +7,6 @@
 # import ResourceContainer from "../simple_types/ResourceContainer.graphql"
 # import Extension from "../extensions/Extension.graphql"
 # import Extension from "../extensions/Extension.graphql"
-# import boolean from "../simple_types/boolean.graphql"
 # import Reference from "../complex_types/Reference.graphql"
 # import Reference from "../resources/Reference.graphql"
 # import Reference from "../resources/Reference.graphql"

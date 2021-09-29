@@ -33,7 +33,6 @@
 # import CodeableConcept from "../complex_types/CodeableConcept.graphql"
 # import decimal from "../simple_types/decimal.graphql"
 # import Money from "../complex_types/Money.graphql"
-# import string from "../simple_types/string.graphql"
 # import Reference from "../complex_types/Reference.graphql"
 # import Reference from "../resources/Reference.graphql"
 # import Reference from "../resources/Reference.graphql"

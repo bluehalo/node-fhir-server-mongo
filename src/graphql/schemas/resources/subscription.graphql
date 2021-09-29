@@ -10,9 +10,6 @@
 # import SubscriptionStatus from "../simple_types/SubscriptionStatus.graphql"
 # import ContactPoint from "../complex_types/ContactPoint.graphql"
 # import instant from "../simple_types/instant.graphql"
-# import string from "../simple_types/string.graphql"
-# import string from "../simple_types/string.graphql"
-# import string from "../simple_types/string.graphql"
 # import SubscriptionChannel from "../backbone_elements/SubscriptionChannel.graphql"
 
 

@@ -37,7 +37,6 @@
 # import Reference from "../complex_types/Reference.graphql"
 # import Reference from "../resources/Reference.graphql"
 # import RiskAssessmentPrediction from "../backbone_elements/RiskAssessmentPrediction.graphql"
-# import string from "../simple_types/string.graphql"
 # import Annotation from "../complex_types/Annotation.graphql"
 
 union RiskAssessmentSubject = Patient | Group

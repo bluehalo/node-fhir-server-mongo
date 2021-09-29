@@ -22,11 +22,9 @@
 # import Reference from "../complex_types/Reference.graphql"
 # import Reference from "../resources/Reference.graphql"
 # import RemittanceOutcome from "../simple_types/RemittanceOutcome.graphql"
-# import string from "../simple_types/string.graphql"
 # import Reference from "../complex_types/Reference.graphql"
 # import Reference from "../resources/Reference.graphql"
 # import CoverageEligibilityResponseInsurance from "../backbone_elements/CoverageEligibilityResponseInsurance.graphql"
-# import string from "../simple_types/string.graphql"
 # import CodeableConcept from "../complex_types/CodeableConcept.graphql"
 # import CoverageEligibilityResponseError from "../backbone_elements/CoverageEligibilityResponseError.graphql"
 

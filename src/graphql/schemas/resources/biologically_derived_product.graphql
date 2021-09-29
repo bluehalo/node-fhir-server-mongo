@@ -13,7 +13,6 @@
 # import BiologicallyDerivedProductStatus from "../simple_types/BiologicallyDerivedProductStatus.graphql"
 # import Reference from "../complex_types/Reference.graphql"
 # import Reference from "../resources/Reference.graphql"
-# import integer from "../simple_types/integer.graphql"
 # import Reference from "../complex_types/Reference.graphql"
 # import BiologicallyDerivedProductCollection from "../backbone_elements/BiologicallyDerivedProductCollection.graphql"
 # import BiologicallyDerivedProductProcessing from "../backbone_elements/BiologicallyDerivedProductProcessing.graphql"

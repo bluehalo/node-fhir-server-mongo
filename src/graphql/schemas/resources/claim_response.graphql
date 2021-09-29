@@ -24,8 +24,6 @@
 # import Reference from "../complex_types/Reference.graphql"
 # import Reference from "../resources/Reference.graphql"
 # import ClaimProcessingCodes from "../simple_types/ClaimProcessingCodes.graphql"
-# import string from "../simple_types/string.graphql"
-# import string from "../simple_types/string.graphql"
 # import Period from "../complex_types/Period.graphql"
 # import CodeableConcept from "../complex_types/CodeableConcept.graphql"
 # import ClaimResponseItem from "../backbone_elements/ClaimResponseItem.graphql"

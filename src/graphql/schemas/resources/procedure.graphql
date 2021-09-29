@@ -27,7 +27,6 @@
 # import Reference from "../resources/Reference.graphql"
 # import dateTime from "../simple_types/dateTime.graphql"
 # import Period from "../complex_types/Period.graphql"
-# import string from "../simple_types/string.graphql"
 # import Age from "../simple_types/Age.graphql"
 # import Range from "../complex_types/Range.graphql"
 # import Reference from "../complex_types/Reference.graphql"

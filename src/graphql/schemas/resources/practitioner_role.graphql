@@ -8,7 +8,6 @@
 # import Extension from "../extensions/Extension.graphql"
 # import Extension from "../extensions/Extension.graphql"
 # import Identifier from "../complex_types/Identifier.graphql"
-# import boolean from "../simple_types/boolean.graphql"
 # import Period from "../complex_types/Period.graphql"
 # import Reference from "../complex_types/Reference.graphql"
 # import Reference from "../resources/Reference.graphql"
@@ -23,7 +22,6 @@
 # import ContactPoint from "../complex_types/ContactPoint.graphql"
 # import PractitionerRoleAvailableTime from "../backbone_elements/PractitionerRoleAvailableTime.graphql"
 # import PractitionerRoleNotAvailable from "../backbone_elements/PractitionerRoleNotAvailable.graphql"
-# import string from "../simple_types/string.graphql"
 # import Reference from "../complex_types/Reference.graphql"
 # import Reference from "../resources/Reference.graphql"
 
