@@ -10,8 +10,8 @@
     "ecmaVersion": 2018
   },
   "plugins": [
-    "security",
-    "unused-imports"
+    "unused-imports",
+    "security"
   ],
   "extends": [
     "eslint:recommended",
@@ -56,9 +56,17 @@
     "no-trailing-spaces": 2,
     "no-undef-init": 2,
     "no-unused-expressions": 2,
-    "no-unused-vars": [2, {"vars": "all", "args": "after-used", "argsIgnorePattern": "^_"}],
-    // or "@typescript-eslint/no-unused-vars": "off",
+    "no-unused-vars": "off",
     "unused-imports/no-unused-imports": "error",
+    "unused-imports/no-unused-vars": [
+      "warn",
+      {
+        "vars": "all",
+        "varsIgnorePattern": "^_",
+        "args": "after-used",
+        "argsIgnorePattern": "^_"
+      }
+    ],
     "no-use-before-define": 2,
     "no-with": 2,
     "comma-spacing": 2,
