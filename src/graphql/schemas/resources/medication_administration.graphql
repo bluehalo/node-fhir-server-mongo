@@ -41,7 +41,11 @@
 # import Reference from "complex_types/reference.graphql"
 # import Reference from "resources/reference.graphql"
 
-union MedicationAdministrationPartOf = MedicationAdministration | Procedureunion MedicationAdministrationSubject = Patient | Groupunion MedicationAdministrationContext = Encounter | EpisodeOfCareunion MedicationAdministrationReasonReference = Condition | Observation | DiagnosticReport
+union MedicationAdministrationPartOf = MedicationAdministration | Procedure
+union MedicationAdministrationSubject = Patient | Group
+union MedicationAdministrationContext = Encounter | EpisodeOfCare
+union MedicationAdministrationReasonReference = Condition | Observation | DiagnosticReport
+
 
 type MedicationAdministration {
         id_: id            

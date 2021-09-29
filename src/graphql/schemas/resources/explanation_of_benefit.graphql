@@ -58,7 +58,10 @@
 # import Period from "complex_types/period.graphql"
 # import ExplanationOfBenefitBenefitBalance from "backbone_elements/explanation_of_benefit_benefit_balance.graphql"
 
-union ExplanationOfBenefitEnterer = Practitioner | PractitionerRoleunion ExplanationOfBenefitProvider = Practitioner | PractitionerRole | Organizationunion ExplanationOfBenefitPrescription = MedicationRequest | VisionPrescription
+union ExplanationOfBenefitEnterer = Practitioner | PractitionerRole
+union ExplanationOfBenefitProvider = Practitioner | PractitionerRole | Organization
+union ExplanationOfBenefitPrescription = MedicationRequest | VisionPrescription
+
 
 type ExplanationOfBenefit {
         id_: id            

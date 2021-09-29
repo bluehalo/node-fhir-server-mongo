@@ -47,7 +47,10 @@
 # import CarePlanActivity from "backbone_elements/care_plan_activity.graphql"
 # import Annotation from "complex_types/annotation.graphql"
 
-union CarePlanSubject = Patient | Groupunion CarePlanAuthor = Patient | Practitioner | PractitionerRole | Device | RelatedPerson | Organization | CareTeamunion CarePlanContributor = Patient | Practitioner | PractitionerRole | Device | RelatedPerson | Organization | CareTeam
+union CarePlanSubject = Patient | Group
+union CarePlanAuthor = Patient | Practitioner | PractitionerRole | Device | RelatedPerson | Organization | CareTeam
+union CarePlanContributor = Patient | Practitioner | PractitionerRole | Device | RelatedPerson | Organization | CareTeam
+
 
 type CarePlan {
         id_: id            

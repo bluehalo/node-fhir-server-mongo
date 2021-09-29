@@ -25,6 +25,7 @@
 
 union PatientGeneralPractitioner = Organization | Practitioner | PractitionerRole
 
+
 type Patient {
         id_: id            
         meta: Meta            

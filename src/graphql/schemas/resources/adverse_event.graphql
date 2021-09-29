@@ -48,7 +48,11 @@
 # import Reference from "complex_types/reference.graphql"
 # import Reference from "resources/reference.graphql"
 
-union AdverseEventSubject = Patient | Group | Practitioner | RelatedPersonunion AdverseEventRecorder = Patient | Practitioner | PractitionerRole | RelatedPersonunion AdverseEventContributor = Practitioner | PractitionerRole | Deviceunion AdverseEventSubjectMedicalHistory = Condition | Observation | AllergyIntolerance | FamilyMemberHistory | Immunization | Procedure | Media | DocumentReference
+union AdverseEventSubject = Patient | Group | Practitioner | RelatedPerson
+union AdverseEventRecorder = Patient | Practitioner | PractitionerRole | RelatedPerson
+union AdverseEventContributor = Practitioner | PractitionerRole | Device
+union AdverseEventSubjectMedicalHistory = Condition | Observation | AllergyIntolerance | FamilyMemberHistory | Immunization | Procedure | Media | DocumentReference
+
 
 type AdverseEvent {
         id_: id            

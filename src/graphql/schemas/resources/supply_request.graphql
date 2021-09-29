@@ -42,7 +42,13 @@
 # import Reference from "resources/reference.graphql"
 # import Reference from "resources/reference.graphql"
 
-union SupplyRequestItemReference = Medication | Substance | Deviceunion SupplyRequestRequester = Practitioner | PractitionerRole | Organization | Patient | RelatedPerson | Deviceunion SupplyRequestSupplier = Organization | HealthcareServiceunion SupplyRequestReasonReference = Condition | Observation | DiagnosticReport | DocumentReferenceunion SupplyRequestDeliverFrom = Organization | Locationunion SupplyRequestDeliverTo = Organization | Location | Patient
+union SupplyRequestItemReference = Medication | Substance | Device
+union SupplyRequestRequester = Practitioner | PractitionerRole | Organization | Patient | RelatedPerson | Device
+union SupplyRequestSupplier = Organization | HealthcareService
+union SupplyRequestReasonReference = Condition | Observation | DiagnosticReport | DocumentReference
+union SupplyRequestDeliverFrom = Organization | Location
+union SupplyRequestDeliverTo = Organization | Location | Patient
+
 
 type SupplyRequest {
         id_: id            

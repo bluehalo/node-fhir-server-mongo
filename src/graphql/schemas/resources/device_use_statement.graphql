@@ -39,7 +39,11 @@
 # import CodeableConcept from "complex_types/codeable_concept.graphql"
 # import Annotation from "complex_types/annotation.graphql"
 
-union DeviceUseStatementSubject = Patient | Groupunion DeviceUseStatementDerivedFrom = ServiceRequest | Procedure | Claim | Observation | QuestionnaireResponse | DocumentReferenceunion DeviceUseStatementSource = Patient | Practitioner | PractitionerRole | RelatedPersonunion DeviceUseStatementReasonReference = Condition | Observation | DiagnosticReport | DocumentReference | Media
+union DeviceUseStatementSubject = Patient | Group
+union DeviceUseStatementDerivedFrom = ServiceRequest | Procedure | Claim | Observation | QuestionnaireResponse | DocumentReference
+union DeviceUseStatementSource = Patient | Practitioner | PractitionerRole | RelatedPerson
+union DeviceUseStatementReasonReference = Condition | Observation | DiagnosticReport | DocumentReference | Media
+
 
 type DeviceUseStatement {
         id_: id            

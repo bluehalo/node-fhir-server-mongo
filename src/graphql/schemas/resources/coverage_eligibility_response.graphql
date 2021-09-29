@@ -26,6 +26,7 @@
 
 union CoverageEligibilityResponseRequestor = Practitioner | PractitionerRole | Organization
 
+
 type CoverageEligibilityResponse {
         id_: id            
         meta: Meta            

@@ -26,6 +26,7 @@
 
 union MedicinalProductAuthorizationSubject = MedicinalProduct | MedicinalProductPackaged
 
+
 type MedicinalProductAuthorization {
         id_: id            
         meta: Meta            

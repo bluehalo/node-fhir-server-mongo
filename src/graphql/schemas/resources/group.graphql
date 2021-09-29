@@ -20,6 +20,7 @@
 
 union GroupManagingEntity = Organization | RelatedPerson | Practitioner | PractitionerRole
 
+
 type Group {
         id_: id            
         meta: Meta            

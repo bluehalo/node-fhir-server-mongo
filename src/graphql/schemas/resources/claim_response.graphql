@@ -38,6 +38,7 @@
 
 union ClaimResponseRequestor = Practitioner | PractitionerRole | Organization
 
+
 type ClaimResponse {
         id_: id            
         meta: Meta            

@@ -58,7 +58,12 @@
 # import Reference from "complex_types/reference.graphql"
 # import Reference from "resources/reference.graphql"
 
-union DeviceRequestSubject = Patient | Group | Location | Deviceunion DeviceRequestRequester = Device | Practitioner | PractitionerRole | Organizationunion DeviceRequestPerformer = Practitioner | PractitionerRole | Organization | CareTeam | HealthcareService | Patient | Device | RelatedPersonunion DeviceRequestReasonReference = Condition | Observation | DiagnosticReport | DocumentReferenceunion DeviceRequestInsurance = Coverage | ClaimResponse
+union DeviceRequestSubject = Patient | Group | Location | Device
+union DeviceRequestRequester = Device | Practitioner | PractitionerRole | Organization
+union DeviceRequestPerformer = Practitioner | PractitionerRole | Organization | CareTeam | HealthcareService | Patient | Device | RelatedPerson
+union DeviceRequestReasonReference = Condition | Observation | DiagnosticReport | DocumentReference
+union DeviceRequestInsurance = Coverage | ClaimResponse
+
 
 type DeviceRequest {
         id_: id            

@@ -33,7 +33,10 @@
 # import Reference from "resources/reference.graphql"
 # import DocumentManifestRelated from "backbone_elements/document_manifest_related.graphql"
 
-union DocumentManifestSubject = Patient | Practitioner | Group | Deviceunion DocumentManifestAuthor = Practitioner | PractitionerRole | Organization | Device | Patient | RelatedPersonunion DocumentManifestRecipient = Patient | Practitioner | PractitionerRole | RelatedPerson | Organization
+union DocumentManifestSubject = Patient | Practitioner | Group | Device
+union DocumentManifestAuthor = Practitioner | PractitionerRole | Organization | Device | Patient | RelatedPerson
+union DocumentManifestRecipient = Patient | Practitioner | PractitionerRole | RelatedPerson | Organization
+
 
 type DocumentManifest {
         id_: id            

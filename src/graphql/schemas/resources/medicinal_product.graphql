@@ -36,6 +36,7 @@
 
 union MedicinalProductContact = Organization | PractitionerRole
 
+
 type MedicinalProduct {
         id_: id            
         meta: Meta            

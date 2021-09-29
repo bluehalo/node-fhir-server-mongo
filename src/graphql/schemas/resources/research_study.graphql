@@ -38,6 +38,7 @@
 
 union ResearchStudyPrincipalInvestigator = Practitioner | PractitionerRole
 
+
 type ResearchStudy {
         id_: id            
         meta: Meta            

@@ -29,7 +29,10 @@
 # import Reference from "complex_types/reference.graphql"
 # import Reference from "resources/reference.graphql"
 
-union CoveragePolicyHolder = Patient | RelatedPerson | Organizationunion CoverageSubscriber = Patient | RelatedPersonunion CoveragePayor = Organization | Patient | RelatedPerson
+union CoveragePolicyHolder = Patient | RelatedPerson | Organization
+union CoverageSubscriber = Patient | RelatedPerson
+union CoveragePayor = Organization | Patient | RelatedPerson
+
 
 type Coverage {
         id_: id            

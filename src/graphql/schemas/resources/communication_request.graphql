@@ -57,7 +57,12 @@
 # import Reference from "resources/reference.graphql"
 # import Annotation from "complex_types/annotation.graphql"
 
-union CommunicationRequestSubject = Patient | Groupunion CommunicationRequestRequester = Practitioner | PractitionerRole | Organization | Patient | RelatedPerson | Deviceunion CommunicationRequestRecipient = Device | Organization | Patient | Practitioner | PractitionerRole | RelatedPerson | Group | CareTeam | HealthcareServiceunion CommunicationRequestSender = Device | Organization | Patient | Practitioner | PractitionerRole | RelatedPerson | HealthcareServiceunion CommunicationRequestReasonReference = Condition | Observation | DiagnosticReport | DocumentReference
+union CommunicationRequestSubject = Patient | Group
+union CommunicationRequestRequester = Practitioner | PractitionerRole | Organization | Patient | RelatedPerson | Device
+union CommunicationRequestRecipient = Device | Organization | Patient | Practitioner | PractitionerRole | RelatedPerson | Group | CareTeam | HealthcareService
+union CommunicationRequestSender = Device | Organization | Patient | Practitioner | PractitionerRole | RelatedPerson | HealthcareService
+union CommunicationRequestReasonReference = Condition | Observation | DiagnosticReport | DocumentReference
+
 
 type CommunicationRequest {
         id_: id            

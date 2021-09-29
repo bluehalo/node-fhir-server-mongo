@@ -17,6 +17,7 @@
 
 union MedicinalProductUndesirableEffectSubject = MedicinalProduct | Medication
 
+
 type MedicinalProductUndesirableEffect {
         id_: id            
         meta: Meta            

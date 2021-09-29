@@ -22,6 +22,7 @@
 
 union AppointmentResponseActor = Patient | Practitioner | PractitionerRole | RelatedPerson | Device | HealthcareService | Location
 
+
 type AppointmentResponse {
         id_: id            
         meta: Meta            

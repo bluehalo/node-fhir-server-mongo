@@ -70,7 +70,14 @@
 # import Reference from "resources/reference.graphql"
 # import ObservationComponent from "backbone_elements/observation_component.graphql"
 
-union ObservationBasedOn = CarePlan | DeviceRequest | ImmunizationRecommendation | MedicationRequest | NutritionOrder | ServiceRequestunion ObservationPartOf = MedicationAdministration | MedicationDispense | MedicationStatement | Procedure | Immunization | ImagingStudyunion ObservationSubject = Patient | Group | Device | Locationunion ObservationPerformer = Practitioner | PractitionerRole | Organization | CareTeam | Patient | RelatedPersonunion ObservationDevice = Device | DeviceMetricunion ObservationHasMember = Observation | QuestionnaireResponse | MolecularSequenceunion ObservationDerivedFrom = DocumentReference | ImagingStudy | Media | QuestionnaireResponse | Observation | MolecularSequence
+union ObservationBasedOn = CarePlan | DeviceRequest | ImmunizationRecommendation | MedicationRequest | NutritionOrder | ServiceRequest
+union ObservationPartOf = MedicationAdministration | MedicationDispense | MedicationStatement | Procedure | Immunization | ImagingStudy
+union ObservationSubject = Patient | Group | Device | Location
+union ObservationPerformer = Practitioner | PractitionerRole | Organization | CareTeam | Patient | RelatedPerson
+union ObservationDevice = Device | DeviceMetric
+union ObservationHasMember = Observation | QuestionnaireResponse | MolecularSequence
+union ObservationDerivedFrom = DocumentReference | ImagingStudy | Media | QuestionnaireResponse | Observation | MolecularSequence
+
 
 type Observation {
         id_: id            

@@ -28,7 +28,10 @@
 # import Reference from "resources/reference.graphql"
 # import Reference from "resources/reference.graphql"
 
-union SupplyDeliveryPartOf = SupplyDelivery | Contractunion SupplyDeliverySupplier = Practitioner | PractitionerRole | Organizationunion SupplyDeliveryReceiver = Practitioner | PractitionerRole
+union SupplyDeliveryPartOf = SupplyDelivery | Contract
+union SupplyDeliverySupplier = Practitioner | PractitionerRole | Organization
+union SupplyDeliveryReceiver = Practitioner | PractitionerRole
+
 
 type SupplyDelivery {
         id_: id            

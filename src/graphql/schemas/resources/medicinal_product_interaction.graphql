@@ -19,6 +19,7 @@
 
 union MedicinalProductInteractionSubject = MedicinalProduct | Medication | Substance
 
+
 type MedicinalProductInteraction {
         id_: id            
         meta: Meta            

@@ -33,7 +33,10 @@
 # import Reference from "resources/reference.graphql"
 # import Annotation from "complex_types/annotation.graphql"
 
-union ClinicalImpressionSubject = Patient | Groupunion ClinicalImpressionAssessor = Practitioner | PractitionerRoleunion ClinicalImpressionProblem = Condition | AllergyIntolerance
+union ClinicalImpressionSubject = Patient | Group
+union ClinicalImpressionAssessor = Practitioner | PractitionerRole
+union ClinicalImpressionProblem = Condition | AllergyIntolerance
+
 
 type ClinicalImpression {
         id_: id            

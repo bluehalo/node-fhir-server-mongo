@@ -44,7 +44,11 @@
 # import CodeableConcept from "complex_types/codeable_concept.graphql"
 # import Attachment from "complex_types/attachment.graphql"
 
-union DiagnosticReportBasedOn = CarePlan | ImmunizationRecommendation | MedicationRequest | NutritionOrder | ServiceRequestunion DiagnosticReportSubject = Patient | Group | Device | Locationunion DiagnosticReportPerformer = Practitioner | PractitionerRole | Organization | CareTeamunion DiagnosticReportResultsInterpreter = Practitioner | PractitionerRole | Organization | CareTeam
+union DiagnosticReportBasedOn = CarePlan | ImmunizationRecommendation | MedicationRequest | NutritionOrder | ServiceRequest
+union DiagnosticReportSubject = Patient | Group | Device | Location
+union DiagnosticReportPerformer = Practitioner | PractitionerRole | Organization | CareTeam
+union DiagnosticReportResultsInterpreter = Practitioner | PractitionerRole | Organization | CareTeam
+
 
 type DiagnosticReport {
         id_: id            

@@ -27,6 +27,7 @@
 
 union SpecimenSubject = Patient | Group | Device | Substance | Location
 
+
 type Specimen {
         id_: id            
         meta: Meta            

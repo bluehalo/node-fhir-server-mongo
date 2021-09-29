@@ -27,7 +27,9 @@
 # import CoverageEligibilityRequestInsurance from "backbone_elements/coverage_eligibility_request_insurance.graphql"
 # import CoverageEligibilityRequestItem from "backbone_elements/coverage_eligibility_request_item.graphql"
 
-union CoverageEligibilityRequestEnterer = Practitioner | PractitionerRoleunion CoverageEligibilityRequestProvider = Practitioner | PractitionerRole | Organization
+union CoverageEligibilityRequestEnterer = Practitioner | PractitionerRole
+union CoverageEligibilityRequestProvider = Practitioner | PractitionerRole | Organization
+
 
 type CoverageEligibilityRequest {
         id_: id            

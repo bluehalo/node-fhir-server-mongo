@@ -58,7 +58,12 @@
 # import Reference from "complex_types/reference.graphql"
 # import Reference from "resources/reference.graphql"
 
-union ChargeItemSubject = Patient | Groupunion ChargeItemContext = Encounter | EpisodeOfCareunion ChargeItemEnterer = Practitioner | PractitionerRole | Organization | Patient | Device | RelatedPersonunion ChargeItemService = DiagnosticReport | ImagingStudy | Immunization | MedicationAdministration | MedicationDispense | Observation | Procedure | SupplyDeliveryunion ChargeItemProductReference = Device | Medication | Substance
+union ChargeItemSubject = Patient | Group
+union ChargeItemContext = Encounter | EpisodeOfCare
+union ChargeItemEnterer = Practitioner | PractitionerRole | Organization | Patient | Device | RelatedPerson
+union ChargeItemService = DiagnosticReport | ImagingStudy | Immunization | MedicationAdministration | MedicationDispense | Observation | Procedure | SupplyDelivery
+union ChargeItemProductReference = Device | Medication | Substance
+
 
 type ChargeItem {
         id_: id            

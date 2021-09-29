@@ -31,7 +31,9 @@
 # import Annotation from "complex_types/annotation.graphql"
 # import AllergyIntoleranceReaction from "backbone_elements/allergy_intolerance_reaction.graphql"
 
-union AllergyIntoleranceRecorder = Practitioner | PractitionerRole | Patient | RelatedPersonunion AllergyIntoleranceAsserter = Patient | RelatedPerson | Practitioner | PractitionerRole
+union AllergyIntoleranceRecorder = Practitioner | PractitionerRole | Patient | RelatedPerson
+union AllergyIntoleranceAsserter = Patient | RelatedPerson | Practitioner | PractitionerRole
+
 
 type AllergyIntolerance {
         id_: id            

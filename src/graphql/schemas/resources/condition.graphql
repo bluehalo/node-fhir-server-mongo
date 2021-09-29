@@ -39,7 +39,10 @@
 # import ConditionEvidence from "backbone_elements/condition_evidence.graphql"
 # import Annotation from "complex_types/annotation.graphql"
 
-union ConditionSubject = Patient | Groupunion ConditionRecorder = Practitioner | PractitionerRole | Patient | RelatedPersonunion ConditionAsserter = Practitioner | PractitionerRole | Patient | RelatedPerson
+union ConditionSubject = Patient | Group
+union ConditionRecorder = Practitioner | PractitionerRole | Patient | RelatedPerson
+union ConditionAsserter = Practitioner | PractitionerRole | Patient | RelatedPerson
+
 
 type Condition {
         id_: id            

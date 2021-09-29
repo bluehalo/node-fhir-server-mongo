@@ -72,7 +72,15 @@
 # import Reference from "complex_types/reference.graphql"
 # import Reference from "resources/reference.graphql"
 
-union MedicationRequestReportedReference = Patient | Practitioner | PractitionerRole | RelatedPerson | Organizationunion MedicationRequestSubject = Patient | Groupunion MedicationRequestRequester = Practitioner | PractitionerRole | Organization | Patient | RelatedPerson | Deviceunion MedicationRequestPerformer = Practitioner | PractitionerRole | Organization | Patient | Device | RelatedPerson | CareTeamunion MedicationRequestRecorder = Practitioner | PractitionerRoleunion MedicationRequestReasonReference = Condition | Observationunion MedicationRequestBasedOn = CarePlan | MedicationRequest | ServiceRequest | ImmunizationRecommendationunion MedicationRequestInsurance = Coverage | ClaimResponse
+union MedicationRequestReportedReference = Patient | Practitioner | PractitionerRole | RelatedPerson | Organization
+union MedicationRequestSubject = Patient | Group
+union MedicationRequestRequester = Practitioner | PractitionerRole | Organization | Patient | RelatedPerson | Device
+union MedicationRequestPerformer = Practitioner | PractitionerRole | Organization | Patient | Device | RelatedPerson | CareTeam
+union MedicationRequestRecorder = Practitioner | PractitionerRole
+union MedicationRequestReasonReference = Condition | Observation
+union MedicationRequestBasedOn = CarePlan | MedicationRequest | ServiceRequest | ImmunizationRecommendation
+union MedicationRequestInsurance = Coverage | ClaimResponse
+
 
 type MedicationRequest {
         id_: id            

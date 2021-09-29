@@ -29,7 +29,9 @@
 # import Reference from "resources/reference.graphql"
 # import Reference from "resources/reference.graphql"
 
-union FlagSubject = Patient | Location | Group | Organization | Practitioner | PlanDefinition | Medication | Procedureunion FlagAuthor = Device | Organization | Patient | Practitioner | PractitionerRole
+union FlagSubject = Patient | Location | Group | Organization | Practitioner | PlanDefinition | Medication | Procedure
+union FlagAuthor = Device | Organization | Patient | Practitioner | PractitionerRole
+
 
 type Flag {
         id_: id            

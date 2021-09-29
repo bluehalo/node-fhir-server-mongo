@@ -46,7 +46,12 @@
 # import Annotation from "complex_types/annotation.graphql"
 # import ImagingStudySeries from "backbone_elements/imaging_study_series.graphql"
 
-union ImagingStudySubject = Patient | Device | Groupunion ImagingStudyBasedOn = CarePlan | ServiceRequest | Appointment | AppointmentResponse | Taskunion ImagingStudyReferrer = Practitioner | PractitionerRoleunion ImagingStudyInterpreter = Practitioner | PractitionerRoleunion ImagingStudyReasonReference = Condition | Observation | Media | DiagnosticReport | DocumentReference
+union ImagingStudySubject = Patient | Device | Group
+union ImagingStudyBasedOn = CarePlan | ServiceRequest | Appointment | AppointmentResponse | Task
+union ImagingStudyReferrer = Practitioner | PractitionerRole
+union ImagingStudyInterpreter = Practitioner | PractitionerRole
+union ImagingStudyReasonReference = Condition | Observation | Media | DiagnosticReport | DocumentReference
+
 
 type ImagingStudy {
         id_: id            

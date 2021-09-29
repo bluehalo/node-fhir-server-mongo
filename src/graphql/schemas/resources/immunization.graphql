@@ -38,6 +38,7 @@
 
 union ImmunizationReasonReference = Condition | Observation | DiagnosticReport
 
+
 type Immunization {
         id_: id            
         meta: Meta            

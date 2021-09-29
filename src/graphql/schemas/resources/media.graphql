@@ -44,7 +44,11 @@
 # import Attachment from "complex_types/attachment.graphql"
 # import Annotation from "complex_types/annotation.graphql"
 
-union MediaBasedOn = ServiceRequest | CarePlanunion MediaSubject = Patient | Practitioner | PractitionerRole | Group | Device | Specimen | Locationunion MediaOperator = Practitioner | PractitionerRole | Organization | CareTeam | Patient | Device | RelatedPersonunion MediaDevice = Device | DeviceMetric | Device
+union MediaBasedOn = ServiceRequest | CarePlan
+union MediaSubject = Patient | Practitioner | PractitionerRole | Group | Device | Specimen | Location
+union MediaOperator = Practitioner | PractitionerRole | Organization | CareTeam | Patient | Device | RelatedPerson
+union MediaDevice = Device | DeviceMetric | Device
+
 
 type Media {
         id_: id            

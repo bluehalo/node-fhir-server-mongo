@@ -35,7 +35,10 @@
 # import Reference from "resources/reference.graphql"
 # import DataRequirement from "complex_types/data_requirement.graphql"
 
-union GuidanceResponseSubject = Patient | Groupunion GuidanceResponseReasonReference = Condition | Observation | DiagnosticReport | DocumentReferenceunion GuidanceResponseResult = CarePlan | RequestGroup
+union GuidanceResponseSubject = Patient | Group
+union GuidanceResponseReasonReference = Condition | Observation | DiagnosticReport | DocumentReference
+union GuidanceResponseResult = CarePlan | RequestGroup
+
 
 type GuidanceResponse {
         id_: id            

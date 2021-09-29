@@ -26,6 +26,7 @@
 
 union CareTeamSubject = Patient | Group
 
+
 type CareTeam {
         id_: id            
         meta: Meta            

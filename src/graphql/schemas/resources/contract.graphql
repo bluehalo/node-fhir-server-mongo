@@ -50,7 +50,9 @@
 # import Reference from "resources/reference.graphql"
 # import Reference from "resources/reference.graphql"
 
-union ContractAuthor = Patient | Practitioner | PractitionerRole | Organizationunion ContractLegallyBindingReference = Composition | DocumentReference | QuestionnaireResponse | Contract
+union ContractAuthor = Patient | Practitioner | PractitionerRole | Organization
+union ContractLegallyBindingReference = Composition | DocumentReference | QuestionnaireResponse | Contract
+
 
 type Contract {
         id_: id            

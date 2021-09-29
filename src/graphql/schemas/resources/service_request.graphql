@@ -69,7 +69,13 @@
 # import Reference from "complex_types/reference.graphql"
 # import Reference from "resources/reference.graphql"
 
-union ServiceRequestBasedOn = CarePlan | ServiceRequest | MedicationRequestunion ServiceRequestSubject = Patient | Group | Location | Deviceunion ServiceRequestRequester = Practitioner | PractitionerRole | Organization | Patient | RelatedPerson | Deviceunion ServiceRequestPerformer = Practitioner | PractitionerRole | Organization | CareTeam | HealthcareService | Patient | Device | RelatedPersonunion ServiceRequestReasonReference = Condition | Observation | DiagnosticReport | DocumentReferenceunion ServiceRequestInsurance = Coverage | ClaimResponse
+union ServiceRequestBasedOn = CarePlan | ServiceRequest | MedicationRequest
+union ServiceRequestSubject = Patient | Group | Location | Device
+union ServiceRequestRequester = Practitioner | PractitionerRole | Organization | Patient | RelatedPerson | Device
+union ServiceRequestPerformer = Practitioner | PractitionerRole | Organization | CareTeam | HealthcareService | Patient | Device | RelatedPerson
+union ServiceRequestReasonReference = Condition | Observation | DiagnosticReport | DocumentReference
+union ServiceRequestInsurance = Coverage | ClaimResponse
+
 
 type ServiceRequest {
         id_: id            

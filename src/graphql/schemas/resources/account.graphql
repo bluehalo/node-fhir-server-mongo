@@ -26,6 +26,7 @@
 
 union AccountSubject = Patient | Device | Practitioner | PractitionerRole | Location | HealthcareService | Organization
 
+
 type Account {
         id_: id            
         meta: Meta            

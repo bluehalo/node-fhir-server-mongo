@@ -53,7 +53,11 @@
 # import CommunicationPayload from "backbone_elements/communication_payload.graphql"
 # import Annotation from "complex_types/annotation.graphql"
 
-union CommunicationSubject = Patient | Groupunion CommunicationRecipient = Device | Organization | Patient | Practitioner | PractitionerRole | RelatedPerson | Group | CareTeam | HealthcareServiceunion CommunicationSender = Device | Organization | Patient | Practitioner | PractitionerRole | RelatedPerson | HealthcareServiceunion CommunicationReasonReference = Condition | Observation | DiagnosticReport | DocumentReference
+union CommunicationSubject = Patient | Group
+union CommunicationRecipient = Device | Organization | Patient | Practitioner | PractitionerRole | RelatedPerson | Group | CareTeam | HealthcareService
+union CommunicationSender = Device | Organization | Patient | Practitioner | PractitionerRole | RelatedPerson | HealthcareService
+union CommunicationReasonReference = Condition | Observation | DiagnosticReport | DocumentReference
+
 
 type Communication {
         id_: id            

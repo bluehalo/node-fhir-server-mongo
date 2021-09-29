@@ -30,6 +30,7 @@
 
 union CatalogEntryReferencedItem = Medication | Device | Organization | Practitioner | PractitionerRole | HealthcareService | ActivityDefinition | PlanDefinition | SpecimenDefinition | ObservationDefinition | Binary
 
+
 type CatalogEntry {
         id_: id            
         meta: Meta            

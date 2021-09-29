@@ -30,7 +30,9 @@
 # import ConsentVerification from "backbone_elements/consent_verification.graphql"
 # import ConsentProvision from "backbone_elements/consent_provision.graphql"
 
-union ConsentPerformer = Organization | Patient | Practitioner | RelatedPerson | PractitionerRoleunion ConsentSourceReference = Consent | DocumentReference | Contract | QuestionnaireResponse
+union ConsentPerformer = Organization | Patient | Practitioner | RelatedPerson | PractitionerRole
+union ConsentSourceReference = Consent | DocumentReference | Contract | QuestionnaireResponse
+
 
 type Consent {
         id_: id            

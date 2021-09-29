@@ -46,7 +46,13 @@
 # import Annotation from "complex_types/annotation.graphql"
 # import Dosage from "backbone_elements/dosage.graphql"
 
-union MedicationStatementBasedOn = MedicationRequest | CarePlan | ServiceRequestunion MedicationStatementPartOf = MedicationAdministration | MedicationDispense | MedicationStatement | Procedure | Observationunion MedicationStatementSubject = Patient | Groupunion MedicationStatementContext = Encounter | EpisodeOfCareunion MedicationStatementInformationSource = Patient | Practitioner | PractitionerRole | RelatedPerson | Organizationunion MedicationStatementReasonReference = Condition | Observation | DiagnosticReport
+union MedicationStatementBasedOn = MedicationRequest | CarePlan | ServiceRequest
+union MedicationStatementPartOf = MedicationAdministration | MedicationDispense | MedicationStatement | Procedure | Observation
+union MedicationStatementSubject = Patient | Group
+union MedicationStatementContext = Encounter | EpisodeOfCare
+union MedicationStatementInformationSource = Patient | Practitioner | PractitionerRole | RelatedPerson | Organization
+union MedicationStatementReasonReference = Condition | Observation | DiagnosticReport
+
 
 type MedicationStatement {
         id_: id            

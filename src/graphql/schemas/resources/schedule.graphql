@@ -23,6 +23,7 @@
 
 union ScheduleActor = Patient | Practitioner | PractitionerRole | RelatedPerson | Device | HealthcareService | Location
 
+
 type Schedule {
         id_: id            
         meta: Meta            

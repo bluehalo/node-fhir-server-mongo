@@ -33,6 +33,7 @@
 
 union FamilyMemberHistoryReasonReference = Condition | Observation | AllergyIntolerance | QuestionnaireResponse | DiagnosticReport | DocumentReference
 
+
 type FamilyMemberHistory {
         id_: id            
         meta: Meta            

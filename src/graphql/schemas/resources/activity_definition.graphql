@@ -54,6 +54,7 @@
 
 union ActivityDefinitionProductReference = Medication | Substance
 
+
 type ActivityDefinition {
         id_: id            
         meta: Meta            

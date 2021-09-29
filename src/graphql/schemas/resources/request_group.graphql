@@ -34,7 +34,10 @@
 # import Annotation from "complex_types/annotation.graphql"
 # import RequestGroupAction from "backbone_elements/request_group_action.graphql"
 
-union RequestGroupSubject = Patient | Groupunion RequestGroupAuthor = Device | Practitioner | PractitionerRoleunion RequestGroupReasonReference = Condition | Observation | DiagnosticReport | DocumentReference
+union RequestGroupSubject = Patient | Group
+union RequestGroupAuthor = Device | Practitioner | PractitionerRole
+union RequestGroupReasonReference = Condition | Observation | DiagnosticReport | DocumentReference
+
 
 type RequestGroup {
         id_: id            

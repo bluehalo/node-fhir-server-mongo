@@ -28,7 +28,9 @@
 # import markdown from "complex_types/markdown.graphql"
 # import Annotation from "complex_types/annotation.graphql"
 
-union InvoiceSubject = Patient | Groupunion InvoiceRecipient = Organization | Patient | RelatedPerson
+union InvoiceSubject = Patient | Group
+union InvoiceRecipient = Organization | Patient | RelatedPerson
+
 
 type Invoice {
         id_: id            

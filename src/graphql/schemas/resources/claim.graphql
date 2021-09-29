@@ -47,7 +47,11 @@
 # import ClaimItem from "backbone_elements/claim_item.graphql"
 # import Money from "complex_types/money.graphql"
 
-union ClaimEnterer = Practitioner | PractitionerRoleunion ClaimProvider = Practitioner | PractitionerRole | Organizationunion ClaimPrescription = DeviceRequest | MedicationRequest | VisionPrescriptionunion ClaimOriginalPrescription = DeviceRequest | MedicationRequest | VisionPrescription
+union ClaimEnterer = Practitioner | PractitionerRole
+union ClaimProvider = Practitioner | PractitionerRole | Organization
+union ClaimPrescription = DeviceRequest | MedicationRequest | VisionPrescription
+union ClaimOriginalPrescription = DeviceRequest | MedicationRequest | VisionPrescription
+
 
 type Claim {
         id_: id            

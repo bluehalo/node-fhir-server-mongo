@@ -26,7 +26,9 @@
 # import ListEntry from "backbone_elements/list_entry.graphql"
 # import CodeableConcept from "complex_types/codeable_concept.graphql"
 
-union ListSubject = Patient | Group | Device | Locationunion ListSource = Practitioner | PractitionerRole | Patient | Device
+union ListSubject = Patient | Group | Device | Location
+union ListSource = Practitioner | PractitionerRole | Patient | Device
+
 
 type List {
         id_: id            

@@ -15,6 +15,7 @@
 
 union LinkageAuthor = Practitioner | PractitionerRole | Organization
 
+
 type Linkage {
         id_: id            
         meta: Meta            

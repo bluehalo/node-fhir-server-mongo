@@ -28,6 +28,7 @@
 
 union ChargeItemDefinitionInstance = Medication | Substance | Device
 
+
 type ChargeItemDefinition {
         id_: id            
         meta: Meta            

@@ -20,6 +20,7 @@
 
 union MedicinalProductContraindicationSubject = MedicinalProduct | Medication
 
+
 type MedicinalProductContraindication {
         id_: id            
         meta: Meta            

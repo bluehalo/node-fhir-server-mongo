@@ -34,7 +34,10 @@
 # import DocumentReferenceContent from "backbone_elements/document_reference_content.graphql"
 # import DocumentReferenceContext from "backbone_elements/document_reference_context.graphql"
 
-union DocumentReferenceSubject = Patient | Practitioner | Group | Deviceunion DocumentReferenceAuthor = Practitioner | PractitionerRole | Organization | Device | Patient | RelatedPersonunion DocumentReferenceAuthenticator = Practitioner | PractitionerRole | Organization
+union DocumentReferenceSubject = Patient | Practitioner | Group | Device
+union DocumentReferenceAuthor = Practitioner | PractitionerRole | Organization | Device | Patient | RelatedPerson
+union DocumentReferenceAuthenticator = Practitioner | PractitionerRole | Organization
+
 
 type DocumentReference {
         id_: id            

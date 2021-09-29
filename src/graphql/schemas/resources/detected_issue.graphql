@@ -24,6 +24,7 @@
 
 union DetectedIssueAuthor = Practitioner | PractitionerRole | Device
 
+
 type DetectedIssue {
         id_: id            
         meta: Meta            

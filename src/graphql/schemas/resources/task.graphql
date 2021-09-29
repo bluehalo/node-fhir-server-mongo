@@ -56,7 +56,10 @@
 # import TaskInput from "backbone_elements/task_input.graphql"
 # import TaskOutput from "backbone_elements/task_output.graphql"
 
-union TaskRequester = Device | Organization | Patient | Practitioner | PractitionerRole | RelatedPersonunion TaskOwner = Practitioner | PractitionerRole | Organization | CareTeam | HealthcareService | Patient | Device | RelatedPersonunion TaskInsurance = Coverage | ClaimResponse
+union TaskRequester = Device | Organization | Patient | Practitioner | PractitionerRole | RelatedPerson
+union TaskOwner = Practitioner | PractitionerRole | Organization | CareTeam | HealthcareService | Patient | Device | RelatedPerson
+union TaskInsurance = Coverage | ClaimResponse
+
 
 type Task {
         id_: id            

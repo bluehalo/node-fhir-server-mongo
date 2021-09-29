@@ -41,7 +41,9 @@
 # import Reference from "resources/reference.graphql"
 # import Reference from "complex_types/reference.graphql"
 
-union EncounterSubject = Patient | Groupunion EncounterReasonReference = Condition | Procedure | Observation | ImmunizationRecommendation
+union EncounterSubject = Patient | Group
+union EncounterReasonReference = Condition | Procedure | Observation | ImmunizationRecommendation
+
 
 type Encounter {
         id_: id            

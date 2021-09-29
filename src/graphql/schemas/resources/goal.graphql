@@ -35,7 +35,10 @@
 # import Reference from "complex_types/reference.graphql"
 # import Reference from "resources/reference.graphql"
 
-union GoalSubject = Patient | Group | Organizationunion GoalExpressedBy = Patient | Practitioner | PractitionerRole | RelatedPersonunion GoalAddresses = Condition | Observation | MedicationStatement | NutritionOrder | ServiceRequest | RiskAssessment
+union GoalSubject = Patient | Group | Organization
+union GoalExpressedBy = Patient | Practitioner | PractitionerRole | RelatedPerson
+union GoalAddresses = Condition | Observation | MedicationStatement | NutritionOrder | ServiceRequest | RiskAssessment
+
 
 type Goal {
         id_: id            

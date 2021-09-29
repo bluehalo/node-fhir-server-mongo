@@ -12,7 +12,7 @@ const {
 
 const graphql = async () => {
     // load all the schema files
-    const schema = loadSchemaSync(join(__dirname, '../graphql/schemas/**/*.graphql'), {
+    const schema = loadSchemaSync(join(__dirname, '../graphql/schemas/query.graphql'), {
         loaders: [
             new GraphQLFileLoader(),
         ]

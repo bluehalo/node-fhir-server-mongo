@@ -64,7 +64,15 @@
 # import Reference from "resources/reference.graphql"
 # import CodeableConcept from "complex_types/codeable_concept.graphql"
 
-union ProcedureBasedOn = CarePlan | ServiceRequestunion ProcedurePartOf = Procedure | Observation | MedicationAdministrationunion ProcedureSubject = Patient | Groupunion ProcedureRecorder = Patient | RelatedPerson | Practitioner | PractitionerRoleunion ProcedureAsserter = Patient | RelatedPerson | Practitioner | PractitionerRoleunion ProcedureReasonReference = Condition | Observation | Procedure | DiagnosticReport | DocumentReferenceunion ProcedureReport = DiagnosticReport | DocumentReference | Compositionunion ProcedureUsedReference = Device | Medication | Substance
+union ProcedureBasedOn = CarePlan | ServiceRequest
+union ProcedurePartOf = Procedure | Observation | MedicationAdministration
+union ProcedureSubject = Patient | Group
+union ProcedureRecorder = Patient | RelatedPerson | Practitioner | PractitionerRole
+union ProcedureAsserter = Patient | RelatedPerson | Practitioner | PractitionerRole
+union ProcedureReasonReference = Condition | Observation | Procedure | DiagnosticReport | DocumentReference
+union ProcedureReport = DiagnosticReport | DocumentReference | Composition
+union ProcedureUsedReference = Device | Medication | Substance
+
 
 type Procedure {
         id_: id            

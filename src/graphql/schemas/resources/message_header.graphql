@@ -31,7 +31,11 @@
 # import Reference from "resources/reference.graphql"
 # import canonical from "complex_types/canonical.graphql"
 
-union MessageHeaderSender = Practitioner | PractitionerRole | Organizationunion MessageHeaderEnterer = Practitioner | PractitionerRoleunion MessageHeaderAuthor = Practitioner | PractitionerRoleunion MessageHeaderResponsible = Practitioner | PractitionerRole | Organization
+union MessageHeaderSender = Practitioner | PractitionerRole | Organization
+union MessageHeaderEnterer = Practitioner | PractitionerRole
+union MessageHeaderAuthor = Practitioner | PractitionerRole
+union MessageHeaderResponsible = Practitioner | PractitionerRole | Organization
+
 
 type MessageHeader {
         id_: id            
