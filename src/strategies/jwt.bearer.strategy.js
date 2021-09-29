@@ -2,6 +2,8 @@ const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 const jwksRsa = require('jwks-rsa');
 const env = require('var');
+const fetch = require('node-fetch');
+
 // noinspection JSCheckFunctionSignatures
 /**
  * @type {import('winston').logger}
@@ -33,6 +35,36 @@ const logDebug = ( msg) => {
  */
 const logInfo = (msg) => {
     logger.info(msg);
+};
+
+/**
+ * Retrieve jwks for URL
+ * @param string jwksUrl
+ * @returns {array}
+ */
+const getExternalJwksByUrl = async (jwksUrl) => {
+    const jwksResponse = await fetch(jwksUrl);
+    const keys = await jwksResponse.json();
+    return keys;
+};
+
+/**
+ * Retrieve jwks from external IDPs
+ * @returns {array}
+ */
+const getExternalJwks = async () => {
+    var extJwksKeys = [];
+
+    if (env.EXTERNAL_AUTH_JWKS_URLS.length > 0) {
+        let extJwksUrls = env.EXTERNAL_AUTH_JWKS_URLS.split(', ');
+
+        for (const extJwksUrl of extJwksUrls) {
+            const jwksKeys = await getExternalJwksByUrl(extJwksUrl);
+            extJwksKeys = extJwksKeys.concat(jwksKeys.keys);
+        }
+    }
+
+    return extJwksKeys;
 };
 
 /**
@@ -74,9 +106,8 @@ class MyJwtStrategy extends JwtStrategy {
         const self = this;
 
         const token = self._jwtFromRequest(req);
-
         logDebug('No token found in request');
-        logDebug(req);
+        // logDebug(req);
         logDebug('Accepts text/html: ' + req.accepts('text/html'));
 
         if (!token && req.accepts('text/html') && req.useragent && req.useragent.isDesktop && isTrue(env.REDIRECT_TO_LOGIN)) {
@@ -95,7 +126,7 @@ class MyJwtStrategy extends JwtStrategy {
 const cookieExtractor = function (req) {
     let token = null;
     logDebug('Cookie req: ');
-    logDebug(req);
+    // logDebug(req);
     if (req && req.accepts('text/html') && req.cookies) {
         token = req.cookies['jwt'];
         logDebug('Found cookie jwt with value: ' + token);
@@ -119,7 +150,19 @@ module.exports.strategy = new MyJwtStrategy({
             cache: true,
             rateLimit: true,
             jwksRequestsPerMinute: 5,
-            jwksUri: env.AUTH_JWKS_URL
+            jwksUri: env.AUTH_JWKS_URL,
+            getKeysInterceptor: async () => {
+                let keys = await getExternalJwks();
+
+                return keys;
+            },
+            handleSigningKeyError: (err, cb) => {
+                if (err instanceof jwksRsa.SigningKeyNotFoundError) {
+                    logDebug('No Signing Key found!');
+                  return cb(new Error('No Signing Key found!'));
+                }
+                return cb(err);
+              }
         }),
         /* specify a list of extractors and it will use the first one that returns the token */
         jwtFromRequest: ExtractJwt.fromExtractors([
@@ -130,7 +173,7 @@ module.exports.strategy = new MyJwtStrategy({
 
         // Validate the audience and the issuer.
         // audience: 'urn:my-resource-server',
-        issuer: env.AUTH_ISSUER,
+        // issuer: env.AUTH_ISSUER,
         algorithms: ['RS256']
     },
     verify);
