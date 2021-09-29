@@ -2,7 +2,7 @@
 # import Extension from "../extensions/Extension.graphql"
 # import Extension from "../extensions/Extension.graphql"
 # import CodeableConcept from "../complex_types/CodeableConcept.graphql"
-# import SpecimenContainedPreference from "../simple_types/SpecimenContainedPreference.graphql"
+# import code from "../simple_types/code.graphql"
 # import SpecimenDefinitionContainer from "../backbone_elements/SpecimenDefinitionContainer.graphql"
 # import Duration from "../simple_types/Duration.graphql"
 # import CodeableConcept from "../complex_types/CodeableConcept.graphql"

@@ -2,7 +2,7 @@
 # import Extension from "../extensions/Extension.graphql"
 # import Extension from "../extensions/Extension.graphql"
 # import canonical from "../simple_types/canonical.graphql"
-# import SearchParamType from "../simple_types/SearchParamType.graphql"
+# import code from "../simple_types/code.graphql"
 # import markdown from "../simple_types/markdown.graphql"
 
 

@@ -4,7 +4,7 @@
 # import Reference from "../complex_types/Reference.graphql"
 # import Reference from "../resources/Reference.graphql"
 # import Reference from "../resources/Reference.graphql"
-# import LinkType from "../simple_types/LinkType.graphql"
+# import code from "../simple_types/code.graphql"
 
 union PatientLinkOther = Patient | RelatedPerson
 

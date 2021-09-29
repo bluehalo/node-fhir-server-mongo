@@ -9,7 +9,7 @@
 # import Extension from "../extensions/Extension.graphql"
 # import uri from "../simple_types/uri.graphql"
 # import Identifier from "../complex_types/Identifier.graphql"
-# import PublicationStatus from "../simple_types/PublicationStatus.graphql"
+# import code from "../simple_types/code.graphql"
 # import dateTime from "../simple_types/dateTime.graphql"
 # import ContactDetail from "../complex_types/ContactDetail.graphql"
 # import UsageContext from "../complex_types/UsageContext.graphql"

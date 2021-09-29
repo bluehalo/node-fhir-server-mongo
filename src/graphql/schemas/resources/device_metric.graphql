@@ -14,9 +14,9 @@
 # import Reference from "../resources/Reference.graphql"
 # import Reference from "../complex_types/Reference.graphql"
 # import Reference from "../resources/Reference.graphql"
-# import DeviceMetricOperationalStatus from "../simple_types/DeviceMetricOperationalStatus.graphql"
-# import DeviceMetricColor from "../simple_types/DeviceMetricColor.graphql"
-# import DeviceMetricCategory from "../simple_types/DeviceMetricCategory.graphql"
+# import code from "../simple_types/code.graphql"
+# import code from "../simple_types/code.graphql"
+# import code from "../simple_types/code.graphql"
 # import Timing from "../backbone_elements/Timing.graphql"
 # import DeviceMetricCalibration from "../backbone_elements/DeviceMetricCalibration.graphql"
 

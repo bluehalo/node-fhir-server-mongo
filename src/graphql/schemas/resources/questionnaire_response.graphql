@@ -15,7 +15,7 @@
 # import Reference from "../resources/Reference.graphql"
 # import Reference from "../resources/Reference.graphql"
 # import canonical from "../simple_types/canonical.graphql"
-# import QuestionnaireResponseStatus from "../simple_types/QuestionnaireResponseStatus.graphql"
+# import code from "../simple_types/code.graphql"
 # import Reference from "../complex_types/Reference.graphql"
 # import Reference from "../resources/Reference.graphql"
 # import Reference from "../complex_types/Reference.graphql"

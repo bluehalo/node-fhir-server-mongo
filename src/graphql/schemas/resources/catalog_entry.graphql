@@ -23,7 +23,7 @@
 # import Reference from "../resources/Reference.graphql"
 # import Identifier from "../complex_types/Identifier.graphql"
 # import CodeableConcept from "../complex_types/CodeableConcept.graphql"
-# import PublicationStatus from "../simple_types/PublicationStatus.graphql"
+# import code from "../simple_types/code.graphql"
 # import Period from "../complex_types/Period.graphql"
 # import dateTime from "../simple_types/dateTime.graphql"
 # import dateTime from "../simple_types/dateTime.graphql"

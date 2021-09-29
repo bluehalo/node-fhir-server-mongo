@@ -14,7 +14,7 @@
 # import Reference from "../resources/Reference.graphql"
 # import Reference from "../resources/Reference.graphql"
 # import Reference from "../resources/Reference.graphql"
-# import DiagnosticReportStatus from "../simple_types/DiagnosticReportStatus.graphql"
+# import code from "../simple_types/code.graphql"
 # import CodeableConcept from "../complex_types/CodeableConcept.graphql"
 # import CodeableConcept from "../complex_types/CodeableConcept.graphql"
 # import Reference from "../complex_types/Reference.graphql"

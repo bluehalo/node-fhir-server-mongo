@@ -49,7 +49,7 @@
 # import UsageContext from "../complex_types/UsageContext.graphql"
 # import Dosage from "../backbone_elements/Dosage.graphql"
 # import Meta from "../complex_types/Meta.graphql"
-# import StructureMapSourceListMode from "../simple_types/StructureMapSourceListMode.graphql"
+# import code from "../simple_types/code.graphql"
 # import id from "../simple_types/id.graphql"
 
 

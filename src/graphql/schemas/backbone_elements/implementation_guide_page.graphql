@@ -4,7 +4,7 @@
 # import url from "../simple_types/url.graphql"
 # import Reference from "../complex_types/Reference.graphql"
 # import Reference from "../resources/Reference.graphql"
-# import GuidePageGeneration from "../simple_types/GuidePageGeneration.graphql"
+# import code from "../simple_types/code.graphql"
 
 
 

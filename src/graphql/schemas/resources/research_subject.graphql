@@ -8,7 +8,7 @@
 # import Extension from "../extensions/Extension.graphql"
 # import Extension from "../extensions/Extension.graphql"
 # import Identifier from "../complex_types/Identifier.graphql"
-# import ResearchSubjectStatus from "../simple_types/ResearchSubjectStatus.graphql"
+# import code from "../simple_types/code.graphql"
 # import Period from "../complex_types/Period.graphql"
 # import Reference from "../complex_types/Reference.graphql"
 # import Reference from "../resources/Reference.graphql"

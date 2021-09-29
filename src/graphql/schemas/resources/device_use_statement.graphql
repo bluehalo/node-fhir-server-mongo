@@ -10,7 +10,7 @@
 # import Identifier from "../complex_types/Identifier.graphql"
 # import Reference from "../complex_types/Reference.graphql"
 # import Reference from "../resources/Reference.graphql"
-# import DeviceUseStatementStatus from "../simple_types/DeviceUseStatementStatus.graphql"
+# import code from "../simple_types/code.graphql"
 # import Reference from "../complex_types/Reference.graphql"
 # import Reference from "../resources/Reference.graphql"
 # import Reference from "../resources/Reference.graphql"

@@ -2,7 +2,7 @@
 # import Extension from "../extensions/Extension.graphql"
 # import Extension from "../extensions/Extension.graphql"
 # import ElementDefinitionDiscriminator from "../backbone_elements/ElementDefinitionDiscriminator.graphql"
-# import SlicingRules from "../simple_types/SlicingRules.graphql"
+# import code from "../simple_types/code.graphql"
 
 
 

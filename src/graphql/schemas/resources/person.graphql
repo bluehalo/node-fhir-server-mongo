@@ -10,7 +10,7 @@
 # import Identifier from "../complex_types/Identifier.graphql"
 # import HumanName from "../complex_types/HumanName.graphql"
 # import ContactPoint from "../complex_types/ContactPoint.graphql"
-# import AdministrativeGender from "../simple_types/AdministrativeGender.graphql"
+# import code from "../simple_types/code.graphql"
 # import date from "../simple_types/date.graphql"
 # import Address from "../complex_types/Address.graphql"
 # import Attachment from "../complex_types/Attachment.graphql"

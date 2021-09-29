@@ -8,7 +8,7 @@
 # import Extension from "../extensions/Extension.graphql"
 # import Extension from "../extensions/Extension.graphql"
 # import Identifier from "../complex_types/Identifier.graphql"
-# import EncounterStatus from "../simple_types/EncounterStatus.graphql"
+# import code from "../simple_types/code.graphql"
 # import EncounterStatusHistory from "../backbone_elements/EncounterStatusHistory.graphql"
 # import Coding from "../complex_types/Coding.graphql"
 # import EncounterClassHistory from "../backbone_elements/EncounterClassHistory.graphql"

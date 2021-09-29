@@ -2,7 +2,7 @@
 # import Extension from "../extensions/Extension.graphql"
 # import Extension from "../extensions/Extension.graphql"
 # import code from "../simple_types/code.graphql"
-# import ConceptMapEquivalence from "../simple_types/ConceptMapEquivalence.graphql"
+# import code from "../simple_types/code.graphql"
 # import ConceptMapDependsOn from "../backbone_elements/ConceptMapDependsOn.graphql"
 # import ConceptMapDependsOn from "../backbone_elements/ConceptMapDependsOn.graphql"
 

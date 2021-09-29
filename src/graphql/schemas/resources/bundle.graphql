@@ -4,7 +4,7 @@
 # import uri from "../simple_types/uri.graphql"
 # import code from "../simple_types/code.graphql"
 # import Identifier from "../complex_types/Identifier.graphql"
-# import BundleType from "../simple_types/BundleType.graphql"
+# import code from "../simple_types/code.graphql"
 # import instant from "../simple_types/instant.graphql"
 # import unsignedInt from "../simple_types/unsignedInt.graphql"
 # import BundleLink from "../backbone_elements/BundleLink.graphql"

@@ -8,7 +8,7 @@
 # import Extension from "../extensions/Extension.graphql"
 # import Extension from "../extensions/Extension.graphql"
 # import Identifier from "../complex_types/Identifier.graphql"
-# import FHIRSubstanceStatus from "../simple_types/FHIRSubstanceStatus.graphql"
+# import code from "../simple_types/code.graphql"
 # import CodeableConcept from "../complex_types/CodeableConcept.graphql"
 # import CodeableConcept from "../complex_types/CodeableConcept.graphql"
 # import SubstanceInstance from "../backbone_elements/SubstanceInstance.graphql"

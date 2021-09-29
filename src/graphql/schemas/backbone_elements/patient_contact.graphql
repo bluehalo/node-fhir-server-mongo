@@ -5,7 +5,7 @@
 # import HumanName from "../complex_types/HumanName.graphql"
 # import ContactPoint from "../complex_types/ContactPoint.graphql"
 # import Address from "../complex_types/Address.graphql"
-# import AdministrativeGender from "../simple_types/AdministrativeGender.graphql"
+# import code from "../simple_types/code.graphql"
 # import Reference from "../complex_types/Reference.graphql"
 # import Reference from "../resources/Reference.graphql"
 # import Period from "../complex_types/Period.graphql"

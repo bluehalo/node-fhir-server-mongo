@@ -9,7 +9,7 @@
     {% if property.type_ | replace(".","") != fhir_entity.cleaned_name %}
 {#    # {{ property.name }} ({{ property.type_ }})#}
         {% if property.is_code %}
-# import {{ property.type_ | replace(".","") }} from "../simple_types/{{ property.type_snake_case }}.graphql"
+# import code from "../simple_types/code.graphql"
 {#        {% elif property.is_basic_type %}#}
 {#    from spark_auto_mapper_fhir.fhir_types.{{ property.type_snake_case }} import {{ property.cleaned_type | replace(".","")}}#}
         {% elif property.is_resource %}

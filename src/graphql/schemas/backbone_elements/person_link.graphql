@@ -6,7 +6,7 @@
 # import Reference from "../resources/Reference.graphql"
 # import Reference from "../resources/Reference.graphql"
 # import Reference from "../resources/Reference.graphql"
-# import IdentityAssuranceLevel from "../simple_types/IdentityAssuranceLevel.graphql"
+# import code from "../simple_types/code.graphql"
 
 union PersonLinkTarget = Patient | Practitioner | RelatedPerson | Person
 

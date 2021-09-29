@@ -4,7 +4,7 @@
 # import uri from "../simple_types/uri.graphql"
 # import uri from "../simple_types/uri.graphql"
 # import base64Binary from "../simple_types/base64Binary.graphql"
-# import UDIEntryType from "../simple_types/UDIEntryType.graphql"
+# import code from "../simple_types/code.graphql"
 
 
 

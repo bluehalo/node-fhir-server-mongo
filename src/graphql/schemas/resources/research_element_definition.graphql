@@ -9,7 +9,7 @@
 # import Extension from "../extensions/Extension.graphql"
 # import uri from "../simple_types/uri.graphql"
 # import Identifier from "../complex_types/Identifier.graphql"
-# import PublicationStatus from "../simple_types/PublicationStatus.graphql"
+# import code from "../simple_types/code.graphql"
 # import CodeableConcept from "../complex_types/CodeableConcept.graphql"
 # import Reference from "../complex_types/Reference.graphql"
 # import Reference from "../resources/Reference.graphql"
@@ -30,7 +30,7 @@
 # import ContactDetail from "../complex_types/ContactDetail.graphql"
 # import RelatedArtifact from "../complex_types/RelatedArtifact.graphql"
 # import canonical from "../simple_types/canonical.graphql"
-# import ResearchElementType from "../simple_types/ResearchElementType.graphql"
+# import code from "../simple_types/code.graphql"
 # import VariableType from "../simple_types/VariableType.graphql"
 # import ResearchElementDefinitionCharacteristic from "../backbone_elements/ResearchElementDefinitionCharacteristic.graphql"
 
