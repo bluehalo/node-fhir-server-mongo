@@ -11,6 +11,7 @@ const {BadRequestError, ForbiddenError, NotFoundError} = require('../../utils/ht
  * @param {string} scope
  * @param {string} resource_name
  * @param {string} collection_name
+ * @return {Resource}
  */
 // eslint-disable-next-line no-unused-vars
 module.exports.searchById = async (args, user, scope, resource_name, collection_name) => {
