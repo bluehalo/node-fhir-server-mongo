@@ -69,8 +69,8 @@ type CommunicationRequest {
         extension: [Extension]            
         modifierExtension: [Extension]            
         identifier: [Identifier]            
-        basedOn: [Reference]            
-        replaces: [Reference]            
+        basedOn: [Resource]            
+        replaces: [CommunicationRequest]            
         groupIdentifier: Identifier            
         status: code!            
         statusReason: CodeableConcept            
@@ -78,17 +78,17 @@ type CommunicationRequest {
         priority: code            
         doNotPerform: Boolean            
         medium: [CodeableConcept]            
-        subject: Reference            
-        about: [Reference]            
-        encounter: Reference            
+        subject: CommunicationRequestSubject            
+        about: [Resource]            
+        encounter: Encounter            
         payload: [CommunicationRequestPayload]            
         occurrenceDateTime: dateTime            
         occurrencePeriod: Period            
         authoredOn: dateTime            
-        requester: Reference            
-        recipient: [Reference]            
-        sender: Reference            
+        requester: CommunicationRequestRequester            
+        recipient: [CommunicationRequestRecipient]            
+        sender: CommunicationRequestSender            
         reasonCode: [CodeableConcept]            
-        reasonReference: [Reference]            
+        reasonReference: [CommunicationRequestReasonReference]            
         note: [Annotation]            
 }

@@ -44,9 +44,9 @@ type Location {
         address: Address            
         physicalType: CodeableConcept            
         position: LocationPosition            
-        managingOrganization: Reference            
-        partOf: Reference            
+        managingOrganization: Organization            
+        partOf: Location            
         hoursOfOperation: [LocationHoursOfOperation]            
         availabilityExceptions: String            
-        endpoint: [Reference]            
+        endpoint: [Endpoint]            
 }

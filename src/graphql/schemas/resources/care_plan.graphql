@@ -61,24 +61,24 @@ type CarePlan {
         identifier: [Identifier]            
         instantiatesCanonical: [canonical]            
         instantiatesUri: [uri]            
-        basedOn: [Reference]            
-        replaces: [Reference]            
-        partOf: [Reference]            
+        basedOn: [CarePlan]            
+        replaces: [CarePlan]            
+        partOf: [CarePlan]            
         status: code!            
         intent: code!            
         category: [CodeableConcept]            
         title: String            
         description: String            
-        subject: Reference!            
-        encounter: Reference            
+        subject: CarePlanSubject!            
+        encounter: Encounter            
         period: Period            
         created: dateTime            
-        author: Reference            
-        contributor: [Reference]            
-        careTeam: [Reference]            
-        addresses: [Reference]            
-        supportingInfo: [Reference]            
-        goal: [Reference]            
+        author: CarePlanAuthor            
+        contributor: [CarePlanContributor]            
+        careTeam: [CareTeam]            
+        addresses: [Condition]            
+        supportingInfo: [Resource]            
+        goal: [Goal]            
         activity: [CarePlanActivity]            
         note: [Annotation]            
 }

@@ -65,7 +65,7 @@ type Evidence {
         reviewer: [ContactDetail]            
         endorser: [ContactDetail]            
         relatedArtifact: [RelatedArtifact]            
-        exposureBackground: Reference!            
-        exposureVariant: [Reference]            
-        outcome: [Reference]            
+        exposureBackground: EvidenceVariable!            
+        exposureVariant: [EvidenceVariable]            
+        outcome: [EvidenceVariable]            
 }

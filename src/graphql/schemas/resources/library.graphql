@@ -51,7 +51,7 @@ type Library {
         experimental: Boolean            
         type_: CodeableConcept!            
         subjectCodeableConcept: CodeableConcept            
-        subjectReference: Reference            
+        subjectReference: Group            
         date: dateTime            
         publisher: String            
         contact: [ContactDetail]            

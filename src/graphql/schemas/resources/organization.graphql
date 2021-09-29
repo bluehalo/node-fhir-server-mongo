@@ -34,7 +34,7 @@ type Organization {
         alias: [String]            
         telecom: [ContactPoint]            
         address: [Address]            
-        partOf: Reference            
+        partOf: Organization            
         contact: [OrganizationContact]            
-        endpoint: [Reference]            
+        endpoint: [Endpoint]            
 }

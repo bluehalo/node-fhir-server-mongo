@@ -31,7 +31,7 @@ type Medication {
         identifier: [Identifier]            
         code: CodeableConcept            
         status: MedicationStatusCodes            
-        manufacturer: Reference            
+        manufacturer: Organization            
         form: CodeableConcept            
         amount: Ratio            
         ingredient: [MedicationIngredient]            

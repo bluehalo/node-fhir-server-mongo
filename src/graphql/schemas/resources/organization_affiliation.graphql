@@ -39,13 +39,13 @@ type OrganizationAffiliation {
         identifier: [Identifier]            
         active: Boolean            
         period: Period            
-        organization: Reference            
-        participatingOrganization: Reference            
-        network: [Reference]            
+        organization: Organization            
+        participatingOrganization: Organization            
+        network: [Organization]            
         code: [CodeableConcept]            
         specialty: [CodeableConcept]            
-        location: [Reference]            
-        healthcareService: [Reference]            
+        location: [Location]            
+        healthcareService: [HealthcareService]            
         telecom: [ContactPoint]            
-        endpoint: [Reference]            
+        endpoint: [Endpoint]            
 }

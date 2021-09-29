@@ -31,10 +31,10 @@ type EnrollmentResponse {
         modifierExtension: [Extension]            
         identifier: [Identifier]            
         status: code            
-        request: Reference            
+        request: EnrollmentRequest            
         outcome: RemittanceOutcome            
         disposition: String            
         created: dateTime            
-        organization: Reference            
-        requestProvider: Reference            
+        organization: Organization            
+        requestProvider: EnrollmentResponseRequestProvider            
 }

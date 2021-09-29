@@ -72,7 +72,7 @@ type ActivityDefinition {
         status: code!            
         experimental: Boolean            
         subjectCodeableConcept: CodeableConcept            
-        subjectReference: Reference            
+        subjectReference: Group            
         date: dateTime            
         publisher: String            
         contact: [ContactDetail]            
@@ -104,16 +104,16 @@ type ActivityDefinition {
         timingPeriod: Period            
         timingRange: Range            
         timingDuration: Duration            
-        location: Reference            
+        location: Location            
         participant: [ActivityDefinitionParticipant]            
-        productReference: Reference            
+        productReference: ActivityDefinitionProductReference            
         productCodeableConcept: CodeableConcept            
         quantity: Quantity            
         dosage: [Dosage]            
         bodySite: [CodeableConcept]            
-        specimenRequirement: [Reference]            
-        observationRequirement: [Reference]            
-        observationResultRequirement: [Reference]            
+        specimenRequirement: [SpecimenDefinition]            
+        observationRequirement: [ObservationDefinition]            
+        observationResultRequirement: [ObservationDefinition]            
         transform: canonical            
         dynamicValue: [ActivityDefinitionDynamicValue]            
 }

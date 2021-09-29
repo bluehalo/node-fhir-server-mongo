@@ -39,9 +39,9 @@ type PaymentReconciliation {
         status: code!            
         period: Period            
         created: dateTime!            
-        paymentIssuer: Reference            
-        request: Reference            
-        requestor: Reference            
+        paymentIssuer: Organization            
+        request: Task            
+        requestor: PaymentReconciliationRequestor            
         outcome: RemittanceOutcome            
         disposition: String            
         paymentDate: date!            

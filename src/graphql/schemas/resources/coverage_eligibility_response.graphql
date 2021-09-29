@@ -38,15 +38,15 @@ type CoverageEligibilityResponse {
         identifier: [Identifier]            
         status: code!            
         purpose: [code]!            
-        patient: Reference!            
+        patient: Patient!            
         servicedDate: date            
         servicedPeriod: Period            
         created: dateTime!            
-        requestor: Reference            
-        request: Reference!            
+        requestor: CoverageEligibilityResponseRequestor            
+        request: CoverageEligibilityRequest!            
         outcome: RemittanceOutcome!            
         disposition: String            
-        insurer: Reference!            
+        insurer: Organization!            
         insurance: [CoverageEligibilityResponseInsurance]            
         preAuthRef: String            
         form: CodeableConcept            

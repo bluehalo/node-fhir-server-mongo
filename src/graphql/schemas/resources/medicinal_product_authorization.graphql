@@ -36,7 +36,7 @@ type MedicinalProductAuthorization {
         extension: [Extension]            
         modifierExtension: [Extension]            
         identifier: [Identifier]            
-        subject: Reference            
+        subject: MedicinalProductAuthorizationSubject            
         country: [CodeableConcept]            
         jurisdiction: [CodeableConcept]            
         status: CodeableConcept            
@@ -48,7 +48,7 @@ type MedicinalProductAuthorization {
         internationalBirthDate: dateTime            
         legalBasis: CodeableConcept            
         jurisdictionalAuthorization: [MedicinalProductAuthorizationJurisdictionalAuthorization]            
-        holder: Reference            
-        regulator: Reference            
+        holder: Organization            
+        regulator: Organization            
         procedure: MedicinalProductAuthorizationProcedure            
 }

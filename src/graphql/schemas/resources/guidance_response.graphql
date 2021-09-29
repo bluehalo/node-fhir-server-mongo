@@ -52,15 +52,15 @@ type GuidanceResponse {
         moduleCanonical: canonical            
         moduleCodeableConcept: CodeableConcept            
         status: code!            
-        subject: Reference            
-        encounter: Reference            
+        subject: GuidanceResponseSubject            
+        encounter: Encounter            
         occurrenceDateTime: dateTime            
-        performer: Reference            
+        performer: Device            
         reasonCode: [CodeableConcept]            
-        reasonReference: [Reference]            
+        reasonReference: [GuidanceResponseReasonReference]            
         note: [Annotation]            
-        evaluationMessage: [Reference]            
-        outputParameters: Reference            
-        result: Reference            
+        evaluationMessage: [OperationOutcome]            
+        outputParameters: Parameters            
+        result: GuidanceResponseResult            
         dataRequirement: [DataRequirement]            
 }

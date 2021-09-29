@@ -31,8 +31,8 @@ type DeviceMetric {
         identifier: [Identifier]            
         type_: CodeableConcept!            
         unit: CodeableConcept            
-        source: Reference            
-        parent: Reference            
+        source: Device            
+        parent: Device            
         operationalStatus: code            
         color: code            
         category: code!            

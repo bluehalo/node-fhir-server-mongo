@@ -45,12 +45,12 @@ type Consent {
         status: code!            
         scope: CodeableConcept!            
         category: [CodeableConcept]!            
-        patient: Reference            
+        patient: Patient            
         dateTime: dateTime            
-        performer: [Reference]            
-        organization: [Reference]            
+        performer: [ConsentPerformer]            
+        organization: [Organization]            
         sourceAttachment: Attachment            
-        sourceReference: Reference            
+        sourceReference: ConsentSourceReference            
         policy: [ConsentPolicy]            
         policyRule: CodeableConcept            
         verification: [ConsentVerification]            

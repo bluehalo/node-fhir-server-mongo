@@ -52,11 +52,11 @@ type ClaimResponse {
         type_: CodeableConcept!            
         subType: CodeableConcept            
         use: code!            
-        patient: Reference!            
+        patient: Patient!            
         created: dateTime!            
-        insurer: Reference!            
-        requestor: Reference            
-        request: Reference            
+        insurer: Organization!            
+        requestor: ClaimResponseRequestor            
+        request: Claim            
         outcome: code!            
         disposition: String            
         preAuthRef: String            
@@ -71,7 +71,7 @@ type ClaimResponse {
         formCode: CodeableConcept            
         form: Attachment            
         processNote: [ClaimResponseProcessNote]            
-        communicationRequest: [Reference]            
+        communicationRequest: [CommunicationRequest]            
         insurance: [ClaimResponseInsurance]            
         error: [ClaimResponseError]            
 }

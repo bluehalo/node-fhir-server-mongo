@@ -91,30 +91,30 @@ type MedicationRequest {
         priority: code            
         doNotPerform: Boolean            
         reportedBoolean: Boolean            
-        reportedReference: Reference            
+        reportedReference: MedicationRequestReportedReference            
         medicationCodeableConcept: CodeableConcept            
-        medicationReference: Reference            
-        subject: Reference!            
-        encounter: Reference            
-        supportingInformation: [Reference]            
+        medicationReference: Medication            
+        subject: MedicationRequestSubject!            
+        encounter: Encounter            
+        supportingInformation: [Resource]            
         authoredOn: dateTime            
-        requester: Reference            
-        performer: Reference            
+        requester: MedicationRequestRequester            
+        performer: MedicationRequestPerformer            
         performerType: CodeableConcept            
-        recorder: Reference            
+        recorder: MedicationRequestRecorder            
         reasonCode: [CodeableConcept]            
-        reasonReference: [Reference]            
+        reasonReference: [MedicationRequestReasonReference]            
         instantiatesCanonical: [canonical]            
         instantiatesUri: [uri]            
-        basedOn: [Reference]            
+        basedOn: [MedicationRequestBasedOn]            
         groupIdentifier: Identifier            
         courseOfTherapyType: CodeableConcept            
-        insurance: [Reference]            
+        insurance: [MedicationRequestInsurance]            
         note: [Annotation]            
         dosageInstruction: [Dosage]            
         dispenseRequest: MedicationRequestDispenseRequest            
         substitution: MedicationRequestSubstitution            
-        priorPrescription: Reference            
-        detectedIssue: [Reference]            
-        eventHistory: [Reference]            
+        priorPrescription: MedicationRequest            
+        detectedIssue: [DetectedIssue]            
+        eventHistory: [Provenance]            
 }

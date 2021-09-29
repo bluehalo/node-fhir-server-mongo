@@ -31,7 +31,7 @@ type Slot {
         serviceType: [CodeableConcept]            
         specialty: [CodeableConcept]            
         appointmentType: CodeableConcept            
-        schedule: Reference!            
+        schedule: Schedule!            
         status: code!            
         start: instant!            
         end: instant!            

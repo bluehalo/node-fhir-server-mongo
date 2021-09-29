@@ -52,15 +52,15 @@ type Goal {
         category: [CodeableConcept]            
         priority: CodeableConcept            
         description: CodeableConcept!            
-        subject: Reference!            
+        subject: GoalSubject!            
         startDate: date            
         startCodeableConcept: CodeableConcept            
         target: [GoalTarget]            
         statusDate: date            
         statusReason: String            
-        expressedBy: Reference            
-        addresses: [Reference]            
+        expressedBy: GoalExpressedBy            
+        addresses: [GoalAddresses]            
         note: [Annotation]            
         outcomeCode: [CodeableConcept]            
-        outcomeReference: [Reference]            
+        outcomeReference: [Observation]            
 }

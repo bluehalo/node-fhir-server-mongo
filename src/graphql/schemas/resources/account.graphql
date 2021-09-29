@@ -39,11 +39,11 @@ type Account {
         status: code!            
         type_: CodeableConcept            
         name: String            
-        subject: [Reference]            
+        subject: [AccountSubject]            
         servicePeriod: Period            
         coverage: [AccountCoverage]            
-        owner: Reference            
+        owner: Organization            
         description: String            
         guarantor: [AccountGuarantor]            
-        partOf: Reference            
+        partOf: Account            
 }

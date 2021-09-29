@@ -37,11 +37,11 @@ type DetectedIssue {
         status: code!            
         code: CodeableConcept            
         severity: code            
-        patient: Reference            
+        patient: Patient            
         identifiedDateTime: dateTime            
         identifiedPeriod: Period            
-        author: Reference            
-        implicated: [Reference]            
+        author: DetectedIssueAuthor            
+        implicated: [Resource]            
         evidence: [DetectedIssueEvidence]            
         detail: String            
         reference: uri            

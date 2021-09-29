@@ -48,12 +48,12 @@ type DocumentManifest {
         identifier: [Identifier]            
         status: code!            
         type_: CodeableConcept            
-        subject: Reference            
+        subject: DocumentManifestSubject            
         created: dateTime            
-        author: [Reference]            
-        recipient: [Reference]            
+        author: [DocumentManifestAuthor]            
+        recipient: [DocumentManifestRecipient]            
         source: uri            
         description: String            
-        content: [Reference]!            
+        content: [Resource]!            
         related: [DocumentManifestRelated]            
 }

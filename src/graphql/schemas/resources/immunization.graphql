@@ -51,15 +51,15 @@ type Immunization {
         status: code!            
         statusReason: CodeableConcept            
         vaccineCode: CodeableConcept!            
-        patient: Reference!            
-        encounter: Reference            
+        patient: Patient!            
+        encounter: Encounter            
         occurrenceDateTime: dateTime            
         occurrenceString: String            
         recorded: dateTime            
         primarySource: Boolean            
         reportOrigin: CodeableConcept            
-        location: Reference            
-        manufacturer: Reference            
+        location: Location            
+        manufacturer: Organization            
         lotNumber: String            
         expirationDate: date            
         site: CodeableConcept            
@@ -68,7 +68,7 @@ type Immunization {
         performer: [ImmunizationPerformer]            
         note: [Annotation]            
         reasonCode: [CodeableConcept]            
-        reasonReference: [Reference]            
+        reasonReference: [ImmunizationReasonReference]            
         isSubpotent: Boolean            
         subpotentReason: [CodeableConcept]            
         education: [ImmunizationEducation]            

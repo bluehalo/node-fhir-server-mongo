@@ -31,11 +31,11 @@ type ImmunizationEvaluation {
         modifierExtension: [Extension]            
         identifier: [Identifier]            
         status: code!            
-        patient: Reference!            
+        patient: Patient!            
         date: dateTime            
-        authority: Reference            
+        authority: Organization            
         targetDisease: CodeableConcept!            
-        immunizationEvent: Reference!            
+        immunizationEvent: Immunization!            
         doseStatus: CodeableConcept!            
         doseStatusReason: [CodeableConcept]            
         description: String            

@@ -37,7 +37,7 @@ type Schedule {
         serviceCategory: [CodeableConcept]            
         serviceType: [CodeableConcept]            
         specialty: [CodeableConcept]            
-        actor: [Reference]!            
+        actor: [ScheduleActor]!            
         planningHorizon: Period            
         comment: String            
 }

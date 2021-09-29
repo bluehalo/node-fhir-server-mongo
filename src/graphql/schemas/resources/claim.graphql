@@ -63,20 +63,20 @@ type Claim {
         type_: CodeableConcept!            
         subType: CodeableConcept            
         use: code!            
-        patient: Reference!            
+        patient: Patient!            
         billablePeriod: Period            
         created: dateTime!            
-        enterer: Reference            
-        insurer: Reference            
-        provider: Reference!            
+        enterer: ClaimEnterer            
+        insurer: Organization            
+        provider: ClaimProvider!            
         priority: CodeableConcept!            
         fundsReserve: CodeableConcept            
         related: [ClaimRelated]            
-        prescription: Reference            
-        originalPrescription: Reference            
+        prescription: ClaimPrescription            
+        originalPrescription: ClaimOriginalPrescription            
         payee: ClaimPayee            
-        referral: Reference            
-        facility: Reference            
+        referral: ServiceRequest            
+        facility: Location            
         careTeam: [ClaimCareTeam]            
         supportingInfo: [ClaimSupportingInfo]            
         diagnosis: [ClaimDiagnosis]            

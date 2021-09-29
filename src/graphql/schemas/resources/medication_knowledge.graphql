@@ -45,12 +45,12 @@ type MedicationKnowledge {
         modifierExtension: [Extension]            
         code: CodeableConcept            
         status: code            
-        manufacturer: Reference            
+        manufacturer: Organization            
         doseForm: CodeableConcept            
         amount: Quantity            
         synonym: [String]            
         relatedMedicationKnowledge: [MedicationKnowledgeRelatedMedicationKnowledge]            
-        associatedMedication: [Reference]            
+        associatedMedication: [Medication]            
         productType: [CodeableConcept]            
         monograph: [MedicationKnowledgeMonograph]            
         ingredient: [MedicationKnowledgeIngredient]            
@@ -62,7 +62,7 @@ type MedicationKnowledge {
         medicineClassification: [MedicationKnowledgeMedicineClassification]            
         packaging: MedicationKnowledgePackaging            
         drugCharacteristic: [MedicationKnowledgeDrugCharacteristic]            
-        contraindication: [Reference]            
+        contraindication: [DetectedIssue]            
         regulatory: [MedicationKnowledgeRegulatory]            
         kinetics: [MedicationKnowledgeKinetics]            
 }

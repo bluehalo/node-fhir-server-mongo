@@ -41,7 +41,7 @@ type Device {
         extension: [Extension]            
         modifierExtension: [Extension]            
         identifier: [Identifier]            
-        definition: Reference            
+        definition: DeviceDefinition            
         udiCarrier: [DeviceUdiCarrier]            
         status: code            
         statusReason: [CodeableConcept]            
@@ -58,12 +58,12 @@ type Device {
         specialization: [DeviceSpecialization]            
         version: [DeviceVersion]            
         property: [DeviceProperty]            
-        patient: Reference            
-        owner: Reference            
+        patient: Patient            
+        owner: Organization            
         contact: [ContactPoint]            
-        location: Reference            
+        location: Location            
         url: uri            
         note: [Annotation]            
         safety: [CodeableConcept]            
-        parent: Reference            
+        parent: Device            
 }

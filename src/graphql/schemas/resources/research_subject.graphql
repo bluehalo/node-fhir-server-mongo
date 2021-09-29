@@ -30,9 +30,9 @@ type ResearchSubject {
         identifier: [Identifier]            
         status: code!            
         period: Period            
-        study: Reference!            
-        individual: Reference!            
+        study: ResearchStudy!            
+        individual: Patient!            
         assignedArm: String            
         actualArm: String            
-        consent: Reference            
+        consent: Consent            
 }

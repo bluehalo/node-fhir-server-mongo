@@ -32,11 +32,11 @@ type AppointmentResponse {
         extension: [Extension]            
         modifierExtension: [Extension]            
         identifier: [Identifier]            
-        appointment: Reference!            
+        appointment: Appointment!            
         start: instant            
         end: instant            
         participantType: [CodeableConcept]            
-        actor: Reference            
+        actor: AppointmentResponseActor            
         participantStatus: code!            
         comment: String            
 }

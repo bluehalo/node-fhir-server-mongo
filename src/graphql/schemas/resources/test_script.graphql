@@ -56,7 +56,7 @@ type TestScript {
         destination: [TestScriptDestination]            
         metadata: TestScriptMetadata            
         fixture: [TestScriptFixture]            
-        profile: [Reference]            
+        profile: [Resource]            
         variable: [TestScriptVariable]            
         setup: TestScriptSetup            
         test: [TestScriptTest]            

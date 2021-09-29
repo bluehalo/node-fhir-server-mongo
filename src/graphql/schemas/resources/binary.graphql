@@ -16,6 +16,6 @@ type Binary {
         implicitRules: uri            
         language: code            
         contentType: code!            
-        securityContext: Reference            
+        securityContext: Resource            
         data: base64Binary            
 }

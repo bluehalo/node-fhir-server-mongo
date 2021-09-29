@@ -44,8 +44,8 @@ type Flag {
         status: code!            
         category: [CodeableConcept]            
         code: CodeableConcept!            
-        subject: Reference!            
+        subject: FlagSubject!            
         period: Period            
-        encounter: Reference            
-        author: Reference            
+        encounter: Encounter            
+        author: FlagAuthor            
 }

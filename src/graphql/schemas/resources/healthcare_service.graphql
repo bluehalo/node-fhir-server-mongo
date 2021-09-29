@@ -44,17 +44,17 @@ type HealthcareService {
         modifierExtension: [Extension]            
         identifier: [Identifier]            
         active: Boolean            
-        providedBy: Reference            
+        providedBy: Organization            
         category: [CodeableConcept]            
         type_: [CodeableConcept]            
         specialty: [CodeableConcept]            
-        location: [Reference]            
+        location: [Location]            
         name: String            
         comment: String            
         extraDetails: markdown            
         photo: Attachment            
         telecom: [ContactPoint]            
-        coverageArea: [Reference]            
+        coverageArea: [Location]            
         serviceProvisionCode: [CodeableConcept]            
         eligibility: [HealthcareServiceEligibility]            
         program: [CodeableConcept]            
@@ -65,5 +65,5 @@ type HealthcareService {
         availableTime: [HealthcareServiceAvailableTime]            
         notAvailable: [HealthcareServiceNotAvailable]            
         availabilityExceptions: String            
-        endpoint: [Reference]            
+        endpoint: [Endpoint]            
 }

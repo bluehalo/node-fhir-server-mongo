@@ -60,20 +60,20 @@ type ImagingStudy {
         identifier: [Identifier]            
         status: code!            
         modality: [Coding]            
-        subject: Reference!            
-        encounter: Reference            
+        subject: ImagingStudySubject!            
+        encounter: Encounter            
         started: dateTime            
-        basedOn: [Reference]            
-        referrer: Reference            
-        interpreter: [Reference]            
-        endpoint: [Reference]            
+        basedOn: [ImagingStudyBasedOn]            
+        referrer: ImagingStudyReferrer            
+        interpreter: [ImagingStudyInterpreter]            
+        endpoint: [Endpoint]            
         numberOfSeries: unsignedInt            
         numberOfInstances: unsignedInt            
-        procedureReference: Reference            
+        procedureReference: Procedure            
         procedureCode: [CodeableConcept]            
-        location: Reference            
+        location: Location            
         reasonCode: [CodeableConcept]            
-        reasonReference: [Reference]            
+        reasonReference: [ImagingStudyReasonReference]            
         note: [Annotation]            
         description: String            
         series: [ImagingStudySeries]            

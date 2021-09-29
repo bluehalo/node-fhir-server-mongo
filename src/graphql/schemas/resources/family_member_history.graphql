@@ -47,7 +47,7 @@ type FamilyMemberHistory {
         instantiatesUri: [uri]            
         status: code!            
         dataAbsentReason: CodeableConcept            
-        patient: Reference!            
+        patient: Patient!            
         date: dateTime            
         name: String            
         relationship: CodeableConcept!            
@@ -65,7 +65,7 @@ type FamilyMemberHistory {
         deceasedDate: date            
         deceasedString: String            
         reasonCode: [CodeableConcept]            
-        reasonReference: [Reference]            
+        reasonReference: [FamilyMemberHistoryReasonReference]            
         note: [Annotation]            
         condition: [FamilyMemberHistoryCondition]            
 }

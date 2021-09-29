@@ -41,12 +41,12 @@ type InsurancePlan {
         name: String            
         alias: [String]            
         period: Period            
-        ownedBy: Reference            
-        administeredBy: Reference            
-        coverageArea: [Reference]            
+        ownedBy: Organization            
+        administeredBy: Organization            
+        coverageArea: [Location]            
         contact: [InsurancePlanContact]            
-        endpoint: [Reference]            
-        network: [Reference]            
+        endpoint: [Endpoint]            
+        network: [Organization]            
         coverage: [InsurancePlanCoverage]            
         plan: [InsurancePlanPlan]            
 }

@@ -49,8 +49,8 @@ type ResearchStudy {
         modifierExtension: [Extension]            
         identifier: [Identifier]            
         title: String            
-        protocol: [Reference]            
-        partOf: [Reference]            
+        protocol: [PlanDefinition]            
+        partOf: [ResearchStudy]            
         status: code!            
         primaryPurposeType: CodeableConcept            
         phase: CodeableConcept            
@@ -62,11 +62,11 @@ type ResearchStudy {
         keyword: [CodeableConcept]            
         location: [CodeableConcept]            
         description: markdown            
-        enrollment: [Reference]            
+        enrollment: [Group]            
         period: Period            
-        sponsor: Reference            
-        principalInvestigator: Reference            
-        site: [Reference]            
+        sponsor: Organization            
+        principalInvestigator: ResearchStudyPrincipalInvestigator            
+        site: [Location]            
         reasonStopped: CodeableConcept            
         note: [Annotation]            
         arm: [ResearchStudyArm]            

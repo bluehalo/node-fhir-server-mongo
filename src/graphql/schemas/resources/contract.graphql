@@ -66,34 +66,34 @@ type Contract {
         version: String            
         status: code            
         legalState: CodeableConcept            
-        instantiatesCanonical: Reference            
+        instantiatesCanonical: Contract            
         instantiatesUri: uri            
         contentDerivative: CodeableConcept            
         issued: dateTime            
         applies: Period            
         expirationType: CodeableConcept            
-        subject: [Reference]            
-        authority: [Reference]            
-        domain: [Reference]            
-        site: [Reference]            
+        subject: [Resource]            
+        authority: [Organization]            
+        domain: [Location]            
+        site: [Location]            
         name: String            
         title: String            
         subtitle: String            
         alias: [String]            
-        author: Reference            
+        author: ContractAuthor            
         scope: CodeableConcept            
         topicCodeableConcept: CodeableConcept            
-        topicReference: Reference            
+        topicReference: Resource            
         type_: CodeableConcept            
         subType: [CodeableConcept]            
         contentDefinition: ContractContentDefinition            
         term: [ContractTerm]            
-        supportingInfo: [Reference]            
-        relevantHistory: [Reference]            
+        supportingInfo: [Resource]            
+        relevantHistory: [Provenance]            
         signer: [ContractSigner]            
         friendly: [ContractFriendly]            
         legal: [ContractLegal]            
         rule: [ContractRule]            
         legallyBindingAttachment: Attachment            
-        legallyBindingReference: Reference            
+        legallyBindingReference: ContractLegallyBindingReference            
 }

@@ -56,7 +56,7 @@ type ResearchDefinition {
         status: code!            
         experimental: Boolean            
         subjectCodeableConcept: CodeableConcept            
-        subjectReference: Reference            
+        subjectReference: Group            
         date: dateTime            
         publisher: String            
         contact: [ContactDetail]            
@@ -77,8 +77,8 @@ type ResearchDefinition {
         endorser: [ContactDetail]            
         relatedArtifact: [RelatedArtifact]            
         library: [canonical]            
-        population: Reference!            
-        exposure: Reference            
-        exposureAlternative: Reference            
-        outcome: Reference            
+        population: ResearchElementDefinition!            
+        exposure: ResearchElementDefinition            
+        exposureAlternative: ResearchElementDefinition            
+        outcome: ResearchElementDefinition            
 }

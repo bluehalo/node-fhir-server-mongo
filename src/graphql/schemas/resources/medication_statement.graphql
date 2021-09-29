@@ -58,22 +58,22 @@ type MedicationStatement {
         extension: [Extension]            
         modifierExtension: [Extension]            
         identifier: [Identifier]            
-        basedOn: [Reference]            
-        partOf: [Reference]            
+        basedOn: [MedicationStatementBasedOn]            
+        partOf: [MedicationStatementPartOf]            
         status: MedicationStatusCodes!            
         statusReason: [CodeableConcept]            
         category: CodeableConcept            
         medicationCodeableConcept: CodeableConcept            
-        medicationReference: Reference            
-        subject: Reference!            
-        context: Reference            
+        medicationReference: Medication            
+        subject: MedicationStatementSubject!            
+        context: MedicationStatementContext            
         effectiveDateTime: dateTime            
         effectivePeriod: Period            
         dateAsserted: dateTime            
-        informationSource: Reference            
-        derivedFrom: [Reference]            
+        informationSource: MedicationStatementInformationSource            
+        derivedFrom: [Resource]            
         reasonCode: [CodeableConcept]            
-        reasonReference: [Reference]            
+        reasonReference: [MedicationStatementReasonReference]            
         note: [Annotation]            
         dosage: [Dosage]            
 }

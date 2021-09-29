@@ -83,8 +83,8 @@ type ServiceRequest {
         identifier: [Identifier]            
         instantiatesCanonical: [canonical]            
         instantiatesUri: [uri]            
-        basedOn: [Reference]            
-        replaces: [Reference]            
+        basedOn: [ServiceRequestBasedOn]            
+        replaces: [ServiceRequest]            
         requisition: Identifier            
         status: code!            
         intent: code!            
@@ -96,26 +96,26 @@ type ServiceRequest {
         quantityQuantity: Quantity            
         quantityRatio: Ratio            
         quantityRange: Range            
-        subject: Reference!            
-        encounter: Reference            
+        subject: ServiceRequestSubject!            
+        encounter: Encounter            
         occurrenceDateTime: dateTime            
         occurrencePeriod: Period            
         occurrenceTiming: Timing            
         asNeededBoolean: Boolean            
         asNeededCodeableConcept: CodeableConcept            
         authoredOn: dateTime            
-        requester: Reference            
+        requester: ServiceRequestRequester            
         performerType: CodeableConcept            
-        performer: [Reference]            
+        performer: [ServiceRequestPerformer]            
         locationCode: [CodeableConcept]            
-        locationReference: [Reference]            
+        locationReference: [Location]            
         reasonCode: [CodeableConcept]            
-        reasonReference: [Reference]            
-        insurance: [Reference]            
-        supportingInfo: [Reference]            
-        specimen: [Reference]            
+        reasonReference: [ServiceRequestReasonReference]            
+        insurance: [ServiceRequestInsurance]            
+        supportingInfo: [Resource]            
+        specimen: [Specimen]            
         bodySite: [CodeableConcept]            
         note: [Annotation]            
         patientInstruction: String            
-        relevantHistory: [Reference]            
+        relevantHistory: [Provenance]            
 }

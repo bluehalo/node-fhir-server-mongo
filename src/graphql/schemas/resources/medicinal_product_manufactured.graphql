@@ -31,8 +31,8 @@ type MedicinalProductManufactured {
         manufacturedDoseForm: CodeableConcept!            
         unitOfPresentation: CodeableConcept            
         quantity: Quantity!            
-        manufacturer: [Reference]            
-        ingredient: [Reference]            
+        manufacturer: [Organization]            
+        ingredient: [MedicinalProductIngredient]            
         physicalCharacteristics: ProdCharacteristic            
         otherCharacteristics: [CodeableConcept]            
 }

@@ -44,11 +44,11 @@ type NutritionOrder {
         instantiates: [uri]            
         status: code!            
         intent: code!            
-        patient: Reference!            
-        encounter: Reference            
+        patient: Patient!            
+        encounter: Encounter            
         dateTime: dateTime!            
-        orderer: Reference            
-        allergyIntolerance: [Reference]            
+        orderer: NutritionOrderOrderer            
+        allergyIntolerance: [AllergyIntolerance]            
         foodPreferenceModifier: [CodeableConcept]            
         excludeFoodModifier: [CodeableConcept]            
         oralDiet: NutritionOrderOralDiet            

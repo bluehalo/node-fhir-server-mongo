@@ -73,29 +73,29 @@ type ChargeItem {
         definitionUri: [uri]            
         definitionCanonical: [canonical]            
         status: code!            
-        partOf: [Reference]            
+        partOf: [ChargeItem]            
         code: CodeableConcept!            
-        subject: Reference!            
-        context: Reference            
+        subject: ChargeItemSubject!            
+        context: ChargeItemContext            
         occurrenceDateTime: dateTime            
         occurrencePeriod: Period            
         occurrenceTiming: Timing            
         performer: [ChargeItemPerformer]            
-        performingOrganization: Reference            
-        requestingOrganization: Reference            
-        costCenter: Reference            
+        performingOrganization: Organization            
+        requestingOrganization: Organization            
+        costCenter: Organization            
         quantity: Quantity            
         bodysite: [CodeableConcept]            
         factorOverride: decimal            
         priceOverride: Money            
         overrideReason: String            
-        enterer: Reference            
+        enterer: ChargeItemEnterer            
         enteredDate: dateTime            
         reason: [CodeableConcept]            
-        service: [Reference]            
-        productReference: Reference            
+        service: [ChargeItemService]            
+        productReference: ChargeItemProductReference            
         productCodeableConcept: CodeableConcept            
-        account: [Reference]            
+        account: [Account]            
         note: [Annotation]            
-        supportingInformation: [Reference]            
+        supportingInformation: [Resource]            
 }

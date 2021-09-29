@@ -48,18 +48,18 @@ type Appointment {
         specialty: [CodeableConcept]            
         appointmentType: CodeableConcept            
         reasonCode: [CodeableConcept]            
-        reasonReference: [Reference]            
+        reasonReference: [AppointmentReasonReference]            
         priority: unsignedInt            
         description: String            
-        supportingInformation: [Reference]            
+        supportingInformation: [Resource]            
         start: instant            
         end: instant            
         minutesDuration: Int            
-        slot: [Reference]            
+        slot: [Slot]            
         created: dateTime            
         comment: String            
         patientInstruction: String            
-        basedOn: [Reference]            
+        basedOn: [ServiceRequest]            
         participant: [AppointmentParticipant]!            
         requestedPeriod: [Period]            
 }

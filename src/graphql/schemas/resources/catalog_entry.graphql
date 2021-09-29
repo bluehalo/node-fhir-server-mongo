@@ -42,7 +42,7 @@ type CatalogEntry {
         identifier: [Identifier]            
         type_: CodeableConcept            
         orderable: Boolean!            
-        referencedItem: Reference!            
+        referencedItem: CatalogEntryReferencedItem!            
         additionalIdentifier: [Identifier]            
         classification: [CodeableConcept]            
         status: code            

@@ -38,10 +38,10 @@ type MolecularSequence {
         identifier: [Identifier]            
         type_: code            
         coordinateSystem: Int!            
-        patient: Reference            
-        specimen: Reference            
-        device: Reference            
-        performer: Reference            
+        patient: Patient            
+        specimen: Specimen            
+        device: Device            
+        performer: Organization            
         quantity: Quantity            
         referenceSeq: MolecularSequenceReferenceSeq            
         variant: [MolecularSequenceVariant]            
@@ -49,6 +49,6 @@ type MolecularSequence {
         quality: [MolecularSequenceQuality]            
         readCoverage: Int            
         repository: [MolecularSequenceRepository]            
-        pointer: [Reference]            
+        pointer: [MolecularSequence]            
         structureVariant: [MolecularSequenceStructureVariant]            
 }

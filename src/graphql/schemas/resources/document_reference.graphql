@@ -51,11 +51,11 @@ type DocumentReference {
         docStatus: code            
         type_: CodeableConcept            
         category: [CodeableConcept]            
-        subject: Reference            
+        subject: DocumentReferenceSubject            
         date: instant            
-        author: [Reference]            
-        authenticator: Reference            
-        custodian: Reference            
+        author: [DocumentReferenceAuthor]            
+        authenticator: DocumentReferenceAuthenticator            
+        custodian: Organization            
         relatesTo: [DocumentReferenceRelatesTo]            
         description: String            
         securityLabel: [CodeableConcept]            

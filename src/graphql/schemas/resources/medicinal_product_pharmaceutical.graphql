@@ -31,8 +31,8 @@ type MedicinalProductPharmaceutical {
         identifier: [Identifier]            
         administrableDoseForm: CodeableConcept!            
         unitOfPresentation: CodeableConcept            
-        ingredient: [Reference]            
-        device: [Reference]            
+        ingredient: [MedicinalProductIngredient]            
+        device: [DeviceDefinition]            
         characteristics: [MedicinalProductPharmaceuticalCharacteristics]            
         routeOfAdministration: [MedicinalProductPharmaceuticalRouteOfAdministration]!            
 }

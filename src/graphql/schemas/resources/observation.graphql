@@ -82,20 +82,20 @@ type Observation {
         extension: [Extension]            
         modifierExtension: [Extension]            
         identifier: [Identifier]            
-        basedOn: [Reference]            
-        partOf: [Reference]            
+        basedOn: [ObservationBasedOn]            
+        partOf: [ObservationPartOf]            
         status: code!            
         category: [CodeableConcept]            
         code: CodeableConcept!            
-        subject: Reference            
-        focus: [Reference]            
-        encounter: Reference            
+        subject: ObservationSubject            
+        focus: [Resource]            
+        encounter: Encounter            
         effectiveDateTime: dateTime            
         effectivePeriod: Period            
         effectiveTiming: Timing            
         effectiveInstant: instant            
         issued: instant            
-        performer: [Reference]            
+        performer: [ObservationPerformer]            
         valueQuantity: Quantity            
         valueCodeableConcept: CodeableConcept            
         valueString: String            
@@ -112,10 +112,10 @@ type Observation {
         note: [Annotation]            
         bodySite: CodeableConcept            
         method: CodeableConcept            
-        specimen: Reference            
-        device: Reference            
+        specimen: Specimen            
+        device: ObservationDevice            
         referenceRange: [ObservationReferenceRange]            
-        hasMember: [Reference]            
-        derivedFrom: [Reference]            
+        hasMember: [ObservationHasMember]            
+        derivedFrom: [ObservationDerivedFrom]            
         component: [ObservationComponent]            
 }

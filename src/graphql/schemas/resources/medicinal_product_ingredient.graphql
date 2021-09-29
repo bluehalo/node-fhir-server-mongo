@@ -28,7 +28,7 @@ type MedicinalProductIngredient {
         identifier: Identifier            
         role: CodeableConcept!            
         allergenicIndicator: Boolean            
-        manufacturer: [Reference]            
+        manufacturer: [Organization]            
         specifiedSubstance: [MedicinalProductIngredientSpecifiedSubstance]            
         substance: MedicinalProductIngredientSubstance            
 }

@@ -26,8 +26,8 @@ type ImmunizationRecommendation {
         extension: [Extension]            
         modifierExtension: [Extension]            
         identifier: [Identifier]            
-        patient: Reference!            
+        patient: Patient!            
         date: dateTime!            
-        authority: Reference            
+        authority: Organization            
         recommendation: [ImmunizationRecommendationRecommendation]!            
 }

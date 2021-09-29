@@ -39,15 +39,15 @@ type PractitionerRole {
         identifier: [Identifier]            
         active: Boolean            
         period: Period            
-        practitioner: Reference            
-        organization: Reference            
+        practitioner: Practitioner            
+        organization: Organization            
         code: [CodeableConcept]            
         specialty: [CodeableConcept]            
-        location: [Reference]            
-        healthcareService: [Reference]            
+        location: [Location]            
+        healthcareService: [HealthcareService]            
         telecom: [ContactPoint]            
         availableTime: [PractitionerRoleAvailableTime]            
         notAvailable: [PractitionerRoleNotAvailable]            
         availabilityExceptions: String            
-        endpoint: [Reference]            
+        endpoint: [Endpoint]            
 }

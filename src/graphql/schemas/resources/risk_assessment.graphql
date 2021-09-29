@@ -49,20 +49,20 @@ type RiskAssessment {
         extension: [Extension]            
         modifierExtension: [Extension]            
         identifier: [Identifier]            
-        basedOn: Reference            
-        parent: Reference            
+        basedOn: Resource            
+        parent: Resource            
         status: code!            
         method: CodeableConcept            
         code: CodeableConcept            
-        subject: Reference!            
-        encounter: Reference            
+        subject: RiskAssessmentSubject!            
+        encounter: Encounter            
         occurrenceDateTime: dateTime            
         occurrencePeriod: Period            
-        condition: Reference            
-        performer: Reference            
+        condition: Condition            
+        performer: RiskAssessmentPerformer            
         reasonCode: [CodeableConcept]            
-        reasonReference: [Reference]            
-        basis: [Reference]            
+        reasonReference: [RiskAssessmentReasonReference]            
+        basis: [Resource]            
         prediction: [RiskAssessmentPrediction]            
         mitigation: String            
         note: [Annotation]            

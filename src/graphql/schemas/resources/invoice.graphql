@@ -43,12 +43,12 @@ type Invoice {
         status: code!            
         cancelledReason: String            
         type_: CodeableConcept            
-        subject: Reference            
-        recipient: Reference            
+        subject: InvoiceSubject            
+        recipient: InvoiceRecipient            
         date: dateTime            
         participant: [InvoiceParticipant]            
-        issuer: Reference            
-        account: Reference            
+        issuer: Organization            
+        account: Account            
         lineItem: [InvoiceLineItem]            
         totalPriceComponent: [InvoicePriceComponent]            
         totalNet: Money            

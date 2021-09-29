@@ -72,28 +72,28 @@ type DeviceRequest {
         identifier: [Identifier]            
         instantiatesCanonical: [canonical]            
         instantiatesUri: [uri]            
-        basedOn: [Reference]            
-        priorRequest: [Reference]            
+        basedOn: [Resource]            
+        priorRequest: [Resource]            
         groupIdentifier: Identifier            
         status: code            
         intent: code!            
         priority: code            
-        codeReference: Reference            
+        codeReference: Device            
         codeCodeableConcept: CodeableConcept            
         parameter: [DeviceRequestParameter]            
-        subject: Reference!            
-        encounter: Reference            
+        subject: DeviceRequestSubject!            
+        encounter: Encounter            
         occurrenceDateTime: dateTime            
         occurrencePeriod: Period            
         occurrenceTiming: Timing            
         authoredOn: dateTime            
-        requester: Reference            
+        requester: DeviceRequestRequester            
         performerType: CodeableConcept            
-        performer: Reference            
+        performer: DeviceRequestPerformer            
         reasonCode: [CodeableConcept]            
-        reasonReference: [Reference]            
-        insurance: [Reference]            
-        supportingInfo: [Reference]            
+        reasonReference: [DeviceRequestReasonReference]            
+        insurance: [DeviceRequestInsurance]            
+        supportingInfo: [Resource]            
         note: [Annotation]            
-        relevantHistory: [Reference]            
+        relevantHistory: [Provenance]            
 }

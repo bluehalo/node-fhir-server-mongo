@@ -42,8 +42,8 @@ type ObservationDefinition {
         preferredReportName: String            
         quantitativeDetails: ObservationDefinitionQuantitativeDetails            
         qualifiedInterval: [ObservationDefinitionQualifiedInterval]            
-        validCodedValueSet: Reference            
-        normalCodedValueSet: Reference            
-        abnormalCodedValueSet: Reference            
-        criticalCodedValueSet: Reference            
+        validCodedValueSet: ValueSet            
+        normalCodedValueSet: ValueSet            
+        abnormalCodedValueSet: ValueSet            
+        criticalCodedValueSet: ValueSet            
 }

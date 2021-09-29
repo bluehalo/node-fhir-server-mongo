@@ -29,7 +29,7 @@ type TestReport {
         identifier: Identifier            
         name: String            
         status: code!            
-        testScript: Reference!            
+        testScript: TestScript!            
         result: code!            
         score: decimal            
         tester: String            

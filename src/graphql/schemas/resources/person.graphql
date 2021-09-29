@@ -34,7 +34,7 @@ type Person {
         birthDate: date            
         address: [Address]            
         photo: Attachment            
-        managingOrganization: Reference            
+        managingOrganization: Organization            
         active: Boolean            
         link: [PersonLink]            
 }

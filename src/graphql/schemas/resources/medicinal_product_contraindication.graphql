@@ -29,11 +29,11 @@ type MedicinalProductContraindication {
         contained: [ResourceContainer]            
         extension: [Extension]            
         modifierExtension: [Extension]            
-        subject: [Reference]            
+        subject: [MedicinalProductContraindicationSubject]            
         disease: CodeableConcept            
         diseaseStatus: CodeableConcept            
         comorbidity: [CodeableConcept]            
-        therapeuticIndication: [Reference]            
+        therapeuticIndication: [MedicinalProductIndication]            
         otherTherapy: [MedicinalProductContraindicationOtherTherapy]            
         population: [Population]            
 }

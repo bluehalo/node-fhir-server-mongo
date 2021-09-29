@@ -45,14 +45,14 @@ type QuestionnaireResponse {
         extension: [Extension]            
         modifierExtension: [Extension]            
         identifier: Identifier            
-        basedOn: [Reference]            
-        partOf: [Reference]            
+        basedOn: [QuestionnaireResponseBasedOn]            
+        partOf: [QuestionnaireResponsePartOf]            
         questionnaire: canonical            
         status: code!            
-        subject: Reference            
-        encounter: Reference            
+        subject: Resource            
+        encounter: Encounter            
         authored: dateTime            
-        author: Reference            
-        source: Reference            
+        author: QuestionnaireResponseAuthor            
+        source: QuestionnaireResponseSource            
         item: [QuestionnaireResponseItem]            
 }

@@ -31,9 +31,9 @@ type VisionPrescription {
         identifier: [Identifier]            
         status: code!            
         created: dateTime!            
-        patient: Reference!            
-        encounter: Reference            
+        patient: Patient!            
+        encounter: Encounter            
         dateWritten: dateTime!            
-        prescriber: Reference!            
+        prescriber: VisionPrescriptionPrescriber!            
         lensSpecification: [VisionPrescriptionLensSpecification]!            
 }

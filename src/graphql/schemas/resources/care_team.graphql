@@ -39,13 +39,13 @@ type CareTeam {
         status: code            
         category: [CodeableConcept]            
         name: String            
-        subject: Reference            
-        encounter: Reference            
+        subject: CareTeamSubject            
+        encounter: Encounter            
         period: Period            
         participant: [CareTeamParticipant]            
         reasonCode: [CodeableConcept]            
-        reasonReference: [Reference]            
-        managingOrganization: [Reference]            
+        reasonReference: [Condition]            
+        managingOrganization: [Organization]            
         telecom: [ContactPoint]            
         note: [Annotation]            
 }

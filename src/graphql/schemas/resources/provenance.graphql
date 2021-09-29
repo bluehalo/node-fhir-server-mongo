@@ -30,12 +30,12 @@ type Provenance {
         contained: [ResourceContainer]            
         extension: [Extension]            
         modifierExtension: [Extension]            
-        target: [Reference]!            
+        target: [Resource]!            
         occurredPeriod: Period            
         occurredDateTime: dateTime            
         recorded: instant!            
         policy: [uri]            
-        location: Reference            
+        location: Location            
         reason: [CodeableConcept]            
         activity: CodeableConcept            
         agent: [ProvenanceAgent]!            

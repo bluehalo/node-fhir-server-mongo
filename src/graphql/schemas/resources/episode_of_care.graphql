@@ -42,11 +42,11 @@ type EpisodeOfCare {
         statusHistory: [EpisodeOfCareStatusHistory]            
         type_: [CodeableConcept]            
         diagnosis: [EpisodeOfCareDiagnosis]            
-        patient: Reference!            
-        managingOrganization: Reference            
+        patient: Patient!            
+        managingOrganization: Organization            
         period: Period            
-        referralRequest: [Reference]            
-        careManager: Reference            
-        team: [Reference]            
-        account: [Reference]            
+        referralRequest: [ServiceRequest]            
+        careManager: EpisodeOfCareCareManager            
+        team: [CareTeam]            
+        account: [Account]            
 }

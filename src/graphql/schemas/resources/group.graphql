@@ -36,7 +36,7 @@ type Group {
         code: CodeableConcept            
         name: String            
         quantity: unsignedInt            
-        managingEntity: Reference            
+        managingEntity: GroupManagingEntity            
         characteristic: [GroupCharacteristic]            
         member: [GroupMember]            
 }

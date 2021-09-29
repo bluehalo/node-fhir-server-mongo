@@ -42,14 +42,14 @@ type CoverageEligibilityRequest {
         status: code!            
         priority: CodeableConcept            
         purpose: [code]!            
-        patient: Reference!            
+        patient: Patient!            
         servicedDate: date            
         servicedPeriod: Period            
         created: dateTime!            
-        enterer: Reference            
-        provider: Reference            
-        insurer: Reference!            
-        facility: Reference            
+        enterer: CoverageEligibilityRequestEnterer            
+        provider: CoverageEligibilityRequestProvider            
+        insurer: Organization!            
+        facility: Location            
         supportingInfo: [CoverageEligibilityRequestSupportingInfo]            
         insurance: [CoverageEligibilityRequestInsurance]            
         item: [CoverageEligibilityRequestItem]            

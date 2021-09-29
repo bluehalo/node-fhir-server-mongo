@@ -54,23 +54,23 @@ type MedicationAdministration {
         modifierExtension: [Extension]            
         identifier: [Identifier]            
         instantiates: [uri]            
-        partOf: [Reference]            
+        partOf: [MedicationAdministrationPartOf]            
         status: code!            
         statusReason: [CodeableConcept]            
         category: CodeableConcept            
         medicationCodeableConcept: CodeableConcept            
-        medicationReference: Reference            
-        subject: Reference!            
-        context: Reference            
-        supportingInformation: [Reference]            
+        medicationReference: Medication            
+        subject: MedicationAdministrationSubject!            
+        context: MedicationAdministrationContext            
+        supportingInformation: [Resource]            
         effectiveDateTime: dateTime            
         effectivePeriod: Period            
         performer: [MedicationAdministrationPerformer]            
         reasonCode: [CodeableConcept]            
-        reasonReference: [Reference]            
-        request: Reference            
-        device: [Reference]            
+        reasonReference: [MedicationAdministrationReasonReference]            
+        request: MedicationRequest            
+        device: [Device]            
         note: [Annotation]            
         dosage: MedicationAdministrationDosage            
-        eventHistory: [Reference]            
+        eventHistory: [Provenance]            
 }

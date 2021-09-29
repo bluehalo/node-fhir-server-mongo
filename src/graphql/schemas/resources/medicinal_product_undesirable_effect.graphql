@@ -26,7 +26,7 @@ type MedicinalProductUndesirableEffect {
         contained: [ResourceContainer]            
         extension: [Extension]            
         modifierExtension: [Extension]            
-        subject: [Reference]            
+        subject: [MedicinalProductUndesirableEffectSubject]            
         symptomConditionEffect: CodeableConcept            
         classification: CodeableConcept            
         frequencyOfOccurrence: CodeableConcept            

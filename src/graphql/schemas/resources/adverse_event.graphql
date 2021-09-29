@@ -63,20 +63,20 @@ type AdverseEvent {
         actuality: code!            
         category: [CodeableConcept]            
         event: CodeableConcept            
-        subject: Reference!            
-        encounter: Reference            
+        subject: AdverseEventSubject!            
+        encounter: Encounter            
         date: dateTime            
         detected: dateTime            
         recordedDate: dateTime            
-        resultingCondition: [Reference]            
-        location: Reference            
+        resultingCondition: [Condition]            
+        location: Location            
         seriousness: CodeableConcept            
         severity: CodeableConcept            
         outcome: CodeableConcept            
-        recorder: Reference            
-        contributor: [Reference]            
+        recorder: AdverseEventRecorder            
+        contributor: [AdverseEventContributor]            
         suspectEntity: [AdverseEventSuspectEntity]            
-        subjectMedicalHistory: [Reference]            
-        referenceDocument: [Reference]            
-        study: [Reference]            
+        subjectMedicalHistory: [AdverseEventSubjectMedicalHistory]            
+        referenceDocument: [DocumentReference]            
+        study: [ResearchStudy]            
 }

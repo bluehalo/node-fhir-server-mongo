@@ -51,18 +51,18 @@ type DeviceUseStatement {
         extension: [Extension]            
         modifierExtension: [Extension]            
         identifier: [Identifier]            
-        basedOn: [Reference]            
+        basedOn: [ServiceRequest]            
         status: code!            
-        subject: Reference!            
-        derivedFrom: [Reference]            
+        subject: DeviceUseStatementSubject!            
+        derivedFrom: [DeviceUseStatementDerivedFrom]            
         timingTiming: Timing            
         timingPeriod: Period            
         timingDateTime: dateTime            
         recordedOn: dateTime            
-        source: Reference            
-        device: Reference!            
+        source: DeviceUseStatementSource            
+        device: Device!            
         reasonCode: [CodeableConcept]            
-        reasonReference: [Reference]            
+        reasonReference: [DeviceUseStatementReasonReference]            
         bodySite: CodeableConcept            
         note: [Annotation]            
 }

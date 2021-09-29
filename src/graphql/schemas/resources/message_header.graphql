@@ -45,13 +45,13 @@ type MessageHeader {
         eventCoding: Coding            
         eventUri: uri            
         destination: [MessageHeaderDestination]            
-        sender: Reference            
-        enterer: Reference            
-        author: Reference            
+        sender: MessageHeaderSender            
+        enterer: MessageHeaderEnterer            
+        author: MessageHeaderAuthor            
         source: MessageHeaderSource!            
-        responsible: Reference            
+        responsible: MessageHeaderResponsible            
         reason: CodeableConcept            
         response: MessageHeaderResponse            
-        focus: [Reference]            
+        focus: [Resource]            
         definition: canonical            
 }

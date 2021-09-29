@@ -42,10 +42,10 @@ type List {
         mode: code!            
         title: String            
         code: CodeableConcept            
-        subject: Reference            
-        encounter: Reference            
+        subject: ListSubject            
+        encounter: Encounter            
         date: dateTime            
-        source: Reference            
+        source: ListSource            
         orderedBy: CodeableConcept            
         note: [Annotation]            
         entry: [ListEntry]            

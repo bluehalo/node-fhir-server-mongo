@@ -73,10 +73,10 @@ type EffectEvidenceSynthesis {
         relatedArtifact: [RelatedArtifact]            
         synthesisType: CodeableConcept            
         studyType: CodeableConcept            
-        population: Reference!            
-        exposure: Reference!            
-        exposureAlternative: Reference!            
-        outcome: Reference!            
+        population: EvidenceVariable!            
+        exposure: EvidenceVariable!            
+        exposureAlternative: EvidenceVariable!            
+        outcome: EvidenceVariable!            
         sampleSize: EffectEvidenceSynthesisSampleSize            
         resultsByExposure: [EffectEvidenceSynthesisResultsByExposure]            
         effectEstimate: [EffectEvidenceSynthesisEffectEstimate]            

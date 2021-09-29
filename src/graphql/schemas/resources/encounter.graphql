@@ -60,19 +60,19 @@ type Encounter {
         type_: [CodeableConcept]            
         serviceType: CodeableConcept            
         priority: CodeableConcept            
-        subject: Reference            
-        episodeOfCare: [Reference]            
-        basedOn: [Reference]            
+        subject: EncounterSubject            
+        episodeOfCare: [EpisodeOfCare]            
+        basedOn: [ServiceRequest]            
         participant: [EncounterParticipant]            
-        appointment: [Reference]            
+        appointment: [Appointment]            
         period: Period            
         length: Duration            
         reasonCode: [CodeableConcept]            
-        reasonReference: [Reference]            
+        reasonReference: [EncounterReasonReference]            
         diagnosis: [EncounterDiagnosis]            
-        account: [Reference]            
+        account: [Account]            
         hospitalization: EncounterHospitalization            
         location: [EncounterLocation]            
-        serviceProvider: Reference            
-        partOf: Reference            
+        serviceProvider: Organization            
+        partOf: Encounter            
 }

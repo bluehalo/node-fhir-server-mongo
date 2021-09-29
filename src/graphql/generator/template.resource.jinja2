@@ -50,16 +50,15 @@ type {{fhir_entity.cleaned_name}} {
             {{- 'Extension' -}}
             {% elif property.is_code %}
             {{- 'code' -}}
+            {% elif property.reference_target_resources -%}
+                {% if property.reference_target_resources | length > 1  %}
+                {{- fhir_entity.cleaned_name}}{{ upper_case_first_letter(property.name) -}}
+                {% else %}
+                {{- property.reference_target_resources_names [0] -}}
+                {%  endif %}
             {% else %}
             {{- property.cleaned_type | replace(".","") -}}
             {%  endif %}
-{#            {% if property.reference_target_resources -%}#}
-{#                {% if property.reference_target_resources | length > 1  %}#}
-{#                [Union[{{ property.reference_target_resources_names | join(", ") -}}]]#}
-{#                {% else %}#}
-{#                [{{ property.reference_target_resources_names | join(", ") -}}]#}
-{#                {%  endif %}#}
-{#            {% endif -%}#}
             {% if property.is_list -%}
                 {{ ']' -}}
             {% endif -%}

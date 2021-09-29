@@ -44,14 +44,14 @@ type Composition {
         status: code!            
         type_: CodeableConcept!            
         category: [CodeableConcept]            
-        subject: Reference            
-        encounter: Reference            
+        subject: Resource            
+        encounter: Encounter            
         date: dateTime!            
-        author: [Reference]!            
+        author: [CompositionAuthor]!            
         title: String!            
         confidentiality: vConfidentialityClassification            
         attester: [CompositionAttester]            
-        custodian: Reference            
+        custodian: Organization            
         relatesTo: [CompositionRelatesTo]            
         event: [CompositionEvent]            
         section: [CompositionSection]            

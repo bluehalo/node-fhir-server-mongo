@@ -50,7 +50,7 @@ type ResearchElementDefinition {
         status: code!            
         experimental: Boolean            
         subjectCodeableConcept: CodeableConcept            
-        subjectReference: Reference            
+        subjectReference: Group            
         date: dateTime            
         publisher: String            
         contact: [ContactDetail]            

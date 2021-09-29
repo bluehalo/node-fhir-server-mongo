@@ -57,8 +57,8 @@ type Condition {
         severity: CodeableConcept            
         code: CodeableConcept            
         bodySite: [CodeableConcept]            
-        subject: Reference!            
-        encounter: Reference            
+        subject: ConditionSubject!            
+        encounter: Encounter            
         onsetDateTime: dateTime            
         onsetAge: Age            
         onsetPeriod: Period            
@@ -70,8 +70,8 @@ type Condition {
         abatementRange: Range            
         abatementString: String            
         recordedDate: dateTime            
-        recorder: Reference            
-        asserter: Reference            
+        recorder: ConditionRecorder            
+        asserter: ConditionAsserter            
         stage: [ConditionStage]            
         evidence: [ConditionEvidence]            
         note: [Annotation]            

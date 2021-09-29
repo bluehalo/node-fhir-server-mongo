@@ -47,18 +47,18 @@ type SubstanceSpecification {
         status: CodeableConcept            
         domain: CodeableConcept            
         description: String            
-        source: [Reference]            
+        source: [DocumentReference]            
         comment: String            
         moiety: [SubstanceSpecificationMoiety]            
         property: [SubstanceSpecificationProperty]            
-        referenceInformation: Reference            
+        referenceInformation: SubstanceReferenceInformation            
         structure: SubstanceSpecificationStructure            
         code: [SubstanceSpecificationCode]            
         name: [SubstanceSpecificationName]            
         molecularWeight: [SubstanceSpecificationMolecularWeight]            
         relationship: [SubstanceSpecificationRelationship]            
-        nucleicAcid: Reference            
-        polymer: Reference            
-        protein: Reference            
-        sourceMaterial: Reference            
+        nucleicAcid: SubstanceNucleicAcid            
+        polymer: SubstancePolymer            
+        protein: SubstanceProtein            
+        sourceMaterial: SubstanceSourceMaterial            
 }

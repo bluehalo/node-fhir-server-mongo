@@ -32,9 +32,9 @@ type BiologicallyDerivedProduct {
         productCategory: code            
         productCode: CodeableConcept            
         status: code            
-        request: [Reference]            
+        request: [ServiceRequest]            
         quantity: Int            
-        parent: [Reference]            
+        parent: [BiologicallyDerivedProduct]            
         collection: BiologicallyDerivedProductCollection            
         processing: [BiologicallyDerivedProductProcessing]            
         manipulation: BiologicallyDerivedProductManipulation            

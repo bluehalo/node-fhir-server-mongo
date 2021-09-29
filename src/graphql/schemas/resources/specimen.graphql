@@ -40,10 +40,10 @@ type Specimen {
         accessionIdentifier: Identifier            
         status: code            
         type_: CodeableConcept            
-        subject: Reference            
+        subject: SpecimenSubject            
         receivedTime: dateTime            
-        parent: [Reference]            
-        request: [Reference]            
+        parent: [Specimen]            
+        request: [ServiceRequest]            
         collection: SpecimenCollection            
         processing: [SpecimenProcessing]            
         container: [SpecimenContainer]            

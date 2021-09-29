@@ -57,7 +57,7 @@ type ChargeItemDefinition {
         lastReviewDate: date            
         effectivePeriod: Period            
         code: CodeableConcept            
-        instance: [Reference]            
+        instance: [ChargeItemDefinitionInstance]            
         applicability: [ChargeItemDefinitionApplicability]            
         propertyGroup: [ChargeItemDefinitionPropertyGroup]            
 }

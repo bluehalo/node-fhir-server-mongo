@@ -67,24 +67,24 @@ type Communication {
         identifier: [Identifier]            
         instantiatesCanonical: [canonical]            
         instantiatesUri: [uri]            
-        basedOn: [Reference]            
-        partOf: [Reference]            
-        inResponseTo: [Reference]            
+        basedOn: [Resource]            
+        partOf: [Resource]            
+        inResponseTo: [Communication]            
         status: code!            
         statusReason: CodeableConcept            
         category: [CodeableConcept]            
         priority: code            
         medium: [CodeableConcept]            
-        subject: Reference            
+        subject: CommunicationSubject            
         topic: CodeableConcept            
-        about: [Reference]            
-        encounter: Reference            
+        about: [Resource]            
+        encounter: Encounter            
         sent: dateTime            
         received: dateTime            
-        recipient: [Reference]            
-        sender: Reference            
+        recipient: [CommunicationRecipient]            
+        sender: CommunicationSender            
         reasonCode: [CodeableConcept]            
-        reasonReference: [Reference]            
+        reasonReference: [CommunicationReasonReference]            
         payload: [CommunicationPayload]            
         note: [Annotation]            
 }

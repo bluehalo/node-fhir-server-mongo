@@ -44,7 +44,7 @@ type DeviceDefinition {
         identifier: [Identifier]            
         udiDeviceIdentifier: [DeviceDefinitionUdiDeviceIdentifier]            
         manufacturerString: String            
-        manufacturerReference: Reference            
+        manufacturerReference: Organization            
         deviceName: [DeviceDefinitionDeviceName]            
         modelNumber: String            
         type_: CodeableConcept            
@@ -56,12 +56,12 @@ type DeviceDefinition {
         languageCode: [CodeableConcept]            
         capability: [DeviceDefinitionCapability]            
         property: [DeviceDefinitionProperty]            
-        owner: Reference            
+        owner: Organization            
         contact: [ContactPoint]            
         url: uri            
         onlineInformation: uri            
         note: [Annotation]            
         quantity: Quantity            
-        parentDevice: Reference            
+        parentDevice: DeviceDefinition            
         material: [DeviceDefinitionMaterial]            
 }

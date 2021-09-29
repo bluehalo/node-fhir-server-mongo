@@ -70,9 +70,9 @@ type Task {
         identifier: [Identifier]            
         instantiatesCanonical: canonical            
         instantiatesUri: uri            
-        basedOn: [Reference]            
+        basedOn: [Resource]            
         groupIdentifier: Identifier            
-        partOf: [Reference]            
+        partOf: [Task]            
         status: code!            
         statusReason: CodeableConcept            
         businessStatus: CodeableConcept            
@@ -80,21 +80,21 @@ type Task {
         priority: code            
         code: CodeableConcept            
         description: String            
-        focus: Reference            
-        for_: Reference            
-        encounter: Reference            
+        focus: Resource            
+        for_: Resource            
+        encounter: Encounter            
         executionPeriod: Period            
         authoredOn: dateTime            
         lastModified: dateTime            
-        requester: Reference            
+        requester: TaskRequester            
         performerType: [CodeableConcept]            
-        owner: Reference            
-        location: Reference            
+        owner: TaskOwner            
+        location: Location            
         reasonCode: CodeableConcept            
-        reasonReference: Reference            
-        insurance: [Reference]            
+        reasonReference: Resource            
+        insurance: [TaskInsurance]            
         note: [Annotation]            
-        relevantHistory: [Reference]            
+        relevantHistory: [Provenance]            
         restriction: TaskRestriction            
         input: [TaskInput]            
         output: [TaskOutput]            

@@ -43,18 +43,18 @@ type Coverage {
         identifier: [Identifier]            
         status: code!            
         type_: CodeableConcept            
-        policyHolder: Reference            
-        subscriber: Reference            
+        policyHolder: CoveragePolicyHolder            
+        subscriber: CoverageSubscriber            
         subscriberId: String            
-        beneficiary: Reference!            
+        beneficiary: Patient!            
         dependent: String            
         relationship: CodeableConcept            
         period: Period            
-        payor: [Reference]!            
+        payor: [CoveragePayor]!            
         class_: [CoverageClass]            
         order: Int            
         network: String            
         costToBeneficiary: [CoverageCostToBeneficiary]            
         subrogation: Boolean            
-        contract: [Reference]            
+        contract: [Contract]            
 }

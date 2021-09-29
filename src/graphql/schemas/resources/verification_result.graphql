@@ -29,7 +29,7 @@ type VerificationResult {
         contained: [ResourceContainer]            
         extension: [Extension]            
         modifierExtension: [Extension]            
-        target: [Reference]            
+        target: [Resource]            
         targetLocation: [String]            
         need: CodeableConcept            
         status: code!            

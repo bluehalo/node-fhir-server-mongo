@@ -28,7 +28,7 @@ type MedicinalProductInteraction {
         contained: [ResourceContainer]            
         extension: [Extension]            
         modifierExtension: [Extension]            
-        subject: [Reference]            
+        subject: [MedicinalProductInteractionSubject]            
         description: String            
         interactant: [MedicinalProductInteractionInteractant]            
         type_: CodeableConcept            

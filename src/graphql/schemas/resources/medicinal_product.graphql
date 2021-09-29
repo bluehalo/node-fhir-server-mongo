@@ -55,12 +55,12 @@ type MedicinalProduct {
         paediatricUseIndicator: CodeableConcept            
         productClassification: [CodeableConcept]            
         marketingStatus: [MarketingStatus]            
-        pharmaceuticalProduct: [Reference]            
-        packagedMedicinalProduct: [Reference]            
-        attachedDocument: [Reference]            
-        masterFile: [Reference]            
-        contact: [Reference]            
-        clinicalTrial: [Reference]            
+        pharmaceuticalProduct: [MedicinalProductPharmaceutical]            
+        packagedMedicinalProduct: [MedicinalProductPackaged]            
+        attachedDocument: [DocumentReference]            
+        masterFile: [DocumentReference]            
+        contact: [MedicinalProductContact]            
+        clinicalTrial: [ResearchStudy]            
         name: [MedicinalProductName]!            
         crossReference: [Identifier]            
         manufacturingBusinessOperation: [MedicinalProductManufacturingBusinessOperation]            

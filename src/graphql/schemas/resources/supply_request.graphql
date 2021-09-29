@@ -58,17 +58,17 @@ type SupplyRequest {
         category: CodeableConcept            
         priority: code            
         itemCodeableConcept: CodeableConcept            
-        itemReference: Reference            
+        itemReference: SupplyRequestItemReference            
         quantity: Quantity!            
         parameter: [SupplyRequestParameter]            
         occurrenceDateTime: dateTime            
         occurrencePeriod: Period            
         occurrenceTiming: Timing            
         authoredOn: dateTime            
-        requester: Reference            
-        supplier: [Reference]            
+        requester: SupplyRequestRequester            
+        supplier: [SupplyRequestSupplier]            
         reasonCode: [CodeableConcept]            
-        reasonReference: [Reference]            
-        deliverFrom: Reference            
-        deliverTo: Reference            
+        reasonReference: [SupplyRequestReasonReference]            
+        deliverFrom: SupplyRequestDeliverFrom            
+        deliverTo: SupplyRequestDeliverTo            
 }

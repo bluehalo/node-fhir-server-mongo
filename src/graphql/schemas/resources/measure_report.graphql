@@ -43,11 +43,11 @@ type MeasureReport {
         status: code!            
         type_: code!            
         measure: canonical!            
-        subject: Reference            
+        subject: MeasureReportSubject            
         date: dateTime            
-        reporter: Reference            
+        reporter: MeasureReportReporter            
         period: Period!            
         improvementNotation: CodeableConcept            
         group: [MeasureReportGroup]            
-        evaluatedResource: [Reference]            
+        evaluatedResource: [Resource]            
 }

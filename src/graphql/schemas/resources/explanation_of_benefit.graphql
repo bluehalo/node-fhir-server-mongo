@@ -74,23 +74,23 @@ type ExplanationOfBenefit {
         type_: CodeableConcept!            
         subType: CodeableConcept            
         use: code!            
-        patient: Reference!            
+        patient: Patient!            
         billablePeriod: Period            
         created: dateTime!            
-        enterer: Reference            
-        insurer: Reference!            
-        provider: Reference!            
+        enterer: ExplanationOfBenefitEnterer            
+        insurer: Organization!            
+        provider: ExplanationOfBenefitProvider!            
         priority: CodeableConcept            
         fundsReserveRequested: CodeableConcept            
         fundsReserve: CodeableConcept            
         related: [ExplanationOfBenefitRelated]            
-        prescription: Reference            
-        originalPrescription: Reference            
+        prescription: ExplanationOfBenefitPrescription            
+        originalPrescription: MedicationRequest            
         payee: ExplanationOfBenefitPayee            
-        referral: Reference            
-        facility: Reference            
-        claim: Reference            
-        claimResponse: Reference            
+        referral: ServiceRequest            
+        facility: Location            
+        claim: Claim            
+        claimResponse: ClaimResponse            
         outcome: code!            
         disposition: String            
         preAuthRef: [String]            

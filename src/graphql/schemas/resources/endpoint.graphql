@@ -32,7 +32,7 @@ type Endpoint {
         status: code!            
         connectionType: Coding!            
         name: String            
-        managingOrganization: Reference            
+        managingOrganization: Organization            
         contact: [ContactPoint]            
         period: Period            
         payloadType: [CodeableConcept]!            

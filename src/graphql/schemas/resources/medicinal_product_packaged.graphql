@@ -31,12 +31,12 @@ type MedicinalProductPackaged {
         extension: [Extension]            
         modifierExtension: [Extension]            
         identifier: [Identifier]            
-        subject: [Reference]            
+        subject: [MedicinalProduct]            
         description: String            
         legalStatusOfSupply: CodeableConcept            
         marketingStatus: [MarketingStatus]            
-        marketingAuthorization: Reference            
-        manufacturer: [Reference]            
+        marketingAuthorization: MedicinalProductAuthorization            
+        manufacturer: [Organization]            
         batchIdentifier: [MedicinalProductPackagedBatchIdentifier]            
         packageItem: [MedicinalProductPackagedPackageItem]!            
 }

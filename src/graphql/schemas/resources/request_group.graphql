@@ -48,19 +48,19 @@ type RequestGroup {
         identifier: [Identifier]            
         instantiatesCanonical: [canonical]            
         instantiatesUri: [uri]            
-        basedOn: [Reference]            
-        replaces: [Reference]            
+        basedOn: [Resource]            
+        replaces: [Resource]            
         groupIdentifier: Identifier            
         status: code!            
         intent: code!            
         priority: code            
         code: CodeableConcept            
-        subject: Reference            
-        encounter: Reference            
+        subject: RequestGroupSubject            
+        encounter: Encounter            
         authoredOn: dateTime            
-        author: Reference            
+        author: RequestGroupAuthor            
         reasonCode: [CodeableConcept]            
-        reasonReference: [Reference]            
+        reasonReference: [RequestGroupReasonReference]            
         note: [Annotation]            
         action: [RequestGroupAction]            
 }

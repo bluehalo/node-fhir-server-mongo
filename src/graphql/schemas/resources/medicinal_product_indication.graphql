@@ -31,13 +31,13 @@ type MedicinalProductIndication {
         contained: [ResourceContainer]            
         extension: [Extension]            
         modifierExtension: [Extension]            
-        subject: [Reference]            
+        subject: [MedicinalProductIndicationSubject]            
         diseaseSymptomProcedure: CodeableConcept            
         diseaseStatus: CodeableConcept            
         comorbidity: [CodeableConcept]            
         intendedEffect: CodeableConcept            
         duration: Quantity            
         otherTherapy: [MedicinalProductIndicationOtherTherapy]            
-        undesirableEffect: [Reference]            
+        undesirableEffect: [MedicinalProductUndesirableEffect]            
         population: [Population]            
 }

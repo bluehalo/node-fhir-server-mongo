@@ -59,29 +59,29 @@ type MedicationDispense {
         extension: [Extension]            
         modifierExtension: [Extension]            
         identifier: [Identifier]            
-        partOf: [Reference]            
+        partOf: [Procedure]            
         status: code!            
         statusReasonCodeableConcept: CodeableConcept            
-        statusReasonReference: Reference            
+        statusReasonReference: DetectedIssue            
         category: CodeableConcept            
         medicationCodeableConcept: CodeableConcept            
-        medicationReference: Reference            
-        subject: Reference            
-        context: Reference            
-        supportingInformation: [Reference]            
+        medicationReference: Medication            
+        subject: MedicationDispenseSubject            
+        context: MedicationDispenseContext            
+        supportingInformation: [Resource]            
         performer: [MedicationDispensePerformer]            
-        location: Reference            
-        authorizingPrescription: [Reference]            
+        location: Location            
+        authorizingPrescription: [MedicationRequest]            
         type_: CodeableConcept            
         quantity: Quantity            
         daysSupply: Quantity            
         whenPrepared: dateTime            
         whenHandedOver: dateTime            
-        destination: Reference            
-        receiver: [Reference]            
+        destination: Location            
+        receiver: [MedicationDispenseReceiver]            
         note: [Annotation]            
         dosageInstruction: [Dosage]            
         substitution: MedicationDispenseSubstitution            
-        detectedIssue: [Reference]            
-        eventHistory: [Reference]            
+        detectedIssue: [DetectedIssue]            
+        eventHistory: [Provenance]            
 }

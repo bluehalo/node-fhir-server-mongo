@@ -56,22 +56,22 @@ type Media {
         extension: [Extension]            
         modifierExtension: [Extension]            
         identifier: [Identifier]            
-        basedOn: [Reference]            
-        partOf: [Reference]            
+        basedOn: [MediaBasedOn]            
+        partOf: [Resource]            
         status: code!            
         type_: CodeableConcept            
         modality: CodeableConcept            
         view: CodeableConcept            
-        subject: Reference            
-        encounter: Reference            
+        subject: MediaSubject            
+        encounter: Encounter            
         createdDateTime: dateTime            
         createdPeriod: Period            
         issued: instant            
-        operator: Reference            
+        operator: MediaOperator            
         reasonCode: [CodeableConcept]            
         bodySite: CodeableConcept            
         deviceName: String            
-        device: Reference            
+        device: MediaDevice            
         height: Int            
         width: Int            
         frames: Int            

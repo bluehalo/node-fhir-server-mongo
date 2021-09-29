@@ -49,20 +49,20 @@ type ClinicalImpression {
         statusReason: CodeableConcept            
         code: CodeableConcept            
         description: String            
-        subject: Reference!            
-        encounter: Reference            
+        subject: ClinicalImpressionSubject!            
+        encounter: Encounter            
         effectiveDateTime: dateTime            
         effectivePeriod: Period            
         date: dateTime            
-        assessor: Reference            
-        previous: Reference            
-        problem: [Reference]            
+        assessor: ClinicalImpressionAssessor            
+        previous: ClinicalImpression            
+        problem: [ClinicalImpressionProblem]            
         investigation: [ClinicalImpressionInvestigation]            
         protocol: [uri]            
         summary: String            
         finding: [ClinicalImpressionFinding]            
         prognosisCodeableConcept: [CodeableConcept]            
-        prognosisReference: [Reference]            
-        supportingInfo: [Reference]            
+        prognosisReference: [RiskAssessment]            
+        supportingInfo: [Resource]            
         note: [Annotation]            
 }

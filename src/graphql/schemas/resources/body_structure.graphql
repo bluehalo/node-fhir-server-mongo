@@ -33,5 +33,5 @@ type BodyStructure {
         locationQualifier: [CodeableConcept]            
         description: String            
         image: [Attachment]            
-        patient: Reference!            
+        patient: Patient!            
 }

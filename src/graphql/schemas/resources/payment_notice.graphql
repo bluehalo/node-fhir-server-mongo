@@ -40,14 +40,14 @@ type PaymentNotice {
         modifierExtension: [Extension]            
         identifier: [Identifier]            
         status: code!            
-        request: Reference            
-        response: Reference            
+        request: Resource            
+        response: Resource            
         created: dateTime!            
-        provider: Reference            
-        payment: Reference!            
+        provider: PaymentNoticeProvider            
+        payment: PaymentReconciliation!            
         paymentDate: date            
-        payee: Reference            
-        recipient: Reference!            
+        payee: PaymentNoticePayee            
+        recipient: Organization!            
         amount: Money!            
         paymentStatus: CodeableConcept            
 }

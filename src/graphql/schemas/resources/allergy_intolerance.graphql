@@ -49,16 +49,16 @@ type AllergyIntolerance {
         category: [code]            
         criticality: code            
         code: CodeableConcept            
-        patient: Reference!            
-        encounter: Reference            
+        patient: Patient!            
+        encounter: Encounter            
         onsetDateTime: dateTime            
         onsetAge: Age            
         onsetPeriod: Period            
         onsetRange: Range            
         onsetString: String            
         recordedDate: dateTime            
-        recorder: Reference            
-        asserter: Reference            
+        recorder: AllergyIntoleranceRecorder            
+        asserter: AllergyIntoleranceAsserter            
         lastOccurrence: dateTime            
         note: [Annotation]            
         reaction: [AllergyIntoleranceReaction]            

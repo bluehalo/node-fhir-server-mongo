@@ -78,33 +78,33 @@ type Procedure {
         identifier: [Identifier]            
         instantiatesCanonical: [canonical]            
         instantiatesUri: [uri]            
-        basedOn: [Reference]            
-        partOf: [Reference]            
+        basedOn: [ProcedureBasedOn]            
+        partOf: [ProcedurePartOf]            
         status: code!            
         statusReason: CodeableConcept            
         category: CodeableConcept            
         code: CodeableConcept            
-        subject: Reference!            
-        encounter: Reference            
+        subject: ProcedureSubject!            
+        encounter: Encounter            
         performedDateTime: dateTime            
         performedPeriod: Period            
         performedString: String            
         performedAge: Age            
         performedRange: Range            
-        recorder: Reference            
-        asserter: Reference            
+        recorder: ProcedureRecorder            
+        asserter: ProcedureAsserter            
         performer: [ProcedurePerformer]            
-        location: Reference            
+        location: Location            
         reasonCode: [CodeableConcept]            
-        reasonReference: [Reference]            
+        reasonReference: [ProcedureReasonReference]            
         bodySite: [CodeableConcept]            
         outcome: CodeableConcept            
-        report: [Reference]            
+        report: [ProcedureReport]            
         complication: [CodeableConcept]            
-        complicationDetail: [Reference]            
+        complicationDetail: [Condition]            
         followUp: [CodeableConcept]            
         note: [Annotation]            
         focalDevice: [ProcedureFocalDevice]            
-        usedReference: [Reference]            
+        usedReference: [ProcedureUsedReference]            
         usedCode: [CodeableConcept]            
 }
