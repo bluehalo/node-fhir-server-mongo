@@ -13,20 +13,21 @@
 # import Reference from "resources/reference.graphql"
 # import Reference from "complex_types/reference.graphql"
 # import Reference from "resources/reference.graphql"
+# import CodeableConcept from "complex_types/codeable_concept.graphql"
+# import CodeableConcept from "complex_types/codeable_concept.graphql"
 # import Reference from "complex_types/reference.graphql"
 # import Reference from "resources/reference.graphql"
+# import Reference from "complex_types/reference.graphql"
 # import Reference from "resources/reference.graphql"
+# import ContactPoint from "complex_types/contact_point.graphql"
+# import PractitionerRoleAvailableTime from "backbone_elements/practitioner_role_available_time.graphql"
+# import PractitionerRoleNotAvailable from "backbone_elements/practitioner_role_not_available.graphql"
+# import Reference from "complex_types/reference.graphql"
 # import Reference from "resources/reference.graphql"
-# import RemittanceOutcome from "complex_types/remittance_outcome.graphql"
-# import Money from "complex_types/money.graphql"
-# import Identifier from "complex_types/identifier.graphql"
-# import PaymentReconciliationDetail from "backbone_elements/payment_reconciliation_detail.graphql"
-# import CodeableConcept from "complex_types/codeable_concept.graphql"
-# import PaymentReconciliationProcessNote from "backbone_elements/payment_reconciliation_process_note.graphql"
 
-union PaymentReconciliationRequestor = Practitioner | PractitionerRole | Organization
 
-type PaymentReconciliation {
+
+type PractitionerRole {
         id_: id            
         meta: Meta            
         implicitRules: uri            
@@ -36,18 +37,17 @@ type PaymentReconciliation {
         extension: [Extension]            
         modifierExtension: [Extension]            
         identifier: [Identifier]            
-        status: code!            
+        active: Boolean            
         period: Period            
-        created: dateTime!            
-        paymentIssuer: Reference            
-        request: Reference            
-        requestor: Reference            
-        outcome: RemittanceOutcome            
-        disposition: String            
-        paymentDate: date!            
-        paymentAmount: Money!            
-        paymentIdentifier: Identifier            
-        detail: [PaymentReconciliationDetail]            
-        formCode: CodeableConcept            
-        processNote: [PaymentReconciliationProcessNote]            
+        practitioner: Reference            
+        organization: Reference            
+        code: [CodeableConcept]            
+        specialty: [CodeableConcept]            
+        location: [Reference]            
+        healthcareService: [Reference]            
+        telecom: [ContactPoint]            
+        availableTime: [PractitionerRoleAvailableTime]            
+        notAvailable: [PractitionerRoleNotAvailable]            
+        availabilityExceptions: String            
+        endpoint: [Reference]            
 }

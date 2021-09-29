@@ -254,6 +254,7 @@ class FhirXmlSchemaParser:
             c
             for c in fhir_entities
             if c.fhir_name not in [b.name for b in value_sets]
+            or c.cleaned_name in ["PractitionerRole", "ElementDefinition"]
         ]
         fhir_entities.extend(
             [
