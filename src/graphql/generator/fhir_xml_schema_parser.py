@@ -109,13 +109,13 @@ logger = logging.getLogger(__name__)
 class FhirXmlSchemaParser:
     cleaned_type_mapping: Dict[str, str] = {
         "boolean": "Boolean",
-        "date": "date",
-        "dateTime": "dateTime",
-        "time": "time",
-        "instant": "instant",
+        # "date": "date",
+        # "dateTime": "dateTime",
+        # "time": "time",
+        # "instant": "instant",
         "integer": "Int",
         "positiveInt": "Int",
-        "decimal": "decimal",
+        # "decimal": "decimal",
         "string": "String",
         # "DataType": "FhirDataType",
         # "markdown": "FhirMarkdown",
@@ -739,9 +739,9 @@ class FhirXmlSchemaParser:
                         cleaned_type=cleaned_type
                         if cleaned_type not in FhirXmlSchemaParser.cleaned_type_mapping
                         else FhirXmlSchemaParser.cleaned_type_mapping[cleaned_type],
-                        type_snake_case=FhirXmlSchemaParser.camel_to_snake(cleaned_type)
+                        type_snake_case=cleaned_type
                         if cleaned_type not in FhirXmlSchemaParser.cleaned_type_mapping
-                        else FhirXmlSchemaParser.camel_to_snake(cleaned_type),
+                        else cleaned_type,
                         optional=optional,
                         is_list=is_list,
                         documentation=[property_documentation],
