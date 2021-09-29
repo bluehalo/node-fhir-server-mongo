@@ -2,15 +2,15 @@
 # import Extension from "../extensions/Extension.graphql"
 # import Extension from "../extensions/Extension.graphql"
 # import code from "../simple_types/code.graphql"
-# import Period from "../complex_types/Period.graphql"
-# import ConsentActor from "../backbone_elements/ConsentActor.graphql"
-# import CodeableConcept from "../complex_types/CodeableConcept.graphql"
-# import Coding from "../complex_types/Coding.graphql"
-# import Coding from "../complex_types/Coding.graphql"
-# import Coding from "../complex_types/Coding.graphql"
-# import CodeableConcept from "../complex_types/CodeableConcept.graphql"
-# import Period from "../complex_types/Period.graphql"
-# import ConsentData from "../backbone_elements/ConsentData.graphql"
+# import Period from "../complex_types/period.graphql"
+# import ConsentActor from "../backbone_elements/backbone_element.graphql"
+# import CodeableConcept from "../complex_types/codeableConcept.graphql"
+# import Coding from "../complex_types/coding.graphql"
+# import Coding from "../complex_types/coding.graphql"
+# import Coding from "../complex_types/coding.graphql"
+# import CodeableConcept from "../complex_types/codeableConcept.graphql"
+# import Period from "../complex_types/period.graphql"
+# import ConsentData from "../backbone_elements/backbone_element.graphql"
 
 
 
@@ -20,15 +20,15 @@ type ConsentProvision {
         modifierExtension: [Extension]            
         type_: code            
         period: Period            
-        actor: [ConsentActor]            
+        actor: [BackboneElement]            
         action: [CodeableConcept]            
         securityLabel: [Coding]            
         purpose: [Coding]            
         class_: [Coding]            
         code: [CodeableConcept]            
         dataPeriod: Period            
-        data: [ConsentData]            
-        provision: [ConsentProvision]            
+        data: [BackboneElement]            
+        provision: [BackboneElement]            
 }
 
 extend type Query {

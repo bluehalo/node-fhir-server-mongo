@@ -2,9 +2,9 @@
 # import Extension from "../extensions/Extension.graphql"
 # import Extension from "../extensions/Extension.graphql"
 # import date from "../simple_types/date.graphql"
-# import CodeableConcept from "../complex_types/CodeableConcept.graphql"
-# import Address from "../complex_types/Address.graphql"
-# import Reference from "../complex_types/Reference.graphql"
+# import CodeableConcept from "../complex_types/codeableConcept.graphql"
+# import Address from "../complex_types/address.graphql"
+# import Reference from "../complex_types/reference.graphql"
 # import Reference from "../resources/Reference.graphql"
 
 
@@ -16,7 +16,7 @@ type ExplanationOfBenefitAccident {
         date: date            
         type_: CodeableConcept            
         locationAddress: Address            
-        locationReference: Location            
+        locationReference: Resource            
 }
 
 extend type Query {

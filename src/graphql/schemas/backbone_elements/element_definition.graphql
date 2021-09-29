@@ -2,15 +2,15 @@
 # import Extension from "../extensions/Extension.graphql"
 # import Extension from "../extensions/Extension.graphql"
 # import code from "../simple_types/code.graphql"
-# import Coding from "../complex_types/Coding.graphql"
-# import ElementDefinitionSlicing from "../backbone_elements/ElementDefinitionSlicing.graphql"
+# import Coding from "../complex_types/coding.graphql"
+# import ElementDefinitionSlicing from "../backbone_elements/backbone_element.graphql"
 # import markdown from "../simple_types/markdown.graphql"
 # import markdown from "../simple_types/markdown.graphql"
 # import markdown from "../simple_types/markdown.graphql"
 # import unsignedInt from "../simple_types/unsignedInt.graphql"
-# import ElementDefinitionBase from "../backbone_elements/ElementDefinitionBase.graphql"
+# import ElementDefinitionBase from "../backbone_elements/backbone_element.graphql"
 # import uri from "../simple_types/uri.graphql"
-# import ElementDefinitionType from "../backbone_elements/ElementDefinitionType.graphql"
+# import ElementDefinitionType from "../backbone_elements/backbone_element.graphql"
 # import base64Binary from "../simple_types/base64Binary.graphql"
 # import canonical from "../simple_types/canonical.graphql"
 # import code from "../simple_types/code.graphql"
@@ -26,38 +26,38 @@
 # import uri from "../simple_types/uri.graphql"
 # import url from "../simple_types/url.graphql"
 # import uuid from "../simple_types/uuid.graphql"
-# import Address from "../complex_types/Address.graphql"
-# import Age from "../simple_types/Age.graphql"
-# import Annotation from "../complex_types/Annotation.graphql"
-# import Attachment from "../complex_types/Attachment.graphql"
-# import CodeableConcept from "../complex_types/CodeableConcept.graphql"
-# import Coding from "../complex_types/Coding.graphql"
-# import ContactPoint from "../complex_types/ContactPoint.graphql"
-# import Count from "../simple_types/Count.graphql"
-# import Distance from "../simple_types/Distance.graphql"
-# import Duration from "../simple_types/Duration.graphql"
-# import HumanName from "../complex_types/HumanName.graphql"
-# import Identifier from "../complex_types/Identifier.graphql"
-# import Money from "../complex_types/Money.graphql"
-# import Period from "../complex_types/Period.graphql"
-# import Quantity from "../complex_types/Quantity.graphql"
-# import Range from "../complex_types/Range.graphql"
-# import Ratio from "../complex_types/Ratio.graphql"
-# import Reference from "../complex_types/Reference.graphql"
+# import Address from "../complex_types/address.graphql"
+# import Quantity from "../complex_types/quantity.graphql"
+# import Annotation from "../complex_types/annotation.graphql"
+# import Attachment from "../complex_types/attachment.graphql"
+# import CodeableConcept from "../complex_types/codeableConcept.graphql"
+# import Coding from "../complex_types/coding.graphql"
+# import ContactPoint from "../complex_types/contactPoint.graphql"
+# import Quantity from "../complex_types/quantity.graphql"
+# import Quantity from "../complex_types/quantity.graphql"
+# import Quantity from "../complex_types/quantity.graphql"
+# import HumanName from "../complex_types/humanName.graphql"
+# import Identifier from "../complex_types/identifier.graphql"
+# import Money from "../complex_types/money.graphql"
+# import Period from "../complex_types/period.graphql"
+# import Quantity from "../complex_types/quantity.graphql"
+# import Range from "../complex_types/range.graphql"
+# import Ratio from "../complex_types/ratio.graphql"
+# import Reference from "../complex_types/reference.graphql"
 # import Reference from "../resources/Reference.graphql"
-# import SampledData from "../complex_types/SampledData.graphql"
-# import Signature from "../complex_types/Signature.graphql"
-# import Timing from "../backbone_elements/Timing.graphql"
-# import ContactDetail from "../complex_types/ContactDetail.graphql"
-# import Contributor from "../complex_types/Contributor.graphql"
-# import DataRequirement from "../complex_types/DataRequirement.graphql"
-# import Expression from "../complex_types/Expression.graphql"
-# import ParameterDefinition from "../complex_types/ParameterDefinition.graphql"
-# import RelatedArtifact from "../complex_types/RelatedArtifact.graphql"
-# import TriggerDefinition from "../complex_types/TriggerDefinition.graphql"
-# import UsageContext from "../complex_types/UsageContext.graphql"
-# import Dosage from "../backbone_elements/Dosage.graphql"
-# import Meta from "../complex_types/Meta.graphql"
+# import SampledData from "../complex_types/sampledData.graphql"
+# import Signature from "../complex_types/signature.graphql"
+# import Timing from "../backbone_elements/backbone_element.graphql"
+# import ContactDetail from "../complex_types/contactDetail.graphql"
+# import Contributor from "../complex_types/contributor.graphql"
+# import DataRequirement from "../complex_types/dataRequirement.graphql"
+# import Expression from "../complex_types/expression.graphql"
+# import ParameterDefinition from "../complex_types/parameterDefinition.graphql"
+# import RelatedArtifact from "../complex_types/relatedArtifact.graphql"
+# import TriggerDefinition from "../complex_types/triggerDefinition.graphql"
+# import UsageContext from "../complex_types/usageContext.graphql"
+# import Dosage from "../backbone_elements/backbone_element.graphql"
+# import Meta from "../complex_types/meta.graphql"
 # import markdown from "../simple_types/markdown.graphql"
 # import base64Binary from "../simple_types/base64Binary.graphql"
 # import canonical from "../simple_types/canonical.graphql"
@@ -74,38 +74,38 @@
 # import uri from "../simple_types/uri.graphql"
 # import url from "../simple_types/url.graphql"
 # import uuid from "../simple_types/uuid.graphql"
-# import Address from "../complex_types/Address.graphql"
-# import Age from "../simple_types/Age.graphql"
-# import Annotation from "../complex_types/Annotation.graphql"
-# import Attachment from "../complex_types/Attachment.graphql"
-# import CodeableConcept from "../complex_types/CodeableConcept.graphql"
-# import Coding from "../complex_types/Coding.graphql"
-# import ContactPoint from "../complex_types/ContactPoint.graphql"
-# import Count from "../simple_types/Count.graphql"
-# import Distance from "../simple_types/Distance.graphql"
-# import Duration from "../simple_types/Duration.graphql"
-# import HumanName from "../complex_types/HumanName.graphql"
-# import Identifier from "../complex_types/Identifier.graphql"
-# import Money from "../complex_types/Money.graphql"
-# import Period from "../complex_types/Period.graphql"
-# import Quantity from "../complex_types/Quantity.graphql"
-# import Range from "../complex_types/Range.graphql"
-# import Ratio from "../complex_types/Ratio.graphql"
-# import Reference from "../complex_types/Reference.graphql"
+# import Address from "../complex_types/address.graphql"
+# import Quantity from "../complex_types/quantity.graphql"
+# import Annotation from "../complex_types/annotation.graphql"
+# import Attachment from "../complex_types/attachment.graphql"
+# import CodeableConcept from "../complex_types/codeableConcept.graphql"
+# import Coding from "../complex_types/coding.graphql"
+# import ContactPoint from "../complex_types/contactPoint.graphql"
+# import Quantity from "../complex_types/quantity.graphql"
+# import Quantity from "../complex_types/quantity.graphql"
+# import Quantity from "../complex_types/quantity.graphql"
+# import HumanName from "../complex_types/humanName.graphql"
+# import Identifier from "../complex_types/identifier.graphql"
+# import Money from "../complex_types/money.graphql"
+# import Period from "../complex_types/period.graphql"
+# import Quantity from "../complex_types/quantity.graphql"
+# import Range from "../complex_types/range.graphql"
+# import Ratio from "../complex_types/ratio.graphql"
+# import Reference from "../complex_types/reference.graphql"
 # import Reference from "../resources/Reference.graphql"
-# import SampledData from "../complex_types/SampledData.graphql"
-# import Signature from "../complex_types/Signature.graphql"
-# import Timing from "../backbone_elements/Timing.graphql"
-# import ContactDetail from "../complex_types/ContactDetail.graphql"
-# import Contributor from "../complex_types/Contributor.graphql"
-# import DataRequirement from "../complex_types/DataRequirement.graphql"
-# import Expression from "../complex_types/Expression.graphql"
-# import ParameterDefinition from "../complex_types/ParameterDefinition.graphql"
-# import RelatedArtifact from "../complex_types/RelatedArtifact.graphql"
-# import TriggerDefinition from "../complex_types/TriggerDefinition.graphql"
-# import UsageContext from "../complex_types/UsageContext.graphql"
-# import Dosage from "../backbone_elements/Dosage.graphql"
-# import Meta from "../complex_types/Meta.graphql"
+# import SampledData from "../complex_types/sampledData.graphql"
+# import Signature from "../complex_types/signature.graphql"
+# import Timing from "../backbone_elements/backbone_element.graphql"
+# import ContactDetail from "../complex_types/contactDetail.graphql"
+# import Contributor from "../complex_types/contributor.graphql"
+# import DataRequirement from "../complex_types/dataRequirement.graphql"
+# import Expression from "../complex_types/expression.graphql"
+# import ParameterDefinition from "../complex_types/parameterDefinition.graphql"
+# import RelatedArtifact from "../complex_types/relatedArtifact.graphql"
+# import TriggerDefinition from "../complex_types/triggerDefinition.graphql"
+# import UsageContext from "../complex_types/usageContext.graphql"
+# import Dosage from "../backbone_elements/backbone_element.graphql"
+# import Meta from "../complex_types/meta.graphql"
 # import base64Binary from "../simple_types/base64Binary.graphql"
 # import canonical from "../simple_types/canonical.graphql"
 # import code from "../simple_types/code.graphql"
@@ -121,57 +121,57 @@
 # import uri from "../simple_types/uri.graphql"
 # import url from "../simple_types/url.graphql"
 # import uuid from "../simple_types/uuid.graphql"
-# import Address from "../complex_types/Address.graphql"
-# import Age from "../simple_types/Age.graphql"
-# import Annotation from "../complex_types/Annotation.graphql"
-# import Attachment from "../complex_types/Attachment.graphql"
-# import CodeableConcept from "../complex_types/CodeableConcept.graphql"
-# import Coding from "../complex_types/Coding.graphql"
-# import ContactPoint from "../complex_types/ContactPoint.graphql"
-# import Count from "../simple_types/Count.graphql"
-# import Distance from "../simple_types/Distance.graphql"
-# import Duration from "../simple_types/Duration.graphql"
-# import HumanName from "../complex_types/HumanName.graphql"
-# import Identifier from "../complex_types/Identifier.graphql"
-# import Money from "../complex_types/Money.graphql"
-# import Period from "../complex_types/Period.graphql"
-# import Quantity from "../complex_types/Quantity.graphql"
-# import Range from "../complex_types/Range.graphql"
-# import Ratio from "../complex_types/Ratio.graphql"
-# import Reference from "../complex_types/Reference.graphql"
+# import Address from "../complex_types/address.graphql"
+# import Quantity from "../complex_types/quantity.graphql"
+# import Annotation from "../complex_types/annotation.graphql"
+# import Attachment from "../complex_types/attachment.graphql"
+# import CodeableConcept from "../complex_types/codeableConcept.graphql"
+# import Coding from "../complex_types/coding.graphql"
+# import ContactPoint from "../complex_types/contactPoint.graphql"
+# import Quantity from "../complex_types/quantity.graphql"
+# import Quantity from "../complex_types/quantity.graphql"
+# import Quantity from "../complex_types/quantity.graphql"
+# import HumanName from "../complex_types/humanName.graphql"
+# import Identifier from "../complex_types/identifier.graphql"
+# import Money from "../complex_types/money.graphql"
+# import Period from "../complex_types/period.graphql"
+# import Quantity from "../complex_types/quantity.graphql"
+# import Range from "../complex_types/range.graphql"
+# import Ratio from "../complex_types/ratio.graphql"
+# import Reference from "../complex_types/reference.graphql"
 # import Reference from "../resources/Reference.graphql"
-# import SampledData from "../complex_types/SampledData.graphql"
-# import Signature from "../complex_types/Signature.graphql"
-# import Timing from "../backbone_elements/Timing.graphql"
-# import ContactDetail from "../complex_types/ContactDetail.graphql"
-# import Contributor from "../complex_types/Contributor.graphql"
-# import DataRequirement from "../complex_types/DataRequirement.graphql"
-# import Expression from "../complex_types/Expression.graphql"
-# import ParameterDefinition from "../complex_types/ParameterDefinition.graphql"
-# import RelatedArtifact from "../complex_types/RelatedArtifact.graphql"
-# import TriggerDefinition from "../complex_types/TriggerDefinition.graphql"
-# import UsageContext from "../complex_types/UsageContext.graphql"
-# import Dosage from "../backbone_elements/Dosage.graphql"
-# import Meta from "../complex_types/Meta.graphql"
-# import ElementDefinitionExample from "../backbone_elements/ElementDefinitionExample.graphql"
+# import SampledData from "../complex_types/sampledData.graphql"
+# import Signature from "../complex_types/signature.graphql"
+# import Timing from "../backbone_elements/backbone_element.graphql"
+# import ContactDetail from "../complex_types/contactDetail.graphql"
+# import Contributor from "../complex_types/contributor.graphql"
+# import DataRequirement from "../complex_types/dataRequirement.graphql"
+# import Expression from "../complex_types/expression.graphql"
+# import ParameterDefinition from "../complex_types/parameterDefinition.graphql"
+# import RelatedArtifact from "../complex_types/relatedArtifact.graphql"
+# import TriggerDefinition from "../complex_types/triggerDefinition.graphql"
+# import UsageContext from "../complex_types/usageContext.graphql"
+# import Dosage from "../backbone_elements/backbone_element.graphql"
+# import Meta from "../complex_types/meta.graphql"
+# import ElementDefinitionExample from "../backbone_elements/backbone_element.graphql"
 # import date from "../simple_types/date.graphql"
 # import dateTime from "../simple_types/dateTime.graphql"
 # import instant from "../simple_types/instant.graphql"
 # import time from "../simple_types/time.graphql"
 # import decimal from "../simple_types/decimal.graphql"
 # import unsignedInt from "../simple_types/unsignedInt.graphql"
-# import Quantity from "../complex_types/Quantity.graphql"
+# import Quantity from "../complex_types/quantity.graphql"
 # import date from "../simple_types/date.graphql"
 # import dateTime from "../simple_types/dateTime.graphql"
 # import instant from "../simple_types/instant.graphql"
 # import time from "../simple_types/time.graphql"
 # import decimal from "../simple_types/decimal.graphql"
 # import unsignedInt from "../simple_types/unsignedInt.graphql"
-# import Quantity from "../complex_types/Quantity.graphql"
+# import Quantity from "../complex_types/quantity.graphql"
 # import id from "../simple_types/id.graphql"
-# import ElementDefinitionConstraint from "../backbone_elements/ElementDefinitionConstraint.graphql"
-# import ElementDefinitionBinding from "../backbone_elements/ElementDefinitionBinding.graphql"
-# import ElementDefinitionMapping from "../backbone_elements/ElementDefinitionMapping.graphql"
+# import ElementDefinitionConstraint from "../backbone_elements/backbone_element.graphql"
+# import ElementDefinitionBinding from "../backbone_elements/backbone_element.graphql"
+# import ElementDefinitionMapping from "../backbone_elements/backbone_element.graphql"
 
 
 
@@ -185,7 +185,7 @@ type ElementDefinition {
         sliceIsConstraining: Boolean            
         label: String            
         code: [Coding]            
-        slicing: ElementDefinitionSlicing            
+        slicing: BackboneElement            
         short: String            
         definition: markdown            
         comment: markdown            
@@ -193,9 +193,9 @@ type ElementDefinition {
         alias: [String]            
         min: unsignedInt            
         max: String            
-        base: ElementDefinitionBase            
+        base: BackboneElement            
         contentReference: uri            
-        type_: [ElementDefinitionType]            
+        type_: [BackboneElement]            
         defaultValueBase64Binary: base64Binary            
         defaultValueBoolean: Boolean            
         defaultValueCanonical: canonical            
@@ -216,15 +216,15 @@ type ElementDefinition {
         defaultValueUrl: url            
         defaultValueUuid: uuid            
         defaultValueAddress: Address            
-        defaultValueAge: Age            
+        defaultValueAge: Quantity            
         defaultValueAnnotation: Annotation            
         defaultValueAttachment: Attachment            
         defaultValueCodeableConcept: CodeableConcept            
         defaultValueCoding: Coding            
         defaultValueContactPoint: ContactPoint            
-        defaultValueCount: Count            
-        defaultValueDistance: Distance            
-        defaultValueDuration: Duration            
+        defaultValueCount: Quantity            
+        defaultValueDistance: Quantity            
+        defaultValueDuration: Quantity            
         defaultValueHumanName: HumanName            
         defaultValueIdentifier: Identifier            
         defaultValueMoney: Money            
@@ -235,7 +235,7 @@ type ElementDefinition {
         defaultValueReference: Resource            
         defaultValueSampledData: SampledData            
         defaultValueSignature: Signature            
-        defaultValueTiming: Timing            
+        defaultValueTiming: BackboneElement            
         defaultValueContactDetail: ContactDetail            
         defaultValueContributor: Contributor            
         defaultValueDataRequirement: DataRequirement            
@@ -244,7 +244,7 @@ type ElementDefinition {
         defaultValueRelatedArtifact: RelatedArtifact            
         defaultValueTriggerDefinition: TriggerDefinition            
         defaultValueUsageContext: UsageContext            
-        defaultValueDosage: Dosage            
+        defaultValueDosage: BackboneElement            
         defaultValueMeta: Meta            
         meaningWhenMissing: markdown            
         orderMeaning: String            
@@ -268,15 +268,15 @@ type ElementDefinition {
         fixedUrl: url            
         fixedUuid: uuid            
         fixedAddress: Address            
-        fixedAge: Age            
+        fixedAge: Quantity            
         fixedAnnotation: Annotation            
         fixedAttachment: Attachment            
         fixedCodeableConcept: CodeableConcept            
         fixedCoding: Coding            
         fixedContactPoint: ContactPoint            
-        fixedCount: Count            
-        fixedDistance: Distance            
-        fixedDuration: Duration            
+        fixedCount: Quantity            
+        fixedDistance: Quantity            
+        fixedDuration: Quantity            
         fixedHumanName: HumanName            
         fixedIdentifier: Identifier            
         fixedMoney: Money            
@@ -287,7 +287,7 @@ type ElementDefinition {
         fixedReference: Resource            
         fixedSampledData: SampledData            
         fixedSignature: Signature            
-        fixedTiming: Timing            
+        fixedTiming: BackboneElement            
         fixedContactDetail: ContactDetail            
         fixedContributor: Contributor            
         fixedDataRequirement: DataRequirement            
@@ -296,7 +296,7 @@ type ElementDefinition {
         fixedRelatedArtifact: RelatedArtifact            
         fixedTriggerDefinition: TriggerDefinition            
         fixedUsageContext: UsageContext            
-        fixedDosage: Dosage            
+        fixedDosage: BackboneElement            
         fixedMeta: Meta            
         patternBase64Binary: base64Binary            
         patternBoolean: Boolean            
@@ -318,15 +318,15 @@ type ElementDefinition {
         patternUrl: url            
         patternUuid: uuid            
         patternAddress: Address            
-        patternAge: Age            
+        patternAge: Quantity            
         patternAnnotation: Annotation            
         patternAttachment: Attachment            
         patternCodeableConcept: CodeableConcept            
         patternCoding: Coding            
         patternContactPoint: ContactPoint            
-        patternCount: Count            
-        patternDistance: Distance            
-        patternDuration: Duration            
+        patternCount: Quantity            
+        patternDistance: Quantity            
+        patternDuration: Quantity            
         patternHumanName: HumanName            
         patternIdentifier: Identifier            
         patternMoney: Money            
@@ -337,7 +337,7 @@ type ElementDefinition {
         patternReference: Resource            
         patternSampledData: SampledData            
         patternSignature: Signature            
-        patternTiming: Timing            
+        patternTiming: BackboneElement            
         patternContactDetail: ContactDetail            
         patternContributor: Contributor            
         patternDataRequirement: DataRequirement            
@@ -346,9 +346,9 @@ type ElementDefinition {
         patternRelatedArtifact: RelatedArtifact            
         patternTriggerDefinition: TriggerDefinition            
         patternUsageContext: UsageContext            
-        patternDosage: Dosage            
+        patternDosage: BackboneElement            
         patternMeta: Meta            
-        example: [ElementDefinitionExample]            
+        example: [BackboneElement]            
         minValueDate: date            
         minValueDateTime: dateTime            
         minValueInstant: instant            
@@ -369,13 +369,13 @@ type ElementDefinition {
         maxValueQuantity: Quantity            
         maxLength: Int            
         condition: [id]            
-        constraint: [ElementDefinitionConstraint]            
+        constraint: [BackboneElement]            
         mustSupport: Boolean            
         isModifier: Boolean            
         isModifierReason: String            
         isSummary: Boolean            
-        binding: ElementDefinitionBinding            
-        mapping: [ElementDefinitionMapping]            
+        binding: BackboneElement            
+        mapping: [BackboneElement]            
 }
 
 extend type Query {

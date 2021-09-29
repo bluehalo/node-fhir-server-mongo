@@ -2,9 +2,9 @@
 # import Extension from "../extensions/Extension.graphql"
 # import Extension from "../extensions/Extension.graphql"
 # import id from "../simple_types/id.graphql"
-# import StructureMapSource from "../backbone_elements/StructureMapSource.graphql"
-# import StructureMapTarget from "../backbone_elements/StructureMapTarget.graphql"
-# import StructureMapDependent from "../backbone_elements/StructureMapDependent.graphql"
+# import StructureMapSource from "../backbone_elements/backbone_element.graphql"
+# import StructureMapTarget from "../backbone_elements/backbone_element.graphql"
+# import StructureMapDependent from "../backbone_elements/backbone_element.graphql"
 
 
 
@@ -13,10 +13,10 @@ type StructureMapRule {
         extension: [Extension]            
         modifierExtension: [Extension]            
         name: id!            
-        source: [StructureMapSource]!            
-        target: [StructureMapTarget]            
-        rule: [StructureMapRule]            
-        dependent: [StructureMapDependent]            
+        source: [BackboneElement]!            
+        target: [BackboneElement]            
+        rule: [BackboneElement]            
+        dependent: [BackboneElement]            
         documentation: String            
 }
 

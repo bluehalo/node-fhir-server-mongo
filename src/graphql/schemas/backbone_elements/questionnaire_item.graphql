@@ -2,13 +2,13 @@
 # import Extension from "../extensions/Extension.graphql"
 # import Extension from "../extensions/Extension.graphql"
 # import uri from "../simple_types/uri.graphql"
-# import Coding from "../complex_types/Coding.graphql"
+# import Coding from "../complex_types/coding.graphql"
 # import code from "../simple_types/code.graphql"
-# import QuestionnaireEnableWhen from "../backbone_elements/QuestionnaireEnableWhen.graphql"
+# import QuestionnaireEnableWhen from "../backbone_elements/backbone_element.graphql"
 # import code from "../simple_types/code.graphql"
 # import canonical from "../simple_types/canonical.graphql"
-# import QuestionnaireAnswerOption from "../backbone_elements/QuestionnaireAnswerOption.graphql"
-# import QuestionnaireInitial from "../backbone_elements/QuestionnaireInitial.graphql"
+# import QuestionnaireAnswerOption from "../backbone_elements/backbone_element.graphql"
+# import QuestionnaireInitial from "../backbone_elements/backbone_element.graphql"
 
 
 
@@ -22,16 +22,16 @@ type QuestionnaireItem {
         prefix: String            
         text: String            
         type_: code!            
-        enableWhen: [QuestionnaireEnableWhen]            
+        enableWhen: [BackboneElement]            
         enableBehavior: code            
         required: Boolean            
         repeats: Boolean            
         readOnly: Boolean            
         maxLength: Int            
         answerValueSet: canonical            
-        answerOption: [QuestionnaireAnswerOption]            
-        initial: [QuestionnaireInitial]            
-        item: [QuestionnaireItem]            
+        answerOption: [BackboneElement]            
+        initial: [BackboneElement]            
+        item: [BackboneElement]            
 }
 
 extend type Query {

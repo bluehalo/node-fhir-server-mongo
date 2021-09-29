@@ -4,40 +4,26 @@
 # import code from "../simple_types/code.graphql"
 # import canonical from "../simple_types/canonical.graphql"
 # import uri from "../simple_types/uri.graphql"
-# import CodeableConcept from "../complex_types/CodeableConcept.graphql"
-# import CodeableConcept from "../complex_types/CodeableConcept.graphql"
-# import Reference from "../complex_types/Reference.graphql"
+# import CodeableConcept from "../complex_types/codeableConcept.graphql"
+# import CodeableConcept from "../complex_types/codeableConcept.graphql"
+# import Reference from "../complex_types/reference.graphql"
 # import Reference from "../resources/Reference.graphql"
-# import Reference from "../resources/Reference.graphql"
-# import Reference from "../resources/Reference.graphql"
-# import Reference from "../resources/Reference.graphql"
-# import Reference from "../complex_types/Reference.graphql"
+# import Reference from "../complex_types/reference.graphql"
 # import Reference from "../resources/Reference.graphql"
 # import code from "../simple_types/code.graphql"
-# import CodeableConcept from "../complex_types/CodeableConcept.graphql"
-# import Timing from "../backbone_elements/Timing.graphql"
-# import Period from "../complex_types/Period.graphql"
-# import Reference from "../complex_types/Reference.graphql"
+# import CodeableConcept from "../complex_types/codeableConcept.graphql"
+# import Timing from "../backbone_elements/backbone_element.graphql"
+# import Period from "../complex_types/period.graphql"
+# import Reference from "../complex_types/reference.graphql"
 # import Reference from "../resources/Reference.graphql"
-# import Reference from "../complex_types/Reference.graphql"
+# import Reference from "../complex_types/reference.graphql"
 # import Reference from "../resources/Reference.graphql"
+# import CodeableConcept from "../complex_types/codeableConcept.graphql"
+# import Reference from "../complex_types/reference.graphql"
 # import Reference from "../resources/Reference.graphql"
-# import Reference from "../resources/Reference.graphql"
-# import Reference from "../resources/Reference.graphql"
-# import Reference from "../resources/Reference.graphql"
-# import Reference from "../resources/Reference.graphql"
-# import Reference from "../resources/Reference.graphql"
-# import Reference from "../resources/Reference.graphql"
-# import CodeableConcept from "../complex_types/CodeableConcept.graphql"
-# import Reference from "../complex_types/Reference.graphql"
-# import Reference from "../resources/Reference.graphql"
-# import Reference from "../resources/Reference.graphql"
-# import Quantity from "../complex_types/Quantity.graphql"
-# import Quantity from "../complex_types/Quantity.graphql"
+# import Quantity from "../complex_types/quantity.graphql"
+# import Quantity from "../complex_types/quantity.graphql"
 
-union CarePlanDetailReasonReference = Condition | Observation | DiagnosticReport | DocumentReference
-union CarePlanDetailPerformer = Practitioner | PractitionerRole | Organization | RelatedPerson | Patient | CareTeam | HealthcareService | Device
-union CarePlanDetailProductReference = Medication | Substance
 
 
 type CarePlanDetail {
@@ -49,18 +35,18 @@ type CarePlanDetail {
         instantiatesUri: [uri]            
         code: CodeableConcept            
         reasonCode: [CodeableConcept]            
-        reasonReference: [CarePlanDetailReasonReference]            
-        goal: [Goal]            
+        reasonReference: [Resource]            
+        goal: [Resource]            
         status: code!            
         statusReason: CodeableConcept            
         doNotPerform: Boolean            
-        scheduledTiming: Timing            
+        scheduledTiming: BackboneElement            
         scheduledPeriod: Period            
         scheduledString: String            
-        location: Location            
-        performer: [CarePlanDetailPerformer]            
+        location: Resource            
+        performer: [Resource]            
         productCodeableConcept: CodeableConcept            
-        productReference: CarePlanDetailProductReference            
+        productReference: Resource            
         dailyAmount: Quantity            
         quantity: Quantity            
         description: String            

@@ -2,7 +2,7 @@
 # import Extension from "../extensions/Extension.graphql"
 # import Extension from "../extensions/Extension.graphql"
 # import markdown from "../simple_types/markdown.graphql"
-# import ExampleScenarioStep from "../backbone_elements/ExampleScenarioStep.graphql"
+# import ExampleScenarioStep from "../backbone_elements/backbone_element.graphql"
 
 
 
@@ -12,7 +12,7 @@ type ExampleScenarioAlternative {
         modifierExtension: [Extension]            
         title: String!            
         description: markdown            
-        step: [ExampleScenarioStep]            
+        step: [BackboneElement]            
 }
 
 extend type Query {

@@ -6,8 +6,8 @@
 # import code from "../simple_types/code.graphql"
 # import canonical from "../simple_types/canonical.graphql"
 # import code from "../simple_types/code.graphql"
-# import OperationDefinitionBinding from "../backbone_elements/OperationDefinitionBinding.graphql"
-# import OperationDefinitionReferencedFrom from "../backbone_elements/OperationDefinitionReferencedFrom.graphql"
+# import OperationDefinitionBinding from "../backbone_elements/backbone_element.graphql"
+# import OperationDefinitionReferencedFrom from "../backbone_elements/backbone_element.graphql"
 
 
 
@@ -23,9 +23,9 @@ type OperationDefinitionParameter {
         type_: code            
         targetProfile: [canonical]            
         searchType: code            
-        binding: OperationDefinitionBinding            
-        referencedFrom: [OperationDefinitionReferencedFrom]            
-        part: [OperationDefinitionParameter]            
+        binding: BackboneElement            
+        referencedFrom: [BackboneElement]            
+        part: [BackboneElement]            
 }
 
 extend type Query {

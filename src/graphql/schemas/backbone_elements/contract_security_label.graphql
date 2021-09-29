@@ -2,9 +2,9 @@
 # import Extension from "../extensions/Extension.graphql"
 # import Extension from "../extensions/Extension.graphql"
 # import unsignedInt from "../simple_types/unsignedInt.graphql"
-# import Coding from "../complex_types/Coding.graphql"
-# import Coding from "../complex_types/Coding.graphql"
-# import Coding from "../complex_types/Coding.graphql"
+# import Coding from "../complex_types/coding.graphql"
+# import Coding from "../complex_types/coding.graphql"
+# import Coding from "../complex_types/coding.graphql"
 
 
 

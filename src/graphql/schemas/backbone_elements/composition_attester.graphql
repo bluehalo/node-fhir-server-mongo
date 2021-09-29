@@ -3,14 +3,9 @@
 # import Extension from "../extensions/Extension.graphql"
 # import code from "../simple_types/code.graphql"
 # import dateTime from "../simple_types/dateTime.graphql"
-# import Reference from "../complex_types/Reference.graphql"
-# import Reference from "../resources/Reference.graphql"
-# import Reference from "../resources/Reference.graphql"
-# import Reference from "../resources/Reference.graphql"
-# import Reference from "../resources/Reference.graphql"
+# import Reference from "../complex_types/reference.graphql"
 # import Reference from "../resources/Reference.graphql"
 
-union CompositionAttesterParty = Patient | RelatedPerson | Practitioner | PractitionerRole | Organization
 
 
 type CompositionAttester {
@@ -19,7 +14,7 @@ type CompositionAttester {
         modifierExtension: [Extension]            
         mode: code!            
         time: dateTime            
-        party: CompositionAttesterParty            
+        party: Resource            
 }
 
 extend type Query {

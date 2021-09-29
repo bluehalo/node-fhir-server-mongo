@@ -3,8 +3,8 @@
 # import Extension from "../extensions/Extension.graphql"
 # import uri from "../simple_types/uri.graphql"
 # import uri from "../simple_types/uri.graphql"
-# import ConceptMapElement from "../backbone_elements/ConceptMapElement.graphql"
-# import ConceptMapUnmapped from "../backbone_elements/ConceptMapUnmapped.graphql"
+# import ConceptMapElement from "../backbone_elements/backbone_element.graphql"
+# import ConceptMapUnmapped from "../backbone_elements/backbone_element.graphql"
 
 
 
@@ -16,8 +16,8 @@ type ConceptMapGroup {
         sourceVersion: String            
         target: uri            
         targetVersion: String            
-        element: [ConceptMapElement]!            
-        unmapped: ConceptMapUnmapped            
+        element: [BackboneElement]!            
+        unmapped: BackboneElement            
 }
 
 extend type Query {

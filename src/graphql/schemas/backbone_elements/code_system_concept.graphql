@@ -2,8 +2,8 @@
 # import Extension from "../extensions/Extension.graphql"
 # import Extension from "../extensions/Extension.graphql"
 # import code from "../simple_types/code.graphql"
-# import CodeSystemDesignation from "../backbone_elements/CodeSystemDesignation.graphql"
-# import CodeSystemProperty1 from "../backbone_elements/CodeSystemProperty1.graphql"
+# import CodeSystemDesignation from "../backbone_elements/backbone_element.graphql"
+# import CodeSystemProperty1 from "../backbone_elements/backbone_element.graphql"
 
 
 
@@ -14,9 +14,9 @@ type CodeSystemConcept {
         code: code!            
         display: String            
         definition: String            
-        designation: [CodeSystemDesignation]            
-        property: [CodeSystemProperty1]            
-        concept: [CodeSystemConcept]            
+        designation: [BackboneElement]            
+        property: [BackboneElement]            
+        concept: [BackboneElement]            
 }
 
 extend type Query {

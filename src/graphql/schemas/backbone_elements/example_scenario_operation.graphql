@@ -2,8 +2,8 @@
 # import Extension from "../extensions/Extension.graphql"
 # import Extension from "../extensions/Extension.graphql"
 # import markdown from "../simple_types/markdown.graphql"
-# import ExampleScenarioContainedInstance from "../backbone_elements/ExampleScenarioContainedInstance.graphql"
-# import ExampleScenarioContainedInstance from "../backbone_elements/ExampleScenarioContainedInstance.graphql"
+# import ExampleScenarioContainedInstance from "../backbone_elements/backbone_element.graphql"
+# import ExampleScenarioContainedInstance from "../backbone_elements/backbone_element.graphql"
 
 
 
@@ -19,8 +19,8 @@ type ExampleScenarioOperation {
         description: markdown            
         initiatorActive: Boolean            
         receiverActive: Boolean            
-        request: ExampleScenarioContainedInstance            
-        response: ExampleScenarioContainedInstance            
+        request: BackboneElement            
+        response: BackboneElement            
 }
 
 extend type Query {

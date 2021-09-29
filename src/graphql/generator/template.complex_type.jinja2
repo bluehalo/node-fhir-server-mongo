@@ -18,8 +18,8 @@
 # import {{ property.type_ | replace(".","") }} from "../extensions/{{ property.type_snake_case }}.graphql"
         {% elif property.fhir_type == "BackboneElement" %}
 # import {{ property.type_ | replace(".","") }} from "../backbone_elements/{{ property.type_snake_case }}.graphql"
-        {% elif property.fhir_type == "Element" %}
-# import {{ property.type_ | replace(".","") }} from "../complex_types/{{ property.type_snake_case }}.graphql"
+        {% elif property.is_complex or property.fhir_type == "Element" %}
+# import {{ property.cleaned_type | replace(".","") }} from "../complex_types/{{ lower_case_first_letter(property.type_snake_case) }}.graphql"
         {% elif property.type_snake_case in ["string", "boolean", "integer", "positiveInt"] %}
 {# do nothing since this is a GraphQL type            #}
         {%  else %}

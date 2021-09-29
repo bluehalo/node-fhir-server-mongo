@@ -3,8 +3,8 @@
 # import Extension from "../extensions/Extension.graphql"
 # import id from "../simple_types/id.graphql"
 # import code from "../simple_types/code.graphql"
-# import Duration from "../simple_types/Duration.graphql"
-# import Range from "../complex_types/Range.graphql"
+# import Quantity from "../complex_types/quantity.graphql"
+# import Range from "../complex_types/range.graphql"
 
 
 
@@ -14,7 +14,7 @@ type RequestGroupRelatedAction {
         modifierExtension: [Extension]            
         actionId: id!            
         relationship: code!            
-        offsetDuration: Duration            
+        offsetDuration: Quantity            
         offsetRange: Range            
 }
 

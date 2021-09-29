@@ -2,7 +2,7 @@
 # import Extension from "../extensions/Extension.graphql"
 # import Extension from "../extensions/Extension.graphql"
 # import code from "../simple_types/code.graphql"
-# import ConceptMapTarget from "../backbone_elements/ConceptMapTarget.graphql"
+# import ConceptMapTarget from "../backbone_elements/backbone_element.graphql"
 
 
 
@@ -12,7 +12,7 @@ type ConceptMapElement {
         modifierExtension: [Extension]            
         code: code            
         display: String            
-        target: [ConceptMapTarget]            
+        target: [BackboneElement]            
 }
 
 extend type Query {

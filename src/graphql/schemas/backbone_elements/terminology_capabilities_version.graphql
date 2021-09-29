@@ -2,7 +2,7 @@
 # import Extension from "../extensions/Extension.graphql"
 # import Extension from "../extensions/Extension.graphql"
 # import code from "../simple_types/code.graphql"
-# import TerminologyCapabilitiesFilter from "../backbone_elements/TerminologyCapabilitiesFilter.graphql"
+# import TerminologyCapabilitiesFilter from "../backbone_elements/backbone_element.graphql"
 # import code from "../simple_types/code.graphql"
 
 
@@ -15,7 +15,7 @@ type TerminologyCapabilitiesVersion {
         isDefault: Boolean            
         compositional: Boolean            
         language: [code]            
-        filter: [TerminologyCapabilitiesFilter]            
+        filter: [BackboneElement]            
         property: [code]            
 }
 

@@ -2,7 +2,7 @@
 # import Extension from "../extensions/Extension.graphql"
 # import Extension from "../extensions/Extension.graphql"
 # import url from "../simple_types/url.graphql"
-# import Reference from "../complex_types/Reference.graphql"
+# import Reference from "../complex_types/reference.graphql"
 # import Reference from "../resources/Reference.graphql"
 # import code from "../simple_types/code.graphql"
 
@@ -13,10 +13,10 @@ type ImplementationGuidePage {
         extension: [Extension]            
         modifierExtension: [Extension]            
         nameUrl: url            
-        nameReference: Binary            
+        nameReference: Resource            
         title: String!            
         generation: code!            
-        page: [ImplementationGuidePage]            
+        page: [BackboneElement]            
 }
 
 extend type Query {

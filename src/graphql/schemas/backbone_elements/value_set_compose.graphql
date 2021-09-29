@@ -2,8 +2,8 @@
 # import Extension from "../extensions/Extension.graphql"
 # import Extension from "../extensions/Extension.graphql"
 # import date from "../simple_types/date.graphql"
-# import ValueSetInclude from "../backbone_elements/ValueSetInclude.graphql"
-# import ValueSetInclude from "../backbone_elements/ValueSetInclude.graphql"
+# import ValueSetInclude from "../backbone_elements/backbone_element.graphql"
+# import ValueSetInclude from "../backbone_elements/backbone_element.graphql"
 
 
 
@@ -13,8 +13,8 @@ type ValueSetCompose {
         modifierExtension: [Extension]            
         lockedDate: date            
         inactive: Boolean            
-        include: [ValueSetInclude]!            
-        exclude: [ValueSetInclude]            
+        include: [BackboneElement]!            
+        exclude: [BackboneElement]            
 }
 
 extend type Query {

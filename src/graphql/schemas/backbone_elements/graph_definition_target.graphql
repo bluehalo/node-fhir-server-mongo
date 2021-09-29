@@ -3,8 +3,8 @@
 # import Extension from "../extensions/Extension.graphql"
 # import code from "../simple_types/code.graphql"
 # import canonical from "../simple_types/canonical.graphql"
-# import GraphDefinitionCompartment from "../backbone_elements/GraphDefinitionCompartment.graphql"
-# import GraphDefinitionLink from "../backbone_elements/GraphDefinitionLink.graphql"
+# import GraphDefinitionCompartment from "../backbone_elements/backbone_element.graphql"
+# import GraphDefinitionLink from "../backbone_elements/backbone_element.graphql"
 
 
 
@@ -15,8 +15,8 @@ type GraphDefinitionTarget {
         type_: code!            
         params: String            
         profile: canonical            
-        compartment: [GraphDefinitionCompartment]            
-        link: [GraphDefinitionLink]            
+        compartment: [BackboneElement]            
+        link: [BackboneElement]            
 }
 
 extend type Query {

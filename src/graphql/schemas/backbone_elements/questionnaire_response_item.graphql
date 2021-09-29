@@ -2,7 +2,7 @@
 # import Extension from "../extensions/Extension.graphql"
 # import Extension from "../extensions/Extension.graphql"
 # import uri from "../simple_types/uri.graphql"
-# import QuestionnaireResponseAnswer from "../backbone_elements/QuestionnaireResponseAnswer.graphql"
+# import QuestionnaireResponseAnswer from "../backbone_elements/backbone_element.graphql"
 
 
 
@@ -13,8 +13,8 @@ type QuestionnaireResponseItem {
         linkId: String!            
         definition: uri            
         text: String            
-        answer: [QuestionnaireResponseAnswer]            
-        item: [QuestionnaireResponseItem]            
+        answer: [BackboneElement]            
+        item: [BackboneElement]            
 }
 
 extend type Query {

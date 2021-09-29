@@ -2,7 +2,7 @@
 # import Extension from "../extensions/Extension.graphql"
 # import Extension from "../extensions/Extension.graphql"
 # import canonical from "../simple_types/canonical.graphql"
-# import TerminologyCapabilitiesVersion from "../backbone_elements/TerminologyCapabilitiesVersion.graphql"
+# import TerminologyCapabilitiesVersion from "../backbone_elements/backbone_element.graphql"
 
 
 
@@ -11,7 +11,7 @@ type TerminologyCapabilitiesCodeSystem {
         extension: [Extension]            
         modifierExtension: [Extension]            
         uri: canonical            
-        version: [TerminologyCapabilitiesVersion]            
+        version: [BackboneElement]            
         subsumption: Boolean            
 }
 

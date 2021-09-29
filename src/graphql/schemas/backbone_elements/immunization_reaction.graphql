@@ -2,7 +2,7 @@
 # import Extension from "../extensions/Extension.graphql"
 # import Extension from "../extensions/Extension.graphql"
 # import dateTime from "../simple_types/dateTime.graphql"
-# import Reference from "../complex_types/Reference.graphql"
+# import Reference from "../complex_types/reference.graphql"
 # import Reference from "../resources/Reference.graphql"
 
 
@@ -12,7 +12,7 @@ type ImmunizationReaction {
         extension: [Extension]            
         modifierExtension: [Extension]            
         date: dateTime            
-        detail: Observation            
+        detail: Resource            
         reported: Boolean            
 }
 

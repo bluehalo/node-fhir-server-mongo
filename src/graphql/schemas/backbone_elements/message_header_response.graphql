@@ -3,7 +3,7 @@
 # import Extension from "../extensions/Extension.graphql"
 # import id from "../simple_types/id.graphql"
 # import code from "../simple_types/code.graphql"
-# import Reference from "../complex_types/Reference.graphql"
+# import Reference from "../complex_types/reference.graphql"
 # import Reference from "../resources/Reference.graphql"
 
 
@@ -14,7 +14,7 @@ type MessageHeaderResponse {
         modifierExtension: [Extension]            
         identifier: id!            
         code: code!            
-        details: OperationOutcome            
+        details: Resource            
 }
 
 extend type Query {

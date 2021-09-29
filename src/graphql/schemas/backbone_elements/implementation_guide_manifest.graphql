@@ -2,8 +2,8 @@
 # import Extension from "../extensions/Extension.graphql"
 # import Extension from "../extensions/Extension.graphql"
 # import url from "../simple_types/url.graphql"
-# import ImplementationGuideResource1 from "../backbone_elements/ImplementationGuideResource1.graphql"
-# import ImplementationGuidePage1 from "../backbone_elements/ImplementationGuidePage1.graphql"
+# import ImplementationGuideResource1 from "../backbone_elements/backbone_element.graphql"
+# import ImplementationGuidePage1 from "../backbone_elements/backbone_element.graphql"
 
 
 
@@ -12,8 +12,8 @@ type ImplementationGuideManifest {
         extension: [Extension]            
         modifierExtension: [Extension]            
         rendering: url            
-        resource: [ImplementationGuideResource1]!            
-        page: [ImplementationGuidePage1]            
+        resource: [BackboneElement]!            
+        page: [BackboneElement]            
         image: [String]            
         other: [String]            
 }

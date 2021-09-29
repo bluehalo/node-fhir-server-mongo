@@ -3,7 +3,7 @@
 # import code from "../simple_types/code.graphql"
 # import markdown from "../simple_types/markdown.graphql"
 # import url from "../simple_types/url.graphql"
-# import Attachment from "../complex_types/Attachment.graphql"
+# import Attachment from "../complex_types/attachment.graphql"
 # import canonical from "../simple_types/canonical.graphql"
 
 

@@ -2,32 +2,27 @@
 # import Extension from "../extensions/Extension.graphql"
 # import Extension from "../extensions/Extension.graphql"
 # import code from "../simple_types/code.graphql"
-# import CodeableConcept from "../complex_types/CodeableConcept.graphql"
-# import RelatedArtifact from "../complex_types/RelatedArtifact.graphql"
-# import RequestGroupCondition from "../backbone_elements/RequestGroupCondition.graphql"
-# import RequestGroupRelatedAction from "../backbone_elements/RequestGroupRelatedAction.graphql"
+# import CodeableConcept from "../complex_types/codeableConcept.graphql"
+# import RelatedArtifact from "../complex_types/relatedArtifact.graphql"
+# import RequestGroupCondition from "../backbone_elements/backbone_element.graphql"
+# import RequestGroupRelatedAction from "../backbone_elements/backbone_element.graphql"
 # import dateTime from "../simple_types/dateTime.graphql"
-# import Age from "../simple_types/Age.graphql"
-# import Period from "../complex_types/Period.graphql"
-# import Duration from "../simple_types/Duration.graphql"
-# import Range from "../complex_types/Range.graphql"
-# import Timing from "../backbone_elements/Timing.graphql"
-# import Reference from "../complex_types/Reference.graphql"
+# import Quantity from "../complex_types/quantity.graphql"
+# import Period from "../complex_types/period.graphql"
+# import Quantity from "../complex_types/quantity.graphql"
+# import Range from "../complex_types/range.graphql"
+# import Timing from "../backbone_elements/backbone_element.graphql"
+# import Reference from "../complex_types/reference.graphql"
 # import Reference from "../resources/Reference.graphql"
-# import Reference from "../resources/Reference.graphql"
-# import Reference from "../resources/Reference.graphql"
-# import Reference from "../resources/Reference.graphql"
-# import Reference from "../resources/Reference.graphql"
-# import CodeableConcept from "../complex_types/CodeableConcept.graphql"
+# import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
-# import Reference from "../complex_types/Reference.graphql"
+# import Reference from "../complex_types/reference.graphql"
 # import Reference from "../resources/Reference.graphql"
 
-union RequestGroupActionParticipant = Patient | Practitioner | PractitionerRole | RelatedPerson | Device
 
 
 type RequestGroupAction {
@@ -41,15 +36,15 @@ type RequestGroupAction {
         priority: code            
         code: [CodeableConcept]            
         documentation: [RelatedArtifact]            
-        condition: [RequestGroupCondition]            
-        relatedAction: [RequestGroupRelatedAction]            
+        condition: [BackboneElement]            
+        relatedAction: [BackboneElement]            
         timingDateTime: dateTime            
-        timingAge: Age            
+        timingAge: Quantity            
         timingPeriod: Period            
-        timingDuration: Duration            
+        timingDuration: Quantity            
         timingRange: Range            
-        timingTiming: Timing            
-        participant: [RequestGroupActionParticipant]            
+        timingTiming: BackboneElement            
+        participant: [Resource]            
         type_: CodeableConcept            
         groupingBehavior: code            
         selectionBehavior: code            
@@ -57,7 +52,7 @@ type RequestGroupAction {
         precheckBehavior: code            
         cardinalityBehavior: code            
         resource: Resource            
-        action: [RequestGroupAction]            
+        action: [BackboneElement]            
 }
 
 extend type Query {

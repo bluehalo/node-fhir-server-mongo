@@ -3,8 +3,8 @@
 # import Extension from "../extensions/Extension.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
-# import ConceptMapDependsOn from "../backbone_elements/ConceptMapDependsOn.graphql"
-# import ConceptMapDependsOn from "../backbone_elements/ConceptMapDependsOn.graphql"
+# import ConceptMapDependsOn from "../backbone_elements/backbone_element.graphql"
+# import ConceptMapDependsOn from "../backbone_elements/backbone_element.graphql"
 
 
 
@@ -16,8 +16,8 @@ type ConceptMapTarget {
         display: String            
         equivalence: code!            
         comment: String            
-        dependsOn: [ConceptMapDependsOn]            
-        product: [ConceptMapDependsOn]            
+        dependsOn: [BackboneElement]            
+        product: [BackboneElement]            
 }
 
 extend type Query {

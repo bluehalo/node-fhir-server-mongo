@@ -3,8 +3,8 @@
 # import Extension from "../extensions/Extension.graphql"
 # import uri from "../simple_types/uri.graphql"
 # import dateTime from "../simple_types/dateTime.graphql"
-# import ValueSetParameter from "../backbone_elements/ValueSetParameter.graphql"
-# import ValueSetContains from "../backbone_elements/ValueSetContains.graphql"
+# import ValueSetParameter from "../backbone_elements/backbone_element.graphql"
+# import ValueSetContains from "../backbone_elements/backbone_element.graphql"
 
 
 
@@ -16,8 +16,8 @@ type ValueSetExpansion {
         timestamp: dateTime!            
         total: Int            
         offset: Int            
-        parameter: [ValueSetParameter]            
-        contains: [ValueSetContains]            
+        parameter: [BackboneElement]            
+        contains: [BackboneElement]            
 }
 
 extend type Query {

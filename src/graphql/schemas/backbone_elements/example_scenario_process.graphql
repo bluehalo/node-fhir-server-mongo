@@ -4,7 +4,7 @@
 # import markdown from "../simple_types/markdown.graphql"
 # import markdown from "../simple_types/markdown.graphql"
 # import markdown from "../simple_types/markdown.graphql"
-# import ExampleScenarioStep from "../backbone_elements/ExampleScenarioStep.graphql"
+# import ExampleScenarioStep from "../backbone_elements/backbone_element.graphql"
 
 
 
@@ -16,7 +16,7 @@ type ExampleScenarioProcess {
         description: markdown            
         preConditions: markdown            
         postConditions: markdown            
-        step: [ExampleScenarioStep]            
+        step: [BackboneElement]            
 }
 
 extend type Query {

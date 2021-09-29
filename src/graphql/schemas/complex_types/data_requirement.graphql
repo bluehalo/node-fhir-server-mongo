@@ -2,12 +2,12 @@
 # import Extension from "../extensions/Extension.graphql"
 # import code from "../simple_types/code.graphql"
 # import canonical from "../simple_types/canonical.graphql"
-# import CodeableConcept from "../complex_types/CodeableConcept.graphql"
-# import Reference from "../complex_types/Reference.graphql"
+# import CodeableConcept from "../complex_types/codeableConcept.graphql"
+# import Reference from "../complex_types/reference.graphql"
 # import Reference from "../resources/Reference.graphql"
-# import DataRequirementCodeFilter from "../complex_types/DataRequirementCodeFilter.graphql"
-# import DataRequirementDateFilter from "../complex_types/DataRequirementDateFilter.graphql"
-# import DataRequirementSort from "../complex_types/DataRequirementSort.graphql"
+# import DataRequirementCodeFilter from "../complex_types/dataRequirementCodeFilter.graphql"
+# import DataRequirementDateFilter from "../complex_types/dataRequirementDateFilter.graphql"
+# import DataRequirementSort from "../complex_types/dataRequirementSort.graphql"
 
 
 

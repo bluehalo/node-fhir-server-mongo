@@ -3,7 +3,7 @@
 # import Extension from "../extensions/Extension.graphql"
 # import uri from "../simple_types/uri.graphql"
 # import code from "../simple_types/code.graphql"
-# import ValueSetDesignation from "../backbone_elements/ValueSetDesignation.graphql"
+# import ValueSetDesignation from "../backbone_elements/backbone_element.graphql"
 
 
 
@@ -17,8 +17,8 @@ type ValueSetContains {
         version: String            
         code: code            
         display: String            
-        designation: [ValueSetDesignation]            
-        contains: [ValueSetContains]            
+        designation: [BackboneElement]            
+        contains: [BackboneElement]            
 }
 
 extend type Query {

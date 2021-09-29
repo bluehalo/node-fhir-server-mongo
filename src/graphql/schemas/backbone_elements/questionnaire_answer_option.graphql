@@ -3,8 +3,8 @@
 # import Extension from "../extensions/Extension.graphql"
 # import date from "../simple_types/date.graphql"
 # import time from "../simple_types/time.graphql"
-# import Coding from "../complex_types/Coding.graphql"
-# import Reference from "../complex_types/Reference.graphql"
+# import Coding from "../complex_types/coding.graphql"
+# import Reference from "../complex_types/reference.graphql"
 # import Reference from "../resources/Reference.graphql"
 
 

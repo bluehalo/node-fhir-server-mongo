@@ -2,7 +2,7 @@
 # import Extension from "../extensions/Extension.graphql"
 # import Extension from "../extensions/Extension.graphql"
 # import dateTime from "../simple_types/dateTime.graphql"
-# import Period from "../complex_types/Period.graphql"
+# import Period from "../complex_types/period.graphql"
 
 
 

@@ -2,9 +2,9 @@
 # import Extension from "../extensions/Extension.graphql"
 # import Extension from "../extensions/Extension.graphql"
 # import code from "../simple_types/code.graphql"
-# import CodeableConcept from "../complex_types/CodeableConcept.graphql"
+# import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import decimal from "../simple_types/decimal.graphql"
-# import Money from "../complex_types/Money.graphql"
+# import Money from "../complex_types/money.graphql"
 
 
 

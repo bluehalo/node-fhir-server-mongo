@@ -3,11 +3,11 @@
 # import Extension from "../extensions/Extension.graphql"
 # import code from "../simple_types/code.graphql"
 # import markdown from "../simple_types/markdown.graphql"
-# import CapabilityStatementSecurity from "../backbone_elements/CapabilityStatementSecurity.graphql"
-# import CapabilityStatementResource from "../backbone_elements/CapabilityStatementResource.graphql"
-# import CapabilityStatementInteraction1 from "../backbone_elements/CapabilityStatementInteraction1.graphql"
-# import CapabilityStatementSearchParam from "../backbone_elements/CapabilityStatementSearchParam.graphql"
-# import CapabilityStatementOperation from "../backbone_elements/CapabilityStatementOperation.graphql"
+# import CapabilityStatementSecurity from "../backbone_elements/backbone_element.graphql"
+# import CapabilityStatementResource from "../backbone_elements/backbone_element.graphql"
+# import CapabilityStatementInteraction1 from "../backbone_elements/backbone_element.graphql"
+# import CapabilityStatementSearchParam from "../backbone_elements/backbone_element.graphql"
+# import CapabilityStatementOperation from "../backbone_elements/backbone_element.graphql"
 # import canonical from "../simple_types/canonical.graphql"
 
 
@@ -18,11 +18,11 @@ type CapabilityStatementRest {
         modifierExtension: [Extension]            
         mode: code!            
         documentation: markdown            
-        security: CapabilityStatementSecurity            
-        resource: [CapabilityStatementResource]            
-        interaction: [CapabilityStatementInteraction1]            
-        searchParam: [CapabilityStatementSearchParam]            
-        operation: [CapabilityStatementOperation]            
+        security: BackboneElement            
+        resource: [BackboneElement]            
+        interaction: [BackboneElement]            
+        searchParam: [BackboneElement]            
+        operation: [BackboneElement]            
         compartment: [canonical]            
 }
 

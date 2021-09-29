@@ -2,8 +2,8 @@
 # import Extension from "../extensions/Extension.graphql"
 # import Extension from "../extensions/Extension.graphql"
 # import uri from "../simple_types/uri.graphql"
-# import ValueSetConcept from "../backbone_elements/ValueSetConcept.graphql"
-# import ValueSetFilter from "../backbone_elements/ValueSetFilter.graphql"
+# import ValueSetConcept from "../backbone_elements/backbone_element.graphql"
+# import ValueSetFilter from "../backbone_elements/backbone_element.graphql"
 # import canonical from "../simple_types/canonical.graphql"
 
 
@@ -14,8 +14,8 @@ type ValueSetInclude {
         modifierExtension: [Extension]            
         system: uri            
         version: String            
-        concept: [ValueSetConcept]            
-        filter: [ValueSetFilter]            
+        concept: [BackboneElement]            
+        filter: [BackboneElement]            
         valueSet: [canonical]            
 }
 

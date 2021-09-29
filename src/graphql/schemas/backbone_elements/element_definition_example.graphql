@@ -16,38 +16,38 @@
 # import uri from "../simple_types/uri.graphql"
 # import url from "../simple_types/url.graphql"
 # import uuid from "../simple_types/uuid.graphql"
-# import Address from "../complex_types/Address.graphql"
-# import Age from "../simple_types/Age.graphql"
-# import Annotation from "../complex_types/Annotation.graphql"
-# import Attachment from "../complex_types/Attachment.graphql"
-# import CodeableConcept from "../complex_types/CodeableConcept.graphql"
-# import Coding from "../complex_types/Coding.graphql"
-# import ContactPoint from "../complex_types/ContactPoint.graphql"
-# import Count from "../simple_types/Count.graphql"
-# import Distance from "../simple_types/Distance.graphql"
-# import Duration from "../simple_types/Duration.graphql"
-# import HumanName from "../complex_types/HumanName.graphql"
-# import Identifier from "../complex_types/Identifier.graphql"
-# import Money from "../complex_types/Money.graphql"
-# import Period from "../complex_types/Period.graphql"
-# import Quantity from "../complex_types/Quantity.graphql"
-# import Range from "../complex_types/Range.graphql"
-# import Ratio from "../complex_types/Ratio.graphql"
-# import Reference from "../complex_types/Reference.graphql"
+# import Address from "../complex_types/address.graphql"
+# import Quantity from "../complex_types/quantity.graphql"
+# import Annotation from "../complex_types/annotation.graphql"
+# import Attachment from "../complex_types/attachment.graphql"
+# import CodeableConcept from "../complex_types/codeableConcept.graphql"
+# import Coding from "../complex_types/coding.graphql"
+# import ContactPoint from "../complex_types/contactPoint.graphql"
+# import Quantity from "../complex_types/quantity.graphql"
+# import Quantity from "../complex_types/quantity.graphql"
+# import Quantity from "../complex_types/quantity.graphql"
+# import HumanName from "../complex_types/humanName.graphql"
+# import Identifier from "../complex_types/identifier.graphql"
+# import Money from "../complex_types/money.graphql"
+# import Period from "../complex_types/period.graphql"
+# import Quantity from "../complex_types/quantity.graphql"
+# import Range from "../complex_types/range.graphql"
+# import Ratio from "../complex_types/ratio.graphql"
+# import Reference from "../complex_types/reference.graphql"
 # import Reference from "../resources/Reference.graphql"
-# import SampledData from "../complex_types/SampledData.graphql"
-# import Signature from "../complex_types/Signature.graphql"
-# import Timing from "../backbone_elements/Timing.graphql"
-# import ContactDetail from "../complex_types/ContactDetail.graphql"
-# import Contributor from "../complex_types/Contributor.graphql"
-# import DataRequirement from "../complex_types/DataRequirement.graphql"
-# import Expression from "../complex_types/Expression.graphql"
-# import ParameterDefinition from "../complex_types/ParameterDefinition.graphql"
-# import RelatedArtifact from "../complex_types/RelatedArtifact.graphql"
-# import TriggerDefinition from "../complex_types/TriggerDefinition.graphql"
-# import UsageContext from "../complex_types/UsageContext.graphql"
-# import Dosage from "../backbone_elements/Dosage.graphql"
-# import Meta from "../complex_types/Meta.graphql"
+# import SampledData from "../complex_types/sampledData.graphql"
+# import Signature from "../complex_types/signature.graphql"
+# import Timing from "../backbone_elements/backbone_element.graphql"
+# import ContactDetail from "../complex_types/contactDetail.graphql"
+# import Contributor from "../complex_types/contributor.graphql"
+# import DataRequirement from "../complex_types/dataRequirement.graphql"
+# import Expression from "../complex_types/expression.graphql"
+# import ParameterDefinition from "../complex_types/parameterDefinition.graphql"
+# import RelatedArtifact from "../complex_types/relatedArtifact.graphql"
+# import TriggerDefinition from "../complex_types/triggerDefinition.graphql"
+# import UsageContext from "../complex_types/usageContext.graphql"
+# import Dosage from "../backbone_elements/backbone_element.graphql"
+# import Meta from "../complex_types/meta.graphql"
 
 
 
@@ -76,15 +76,15 @@ type ElementDefinitionExample {
         valueUrl: url            
         valueUuid: uuid            
         valueAddress: Address            
-        valueAge: Age            
+        valueAge: Quantity            
         valueAnnotation: Annotation            
         valueAttachment: Attachment            
         valueCodeableConcept: CodeableConcept            
         valueCoding: Coding            
         valueContactPoint: ContactPoint            
-        valueCount: Count            
-        valueDistance: Distance            
-        valueDuration: Duration            
+        valueCount: Quantity            
+        valueDistance: Quantity            
+        valueDuration: Quantity            
         valueHumanName: HumanName            
         valueIdentifier: Identifier            
         valueMoney: Money            
@@ -95,7 +95,7 @@ type ElementDefinitionExample {
         valueReference: Resource            
         valueSampledData: SampledData            
         valueSignature: Signature            
-        valueTiming: Timing            
+        valueTiming: BackboneElement            
         valueContactDetail: ContactDetail            
         valueContributor: Contributor            
         valueDataRequirement: DataRequirement            
@@ -104,7 +104,7 @@ type ElementDefinitionExample {
         valueRelatedArtifact: RelatedArtifact            
         valueTriggerDefinition: TriggerDefinition            
         valueUsageContext: UsageContext            
-        valueDosage: Dosage            
+        valueDosage: BackboneElement            
         valueMeta: Meta            
 }
 

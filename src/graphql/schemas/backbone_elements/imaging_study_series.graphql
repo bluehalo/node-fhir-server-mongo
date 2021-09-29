@@ -3,17 +3,17 @@
 # import Extension from "../extensions/Extension.graphql"
 # import id from "../simple_types/id.graphql"
 # import unsignedInt from "../simple_types/unsignedInt.graphql"
-# import Coding from "../complex_types/Coding.graphql"
+# import Coding from "../complex_types/coding.graphql"
 # import unsignedInt from "../simple_types/unsignedInt.graphql"
-# import Reference from "../complex_types/Reference.graphql"
+# import Reference from "../complex_types/reference.graphql"
 # import Reference from "../resources/Reference.graphql"
-# import Coding from "../complex_types/Coding.graphql"
-# import Coding from "../complex_types/Coding.graphql"
-# import Reference from "../complex_types/Reference.graphql"
+# import Coding from "../complex_types/coding.graphql"
+# import Coding from "../complex_types/coding.graphql"
+# import Reference from "../complex_types/reference.graphql"
 # import Reference from "../resources/Reference.graphql"
 # import dateTime from "../simple_types/dateTime.graphql"
-# import ImagingStudyPerformer from "../backbone_elements/ImagingStudyPerformer.graphql"
-# import ImagingStudyInstance from "../backbone_elements/ImagingStudyInstance.graphql"
+# import ImagingStudyPerformer from "../backbone_elements/backbone_element.graphql"
+# import ImagingStudyInstance from "../backbone_elements/backbone_element.graphql"
 
 
 
@@ -26,13 +26,13 @@ type ImagingStudySeries {
         modality: Coding!            
         description: String            
         numberOfInstances: unsignedInt            
-        endpoint: [Endpoint]            
+        endpoint: [Resource]            
         bodySite: Coding            
         laterality: Coding            
-        specimen: [Specimen]            
+        specimen: [Resource]            
         started: dateTime            
-        performer: [ImagingStudyPerformer]            
-        instance: [ImagingStudyInstance]            
+        performer: [BackboneElement]            
+        instance: [BackboneElement]            
 }
 
 extend type Query {

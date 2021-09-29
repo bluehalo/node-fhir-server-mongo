@@ -3,8 +3,8 @@
 # import Extension from "../extensions/Extension.graphql"
 # import code from "../simple_types/code.graphql"
 # import markdown from "../simple_types/markdown.graphql"
-# import ExampleScenarioVersion from "../backbone_elements/ExampleScenarioVersion.graphql"
-# import ExampleScenarioContainedInstance from "../backbone_elements/ExampleScenarioContainedInstance.graphql"
+# import ExampleScenarioVersion from "../backbone_elements/backbone_element.graphql"
+# import ExampleScenarioContainedInstance from "../backbone_elements/backbone_element.graphql"
 
 
 
@@ -16,8 +16,8 @@ type ExampleScenarioInstance {
         resourceType: code!            
         name: String            
         description: markdown            
-        version: [ExampleScenarioVersion]            
-        containedInstance: [ExampleScenarioContainedInstance]            
+        version: [BackboneElement]            
+        containedInstance: [BackboneElement]            
 }
 
 extend type Query {

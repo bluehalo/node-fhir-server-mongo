@@ -2,9 +2,9 @@
 # import Extension from "../extensions/Extension.graphql"
 # import Extension from "../extensions/Extension.graphql"
 # import code from "../simple_types/code.graphql"
-# import Reference from "../complex_types/Reference.graphql"
+# import Reference from "../complex_types/reference.graphql"
 # import Reference from "../resources/Reference.graphql"
-# import ProvenanceAgent from "../backbone_elements/ProvenanceAgent.graphql"
+# import ProvenanceAgent from "../backbone_elements/backbone_element.graphql"
 
 
 
@@ -14,7 +14,7 @@ type ProvenanceEntity {
         modifierExtension: [Extension]            
         role: code!            
         what: Resource!            
-        agent: [ProvenanceAgent]            
+        agent: [BackboneElement]            
 }
 
 extend type Query {

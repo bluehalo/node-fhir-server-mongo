@@ -2,7 +2,7 @@
 # import Extension from "../extensions/Extension.graphql"
 # import Extension from "../extensions/Extension.graphql"
 # import code from "../simple_types/code.graphql"
-# import Expression from "../complex_types/Expression.graphql"
+# import Expression from "../complex_types/expression.graphql"
 
 
 

@@ -4,8 +4,8 @@
 # import instant from "../simple_types/instant.graphql"
 # import uri from "../simple_types/uri.graphql"
 # import canonical from "../simple_types/canonical.graphql"
-# import Coding from "../complex_types/Coding.graphql"
-# import Coding from "../complex_types/Coding.graphql"
+# import Coding from "../complex_types/coding.graphql"
+# import Coding from "../complex_types/coding.graphql"
 
 
 
