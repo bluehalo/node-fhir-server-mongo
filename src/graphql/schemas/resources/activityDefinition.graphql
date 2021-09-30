@@ -42,6 +42,8 @@
 # import Quantity from "../complex_types/quantity.graphql"
 # import Location from "../resources/location.graphql"
 # import ActivityDefinitionParticipant from "../backbone_elements/backboneElement.graphql"
+# import Medication from "../resources/medication.graphql"
+# import Substance from "../resources/substance.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import Quantity from "../complex_types/quantity.graphql"
 # import Dosage from "../backbone_elements/backboneElement.graphql"

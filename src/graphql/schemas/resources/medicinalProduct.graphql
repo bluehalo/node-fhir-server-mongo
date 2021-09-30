@@ -20,6 +20,8 @@
 # import MedicinalProductPackaged from "../resources/medicinalProductPackaged.graphql"
 # import DocumentReference from "../resources/documentReference.graphql"
 # import DocumentReference from "../resources/documentReference.graphql"
+# import Organization from "../resources/organization.graphql"
+# import PractitionerRole from "../resources/practitionerRole.graphql"
 # import ResearchStudy from "../resources/researchStudy.graphql"
 # import MedicinalProductName from "../backbone_elements/backboneElement.graphql"
 # import Identifier from "../complex_types/identifier.graphql"

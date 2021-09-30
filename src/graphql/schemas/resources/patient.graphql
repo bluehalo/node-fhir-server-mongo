@@ -19,6 +19,9 @@
 # import PatientContact from "../backbone_elements/backboneElement.graphql"
 # import PatientCommunication from "../backbone_elements/backboneElement.graphql"
 # import Organization from "../resources/organization.graphql"
+# import Practitioner from "../resources/practitioner.graphql"
+# import PractitionerRole from "../resources/practitionerRole.graphql"
+# import Organization from "../resources/organization.graphql"
 # import PatientLink from "../backbone_elements/backboneElement.graphql"
 
 union PatientGeneralPractitioner = Organization | Practitioner | PractitionerRole

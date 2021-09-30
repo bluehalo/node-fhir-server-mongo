@@ -24,6 +24,12 @@
 # import Range from "../complex_types/range.graphql"
 # import date from "../simple_types/date.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
+# import Condition from "../resources/condition.graphql"
+# import Observation from "../resources/observation.graphql"
+# import AllergyIntolerance from "../resources/allergyIntolerance.graphql"
+# import QuestionnaireResponse from "../resources/questionnaireResponse.graphql"
+# import DiagnosticReport from "../resources/diagnosticReport.graphql"
+# import DocumentReference from "../resources/documentReference.graphql"
 # import Annotation from "../complex_types/annotation.graphql"
 # import FamilyMemberHistoryCondition from "../backbone_elements/backboneElement.graphql"
 

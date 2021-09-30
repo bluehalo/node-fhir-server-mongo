@@ -30,13 +30,7 @@
         {% if property.reference_target_resources %}
 {## Imports for References for {{ property.name }}#}
             {% for reference_target_resource in property.reference_target_resources %}
-                {% if property.reference_target_resources | length > 1  %}
-                    {%  for reference_target_resource in reference_target_resources %}
-# import {{ reference_target_resource }} from "../resources/{{ lower_case_first_letter(reference_target_resource) }}.graphql"
-                    {% endfor  %}
-                {% else %}
-# import {{ property.reference_target_resources_names [0] }} from "../resources/{{ lower_case_first_letter(property.reference_target_resources_names [0]) }}.graphql"
-                {%  endif %}
+# import {{ reference_target_resource.cleaned_name }} from "../resources/{{ lower_case_first_letter(reference_target_resource.cleaned_name) }}.graphql"
             {% endfor %}
         {% endif %}
     {% endif %}

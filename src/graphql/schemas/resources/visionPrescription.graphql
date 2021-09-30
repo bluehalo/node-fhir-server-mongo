@@ -13,6 +13,8 @@
 # import Patient from "../resources/patient.graphql"
 # import Encounter from "../resources/encounter.graphql"
 # import dateTime from "../simple_types/dateTime.graphql"
+# import Practitioner from "../resources/practitioner.graphql"
+# import PractitionerRole from "../resources/practitionerRole.graphql"
 # import VisionPrescriptionLensSpecification from "../backbone_elements/backboneElement.graphql"
 
 union VisionPrescriptionPrescriber = Practitioner | PractitionerRole

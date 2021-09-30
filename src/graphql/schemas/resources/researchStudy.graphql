@@ -24,6 +24,8 @@
 # import Group from "../resources/group.graphql"
 # import Period from "../complex_types/period.graphql"
 # import Organization from "../resources/organization.graphql"
+# import Practitioner from "../resources/practitioner.graphql"
+# import PractitionerRole from "../resources/practitionerRole.graphql"
 # import Location from "../resources/location.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import Annotation from "../complex_types/annotation.graphql"

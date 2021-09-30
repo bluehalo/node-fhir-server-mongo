@@ -11,8 +11,21 @@
 # import code from "../simple_types/code.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
+# import Patient from "../resources/patient.graphql"
+# import Location from "../resources/location.graphql"
+# import Group from "../resources/group.graphql"
+# import Organization from "../resources/organization.graphql"
+# import Practitioner from "../resources/practitioner.graphql"
+# import PlanDefinition from "../resources/planDefinition.graphql"
+# import Medication from "../resources/medication.graphql"
+# import Procedure from "../resources/procedure.graphql"
 # import Period from "../complex_types/period.graphql"
 # import Encounter from "../resources/encounter.graphql"
+# import Device from "../resources/device.graphql"
+# import Organization from "../resources/organization.graphql"
+# import Patient from "../resources/patient.graphql"
+# import Practitioner from "../resources/practitioner.graphql"
+# import PractitionerRole from "../resources/practitionerRole.graphql"
 
 union FlagSubject = Patient | Location | Group | Organization | Practitioner | PlanDefinition | Medication | Procedure
 union FlagAuthor = Device | Organization | Patient | Practitioner | PractitionerRole

@@ -7,6 +7,9 @@
 # import ResourceContainer from "../simple_types/ResourceContainer.graphql"
 # import Extension from "../extensions/Extension.graphql"
 # import Extension from "../extensions/Extension.graphql"
+# import Practitioner from "../resources/practitioner.graphql"
+# import PractitionerRole from "../resources/practitionerRole.graphql"
+# import Organization from "../resources/organization.graphql"
 # import LinkageItem from "../backbone_elements/backboneElement.graphql"
 
 union LinkageAuthor = Practitioner | PractitionerRole | Organization

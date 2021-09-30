@@ -23,6 +23,9 @@
 # import date from "../simple_types/date.graphql"
 # import Period from "../complex_types/period.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
+# import Medication from "../resources/medication.graphql"
+# import Substance from "../resources/substance.graphql"
+# import Device from "../resources/device.graphql"
 # import ChargeItemDefinitionApplicability from "../backbone_elements/backboneElement.graphql"
 # import ChargeItemDefinitionPropertyGroup from "../backbone_elements/backboneElement.graphql"
 

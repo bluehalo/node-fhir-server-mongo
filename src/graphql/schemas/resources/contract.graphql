@@ -21,6 +21,10 @@
 # import Organization from "../resources/organization.graphql"
 # import Location from "../resources/location.graphql"
 # import Location from "../resources/location.graphql"
+# import Patient from "../resources/patient.graphql"
+# import Practitioner from "../resources/practitioner.graphql"
+# import PractitionerRole from "../resources/practitionerRole.graphql"
+# import Organization from "../resources/organization.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import Resource from "../resources/resource.graphql"
@@ -35,6 +39,10 @@
 # import ContractLegal from "../backbone_elements/backboneElement.graphql"
 # import ContractRule from "../backbone_elements/backboneElement.graphql"
 # import Attachment from "../complex_types/attachment.graphql"
+# import Composition from "../resources/composition.graphql"
+# import DocumentReference from "../resources/documentReference.graphql"
+# import QuestionnaireResponse from "../resources/questionnaireResponse.graphql"
+# import Contract from "../resources/contract.graphql"
 
 union ContractAuthor = Patient | Practitioner | PractitionerRole | Organization
 union ContractLegallyBindingReference = Composition | DocumentReference | QuestionnaireResponse | Contract

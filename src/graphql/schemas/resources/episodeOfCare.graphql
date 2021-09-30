@@ -16,6 +16,8 @@
 # import Organization from "../resources/organization.graphql"
 # import Period from "../complex_types/period.graphql"
 # import ServiceRequest from "../resources/serviceRequest.graphql"
+# import Practitioner from "../resources/practitioner.graphql"
+# import PractitionerRole from "../resources/practitionerRole.graphql"
 # import CareTeam from "../resources/careTeam.graphql"
 # import Account from "../resources/account.graphql"
 
