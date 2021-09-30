@@ -13,16 +13,16 @@
 
 
 type ImplementationGuideResource {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        reference: Resource!            
-        fhirVersion: [code]            
-        name: code            
-        description: code            
-        exampleBoolean: code            
-        exampleCanonical: code            
-        groupingId: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    reference: Resource!        
+    fhirVersion: [code]        
+    name: code        
+    description: code        
+    exampleBoolean: code        
+    exampleCanonical: code        
+    groupingId: code        
 }
 
 extend type Query {

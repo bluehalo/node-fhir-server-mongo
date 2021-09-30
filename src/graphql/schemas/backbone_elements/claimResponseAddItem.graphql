@@ -30,30 +30,30 @@ union ClaimResponseAddItemProvider = Practitioner | PractitionerRole | Organizat
 
 
 type ClaimResponseAddItem {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        itemSequence: [code]            
-        detailSequence: [code]            
-        subdetailSequence: [code]            
-        provider: [ClaimResponseAddItemProvider]            
-        productOrService: CodeableConcept!            
-        modifier: [CodeableConcept]            
-        programCode: [CodeableConcept]            
-        servicedDate: code            
-        servicedPeriod: Period            
-        locationCodeableConcept: CodeableConcept            
-        locationAddress: Address            
-        locationReference: Location            
-        quantity: Quantity            
-        unitPrice: Money            
-        factor: code            
-        net: Money            
-        bodySite: CodeableConcept            
-        subSite: [CodeableConcept]            
-        noteNumber: [code]            
-        adjudication: [ClaimResponseAdjudication]!            
-        detail: [ClaimResponseDetail1]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    itemSequence: [code]        
+    detailSequence: [code]        
+    subdetailSequence: [code]        
+    provider: [ClaimResponseAddItemProvider]        
+    productOrService: CodeableConcept!        
+    modifier: [CodeableConcept]        
+    programCode: [CodeableConcept]        
+    servicedDate: code        
+    servicedPeriod: Period        
+    locationCodeableConcept: CodeableConcept        
+    locationAddress: Address        
+    locationReference: Location        
+    quantity: Quantity        
+    unitPrice: Money        
+    factor: code        
+    net: Money        
+    bodySite: CodeableConcept        
+    subSite: [CodeableConcept]        
+    noteNumber: [code]        
+    adjudication: [ClaimResponseAdjudication]!        
+    detail: [ClaimResponseDetail1]        
 }
 
 extend type Query {

@@ -24,27 +24,28 @@
 
 
 type NamingSystem {
-        id: code            
-        meta: Meta            
-        implicitRules: code            
-        language: code            
-        text: Narrative            
-        contained: [code]            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        name: code!            
-        status: code!            
-        kind: code!            
-        date: code!            
-        publisher: code            
-        contact: [ContactDetail]            
-        responsible: code            
-        type: CodeableConcept            
-        description: code            
-        useContext: [UsageContext]            
-        jurisdiction: [CodeableConcept]            
-        usage: code            
-        uniqueId: [NamingSystemUniqueId]!            
+    resourceType: String
+    id: code        
+    meta: Meta        
+    implicitRules: code        
+    language: code        
+    text: Narrative        
+    contained: [code]        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    name: code!        
+    status: code!        
+    kind: code!        
+    date: code!        
+    publisher: code        
+    contact: [ContactDetail]        
+    responsible: code        
+    type: CodeableConcept        
+    description: code        
+    useContext: [UsageContext]        
+    jurisdiction: [CodeableConcept]        
+    usage: code        
+    uniqueId: [NamingSystemUniqueId]!        
 }
 
 extend type Query {

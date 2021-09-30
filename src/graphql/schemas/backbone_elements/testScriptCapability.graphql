@@ -13,16 +13,16 @@
 
 
 type TestScriptCapability {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        required: code!            
-        validated: code!            
-        description: code            
-        origin: [code]            
-        destination: code            
-        link: [code]            
-        capabilities: code!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    required: code!        
+    validated: code!        
+    description: code        
+    origin: [code]        
+    destination: code        
+    link: [code]        
+    capabilities: code!        
 }
 
 extend type Query {

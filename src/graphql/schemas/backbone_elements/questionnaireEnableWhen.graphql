@@ -18,21 +18,21 @@
 
 
 type QuestionnaireEnableWhen {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        question: code!            
-        operator: code!            
-        answerBoolean: code            
-        answerDecimal: code            
-        answerInteger: code            
-        answerDate: code            
-        answerDateTime: code            
-        answerTime: code            
-        answerString: code            
-        answerCoding: Coding            
-        answerQuantity: Quantity            
-        answerReference: Resource            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    question: code!        
+    operator: code!        
+    answerBoolean: code        
+    answerDecimal: code        
+    answerInteger: code        
+    answerDate: code        
+    answerDateTime: code        
+    answerTime: code        
+    answerString: code        
+    answerCoding: Coding        
+    answerQuantity: Quantity        
+    answerReference: Resource        
 }
 
 extend type Query {

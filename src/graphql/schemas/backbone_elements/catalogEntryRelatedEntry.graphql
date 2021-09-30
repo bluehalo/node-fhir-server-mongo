@@ -8,11 +8,11 @@
 
 
 type CatalogEntryRelatedEntry {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        relationtype: code!            
-        item: CatalogEntry!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    relationtype: code!        
+    item: CatalogEntry!        
 }
 
 extend type Query {

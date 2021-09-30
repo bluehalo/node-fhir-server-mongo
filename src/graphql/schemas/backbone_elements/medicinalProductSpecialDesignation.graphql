@@ -14,17 +14,17 @@
 
 
 type MedicinalProductSpecialDesignation {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        identifier: [Identifier]            
-        type: CodeableConcept            
-        intendedUse: CodeableConcept            
-        indicationCodeableConcept: CodeableConcept            
-        indicationReference: MedicinalProductIndication            
-        status: CodeableConcept            
-        date: code            
-        species: CodeableConcept            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    identifier: [Identifier]        
+    type: CodeableConcept        
+    intendedUse: CodeableConcept        
+    indicationCodeableConcept: CodeableConcept        
+    indicationReference: MedicinalProductIndication        
+    status: CodeableConcept        
+    date: code        
+    species: CodeableConcept        
 }
 
 extend type Query {

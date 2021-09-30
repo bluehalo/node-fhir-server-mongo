@@ -12,15 +12,15 @@
 
 
 type OperationOutcomeIssue {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        severity: code!            
-        code: code!            
-        details: CodeableConcept            
-        diagnostics: code            
-        location: [code]            
-        expression: [code]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    severity: code!        
+    code: code!        
+    details: CodeableConcept        
+    diagnostics: code        
+    location: [code]        
+    expression: [code]        
 }
 
 extend type Query {

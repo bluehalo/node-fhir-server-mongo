@@ -11,11 +11,11 @@ union ContractFriendlyContentReference = Composition | DocumentReference | Quest
 
 
 type ContractFriendly {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        contentAttachment: Attachment            
-        contentReference: ContractFriendlyContentReference            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    contentAttachment: Attachment        
+    contentReference: ContractFriendlyContentReference        
 }
 
 extend type Query {

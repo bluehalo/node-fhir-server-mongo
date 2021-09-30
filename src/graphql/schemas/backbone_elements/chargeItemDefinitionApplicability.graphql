@@ -9,12 +9,12 @@
 
 
 type ChargeItemDefinitionApplicability {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        description: code            
-        language: code            
-        expression: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    description: code        
+    language: code        
+    expression: code        
 }
 
 extend type Query {

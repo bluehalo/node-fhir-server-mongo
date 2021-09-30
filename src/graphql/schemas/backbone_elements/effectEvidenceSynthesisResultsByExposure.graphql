@@ -10,13 +10,13 @@
 
 
 type EffectEvidenceSynthesisResultsByExposure {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        description: code            
-        exposureState: code            
-        variantState: CodeableConcept            
-        riskEvidenceSynthesis: RiskEvidenceSynthesis!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    description: code        
+    exposureState: code        
+    variantState: CodeableConcept        
+    riskEvidenceSynthesis: RiskEvidenceSynthesis!        
 }
 
 extend type Query {

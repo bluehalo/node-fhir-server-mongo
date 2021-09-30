@@ -20,27 +20,47 @@ module.exports = {
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         practitioner: async (parent, args, context, info) => {
-            return await findResourceByReference(parent.practitioner);
+            return await findResourceByReference(
+                args,
+                context,
+                info,
+                parent.practitioner);
         },
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         organization: async (parent, args, context, info) => {
-            return await findResourceByReference(parent.organization);
+            return await findResourceByReference(
+                args,
+                context,
+                info,
+                parent.organization);
         },
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         location: async (parent, args, context, info) => {
-            return await findResourcesByReference(parent.location);
+            return await findResourcesByReference(
+                args,
+                context,
+                info,
+                parent.location);
         },
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         healthcareService: async (parent, args, context, info) => {
-            return await findResourcesByReference(parent.healthcareService);
+            return await findResourcesByReference(
+                args,
+                context,
+                info,
+                parent.healthcareService);
         },
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         endpoint: async (parent, args, context, info) => {
-            return await findResourcesByReference(parent.endpoint);
+            return await findResourcesByReference(
+                args,
+                context,
+                info,
+                parent.endpoint);
         },
     }
 };

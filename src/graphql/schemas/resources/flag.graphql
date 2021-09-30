@@ -32,22 +32,23 @@ union FlagAuthor = Device | Organization | Patient | Practitioner | Practitioner
 
 
 type Flag {
-        id: code            
-        meta: Meta            
-        implicitRules: code            
-        language: code            
-        text: Narrative            
-        contained: [code]            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        identifier: [Identifier]            
-        status: code!            
-        category: [CodeableConcept]            
-        code: CodeableConcept!            
-        subject: FlagSubject!            
-        period: Period            
-        encounter: Encounter            
-        author: FlagAuthor            
+    resourceType: String
+    id: code        
+    meta: Meta        
+    implicitRules: code        
+    language: code        
+    text: Narrative        
+    contained: [code]        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    identifier: [Identifier]        
+    status: code!        
+    category: [CodeableConcept]        
+    code: CodeableConcept!        
+    subject: FlagSubject!        
+    period: Period        
+    encounter: Encounter        
+    author: FlagAuthor        
 }
 
 extend type Query {

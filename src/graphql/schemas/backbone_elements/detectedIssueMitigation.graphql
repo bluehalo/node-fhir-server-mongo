@@ -11,12 +11,12 @@ union DetectedIssueMitigationAuthor = Practitioner | PractitionerRole
 
 
 type DetectedIssueMitigation {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        action: CodeableConcept!            
-        date: code            
-        author: DetectedIssueMitigationAuthor            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    action: CodeableConcept!        
+    date: code        
+    author: DetectedIssueMitigationAuthor        
 }
 
 extend type Query {

@@ -15,16 +15,16 @@ union DocumentReferenceContextEncounter = Encounter | EpisodeOfCare
 
 
 type DocumentReferenceContext {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        encounter: [DocumentReferenceContextEncounter]            
-        event: [CodeableConcept]            
-        period: Period            
-        facilityType: CodeableConcept            
-        practiceSetting: CodeableConcept            
-        sourcePatientInfo: Patient            
-        related: [Resource]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    encounter: [DocumentReferenceContextEncounter]        
+    event: [CodeableConcept]        
+    period: Period        
+    facilityType: CodeableConcept        
+    practiceSetting: CodeableConcept        
+    sourcePatientInfo: Patient        
+    related: [Resource]        
 }
 
 extend type Query {

@@ -9,12 +9,12 @@
 
 
 type CapabilityStatementOperation {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        name: code!            
-        definition: code!            
-        documentation: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    name: code!        
+    definition: code!        
+    documentation: code        
 }
 
 extend type Query {

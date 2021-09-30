@@ -8,11 +8,11 @@
 
 
 type MedicationKnowledgePackaging {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: CodeableConcept            
-        quantity: Quantity            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: CodeableConcept        
+    quantity: Quantity        
 }
 
 extend type Query {

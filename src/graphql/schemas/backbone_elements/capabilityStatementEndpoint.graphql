@@ -8,11 +8,11 @@
 
 
 type CapabilityStatementEndpoint {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        protocol: Coding!            
-        address: code!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    protocol: Coding!        
+    address: code!        
 }
 
 extend type Query {

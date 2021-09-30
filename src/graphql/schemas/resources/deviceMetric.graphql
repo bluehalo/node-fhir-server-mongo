@@ -21,24 +21,25 @@
 
 
 type DeviceMetric {
-        id: code            
-        meta: Meta            
-        implicitRules: code            
-        language: code            
-        text: Narrative            
-        contained: [code]            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        identifier: [Identifier]            
-        type: CodeableConcept!            
-        unit: CodeableConcept            
-        source: Device            
-        parent: Device            
-        operationalStatus: code            
-        color: code            
-        category: code!            
-        measurementPeriod: Timing            
-        calibration: [DeviceMetricCalibration]            
+    resourceType: String
+    id: code        
+    meta: Meta        
+    implicitRules: code        
+    language: code        
+    text: Narrative        
+    contained: [code]        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    identifier: [Identifier]        
+    type: CodeableConcept!        
+    unit: CodeableConcept        
+    source: Device        
+    parent: Device        
+    operationalStatus: code        
+    color: code        
+    category: code!        
+    measurementPeriod: Timing        
+    calibration: [DeviceMetricCalibration]        
 }
 
 extend type Query {

@@ -9,12 +9,12 @@
 
 
 type ValueSetFilter {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        property: code!            
-        op: code!            
-        value: code!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    property: code!        
+    op: code!        
+    value: code!        
 }
 
 extend type Query {

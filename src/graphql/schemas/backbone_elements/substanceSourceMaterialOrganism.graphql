@@ -14,17 +14,17 @@
 
 
 type SubstanceSourceMaterialOrganism {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        family: CodeableConcept            
-        genus: CodeableConcept            
-        species: CodeableConcept            
-        intraspecificType: CodeableConcept            
-        intraspecificDescription: code            
-        author: [SubstanceSourceMaterialAuthor]            
-        hybrid: SubstanceSourceMaterialHybrid            
-        organismGeneral: SubstanceSourceMaterialOrganismGeneral            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    family: CodeableConcept        
+    genus: CodeableConcept        
+    species: CodeableConcept        
+    intraspecificType: CodeableConcept        
+    intraspecificDescription: code        
+    author: [SubstanceSourceMaterialAuthor]        
+    hybrid: SubstanceSourceMaterialHybrid        
+    organismGeneral: SubstanceSourceMaterialOrganismGeneral        
 }
 
 extend type Query {

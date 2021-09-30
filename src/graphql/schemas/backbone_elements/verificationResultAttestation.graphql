@@ -20,17 +20,17 @@ union VerificationResultAttestationOnBehalfOf = Organization | Practitioner | Pr
 
 
 type VerificationResultAttestation {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        who: VerificationResultAttestationWho            
-        onBehalfOf: VerificationResultAttestationOnBehalfOf            
-        communicationMethod: CodeableConcept            
-        date: code            
-        sourceIdentityCertificate: code            
-        proxyIdentityCertificate: code            
-        proxySignature: Signature            
-        sourceSignature: Signature            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    who: VerificationResultAttestationWho        
+    onBehalfOf: VerificationResultAttestationOnBehalfOf        
+    communicationMethod: CodeableConcept        
+    date: code        
+    sourceIdentityCertificate: code        
+    proxyIdentityCertificate: code        
+    proxySignature: Signature        
+    sourceSignature: Signature        
 }
 
 extend type Query {

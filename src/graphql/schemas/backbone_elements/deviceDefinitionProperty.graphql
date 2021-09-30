@@ -9,12 +9,12 @@
 
 
 type DeviceDefinitionProperty {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: CodeableConcept!            
-        valueQuantity: [Quantity]            
-        valueCode: [CodeableConcept]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: CodeableConcept!        
+    valueQuantity: [Quantity]        
+    valueCode: [CodeableConcept]        
 }
 
 extend type Query {

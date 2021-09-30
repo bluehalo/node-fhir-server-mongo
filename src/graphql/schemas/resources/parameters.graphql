@@ -8,11 +8,12 @@
 
 
 type Parameters {
-        id: code            
-        meta: Meta            
-        implicitRules: code            
-        language: code            
-        parameter: [ParametersParameter]            
+    resourceType: String
+    id: code        
+    meta: Meta        
+    implicitRules: code        
+    language: code        
+    parameter: [ParametersParameter]        
 }
 
 extend type Query {

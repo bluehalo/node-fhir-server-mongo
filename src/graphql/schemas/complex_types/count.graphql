@@ -8,11 +8,11 @@
 
 
 type Count {
-        value: code            
-        comparator: code            
-        unit: code            
-        system: code            
-        code: code            
+    value: code        
+    comparator: code        
+    unit: code        
+    system: code        
+    code: code        
 }
 
 extend type Query {

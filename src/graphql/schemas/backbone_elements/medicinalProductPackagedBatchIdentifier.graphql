@@ -8,11 +8,11 @@
 
 
 type MedicinalProductPackagedBatchIdentifier {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        outerPackaging: Identifier!            
-        immediatePackaging: Identifier            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    outerPackaging: Identifier!        
+    immediatePackaging: Identifier        
 }
 
 extend type Query {

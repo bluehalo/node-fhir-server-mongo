@@ -8,11 +8,11 @@
 
 
 type TestScriptRequestHeader {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        field: code!            
-        value: code!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    field: code!        
+    value: code!        
 }
 
 extend type Query {

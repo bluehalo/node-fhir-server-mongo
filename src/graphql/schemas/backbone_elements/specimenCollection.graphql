@@ -17,18 +17,18 @@ union SpecimenCollectionCollector = Practitioner | PractitionerRole
 
 
 type SpecimenCollection {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        collector: SpecimenCollectionCollector            
-        collectedDateTime: code            
-        collectedPeriod: Period            
-        duration: Quantity            
-        quantity: Quantity            
-        method: CodeableConcept            
-        bodySite: CodeableConcept            
-        fastingStatusCodeableConcept: CodeableConcept            
-        fastingStatusDuration: Quantity            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    collector: SpecimenCollectionCollector        
+    collectedDateTime: code        
+    collectedPeriod: Period        
+    duration: Quantity        
+    quantity: Quantity        
+    method: CodeableConcept        
+    bodySite: CodeableConcept        
+    fastingStatusCodeableConcept: CodeableConcept        
+    fastingStatusDuration: Quantity        
 }
 
 extend type Query {

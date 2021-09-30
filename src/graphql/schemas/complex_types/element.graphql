@@ -5,8 +5,8 @@
 
 
 type Element {
-        id: code            
-        extension: [Extension]            
+    id: code        
+    extension: [Extension]        
 }
 
 extend type Query {

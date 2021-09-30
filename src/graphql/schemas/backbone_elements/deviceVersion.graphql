@@ -9,12 +9,12 @@
 
 
 type DeviceVersion {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: CodeableConcept            
-        component: Identifier            
-        value: code!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: CodeableConcept        
+    component: Identifier        
+    value: code!        
 }
 
 extend type Query {

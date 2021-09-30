@@ -8,11 +8,11 @@
 
 
 type CapabilityStatementSupportedMessage {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        mode: code!            
-        definition: code!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    mode: code!        
+    definition: code!        
 }
 
 extend type Query {

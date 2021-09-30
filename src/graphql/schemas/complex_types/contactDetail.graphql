@@ -7,10 +7,10 @@
 
 
 type ContactDetail {
-        id: code            
-        extension: [Extension]            
-        name: code            
-        telecom: [ContactPoint]            
+    id: code        
+    extension: [Extension]        
+    name: code        
+    telecom: [ContactPoint]        
 }
 
 extend type Query {

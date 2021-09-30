@@ -12,15 +12,15 @@
 
 
 type ExplanationOfBenefitFinancial {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: CodeableConcept!            
-        allowedUnsignedInt: code            
-        allowedString: code            
-        allowedMoney: Money            
-        usedUnsignedInt: code            
-        usedMoney: Money            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: CodeableConcept!        
+    allowedUnsignedInt: code        
+    allowedString: code        
+    allowedMoney: Money        
+    usedUnsignedInt: code        
+    usedMoney: Money        
 }
 
 extend type Query {

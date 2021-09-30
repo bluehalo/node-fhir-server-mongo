@@ -8,11 +8,11 @@
 
 
 type ExampleScenarioContainedInstance {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        resourceId: code!            
-        versionId: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    resourceId: code!        
+    versionId: code        
 }
 
 extend type Query {

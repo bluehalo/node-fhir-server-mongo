@@ -8,11 +8,11 @@
 
 
 type ImplementationGuideParameter {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        code: code!            
-        value: code!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    code: code!        
+    value: code!        
 }
 
 extend type Query {

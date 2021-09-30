@@ -9,12 +9,12 @@
 
 
 type BiologicallyDerivedProductManipulation {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        description: code            
-        timeDateTime: code            
-        timePeriod: Period            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    description: code        
+    timeDateTime: code        
+    timePeriod: Period        
 }
 
 extend type Query {

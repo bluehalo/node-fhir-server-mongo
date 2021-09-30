@@ -8,11 +8,11 @@
 
 
 type NutritionOrderTexture {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        modifier: CodeableConcept            
-        foodType: CodeableConcept            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    modifier: CodeableConcept        
+    foodType: CodeableConcept        
 }
 
 extend type Query {

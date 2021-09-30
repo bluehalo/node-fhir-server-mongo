@@ -12,12 +12,12 @@ union SupplyDeliverySuppliedItemItemReference = Medication | Substance | Device
 
 
 type SupplyDeliverySuppliedItem {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        quantity: Quantity            
-        itemCodeableConcept: CodeableConcept            
-        itemReference: SupplyDeliverySuppliedItemItemReference            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    quantity: Quantity        
+    itemCodeableConcept: CodeableConcept        
+    itemReference: SupplyDeliverySuppliedItemItemReference        
 }
 
 extend type Query {

@@ -7,10 +7,10 @@
 
 
 type StructureDefinitionSnapshot {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        element: [ElementDefinition]!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    element: [ElementDefinition]!        
 }
 
 extend type Query {

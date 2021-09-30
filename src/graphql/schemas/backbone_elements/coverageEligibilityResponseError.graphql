@@ -7,10 +7,10 @@
 
 
 type CoverageEligibilityResponseError {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        code: CodeableConcept!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    code: CodeableConcept!        
 }
 
 extend type Query {

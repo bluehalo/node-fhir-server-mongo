@@ -28,31 +28,31 @@
 
 
 type TestScriptAssert {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        label: code            
-        description: code            
-        direction: code            
-        compareToSourceId: code            
-        compareToSourceExpression: code            
-        compareToSourcePath: code            
-        contentType: code            
-        expression: code            
-        headerField: code            
-        minimumId: code            
-        navigationLinks: code            
-        operator: code            
-        path: code            
-        requestMethod: code            
-        requestURL: code            
-        resource: code            
-        response: code            
-        responseCode: code            
-        sourceId: code            
-        validateProfileId: code            
-        value: code            
-        warningOnly: code!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    label: code        
+    description: code        
+    direction: code        
+    compareToSourceId: code        
+    compareToSourceExpression: code        
+    compareToSourcePath: code        
+    contentType: code        
+    expression: code        
+    headerField: code        
+    minimumId: code        
+    navigationLinks: code        
+    operator: code        
+    path: code        
+    requestMethod: code        
+    requestURL: code        
+    resource: code        
+    response: code        
+    responseCode: code        
+    sourceId: code        
+    validateProfileId: code        
+    value: code        
+    warningOnly: code!        
 }
 
 extend type Query {

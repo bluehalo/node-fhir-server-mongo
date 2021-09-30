@@ -13,16 +13,16 @@
 
 
 type RiskEvidenceSynthesisRiskEstimate {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        description: code            
-        type: CodeableConcept            
-        value: code            
-        unitOfMeasure: CodeableConcept            
-        denominatorCount: code            
-        numeratorCount: code            
-        precisionEstimate: [RiskEvidenceSynthesisPrecisionEstimate]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    description: code        
+    type: CodeableConcept        
+    value: code        
+    unitOfMeasure: CodeableConcept        
+    denominatorCount: code        
+    numeratorCount: code        
+    precisionEstimate: [RiskEvidenceSynthesisPrecisionEstimate]        
 }
 
 extend type Query {

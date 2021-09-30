@@ -8,11 +8,11 @@
 
 
 type DeviceDefinitionCapability {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: CodeableConcept!            
-        description: [CodeableConcept]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: CodeableConcept!        
+    description: [CodeableConcept]        
 }
 
 extend type Query {

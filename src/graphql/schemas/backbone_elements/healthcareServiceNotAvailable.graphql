@@ -8,11 +8,11 @@
 
 
 type HealthcareServiceNotAvailable {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        description: code!            
-        during: Period            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    description: code!        
+    during: Period        
 }
 
 extend type Query {

@@ -10,13 +10,13 @@
 
 
 type SubscriptionChannel {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: code!            
-        endpoint: code            
-        payload: code            
-        header: [code]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: code!        
+    endpoint: code        
+    payload: code        
+    header: [code]        
 }
 
 extend type Query {

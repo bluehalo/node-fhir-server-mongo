@@ -11,14 +11,14 @@
 
 
 type MolecularSequenceStructureVariant {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        variantType: CodeableConcept            
-        exact: code            
-        length: code            
-        outer: MolecularSequenceOuter            
-        inner: MolecularSequenceInner            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    variantType: CodeableConcept        
+    exact: code        
+    length: code        
+    outer: MolecularSequenceOuter        
+    inner: MolecularSequenceInner        
 }
 
 extend type Query {

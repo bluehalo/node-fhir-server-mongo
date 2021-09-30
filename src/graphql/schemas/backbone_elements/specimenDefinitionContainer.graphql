@@ -15,18 +15,18 @@
 
 
 type SpecimenDefinitionContainer {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        material: CodeableConcept            
-        type: CodeableConcept            
-        cap: CodeableConcept            
-        description: code            
-        capacity: Quantity            
-        minimumVolumeQuantity: Quantity            
-        minimumVolumeString: code            
-        additive: [SpecimenDefinitionAdditive]            
-        preparation: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    material: CodeableConcept        
+    type: CodeableConcept        
+    cap: CodeableConcept        
+    description: code        
+    capacity: Quantity        
+    minimumVolumeQuantity: Quantity        
+    minimumVolumeString: code        
+    additive: [SpecimenDefinitionAdditive]        
+    preparation: code        
 }
 
 extend type Query {

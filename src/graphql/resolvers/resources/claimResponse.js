@@ -25,27 +25,47 @@ module.exports = {
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         patient: async (parent, args, context, info) => {
-            return await findResourceByReference(parent.patient);
+            return await findResourceByReference(
+                args,
+                context,
+                info,
+                parent.patient);
         },
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         insurer: async (parent, args, context, info) => {
-            return await findResourceByReference(parent.insurer);
+            return await findResourceByReference(
+                args,
+                context,
+                info,
+                parent.insurer);
         },
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         requestor: async (parent, args, context, info) => {
-            return await findResourceByReference(parent.requestor);
+            return await findResourceByReference(
+                args,
+                context,
+                info,
+                parent.requestor);
         },
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         request: async (parent, args, context, info) => {
-            return await findResourceByReference(parent.request);
+            return await findResourceByReference(
+                args,
+                context,
+                info,
+                parent.request);
         },
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         communicationRequest: async (parent, args, context, info) => {
-            return await findResourcesByReference(parent.communicationRequest);
+            return await findResourcesByReference(
+                args,
+                context,
+                info,
+                parent.communicationRequest);
         },
     }
 };

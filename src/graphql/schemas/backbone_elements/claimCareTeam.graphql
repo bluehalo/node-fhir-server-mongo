@@ -14,14 +14,14 @@ union ClaimCareTeamProvider = Practitioner | PractitionerRole | Organization
 
 
 type ClaimCareTeam {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        sequence: code!            
-        provider: ClaimCareTeamProvider!            
-        responsible: code            
-        role: CodeableConcept            
-        qualification: CodeableConcept            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    sequence: code!        
+    provider: ClaimCareTeamProvider!        
+    responsible: code        
+    role: CodeableConcept        
+    qualification: CodeableConcept        
 }
 
 extend type Query {

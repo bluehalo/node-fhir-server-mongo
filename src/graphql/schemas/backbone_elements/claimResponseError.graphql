@@ -10,13 +10,13 @@
 
 
 type ClaimResponseError {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        itemSequence: code            
-        detailSequence: code            
-        subDetailSequence: code            
-        code: CodeableConcept!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    itemSequence: code        
+    detailSequence: code        
+    subDetailSequence: code        
+    code: CodeableConcept!        
 }
 
 extend type Query {

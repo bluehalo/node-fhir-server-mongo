@@ -16,19 +16,19 @@
 
 
 type ContractOffer {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        identifier: [Identifier]            
-        party: [ContractParty]            
-        topic: Resource            
-        type: CodeableConcept            
-        decision: CodeableConcept            
-        decisionMode: [CodeableConcept]            
-        answer: [ContractAnswer]            
-        text: code            
-        linkId: [code]            
-        securityLabelNumber: [code]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    identifier: [Identifier]        
+    party: [ContractParty]        
+    topic: Resource        
+    type: CodeableConcept        
+    decision: CodeableConcept        
+    decisionMode: [CodeableConcept]        
+    answer: [ContractAnswer]        
+    text: code        
+    linkId: [code]        
+    securityLabelNumber: [code]        
 }
 
 extend type Query {

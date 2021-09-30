@@ -14,17 +14,17 @@
 
 
 type SubstanceProteinSubunit {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        subunit: code            
-        sequence: code            
-        length: code            
-        sequenceAttachment: Attachment            
-        nTerminalModificationId: Identifier            
-        nTerminalModification: code            
-        cTerminalModificationId: Identifier            
-        cTerminalModification: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    subunit: code        
+    sequence: code        
+    length: code        
+    sequenceAttachment: Attachment        
+    nTerminalModificationId: Identifier        
+    nTerminalModification: code        
+    cTerminalModificationId: Identifier        
+    cTerminalModification: code        
 }
 
 extend type Query {

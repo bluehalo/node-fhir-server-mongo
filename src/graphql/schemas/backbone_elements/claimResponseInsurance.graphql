@@ -11,14 +11,14 @@
 
 
 type ClaimResponseInsurance {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        sequence: code!            
-        focal: code!            
-        coverage: Coverage!            
-        businessArrangement: code            
-        claimResponse: ClaimResponse            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    sequence: code!        
+    focal: code!        
+    coverage: Coverage!        
+    businessArrangement: code        
+    claimResponse: ClaimResponse        
 }
 
 extend type Query {

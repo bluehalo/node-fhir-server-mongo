@@ -15,18 +15,18 @@
 
 
 type NutritionOrderEnteralFormula {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        baseFormulaType: CodeableConcept            
-        baseFormulaProductName: code            
-        additiveType: CodeableConcept            
-        additiveProductName: code            
-        caloricDensity: Quantity            
-        routeofAdministration: CodeableConcept            
-        administration: [NutritionOrderAdministration]            
-        maxVolumeToDeliver: Quantity            
-        administrationInstruction: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    baseFormulaType: CodeableConcept        
+    baseFormulaProductName: code        
+    additiveType: CodeableConcept        
+    additiveProductName: code        
+    caloricDensity: Quantity        
+    routeofAdministration: CodeableConcept        
+    administration: [NutritionOrderAdministration]        
+    maxVolumeToDeliver: Quantity        
+    administrationInstruction: code        
 }
 
 extend type Query {

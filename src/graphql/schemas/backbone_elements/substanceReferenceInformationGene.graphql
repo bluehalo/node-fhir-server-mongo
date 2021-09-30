@@ -9,12 +9,12 @@
 
 
 type SubstanceReferenceInformationGene {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        geneSequenceOrigin: CodeableConcept            
-        gene: CodeableConcept            
-        source: [DocumentReference]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    geneSequenceOrigin: CodeableConcept        
+    gene: CodeableConcept        
+    source: [DocumentReference]        
 }
 
 extend type Query {

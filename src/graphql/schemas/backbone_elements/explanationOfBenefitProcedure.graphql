@@ -12,15 +12,15 @@
 
 
 type ExplanationOfBenefitProcedure {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        sequence: code!            
-        type: [CodeableConcept]            
-        date: code            
-        procedureCodeableConcept: CodeableConcept            
-        procedureReference: Procedure            
-        udi: [Device]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    sequence: code!        
+    type: [CodeableConcept]        
+    date: code        
+    procedureCodeableConcept: CodeableConcept        
+    procedureReference: Procedure        
+    udi: [Device]        
 }
 
 extend type Query {

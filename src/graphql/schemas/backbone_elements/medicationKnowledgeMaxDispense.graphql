@@ -8,11 +8,11 @@
 
 
 type MedicationKnowledgeMaxDispense {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        quantity: Quantity!            
-        period: Quantity            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    quantity: Quantity!        
+    period: Quantity        
 }
 
 extend type Query {

@@ -40,29 +40,29 @@ union CarePlanDetailProductReference = Medication | Substance
 
 
 type CarePlanDetail {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        kind: code            
-        instantiatesCanonical: [code]            
-        instantiatesUri: [code]            
-        code: CodeableConcept            
-        reasonCode: [CodeableConcept]            
-        reasonReference: [CarePlanDetailReasonReference]            
-        goal: [Goal]            
-        status: code!            
-        statusReason: CodeableConcept            
-        doNotPerform: code            
-        scheduledTiming: Timing            
-        scheduledPeriod: Period            
-        scheduledString: code            
-        location: Location            
-        performer: [CarePlanDetailPerformer]            
-        productCodeableConcept: CodeableConcept            
-        productReference: CarePlanDetailProductReference            
-        dailyAmount: Quantity            
-        quantity: Quantity            
-        description: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    kind: code        
+    instantiatesCanonical: [code]        
+    instantiatesUri: [code]        
+    code: CodeableConcept        
+    reasonCode: [CodeableConcept]        
+    reasonReference: [CarePlanDetailReasonReference]        
+    goal: [Goal]        
+    status: code!        
+    statusReason: CodeableConcept        
+    doNotPerform: code        
+    scheduledTiming: Timing        
+    scheduledPeriod: Period        
+    scheduledString: code        
+    location: Location        
+    performer: [CarePlanDetailPerformer]        
+    productCodeableConcept: CodeableConcept        
+    productReference: CarePlanDetailProductReference        
+    dailyAmount: Quantity        
+    quantity: Quantity        
+    description: code        
 }
 
 extend type Query {

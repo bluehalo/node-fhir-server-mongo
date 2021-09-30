@@ -31,24 +31,24 @@ union ContractValuedItemRecipient = Organization | Patient | Practitioner | Prac
 
 
 type ContractValuedItem {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        entityCodeableConcept: CodeableConcept            
-        entityReference: Resource            
-        identifier: Identifier            
-        effectiveTime: code            
-        quantity: Quantity            
-        unitPrice: Money            
-        factor: code            
-        points: code            
-        net: Money            
-        payment: code            
-        paymentDate: code            
-        responsible: ContractValuedItemResponsible            
-        recipient: ContractValuedItemRecipient            
-        linkId: [code]            
-        securityLabelNumber: [code]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    entityCodeableConcept: CodeableConcept        
+    entityReference: Resource        
+    identifier: Identifier        
+    effectiveTime: code        
+    quantity: Quantity        
+    unitPrice: Money        
+    factor: code        
+    points: code        
+    net: Money        
+    payment: code        
+    paymentDate: code        
+    responsible: ContractValuedItemResponsible        
+    recipient: ContractValuedItemRecipient        
+    linkId: [code]        
+    securityLabelNumber: [code]        
 }
 
 extend type Query {

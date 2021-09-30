@@ -10,14 +10,14 @@
 
 
 type QuestionnaireResponseItem {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        linkId: code!            
-        definition: code            
-        text: code            
-        answer: [QuestionnaireResponseAnswer]            
-        item: [QuestionnaireResponseItem]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    linkId: code!        
+    definition: code        
+    text: code        
+    answer: [QuestionnaireResponseAnswer]        
+    item: [QuestionnaireResponseItem]        
 }
 
 extend type Query {

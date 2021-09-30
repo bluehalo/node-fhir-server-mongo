@@ -10,13 +10,13 @@
 
 
 type InsurancePlanCost {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: CodeableConcept!            
-        applicability: CodeableConcept            
-        qualifiers: [CodeableConcept]            
-        value: Quantity            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: CodeableConcept!        
+    applicability: CodeableConcept        
+    qualifiers: [CodeableConcept]        
+    value: Quantity        
 }
 
 extend type Query {

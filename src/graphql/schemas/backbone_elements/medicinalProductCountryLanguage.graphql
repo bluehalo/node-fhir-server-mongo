@@ -9,12 +9,12 @@
 
 
 type MedicinalProductCountryLanguage {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        country: CodeableConcept!            
-        jurisdiction: CodeableConcept            
-        language: CodeableConcept!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    country: CodeableConcept!        
+    jurisdiction: CodeableConcept        
+    language: CodeableConcept!        
 }
 
 extend type Query {

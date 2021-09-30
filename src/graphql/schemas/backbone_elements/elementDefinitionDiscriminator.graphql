@@ -8,11 +8,11 @@
 
 
 type ElementDefinitionDiscriminator {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: code!            
-        path: code!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: code!        
+    path: code!        
 }
 
 extend type Query {

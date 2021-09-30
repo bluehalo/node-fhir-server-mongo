@@ -8,11 +8,11 @@
 
 
 type BundleSearch {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        mode: code            
-        score: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    mode: code        
+    score: code        
 }
 
 extend type Query {

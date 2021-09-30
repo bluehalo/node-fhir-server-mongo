@@ -8,11 +8,11 @@
 
 
 type DeviceSpecialization {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        systemType: CodeableConcept!            
-        version: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    systemType: CodeableConcept!        
+    version: code        
 }
 
 extend type Query {

@@ -8,11 +8,11 @@
 
 
 type BundleLink {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        relation: code!            
-        url: code!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    relation: code!        
+    url: code!        
 }
 
 extend type Query {

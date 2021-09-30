@@ -21,25 +21,25 @@
 
 
 type QuestionnaireItem {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        linkId: code!            
-        definition: code            
-        code: [Coding]            
-        prefix: code            
-        text: code            
-        type: code!            
-        enableWhen: [QuestionnaireEnableWhen]            
-        enableBehavior: code            
-        required: code            
-        repeats: code            
-        readOnly: code            
-        maxLength: code            
-        answerValueSet: code            
-        answerOption: [QuestionnaireAnswerOption]            
-        initial: [QuestionnaireInitial]            
-        item: [QuestionnaireItem]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    linkId: code!        
+    definition: code        
+    code: [Coding]        
+    prefix: code        
+    text: code        
+    type: code!        
+    enableWhen: [QuestionnaireEnableWhen]        
+    enableBehavior: code        
+    required: code        
+    repeats: code        
+    readOnly: code        
+    maxLength: code        
+    answerValueSet: code        
+    answerOption: [QuestionnaireAnswerOption]        
+    initial: [QuestionnaireInitial]        
+    item: [QuestionnaireItem]        
 }
 
 extend type Query {

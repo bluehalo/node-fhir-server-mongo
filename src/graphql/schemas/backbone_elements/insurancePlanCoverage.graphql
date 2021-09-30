@@ -9,12 +9,12 @@
 
 
 type InsurancePlanCoverage {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: CodeableConcept!            
-        network: [Organization]            
-        benefit: [InsurancePlanBenefit]!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: CodeableConcept!        
+    network: [Organization]        
+    benefit: [InsurancePlanBenefit]!        
 }
 
 extend type Query {

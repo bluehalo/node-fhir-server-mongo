@@ -9,12 +9,12 @@
 
 
 type ExplanationOfBenefitInsurance {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        focal: code!            
-        coverage: Coverage!            
-        preAuthRef: [code]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    focal: code!        
+    coverage: Coverage!        
+    preAuthRef: [code]        
 }
 
 extend type Query {

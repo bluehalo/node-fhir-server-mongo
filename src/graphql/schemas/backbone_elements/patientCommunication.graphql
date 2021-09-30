@@ -8,11 +8,11 @@
 
 
 type PatientCommunication {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        language: CodeableConcept!            
-        preferred: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    language: CodeableConcept!        
+    preferred: code        
 }
 
 extend type Query {

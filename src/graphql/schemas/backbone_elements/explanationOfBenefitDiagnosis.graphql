@@ -12,15 +12,15 @@
 
 
 type ExplanationOfBenefitDiagnosis {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        sequence: code!            
-        diagnosisCodeableConcept: CodeableConcept            
-        diagnosisReference: Condition            
-        type: [CodeableConcept]            
-        onAdmission: CodeableConcept            
-        packageCode: CodeableConcept            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    sequence: code!        
+    diagnosisCodeableConcept: CodeableConcept        
+    diagnosisReference: Condition        
+    type: [CodeableConcept]        
+    onAdmission: CodeableConcept        
+    packageCode: CodeableConcept        
 }
 
 extend type Query {

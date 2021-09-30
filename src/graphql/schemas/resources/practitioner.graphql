@@ -21,24 +21,25 @@
 
 
 type Practitioner {
-        id: code            
-        meta: Meta            
-        implicitRules: code            
-        language: code            
-        text: Narrative            
-        contained: [code]            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        identifier: [Identifier]            
-        active: code            
-        name: [HumanName]            
-        telecom: [ContactPoint]            
-        address: [Address]            
-        gender: code            
-        birthDate: code            
-        photo: [Attachment]            
-        qualification: [PractitionerQualification]            
-        communication: [CodeableConcept]            
+    resourceType: String
+    id: code        
+    meta: Meta        
+    implicitRules: code        
+    language: code        
+    text: Narrative        
+    contained: [code]        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    identifier: [Identifier]        
+    active: code        
+    name: [HumanName]        
+    telecom: [ContactPoint]        
+    address: [Address]        
+    gender: code        
+    birthDate: code        
+    photo: [Attachment]        
+    qualification: [PractitionerQualification]        
+    communication: [CodeableConcept]        
 }
 
 extend type Query {

@@ -23,26 +23,26 @@
 
 
 type CapabilityStatementResource {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: code!            
-        profile: code            
-        supportedProfile: [code]            
-        documentation: code            
-        interaction: [CapabilityStatementInteraction]            
-        versioning: code            
-        readHistory: code            
-        updateCreate: code            
-        conditionalCreate: code            
-        conditionalRead: code            
-        conditionalUpdate: code            
-        conditionalDelete: code            
-        referencePolicy: [code]            
-        searchInclude: [code]            
-        searchRevInclude: [code]            
-        searchParam: [CapabilityStatementSearchParam]            
-        operation: [CapabilityStatementOperation]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: code!        
+    profile: code        
+    supportedProfile: [code]        
+    documentation: code        
+    interaction: [CapabilityStatementInteraction]        
+    versioning: code        
+    readHistory: code        
+    updateCreate: code        
+    conditionalCreate: code        
+    conditionalRead: code        
+    conditionalUpdate: code        
+    conditionalDelete: code        
+    referencePolicy: [code]        
+    searchInclude: [code]        
+    searchRevInclude: [code]        
+    searchParam: [CapabilityStatementSearchParam]        
+    operation: [CapabilityStatementOperation]        
 }
 
 extend type Query {

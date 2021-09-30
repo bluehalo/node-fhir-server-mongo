@@ -10,13 +10,13 @@
 
 
 type MeasureReportStratum {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        value: CodeableConcept            
-        component: [MeasureReportComponent]            
-        population: [MeasureReportPopulation1]            
-        measureScore: Quantity            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    value: CodeableConcept        
+    component: [MeasureReportComponent]        
+    population: [MeasureReportPopulation1]        
+    measureScore: Quantity        
 }
 
 extend type Query {

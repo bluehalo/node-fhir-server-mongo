@@ -8,11 +8,11 @@
 
 
 type HealthcareServiceEligibility {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        code: CodeableConcept            
-        comment: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    code: CodeableConcept        
+    comment: code        
 }
 
 extend type Query {

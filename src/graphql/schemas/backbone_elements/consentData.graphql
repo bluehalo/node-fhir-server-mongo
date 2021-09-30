@@ -8,11 +8,11 @@
 
 
 type ConsentData {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        meaning: code!            
-        reference: Resource!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    meaning: code!        
+    reference: Resource!        
 }
 
 extend type Query {

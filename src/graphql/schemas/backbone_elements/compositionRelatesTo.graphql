@@ -9,12 +9,12 @@
 
 
 type CompositionRelatesTo {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        code: code!            
-        targetIdentifier: Identifier            
-        targetReference: Composition            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    code: code!        
+    targetIdentifier: Identifier        
+    targetReference: Composition        
 }
 
 extend type Query {

@@ -8,11 +8,11 @@
 
 
 type TerminologyCapabilitiesFilter {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        code: code!            
-        op: [code]!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    code: code!        
+    op: [code]!        
 }
 
 extend type Query {

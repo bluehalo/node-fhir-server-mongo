@@ -7,10 +7,10 @@
 
 
 type TestScriptSetup {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        action: [TestScriptAction]!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    action: [TestScriptAction]!        
 }
 
 extend type Query {

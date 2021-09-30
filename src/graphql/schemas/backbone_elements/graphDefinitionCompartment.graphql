@@ -11,14 +11,14 @@
 
 
 type GraphDefinitionCompartment {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        use: code!            
-        code: code!            
-        rule: code!            
-        expression: code            
-        description: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    use: code!        
+    code: code!        
+    rule: code!        
+    expression: code        
+    description: code        
 }
 
 extend type Query {

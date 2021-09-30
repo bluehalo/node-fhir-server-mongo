@@ -33,34 +33,35 @@ union MedicinalProductContact = Organization | PractitionerRole
 
 
 type MedicinalProduct {
-        id: code            
-        meta: Meta            
-        implicitRules: code            
-        language: code            
-        text: Narrative            
-        contained: [code]            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        identifier: [Identifier]            
-        type: CodeableConcept            
-        domain: Coding            
-        combinedPharmaceuticalDoseForm: CodeableConcept            
-        legalStatusOfSupply: CodeableConcept            
-        additionalMonitoringIndicator: CodeableConcept            
-        specialMeasures: [code]            
-        paediatricUseIndicator: CodeableConcept            
-        productClassification: [CodeableConcept]            
-        marketingStatus: [MarketingStatus]            
-        pharmaceuticalProduct: [MedicinalProductPharmaceutical]            
-        packagedMedicinalProduct: [MedicinalProductPackaged]            
-        attachedDocument: [DocumentReference]            
-        masterFile: [DocumentReference]            
-        contact: [MedicinalProductContact]            
-        clinicalTrial: [ResearchStudy]            
-        name: [MedicinalProductName]!            
-        crossReference: [Identifier]            
-        manufacturingBusinessOperation: [MedicinalProductManufacturingBusinessOperation]            
-        specialDesignation: [MedicinalProductSpecialDesignation]            
+    resourceType: String
+    id: code        
+    meta: Meta        
+    implicitRules: code        
+    language: code        
+    text: Narrative        
+    contained: [code]        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    identifier: [Identifier]        
+    type: CodeableConcept        
+    domain: Coding        
+    combinedPharmaceuticalDoseForm: CodeableConcept        
+    legalStatusOfSupply: CodeableConcept        
+    additionalMonitoringIndicator: CodeableConcept        
+    specialMeasures: [code]        
+    paediatricUseIndicator: CodeableConcept        
+    productClassification: [CodeableConcept]        
+    marketingStatus: [MarketingStatus]        
+    pharmaceuticalProduct: [MedicinalProductPharmaceutical]        
+    packagedMedicinalProduct: [MedicinalProductPackaged]        
+    attachedDocument: [DocumentReference]        
+    masterFile: [DocumentReference]        
+    contact: [MedicinalProductContact]        
+    clinicalTrial: [ResearchStudy]        
+    name: [MedicinalProductName]!        
+    crossReference: [Identifier]        
+    manufacturingBusinessOperation: [MedicinalProductManufacturingBusinessOperation]        
+    specialDesignation: [MedicinalProductSpecialDesignation]        
 }
 
 extend type Query {

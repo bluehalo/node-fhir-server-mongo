@@ -13,16 +13,16 @@
 
 
 type MedicationRequestDispenseRequest {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        initialFill: MedicationRequestInitialFill            
-        dispenseInterval: Quantity            
-        validityPeriod: Period            
-        numberOfRepeatsAllowed: code            
-        quantity: Quantity            
-        expectedSupplyDuration: Quantity            
-        performer: Organization            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    initialFill: MedicationRequestInitialFill        
+    dispenseInterval: Quantity        
+    validityPeriod: Period        
+    numberOfRepeatsAllowed: code        
+    quantity: Quantity        
+    expectedSupplyDuration: Quantity        
+    performer: Organization        
 }
 
 extend type Query {

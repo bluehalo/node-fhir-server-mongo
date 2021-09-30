@@ -9,12 +9,12 @@
 
 
 type DataRequirementCodeFilter {
-        id: code            
-        extension: [Extension]            
-        path: code            
-        searchParam: code            
-        valueSet: code            
-        code: [Coding]            
+    id: code        
+    extension: [Extension]        
+    path: code        
+    searchParam: code        
+    valueSet: code        
+    code: [Coding]        
 }
 
 extend type Query {

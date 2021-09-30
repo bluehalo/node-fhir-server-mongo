@@ -19,18 +19,18 @@ union EncounterHospitalizationDestination = Location | Organization
 
 
 type EncounterHospitalization {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        preAdmissionIdentifier: Identifier            
-        origin: EncounterHospitalizationOrigin            
-        admitSource: CodeableConcept            
-        reAdmission: CodeableConcept            
-        dietPreference: [CodeableConcept]            
-        specialCourtesy: [CodeableConcept]            
-        specialArrangement: [CodeableConcept]            
-        destination: EncounterHospitalizationDestination            
-        dischargeDisposition: CodeableConcept            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    preAdmissionIdentifier: Identifier        
+    origin: EncounterHospitalizationOrigin        
+    admitSource: CodeableConcept        
+    reAdmission: CodeableConcept        
+    dietPreference: [CodeableConcept]        
+    specialCourtesy: [CodeableConcept]        
+    specialArrangement: [CodeableConcept]        
+    destination: EncounterHospitalizationDestination        
+    dischargeDisposition: CodeableConcept        
 }
 
 extend type Query {

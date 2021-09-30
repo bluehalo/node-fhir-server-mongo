@@ -15,16 +15,16 @@ union SubstanceSpecificationPropertyDefiningSubstanceReference = SubstanceSpecif
 
 
 type SubstanceSpecificationProperty {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        category: CodeableConcept            
-        code: CodeableConcept            
-        parameters: code            
-        definingSubstanceReference: SubstanceSpecificationPropertyDefiningSubstanceReference            
-        definingSubstanceCodeableConcept: CodeableConcept            
-        amountQuantity: Quantity            
-        amountString: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    category: CodeableConcept        
+    code: CodeableConcept        
+    parameters: code        
+    definingSubstanceReference: SubstanceSpecificationPropertyDefiningSubstanceReference        
+    definingSubstanceCodeableConcept: CodeableConcept        
+    amountQuantity: Quantity        
+    amountString: code        
 }
 
 extend type Query {

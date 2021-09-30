@@ -10,13 +10,13 @@
 
 
 type MeasureReportGroup {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        code: CodeableConcept            
-        population: [MeasureReportPopulation]            
-        measureScore: Quantity            
-        stratifier: [MeasureReportStratifier]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    code: CodeableConcept        
+    population: [MeasureReportPopulation]        
+    measureScore: Quantity        
+    stratifier: [MeasureReportStratifier]        
 }
 
 extend type Query {

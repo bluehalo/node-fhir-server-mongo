@@ -7,10 +7,10 @@
 
 
 type CodeableConcept {
-        id: code            
-        extension: [Extension]            
-        coding: [Coding]            
-        text: code            
+    id: code        
+    extension: [Extension]        
+    coding: [Coding]        
+    text: code        
 }
 
 extend type Query {

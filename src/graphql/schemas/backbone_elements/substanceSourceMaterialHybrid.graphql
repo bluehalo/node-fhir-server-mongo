@@ -11,14 +11,14 @@
 
 
 type SubstanceSourceMaterialHybrid {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        maternalOrganismId: code            
-        maternalOrganismName: code            
-        paternalOrganismId: code            
-        paternalOrganismName: code            
-        hybridType: CodeableConcept            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    maternalOrganismId: code        
+    maternalOrganismName: code        
+    paternalOrganismId: code        
+    paternalOrganismName: code        
+    hybridType: CodeableConcept        
 }
 
 extend type Query {

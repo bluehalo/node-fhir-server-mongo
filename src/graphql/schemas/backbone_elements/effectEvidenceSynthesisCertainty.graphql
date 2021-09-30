@@ -9,12 +9,12 @@
 
 
 type EffectEvidenceSynthesisCertainty {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        rating: [CodeableConcept]            
-        note: [Annotation]            
-        certaintySubcomponent: [EffectEvidenceSynthesisCertaintySubcomponent]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    rating: [CodeableConcept]        
+    note: [Annotation]        
+    certaintySubcomponent: [EffectEvidenceSynthesisCertaintySubcomponent]        
 }
 
 extend type Query {

@@ -15,11 +15,11 @@ union AdverseEventSuspectEntityInstance = Immunization | Procedure | Substance |
 
 
 type AdverseEventSuspectEntity {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        instance: AdverseEventSuspectEntityInstance!            
-        causality: [AdverseEventCausality]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    instance: AdverseEventSuspectEntityInstance!        
+    causality: [AdverseEventCausality]        
 }
 
 extend type Query {

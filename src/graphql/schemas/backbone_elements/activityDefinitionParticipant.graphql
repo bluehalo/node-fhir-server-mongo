@@ -8,11 +8,11 @@
 
 
 type ActivityDefinitionParticipant {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: code!            
-        role: CodeableConcept            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: code!        
+    role: CodeableConcept        
 }
 
 extend type Query {

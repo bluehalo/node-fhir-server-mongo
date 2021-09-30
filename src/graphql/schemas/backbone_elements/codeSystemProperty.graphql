@@ -10,13 +10,13 @@
 
 
 type CodeSystemProperty {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        code: code!            
-        uri: code            
-        description: code            
-        type: code!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    code: code!        
+    uri: code        
+    description: code        
+    type: code!        
 }
 
 extend type Query {

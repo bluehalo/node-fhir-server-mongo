@@ -9,12 +9,12 @@
 
 
 type ClaimRelated {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        claim: Claim            
-        relationship: CodeableConcept            
-        reference: Identifier            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    claim: Claim        
+    relationship: CodeableConcept        
+    reference: Identifier        
 }
 
 extend type Query {

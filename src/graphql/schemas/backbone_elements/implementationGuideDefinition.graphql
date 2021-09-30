@@ -11,14 +11,14 @@
 
 
 type ImplementationGuideDefinition {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        grouping: [ImplementationGuideGrouping]            
-        resource: [ImplementationGuideResource]!            
-        page: ImplementationGuidePage            
-        parameter: [ImplementationGuideParameter]            
-        template: [ImplementationGuideTemplate]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    grouping: [ImplementationGuideGrouping]        
+    resource: [ImplementationGuideResource]!        
+    page: ImplementationGuidePage        
+    parameter: [ImplementationGuideParameter]        
+    template: [ImplementationGuideTemplate]        
 }
 
 extend type Query {

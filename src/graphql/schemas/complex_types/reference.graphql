@@ -9,12 +9,12 @@
 
 
 type Reference {
-        id: code            
-        extension: [Extension]            
-        reference: code            
-        type: code            
-        identifier: Identifier            
-        display: code            
+    id: code        
+    extension: [Extension]        
+    reference: code        
+    type: code        
+    identifier: Identifier        
+    display: code        
 }
 
 extend type Query {

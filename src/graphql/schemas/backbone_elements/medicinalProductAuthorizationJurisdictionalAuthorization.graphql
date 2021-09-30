@@ -11,14 +11,14 @@
 
 
 type MedicinalProductAuthorizationJurisdictionalAuthorization {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        identifier: [Identifier]            
-        country: CodeableConcept            
-        jurisdiction: [CodeableConcept]            
-        legalStatusOfSupply: CodeableConcept            
-        validityPeriod: Period            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    identifier: [Identifier]        
+    country: CodeableConcept        
+    jurisdiction: [CodeableConcept]        
+    legalStatusOfSupply: CodeableConcept        
+    validityPeriod: Period        
 }
 
 extend type Query {

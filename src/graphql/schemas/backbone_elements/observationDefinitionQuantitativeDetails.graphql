@@ -10,13 +10,13 @@
 
 
 type ObservationDefinitionQuantitativeDetails {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        customaryUnit: CodeableConcept            
-        unit: CodeableConcept            
-        conversionFactor: code            
-        decimalPrecision: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    customaryUnit: CodeableConcept        
+    unit: CodeableConcept        
+    conversionFactor: code        
+    decimalPrecision: code        
 }
 
 extend type Query {

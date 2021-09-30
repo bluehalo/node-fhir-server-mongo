@@ -8,11 +8,11 @@
 
 
 type EpisodeOfCareStatusHistory {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        status: code!            
-        period: Period!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    status: code!        
+    period: Period!        
 }
 
 extend type Query {

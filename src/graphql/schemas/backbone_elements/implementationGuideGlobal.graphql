@@ -8,11 +8,11 @@
 
 
 type ImplementationGuideGlobal {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: code!            
-        profile: code!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: code!        
+    profile: code!        
 }
 
 extend type Query {

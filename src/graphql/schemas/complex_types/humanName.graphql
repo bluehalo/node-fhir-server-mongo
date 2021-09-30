@@ -12,15 +12,15 @@
 
 
 type HumanName {
-        id: code            
-        extension: [Extension]            
-        use: code            
-        text: code            
-        family: code            
-        given: [code]            
-        prefix: [code]            
-        suffix: [code]            
-        period: Period            
+    id: code        
+    extension: [Extension]        
+    use: code        
+    text: code        
+    family: code        
+    given: [code]        
+    prefix: [code]        
+    suffix: [code]        
+    period: Period        
 }
 
 extend type Query {

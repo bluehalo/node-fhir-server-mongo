@@ -38,32 +38,33 @@ union RiskAssessmentReasonReference = Condition | Observation | DiagnosticReport
 
 
 type RiskAssessment {
-        id: code            
-        meta: Meta            
-        implicitRules: code            
-        language: code            
-        text: Narrative            
-        contained: [code]            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        identifier: [Identifier]            
-        basedOn: Resource            
-        parent: Resource            
-        status: code!            
-        method: CodeableConcept            
-        code: CodeableConcept            
-        subject: RiskAssessmentSubject!            
-        encounter: Encounter            
-        occurrenceDateTime: code            
-        occurrencePeriod: Period            
-        condition: Condition            
-        performer: RiskAssessmentPerformer            
-        reasonCode: [CodeableConcept]            
-        reasonReference: [RiskAssessmentReasonReference]            
-        basis: [Resource]            
-        prediction: [RiskAssessmentPrediction]            
-        mitigation: code            
-        note: [Annotation]            
+    resourceType: String
+    id: code        
+    meta: Meta        
+    implicitRules: code        
+    language: code        
+    text: Narrative        
+    contained: [code]        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    identifier: [Identifier]        
+    basedOn: Resource        
+    parent: Resource        
+    status: code!        
+    method: CodeableConcept        
+    code: CodeableConcept        
+    subject: RiskAssessmentSubject!        
+    encounter: Encounter        
+    occurrenceDateTime: code        
+    occurrencePeriod: Period        
+    condition: Condition        
+    performer: RiskAssessmentPerformer        
+    reasonCode: [CodeableConcept]        
+    reasonReference: [RiskAssessmentReasonReference]        
+    basis: [Resource]        
+    prediction: [RiskAssessmentPrediction]        
+    mitigation: code        
+    note: [Annotation]        
 }
 
 extend type Query {

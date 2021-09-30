@@ -9,12 +9,12 @@
 
 
 type TestScriptTest {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        name: code            
-        description: code            
-        action: [TestScriptAction1]!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    name: code        
+    description: code        
+    action: [TestScriptAction1]!        
 }
 
 extend type Query {

@@ -9,12 +9,12 @@
 
 
 type ProvenanceEntity {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        role: code!            
-        what: Resource!            
-        agent: [ProvenanceAgent]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    role: code!        
+    what: Resource!        
+    agent: [ProvenanceAgent]        
 }
 
 extend type Query {

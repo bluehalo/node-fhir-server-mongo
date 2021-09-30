@@ -10,13 +10,13 @@
 
 
 type SpecimenDefinitionHandling {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        temperatureQualifier: CodeableConcept            
-        temperatureRange: Range            
-        maxDuration: Quantity            
-        instruction: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    temperatureQualifier: CodeableConcept        
+    temperatureRange: Range        
+    maxDuration: Quantity        
+    instruction: code        
 }
 
 extend type Query {

@@ -15,11 +15,11 @@ union ChargeItemPerformerActor = Practitioner | PractitionerRole | Organization 
 
 
 type ChargeItemPerformer {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        function: CodeableConcept            
-        actor: ChargeItemPerformerActor!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    function: CodeableConcept        
+    actor: ChargeItemPerformerActor!        
 }
 
 extend type Query {

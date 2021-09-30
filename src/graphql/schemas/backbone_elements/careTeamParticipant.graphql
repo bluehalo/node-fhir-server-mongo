@@ -16,13 +16,13 @@ union CareTeamParticipantMember = Practitioner | PractitionerRole | RelatedPerso
 
 
 type CareTeamParticipant {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        role: [CodeableConcept]            
-        member: CareTeamParticipantMember            
-        onBehalfOf: Organization            
-        period: Period            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    role: [CodeableConcept]        
+    member: CareTeamParticipantMember        
+    onBehalfOf: Organization        
+    period: Period        
 }
 
 extend type Query {

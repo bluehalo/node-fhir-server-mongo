@@ -8,11 +8,11 @@
 
 
 type OperationDefinitionOverload {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        parameterName: [code]            
-        comment: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    parameterName: [code]        
+    comment: code        
 }
 
 extend type Query {

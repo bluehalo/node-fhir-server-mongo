@@ -11,14 +11,14 @@
 
 
 type NamingSystemUniqueId {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: code!            
-        value: code!            
-        preferred: code            
-        comment: code            
-        period: Period            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: code!        
+    value: code!        
+    preferred: code        
+    comment: code        
+    period: Period        
 }
 
 extend type Query {

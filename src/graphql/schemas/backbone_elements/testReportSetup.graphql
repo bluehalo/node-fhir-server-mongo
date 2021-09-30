@@ -7,10 +7,10 @@
 
 
 type TestReportSetup {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        action: [TestReportAction]!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    action: [TestReportAction]!        
 }
 
 extend type Query {

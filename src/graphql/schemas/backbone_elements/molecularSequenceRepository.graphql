@@ -12,15 +12,15 @@
 
 
 type MolecularSequenceRepository {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: code!            
-        url: code            
-        name: code            
-        datasetId: code            
-        variantsetId: code            
-        readsetId: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: code!        
+    url: code        
+    name: code        
+    datasetId: code        
+    variantsetId: code        
+    readsetId: code        
 }
 
 extend type Query {

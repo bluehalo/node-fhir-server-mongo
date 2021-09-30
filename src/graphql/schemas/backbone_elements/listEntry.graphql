@@ -10,13 +10,13 @@
 
 
 type ListEntry {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        flag: CodeableConcept            
-        deleted: code            
-        date: code            
-        item: Resource!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    flag: CodeableConcept        
+    deleted: code        
+    date: code        
+    item: Resource!        
 }
 
 extend type Query {

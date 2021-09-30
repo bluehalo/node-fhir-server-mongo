@@ -10,13 +10,13 @@
 
 
 type ExplanationOfBenefitAdjudication {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        category: CodeableConcept!            
-        reason: CodeableConcept            
-        amount: Money            
-        value: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    category: CodeableConcept!        
+    reason: CodeableConcept        
+    amount: Money        
+    value: code        
 }
 
 extend type Query {

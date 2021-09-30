@@ -12,11 +12,11 @@ union MedicinalProductInteractionInteractantItemReference = MedicinalProduct | M
 
 
 type MedicinalProductInteractionInteractant {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        itemReference: MedicinalProductInteractionInteractantItemReference            
-        itemCodeableConcept: CodeableConcept            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    itemReference: MedicinalProductInteractionInteractantItemReference        
+    itemCodeableConcept: CodeableConcept        
 }
 
 extend type Query {

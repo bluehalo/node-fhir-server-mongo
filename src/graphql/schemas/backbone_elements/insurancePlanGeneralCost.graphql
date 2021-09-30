@@ -10,13 +10,13 @@
 
 
 type InsurancePlanGeneralCost {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: CodeableConcept            
-        groupSize: code            
-        cost: Money            
-        comment: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: CodeableConcept        
+    groupSize: code        
+    cost: Money        
+    comment: code        
 }
 
 extend type Query {

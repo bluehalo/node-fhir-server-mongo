@@ -8,11 +8,11 @@
 
 
 type MedicinalProductPharmaceuticalTargetSpecies {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        code: CodeableConcept!            
-        withdrawalPeriod: [MedicinalProductPharmaceuticalWithdrawalPeriod]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    code: CodeableConcept!        
+    withdrawalPeriod: [MedicinalProductPharmaceuticalWithdrawalPeriod]        
 }
 
 extend type Query {

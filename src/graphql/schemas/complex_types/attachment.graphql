@@ -13,16 +13,16 @@
 
 
 type Attachment {
-        id: code            
-        extension: [Extension]            
-        contentType: code            
-        language: code            
-        data: code            
-        url: code            
-        size: code            
-        hash: code            
-        title: code            
-        creation: code            
+    id: code        
+    extension: [Extension]        
+    contentType: code        
+    language: code        
+    data: code        
+    url: code        
+    size: code        
+    hash: code        
+    title: code        
+    creation: code        
 }
 
 extend type Query {

@@ -10,13 +10,13 @@
 
 
 type ExampleScenarioStep {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        process: [ExampleScenarioProcess]            
-        pause: code            
-        operation: ExampleScenarioOperation            
-        alternative: [ExampleScenarioAlternative]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    process: [ExampleScenarioProcess]        
+    pause: code        
+    operation: ExampleScenarioOperation        
+    alternative: [ExampleScenarioAlternative]        
 }
 
 extend type Query {

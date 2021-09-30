@@ -8,11 +8,11 @@
 
 
 type MeasureReportComponent {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        code: CodeableConcept!            
-        value: CodeableConcept!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    code: CodeableConcept!        
+    value: CodeableConcept!        
 }
 
 extend type Query {

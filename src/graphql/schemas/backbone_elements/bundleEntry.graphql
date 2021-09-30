@@ -12,15 +12,15 @@
 
 
 type BundleEntry {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        link: [BundleLink]            
-        fullUrl: code            
-        resource: code            
-        search: BundleSearch            
-        request: BundleRequest            
-        response: BundleResponse            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    link: [BundleLink]        
+    fullUrl: code        
+    resource: code        
+    search: BundleSearch        
+    request: BundleRequest        
+    response: BundleResponse        
 }
 
 extend type Query {

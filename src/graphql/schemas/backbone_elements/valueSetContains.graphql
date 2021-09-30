@@ -13,17 +13,17 @@
 
 
 type ValueSetContains {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        system: code            
-        abstract: code            
-        inactive: code            
-        version: code            
-        code: code            
-        display: code            
-        designation: [ValueSetDesignation]            
-        contains: [ValueSetContains]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    system: code        
+    abstract: code        
+    inactive: code        
+    version: code        
+    code: code        
+    display: code        
+    designation: [ValueSetDesignation]        
+    contains: [ValueSetContains]        
 }
 
 extend type Query {

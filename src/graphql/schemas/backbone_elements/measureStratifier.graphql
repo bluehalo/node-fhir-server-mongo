@@ -10,13 +10,13 @@
 
 
 type MeasureStratifier {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        code: CodeableConcept            
-        description: code            
-        criteria: Expression            
-        component: [MeasureComponent]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    code: CodeableConcept        
+    description: code        
+    criteria: Expression        
+    component: [MeasureComponent]        
 }
 
 extend type Query {

@@ -8,11 +8,11 @@
 
 
 type Contributor {
-        id: code            
-        extension: [Extension]            
-        type: code!            
-        name: code!            
-        contact: [ContactDetail]            
+    id: code        
+    extension: [Extension]        
+    type: code!        
+    name: code!        
+    contact: [ContactDetail]        
 }
 
 extend type Query {

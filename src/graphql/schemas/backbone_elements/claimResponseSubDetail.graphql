@@ -9,12 +9,12 @@
 
 
 type ClaimResponseSubDetail {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        subDetailSequence: code!            
-        noteNumber: [code]            
-        adjudication: [ClaimResponseAdjudication]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    subDetailSequence: code!        
+    noteNumber: [code]        
+    adjudication: [ClaimResponseAdjudication]        
 }
 
 extend type Query {

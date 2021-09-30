@@ -8,11 +8,11 @@
 
 
 type StructureDefinitionContext {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: code!            
-        expression: code!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: code!        
+    expression: code!        
 }
 
 extend type Query {

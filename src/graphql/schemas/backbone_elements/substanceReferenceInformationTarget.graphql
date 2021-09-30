@@ -16,19 +16,19 @@
 
 
 type SubstanceReferenceInformationTarget {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        target: Identifier            
-        type: CodeableConcept            
-        interaction: CodeableConcept            
-        organism: CodeableConcept            
-        organismType: CodeableConcept            
-        amountQuantity: Quantity            
-        amountRange: Range            
-        amountString: code            
-        amountType: CodeableConcept            
-        source: [DocumentReference]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    target: Identifier        
+    type: CodeableConcept        
+    interaction: CodeableConcept        
+    organism: CodeableConcept        
+    organismType: CodeableConcept        
+    amountQuantity: Quantity        
+    amountRange: Range        
+    amountString: code        
+    amountType: CodeableConcept        
+    source: [DocumentReference]        
 }
 
 extend type Query {

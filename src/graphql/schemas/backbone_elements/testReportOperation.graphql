@@ -9,12 +9,12 @@
 
 
 type TestReportOperation {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        result: code!            
-        message: code            
-        detail: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    result: code!        
+    message: code        
+    detail: code        
 }
 
 extend type Query {

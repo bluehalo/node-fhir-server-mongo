@@ -12,12 +12,12 @@ union EncounterParticipantIndividual = Practitioner | PractitionerRole | Related
 
 
 type EncounterParticipant {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: [CodeableConcept]            
-        period: Period            
-        individual: EncounterParticipantIndividual            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: [CodeableConcept]        
+    period: Period        
+    individual: EncounterParticipantIndividual        
 }
 
 extend type Query {

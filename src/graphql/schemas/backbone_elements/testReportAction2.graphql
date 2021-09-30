@@ -7,10 +7,10 @@
 
 
 type TestReportAction2 {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        operation: TestReportOperation!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    operation: TestReportOperation!        
 }
 
 extend type Query {

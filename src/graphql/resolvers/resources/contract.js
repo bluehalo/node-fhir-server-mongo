@@ -30,52 +30,92 @@ module.exports = {
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         instantiatesCanonical: async (parent, args, context, info) => {
-            return await findResourceByReference(parent.instantiatesCanonical);
+            return await findResourceByReference(
+                args,
+                context,
+                info,
+                parent.instantiatesCanonical);
         },
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         subject: async (parent, args, context, info) => {
-            return await findResourcesByReference(parent.subject);
+            return await findResourcesByReference(
+                args,
+                context,
+                info,
+                parent.subject);
         },
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         authority: async (parent, args, context, info) => {
-            return await findResourcesByReference(parent.authority);
+            return await findResourcesByReference(
+                args,
+                context,
+                info,
+                parent.authority);
         },
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         domain: async (parent, args, context, info) => {
-            return await findResourcesByReference(parent.domain);
+            return await findResourcesByReference(
+                args,
+                context,
+                info,
+                parent.domain);
         },
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         site: async (parent, args, context, info) => {
-            return await findResourcesByReference(parent.site);
+            return await findResourcesByReference(
+                args,
+                context,
+                info,
+                parent.site);
         },
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         author: async (parent, args, context, info) => {
-            return await findResourceByReference(parent.author);
+            return await findResourceByReference(
+                args,
+                context,
+                info,
+                parent.author);
         },
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         topicReference: async (parent, args, context, info) => {
-            return await findResourceByReference(parent.topicReference);
+            return await findResourceByReference(
+                args,
+                context,
+                info,
+                parent.topicReference);
         },
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         supportingInfo: async (parent, args, context, info) => {
-            return await findResourcesByReference(parent.supportingInfo);
+            return await findResourcesByReference(
+                args,
+                context,
+                info,
+                parent.supportingInfo);
         },
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         relevantHistory: async (parent, args, context, info) => {
-            return await findResourcesByReference(parent.relevantHistory);
+            return await findResourcesByReference(
+                args,
+                context,
+                info,
+                parent.relevantHistory);
         },
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         legallyBindingReference: async (parent, args, context, info) => {
-            return await findResourceByReference(parent.legallyBindingReference);
+            return await findResourceByReference(
+                args,
+                context,
+                info,
+                parent.legallyBindingReference);
         },
     }
 };

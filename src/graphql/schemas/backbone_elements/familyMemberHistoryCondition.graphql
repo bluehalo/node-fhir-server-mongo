@@ -14,17 +14,17 @@
 
 
 type FamilyMemberHistoryCondition {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        code: CodeableConcept!            
-        outcome: CodeableConcept            
-        contributedToDeath: code            
-        onsetAge: Quantity            
-        onsetRange: Range            
-        onsetPeriod: Period            
-        onsetString: code            
-        note: [Annotation]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    code: CodeableConcept!        
+    outcome: CodeableConcept        
+    contributedToDeath: code        
+    onsetAge: Quantity        
+    onsetRange: Range        
+    onsetPeriod: Period        
+    onsetString: code        
+    note: [Annotation]        
 }
 
 extend type Query {

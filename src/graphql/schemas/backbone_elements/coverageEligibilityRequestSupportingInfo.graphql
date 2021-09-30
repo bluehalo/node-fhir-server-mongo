@@ -9,12 +9,12 @@
 
 
 type CoverageEligibilityRequestSupportingInfo {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        sequence: code!            
-        information: Resource!            
-        appliesToAll: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    sequence: code!        
+    information: Resource!        
+    appliesToAll: code        
 }
 
 extend type Query {

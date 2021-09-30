@@ -11,14 +11,14 @@
 
 
 type MedicationKnowledgeDrugCharacteristic {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: CodeableConcept            
-        valueCodeableConcept: CodeableConcept            
-        valueString: code            
-        valueQuantity: Quantity            
-        valueBase64Binary: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: CodeableConcept        
+    valueCodeableConcept: CodeableConcept        
+    valueString: code        
+    valueQuantity: Quantity        
+    valueBase64Binary: code        
 }
 
 extend type Query {

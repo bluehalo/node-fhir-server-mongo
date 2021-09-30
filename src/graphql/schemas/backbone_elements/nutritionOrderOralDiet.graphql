@@ -12,15 +12,15 @@
 
 
 type NutritionOrderOralDiet {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: [CodeableConcept]            
-        schedule: [Timing]            
-        nutrient: [NutritionOrderNutrient]            
-        texture: [NutritionOrderTexture]            
-        fluidConsistencyType: [CodeableConcept]            
-        instruction: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: [CodeableConcept]        
+    schedule: [Timing]        
+    nutrient: [NutritionOrderNutrient]        
+    texture: [NutritionOrderTexture]        
+    fluidConsistencyType: [CodeableConcept]        
+    instruction: code        
 }
 
 extend type Query {

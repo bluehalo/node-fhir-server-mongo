@@ -12,15 +12,15 @@
 
 
 type ObservationReferenceRange {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        low: Quantity            
-        high: Quantity            
-        type: CodeableConcept            
-        appliesTo: [CodeableConcept]            
-        age: Range            
-        text: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    low: Quantity        
+    high: Quantity        
+    type: CodeableConcept        
+    appliesTo: [CodeableConcept]        
+    age: Range        
+    text: code        
 }
 
 extend type Query {

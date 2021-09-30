@@ -10,13 +10,13 @@
 
 
 type MedicationKnowledgeAdministrationGuidelines {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        dosage: [MedicationKnowledgeDosage]            
-        indicationCodeableConcept: CodeableConcept            
-        indicationReference: ObservationDefinition            
-        patientCharacteristics: [MedicationKnowledgePatientCharacteristics]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    dosage: [MedicationKnowledgeDosage]        
+    indicationCodeableConcept: CodeableConcept        
+    indicationReference: ObservationDefinition        
+    patientCharacteristics: [MedicationKnowledgePatientCharacteristics]        
 }
 
 extend type Query {

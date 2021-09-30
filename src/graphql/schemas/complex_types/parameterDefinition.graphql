@@ -12,15 +12,15 @@
 
 
 type ParameterDefinition {
-        id: code            
-        extension: [Extension]            
-        name: code            
-        use: code!            
-        min: code            
-        max: code            
-        documentation: code            
-        type: code!            
-        profile: code            
+    id: code        
+    extension: [Extension]        
+    name: code        
+    use: code!        
+    min: code        
+    max: code        
+    documentation: code        
+    type: code!        
+    profile: code        
 }
 
 extend type Query {

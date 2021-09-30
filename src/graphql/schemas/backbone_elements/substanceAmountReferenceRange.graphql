@@ -8,11 +8,11 @@
 
 
 type SubstanceAmountReferenceRange {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        lowLimit: Quantity            
-        highLimit: Quantity            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    lowLimit: Quantity        
+    highLimit: Quantity        
 }
 
 extend type Query {

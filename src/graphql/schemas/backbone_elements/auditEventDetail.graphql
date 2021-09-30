@@ -9,12 +9,12 @@
 
 
 type AuditEventDetail {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: code!            
-        valueString: code            
-        valueBase64Binary: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: code!        
+    valueString: code        
+    valueBase64Binary: code        
 }
 
 extend type Query {

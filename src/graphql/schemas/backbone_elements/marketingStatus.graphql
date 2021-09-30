@@ -11,14 +11,14 @@
 
 
 type MarketingStatus {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        country: CodeableConcept!            
-        jurisdiction: CodeableConcept            
-        status: CodeableConcept!            
-        dateRange: Period!            
-        restoreDate: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    country: CodeableConcept!        
+    jurisdiction: CodeableConcept        
+    status: CodeableConcept!        
+    dateRange: Period!        
+    restoreDate: code        
 }
 
 extend type Query {

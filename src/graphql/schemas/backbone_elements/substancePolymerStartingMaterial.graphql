@@ -10,13 +10,13 @@
 
 
 type SubstancePolymerStartingMaterial {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        material: CodeableConcept            
-        type: CodeableConcept            
-        isDefining: code            
-        amount: SubstanceAmount            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    material: CodeableConcept        
+    type: CodeableConcept        
+    isDefining: code        
+    amount: SubstanceAmount        
 }
 
 extend type Query {

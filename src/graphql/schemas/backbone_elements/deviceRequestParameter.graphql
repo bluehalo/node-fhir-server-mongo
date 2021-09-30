@@ -11,14 +11,14 @@
 
 
 type DeviceRequestParameter {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        code: CodeableConcept            
-        valueCodeableConcept: CodeableConcept            
-        valueQuantity: Quantity            
-        valueRange: Range            
-        valueBoolean: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    code: CodeableConcept        
+    valueCodeableConcept: CodeableConcept        
+    valueQuantity: Quantity        
+    valueRange: Range        
+    valueBoolean: code        
 }
 
 extend type Query {

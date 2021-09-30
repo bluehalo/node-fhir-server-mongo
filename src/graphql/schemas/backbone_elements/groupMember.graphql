@@ -16,12 +16,12 @@ union GroupMemberEntity = Patient | Practitioner | PractitionerRole | Device | M
 
 
 type GroupMember {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        entity: GroupMemberEntity!            
-        period: Period            
-        inactive: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    entity: GroupMemberEntity!        
+    period: Period        
+    inactive: code        
 }
 
 extend type Query {

@@ -53,32 +53,32 @@ union ContractActionReasonReference = Condition | Observation | DiagnosticReport
 
 
 type ContractAction {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        doNotPerform: code            
-        type: CodeableConcept!            
-        subject: [ContractSubject]            
-        intent: CodeableConcept!            
-        linkId: [code]            
-        status: CodeableConcept!            
-        context: ContractActionContext            
-        contextLinkId: [code]            
-        occurrenceDateTime: code            
-        occurrencePeriod: Period            
-        occurrenceTiming: Timing            
-        requester: [ContractActionRequester]            
-        requesterLinkId: [code]            
-        performerType: [CodeableConcept]            
-        performerRole: CodeableConcept            
-        performer: ContractActionPerformer            
-        performerLinkId: [code]            
-        reasonCode: [CodeableConcept]            
-        reasonReference: [ContractActionReasonReference]            
-        reason: [code]            
-        reasonLinkId: [code]            
-        note: [Annotation]            
-        securityLabelNumber: [code]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    doNotPerform: code        
+    type: CodeableConcept!        
+    subject: [ContractSubject]        
+    intent: CodeableConcept!        
+    linkId: [code]        
+    status: CodeableConcept!        
+    context: ContractActionContext        
+    contextLinkId: [code]        
+    occurrenceDateTime: code        
+    occurrencePeriod: Period        
+    occurrenceTiming: Timing        
+    requester: [ContractActionRequester]        
+    requesterLinkId: [code]        
+    performerType: [CodeableConcept]        
+    performerRole: CodeableConcept        
+    performer: ContractActionPerformer        
+    performerLinkId: [code]        
+    reasonCode: [CodeableConcept]        
+    reasonReference: [ContractActionReasonReference]        
+    reason: [code]        
+    reasonLinkId: [code]        
+    note: [Annotation]        
+    securityLabelNumber: [code]        
 }
 
 extend type Query {

@@ -10,13 +10,13 @@
 
 
 type ImagingStudyInstance {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        uid: code!            
-        sopClass: Coding!            
-        number: code            
-        title: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    uid: code!        
+    sopClass: Coding!        
+    number: code        
+    title: code        
 }
 
 extend type Query {

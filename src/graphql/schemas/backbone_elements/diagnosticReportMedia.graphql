@@ -8,11 +8,11 @@
 
 
 type DiagnosticReportMedia {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        comment: code            
-        link: Media!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    comment: code        
+    link: Media!        
 }
 
 extend type Query {

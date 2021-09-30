@@ -11,14 +11,14 @@
 
 
 type SubstanceSpecificationCode {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        code: CodeableConcept            
-        status: CodeableConcept            
-        statusDate: code            
-        comment: code            
-        source: [DocumentReference]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    code: CodeableConcept        
+    status: CodeableConcept        
+    statusDate: code        
+    comment: code        
+    source: [DocumentReference]        
 }
 
 extend type Query {

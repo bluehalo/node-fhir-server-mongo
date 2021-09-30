@@ -15,12 +15,12 @@ union ProcedurePerformerActor = Practitioner | PractitionerRole | Organization |
 
 
 type ProcedurePerformer {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        function: CodeableConcept            
-        actor: ProcedurePerformerActor!            
-        onBehalfOf: Organization            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    function: CodeableConcept        
+    actor: ProcedurePerformerActor!        
+    onBehalfOf: Organization        
 }
 
 extend type Query {

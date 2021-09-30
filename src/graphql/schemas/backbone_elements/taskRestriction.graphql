@@ -15,12 +15,12 @@ union TaskRestrictionRecipient = Patient | Practitioner | PractitionerRole | Rel
 
 
 type TaskRestriction {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        repetitions: code            
-        period: Period            
-        recipient: [TaskRestrictionRecipient]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    repetitions: code        
+    period: Period        
+    recipient: [TaskRestrictionRecipient]        
 }
 
 extend type Query {

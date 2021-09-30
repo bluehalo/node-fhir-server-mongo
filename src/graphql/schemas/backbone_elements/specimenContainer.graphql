@@ -13,16 +13,16 @@
 
 
 type SpecimenContainer {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        identifier: [Identifier]            
-        description: code            
-        type: CodeableConcept            
-        capacity: Quantity            
-        specimenQuantity: Quantity            
-        additiveCodeableConcept: CodeableConcept            
-        additiveReference: Substance            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    identifier: [Identifier]        
+    description: code        
+    type: CodeableConcept        
+    capacity: Quantity        
+    specimenQuantity: Quantity        
+    additiveCodeableConcept: CodeableConcept        
+    additiveReference: Substance        
 }
 
 extend type Query {

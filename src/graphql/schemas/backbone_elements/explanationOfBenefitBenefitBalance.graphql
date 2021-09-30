@@ -14,17 +14,17 @@
 
 
 type ExplanationOfBenefitBenefitBalance {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        category: CodeableConcept!            
-        excluded: code            
-        name: code            
-        description: code            
-        network: CodeableConcept            
-        unit: CodeableConcept            
-        term: CodeableConcept            
-        financial: [ExplanationOfBenefitFinancial]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    category: CodeableConcept!        
+    excluded: code        
+    name: code        
+    description: code        
+    network: CodeableConcept        
+    unit: CodeableConcept        
+    term: CodeableConcept        
+    financial: [ExplanationOfBenefitFinancial]        
 }
 
 extend type Query {

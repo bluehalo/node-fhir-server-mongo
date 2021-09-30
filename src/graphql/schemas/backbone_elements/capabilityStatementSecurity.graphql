@@ -9,12 +9,12 @@
 
 
 type CapabilityStatementSecurity {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        cors: code            
-        service: [CodeableConcept]            
-        description: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    cors: code        
+    service: [CodeableConcept]        
+    description: code        
 }
 
 extend type Query {

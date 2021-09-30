@@ -12,15 +12,15 @@
 
 
 type InsurancePlanPlan {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        identifier: [Identifier]            
-        type: CodeableConcept            
-        coverageArea: [Location]            
-        network: [Organization]            
-        generalCost: [InsurancePlanGeneralCost]            
-        specificCost: [InsurancePlanSpecificCost]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    identifier: [Identifier]        
+    type: CodeableConcept        
+    coverageArea: [Location]        
+    network: [Organization]        
+    generalCost: [InsurancePlanGeneralCost]        
+    specificCost: [InsurancePlanSpecificCost]        
 }
 
 extend type Query {

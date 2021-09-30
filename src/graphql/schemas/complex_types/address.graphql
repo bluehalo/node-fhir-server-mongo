@@ -15,18 +15,18 @@
 
 
 type Address {
-        id: code            
-        extension: [Extension]            
-        use: code            
-        type: code            
-        text: code            
-        line: [code]            
-        city: code            
-        district: code            
-        state: code            
-        postalCode: code            
-        country: code            
-        period: Period            
+    id: code        
+    extension: [Extension]        
+    use: code        
+    type: code        
+    text: code        
+    line: [code]        
+    city: code        
+    district: code        
+    state: code        
+    postalCode: code        
+    country: code        
+    period: Period        
 }
 
 extend type Query {

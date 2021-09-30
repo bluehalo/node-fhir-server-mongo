@@ -12,15 +12,15 @@
 
 
 type DosageDoseAndRate {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: CodeableConcept            
-        doseRange: Range            
-        doseQuantity: Quantity            
-        rateRatio: Ratio            
-        rateRange: Range            
-        rateQuantity: Quantity            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: CodeableConcept        
+    doseRange: Range        
+    doseQuantity: Quantity        
+    rateRatio: Ratio        
+    rateRange: Range        
+    rateQuantity: Quantity        
 }
 
 extend type Query {

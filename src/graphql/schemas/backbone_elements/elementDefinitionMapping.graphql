@@ -10,13 +10,13 @@
 
 
 type ElementDefinitionMapping {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        identity: code!            
-        language: code            
-        map: code!            
-        comment: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    identity: code!        
+    language: code        
+    map: code!        
+    comment: code        
 }
 
 extend type Query {

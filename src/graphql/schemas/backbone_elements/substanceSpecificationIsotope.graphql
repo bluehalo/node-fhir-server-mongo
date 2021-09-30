@@ -11,14 +11,14 @@
 
 
 type SubstanceSpecificationIsotope {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        identifier: Identifier            
-        name: CodeableConcept            
-        substitution: CodeableConcept            
-        halfLife: Quantity            
-        molecularWeight: SubstanceSpecificationMolecularWeight            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    identifier: Identifier        
+    name: CodeableConcept        
+    substitution: CodeableConcept        
+    halfLife: Quantity        
+    molecularWeight: SubstanceSpecificationMolecularWeight        
 }
 
 extend type Query {

@@ -8,11 +8,11 @@
 
 
 type TestScriptDestination {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        index: code!            
-        profile: Coding!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    index: code!        
+    profile: Coding!        
 }
 
 extend type Query {

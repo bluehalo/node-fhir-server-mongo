@@ -10,13 +10,13 @@
 
 
 type MessageDefinitionFocus {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        code: code!            
-        profile: code            
-        min: code!            
-        max: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    code: code!        
+    profile: code        
+    min: code!        
+    max: code        
 }
 
 extend type Query {

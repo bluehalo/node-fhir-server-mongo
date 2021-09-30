@@ -14,17 +14,17 @@
 
 
 type SubstanceSpecificationStructure {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        stereochemistry: CodeableConcept            
-        opticalActivity: CodeableConcept            
-        molecularFormula: code            
-        molecularFormulaByMoiety: code            
-        isotope: [SubstanceSpecificationIsotope]            
-        molecularWeight: SubstanceSpecificationMolecularWeight            
-        source: [DocumentReference]            
-        representation: [SubstanceSpecificationRepresentation]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    stereochemistry: CodeableConcept        
+    opticalActivity: CodeableConcept        
+    molecularFormula: code        
+    molecularFormulaByMoiety: code        
+    isotope: [SubstanceSpecificationIsotope]        
+    molecularWeight: SubstanceSpecificationMolecularWeight        
+    source: [DocumentReference]        
+    representation: [SubstanceSpecificationRepresentation]        
 }
 
 extend type Query {

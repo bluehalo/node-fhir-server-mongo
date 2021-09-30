@@ -9,12 +9,12 @@
 
 
 type TerminologyCapabilitiesCodeSystem {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        uri: code            
-        version: [TerminologyCapabilitiesVersion]            
-        subsumption: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    uri: code        
+    version: [TerminologyCapabilitiesVersion]        
+    subsumption: code        
 }
 
 extend type Query {

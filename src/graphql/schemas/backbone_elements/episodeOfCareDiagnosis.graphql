@@ -9,12 +9,12 @@
 
 
 type EpisodeOfCareDiagnosis {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        condition: Condition!            
-        role: CodeableConcept            
-        rank: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    condition: Condition!        
+    role: CodeableConcept        
+    rank: code        
 }
 
 extend type Query {

@@ -16,19 +16,20 @@
 
 
 type ImmunizationRecommendation {
-        id: code            
-        meta: Meta            
-        implicitRules: code            
-        language: code            
-        text: Narrative            
-        contained: [code]            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        identifier: [Identifier]            
-        patient: Patient!            
-        date: code!            
-        authority: Organization            
-        recommendation: [ImmunizationRecommendationRecommendation]!            
+    resourceType: String
+    id: code        
+    meta: Meta        
+    implicitRules: code        
+    language: code        
+    text: Narrative        
+    contained: [code]        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    identifier: [Identifier]        
+    patient: Patient!        
+    date: code!        
+    authority: Organization        
+    recommendation: [ImmunizationRecommendationRecommendation]!        
 }
 
 extend type Query {

@@ -10,13 +10,13 @@
 
 
 type ContactPoint {
-        id: code            
-        extension: [Extension]            
-        system: code            
-        value: code            
-        use: code            
-        rank: code            
-        period: Period            
+    id: code        
+    extension: [Extension]        
+    system: code        
+    value: code        
+    use: code        
+    rank: code        
+    period: Period        
 }
 
 extend type Query {

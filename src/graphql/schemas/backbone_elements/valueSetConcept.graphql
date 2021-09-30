@@ -9,12 +9,12 @@
 
 
 type ValueSetConcept {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        code: code!            
-        display: code            
-        designation: [ValueSetDesignation]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    code: code!        
+    display: code        
+    designation: [ValueSetDesignation]        
 }
 
 extend type Query {

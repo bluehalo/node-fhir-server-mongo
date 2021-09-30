@@ -33,36 +33,37 @@
 
 
 type MedicationKnowledge {
-        id: code            
-        meta: Meta            
-        implicitRules: code            
-        language: code            
-        text: Narrative            
-        contained: [code]            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        code: CodeableConcept            
-        status: code            
-        manufacturer: Organization            
-        doseForm: CodeableConcept            
-        amount: Quantity            
-        synonym: [code]            
-        relatedMedicationKnowledge: [MedicationKnowledgeRelatedMedicationKnowledge]            
-        associatedMedication: [Medication]            
-        productType: [CodeableConcept]            
-        monograph: [MedicationKnowledgeMonograph]            
-        ingredient: [MedicationKnowledgeIngredient]            
-        preparationInstruction: code            
-        intendedRoute: [CodeableConcept]            
-        cost: [MedicationKnowledgeCost]            
-        monitoringProgram: [MedicationKnowledgeMonitoringProgram]            
-        administrationGuidelines: [MedicationKnowledgeAdministrationGuidelines]            
-        medicineClassification: [MedicationKnowledgeMedicineClassification]            
-        packaging: MedicationKnowledgePackaging            
-        drugCharacteristic: [MedicationKnowledgeDrugCharacteristic]            
-        contraindication: [DetectedIssue]            
-        regulatory: [MedicationKnowledgeRegulatory]            
-        kinetics: [MedicationKnowledgeKinetics]            
+    resourceType: String
+    id: code        
+    meta: Meta        
+    implicitRules: code        
+    language: code        
+    text: Narrative        
+    contained: [code]        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    code: CodeableConcept        
+    status: code        
+    manufacturer: Organization        
+    doseForm: CodeableConcept        
+    amount: Quantity        
+    synonym: [code]        
+    relatedMedicationKnowledge: [MedicationKnowledgeRelatedMedicationKnowledge]        
+    associatedMedication: [Medication]        
+    productType: [CodeableConcept]        
+    monograph: [MedicationKnowledgeMonograph]        
+    ingredient: [MedicationKnowledgeIngredient]        
+    preparationInstruction: code        
+    intendedRoute: [CodeableConcept]        
+    cost: [MedicationKnowledgeCost]        
+    monitoringProgram: [MedicationKnowledgeMonitoringProgram]        
+    administrationGuidelines: [MedicationKnowledgeAdministrationGuidelines]        
+    medicineClassification: [MedicationKnowledgeMedicineClassification]        
+    packaging: MedicationKnowledgePackaging        
+    drugCharacteristic: [MedicationKnowledgeDrugCharacteristic]        
+    contraindication: [DetectedIssue]        
+    regulatory: [MedicationKnowledgeRegulatory]        
+    kinetics: [MedicationKnowledgeKinetics]        
 }
 
 extend type Query {

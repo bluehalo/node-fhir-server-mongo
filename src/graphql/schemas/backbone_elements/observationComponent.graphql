@@ -21,24 +21,24 @@
 
 
 type ObservationComponent {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        code: CodeableConcept!            
-        valueQuantity: Quantity            
-        valueCodeableConcept: CodeableConcept            
-        valueString: code            
-        valueBoolean: code            
-        valueInteger: code            
-        valueRange: Range            
-        valueRatio: Ratio            
-        valueSampledData: SampledData            
-        valueTime: code            
-        valueDateTime: code            
-        valuePeriod: Period            
-        dataAbsentReason: CodeableConcept            
-        interpretation: [CodeableConcept]            
-        referenceRange: [ObservationReferenceRange]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    code: CodeableConcept!        
+    valueQuantity: Quantity        
+    valueCodeableConcept: CodeableConcept        
+    valueString: code        
+    valueBoolean: code        
+    valueInteger: code        
+    valueRange: Range        
+    valueRatio: Ratio        
+    valueSampledData: SampledData        
+    valueTime: code        
+    valueDateTime: code        
+    valuePeriod: Period        
+    dataAbsentReason: CodeableConcept        
+    interpretation: [CodeableConcept]        
+    referenceRange: [ObservationReferenceRange]        
 }
 
 extend type Query {

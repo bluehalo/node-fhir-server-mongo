@@ -12,15 +12,15 @@
 
 
 type StructureMapGroup {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        name: code!            
-        extends: code            
-        typeMode: code!            
-        documentation: code            
-        input: [StructureMapInput]!            
-        rule: [StructureMapRule]!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    name: code!        
+    extends: code        
+    typeMode: code!        
+    documentation: code        
+    input: [StructureMapInput]!        
+    rule: [StructureMapRule]!        
 }
 
 extend type Query {

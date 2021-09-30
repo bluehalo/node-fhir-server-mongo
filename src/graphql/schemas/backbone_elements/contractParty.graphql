@@ -15,11 +15,11 @@ union ContractPartyReference = Patient | RelatedPerson | Practitioner | Practiti
 
 
 type ContractParty {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        reference: [ContractPartyReference]!            
-        role: CodeableConcept!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    reference: [ContractPartyReference]!        
+    role: CodeableConcept!        
 }
 
 extend type Query {

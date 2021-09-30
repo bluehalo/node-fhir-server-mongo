@@ -8,11 +8,11 @@
 
 
 type StructureMapDependent {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        name: code!            
-        variable: [code]!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    name: code!        
+    variable: [code]!        
 }
 
 extend type Query {

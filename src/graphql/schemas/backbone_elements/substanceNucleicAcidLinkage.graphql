@@ -10,13 +10,13 @@
 
 
 type SubstanceNucleicAcidLinkage {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        connectivity: code            
-        identifier: Identifier            
-        name: code            
-        residueSite: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    connectivity: code        
+    identifier: Identifier        
+    name: code        
+    residueSite: code        
 }
 
 extend type Query {

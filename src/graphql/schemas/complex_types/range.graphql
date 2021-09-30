@@ -7,10 +7,10 @@
 
 
 type Range {
-        id: code            
-        extension: [Extension]            
-        low: Quantity            
-        high: Quantity            
+    id: code        
+    extension: [Extension]        
+    low: Quantity        
+    high: Quantity        
 }
 
 extend type Query {

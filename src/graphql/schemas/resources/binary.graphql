@@ -10,13 +10,14 @@
 
 
 type Binary {
-        id: code            
-        meta: Meta            
-        implicitRules: code            
-        language: code            
-        contentType: code!            
-        securityContext: Resource            
-        data: code            
+    resourceType: String
+    id: code        
+    meta: Meta        
+    implicitRules: code        
+    language: code        
+    contentType: code!        
+    securityContext: Resource        
+    data: code        
 }
 
 extend type Query {

@@ -47,6 +47,8 @@ class NotFoundError extends ServerError {
             ],
         });
 
+        this.name = 'NotFound';
+
         // You can attach relevant information to the error instance
         // (e.g.. the username)
 

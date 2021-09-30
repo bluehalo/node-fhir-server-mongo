@@ -12,15 +12,15 @@
 
 
 type MedicinalProductManufacturingBusinessOperation {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        operationType: CodeableConcept            
-        authorisationReferenceNumber: Identifier            
-        effectiveDate: code            
-        confidentialityIndicator: CodeableConcept            
-        manufacturer: [Organization]            
-        regulator: Organization            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    operationType: CodeableConcept        
+    authorisationReferenceNumber: Identifier        
+    effectiveDate: code        
+    confidentialityIndicator: CodeableConcept        
+    manufacturer: [Organization]        
+    regulator: Organization        
 }
 
 extend type Query {

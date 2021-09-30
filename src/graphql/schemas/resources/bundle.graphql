@@ -14,17 +14,18 @@
 
 
 type Bundle {
-        id: code            
-        meta: Meta            
-        implicitRules: code            
-        language: code            
-        identifier: Identifier            
-        type: code!            
-        timestamp: code            
-        total: code            
-        link: [BundleLink]            
-        entry: [BundleEntry]            
-        signature: Signature            
+    resourceType: String
+    id: code        
+    meta: Meta        
+    implicitRules: code        
+    language: code        
+    identifier: Identifier        
+    type: code!        
+    timestamp: code        
+    total: code        
+    link: [BundleLink]        
+    entry: [BundleEntry]        
+    signature: Signature        
 }
 
 extend type Query {

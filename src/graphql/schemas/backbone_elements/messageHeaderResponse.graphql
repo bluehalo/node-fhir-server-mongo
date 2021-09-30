@@ -9,12 +9,12 @@
 
 
 type MessageHeaderResponse {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        identifier: code!            
-        code: code!            
-        details: OperationOutcome            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    identifier: code!        
+    code: code!        
+    details: OperationOutcome        
 }
 
 extend type Query {

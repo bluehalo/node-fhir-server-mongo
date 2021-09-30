@@ -17,21 +17,21 @@
 
 
 type MedicinalProductPackagedPackageItem {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        identifier: [Identifier]            
-        type: CodeableConcept!            
-        quantity: Quantity!            
-        material: [CodeableConcept]            
-        alternateMaterial: [CodeableConcept]            
-        device: [DeviceDefinition]            
-        manufacturedItem: [MedicinalProductManufactured]            
-        packageItem: [MedicinalProductPackagedPackageItem]            
-        physicalCharacteristics: ProdCharacteristic            
-        otherCharacteristics: [CodeableConcept]            
-        shelfLifeStorage: [ProductShelfLife]            
-        manufacturer: [Organization]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    identifier: [Identifier]        
+    type: CodeableConcept!        
+    quantity: Quantity!        
+    material: [CodeableConcept]        
+    alternateMaterial: [CodeableConcept]        
+    device: [DeviceDefinition]        
+    manufacturedItem: [MedicinalProductManufactured]        
+    packageItem: [MedicinalProductPackagedPackageItem]        
+    physicalCharacteristics: ProdCharacteristic        
+    otherCharacteristics: [CodeableConcept]        
+    shelfLifeStorage: [ProductShelfLife]        
+    manufacturer: [Organization]        
 }
 
 extend type Query {

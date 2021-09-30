@@ -29,25 +29,26 @@ union AccountSubject = Patient | Device | Practitioner | PractitionerRole | Loca
 
 
 type Account {
-        id: code            
-        meta: Meta            
-        implicitRules: code            
-        language: code            
-        text: Narrative            
-        contained: [code]            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        identifier: [Identifier]            
-        status: code!            
-        type: CodeableConcept            
-        name: code            
-        subject: [AccountSubject]            
-        servicePeriod: Period            
-        coverage: [AccountCoverage]            
-        owner: Organization            
-        description: code            
-        guarantor: [AccountGuarantor]            
-        partOf: Account            
+    resourceType: String
+    id: code        
+    meta: Meta        
+    implicitRules: code        
+    language: code        
+    text: Narrative        
+    contained: [code]        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    identifier: [Identifier]        
+    status: code!        
+    type: CodeableConcept        
+    name: code        
+    subject: [AccountSubject]        
+    servicePeriod: Period        
+    coverage: [AccountCoverage]        
+    owner: Organization        
+    description: code        
+    guarantor: [AccountGuarantor]        
+    partOf: Account        
 }
 
 extend type Query {

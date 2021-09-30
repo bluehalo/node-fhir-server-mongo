@@ -9,12 +9,12 @@
 
 
 type CapabilityStatementImplementation {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        description: code!            
-        url: code            
-        custodian: Organization            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    description: code!        
+    url: code        
+    custodian: Organization        
 }
 
 extend type Query {

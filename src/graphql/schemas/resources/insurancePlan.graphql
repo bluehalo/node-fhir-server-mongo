@@ -25,28 +25,29 @@
 
 
 type InsurancePlan {
-        id: code            
-        meta: Meta            
-        implicitRules: code            
-        language: code            
-        text: Narrative            
-        contained: [code]            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        identifier: [Identifier]            
-        status: code            
-        type: [CodeableConcept]            
-        name: code            
-        alias: [code]            
-        period: Period            
-        ownedBy: Organization            
-        administeredBy: Organization            
-        coverageArea: [Location]            
-        contact: [InsurancePlanContact]            
-        endpoint: [Endpoint]            
-        network: [Organization]            
-        coverage: [InsurancePlanCoverage]            
-        plan: [InsurancePlanPlan]            
+    resourceType: String
+    id: code        
+    meta: Meta        
+    implicitRules: code        
+    language: code        
+    text: Narrative        
+    contained: [code]        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    identifier: [Identifier]        
+    status: code        
+    type: [CodeableConcept]        
+    name: code        
+    alias: [code]        
+    period: Period        
+    ownedBy: Organization        
+    administeredBy: Organization        
+    coverageArea: [Location]        
+    contact: [InsurancePlanContact]        
+    endpoint: [Endpoint]        
+    network: [Organization]        
+    coverage: [InsurancePlanCoverage]        
+    plan: [InsurancePlanPlan]        
 }
 
 extend type Query {

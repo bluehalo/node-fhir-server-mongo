@@ -8,11 +8,11 @@
 
 
 type ExampleScenarioVersion {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        versionId: code!            
-        description: code!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    versionId: code!        
+    description: code!        
 }
 
 extend type Query {

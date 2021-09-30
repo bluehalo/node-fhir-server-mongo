@@ -13,12 +13,12 @@ union MedicinalProductContraindicationOtherTherapyMedicationReference = Medicina
 
 
 type MedicinalProductContraindicationOtherTherapy {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        therapyRelationshipType: CodeableConcept!            
-        medicationCodeableConcept: CodeableConcept            
-        medicationReference: MedicinalProductContraindicationOtherTherapyMedicationReference            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    therapyRelationshipType: CodeableConcept!        
+    medicationCodeableConcept: CodeableConcept        
+    medicationReference: MedicinalProductContraindicationOtherTherapyMedicationReference        
 }
 
 extend type Query {

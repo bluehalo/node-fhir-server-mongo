@@ -8,11 +8,11 @@
 
 
 type TerminologyCapabilitiesParameter {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        name: code!            
-        documentation: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    name: code!        
+    documentation: code        
 }
 
 extend type Query {

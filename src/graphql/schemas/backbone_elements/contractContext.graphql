@@ -9,12 +9,12 @@
 
 
 type ContractContext {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        reference: Resource            
-        code: [CodeableConcept]            
-        text: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    reference: Resource        
+    code: [CodeableConcept]        
+    text: code        
 }
 
 extend type Query {

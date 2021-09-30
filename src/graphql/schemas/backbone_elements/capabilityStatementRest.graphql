@@ -14,17 +14,17 @@
 
 
 type CapabilityStatementRest {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        mode: code!            
-        documentation: code            
-        security: CapabilityStatementSecurity            
-        resource: [CapabilityStatementResource]            
-        interaction: [CapabilityStatementInteraction1]            
-        searchParam: [CapabilityStatementSearchParam]            
-        operation: [CapabilityStatementOperation]            
-        compartment: [code]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    mode: code!        
+    documentation: code        
+    security: CapabilityStatementSecurity        
+    resource: [CapabilityStatementResource]        
+    interaction: [CapabilityStatementInteraction1]        
+    searchParam: [CapabilityStatementSearchParam]        
+    operation: [CapabilityStatementOperation]        
+    compartment: [code]        
 }
 
 extend type Query {

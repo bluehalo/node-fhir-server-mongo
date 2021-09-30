@@ -9,12 +9,12 @@
 
 
 type ImplementationGuideDependsOn {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        uri: code!            
-        packageId: code            
-        version: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    uri: code!        
+    packageId: code        
+    version: code        
 }
 
 extend type Query {

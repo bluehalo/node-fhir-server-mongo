@@ -11,15 +11,15 @@
 
 
 type CodeSystemConcept {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        code: code!            
-        display: code            
-        definition: code            
-        designation: [CodeSystemDesignation]            
-        property: [CodeSystemProperty1]            
-        concept: [CodeSystemConcept]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    code: code!        
+    display: code        
+    definition: code        
+    designation: [CodeSystemDesignation]        
+    property: [CodeSystemProperty1]        
+    concept: [CodeSystemConcept]        
 }
 
 extend type Query {

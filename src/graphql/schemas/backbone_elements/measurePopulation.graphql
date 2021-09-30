@@ -9,12 +9,12 @@
 
 
 type MeasurePopulation {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        code: CodeableConcept            
-        description: code            
-        criteria: Expression!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    code: CodeableConcept        
+    description: code        
+    criteria: Expression!        
 }
 
 extend type Query {

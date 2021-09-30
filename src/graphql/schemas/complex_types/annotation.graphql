@@ -13,12 +13,12 @@ union AnnotationAuthorReference = Practitioner | Patient | RelatedPerson | Organ
 
 
 type Annotation {
-        id: code            
-        extension: [Extension]            
-        authorReference: AnnotationAuthorReference            
-        authorString: code            
-        time: code            
-        text: code!            
+    id: code        
+    extension: [Extension]        
+    authorReference: AnnotationAuthorReference        
+    authorString: code        
+    time: code        
+    text: code!        
 }
 
 extend type Query {

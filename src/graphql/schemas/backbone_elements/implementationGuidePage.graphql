@@ -10,14 +10,14 @@
 
 
 type ImplementationGuidePage {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        nameUrl: code            
-        nameReference: Binary            
-        title: code!            
-        generation: code!            
-        page: [ImplementationGuidePage]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    nameUrl: code        
+    nameReference: Binary        
+    title: code!        
+    generation: code!        
+    page: [ImplementationGuidePage]        
 }
 
 extend type Query {

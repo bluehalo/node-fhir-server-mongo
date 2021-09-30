@@ -11,11 +11,11 @@ union ImmunizationPerformerActor = Practitioner | PractitionerRole | Organizatio
 
 
 type ImmunizationPerformer {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        function: CodeableConcept            
-        actor: ImmunizationPerformerActor!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    function: CodeableConcept        
+    actor: ImmunizationPerformerActor!        
 }
 
 extend type Query {

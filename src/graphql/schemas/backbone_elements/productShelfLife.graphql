@@ -10,13 +10,13 @@
 
 
 type ProductShelfLife {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        identifier: Identifier            
-        type: CodeableConcept!            
-        period: Quantity!            
-        specialPrecautionsForStorage: [CodeableConcept]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    identifier: Identifier        
+    type: CodeableConcept!        
+    period: Quantity!        
+    specialPrecautionsForStorage: [CodeableConcept]        
 }
 
 extend type Query {

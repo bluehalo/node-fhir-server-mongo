@@ -8,11 +8,11 @@
 
 
 type DetectedIssueEvidence {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        code: [CodeableConcept]            
-        detail: [Resource]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    code: [CodeableConcept]        
+    detail: [Resource]        
 }
 
 extend type Query {

@@ -28,31 +28,32 @@
 
 
 type ExampleScenario {
-        id: code            
-        meta: Meta            
-        implicitRules: code            
-        language: code            
-        text: Narrative            
-        contained: [code]            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        url: code            
-        identifier: [Identifier]            
-        version: code            
-        name: code            
-        status: code!            
-        experimental: code            
-        date: code            
-        publisher: code            
-        contact: [ContactDetail]            
-        useContext: [UsageContext]            
-        jurisdiction: [CodeableConcept]            
-        copyright: code            
-        purpose: code            
-        actor: [ExampleScenarioActor]            
-        instance: [ExampleScenarioInstance]            
-        process: [ExampleScenarioProcess]            
-        workflow: [code]            
+    resourceType: String
+    id: code        
+    meta: Meta        
+    implicitRules: code        
+    language: code        
+    text: Narrative        
+    contained: [code]        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    url: code        
+    identifier: [Identifier]        
+    version: code        
+    name: code        
+    status: code!        
+    experimental: code        
+    date: code        
+    publisher: code        
+    contact: [ContactDetail]        
+    useContext: [UsageContext]        
+    jurisdiction: [CodeableConcept]        
+    copyright: code        
+    purpose: code        
+    actor: [ExampleScenarioActor]        
+    instance: [ExampleScenarioInstance]        
+    process: [ExampleScenarioProcess]        
+    workflow: [code]        
 }
 
 extend type Query {

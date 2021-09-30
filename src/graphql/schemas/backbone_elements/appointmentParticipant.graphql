@@ -18,14 +18,14 @@ union AppointmentParticipantActor = Patient | Practitioner | PractitionerRole | 
 
 
 type AppointmentParticipant {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: [CodeableConcept]            
-        actor: AppointmentParticipantActor            
-        required: code            
-        status: code!            
-        period: Period            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: [CodeableConcept]        
+    actor: AppointmentParticipantActor        
+    required: code        
+    status: code!        
+    period: Period        
 }
 
 extend type Query {

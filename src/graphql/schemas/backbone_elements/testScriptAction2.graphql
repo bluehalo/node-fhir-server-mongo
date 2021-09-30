@@ -7,10 +7,10 @@
 
 
 type TestScriptAction2 {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        operation: TestScriptOperation!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    operation: TestScriptOperation!        
 }
 
 extend type Query {

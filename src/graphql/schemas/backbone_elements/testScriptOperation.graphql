@@ -23,26 +23,26 @@
 
 
 type TestScriptOperation {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: Coding            
-        resource: code            
-        label: code            
-        description: code            
-        accept: code            
-        contentType: code            
-        destination: code            
-        encodeRequestUrl: code!            
-        method: code            
-        origin: code            
-        params: code            
-        requestHeader: [TestScriptRequestHeader]            
-        requestId: code            
-        responseId: code            
-        sourceId: code            
-        targetId: code            
-        url: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: Coding        
+    resource: code        
+    label: code        
+    description: code        
+    accept: code        
+    contentType: code        
+    destination: code        
+    encodeRequestUrl: code!        
+    method: code        
+    origin: code        
+    params: code        
+    requestHeader: [TestScriptRequestHeader]        
+    requestId: code        
+    responseId: code        
+    sourceId: code        
+    targetId: code        
+    url: code        
 }
 
 extend type Query {

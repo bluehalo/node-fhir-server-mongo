@@ -20,19 +20,19 @@ union CoverageEligibilityRequestItemFacility = Location | Organization
 
 
 type CoverageEligibilityRequestItem {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        supportingInfoSequence: [code]            
-        category: CodeableConcept            
-        productOrService: CodeableConcept            
-        modifier: [CodeableConcept]            
-        provider: CoverageEligibilityRequestItemProvider            
-        quantity: Quantity            
-        unitPrice: Money            
-        facility: CoverageEligibilityRequestItemFacility            
-        diagnosis: [CoverageEligibilityRequestDiagnosis]            
-        detail: [Resource]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    supportingInfoSequence: [code]        
+    category: CodeableConcept        
+    productOrService: CodeableConcept        
+    modifier: [CodeableConcept]        
+    provider: CoverageEligibilityRequestItemProvider        
+    quantity: Quantity        
+    unitPrice: Money        
+    facility: CoverageEligibilityRequestItemFacility        
+    diagnosis: [CoverageEligibilityRequestDiagnosis]        
+    detail: [Resource]        
 }
 
 extend type Query {

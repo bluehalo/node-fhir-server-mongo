@@ -8,11 +8,11 @@
 
 
 type DocumentReferenceContent {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        attachment: Attachment!            
-        format: Coding            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    attachment: Attachment!        
+    format: Coding        
 }
 
 extend type Query {

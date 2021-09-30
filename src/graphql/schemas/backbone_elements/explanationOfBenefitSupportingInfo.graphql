@@ -17,20 +17,20 @@
 
 
 type ExplanationOfBenefitSupportingInfo {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        sequence: code!            
-        category: CodeableConcept!            
-        code: CodeableConcept            
-        timingDate: code            
-        timingPeriod: Period            
-        valueBoolean: code            
-        valueString: code            
-        valueQuantity: Quantity            
-        valueAttachment: Attachment            
-        valueReference: Resource            
-        reason: Coding            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    sequence: code!        
+    category: CodeableConcept!        
+    code: CodeableConcept        
+    timingDate: code        
+    timingPeriod: Period        
+    valueBoolean: code        
+    valueString: code        
+    valueQuantity: Quantity        
+    valueAttachment: Attachment        
+    valueReference: Resource        
+    reason: Coding        
 }
 
 extend type Query {

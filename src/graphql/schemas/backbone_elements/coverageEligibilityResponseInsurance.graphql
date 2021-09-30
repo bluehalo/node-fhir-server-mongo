@@ -10,13 +10,13 @@
 
 
 type CoverageEligibilityResponseInsurance {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        coverage: Coverage!            
-        inforce: code            
-        benefitPeriod: Period            
-        item: [CoverageEligibilityResponseItem]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    coverage: Coverage!        
+    inforce: code        
+    benefitPeriod: Period        
+    item: [CoverageEligibilityResponseItem]        
 }
 
 extend type Query {

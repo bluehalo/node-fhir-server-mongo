@@ -15,18 +15,18 @@
 
 
 type AuditEventEntity {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        what: Resource            
-        type: Coding            
-        role: Coding            
-        lifecycle: Coding            
-        securityLabel: [Coding]            
-        name: code            
-        description: code            
-        query: code            
-        detail: [AuditEventDetail]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    what: Resource        
+    type: Coding        
+    role: Coding        
+    lifecycle: Coding        
+    securityLabel: [Coding]        
+    name: code        
+    description: code        
+    query: code        
+    detail: [AuditEventDetail]        
 }
 
 extend type Query {

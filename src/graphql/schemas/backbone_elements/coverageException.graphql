@@ -8,11 +8,11 @@
 
 
 type CoverageException {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: CodeableConcept!            
-        period: Period            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: CodeableConcept!        
+    period: Period        
 }
 
 extend type Query {

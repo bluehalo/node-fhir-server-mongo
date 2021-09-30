@@ -10,13 +10,13 @@
 
 
 type PractitionerQualification {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        identifier: [Identifier]            
-        code: CodeableConcept!            
-        period: Period            
-        issuer: Organization            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    identifier: [Identifier]        
+    code: CodeableConcept!        
+    period: Period        
+    issuer: Organization        
 }
 
 extend type Query {

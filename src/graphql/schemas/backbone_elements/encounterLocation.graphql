@@ -10,13 +10,13 @@
 
 
 type EncounterLocation {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        location: Location!            
-        status: code            
-        physicalType: CodeableConcept            
-        period: Period            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    location: Location!        
+    status: code        
+    physicalType: CodeableConcept        
+    period: Period        
 }
 
 extend type Query {

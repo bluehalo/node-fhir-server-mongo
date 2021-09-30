@@ -11,14 +11,14 @@
 
 
 type SubstancePolymerRepeatUnit {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        orientationOfPolymerisation: CodeableConcept            
-        repeatUnit: code            
-        amount: SubstanceAmount            
-        degreeOfPolymerisation: [SubstancePolymerDegreeOfPolymerisation]            
-        structuralRepresentation: [SubstancePolymerStructuralRepresentation]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    orientationOfPolymerisation: CodeableConcept        
+    repeatUnit: code        
+    amount: SubstanceAmount        
+    degreeOfPolymerisation: [SubstancePolymerDegreeOfPolymerisation]        
+    structuralRepresentation: [SubstancePolymerStructuralRepresentation]        
 }
 
 extend type Query {

@@ -8,11 +8,11 @@
 
 
 type MedicationKnowledgeDosage {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: CodeableConcept!            
-        dosage: [Dosage]!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: CodeableConcept!        
+    dosage: [Dosage]!        
 }
 
 extend type Query {

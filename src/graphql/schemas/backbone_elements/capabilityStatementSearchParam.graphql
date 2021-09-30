@@ -10,13 +10,13 @@
 
 
 type CapabilityStatementSearchParam {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        name: code!            
-        definition: code            
-        type: code!            
-        documentation: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    name: code!        
+    definition: code        
+    type: code!        
+    documentation: code        
 }
 
 extend type Query {

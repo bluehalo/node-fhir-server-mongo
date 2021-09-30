@@ -10,13 +10,13 @@
 
 
 type CapabilityStatementMessaging {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        endpoint: [CapabilityStatementEndpoint]            
-        reliableCache: code            
-        documentation: code            
-        supportedMessage: [CapabilityStatementSupportedMessage]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    endpoint: [CapabilityStatementEndpoint]        
+    reliableCache: code        
+    documentation: code        
+    supportedMessage: [CapabilityStatementSupportedMessage]        
 }
 
 extend type Query {

@@ -12,15 +12,15 @@
 
 
 type SubstanceAmount {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        amountQuantity: Quantity            
-        amountRange: Range            
-        amountString: code            
-        amountType: CodeableConcept            
-        amountText: code            
-        referenceRange: SubstanceAmountReferenceRange            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    amountQuantity: Quantity        
+    amountRange: Range        
+    amountString: code        
+    amountType: CodeableConcept        
+    amountText: code        
+    referenceRange: SubstanceAmountReferenceRange        
 }
 
 extend type Query {

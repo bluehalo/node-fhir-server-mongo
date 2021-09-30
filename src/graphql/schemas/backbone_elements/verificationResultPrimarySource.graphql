@@ -16,16 +16,16 @@ union VerificationResultPrimarySourceWho = Organization | Practitioner | Practit
 
 
 type VerificationResultPrimarySource {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        who: VerificationResultPrimarySourceWho            
-        type: [CodeableConcept]            
-        communicationMethod: [CodeableConcept]            
-        validationStatus: CodeableConcept            
-        validationDate: code            
-        canPushUpdates: CodeableConcept            
-        pushTypeAvailable: [CodeableConcept]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    who: VerificationResultPrimarySourceWho        
+    type: [CodeableConcept]        
+    communicationMethod: [CodeableConcept]        
+    validationStatus: CodeableConcept        
+    validationDate: code        
+    canPushUpdates: CodeableConcept        
+    pushTypeAvailable: [CodeableConcept]        
 }
 
 extend type Query {

@@ -10,13 +10,13 @@
 
 
 type MedicinalProductIngredientSpecifiedSubstance {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        code: CodeableConcept!            
-        group: CodeableConcept!            
-        confidentiality: CodeableConcept            
-        strength: [MedicinalProductIngredientStrength]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    code: CodeableConcept!        
+    group: CodeableConcept!        
+    confidentiality: CodeableConcept        
+    strength: [MedicinalProductIngredientStrength]        
 }
 
 extend type Query {

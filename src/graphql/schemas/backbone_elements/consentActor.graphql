@@ -16,11 +16,11 @@ union ConsentActorReference = Device | Group | CareTeam | Organization | Patient
 
 
 type ConsentActor {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        role: CodeableConcept!            
-        reference: ConsentActorReference!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    role: CodeableConcept!        
+    reference: ConsentActorReference!        
 }
 
 extend type Query {

@@ -9,12 +9,12 @@
 
 
 type RiskEvidenceSynthesisSampleSize {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        description: code            
-        numberOfStudies: code            
-        numberOfParticipants: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    description: code        
+    numberOfStudies: code        
+    numberOfParticipants: code        
 }
 
 extend type Query {

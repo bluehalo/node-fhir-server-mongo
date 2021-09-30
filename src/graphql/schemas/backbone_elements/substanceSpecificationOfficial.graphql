@@ -9,12 +9,12 @@
 
 
 type SubstanceSpecificationOfficial {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        authority: CodeableConcept            
-        status: CodeableConcept            
-        date: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    authority: CodeableConcept        
+    status: CodeableConcept        
+    date: code        
 }
 
 extend type Query {

@@ -13,16 +13,16 @@
 
 
 type MedicationAdministrationDosage {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        text: code            
-        site: CodeableConcept            
-        route: CodeableConcept            
-        method: CodeableConcept            
-        dose: Quantity            
-        rateRatio: Ratio            
-        rateQuantity: Quantity            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    text: code        
+    site: CodeableConcept        
+    route: CodeableConcept        
+    method: CodeableConcept        
+    dose: Quantity        
+    rateRatio: Ratio        
+    rateQuantity: Quantity        
 }
 
 extend type Query {

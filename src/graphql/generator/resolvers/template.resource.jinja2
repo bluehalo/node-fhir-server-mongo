@@ -40,9 +40,19 @@ module.exports = {
         // eslint-disable-next-line no-unused-vars
         {{ property.name -}}: async (parent, args, context, info) => {
             {% if property.is_list %}
-            return await findResourcesByReference(parent.{{ property.name -}});
+            return await findResourcesByReference(
+                args,
+                context,
+                info,
+                parent.{{ property.name -}}
+            );
             {% else %}
-            return await findResourceByReference(parent.{{ property.name -}});
+            return await findResourceByReference(
+                args,
+                context,
+                info,
+                parent.{{ property.name -}}
+            );
             {%  endif %}
         },
         {%  endif %}

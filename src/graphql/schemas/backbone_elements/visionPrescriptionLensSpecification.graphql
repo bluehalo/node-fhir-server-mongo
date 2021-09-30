@@ -20,23 +20,23 @@
 
 
 type VisionPrescriptionLensSpecification {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        product: CodeableConcept!            
-        eye: code!            
-        sphere: code            
-        cylinder: code            
-        axis: code            
-        prism: [VisionPrescriptionPrism]            
-        add: code            
-        power: code            
-        backCurve: code            
-        diameter: code            
-        duration: Quantity            
-        color: code            
-        brand: code            
-        note: [Annotation]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    product: CodeableConcept!        
+    eye: code!        
+    sphere: code        
+    cylinder: code        
+    axis: code        
+    prism: [VisionPrescriptionPrism]        
+    add: code        
+    power: code        
+    backCurve: code        
+    diameter: code        
+    duration: Quantity        
+    color: code        
+    brand: code        
+    note: [Annotation]        
 }
 
 extend type Query {

@@ -8,11 +8,11 @@
 
 
 type ProcedureFocalDevice {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        action: CodeableConcept            
-        manipulated: Device!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    action: CodeableConcept        
+    manipulated: Device!        
 }
 
 extend type Query {

@@ -9,12 +9,12 @@
 
 
 type CompositionEvent {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        code: [CodeableConcept]            
-        period: Period            
-        detail: [Resource]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    code: [CodeableConcept]        
+    period: Period        
+    detail: [Resource]        
 }
 
 extend type Query {

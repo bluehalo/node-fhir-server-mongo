@@ -12,15 +12,15 @@
 
 
 type ConceptMapGroup {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        source: code            
-        sourceVersion: code            
-        target: code            
-        targetVersion: code            
-        element: [ConceptMapElement]!            
-        unmapped: ConceptMapUnmapped            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    source: code        
+    sourceVersion: code        
+    target: code        
+    targetVersion: code        
+    element: [ConceptMapElement]!        
+    unmapped: ConceptMapUnmapped        
 }
 
 extend type Query {

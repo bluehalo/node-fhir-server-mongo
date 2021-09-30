@@ -8,11 +8,11 @@
 
 
 type ResearchStudyObjective {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        name: code            
-        type: CodeableConcept            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    name: code        
+    type: CodeableConcept        
 }
 
 extend type Query {

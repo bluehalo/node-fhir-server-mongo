@@ -10,13 +10,13 @@
 
 
 type ConceptMapUnmapped {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        mode: code!            
-        code: code            
-        display: code            
-        url: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    mode: code!        
+    code: code        
+    display: code        
+    url: code        
 }
 
 extend type Query {

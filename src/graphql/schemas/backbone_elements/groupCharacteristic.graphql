@@ -14,17 +14,17 @@
 
 
 type GroupCharacteristic {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        code: CodeableConcept!            
-        valueCodeableConcept: CodeableConcept            
-        valueBoolean: code            
-        valueQuantity: Quantity            
-        valueRange: Range            
-        valueReference: Resource            
-        exclude: code!            
-        period: Period            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    code: CodeableConcept!        
+    valueCodeableConcept: CodeableConcept        
+    valueBoolean: code        
+    valueQuantity: Quantity        
+    valueRange: Range        
+    valueReference: Resource        
+    exclude: code!        
+    period: Period        
 }
 
 extend type Query {

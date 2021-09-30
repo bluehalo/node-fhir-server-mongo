@@ -24,15 +24,15 @@ union SignatureOnBehalfOf = Practitioner | PractitionerRole | RelatedPerson | Pa
 
 
 type Signature {
-        id: code            
-        extension: [Extension]            
-        type: [Coding]!            
-        when: code!            
-        who: SignatureWho!            
-        onBehalfOf: SignatureOnBehalfOf            
-        targetFormat: code            
-        sigFormat: code            
-        data: code            
+    id: code        
+    extension: [Extension]        
+    type: [Coding]!        
+    when: code!        
+    who: SignatureWho!        
+    onBehalfOf: SignatureOnBehalfOf        
+    targetFormat: code        
+    sigFormat: code        
+    data: code        
 }
 
 extend type Query {

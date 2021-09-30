@@ -9,12 +9,12 @@
 
 
 type Timing {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        event: [code]            
-        repeat: TimingRepeat            
-        code: CodeableConcept            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    event: [code]        
+    repeat: TimingRepeat        
+    code: CodeableConcept        
 }
 
 extend type Query {

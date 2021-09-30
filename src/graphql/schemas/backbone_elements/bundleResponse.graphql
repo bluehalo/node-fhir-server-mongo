@@ -11,14 +11,14 @@
 
 
 type BundleResponse {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        status: code!            
-        location: code            
-        etag: code            
-        lastModified: code            
-        outcome: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    status: code!        
+    location: code        
+    etag: code        
+    lastModified: code        
+    outcome: code        
 }
 
 extend type Query {

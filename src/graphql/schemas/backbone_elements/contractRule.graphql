@@ -8,11 +8,11 @@
 
 
 type ContractRule {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        contentAttachment: Attachment            
-        contentReference: DocumentReference            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    contentAttachment: Attachment        
+    contentReference: DocumentReference        
 }
 
 extend type Query {

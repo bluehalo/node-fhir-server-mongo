@@ -22,25 +22,26 @@
 
 
 type Slot {
-        id: code            
-        meta: Meta            
-        implicitRules: code            
-        language: code            
-        text: Narrative            
-        contained: [code]            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        identifier: [Identifier]            
-        serviceCategory: [CodeableConcept]            
-        serviceType: [CodeableConcept]            
-        specialty: [CodeableConcept]            
-        appointmentType: CodeableConcept            
-        schedule: Schedule!            
-        status: code!            
-        start: code!            
-        end: code!            
-        overbooked: code            
-        comment: code            
+    resourceType: String
+    id: code        
+    meta: Meta        
+    implicitRules: code        
+    language: code        
+    text: Narrative        
+    contained: [code]        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    identifier: [Identifier]        
+    serviceCategory: [CodeableConcept]        
+    serviceType: [CodeableConcept]        
+    specialty: [CodeableConcept]        
+    appointmentType: CodeableConcept        
+    schedule: Schedule!        
+    status: code!        
+    start: code!        
+    end: code!        
+    overbooked: code        
+    comment: code        
 }
 
 extend type Query {

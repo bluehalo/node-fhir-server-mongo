@@ -14,17 +14,17 @@
 
 
 type SubstanceNucleicAcidSubunit {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        subunit: code            
-        sequence: code            
-        length: code            
-        sequenceAttachment: Attachment            
-        fivePrime: CodeableConcept            
-        threePrime: CodeableConcept            
-        linkage: [SubstanceNucleicAcidLinkage]            
-        sugar: [SubstanceNucleicAcidSugar]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    subunit: code        
+    sequence: code        
+    length: code        
+    sequenceAttachment: Attachment        
+    fivePrime: CodeableConcept        
+    threePrime: CodeableConcept        
+    linkage: [SubstanceNucleicAcidLinkage]        
+    sugar: [SubstanceNucleicAcidSugar]        
 }
 
 extend type Query {

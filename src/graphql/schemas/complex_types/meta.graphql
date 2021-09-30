@@ -11,14 +11,14 @@
 
 
 type Meta {
-        id: code            
-        extension: [Extension]            
-        versionId: code            
-        lastUpdated: code            
-        source: code            
-        profile: [code]            
-        security: [Coding]            
-        tag: [Coding]            
+    id: code        
+    extension: [Extension]        
+    versionId: code        
+    lastUpdated: code        
+    source: code        
+    profile: [code]        
+    security: [Coding]        
+    tag: [Coding]        
 }
 
 extend type Query {

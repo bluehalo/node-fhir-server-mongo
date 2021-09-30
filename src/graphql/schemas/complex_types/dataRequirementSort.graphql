@@ -7,10 +7,10 @@
 
 
 type DataRequirementSort {
-        id: code            
-        extension: [Extension]            
-        path: code!            
-        direction: code!            
+    id: code        
+    extension: [Extension]        
+    path: code!        
+    direction: code!        
 }
 
 extend type Query {

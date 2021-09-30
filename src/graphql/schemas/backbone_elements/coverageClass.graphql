@@ -9,12 +9,12 @@
 
 
 type CoverageClass {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: CodeableConcept!            
-        value: code!            
-        name: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: CodeableConcept!        
+    value: code!        
+    name: code        
 }
 
 extend type Query {

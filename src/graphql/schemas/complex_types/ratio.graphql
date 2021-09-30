@@ -7,10 +7,10 @@
 
 
 type Ratio {
-        id: code            
-        extension: [Extension]            
-        numerator: Quantity            
-        denominator: Quantity            
+    id: code        
+    extension: [Extension]        
+    numerator: Quantity        
+    denominator: Quantity        
 }
 
 extend type Query {

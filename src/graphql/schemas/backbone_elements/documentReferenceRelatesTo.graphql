@@ -8,11 +8,11 @@
 
 
 type DocumentReferenceRelatesTo {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        code: code!            
-        target: DocumentReference!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    code: code!        
+    target: DocumentReference!        
 }
 
 extend type Query {

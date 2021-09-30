@@ -14,17 +14,17 @@
 
 
 type DataRequirement {
-        id: code            
-        extension: [Extension]            
-        type: code!            
-        profile: [code]            
-        subjectCodeableConcept: CodeableConcept            
-        subjectReference: Group            
-        mustSupport: [code]            
-        codeFilter: [DataRequirementCodeFilter]            
-        dateFilter: [DataRequirementDateFilter]            
-        limit: code            
-        sort: [DataRequirementSort]            
+    id: code        
+    extension: [Extension]        
+    type: code!        
+    profile: [code]        
+    subjectCodeableConcept: CodeableConcept        
+    subjectReference: Group        
+    mustSupport: [code]        
+    codeFilter: [DataRequirementCodeFilter]        
+    dateFilter: [DataRequirementDateFilter]        
+    limit: code        
+    sort: [DataRequirementSort]        
 }
 
 extend type Query {

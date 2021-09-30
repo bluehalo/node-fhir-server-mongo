@@ -21,19 +21,19 @@ union CompositionSectionAuthor = Practitioner | PractitionerRole | Device | Pati
 
 
 type CompositionSection {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        title: code            
-        code: CodeableConcept            
-        author: [CompositionSectionAuthor]            
-        focus: Resource            
-        text: Narrative            
-        mode: code            
-        orderedBy: CodeableConcept            
-        entry: [Resource]            
-        emptyReason: CodeableConcept            
-        section: [CompositionSection]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    title: code        
+    code: CodeableConcept        
+    author: [CompositionSectionAuthor]        
+    focus: Resource        
+    text: Narrative        
+    mode: code        
+    orderedBy: CodeableConcept        
+    entry: [Resource]        
+    emptyReason: CodeableConcept        
+    section: [CompositionSection]        
 }
 
 extend type Query {

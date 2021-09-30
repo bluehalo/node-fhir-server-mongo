@@ -13,16 +13,16 @@
 
 
 type AllergyIntoleranceReaction {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        substance: CodeableConcept            
-        manifestation: [CodeableConcept]!            
-        description: code            
-        onset: code            
-        severity: code            
-        exposureRoute: CodeableConcept            
-        note: [Annotation]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    substance: CodeableConcept        
+    manifestation: [CodeableConcept]!        
+    description: code        
+    onset: code        
+    severity: code        
+    exposureRoute: CodeableConcept        
+    note: [Annotation]        
 }
 
 extend type Query {

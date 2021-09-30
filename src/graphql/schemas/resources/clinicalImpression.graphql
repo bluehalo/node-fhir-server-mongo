@@ -38,35 +38,36 @@ union ClinicalImpressionProblem = Condition | AllergyIntolerance
 
 
 type ClinicalImpression {
-        id: code            
-        meta: Meta            
-        implicitRules: code            
-        language: code            
-        text: Narrative            
-        contained: [code]            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        identifier: [Identifier]            
-        status: code!            
-        statusReason: CodeableConcept            
-        code: CodeableConcept            
-        description: code            
-        subject: ClinicalImpressionSubject!            
-        encounter: Encounter            
-        effectiveDateTime: code            
-        effectivePeriod: Period            
-        date: code            
-        assessor: ClinicalImpressionAssessor            
-        previous: ClinicalImpression            
-        problem: [ClinicalImpressionProblem]            
-        investigation: [ClinicalImpressionInvestigation]            
-        protocol: [code]            
-        summary: code            
-        finding: [ClinicalImpressionFinding]            
-        prognosisCodeableConcept: [CodeableConcept]            
-        prognosisReference: [RiskAssessment]            
-        supportingInfo: [Resource]            
-        note: [Annotation]            
+    resourceType: String
+    id: code        
+    meta: Meta        
+    implicitRules: code        
+    language: code        
+    text: Narrative        
+    contained: [code]        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    identifier: [Identifier]        
+    status: code!        
+    statusReason: CodeableConcept        
+    code: CodeableConcept        
+    description: code        
+    subject: ClinicalImpressionSubject!        
+    encounter: Encounter        
+    effectiveDateTime: code        
+    effectivePeriod: Period        
+    date: code        
+    assessor: ClinicalImpressionAssessor        
+    previous: ClinicalImpression        
+    problem: [ClinicalImpressionProblem]        
+    investigation: [ClinicalImpressionInvestigation]        
+    protocol: [code]        
+    summary: code        
+    finding: [ClinicalImpressionFinding]        
+    prognosisCodeableConcept: [CodeableConcept]        
+    prognosisReference: [RiskAssessment]        
+    supportingInfo: [Resource]        
+    note: [Annotation]        
 }
 
 extend type Query {

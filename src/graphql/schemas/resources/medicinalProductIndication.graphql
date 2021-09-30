@@ -22,23 +22,24 @@ union MedicinalProductIndicationSubject = MedicinalProduct | Medication
 
 
 type MedicinalProductIndication {
-        id: code            
-        meta: Meta            
-        implicitRules: code            
-        language: code            
-        text: Narrative            
-        contained: [code]            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        subject: [MedicinalProductIndicationSubject]            
-        diseaseSymptomProcedure: CodeableConcept            
-        diseaseStatus: CodeableConcept            
-        comorbidity: [CodeableConcept]            
-        intendedEffect: CodeableConcept            
-        duration: Quantity            
-        otherTherapy: [MedicinalProductIndicationOtherTherapy]            
-        undesirableEffect: [MedicinalProductUndesirableEffect]            
-        population: [Population]            
+    resourceType: String
+    id: code        
+    meta: Meta        
+    implicitRules: code        
+    language: code        
+    text: Narrative        
+    contained: [code]        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    subject: [MedicinalProductIndicationSubject]        
+    diseaseSymptomProcedure: CodeableConcept        
+    diseaseStatus: CodeableConcept        
+    comorbidity: [CodeableConcept]        
+    intendedEffect: CodeableConcept        
+    duration: Quantity        
+    otherTherapy: [MedicinalProductIndicationOtherTherapy]        
+    undesirableEffect: [MedicinalProductUndesirableEffect]        
+    population: [Population]        
 }
 
 extend type Query {

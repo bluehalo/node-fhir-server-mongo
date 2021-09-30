@@ -8,11 +8,11 @@
 
 
 type ChargeItemDefinitionPropertyGroup {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        applicability: [ChargeItemDefinitionApplicability]            
-        priceComponent: [ChargeItemDefinitionPriceComponent]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    applicability: [ChargeItemDefinitionApplicability]        
+    priceComponent: [ChargeItemDefinitionPriceComponent]        
 }
 
 extend type Query {

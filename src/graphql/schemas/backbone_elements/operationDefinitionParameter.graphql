@@ -16,20 +16,20 @@
 
 
 type OperationDefinitionParameter {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        name: code!            
-        use: code!            
-        min: code!            
-        max: code!            
-        documentation: code            
-        type: code            
-        targetProfile: [code]            
-        searchType: code            
-        binding: OperationDefinitionBinding            
-        referencedFrom: [OperationDefinitionReferencedFrom]            
-        part: [OperationDefinitionParameter]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    name: code!        
+    use: code!        
+    min: code!        
+    max: code!        
+    documentation: code        
+    type: code        
+    targetProfile: [code]        
+    searchType: code        
+    binding: OperationDefinitionBinding        
+    referencedFrom: [OperationDefinitionReferencedFrom]        
+    part: [OperationDefinitionParameter]        
 }
 
 extend type Query {

@@ -9,12 +9,12 @@
 
 
 type SubstanceSpecificationMolecularWeight {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        method: CodeableConcept            
-        type: CodeableConcept            
-        amount: Quantity            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    method: CodeableConcept        
+    type: CodeableConcept        
+    amount: Quantity        
 }
 
 extend type Query {

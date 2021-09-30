@@ -7,10 +7,10 @@
 
 
 type TerminologyCapabilitiesTranslation {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        needsMap: code!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    needsMap: code!        
 }
 
 extend type Query {

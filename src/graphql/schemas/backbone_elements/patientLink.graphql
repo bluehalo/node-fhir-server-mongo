@@ -10,11 +10,11 @@ union PatientLinkOther = Patient | RelatedPerson
 
 
 type PatientLink {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        other: PatientLinkOther!            
-        type: code!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    other: PatientLinkOther!        
+    type: code!        
 }
 
 extend type Query {

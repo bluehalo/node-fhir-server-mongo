@@ -9,12 +9,12 @@
 
 
 type RiskEvidenceSynthesisCertainty {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        rating: [CodeableConcept]            
-        note: [Annotation]            
-        certaintySubcomponent: [RiskEvidenceSynthesisCertaintySubcomponent]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    rating: [CodeableConcept]        
+    note: [Annotation]        
+    certaintySubcomponent: [RiskEvidenceSynthesisCertaintySubcomponent]        
 }
 
 extend type Query {

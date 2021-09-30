@@ -10,13 +10,13 @@
 
 
 type ElementDefinitionSlicing {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        discriminator: [ElementDefinitionDiscriminator]            
-        description: code            
-        ordered: code            
-        rules: code!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    discriminator: [ElementDefinitionDiscriminator]        
+    description: code        
+    ordered: code        
+    rules: code!        
 }
 
 extend type Query {

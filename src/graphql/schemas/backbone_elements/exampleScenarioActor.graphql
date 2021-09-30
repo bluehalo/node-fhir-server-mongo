@@ -10,13 +10,13 @@
 
 
 type ExampleScenarioActor {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        actorId: code!            
-        type: code!            
-        name: code            
-        description: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    actorId: code!        
+    type: code!        
+    name: code        
+    description: code        
 }
 
 extend type Query {

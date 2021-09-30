@@ -10,13 +10,13 @@
 
 
 type ExplanationOfBenefitProcessNote {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        number: code            
-        type: code            
-        text: code            
-        language: CodeableConcept            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    number: code        
+    type: code        
+    text: code        
+    language: CodeableConcept        
 }
 
 extend type Query {

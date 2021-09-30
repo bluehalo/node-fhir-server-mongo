@@ -8,11 +8,11 @@
 
 
 type NutritionOrderNutrient {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        modifier: CodeableConcept            
-        amount: Quantity            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    modifier: CodeableConcept        
+    amount: Quantity        
 }
 
 extend type Query {

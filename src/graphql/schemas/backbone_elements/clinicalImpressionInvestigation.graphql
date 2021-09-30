@@ -15,11 +15,11 @@ union ClinicalImpressionInvestigationItem = Observation | QuestionnaireResponse 
 
 
 type ClinicalImpressionInvestigation {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        code: CodeableConcept!            
-        item: [ClinicalImpressionInvestigationItem]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    code: CodeableConcept!        
+    item: [ClinicalImpressionInvestigationItem]        
 }
 
 extend type Query {

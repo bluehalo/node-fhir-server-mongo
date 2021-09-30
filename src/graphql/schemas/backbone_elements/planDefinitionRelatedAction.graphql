@@ -10,13 +10,13 @@
 
 
 type PlanDefinitionRelatedAction {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        actionId: code!            
-        relationship: code!            
-        offsetDuration: Quantity            
-        offsetRange: Range            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    actionId: code!        
+    relationship: code!        
+    offsetDuration: Quantity        
+    offsetRange: Range        
 }
 
 extend type Query {

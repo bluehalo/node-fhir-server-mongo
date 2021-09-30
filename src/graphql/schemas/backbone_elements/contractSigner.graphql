@@ -14,12 +14,12 @@ union ContractSignerParty = Organization | Patient | Practitioner | Practitioner
 
 
 type ContractSigner {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: Coding!            
-        party: ContractSignerParty!            
-        signature: [Signature]!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: Coding!        
+    party: ContractSignerParty!        
+    signature: [Signature]!        
 }
 
 extend type Query {

@@ -14,17 +14,17 @@
 
 
 type SubstanceSpecificationMoiety {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        role: CodeableConcept            
-        identifier: Identifier            
-        name: code            
-        stereochemistry: CodeableConcept            
-        opticalActivity: CodeableConcept            
-        molecularFormula: code            
-        amountQuantity: Quantity            
-        amountString: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    role: CodeableConcept        
+    identifier: Identifier        
+    name: code        
+    stereochemistry: CodeableConcept        
+    opticalActivity: CodeableConcept        
+    molecularFormula: code        
+    amountQuantity: Quantity        
+    amountString: code        
 }
 
 extend type Query {

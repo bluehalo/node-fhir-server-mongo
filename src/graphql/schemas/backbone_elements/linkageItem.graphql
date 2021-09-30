@@ -8,11 +8,11 @@
 
 
 type LinkageItem {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: code!            
-        resource: Resource!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: code!        
+    resource: Resource!        
 }
 
 extend type Query {

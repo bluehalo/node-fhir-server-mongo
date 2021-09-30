@@ -9,12 +9,12 @@
 
 
 type DeviceDefinitionMaterial {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        substance: CodeableConcept!            
-        alternate: code            
-        allergenicIndicator: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    substance: CodeableConcept!        
+    alternate: code        
+    allergenicIndicator: code        
 }
 
 extend type Query {

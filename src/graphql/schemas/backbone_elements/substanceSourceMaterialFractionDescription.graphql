@@ -8,11 +8,11 @@
 
 
 type SubstanceSourceMaterialFractionDescription {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        fraction: code            
-        materialType: CodeableConcept            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    fraction: code        
+    materialType: CodeableConcept        
 }
 
 extend type Query {

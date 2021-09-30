@@ -11,14 +11,14 @@
 
 
 type SpecimenProcessing {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        description: code            
-        procedure: CodeableConcept            
-        additive: [Substance]            
-        timeDateTime: code            
-        timePeriod: Period            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    description: code        
+    procedure: CodeableConcept        
+    additive: [Substance]        
+    timeDateTime: code        
+    timePeriod: Period        
 }
 
 extend type Query {

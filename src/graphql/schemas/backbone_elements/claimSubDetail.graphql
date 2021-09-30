@@ -17,20 +17,20 @@
 
 
 type ClaimSubDetail {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        sequence: code!            
-        revenue: CodeableConcept            
-        category: CodeableConcept            
-        productOrService: CodeableConcept!            
-        modifier: [CodeableConcept]            
-        programCode: [CodeableConcept]            
-        quantity: Quantity            
-        unitPrice: Money            
-        factor: code            
-        net: Money            
-        udi: [Device]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    sequence: code!        
+    revenue: CodeableConcept        
+    category: CodeableConcept        
+    productOrService: CodeableConcept!        
+    modifier: [CodeableConcept]        
+    programCode: [CodeableConcept]        
+    quantity: Quantity        
+    unitPrice: Money        
+    factor: code        
+    net: Money        
+    udi: [Device]        
 }
 
 extend type Query {

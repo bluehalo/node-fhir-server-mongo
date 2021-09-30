@@ -16,19 +16,19 @@
 
 
 type ExampleScenarioOperation {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        number: code!            
-        type: code            
-        name: code            
-        initiator: code            
-        receiver: code            
-        description: code            
-        initiatorActive: code            
-        receiverActive: code            
-        request: ExampleScenarioContainedInstance            
-        response: ExampleScenarioContainedInstance            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    number: code!        
+    type: code        
+    name: code        
+    initiator: code        
+    receiver: code        
+    description: code        
+    initiatorActive: code        
+    receiverActive: code        
+    request: ExampleScenarioContainedInstance        
+    response: ExampleScenarioContainedInstance        
 }
 
 extend type Query {

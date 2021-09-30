@@ -34,33 +34,33 @@ union RequestGroupActionParticipant = Patient | Practitioner | PractitionerRole 
 
 
 type RequestGroupAction {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        prefix: code            
-        title: code            
-        description: code            
-        textEquivalent: code            
-        priority: code            
-        code: [CodeableConcept]            
-        documentation: [RelatedArtifact]            
-        condition: [RequestGroupCondition]            
-        relatedAction: [RequestGroupRelatedAction]            
-        timingDateTime: code            
-        timingAge: Quantity            
-        timingPeriod: Period            
-        timingDuration: Quantity            
-        timingRange: Range            
-        timingTiming: Timing            
-        participant: [RequestGroupActionParticipant]            
-        type: CodeableConcept            
-        groupingBehavior: code            
-        selectionBehavior: code            
-        requiredBehavior: code            
-        precheckBehavior: code            
-        cardinalityBehavior: code            
-        resource: Resource            
-        action: [RequestGroupAction]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    prefix: code        
+    title: code        
+    description: code        
+    textEquivalent: code        
+    priority: code        
+    code: [CodeableConcept]        
+    documentation: [RelatedArtifact]        
+    condition: [RequestGroupCondition]        
+    relatedAction: [RequestGroupRelatedAction]        
+    timingDateTime: code        
+    timingAge: Quantity        
+    timingPeriod: Period        
+    timingDuration: Quantity        
+    timingRange: Range        
+    timingTiming: Timing        
+    participant: [RequestGroupActionParticipant]        
+    type: CodeableConcept        
+    groupingBehavior: code        
+    selectionBehavior: code        
+    requiredBehavior: code        
+    precheckBehavior: code        
+    cardinalityBehavior: code        
+    resource: Resource        
+    action: [RequestGroupAction]        
 }
 
 extend type Query {

@@ -7,10 +7,10 @@
 
 
 type TerminologyCapabilitiesValidateCode {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        translations: code!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    translations: code!        
 }
 
 extend type Query {

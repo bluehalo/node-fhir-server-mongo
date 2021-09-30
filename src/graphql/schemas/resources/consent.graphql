@@ -34,28 +34,29 @@ union ConsentSourceReference = Consent | DocumentReference | Contract | Question
 
 
 type Consent {
-        id: code            
-        meta: Meta            
-        implicitRules: code            
-        language: code            
-        text: Narrative            
-        contained: [code]            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        identifier: [Identifier]            
-        status: code!            
-        scope: CodeableConcept!            
-        category: [CodeableConcept]!            
-        patient: Patient            
-        dateTime: code            
-        performer: [ConsentPerformer]            
-        organization: [Organization]            
-        sourceAttachment: Attachment            
-        sourceReference: ConsentSourceReference            
-        policy: [ConsentPolicy]            
-        policyRule: CodeableConcept            
-        verification: [ConsentVerification]            
-        provision: ConsentProvision            
+    resourceType: String
+    id: code        
+    meta: Meta        
+    implicitRules: code        
+    language: code        
+    text: Narrative        
+    contained: [code]        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    identifier: [Identifier]        
+    status: code!        
+    scope: CodeableConcept!        
+    category: [CodeableConcept]!        
+    patient: Patient        
+    dateTime: code        
+    performer: [ConsentPerformer]        
+    organization: [Organization]        
+    sourceAttachment: Attachment        
+    sourceReference: ConsentSourceReference        
+    policy: [ConsentPolicy]        
+    policyRule: CodeableConcept        
+    verification: [ConsentVerification]        
+    provision: ConsentProvision        
 }
 
 extend type Query {

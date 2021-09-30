@@ -8,11 +8,11 @@
 
 
 type MedicationKnowledgeMedicineClassification {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: CodeableConcept!            
-        classification: [CodeableConcept]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: CodeableConcept!        
+    classification: [CodeableConcept]        
 }
 
 extend type Query {

@@ -9,12 +9,12 @@
 
 
 type MedicationKnowledgeCost {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: CodeableConcept!            
-        source: code            
-        cost: Money!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: CodeableConcept!        
+    source: code        
+    cost: Money!        
 }
 
 extend type Query {

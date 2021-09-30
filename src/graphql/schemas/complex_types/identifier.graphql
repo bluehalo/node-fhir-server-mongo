@@ -11,14 +11,14 @@
 
 
 type Identifier {
-        id: code            
-        extension: [Extension]            
-        use: code            
-        type: CodeableConcept            
-        system: code            
-        value: code            
-        period: Period            
-        assigner: Organization            
+    id: code        
+    extension: [Extension]        
+    use: code        
+    type: CodeableConcept        
+    system: code        
+    value: code        
+    period: Period        
+    assigner: Organization        
 }
 
 extend type Query {

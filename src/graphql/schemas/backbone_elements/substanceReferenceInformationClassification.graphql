@@ -10,13 +10,13 @@
 
 
 type SubstanceReferenceInformationClassification {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        domain: CodeableConcept            
-        classification: CodeableConcept            
-        subtype: [CodeableConcept]            
-        source: [DocumentReference]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    domain: CodeableConcept        
+    classification: CodeableConcept        
+    subtype: [CodeableConcept]        
+    source: [DocumentReference]        
 }
 
 extend type Query {

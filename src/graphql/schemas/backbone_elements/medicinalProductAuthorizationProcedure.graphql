@@ -10,14 +10,14 @@
 
 
 type MedicinalProductAuthorizationProcedure {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        identifier: Identifier            
-        type: CodeableConcept!            
-        datePeriod: Period            
-        dateDateTime: code            
-        application: [MedicinalProductAuthorizationProcedure]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    identifier: Identifier        
+    type: CodeableConcept!        
+    datePeriod: Period        
+    dateDateTime: code        
+    application: [MedicinalProductAuthorizationProcedure]        
 }
 
 extend type Query {

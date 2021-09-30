@@ -8,11 +8,11 @@
 
 
 type MeasureReportStratifier {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        code: [CodeableConcept]            
-        stratum: [MeasureReportStratum]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    code: [CodeableConcept]        
+    stratum: [MeasureReportStratum]        
 }
 
 extend type Query {

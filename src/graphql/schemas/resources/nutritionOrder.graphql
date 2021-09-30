@@ -30,31 +30,32 @@ union NutritionOrderOrderer = Practitioner | PractitionerRole
 
 
 type NutritionOrder {
-        id: code            
-        meta: Meta            
-        implicitRules: code            
-        language: code            
-        text: Narrative            
-        contained: [code]            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        identifier: [Identifier]            
-        instantiatesCanonical: [code]            
-        instantiatesUri: [code]            
-        instantiates: [code]            
-        status: code!            
-        intent: code!            
-        patient: Patient!            
-        encounter: Encounter            
-        dateTime: code!            
-        orderer: NutritionOrderOrderer            
-        allergyIntolerance: [AllergyIntolerance]            
-        foodPreferenceModifier: [CodeableConcept]            
-        excludeFoodModifier: [CodeableConcept]            
-        oralDiet: NutritionOrderOralDiet            
-        supplement: [NutritionOrderSupplement]            
-        enteralFormula: NutritionOrderEnteralFormula            
-        note: [Annotation]            
+    resourceType: String
+    id: code        
+    meta: Meta        
+    implicitRules: code        
+    language: code        
+    text: Narrative        
+    contained: [code]        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    identifier: [Identifier]        
+    instantiatesCanonical: [code]        
+    instantiatesUri: [code]        
+    instantiates: [code]        
+    status: code!        
+    intent: code!        
+    patient: Patient!        
+    encounter: Encounter        
+    dateTime: code!        
+    orderer: NutritionOrderOrderer        
+    allergyIntolerance: [AllergyIntolerance]        
+    foodPreferenceModifier: [CodeableConcept]        
+    excludeFoodModifier: [CodeableConcept]        
+    oralDiet: NutritionOrderOralDiet        
+    supplement: [NutritionOrderSupplement]        
+    enteralFormula: NutritionOrderEnteralFormula        
+    note: [Annotation]        
 }
 
 extend type Query {

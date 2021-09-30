@@ -10,13 +10,13 @@
 
 
 type ImmunizationEducation {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        documentType: code            
-        reference: code            
-        publicationDate: code            
-        presentationDate: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    documentType: code        
+    reference: code        
+    publicationDate: code        
+    presentationDate: code        
 }
 
 extend type Query {

@@ -22,23 +22,23 @@ union CoverageEligibilityResponseItemProvider = Practitioner | PractitionerRole
 
 
 type CoverageEligibilityResponseItem {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        category: CodeableConcept            
-        productOrService: CodeableConcept            
-        modifier: [CodeableConcept]            
-        provider: CoverageEligibilityResponseItemProvider            
-        excluded: code            
-        name: code            
-        description: code            
-        network: CodeableConcept            
-        unit: CodeableConcept            
-        term: CodeableConcept            
-        benefit: [CoverageEligibilityResponseBenefit]            
-        authorizationRequired: code            
-        authorizationSupporting: [CodeableConcept]            
-        authorizationUrl: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    category: CodeableConcept        
+    productOrService: CodeableConcept        
+    modifier: [CodeableConcept]        
+    provider: CoverageEligibilityResponseItemProvider        
+    excluded: code        
+    name: code        
+    description: code        
+    network: CodeableConcept        
+    unit: CodeableConcept        
+    term: CodeableConcept        
+    benefit: [CoverageEligibilityResponseBenefit]        
+    authorizationRequired: code        
+    authorizationSupporting: [CodeableConcept]        
+    authorizationUrl: code        
 }
 
 extend type Query {

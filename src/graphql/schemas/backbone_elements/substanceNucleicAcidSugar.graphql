@@ -9,12 +9,12 @@
 
 
 type SubstanceNucleicAcidSugar {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        identifier: Identifier            
-        name: code            
-        residueSite: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    identifier: Identifier        
+    name: code        
+    residueSite: code        
 }
 
 extend type Query {

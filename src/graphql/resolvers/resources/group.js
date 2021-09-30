@@ -25,7 +25,11 @@ module.exports = {
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         managingEntity: async (parent, args, context, info) => {
-            return await findResourceByReference(parent.managingEntity);
+            return await findResourceByReference(
+                args,
+                context,
+                info,
+                parent.managingEntity);
         },
     }
 };

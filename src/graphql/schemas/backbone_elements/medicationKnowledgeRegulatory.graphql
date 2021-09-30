@@ -10,13 +10,13 @@
 
 
 type MedicationKnowledgeRegulatory {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        regulatoryAuthority: Organization!            
-        substitution: [MedicationKnowledgeSubstitution]            
-        schedule: [MedicationKnowledgeSchedule]            
-        maxDispense: MedicationKnowledgeMaxDispense            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    regulatoryAuthority: Organization!        
+    substitution: [MedicationKnowledgeSubstitution]        
+    schedule: [MedicationKnowledgeSchedule]        
+    maxDispense: MedicationKnowledgeMaxDispense        
 }
 
 extend type Query {

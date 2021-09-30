@@ -7,10 +7,10 @@
 
 
 type TestScriptTeardown {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        action: [TestScriptAction2]!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    action: [TestScriptAction2]!        
 }
 
 extend type Query {

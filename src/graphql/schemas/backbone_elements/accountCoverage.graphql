@@ -8,11 +8,11 @@
 
 
 type AccountCoverage {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        coverage: Coverage!            
-        priority: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    coverage: Coverage!        
+    priority: code        
 }
 
 extend type Query {

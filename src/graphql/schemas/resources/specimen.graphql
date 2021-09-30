@@ -29,27 +29,28 @@ union SpecimenSubject = Patient | Group | Device | Substance | Location
 
 
 type Specimen {
-        id: code            
-        meta: Meta            
-        implicitRules: code            
-        language: code            
-        text: Narrative            
-        contained: [code]            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        identifier: [Identifier]            
-        accessionIdentifier: Identifier            
-        status: code            
-        type: CodeableConcept            
-        subject: SpecimenSubject            
-        receivedTime: code            
-        parent: [Specimen]            
-        request: [ServiceRequest]            
-        collection: SpecimenCollection            
-        processing: [SpecimenProcessing]            
-        container: [SpecimenContainer]            
-        condition: [CodeableConcept]            
-        note: [Annotation]            
+    resourceType: String
+    id: code        
+    meta: Meta        
+    implicitRules: code        
+    language: code        
+    text: Narrative        
+    contained: [code]        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    identifier: [Identifier]        
+    accessionIdentifier: Identifier        
+    status: code        
+    type: CodeableConcept        
+    subject: SpecimenSubject        
+    receivedTime: code        
+    parent: [Specimen]        
+    request: [ServiceRequest]        
+    collection: SpecimenCollection        
+    processing: [SpecimenProcessing]        
+    container: [SpecimenContainer]        
+    condition: [CodeableConcept]        
+    note: [Annotation]        
 }
 
 extend type Query {

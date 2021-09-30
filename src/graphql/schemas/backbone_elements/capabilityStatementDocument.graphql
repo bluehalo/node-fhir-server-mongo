@@ -9,12 +9,12 @@
 
 
 type CapabilityStatementDocument {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        mode: code!            
-        documentation: code            
-        profile: code!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    mode: code!        
+    documentation: code        
+    profile: code!        
 }
 
 extend type Query {

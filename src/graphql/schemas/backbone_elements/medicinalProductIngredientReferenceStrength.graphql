@@ -11,14 +11,14 @@
 
 
 type MedicinalProductIngredientReferenceStrength {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        substance: CodeableConcept            
-        strength: Ratio!            
-        strengthLowLimit: Ratio            
-        measurementPoint: code            
-        country: [CodeableConcept]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    substance: CodeableConcept        
+    strength: Ratio!        
+    strengthLowLimit: Ratio        
+    measurementPoint: code        
+    country: [CodeableConcept]        
 }
 
 extend type Query {

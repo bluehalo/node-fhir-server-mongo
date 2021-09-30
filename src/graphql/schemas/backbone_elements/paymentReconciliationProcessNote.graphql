@@ -8,11 +8,11 @@
 
 
 type PaymentReconciliationProcessNote {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: code            
-        text: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: code        
+    text: code        
 }
 
 extend type Query {

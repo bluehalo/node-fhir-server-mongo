@@ -8,11 +8,11 @@
 
 
 type CapabilityStatementInteraction {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        code: code!            
-        documentation: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    code: code!        
+    documentation: code        
 }
 
 extend type Query {

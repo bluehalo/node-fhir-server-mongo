@@ -46,34 +46,34 @@ union {{fhir_entity.cleaned_name}}{{ upper_case_first_letter(property.name) }} =
 
 
 type {{fhir_entity.cleaned_name}} {
-    {% for property in fhir_entity.properties %}
-        {{ property.name -}} {{ ': ' -}}
-            {% if property.is_list -%}
-                {{ '[' -}}
-            {% endif -%}
-            {% if property.cleaned_type == "Extension" %}
-            {{- 'Extension' -}}
-            {% elif property.is_code %}
-            {{- 'code' -}}
-            {% elif property.reference_target_resources -%}
-                {% if property.reference_target_resources | length > 1  %}
-                {{- fhir_entity.cleaned_name}}{{ upper_case_first_letter(property.name) -}}
-                {% else %}
-                {{- property.reference_target_resources_names [0] -}}
-                {%  endif %}
+{% for property in fhir_entity.properties %}
+    {{ property.name -}} {{ ': ' -}}
+        {% if property.is_list -%}
+            {{ '[' -}}
+        {% endif -%}
+        {% if property.cleaned_type == "Extension" %}
+        {{- 'Extension' -}}
+        {% elif property.is_code %}
+        {{- 'code' -}}
+        {% elif property.reference_target_resources -%}
+            {% if property.reference_target_resources | length > 1  %}
+            {{- fhir_entity.cleaned_name}}{{ upper_case_first_letter(property.name) -}}
             {% else %}
-            {{- property.cleaned_type | replace(".","") -}}
+            {{- property.reference_target_resources_names [0] -}}
             {%  endif %}
-            {% if property.is_list -%}
-                {{ ']' -}}
-            {% endif -%}
-            {% if not property.optional -%}
-                {{- '!' -}}
-            {% else -%}
-                {{ '' -}}
-            {% endif %}
-            {{ '' }}
-    {% endfor %}
+        {% else %}
+        {{- property.cleaned_type | replace(".","") -}}
+        {%  endif %}
+        {% if property.is_list -%}
+            {{ ']' -}}
+        {% endif -%}
+        {% if not property.optional -%}
+            {{- '!' -}}
+        {% else -%}
+            {{ '' -}}
+        {% endif %}
+        {{ '' }}
+{% endfor %}
 }
 
 extend type Query {

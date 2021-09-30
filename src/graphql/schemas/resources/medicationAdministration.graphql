@@ -41,35 +41,36 @@ union MedicationAdministrationReasonReference = Condition | Observation | Diagno
 
 
 type MedicationAdministration {
-        id: code            
-        meta: Meta            
-        implicitRules: code            
-        language: code            
-        text: Narrative            
-        contained: [code]            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        identifier: [Identifier]            
-        instantiates: [code]            
-        partOf: [MedicationAdministrationPartOf]            
-        status: code!            
-        statusReason: [CodeableConcept]            
-        category: CodeableConcept            
-        medicationCodeableConcept: CodeableConcept            
-        medicationReference: Medication            
-        subject: MedicationAdministrationSubject!            
-        context: MedicationAdministrationContext            
-        supportingInformation: [Resource]            
-        effectiveDateTime: code            
-        effectivePeriod: Period            
-        performer: [MedicationAdministrationPerformer]            
-        reasonCode: [CodeableConcept]            
-        reasonReference: [MedicationAdministrationReasonReference]            
-        request: MedicationRequest            
-        device: [Device]            
-        note: [Annotation]            
-        dosage: MedicationAdministrationDosage            
-        eventHistory: [Provenance]            
+    resourceType: String
+    id: code        
+    meta: Meta        
+    implicitRules: code        
+    language: code        
+    text: Narrative        
+    contained: [code]        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    identifier: [Identifier]        
+    instantiates: [code]        
+    partOf: [MedicationAdministrationPartOf]        
+    status: code!        
+    statusReason: [CodeableConcept]        
+    category: CodeableConcept        
+    medicationCodeableConcept: CodeableConcept        
+    medicationReference: Medication        
+    subject: MedicationAdministrationSubject!        
+    context: MedicationAdministrationContext        
+    supportingInformation: [Resource]        
+    effectiveDateTime: code        
+    effectivePeriod: Period        
+    performer: [MedicationAdministrationPerformer]        
+    reasonCode: [CodeableConcept]        
+    reasonReference: [MedicationAdministrationReasonReference]        
+    request: MedicationRequest        
+    device: [Device]        
+    note: [Annotation]        
+    dosage: MedicationAdministrationDosage        
+    eventHistory: [Provenance]        
 }
 
 extend type Query {

@@ -10,13 +10,13 @@
 
 
 type OrganizationContact {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        purpose: CodeableConcept            
-        name: HumanName            
-        telecom: [ContactPoint]            
-        address: Address            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    purpose: CodeableConcept        
+    name: HumanName        
+    telecom: [ContactPoint]        
+    address: Address        
 }
 
 extend type Query {

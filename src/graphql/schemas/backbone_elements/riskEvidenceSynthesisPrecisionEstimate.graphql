@@ -10,13 +10,13 @@
 
 
 type RiskEvidenceSynthesisPrecisionEstimate {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: CodeableConcept            
-        level: code            
-        from: code            
-        to: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: CodeableConcept        
+    level: code        
+    from: code        
+    to: code        
 }
 
 extend type Query {

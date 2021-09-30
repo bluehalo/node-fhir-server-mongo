@@ -9,12 +9,12 @@
 
 
 type DeviceDefinitionUdiDeviceIdentifier {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        deviceIdentifier: code!            
-        issuer: code!            
-        jurisdiction: code!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    deviceIdentifier: code!        
+    issuer: code!        
+    jurisdiction: code!        
 }
 
 extend type Query {

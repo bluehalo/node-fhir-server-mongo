@@ -22,23 +22,23 @@ union ImmunizationRecommendationRecommendationSupportingImmunization = Immunizat
 
 
 type ImmunizationRecommendationRecommendation {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        vaccineCode: [CodeableConcept]            
-        targetDisease: CodeableConcept            
-        contraindicatedVaccineCode: [CodeableConcept]            
-        forecastStatus: CodeableConcept!            
-        forecastReason: [CodeableConcept]            
-        dateCriterion: [ImmunizationRecommendationDateCriterion]            
-        description: code            
-        series: code            
-        doseNumberPositiveInt: code            
-        doseNumberString: code            
-        seriesDosesPositiveInt: code            
-        seriesDosesString: code            
-        supportingImmunization: [ImmunizationRecommendationRecommendationSupportingImmunization]            
-        supportingPatientInformation: [Resource]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    vaccineCode: [CodeableConcept]        
+    targetDisease: CodeableConcept        
+    contraindicatedVaccineCode: [CodeableConcept]        
+    forecastStatus: CodeableConcept!        
+    forecastReason: [CodeableConcept]        
+    dateCriterion: [ImmunizationRecommendationDateCriterion]        
+    description: code        
+    series: code        
+    doseNumberPositiveInt: code        
+    doseNumberString: code        
+    seriesDosesPositiveInt: code        
+    seriesDosesString: code        
+    supportingImmunization: [ImmunizationRecommendationRecommendationSupportingImmunization]        
+    supportingPatientInformation: [Resource]        
 }
 
 extend type Query {

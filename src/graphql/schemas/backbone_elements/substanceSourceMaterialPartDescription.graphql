@@ -8,11 +8,11 @@
 
 
 type SubstanceSourceMaterialPartDescription {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        part: CodeableConcept            
-        partLocation: CodeableConcept            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    part: CodeableConcept        
+    partLocation: CodeableConcept        
 }
 
 extend type Query {

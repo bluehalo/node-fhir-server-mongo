@@ -10,13 +10,13 @@
 
 
 type InvoiceLineItem {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        sequence: code            
-        chargeItemReference: ChargeItem            
-        chargeItemCodeableConcept: CodeableConcept            
-        priceComponent: [InvoicePriceComponent]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    sequence: code        
+    chargeItemReference: ChargeItem        
+    chargeItemCodeableConcept: CodeableConcept        
+    priceComponent: [InvoicePriceComponent]        
 }
 
 extend type Query {

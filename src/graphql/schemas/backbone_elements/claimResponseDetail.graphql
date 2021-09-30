@@ -10,13 +10,13 @@
 
 
 type ClaimResponseDetail {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        detailSequence: code!            
-        noteNumber: [code]            
-        adjudication: [ClaimResponseAdjudication]!            
-        subDetail: [ClaimResponseSubDetail]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    detailSequence: code!        
+    noteNumber: [code]        
+    adjudication: [ClaimResponseAdjudication]!        
+    subDetail: [ClaimResponseSubDetail]        
 }
 
 extend type Query {

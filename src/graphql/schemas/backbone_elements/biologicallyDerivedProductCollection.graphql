@@ -14,13 +14,13 @@ union BiologicallyDerivedProductCollectionSource = Patient | Organization
 
 
 type BiologicallyDerivedProductCollection {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        collector: BiologicallyDerivedProductCollectionCollector            
-        source: BiologicallyDerivedProductCollectionSource            
-        collectedDateTime: code            
-        collectedPeriod: Period            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    collector: BiologicallyDerivedProductCollectionCollector        
+    source: BiologicallyDerivedProductCollectionSource        
+    collectedDateTime: code        
+    collectedPeriod: Period        
 }
 
 extend type Query {

@@ -29,32 +29,33 @@
 
 
 type ValueSet {
-        id: code            
-        meta: Meta            
-        implicitRules: code            
-        language: code            
-        text: Narrative            
-        contained: [code]            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        url: code            
-        identifier: [Identifier]            
-        version: code            
-        name: code            
-        title: code            
-        status: code!            
-        experimental: code            
-        date: code            
-        publisher: code            
-        contact: [ContactDetail]            
-        description: code            
-        useContext: [UsageContext]            
-        jurisdiction: [CodeableConcept]            
-        immutable: code            
-        purpose: code            
-        copyright: code            
-        compose: ValueSetCompose            
-        expansion: ValueSetExpansion            
+    resourceType: String
+    id: code        
+    meta: Meta        
+    implicitRules: code        
+    language: code        
+    text: Narrative        
+    contained: [code]        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    url: code        
+    identifier: [Identifier]        
+    version: code        
+    name: code        
+    title: code        
+    status: code!        
+    experimental: code        
+    date: code        
+    publisher: code        
+    contact: [ContactDetail]        
+    description: code        
+    useContext: [UsageContext]        
+    jurisdiction: [CodeableConcept]        
+    immutable: code        
+    purpose: code        
+    copyright: code        
+    compose: ValueSetCompose        
+    expansion: ValueSetExpansion        
 }
 
 extend type Query {

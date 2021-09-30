@@ -15,18 +15,18 @@
 
 
 type ClaimResponseDetail1 {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        productOrService: CodeableConcept!            
-        modifier: [CodeableConcept]            
-        quantity: Quantity            
-        unitPrice: Money            
-        factor: code            
-        net: Money            
-        noteNumber: [code]            
-        adjudication: [ClaimResponseAdjudication]!            
-        subDetail: [ClaimResponseSubDetail1]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    productOrService: CodeableConcept!        
+    modifier: [CodeableConcept]        
+    quantity: Quantity        
+    unitPrice: Money        
+    factor: code        
+    net: Money        
+    noteNumber: [code]        
+    adjudication: [ClaimResponseAdjudication]!        
+    subDetail: [ClaimResponseSubDetail1]        
 }
 
 extend type Query {

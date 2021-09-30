@@ -54,6 +54,6 @@ module.exports.searchById = async (args, user, scope, resource_name, collection_
         }
         return new Resource(resource);
     } else {
-        throw new NotFoundError();
+        throw new NotFoundError(`Not Found: ${resource_name}.searchById: ${id.toString()}`);
     }
 };

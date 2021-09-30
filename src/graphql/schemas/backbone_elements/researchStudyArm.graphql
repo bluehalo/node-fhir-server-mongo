@@ -9,12 +9,12 @@
 
 
 type ResearchStudyArm {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        name: code!            
-        type: CodeableConcept            
-        description: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    name: code!        
+    type: CodeableConcept        
+    description: code        
 }
 
 extend type Query {

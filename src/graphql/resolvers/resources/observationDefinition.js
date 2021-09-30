@@ -20,22 +20,38 @@ module.exports = {
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         validCodedValueSet: async (parent, args, context, info) => {
-            return await findResourceByReference(parent.validCodedValueSet);
+            return await findResourceByReference(
+                args,
+                context,
+                info,
+                parent.validCodedValueSet);
         },
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         normalCodedValueSet: async (parent, args, context, info) => {
-            return await findResourceByReference(parent.normalCodedValueSet);
+            return await findResourceByReference(
+                args,
+                context,
+                info,
+                parent.normalCodedValueSet);
         },
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         abnormalCodedValueSet: async (parent, args, context, info) => {
-            return await findResourceByReference(parent.abnormalCodedValueSet);
+            return await findResourceByReference(
+                args,
+                context,
+                info,
+                parent.abnormalCodedValueSet);
         },
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         criticalCodedValueSet: async (parent, args, context, info) => {
-            return await findResourceByReference(parent.criticalCodedValueSet);
+            return await findResourceByReference(
+                args,
+                context,
+                info,
+                parent.criticalCodedValueSet);
         },
     }
 };

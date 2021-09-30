@@ -8,11 +8,11 @@
 
 
 type InsurancePlanLimit {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        value: Quantity            
-        code: CodeableConcept            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    value: Quantity        
+    code: CodeableConcept        
 }
 
 extend type Query {

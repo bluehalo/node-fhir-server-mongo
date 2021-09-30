@@ -14,17 +14,17 @@
 
 
 type SpecimenDefinitionTypeTested {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        isDerived: code            
-        type: CodeableConcept            
-        preference: code!            
-        container: SpecimenDefinitionContainer            
-        requirement: code            
-        retentionTime: Quantity            
-        rejectionCriterion: [CodeableConcept]            
-        handling: [SpecimenDefinitionHandling]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    isDerived: code        
+    type: CodeableConcept        
+    preference: code!        
+    container: SpecimenDefinitionContainer        
+    requirement: code        
+    retentionTime: Quantity        
+    rejectionCriterion: [CodeableConcept]        
+    handling: [SpecimenDefinitionHandling]        
 }
 
 extend type Query {

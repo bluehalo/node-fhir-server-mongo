@@ -18,21 +18,22 @@
 
 
 type MedicinalProductManufactured {
-        id: code            
-        meta: Meta            
-        implicitRules: code            
-        language: code            
-        text: Narrative            
-        contained: [code]            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        manufacturedDoseForm: CodeableConcept!            
-        unitOfPresentation: CodeableConcept            
-        quantity: Quantity!            
-        manufacturer: [Organization]            
-        ingredient: [MedicinalProductIngredient]            
-        physicalCharacteristics: ProdCharacteristic            
-        otherCharacteristics: [CodeableConcept]            
+    resourceType: String
+    id: code        
+    meta: Meta        
+    implicitRules: code        
+    language: code        
+    text: Narrative        
+    contained: [code]        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    manufacturedDoseForm: CodeableConcept!        
+    unitOfPresentation: CodeableConcept        
+    quantity: Quantity!        
+    manufacturer: [Organization]        
+    ingredient: [MedicinalProductIngredient]        
+    physicalCharacteristics: ProdCharacteristic        
+    otherCharacteristics: [CodeableConcept]        
 }
 
 extend type Query {

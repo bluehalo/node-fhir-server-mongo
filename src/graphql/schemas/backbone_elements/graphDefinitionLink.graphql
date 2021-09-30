@@ -12,15 +12,15 @@
 
 
 type GraphDefinitionLink {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        path: code            
-        sliceName: code            
-        min: code            
-        max: code            
-        description: code            
-        target: [GraphDefinitionTarget]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    path: code        
+    sliceName: code        
+    min: code        
+    max: code        
+    description: code        
+    target: [GraphDefinitionTarget]        
 }
 
 extend type Query {

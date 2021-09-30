@@ -10,13 +10,13 @@
 
 
 type NutritionOrderAdministration {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        schedule: Timing            
-        quantity: Quantity            
-        rateQuantity: Quantity            
-        rateRatio: Ratio            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    schedule: Timing        
+    quantity: Quantity        
+    rateQuantity: Quantity        
+    rateRatio: Ratio        
 }
 
 extend type Query {

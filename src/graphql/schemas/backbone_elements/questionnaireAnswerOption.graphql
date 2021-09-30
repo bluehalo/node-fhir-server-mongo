@@ -13,16 +13,16 @@
 
 
 type QuestionnaireAnswerOption {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        valueInteger: code            
-        valueDate: code            
-        valueTime: code            
-        valueString: code            
-        valueCoding: Coding            
-        valueReference: Resource            
-        initialSelected: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    valueInteger: code        
+    valueDate: code        
+    valueTime: code        
+    valueString: code        
+    valueCoding: Coding        
+    valueReference: Resource        
+    initialSelected: code        
 }
 
 extend type Query {

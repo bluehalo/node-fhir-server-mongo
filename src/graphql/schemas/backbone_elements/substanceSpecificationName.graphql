@@ -15,20 +15,20 @@
 
 
 type SubstanceSpecificationName {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        name: code!            
-        type: CodeableConcept            
-        status: CodeableConcept            
-        preferred: code            
-        language: [CodeableConcept]            
-        domain: [CodeableConcept]            
-        jurisdiction: [CodeableConcept]            
-        synonym: [SubstanceSpecificationName]            
-        translation: [SubstanceSpecificationName]            
-        official: [SubstanceSpecificationOfficial]            
-        source: [DocumentReference]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    name: code!        
+    type: CodeableConcept        
+    status: CodeableConcept        
+    preferred: code        
+    language: [CodeableConcept]        
+    domain: [CodeableConcept]        
+    jurisdiction: [CodeableConcept]        
+    synonym: [SubstanceSpecificationName]        
+    translation: [SubstanceSpecificationName]        
+    official: [SubstanceSpecificationOfficial]        
+    source: [DocumentReference]        
 }
 
 extend type Query {

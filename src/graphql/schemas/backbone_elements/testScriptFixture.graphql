@@ -9,12 +9,12 @@
 
 
 type TestScriptFixture {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        autocreate: code!            
-        autodelete: code!            
-        resource: Resource            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    autocreate: code!        
+    autodelete: code!        
+    resource: Resource        
 }
 
 extend type Query {

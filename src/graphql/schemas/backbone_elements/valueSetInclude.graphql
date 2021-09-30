@@ -11,14 +11,14 @@
 
 
 type ValueSetInclude {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        system: code            
-        version: code            
-        concept: [ValueSetConcept]            
-        filter: [ValueSetFilter]            
-        valueSet: [code]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    system: code        
+    version: code        
+    concept: [ValueSetConcept]        
+    filter: [ValueSetFilter]        
+    valueSet: [code]        
 }
 
 extend type Query {

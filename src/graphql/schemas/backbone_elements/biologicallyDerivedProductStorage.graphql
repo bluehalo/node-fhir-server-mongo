@@ -10,13 +10,13 @@
 
 
 type BiologicallyDerivedProductStorage {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        description: code            
-        temperature: code            
-        scale: code            
-        duration: Period            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    description: code        
+    temperature: code        
+    scale: code        
+    duration: Period        
 }
 
 extend type Query {

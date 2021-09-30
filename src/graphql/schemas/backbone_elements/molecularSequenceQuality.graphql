@@ -21,24 +21,24 @@
 
 
 type MolecularSequenceQuality {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: code!            
-        standardSequence: CodeableConcept            
-        start: code            
-        end: code            
-        score: Quantity            
-        method: CodeableConcept            
-        truthTP: code            
-        queryTP: code            
-        truthFN: code            
-        queryFP: code            
-        gtFP: code            
-        precision: code            
-        recall: code            
-        fScore: code            
-        roc: MolecularSequenceRoc            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: code!        
+    standardSequence: CodeableConcept        
+    start: code        
+    end: code        
+    score: Quantity        
+    method: CodeableConcept        
+    truthTP: code        
+    queryTP: code        
+    truthFN: code        
+    queryFP: code        
+    gtFP: code        
+    precision: code        
+    recall: code        
+    fScore: code        
+    roc: MolecularSequenceRoc        
 }
 
 extend type Query {

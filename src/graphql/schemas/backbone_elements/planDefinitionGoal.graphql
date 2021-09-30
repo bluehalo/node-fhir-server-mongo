@@ -13,16 +13,16 @@
 
 
 type PlanDefinitionGoal {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        category: CodeableConcept            
-        description: CodeableConcept!            
-        priority: CodeableConcept            
-        start: CodeableConcept            
-        addresses: [CodeableConcept]            
-        documentation: [RelatedArtifact]            
-        target: [PlanDefinitionTarget]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    category: CodeableConcept        
+    description: CodeableConcept!        
+    priority: CodeableConcept        
+    start: CodeableConcept        
+    addresses: [CodeableConcept]        
+    documentation: [RelatedArtifact]        
+    target: [PlanDefinitionTarget]        
 }
 
 extend type Query {

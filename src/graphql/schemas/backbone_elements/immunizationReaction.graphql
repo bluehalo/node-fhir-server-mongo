@@ -9,12 +9,12 @@
 
 
 type ImmunizationReaction {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        date: code            
-        detail: Observation            
-        reported: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    date: code        
+    detail: Observation        
+    reported: code        
 }
 
 extend type Query {

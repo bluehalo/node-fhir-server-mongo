@@ -8,11 +8,11 @@
 
 
 type MessageDefinitionAllowedResponse {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        message: code!            
-        situation: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    message: code!        
+    situation: code        
 }
 
 extend type Query {

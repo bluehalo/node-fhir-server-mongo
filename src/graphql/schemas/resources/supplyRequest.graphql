@@ -49,32 +49,33 @@ union SupplyRequestDeliverTo = Organization | Location | Patient
 
 
 type SupplyRequest {
-        id: code            
-        meta: Meta            
-        implicitRules: code            
-        language: code            
-        text: Narrative            
-        contained: [code]            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        identifier: [Identifier]            
-        status: code            
-        category: CodeableConcept            
-        priority: code            
-        itemCodeableConcept: CodeableConcept            
-        itemReference: SupplyRequestItemReference            
-        quantity: Quantity!            
-        parameter: [SupplyRequestParameter]            
-        occurrenceDateTime: code            
-        occurrencePeriod: Period            
-        occurrenceTiming: Timing            
-        authoredOn: code            
-        requester: SupplyRequestRequester            
-        supplier: [SupplyRequestSupplier]            
-        reasonCode: [CodeableConcept]            
-        reasonReference: [SupplyRequestReasonReference]            
-        deliverFrom: SupplyRequestDeliverFrom            
-        deliverTo: SupplyRequestDeliverTo            
+    resourceType: String
+    id: code        
+    meta: Meta        
+    implicitRules: code        
+    language: code        
+    text: Narrative        
+    contained: [code]        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    identifier: [Identifier]        
+    status: code        
+    category: CodeableConcept        
+    priority: code        
+    itemCodeableConcept: CodeableConcept        
+    itemReference: SupplyRequestItemReference        
+    quantity: Quantity!        
+    parameter: [SupplyRequestParameter]        
+    occurrenceDateTime: code        
+    occurrencePeriod: Period        
+    occurrenceTiming: Timing        
+    authoredOn: code        
+    requester: SupplyRequestRequester        
+    supplier: [SupplyRequestSupplier]        
+    reasonCode: [CodeableConcept]        
+    reasonReference: [SupplyRequestReasonReference]        
+    deliverFrom: SupplyRequestDeliverFrom        
+    deliverTo: SupplyRequestDeliverTo        
 }
 
 extend type Query {

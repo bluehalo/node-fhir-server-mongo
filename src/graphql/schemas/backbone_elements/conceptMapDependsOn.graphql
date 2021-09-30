@@ -10,13 +10,13 @@
 
 
 type ConceptMapDependsOn {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        property: code!            
-        system: code            
-        value: code!            
-        display: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    property: code!        
+    system: code        
+    value: code!        
+    display: code        
 }
 
 extend type Query {

@@ -18,21 +18,21 @@
 
 
 type ImagingStudySeries {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        uid: code!            
-        number: code            
-        modality: Coding!            
-        description: code            
-        numberOfInstances: code            
-        endpoint: [Endpoint]            
-        bodySite: Coding            
-        laterality: Coding            
-        specimen: [Specimen]            
-        started: code            
-        performer: [ImagingStudyPerformer]            
-        instance: [ImagingStudyInstance]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    uid: code!        
+    number: code        
+    modality: Coding!        
+    description: code        
+    numberOfInstances: code        
+    endpoint: [Endpoint]        
+    bodySite: Coding        
+    laterality: Coding        
+    specimen: [Specimen]        
+    started: code        
+    performer: [ImagingStudyPerformer]        
+    instance: [ImagingStudyInstance]        
 }
 
 extend type Query {

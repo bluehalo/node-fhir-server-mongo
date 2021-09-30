@@ -12,13 +12,13 @@ union MedicationIngredientItemReference = Substance | Medication
 
 
 type MedicationIngredient {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        itemCodeableConcept: CodeableConcept            
-        itemReference: MedicationIngredientItemReference            
-        isActive: code            
-        strength: Ratio            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    itemCodeableConcept: CodeableConcept        
+    itemReference: MedicationIngredientItemReference        
+    isActive: code        
+    strength: Ratio        
 }
 
 extend type Query {

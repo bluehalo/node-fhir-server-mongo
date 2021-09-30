@@ -8,11 +8,11 @@
 
 
 type MedicinalProductNamePart {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        part: code!            
-        type: Coding!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    part: code!        
+    type: Coding!        
 }
 
 extend type Query {

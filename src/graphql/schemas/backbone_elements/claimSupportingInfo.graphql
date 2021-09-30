@@ -17,20 +17,20 @@
 
 
 type ClaimSupportingInfo {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        sequence: code!            
-        category: CodeableConcept!            
-        code: CodeableConcept            
-        timingDate: code            
-        timingPeriod: Period            
-        valueBoolean: code            
-        valueString: code            
-        valueQuantity: Quantity            
-        valueAttachment: Attachment            
-        valueReference: Resource            
-        reason: CodeableConcept            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    sequence: code!        
+    category: CodeableConcept!        
+    code: CodeableConcept        
+    timingDate: code        
+    timingPeriod: Period        
+    valueBoolean: code        
+    valueString: code        
+    valueQuantity: Quantity        
+    valueAttachment: Attachment        
+    valueReference: Resource        
+    reason: CodeableConcept        
 }
 
 extend type Query {

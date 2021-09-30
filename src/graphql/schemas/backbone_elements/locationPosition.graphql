@@ -9,12 +9,12 @@
 
 
 type LocationPosition {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        longitude: code!            
-        latitude: code!            
-        altitude: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    longitude: code!        
+    latitude: code!        
+    altitude: code        
 }
 
 extend type Query {

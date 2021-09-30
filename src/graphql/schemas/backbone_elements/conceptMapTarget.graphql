@@ -12,15 +12,15 @@
 
 
 type ConceptMapTarget {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        code: code            
-        display: code            
-        equivalence: code!            
-        comment: code            
-        dependsOn: [ConceptMapDependsOn]            
-        product: [ConceptMapDependsOn]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    code: code        
+    display: code        
+    equivalence: code!        
+    comment: code        
+    dependsOn: [ConceptMapDependsOn]        
+    product: [ConceptMapDependsOn]        
 }
 
 extend type Query {

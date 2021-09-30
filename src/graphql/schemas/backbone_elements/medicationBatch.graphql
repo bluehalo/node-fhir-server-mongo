@@ -8,11 +8,11 @@
 
 
 type MedicationBatch {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        lotNumber: code            
-        expirationDate: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    lotNumber: code        
+    expirationDate: code        
 }
 
 extend type Query {

@@ -25,17 +25,29 @@ module.exports = {
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         request: async (parent, args, context, info) => {
-            return await findResourceByReference(parent.request);
+            return await findResourceByReference(
+                args,
+                context,
+                info,
+                parent.request);
         },
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         organization: async (parent, args, context, info) => {
-            return await findResourceByReference(parent.organization);
+            return await findResourceByReference(
+                args,
+                context,
+                info,
+                parent.organization);
         },
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         requestProvider: async (parent, args, context, info) => {
-            return await findResourceByReference(parent.requestProvider);
+            return await findResourceByReference(
+                args,
+                context,
+                info,
+                parent.requestProvider);
         },
     }
 };

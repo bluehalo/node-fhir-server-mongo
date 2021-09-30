@@ -22,13 +22,13 @@ union ProvenanceAgentOnBehalfOf = Practitioner | PractitionerRole | RelatedPerso
 
 
 type ProvenanceAgent {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: CodeableConcept            
-        role: [CodeableConcept]            
-        who: ProvenanceAgentWho!            
-        onBehalfOf: ProvenanceAgentOnBehalfOf            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: CodeableConcept        
+    role: [CodeableConcept]        
+    who: ProvenanceAgentWho!        
+    onBehalfOf: ProvenanceAgentOnBehalfOf        
 }
 
 extend type Query {

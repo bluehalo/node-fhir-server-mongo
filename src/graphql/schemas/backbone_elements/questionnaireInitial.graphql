@@ -18,21 +18,21 @@
 
 
 type QuestionnaireInitial {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        valueBoolean: code            
-        valueDecimal: code            
-        valueInteger: code            
-        valueDate: code            
-        valueDateTime: code            
-        valueTime: code            
-        valueString: code            
-        valueUri: code            
-        valueAttachment: Attachment            
-        valueCoding: Coding            
-        valueQuantity: Quantity            
-        valueReference: Resource            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    valueBoolean: code        
+    valueDecimal: code        
+    valueInteger: code        
+    valueDate: code        
+    valueDateTime: code        
+    valueTime: code        
+    valueString: code        
+    valueUri: code        
+    valueAttachment: Attachment        
+    valueCoding: Coding        
+    valueQuantity: Quantity        
+    valueReference: Resource        
 }
 
 extend type Query {

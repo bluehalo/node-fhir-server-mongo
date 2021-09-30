@@ -10,13 +10,13 @@
 
 
 type SubstanceSourceMaterialOrganismGeneral {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        kingdom: CodeableConcept            
-        phylum: CodeableConcept            
-        class: CodeableConcept            
-        order: CodeableConcept            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    kingdom: CodeableConcept        
+    phylum: CodeableConcept        
+    class: CodeableConcept        
+    order: CodeableConcept        
 }
 
 extend type Query {

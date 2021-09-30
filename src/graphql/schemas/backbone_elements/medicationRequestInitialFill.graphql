@@ -8,11 +8,11 @@
 
 
 type MedicationRequestInitialFill {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        quantity: Quantity            
-        duration: Quantity            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    quantity: Quantity        
+    duration: Quantity        
 }
 
 extend type Query {

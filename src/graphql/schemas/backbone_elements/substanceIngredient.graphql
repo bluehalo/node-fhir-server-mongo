@@ -9,12 +9,12 @@
 
 
 type SubstanceIngredient {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        quantity: Ratio            
-        substanceCodeableConcept: CodeableConcept            
-        substanceReference: Substance            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    quantity: Ratio        
+    substanceCodeableConcept: CodeableConcept        
+    substanceReference: Substance        
 }
 
 extend type Query {

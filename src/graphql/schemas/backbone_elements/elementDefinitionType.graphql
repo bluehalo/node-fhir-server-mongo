@@ -11,14 +11,14 @@
 
 
 type ElementDefinitionType {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        code: code!            
-        profile: [code]            
-        targetProfile: [code]            
-        aggregation: [code]            
-        versioning: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    code: code!        
+    profile: [code]        
+    targetProfile: [code]        
+    aggregation: [code]        
+    versioning: code        
 }
 
 extend type Query {

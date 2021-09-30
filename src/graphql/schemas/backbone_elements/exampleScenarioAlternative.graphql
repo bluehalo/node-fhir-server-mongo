@@ -9,12 +9,12 @@
 
 
 type ExampleScenarioAlternative {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        title: code!            
-        description: code            
-        step: [ExampleScenarioStep]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    title: code!        
+    description: code        
+    step: [ExampleScenarioStep]        
 }
 
 extend type Query {

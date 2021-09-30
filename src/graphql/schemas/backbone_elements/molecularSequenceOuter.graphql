@@ -8,11 +8,11 @@
 
 
 type MolecularSequenceOuter {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        start: code            
-        end: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    start: code        
+    end: code        
 }
 
 extend type Query {

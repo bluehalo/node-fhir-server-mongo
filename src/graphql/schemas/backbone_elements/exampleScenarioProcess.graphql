@@ -11,14 +11,14 @@
 
 
 type ExampleScenarioProcess {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        title: code!            
-        description: code            
-        preConditions: code            
-        postConditions: code            
-        step: [ExampleScenarioStep]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    title: code!        
+    description: code        
+    preConditions: code        
+    postConditions: code        
+    step: [ExampleScenarioStep]        
 }
 
 extend type Query {

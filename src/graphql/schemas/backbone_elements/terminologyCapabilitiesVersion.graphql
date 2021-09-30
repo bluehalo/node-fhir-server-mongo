@@ -12,15 +12,15 @@
 
 
 type TerminologyCapabilitiesVersion {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        code: code            
-        isDefault: code            
-        compositional: code            
-        language: [code]            
-        filter: [TerminologyCapabilitiesFilter]            
-        property: [code]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    code: code        
+    isDefault: code        
+    compositional: code        
+    language: [code]        
+    filter: [TerminologyCapabilitiesFilter]        
+    property: [code]        
 }
 
 extend type Query {

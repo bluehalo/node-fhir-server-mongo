@@ -9,12 +9,12 @@
 
 
 type ValueSetDesignation {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        language: code            
-        use: Coding            
-        value: code!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    language: code        
+    use: Coding        
+    value: code!        
 }
 
 extend type Query {

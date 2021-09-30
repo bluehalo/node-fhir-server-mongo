@@ -12,12 +12,12 @@ union ClinicalImpressionFindingItemReference = Condition | Observation | Media
 
 
 type ClinicalImpressionFinding {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        itemCodeableConcept: CodeableConcept            
-        itemReference: ClinicalImpressionFindingItemReference            
-        basis: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    itemCodeableConcept: CodeableConcept        
+    itemReference: ClinicalImpressionFindingItemReference        
+    basis: code        
 }
 
 extend type Query {

@@ -11,14 +11,14 @@
 
 
 type GraphDefinitionTarget {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: code!            
-        params: code            
-        profile: code            
-        compartment: [GraphDefinitionCompartment]            
-        link: [GraphDefinitionLink]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: code!        
+    params: code        
+    profile: code        
+    compartment: [GraphDefinitionCompartment]        
+    link: [GraphDefinitionLink]        
 }
 
 extend type Query {

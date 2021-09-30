@@ -15,15 +15,15 @@ union ContractContentDefinitionPublisher = Practitioner | PractitionerRole | Org
 
 
 type ContractContentDefinition {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: CodeableConcept!            
-        subType: CodeableConcept            
-        publisher: ContractContentDefinitionPublisher            
-        publicationDate: code            
-        publicationStatus: code!            
-        copyright: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: CodeableConcept!        
+    subType: CodeableConcept        
+    publisher: ContractContentDefinitionPublisher        
+    publicationDate: code        
+    publicationStatus: code!        
+    copyright: code        
 }
 
 extend type Query {

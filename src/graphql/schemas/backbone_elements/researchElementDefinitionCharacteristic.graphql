@@ -27,30 +27,30 @@
 
 
 type ResearchElementDefinitionCharacteristic {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        definitionCodeableConcept: CodeableConcept            
-        definitionCanonical: code            
-        definitionExpression: Expression            
-        definitionDataRequirement: DataRequirement            
-        usageContext: [UsageContext]            
-        exclude: code            
-        unitOfMeasure: CodeableConcept            
-        studyEffectiveDescription: code            
-        studyEffectiveDateTime: code            
-        studyEffectivePeriod: Period            
-        studyEffectiveDuration: Quantity            
-        studyEffectiveTiming: Timing            
-        studyEffectiveTimeFromStart: Quantity            
-        studyEffectiveGroupMeasure: code            
-        participantEffectiveDescription: code            
-        participantEffectiveDateTime: code            
-        participantEffectivePeriod: Period            
-        participantEffectiveDuration: Quantity            
-        participantEffectiveTiming: Timing            
-        participantEffectiveTimeFromStart: Quantity            
-        participantEffectiveGroupMeasure: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    definitionCodeableConcept: CodeableConcept        
+    definitionCanonical: code        
+    definitionExpression: Expression        
+    definitionDataRequirement: DataRequirement        
+    usageContext: [UsageContext]        
+    exclude: code        
+    unitOfMeasure: CodeableConcept        
+    studyEffectiveDescription: code        
+    studyEffectiveDateTime: code        
+    studyEffectivePeriod: Period        
+    studyEffectiveDuration: Quantity        
+    studyEffectiveTiming: Timing        
+    studyEffectiveTimeFromStart: Quantity        
+    studyEffectiveGroupMeasure: code        
+    participantEffectiveDescription: code        
+    participantEffectiveDateTime: code        
+    participantEffectivePeriod: Period        
+    participantEffectiveDuration: Quantity        
+    participantEffectiveTiming: Timing        
+    participantEffectiveTimeFromStart: Quantity        
+    participantEffectiveGroupMeasure: code        
 }
 
 extend type Query {

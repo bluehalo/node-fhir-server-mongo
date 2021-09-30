@@ -12,15 +12,15 @@
 
 
 type SampledData {
-        id: code            
-        extension: [Extension]            
-        origin: Quantity!            
-        period: code!            
-        factor: code            
-        lowerLimit: code            
-        upperLimit: code            
-        dimensions: code!            
-        data: code            
+    id: code        
+    extension: [Extension]        
+    origin: Quantity!        
+    period: code!        
+    factor: code        
+    lowerLimit: code        
+    upperLimit: code        
+    dimensions: code!        
+    data: code        
 }
 
 extend type Query {

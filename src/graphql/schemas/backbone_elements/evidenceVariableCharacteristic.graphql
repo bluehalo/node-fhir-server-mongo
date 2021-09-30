@@ -21,24 +21,24 @@
 
 
 type EvidenceVariableCharacteristic {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        description: code            
-        definitionReference: Group            
-        definitionCanonical: code            
-        definitionCodeableConcept: CodeableConcept            
-        definitionExpression: Expression            
-        definitionDataRequirement: DataRequirement            
-        definitionTriggerDefinition: TriggerDefinition            
-        usageContext: [UsageContext]            
-        exclude: code            
-        participantEffectiveDateTime: code            
-        participantEffectivePeriod: Period            
-        participantEffectiveDuration: Quantity            
-        participantEffectiveTiming: Timing            
-        timeFromStart: Quantity            
-        groupMeasure: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    description: code        
+    definitionReference: Group        
+    definitionCanonical: code        
+    definitionCodeableConcept: CodeableConcept        
+    definitionExpression: Expression        
+    definitionDataRequirement: DataRequirement        
+    definitionTriggerDefinition: TriggerDefinition        
+    usageContext: [UsageContext]        
+    exclude: code        
+    participantEffectiveDateTime: code        
+    participantEffectivePeriod: Period        
+    participantEffectiveDuration: Quantity        
+    participantEffectiveTiming: Timing        
+    timeFromStart: Quantity        
+    groupMeasure: code        
 }
 
 extend type Query {

@@ -12,15 +12,15 @@
 
 
 type ExplanationOfBenefitPayment {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: CodeableConcept            
-        adjustment: Money            
-        adjustmentReason: CodeableConcept            
-        date: code            
-        amount: Money            
-        identifier: Identifier            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: CodeableConcept        
+    adjustment: Money        
+    adjustmentReason: CodeableConcept        
+    date: code        
+    amount: Money        
+    identifier: Identifier        
 }
 
 extend type Query {

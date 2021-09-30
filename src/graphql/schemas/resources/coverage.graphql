@@ -36,31 +36,32 @@ union CoveragePayor = Organization | Patient | RelatedPerson
 
 
 type Coverage {
-        id: code            
-        meta: Meta            
-        implicitRules: code            
-        language: code            
-        text: Narrative            
-        contained: [code]            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        identifier: [Identifier]            
-        status: code!            
-        type: CodeableConcept            
-        policyHolder: CoveragePolicyHolder            
-        subscriber: CoverageSubscriber            
-        subscriberId: code            
-        beneficiary: Patient!            
-        dependent: code            
-        relationship: CodeableConcept            
-        period: Period            
-        payor: [CoveragePayor]!            
-        class: [CoverageClass]            
-        order: code            
-        network: code            
-        costToBeneficiary: [CoverageCostToBeneficiary]            
-        subrogation: code            
-        contract: [Contract]            
+    resourceType: String
+    id: code        
+    meta: Meta        
+    implicitRules: code        
+    language: code        
+    text: Narrative        
+    contained: [code]        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    identifier: [Identifier]        
+    status: code!        
+    type: CodeableConcept        
+    policyHolder: CoveragePolicyHolder        
+    subscriber: CoverageSubscriber        
+    subscriberId: code        
+    beneficiary: Patient!        
+    dependent: code        
+    relationship: CodeableConcept        
+    period: Period        
+    payor: [CoveragePayor]!        
+    class: [CoverageClass]        
+    order: code        
+    network: code        
+    costToBeneficiary: [CoverageCostToBeneficiary]        
+    subrogation: code        
+    contract: [Contract]        
 }
 
 extend type Query {

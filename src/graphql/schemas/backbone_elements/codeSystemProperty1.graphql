@@ -14,17 +14,17 @@
 
 
 type CodeSystemProperty1 {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        code: code!            
-        valueCode: code            
-        valueCoding: Coding            
-        valueString: code            
-        valueInteger: code            
-        valueBoolean: code            
-        valueDateTime: code            
-        valueDecimal: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    code: code!        
+    valueCode: code        
+    valueCoding: Coding        
+    valueString: code        
+    valueInteger: code        
+    valueBoolean: code        
+    valueDateTime: code        
+    valueDecimal: code        
 }
 
 extend type Query {

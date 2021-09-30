@@ -21,24 +21,25 @@
 
 
 type Person {
-        id: code            
-        meta: Meta            
-        implicitRules: code            
-        language: code            
-        text: Narrative            
-        contained: [code]            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        identifier: [Identifier]            
-        name: [HumanName]            
-        telecom: [ContactPoint]            
-        gender: code            
-        birthDate: code            
-        address: [Address]            
-        photo: Attachment            
-        managingOrganization: Organization            
-        active: code            
-        link: [PersonLink]            
+    resourceType: String
+    id: code        
+    meta: Meta        
+    implicitRules: code        
+    language: code        
+    text: Narrative        
+    contained: [code]        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    identifier: [Identifier]        
+    name: [HumanName]        
+    telecom: [ContactPoint]        
+    gender: code        
+    birthDate: code        
+    address: [Address]        
+    photo: Attachment        
+    managingOrganization: Organization        
+    active: code        
+    link: [PersonLink]        
 }
 
 extend type Query {

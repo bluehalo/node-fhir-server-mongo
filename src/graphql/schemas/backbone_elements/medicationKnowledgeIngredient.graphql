@@ -10,13 +10,13 @@
 
 
 type MedicationKnowledgeIngredient {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        itemCodeableConcept: CodeableConcept            
-        itemReference: Substance            
-        isActive: code            
-        strength: Ratio            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    itemCodeableConcept: CodeableConcept        
+    itemReference: Substance        
+    isActive: code        
+    strength: Ratio        
 }
 
 extend type Query {

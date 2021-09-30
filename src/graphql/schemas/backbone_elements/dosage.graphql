@@ -20,23 +20,23 @@
 
 
 type Dosage {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        sequence: code            
-        text: code            
-        additionalInstruction: [CodeableConcept]            
-        patientInstruction: code            
-        timing: Timing            
-        asNeededBoolean: code            
-        asNeededCodeableConcept: CodeableConcept            
-        site: CodeableConcept            
-        route: CodeableConcept            
-        method: CodeableConcept            
-        doseAndRate: [DosageDoseAndRate]            
-        maxDosePerPeriod: Ratio            
-        maxDosePerAdministration: Quantity            
-        maxDosePerLifetime: Quantity            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    sequence: code        
+    text: code        
+    additionalInstruction: [CodeableConcept]        
+    patientInstruction: code        
+    timing: Timing        
+    asNeededBoolean: code        
+    asNeededCodeableConcept: CodeableConcept        
+    site: CodeableConcept        
+    route: CodeableConcept        
+    method: CodeableConcept        
+    doseAndRate: [DosageDoseAndRate]        
+    maxDosePerPeriod: Ratio        
+    maxDosePerAdministration: Quantity        
+    maxDosePerLifetime: Quantity        
 }
 
 extend type Query {

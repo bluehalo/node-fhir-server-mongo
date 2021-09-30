@@ -14,17 +14,17 @@
 
 
 type ValueSetParameter {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        name: code!            
-        valueString: code            
-        valueBoolean: code            
-        valueInteger: code            
-        valueDecimal: code            
-        valueUri: code            
-        valueCode: code            
-        valueDateTime: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    name: code!        
+    valueString: code        
+    valueBoolean: code        
+    valueInteger: code        
+    valueDecimal: code        
+    valueUri: code        
+    valueCode: code        
+    valueDateTime: code        
 }
 
 extend type Query {

@@ -8,11 +8,11 @@
 
 
 type SubstanceSourceMaterialAuthor {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        authorType: CodeableConcept            
-        authorDescription: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    authorType: CodeableConcept        
+    authorDescription: code        
 }
 
 extend type Query {

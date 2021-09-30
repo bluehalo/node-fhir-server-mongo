@@ -8,11 +8,11 @@
 
 
 type ImmunizationRecommendationDateCriterion {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        code: CodeableConcept!            
-        value: code!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    code: CodeableConcept!        
+    value: code!        
 }
 
 extend type Query {

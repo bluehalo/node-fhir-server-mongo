@@ -8,11 +8,11 @@
 
 
 type SpecimenDefinitionAdditive {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        additiveCodeableConcept: CodeableConcept            
-        additiveReference: Substance            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    additiveCodeableConcept: CodeableConcept        
+    additiveReference: Substance        
 }
 
 extend type Query {

@@ -11,14 +11,14 @@
 
 
 type TerminologyCapabilitiesExpansion {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        hierarchical: code            
-        paging: code            
-        incomplete: code            
-        parameter: [TerminologyCapabilitiesParameter]            
-        textFilter: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    hierarchical: code        
+    paging: code        
+    incomplete: code        
+    parameter: [TerminologyCapabilitiesParameter]        
+    textFilter: code        
 }
 
 extend type Query {

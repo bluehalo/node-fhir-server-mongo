@@ -13,16 +13,16 @@
 
 
 type ElementDefinitionConstraint {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        key: code!            
-        requirements: code            
-        severity: code!            
-        human: code!            
-        expression: code            
-        xpath: code            
-        source: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    key: code!        
+    requirements: code        
+    severity: code!        
+    human: code!        
+    expression: code        
+    xpath: code        
+    source: code        
 }
 
 extend type Query {

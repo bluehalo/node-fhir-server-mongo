@@ -15,12 +15,12 @@ union AuditEventSourceObserver = PractitionerRole | Practitioner | Organization 
 
 
 type AuditEventSource {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        site: code            
-        observer: AuditEventSourceObserver!            
-        type: [Coding]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    site: code        
+    observer: AuditEventSourceObserver!        
+    type: [Coding]        
 }
 
 extend type Query {

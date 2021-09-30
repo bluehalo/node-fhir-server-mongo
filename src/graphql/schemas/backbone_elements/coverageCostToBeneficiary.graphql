@@ -10,13 +10,13 @@
 
 
 type CoverageCostToBeneficiary {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: CodeableConcept            
-        valueQuantity: Quantity            
-        valueMoney: Money            
-        exception: [CoverageException]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: CodeableConcept        
+    valueQuantity: Quantity        
+    valueMoney: Money        
+    exception: [CoverageException]        
 }
 
 extend type Query {

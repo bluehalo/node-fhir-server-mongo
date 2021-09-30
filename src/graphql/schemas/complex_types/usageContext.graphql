@@ -17,13 +17,13 @@ union UsageContextValueReference = PlanDefinition | ResearchStudy | InsurancePla
 
 
 type UsageContext {
-        id: code            
-        extension: [Extension]            
-        code: Coding!            
-        valueCodeableConcept: CodeableConcept            
-        valueQuantity: Quantity            
-        valueRange: Range            
-        valueReference: UsageContextValueReference            
+    id: code        
+    extension: [Extension]        
+    code: Coding!        
+    valueCodeableConcept: CodeableConcept        
+    valueQuantity: Quantity        
+    valueRange: Range        
+    valueReference: UsageContextValueReference        
 }
 
 extend type Query {

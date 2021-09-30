@@ -7,10 +7,10 @@
 
 
 type Period {
-        id: code            
-        extension: [Extension]            
-        start: code            
-        end: code            
+    id: code        
+    extension: [Extension]        
+    start: code        
+    end: code        
 }
 
 extend type Query {

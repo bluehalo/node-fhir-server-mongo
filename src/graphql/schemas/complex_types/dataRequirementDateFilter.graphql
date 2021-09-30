@@ -10,13 +10,13 @@
 
 
 type DataRequirementDateFilter {
-        id: code            
-        extension: [Extension]            
-        path: code            
-        searchParam: code            
-        valueDateTime: code            
-        valuePeriod: Period            
-        valueDuration: Quantity            
+    id: code        
+    extension: [Extension]        
+    path: code        
+    searchParam: code        
+    valueDateTime: code        
+    valuePeriod: Period        
+    valueDuration: Quantity        
 }
 
 extend type Query {

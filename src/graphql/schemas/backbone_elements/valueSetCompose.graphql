@@ -10,13 +10,13 @@
 
 
 type ValueSetCompose {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        lockedDate: code            
-        inactive: code            
-        include: [ValueSetInclude]!            
-        exclude: [ValueSetInclude]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    lockedDate: code        
+    inactive: code        
+    include: [ValueSetInclude]!        
+    exclude: [ValueSetInclude]        
 }
 
 extend type Query {

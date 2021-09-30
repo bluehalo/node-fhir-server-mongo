@@ -25,12 +25,20 @@ module.exports = {
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         generalPractitioner: async (parent, args, context, info) => {
-            return await findResourcesByReference(parent.generalPractitioner);
+            return await findResourcesByReference(
+                args,
+                context,
+                info,
+                parent.generalPractitioner);
         },
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         managingOrganization: async (parent, args, context, info) => {
-            return await findResourceByReference(parent.managingOrganization);
+            return await findResourceByReference(
+                args,
+                context,
+                info,
+                parent.managingOrganization);
         },
     }
 };

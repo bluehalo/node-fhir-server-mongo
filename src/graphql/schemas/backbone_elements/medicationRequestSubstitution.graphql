@@ -9,12 +9,12 @@
 
 
 type MedicationRequestSubstitution {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        allowedBoolean: code            
-        allowedCodeableConcept: CodeableConcept            
-        reason: CodeableConcept            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    allowedBoolean: code        
+    allowedCodeableConcept: CodeableConcept        
+    reason: CodeableConcept        
 }
 
 extend type Query {

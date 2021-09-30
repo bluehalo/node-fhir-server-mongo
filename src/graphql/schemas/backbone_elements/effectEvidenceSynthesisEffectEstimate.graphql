@@ -12,15 +12,15 @@
 
 
 type EffectEvidenceSynthesisEffectEstimate {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        description: code            
-        type: CodeableConcept            
-        variantState: CodeableConcept            
-        value: code            
-        unitOfMeasure: CodeableConcept            
-        precisionEstimate: [EffectEvidenceSynthesisPrecisionEstimate]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    description: code        
+    type: CodeableConcept        
+    variantState: CodeableConcept        
+    value: code        
+    unitOfMeasure: CodeableConcept        
+    precisionEstimate: [EffectEvidenceSynthesisPrecisionEstimate]        
 }
 
 extend type Query {

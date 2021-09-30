@@ -12,12 +12,12 @@ union AccountGuarantorParty = Patient | RelatedPerson | Organization
 
 
 type AccountGuarantor {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        party: AccountGuarantorParty!            
-        onHold: code            
-        period: Period            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    party: AccountGuarantorParty!        
+    onHold: code        
+    period: Period        
 }
 
 extend type Query {

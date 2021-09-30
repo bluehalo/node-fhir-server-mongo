@@ -8,11 +8,11 @@
 
 
 type OperationDefinitionBinding {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        strength: code!            
-        valueSet: code!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    strength: code!        
+    valueSet: code!        
 }
 
 extend type Query {

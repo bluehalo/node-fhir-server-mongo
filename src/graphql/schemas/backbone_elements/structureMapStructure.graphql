@@ -10,13 +10,13 @@
 
 
 type StructureMapStructure {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        url: code!            
-        mode: code!            
-        alias: code            
-        documentation: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    url: code!        
+    mode: code!        
+    alias: code        
+    documentation: code        
 }
 
 extend type Query {

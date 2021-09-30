@@ -9,12 +9,12 @@
 
 
 type ImplementationGuideTemplate {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        code: code!            
-        source: code!            
-        scope: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    code: code!        
+    source: code!        
+    scope: code        
 }
 
 extend type Query {

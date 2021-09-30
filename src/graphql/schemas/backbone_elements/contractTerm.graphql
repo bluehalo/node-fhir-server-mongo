@@ -18,22 +18,22 @@
 
 
 type ContractTerm {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        identifier: Identifier            
-        issued: code            
-        applies: Period            
-        topicCodeableConcept: CodeableConcept            
-        topicReference: Resource            
-        type: CodeableConcept            
-        subType: CodeableConcept            
-        text: code            
-        securityLabel: [ContractSecurityLabel]            
-        offer: ContractOffer!            
-        asset: [ContractAsset]            
-        action: [ContractAction]            
-        group: [ContractTerm]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    identifier: Identifier        
+    issued: code        
+    applies: Period        
+    topicCodeableConcept: CodeableConcept        
+    topicReference: Resource        
+    type: CodeableConcept        
+    subType: CodeableConcept        
+    text: code        
+    securityLabel: [ContractSecurityLabel]        
+    offer: ContractOffer!        
+    asset: [ContractAsset]        
+    action: [ContractAction]        
+    group: [ContractTerm]        
 }
 
 extend type Query {

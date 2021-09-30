@@ -16,19 +16,19 @@
 
 
 type GoalTarget {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        measure: CodeableConcept            
-        detailQuantity: Quantity            
-        detailRange: Range            
-        detailCodeableConcept: CodeableConcept            
-        detailString: code            
-        detailBoolean: code            
-        detailInteger: code            
-        detailRatio: Ratio            
-        dueDate: code            
-        dueDuration: Quantity            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    measure: CodeableConcept        
+    detailQuantity: Quantity        
+    detailRange: Range        
+    detailCodeableConcept: CodeableConcept        
+    detailString: code        
+    detailBoolean: code        
+    detailInteger: code        
+    detailRatio: Ratio        
+    dueDate: code        
+    dueDuration: Quantity        
 }
 
 extend type Query {

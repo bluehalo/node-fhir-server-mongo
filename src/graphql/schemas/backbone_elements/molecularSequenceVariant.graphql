@@ -12,15 +12,15 @@
 
 
 type MolecularSequenceVariant {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        start: code            
-        end: code            
-        observedAllele: code            
-        referenceAllele: code            
-        cigar: code            
-        variantPointer: Observation            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    start: code        
+    end: code        
+    observedAllele: code        
+    referenceAllele: code        
+    cigar: code        
+    variantPointer: Observation        
 }
 
 extend type Query {

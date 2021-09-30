@@ -7,10 +7,10 @@
 
 
 type TerminologyCapabilitiesClosure {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        translation: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    translation: code        
 }
 
 extend type Query {

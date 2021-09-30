@@ -8,11 +8,11 @@
 
 
 type InsurancePlanBenefit1 {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: CodeableConcept!            
-        cost: [InsurancePlanCost]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: CodeableConcept!        
+    cost: [InsurancePlanCost]        
 }
 
 extend type Query {

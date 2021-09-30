@@ -8,11 +8,11 @@
 
 
 type OperationDefinitionReferencedFrom {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        source: code!            
-        sourceId: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    source: code!        
+    sourceId: code        
 }
 
 extend type Query {

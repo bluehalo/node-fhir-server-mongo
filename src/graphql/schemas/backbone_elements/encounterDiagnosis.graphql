@@ -11,12 +11,12 @@ union EncounterDiagnosisCondition = Condition | Procedure
 
 
 type EncounterDiagnosis {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        condition: EncounterDiagnosisCondition!            
-        use: CodeableConcept            
-        rank: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    condition: EncounterDiagnosisCondition!        
+    use: CodeableConcept        
+    rank: code        
 }
 
 extend type Query {

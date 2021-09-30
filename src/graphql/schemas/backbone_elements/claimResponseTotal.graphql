@@ -8,11 +8,11 @@
 
 
 type ClaimResponseTotal {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        category: CodeableConcept!            
-        amount: Money!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    category: CodeableConcept!        
+    amount: Money!        
 }
 
 extend type Query {

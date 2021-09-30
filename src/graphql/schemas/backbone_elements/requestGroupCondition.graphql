@@ -8,11 +8,11 @@
 
 
 type RequestGroupCondition {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        kind: code!            
-        expression: Expression            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    kind: code!        
+    expression: Expression        
 }
 
 extend type Query {

@@ -13,16 +13,16 @@
 
 
 type MolecularSequenceRoc {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        score: [code]            
-        numTP: [code]            
-        numFP: [code]            
-        numFN: [code]            
-        precision: [code]            
-        sensitivity: [code]            
-        fMeasure: [code]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    score: [code]        
+    numTP: [code]        
+    numFP: [code]        
+    numFN: [code]        
+    precision: [code]        
+    sensitivity: [code]        
+    fMeasure: [code]        
 }
 
 extend type Query {

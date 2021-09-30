@@ -12,11 +12,11 @@ union PersonLinkTarget = Patient | Practitioner | RelatedPerson | Person
 
 
 type PersonLink {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        target: PersonLinkTarget!            
-        assurance: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    target: PersonLinkTarget!        
+    assurance: code        
 }
 
 extend type Query {

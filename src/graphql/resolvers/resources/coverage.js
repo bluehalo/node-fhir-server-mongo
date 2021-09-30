@@ -35,27 +35,47 @@ module.exports = {
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         policyHolder: async (parent, args, context, info) => {
-            return await findResourceByReference(parent.policyHolder);
+            return await findResourceByReference(
+                args,
+                context,
+                info,
+                parent.policyHolder);
         },
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         subscriber: async (parent, args, context, info) => {
-            return await findResourceByReference(parent.subscriber);
+            return await findResourceByReference(
+                args,
+                context,
+                info,
+                parent.subscriber);
         },
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         beneficiary: async (parent, args, context, info) => {
-            return await findResourceByReference(parent.beneficiary);
+            return await findResourceByReference(
+                args,
+                context,
+                info,
+                parent.beneficiary);
         },
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         payor: async (parent, args, context, info) => {
-            return await findResourcesByReference(parent.payor);
+            return await findResourcesByReference(
+                args,
+                context,
+                info,
+                parent.payor);
         },
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         contract: async (parent, args, context, info) => {
-            return await findResourcesByReference(parent.contract);
+            return await findResourcesByReference(
+                args,
+                context,
+                info,
+                parent.contract);
         },
     }
 };

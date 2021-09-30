@@ -14,17 +14,17 @@
 
 
 type StructureMapTarget {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        context: code            
-        contextType: code            
-        element: code            
-        variable: code            
-        listMode: [code]            
-        listRuleId: code            
-        transform: code            
-        parameter: [StructureMapParameter]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    context: code        
+    contextType: code        
+    element: code        
+    variable: code        
+    listMode: [code]        
+    listRuleId: code        
+    transform: code        
+    parameter: [StructureMapParameter]        
 }
 
 extend type Query {

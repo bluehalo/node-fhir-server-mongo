@@ -30,32 +30,56 @@ module.exports = {
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         request: async (parent, args, context, info) => {
-            return await findResourceByReference(parent.request);
+            return await findResourceByReference(
+                args,
+                context,
+                info,
+                parent.request);
         },
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         response: async (parent, args, context, info) => {
-            return await findResourceByReference(parent.response);
+            return await findResourceByReference(
+                args,
+                context,
+                info,
+                parent.response);
         },
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         provider: async (parent, args, context, info) => {
-            return await findResourceByReference(parent.provider);
+            return await findResourceByReference(
+                args,
+                context,
+                info,
+                parent.provider);
         },
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         payment: async (parent, args, context, info) => {
-            return await findResourceByReference(parent.payment);
+            return await findResourceByReference(
+                args,
+                context,
+                info,
+                parent.payment);
         },
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         payee: async (parent, args, context, info) => {
-            return await findResourceByReference(parent.payee);
+            return await findResourceByReference(
+                args,
+                context,
+                info,
+                parent.payee);
         },
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         recipient: async (parent, args, context, info) => {
-            return await findResourceByReference(parent.recipient);
+            return await findResourceByReference(
+                args,
+                context,
+                info,
+                parent.recipient);
         },
     }
 };

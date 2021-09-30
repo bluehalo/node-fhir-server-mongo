@@ -13,16 +13,16 @@
 
 
 type TriggerDefinition {
-        id: code            
-        extension: [Extension]            
-        type: code!            
-        name: code            
-        timingTiming: Timing            
-        timingReference: Schedule            
-        timingDate: code            
-        timingDateTime: code            
-        data: [DataRequirement]            
-        condition: Expression            
+    id: code        
+    extension: [Extension]        
+    type: code!        
+    name: code        
+    timingTiming: Timing        
+    timingReference: Schedule        
+    timingDate: code        
+    timingDateTime: code        
+    data: [DataRequirement]        
+    condition: Expression        
 }
 
 extend type Query {

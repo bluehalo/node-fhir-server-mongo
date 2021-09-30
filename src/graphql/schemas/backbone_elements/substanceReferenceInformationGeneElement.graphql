@@ -9,12 +9,12 @@
 
 
 type SubstanceReferenceInformationGeneElement {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: CodeableConcept            
-        element: Identifier            
-        source: [DocumentReference]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: CodeableConcept        
+    element: Identifier        
+    source: [DocumentReference]        
 }
 
 extend type Query {

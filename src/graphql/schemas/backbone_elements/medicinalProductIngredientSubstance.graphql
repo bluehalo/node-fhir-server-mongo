@@ -8,11 +8,11 @@
 
 
 type MedicinalProductIngredientSubstance {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        code: CodeableConcept!            
-        strength: [MedicinalProductIngredientStrength]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    code: CodeableConcept!        
+    strength: [MedicinalProductIngredientStrength]        
 }
 
 extend type Query {

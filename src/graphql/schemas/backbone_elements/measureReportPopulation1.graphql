@@ -9,12 +9,12 @@
 
 
 type MeasureReportPopulation1 {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        code: CodeableConcept            
-        count: code            
-        subjectResults: List            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    code: CodeableConcept        
+    count: code        
+    subjectResults: List        
 }
 
 extend type Query {

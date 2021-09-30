@@ -14,17 +14,17 @@
 
 
 type RiskAssessmentPrediction {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        outcome: CodeableConcept            
-        probabilityDecimal: code            
-        probabilityRange: Range            
-        qualitativeRisk: CodeableConcept            
-        relativeRisk: code            
-        whenPeriod: Period            
-        whenRange: Range            
-        rationale: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    outcome: CodeableConcept        
+    probabilityDecimal: code        
+    probabilityRange: Range        
+    qualitativeRisk: CodeableConcept        
+    relativeRisk: code        
+    whenPeriod: Period        
+    whenRange: Range        
+    rationale: code        
 }
 
 extend type Query {

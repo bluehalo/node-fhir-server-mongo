@@ -8,11 +8,11 @@
 
 
 type MedicationKnowledgeSubstitution {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: CodeableConcept!            
-        allowed: code!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: CodeableConcept!        
+    allowed: code!        
 }
 
 extend type Query {

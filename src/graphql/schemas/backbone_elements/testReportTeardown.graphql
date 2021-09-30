@@ -7,10 +7,10 @@
 
 
 type TestReportTeardown {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        action: [TestReportAction2]!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    action: [TestReportAction2]!        
 }
 
 extend type Query {

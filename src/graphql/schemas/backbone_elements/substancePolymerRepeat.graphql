@@ -10,13 +10,13 @@
 
 
 type SubstancePolymerRepeat {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        numberOfUnits: code            
-        averageMolecularFormula: code            
-        repeatUnitAmountType: CodeableConcept            
-        repeatUnit: [SubstancePolymerRepeatUnit]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    numberOfUnits: code        
+    averageMolecularFormula: code        
+    repeatUnitAmountType: CodeableConcept        
+    repeatUnit: [SubstancePolymerRepeatUnit]        
 }
 
 extend type Query {

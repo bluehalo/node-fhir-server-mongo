@@ -29,10 +29,13 @@ module.exports.resolveType = (obj, context, info) => {
 
 /**
  * Finds a single resource by reference
+ * @param args
+ * @param context
+ * @param info
  * @param {{reference: string}} reference
  * @return {Promise<null|Resource>}
  */
-module.exports.findResourceByReference = async (reference) => {
+module.exports.findResourceByReference = async (args, context, info, reference) => {
     try {
         /**
          * @type {string}
@@ -42,7 +45,7 @@ module.exports.findResourceByReference = async (reference) => {
          * @type {string}
          */
         const idOfReference = reference.reference.split('/')[1];
-        return searchById(
+        return await searchById(
             {base_version: '4_0_0', id: idOfReference},
             context.user,
             context.scope,
@@ -50,7 +53,7 @@ module.exports.findResourceByReference = async (reference) => {
             typeOfReference
         );
     } catch (e) {
-        if (e instanceof NotFoundError) {
+        if (e.name === 'NotFound') {
             return null;
         }
     }
@@ -58,10 +61,13 @@ module.exports.findResourceByReference = async (reference) => {
 
 /**
  * Finds one or more resources by references array
+ * @param args
+ * @param context
+ * @param info
  * @param {{reference: string}[]} references
  * @return {Promise<null|Resource[]>}
  */
-module.exports.findResourcesByReference = async (references) => {
+module.exports.findResourcesByReference = async (args, context, info, references) => {
     try {
         return await async.map(references, async reference => {
             /**
@@ -73,7 +79,7 @@ module.exports.findResourcesByReference = async (references) => {
              */
             const idOfReference = reference.reference.split('/')[1];
             return module.exports.unBundle(
-                search(
+                await search(
                     {
                         base_version: '4_0_0',
                         id: idOfReference,
@@ -87,7 +93,7 @@ module.exports.findResourcesByReference = async (references) => {
             );
         });
     } catch (e) {
-        if (e instanceof NotFoundError) {
+        if (e.name === 'NotFound') {
             return null;
         }
     }
@@ -106,18 +112,16 @@ module.exports.findResourcesByReference = async (references) => {
 // eslint-disable-next-line no-unused-vars
 module.exports.getResources = async (parent, args, context, info, resourceType) => {
     return module.exports.unBundle(
-        await (
-            search(
-                {
-                    base_version: '4_0_0',
-                    _bundle: '1',
-                    ...args
-                },
-                context.user,
-                context.scope,
-                resourceType,
-                resourceType
-            )
+        await search(
+            {
+                base_version: '4_0_0',
+                _bundle: '1',
+                ...args
+            },
+            context.user,
+            context.scope,
+            resourceType,
+            resourceType
         )
     );
 };

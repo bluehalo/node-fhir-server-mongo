@@ -8,11 +8,11 @@
 
 
 type MedicationKnowledgeMonitoringProgram {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: CodeableConcept            
-        name: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: CodeableConcept        
+    name: code        
 }
 
 extend type Query {

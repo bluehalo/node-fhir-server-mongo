@@ -10,13 +10,13 @@
 
 
 type ImplementationGuideResource1 {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        reference: Resource!            
-        exampleBoolean: code            
-        exampleCanonical: code            
-        relativePath: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    reference: Resource!        
+    exampleBoolean: code        
+    exampleCanonical: code        
+    relativePath: code        
 }
 
 extend type Query {

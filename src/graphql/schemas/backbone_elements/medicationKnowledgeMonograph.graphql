@@ -10,11 +10,11 @@ union MedicationKnowledgeMonographSource = DocumentReference | Media
 
 
 type MedicationKnowledgeMonograph {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: CodeableConcept            
-        source: MedicationKnowledgeMonographSource            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: CodeableConcept        
+    source: MedicationKnowledgeMonographSource        
 }
 
 extend type Query {

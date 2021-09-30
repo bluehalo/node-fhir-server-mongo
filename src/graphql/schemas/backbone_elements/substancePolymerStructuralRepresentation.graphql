@@ -9,12 +9,12 @@
 
 
 type SubstancePolymerStructuralRepresentation {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: CodeableConcept            
-        representation: code            
-        attachment: Attachment            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: CodeableConcept        
+    representation: code        
+    attachment: Attachment        
 }
 
 extend type Query {

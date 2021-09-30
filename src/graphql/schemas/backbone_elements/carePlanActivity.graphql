@@ -20,14 +20,14 @@ union CarePlanActivityReference = Appointment | CommunicationRequest | DeviceReq
 
 
 type CarePlanActivity {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        outcomeCodeableConcept: [CodeableConcept]            
-        outcomeReference: [Resource]            
-        progress: [Annotation]            
-        reference: CarePlanActivityReference            
-        detail: CarePlanDetail            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    outcomeCodeableConcept: [CodeableConcept]        
+    outcomeReference: [Resource]        
+    progress: [Annotation]        
+    reference: CarePlanActivityReference        
+    detail: CarePlanDetail        
 }
 
 extend type Query {

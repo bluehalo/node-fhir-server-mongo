@@ -9,12 +9,12 @@
 
 
 type TestReportParticipant {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: code!            
-        uri: code!            
-        display: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: code!        
+    uri: code!        
+    display: code        
 }
 
 extend type Query {

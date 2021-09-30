@@ -8,11 +8,11 @@
 
 
 type TerminologyCapabilitiesImplementation {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        description: code!            
-        url: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    description: code!        
+    url: code        
 }
 
 extend type Query {

@@ -8,11 +8,11 @@
 
 
 type CoverageEligibilityRequestDiagnosis {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        diagnosisCodeableConcept: CodeableConcept            
-        diagnosisReference: Condition            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    diagnosisCodeableConcept: CodeableConcept        
+    diagnosisReference: Condition        
 }
 
 extend type Query {

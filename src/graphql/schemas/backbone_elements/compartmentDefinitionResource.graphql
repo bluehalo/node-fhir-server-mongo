@@ -9,12 +9,12 @@
 
 
 type CompartmentDefinitionResource {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        code: code!            
-        param: [code]            
-        documentation: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    code: code!        
+    param: [code]        
+    documentation: code        
 }
 
 extend type Query {

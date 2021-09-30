@@ -7,10 +7,10 @@
 
 
 type MedicationKnowledgeSchedule {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        schedule: CodeableConcept!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    schedule: CodeableConcept!        
 }
 
 extend type Query {

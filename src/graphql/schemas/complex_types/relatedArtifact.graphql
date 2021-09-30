@@ -12,15 +12,15 @@
 
 
 type RelatedArtifact {
-        id: code            
-        extension: [Extension]            
-        type: code!            
-        label: code            
-        display: code            
-        citation: code            
-        url: code            
-        document: Attachment            
-        resource: code            
+    id: code        
+    extension: [Extension]        
+    type: code!        
+    label: code        
+    display: code        
+    citation: code        
+    url: code        
+    document: Attachment        
+    resource: code        
 }
 
 extend type Query {

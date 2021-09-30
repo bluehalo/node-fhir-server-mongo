@@ -8,11 +8,11 @@
 
 
 type VisionPrescriptionPrism {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        amount: code!            
-        base: code!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    amount: code!        
+    base: code!        
 }
 
 extend type Query {

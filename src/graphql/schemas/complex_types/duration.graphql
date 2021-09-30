@@ -10,13 +10,13 @@
 
 
 type Duration {
-        id: code            
-        extension: [Extension]            
-        value: code            
-        comparator: code            
-        unit: code            
-        system: code            
-        code: code            
+    id: code        
+    extension: [Extension]        
+    value: code        
+    comparator: code        
+    unit: code        
+    system: code        
+    code: code        
 }
 
 extend type Query {

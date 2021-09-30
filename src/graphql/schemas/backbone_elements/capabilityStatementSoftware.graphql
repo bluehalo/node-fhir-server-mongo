@@ -9,12 +9,12 @@
 
 
 type CapabilityStatementSoftware {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        name: code!            
-        version: code            
-        releaseDate: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    name: code!        
+    version: code        
+    releaseDate: code        
 }
 
 extend type Query {

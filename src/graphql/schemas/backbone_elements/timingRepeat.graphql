@@ -23,26 +23,26 @@
 
 
 type TimingRepeat {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        boundsDuration: Quantity            
-        boundsRange: Range            
-        boundsPeriod: Period            
-        count: code            
-        countMax: code            
-        duration: code            
-        durationMax: code            
-        durationUnit: code            
-        frequency: code            
-        frequencyMax: code            
-        period: code            
-        periodMax: code            
-        periodUnit: code            
-        dayOfWeek: [code]            
-        timeOfDay: [code]            
-        when: [code]            
-        offset: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    boundsDuration: Quantity        
+    boundsRange: Range        
+    boundsPeriod: Period        
+    count: code        
+    countMax: code        
+    duration: code        
+    durationMax: code        
+    durationUnit: code        
+    frequency: code        
+    frequencyMax: code        
+    period: code        
+    periodMax: code        
+    periodUnit: code        
+    dayOfWeek: [code]        
+    timeOfDay: [code]        
+    when: [code]        
+    offset: code        
 }
 
 extend type Query {

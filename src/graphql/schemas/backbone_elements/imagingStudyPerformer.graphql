@@ -15,11 +15,11 @@ union ImagingStudyPerformerActor = Practitioner | PractitionerRole | Organizatio
 
 
 type ImagingStudyPerformer {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        function: CodeableConcept            
-        actor: ImagingStudyPerformerActor!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    function: CodeableConcept        
+    actor: ImagingStudyPerformerActor!        
 }
 
 extend type Query {

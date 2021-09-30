@@ -11,14 +11,14 @@
 
 
 type PlanDefinitionTarget {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        measure: CodeableConcept            
-        detailQuantity: Quantity            
-        detailRange: Range            
-        detailCodeableConcept: CodeableConcept            
-        due: Quantity            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    measure: CodeableConcept        
+    detailQuantity: Quantity        
+    detailRange: Range        
+    detailCodeableConcept: CodeableConcept        
+    due: Quantity        
 }
 
 extend type Query {

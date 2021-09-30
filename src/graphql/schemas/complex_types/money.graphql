@@ -7,10 +7,10 @@
 
 
 type Money {
-        id: code            
-        extension: [Extension]            
-        value: code            
-        currency: code            
+    id: code        
+    extension: [Extension]        
+    value: code        
+    currency: code        
 }
 
 extend type Query {

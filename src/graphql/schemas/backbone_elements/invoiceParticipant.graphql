@@ -14,11 +14,11 @@ union InvoiceParticipantActor = Practitioner | Organization | Patient | Practiti
 
 
 type InvoiceParticipant {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        role: CodeableConcept            
-        actor: InvoiceParticipantActor!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    role: CodeableConcept        
+    actor: InvoiceParticipantActor!        
 }
 
 extend type Query {

@@ -14,17 +14,17 @@
 
 
 type TestScriptVariable {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        name: code!            
-        defaultValue: code            
-        description: code            
-        expression: code            
-        headerField: code            
-        hint: code            
-        path: code            
-        sourceId: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    name: code!        
+    defaultValue: code        
+    description: code        
+    expression: code        
+    headerField: code        
+    hint: code        
+    path: code        
+    sourceId: code        
 }
 
 extend type Query {

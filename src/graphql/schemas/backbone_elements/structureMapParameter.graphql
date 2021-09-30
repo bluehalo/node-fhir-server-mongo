@@ -11,14 +11,14 @@
 
 
 type StructureMapParameter {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        valueId: code            
-        valueString: code            
-        valueBoolean: code            
-        valueInteger: code            
-        valueDecimal: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    valueId: code        
+    valueString: code        
+    valueBoolean: code        
+    valueInteger: code        
+    valueDecimal: code        
 }
 
 extend type Query {

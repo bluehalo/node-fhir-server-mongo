@@ -8,11 +8,11 @@
 
 
 type MedicinalProductPharmaceuticalCharacteristics {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        code: CodeableConcept!            
-        status: CodeableConcept            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    code: CodeableConcept!        
+    status: CodeableConcept        
 }
 
 extend type Query {

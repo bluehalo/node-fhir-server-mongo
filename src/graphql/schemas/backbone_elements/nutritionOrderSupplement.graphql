@@ -11,14 +11,14 @@
 
 
 type NutritionOrderSupplement {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: CodeableConcept            
-        productName: code            
-        schedule: [Timing]            
-        quantity: Quantity            
-        instruction: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: CodeableConcept        
+    productName: code        
+    schedule: [Timing]        
+    quantity: Quantity        
+    instruction: code        
 }
 
 extend type Query {

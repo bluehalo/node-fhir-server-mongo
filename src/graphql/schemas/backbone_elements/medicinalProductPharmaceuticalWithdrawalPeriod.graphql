@@ -9,12 +9,12 @@
 
 
 type MedicinalProductPharmaceuticalWithdrawalPeriod {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        tissue: CodeableConcept!            
-        value: Quantity!            
-        supportingInformation: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    tissue: CodeableConcept!        
+    value: Quantity!        
+    supportingInformation: code        
 }
 
 extend type Query {

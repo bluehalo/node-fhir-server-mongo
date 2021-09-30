@@ -8,11 +8,11 @@
 
 
 type EncounterClassHistory {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        class: Coding!            
-        period: Period!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    class: Coding!        
+    period: Period!        
 }
 
 extend type Query {

@@ -14,11 +14,11 @@ union MedicationDispensePerformerActor = Practitioner | PractitionerRole | Organ
 
 
 type MedicationDispensePerformer {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        function: CodeableConcept            
-        actor: MedicationDispensePerformerActor!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    function: CodeableConcept        
+    actor: MedicationDispensePerformerActor!        
 }
 
 extend type Query {

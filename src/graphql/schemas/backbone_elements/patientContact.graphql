@@ -13,16 +13,16 @@
 
 
 type PatientContact {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        relationship: [CodeableConcept]            
-        name: HumanName            
-        telecom: [ContactPoint]            
-        address: Address            
-        gender: code            
-        organization: Organization            
-        period: Period            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    relationship: [CodeableConcept]        
+    name: HumanName        
+    telecom: [ContactPoint]        
+    address: Address        
+    gender: code        
+    organization: Organization        
+    period: Period        
 }
 
 extend type Query {

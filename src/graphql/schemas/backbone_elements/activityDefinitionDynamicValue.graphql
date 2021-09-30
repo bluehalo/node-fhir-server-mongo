@@ -8,11 +8,11 @@
 
 
 type ActivityDefinitionDynamicValue {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        path: code!            
-        expression: Expression!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    path: code!        
+    expression: Expression!        
 }
 
 extend type Query {

@@ -9,12 +9,12 @@
 
 
 type VerificationResultValidator {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        organization: Organization!            
-        identityCertificate: code            
-        attestationSignature: Signature            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    organization: Organization!        
+    identityCertificate: code        
+    attestationSignature: Signature        
 }
 
 extend type Query {

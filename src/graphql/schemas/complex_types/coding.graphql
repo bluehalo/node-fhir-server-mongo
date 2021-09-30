@@ -10,13 +10,13 @@
 
 
 type Coding {
-        id: code            
-        extension: [Extension]            
-        system: code            
-        version: code            
-        code: code            
-        display: code            
-        userSelected: code            
+    id: code        
+    extension: [Extension]        
+    system: code        
+    version: code        
+    code: code        
+    display: code        
+    userSelected: code        
 }
 
 extend type Query {

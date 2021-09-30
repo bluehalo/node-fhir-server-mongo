@@ -17,20 +17,21 @@
 
 
 type SpecimenDefinition {
-        id: code            
-        meta: Meta            
-        implicitRules: code            
-        language: code            
-        text: Narrative            
-        contained: [code]            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        identifier: Identifier            
-        typeCollected: CodeableConcept            
-        patientPreparation: [CodeableConcept]            
-        timeAspect: code            
-        collection: [CodeableConcept]            
-        typeTested: [SpecimenDefinitionTypeTested]            
+    resourceType: String
+    id: code        
+    meta: Meta        
+    implicitRules: code        
+    language: code        
+    text: Narrative        
+    contained: [code]        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    identifier: Identifier        
+    typeCollected: CodeableConcept        
+    patientPreparation: [CodeableConcept]        
+    timeAspect: code        
+    collection: [CodeableConcept]        
+    typeTested: [SpecimenDefinitionTypeTested]        
 }
 
 extend type Query {

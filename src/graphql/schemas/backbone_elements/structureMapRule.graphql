@@ -11,15 +11,15 @@
 
 
 type StructureMapRule {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        name: code!            
-        source: [StructureMapSource]!            
-        target: [StructureMapTarget]            
-        rule: [StructureMapRule]            
-        dependent: [StructureMapDependent]            
-        documentation: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    name: code!        
+    source: [StructureMapSource]!        
+    target: [StructureMapTarget]        
+    rule: [StructureMapRule]        
+    dependent: [StructureMapDependent]        
+    documentation: code        
 }
 
 extend type Query {

@@ -13,16 +13,16 @@
 
 
 type ImmunizationProtocolApplied {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        series: code            
-        authority: Organization            
-        targetDisease: [CodeableConcept]            
-        doseNumberPositiveInt: code            
-        doseNumberString: code            
-        seriesDosesPositiveInt: code            
-        seriesDosesString: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    series: code        
+    authority: Organization        
+    targetDisease: [CodeableConcept]        
+    doseNumberPositiveInt: code        
+    doseNumberString: code        
+    seriesDosesPositiveInt: code        
+    seriesDosesString: code        
 }
 
 extend type Query {

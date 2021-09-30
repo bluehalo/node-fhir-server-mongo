@@ -11,14 +11,14 @@
 
 
 type MessageHeaderSource {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        name: code            
-        software: code            
-        version: code            
-        contact: ContactPoint            
-        endpoint: code!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    name: code        
+    software: code        
+    version: code        
+    contact: ContactPoint        
+    endpoint: code!        
 }
 
 extend type Query {

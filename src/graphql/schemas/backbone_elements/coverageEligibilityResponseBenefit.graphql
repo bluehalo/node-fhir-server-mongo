@@ -13,16 +13,16 @@
 
 
 type CoverageEligibilityResponseBenefit {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: CodeableConcept!            
-        allowedUnsignedInt: code            
-        allowedString: code            
-        allowedMoney: Money            
-        usedUnsignedInt: code            
-        usedString: code            
-        usedMoney: Money            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: CodeableConcept!        
+    allowedUnsignedInt: code        
+    allowedString: code        
+    allowedMoney: Money        
+    usedUnsignedInt: code        
+    usedString: code        
+    usedMoney: Money        
 }
 
 extend type Query {

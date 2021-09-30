@@ -12,15 +12,15 @@
 
 
 type ValueSetExpansion {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        identifier: code            
-        timestamp: code!            
-        total: code            
-        offset: code            
-        parameter: [ValueSetParameter]            
-        contains: [ValueSetContains]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    identifier: code        
+    timestamp: code!        
+    total: code        
+    offset: code        
+    parameter: [ValueSetParameter]        
+    contains: [ValueSetContains]        
 }
 
 extend type Query {

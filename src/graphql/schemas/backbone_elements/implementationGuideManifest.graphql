@@ -11,14 +11,14 @@
 
 
 type ImplementationGuideManifest {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        rendering: code            
-        resource: [ImplementationGuideResource1]!            
-        page: [ImplementationGuidePage1]            
-        image: [code]            
-        other: [code]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    rendering: code        
+    resource: [ImplementationGuideResource1]!        
+    page: [ImplementationGuidePage1]        
+    image: [code]        
+    other: [code]        
 }
 
 extend type Query {

@@ -12,15 +12,15 @@
 
 
 type DeviceUdiCarrier {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        deviceIdentifier: code            
-        issuer: code            
-        jurisdiction: code            
-        carrierAIDC: code            
-        carrierHRF: code            
-        entryType: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    deviceIdentifier: code        
+    issuer: code        
+    jurisdiction: code        
+    carrierAIDC: code        
+    carrierHRF: code        
+    entryType: code        
 }
 
 extend type Query {

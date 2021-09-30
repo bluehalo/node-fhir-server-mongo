@@ -12,15 +12,15 @@
 
 
 type ExampleScenarioInstance {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        resourceId: code!            
-        resourceType: code!            
-        name: code            
-        description: code            
-        version: [ExampleScenarioVersion]            
-        containedInstance: [ExampleScenarioContainedInstance]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    resourceId: code!        
+    resourceType: code!        
+    name: code        
+    description: code        
+    version: [ExampleScenarioVersion]        
+    containedInstance: [ExampleScenarioContainedInstance]        
 }
 
 extend type Query {

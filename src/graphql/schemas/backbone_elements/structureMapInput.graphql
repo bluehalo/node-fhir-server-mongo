@@ -10,13 +10,13 @@
 
 
 type StructureMapInput {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        name: code!            
-        type: code            
-        mode: code!            
-        documentation: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    name: code!        
+    type: code        
+    mode: code!        
+    documentation: code        
 }
 
 extend type Query {

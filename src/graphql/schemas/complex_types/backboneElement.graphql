@@ -6,9 +6,9 @@
 
 
 type BackboneElement {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
 }
 
 extend type Query {

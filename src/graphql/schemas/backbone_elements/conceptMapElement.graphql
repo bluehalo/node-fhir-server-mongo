@@ -9,12 +9,12 @@
 
 
 type ConceptMapElement {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        code: code            
-        display: code            
-        target: [ConceptMapTarget]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    code: code        
+    display: code        
+    target: [ConceptMapTarget]        
 }
 
 extend type Query {

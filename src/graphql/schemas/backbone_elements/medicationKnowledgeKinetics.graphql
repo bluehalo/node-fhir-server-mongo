@@ -9,12 +9,12 @@
 
 
 type MedicationKnowledgeKinetics {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        areaUnderCurve: [Quantity]            
-        lethalDose50: [Quantity]            
-        halfLifePeriod: Quantity            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    areaUnderCurve: [Quantity]        
+    lethalDose50: [Quantity]        
+    halfLifePeriod: Quantity        
 }
 
 extend type Query {

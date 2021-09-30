@@ -9,12 +9,12 @@
 
 
 type SubstanceInstance {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        identifier: Identifier            
-        expiry: code            
-        quantity: Quantity            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    identifier: Identifier        
+    expiry: code        
+    quantity: Quantity        
 }
 
 extend type Query {

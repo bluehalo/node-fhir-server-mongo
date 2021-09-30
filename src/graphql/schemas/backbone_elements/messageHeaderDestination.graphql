@@ -13,13 +13,13 @@ union MessageHeaderDestinationReceiver = Practitioner | PractitionerRole | Organ
 
 
 type MessageHeaderDestination {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        name: code            
-        target: Device            
-        endpoint: code!            
-        receiver: MessageHeaderDestinationReceiver            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    name: code        
+    target: Device        
+    endpoint: code!        
+    receiver: MessageHeaderDestinationReceiver        
 }
 
 extend type Query {

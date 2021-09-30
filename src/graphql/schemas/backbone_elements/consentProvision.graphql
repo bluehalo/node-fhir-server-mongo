@@ -16,20 +16,20 @@
 
 
 type ConsentProvision {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: code            
-        period: Period            
-        actor: [ConsentActor]            
-        action: [CodeableConcept]            
-        securityLabel: [Coding]            
-        purpose: [Coding]            
-        class: [Coding]            
-        code: [CodeableConcept]            
-        dataPeriod: Period            
-        data: [ConsentData]            
-        provision: [ConsentProvision]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: code        
+    period: Period        
+    actor: [ConsentActor]        
+    action: [CodeableConcept]        
+    securityLabel: [Coding]        
+    purpose: [Coding]        
+    class: [Coding]        
+    code: [CodeableConcept]        
+    dataPeriod: Period        
+    data: [ConsentData]        
+    provision: [ConsentProvision]        
 }
 
 extend type Query {

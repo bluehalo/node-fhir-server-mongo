@@ -10,13 +10,13 @@
 
 
 type CodeSystemFilter {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        code: code!            
-        description: code            
-        operator: [code]!            
-        value: code!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    code: code!        
+    description: code        
+    operator: [code]!        
+    value: code!        
 }
 
 extend type Query {

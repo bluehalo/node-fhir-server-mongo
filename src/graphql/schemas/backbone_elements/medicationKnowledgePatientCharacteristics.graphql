@@ -9,12 +9,12 @@
 
 
 type MedicationKnowledgePatientCharacteristics {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        characteristicCodeableConcept: CodeableConcept            
-        characteristicQuantity: Quantity            
-        value: [code]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    characteristicCodeableConcept: CodeableConcept        
+    characteristicQuantity: Quantity        
+    value: [code]        
 }
 
 extend type Query {

@@ -14,12 +14,12 @@ union CompositionAttesterParty = Patient | RelatedPerson | Practitioner | Practi
 
 
 type CompositionAttester {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        mode: code!            
-        time: code            
-        party: CompositionAttesterParty            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    mode: code!        
+    time: code        
+    party: CompositionAttesterParty        
 }
 
 extend type Query {

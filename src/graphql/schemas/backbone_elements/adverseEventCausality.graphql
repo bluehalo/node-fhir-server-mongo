@@ -12,13 +12,13 @@ union AdverseEventCausalityAuthor = Practitioner | PractitionerRole
 
 
 type AdverseEventCausality {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        assessment: CodeableConcept            
-        productRelatedness: code            
-        author: AdverseEventCausalityAuthor            
-        method: CodeableConcept            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    assessment: CodeableConcept        
+    productRelatedness: code        
+    author: AdverseEventCausalityAuthor        
+    method: CodeableConcept        
 }
 
 extend type Query {

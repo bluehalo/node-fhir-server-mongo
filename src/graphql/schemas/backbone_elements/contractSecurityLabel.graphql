@@ -10,13 +10,13 @@
 
 
 type ContractSecurityLabel {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        number: [code]            
-        classification: Coding!            
-        category: [Coding]            
-        control: [Coding]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    number: [code]        
+    classification: Coding!        
+    category: [Coding]        
+    control: [Coding]        
 }
 
 extend type Query {

@@ -8,11 +8,11 @@
 
 
 type InsurancePlanSpecificCost {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        category: CodeableConcept!            
-        benefit: [InsurancePlanBenefit1]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    category: CodeableConcept!        
+    benefit: [InsurancePlanBenefit1]        
 }
 
 extend type Query {

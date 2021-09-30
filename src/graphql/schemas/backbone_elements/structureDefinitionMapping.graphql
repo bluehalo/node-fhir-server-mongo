@@ -10,13 +10,13 @@
 
 
 type StructureDefinitionMapping {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        identity: code!            
-        uri: code            
-        name: code            
-        comment: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    identity: code!        
+    uri: code        
+    name: code        
+    comment: code        
 }
 
 extend type Query {

@@ -9,12 +9,12 @@
 
 
 type CommunicationPayload {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        contentString: code            
-        contentAttachment: Attachment            
-        contentReference: Resource            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    contentString: code        
+    contentAttachment: Attachment        
+    contentReference: Resource        
 }
 
 extend type Query {

@@ -13,16 +13,16 @@
 
 
 type ClaimInsurance {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        sequence: code!            
-        focal: code!            
-        identifier: Identifier            
-        coverage: Coverage!            
-        businessArrangement: code            
-        preAuthRef: [code]            
-        claimResponse: ClaimResponse            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    sequence: code!        
+    focal: code!        
+    identifier: Identifier        
+    coverage: Coverage!        
+    businessArrangement: code        
+    preAuthRef: [code]        
+    claimResponse: ClaimResponse        
 }
 
 extend type Query {

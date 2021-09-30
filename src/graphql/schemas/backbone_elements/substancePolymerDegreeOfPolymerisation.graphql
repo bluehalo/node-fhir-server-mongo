@@ -8,11 +8,11 @@
 
 
 type SubstancePolymerDegreeOfPolymerisation {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        degree: CodeableConcept            
-        amount: SubstanceAmount            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    degree: CodeableConcept        
+    amount: SubstanceAmount        
 }
 
 extend type Query {

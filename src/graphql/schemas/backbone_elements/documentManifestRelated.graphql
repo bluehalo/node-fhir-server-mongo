@@ -8,11 +8,11 @@
 
 
 type DocumentManifestRelated {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        identifier: Identifier            
-        ref: Resource            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    identifier: Identifier        
+    ref: Resource        
 }
 
 extend type Query {

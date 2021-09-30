@@ -9,12 +9,12 @@
 
 
 type ElementDefinitionBinding {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        strength: code!            
-        description: code            
-        valueSet: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    strength: code!        
+    description: code        
+    valueSet: code        
 }
 
 extend type Query {

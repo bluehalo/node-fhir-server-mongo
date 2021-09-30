@@ -11,14 +11,14 @@
 
 
 type Population {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        ageRange: Range            
-        ageCodeableConcept: CodeableConcept            
-        gender: CodeableConcept            
-        race: CodeableConcept            
-        physiologicalCondition: CodeableConcept            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    ageRange: Range        
+    ageCodeableConcept: CodeableConcept        
+    gender: CodeableConcept        
+    race: CodeableConcept        
+    physiologicalCondition: CodeableConcept        
 }
 
 extend type Query {

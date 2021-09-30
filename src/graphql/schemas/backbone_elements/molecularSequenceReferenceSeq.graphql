@@ -15,18 +15,18 @@
 
 
 type MolecularSequenceReferenceSeq {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        chromosome: CodeableConcept            
-        genomeBuild: code            
-        orientation: code            
-        referenceSeqId: CodeableConcept            
-        referenceSeqPointer: MolecularSequence            
-        referenceSeqString: code            
-        strand: code            
-        windowStart: code            
-        windowEnd: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    chromosome: CodeableConcept        
+    genomeBuild: code        
+    orientation: code        
+    referenceSeqId: CodeableConcept        
+    referenceSeqPointer: MolecularSequence        
+    referenceSeqString: code        
+    strand: code        
+    windowStart: code        
+    windowEnd: code        
 }
 
 extend type Query {

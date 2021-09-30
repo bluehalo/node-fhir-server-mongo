@@ -8,11 +8,11 @@
 
 
 type SearchParameterComponent {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        definition: code!            
-        expression: code!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    definition: code!        
+    expression: code!        
 }
 
 extend type Query {

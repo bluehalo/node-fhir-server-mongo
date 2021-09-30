@@ -12,12 +12,12 @@ union ConditionStageAssessment = ClinicalImpression | DiagnosticReport | Observa
 
 
 type ConditionStage {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        summary: CodeableConcept            
-        assessment: [ConditionStageAssessment]            
-        type: CodeableConcept            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    summary: CodeableConcept        
+    assessment: [ConditionStageAssessment]        
+    type: CodeableConcept        
 }
 
 extend type Query {

@@ -9,12 +9,12 @@
 
 
 type ImplementationGuidePage1 {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        name: code!            
-        title: code            
-        anchor: [code]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    name: code!        
+    title: code        
+    anchor: [code]        
 }
 
 extend type Query {

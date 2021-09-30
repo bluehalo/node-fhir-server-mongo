@@ -9,12 +9,12 @@
 
 
 type DeviceMetricCalibration {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: code            
-        state: code            
-        time: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: code        
+    state: code        
+    time: code        
 }
 
 extend type Query {

@@ -55,52 +55,92 @@ module.exports = {
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         basedOn: async (parent, args, context, info) => {
-            return await findResourcesByReference(parent.basedOn);
+            return await findResourcesByReference(
+                args,
+                context,
+                info,
+                parent.basedOn);
         },
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         partOf: async (parent, args, context, info) => {
-            return await findResourcesByReference(parent.partOf);
+            return await findResourcesByReference(
+                args,
+                context,
+                info,
+                parent.partOf);
         },
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         subject: async (parent, args, context, info) => {
-            return await findResourceByReference(parent.subject);
+            return await findResourceByReference(
+                args,
+                context,
+                info,
+                parent.subject);
         },
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         focus: async (parent, args, context, info) => {
-            return await findResourcesByReference(parent.focus);
+            return await findResourcesByReference(
+                args,
+                context,
+                info,
+                parent.focus);
         },
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         encounter: async (parent, args, context, info) => {
-            return await findResourceByReference(parent.encounter);
+            return await findResourceByReference(
+                args,
+                context,
+                info,
+                parent.encounter);
         },
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         performer: async (parent, args, context, info) => {
-            return await findResourcesByReference(parent.performer);
+            return await findResourcesByReference(
+                args,
+                context,
+                info,
+                parent.performer);
         },
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         specimen: async (parent, args, context, info) => {
-            return await findResourceByReference(parent.specimen);
+            return await findResourceByReference(
+                args,
+                context,
+                info,
+                parent.specimen);
         },
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         device: async (parent, args, context, info) => {
-            return await findResourceByReference(parent.device);
+            return await findResourceByReference(
+                args,
+                context,
+                info,
+                parent.device);
         },
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         hasMember: async (parent, args, context, info) => {
-            return await findResourcesByReference(parent.hasMember);
+            return await findResourcesByReference(
+                args,
+                context,
+                info,
+                parent.hasMember);
         },
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         derivedFrom: async (parent, args, context, info) => {
-            return await findResourcesByReference(parent.derivedFrom);
+            return await findResourcesByReference(
+                args,
+                context,
+                info,
+                parent.derivedFrom);
         },
     }
 };

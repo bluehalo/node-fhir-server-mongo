@@ -14,17 +14,17 @@
 
 
 type ObservationDefinitionQualifiedInterval {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        category: code            
-        range: Range            
-        context: CodeableConcept            
-        appliesTo: [CodeableConcept]            
-        gender: code            
-        age: Range            
-        gestationalAge: Range            
-        condition: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    category: code        
+    range: Range        
+    context: CodeableConcept        
+    appliesTo: [CodeableConcept]        
+    gender: code        
+    age: Range        
+    gestationalAge: Range        
+    condition: code        
 }
 
 extend type Query {

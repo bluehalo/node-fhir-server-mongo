@@ -8,11 +8,11 @@
 
 
 type SubstancePolymerMonomerSet {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        ratioType: CodeableConcept            
-        startingMaterial: [SubstancePolymerStartingMaterial]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    ratioType: CodeableConcept        
+    startingMaterial: [SubstancePolymerStartingMaterial]        
 }
 
 extend type Query {

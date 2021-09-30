@@ -8,11 +8,11 @@
 
 
 type TestScriptLink {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        url: code!            
-        description: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    url: code!        
+    description: code        
 }
 
 extend type Query {

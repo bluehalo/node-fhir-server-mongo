@@ -13,16 +13,16 @@
 
 
 type MedicinalProductPharmaceuticalRouteOfAdministration {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        code: CodeableConcept!            
-        firstDose: Quantity            
-        maxSingleDose: Quantity            
-        maxDosePerDay: Quantity            
-        maxDosePerTreatmentPeriod: Ratio            
-        maxTreatmentPeriod: Quantity            
-        targetSpecies: [MedicinalProductPharmaceuticalTargetSpecies]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    code: CodeableConcept!        
+    firstDose: Quantity        
+    maxSingleDose: Quantity        
+    maxDosePerDay: Quantity        
+    maxDosePerTreatmentPeriod: Ratio        
+    maxTreatmentPeriod: Quantity        
+    targetSpecies: [MedicinalProductPharmaceuticalTargetSpecies]        
 }
 
 extend type Query {

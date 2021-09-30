@@ -10,13 +10,13 @@
 
 
 type InvoicePriceComponent {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: code!            
-        code: CodeableConcept            
-        factor: code            
-        amount: Money            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: code!        
+    code: CodeableConcept        
+    factor: code        
+    amount: Money        
 }
 
 extend type Query {

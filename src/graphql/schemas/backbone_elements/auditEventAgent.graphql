@@ -23,20 +23,20 @@ union AuditEventAgentWho = PractitionerRole | Practitioner | Organization | Devi
 
 
 type AuditEventAgent {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        type: CodeableConcept            
-        role: [CodeableConcept]            
-        who: AuditEventAgentWho            
-        altId: code            
-        name: code            
-        requestor: code!            
-        location: Location            
-        policy: [code]            
-        media: Coding            
-        network: AuditEventNetwork            
-        purposeOfUse: [CodeableConcept]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    type: CodeableConcept        
+    role: [CodeableConcept]        
+    who: AuditEventAgentWho        
+    altId: code        
+    name: code        
+    requestor: code!        
+    location: Location        
+    policy: [code]        
+    media: Coding        
+    network: AuditEventNetwork        
+    purposeOfUse: [CodeableConcept]        
 }
 
 extend type Query {

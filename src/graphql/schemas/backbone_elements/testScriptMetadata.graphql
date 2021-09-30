@@ -8,11 +8,11 @@
 
 
 type TestScriptMetadata {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        link: [TestScriptLink]            
-        capability: [TestScriptCapability]!            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    link: [TestScriptLink]        
+    capability: [TestScriptCapability]!        
 }
 
 extend type Query {

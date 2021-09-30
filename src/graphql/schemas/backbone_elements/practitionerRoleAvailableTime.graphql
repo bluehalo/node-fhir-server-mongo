@@ -10,13 +10,13 @@
 
 
 type PractitionerRoleAvailableTime {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        daysOfWeek: [code]            
-        allDay: code            
-        availableStartTime: code            
-        availableEndTime: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    daysOfWeek: [code]        
+    allDay: code        
+    availableStartTime: code        
+    availableEndTime: code        
 }
 
 extend type Query {

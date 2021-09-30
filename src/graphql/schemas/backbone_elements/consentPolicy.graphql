@@ -8,11 +8,11 @@
 
 
 type ConsentPolicy {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        authority: code            
-        uri: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    authority: code        
+    uri: code        
 }
 
 extend type Query {

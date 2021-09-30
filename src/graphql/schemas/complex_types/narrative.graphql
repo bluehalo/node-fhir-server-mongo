@@ -6,9 +6,9 @@
 
 
 type Narrative {
-        id: code            
-        extension: [Extension]            
-        status: code!            
+    id: code        
+    extension: [Extension]        
+    status: code!        
 }
 
 extend type Query {

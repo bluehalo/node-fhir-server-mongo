@@ -9,12 +9,12 @@
 
 
 type MedicinalProductName {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        productName: code!            
-        namePart: [MedicinalProductNamePart]            
-        countryLanguage: [MedicinalProductCountryLanguage]            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    productName: code!        
+    namePart: [MedicinalProductNamePart]        
+    countryLanguage: [MedicinalProductCountryLanguage]        
 }
 
 extend type Query {

@@ -8,11 +8,11 @@
 
 
 type TerminologyCapabilitiesSoftware {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        name: code!            
-        version: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    name: code!        
+    version: code        
 }
 
 extend type Query {

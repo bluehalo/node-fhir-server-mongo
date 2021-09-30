@@ -10,13 +10,13 @@
 
 
 type LocationHoursOfOperation {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        daysOfWeek: [code]            
-        allDay: code            
-        openingTime: code            
-        closingTime: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    daysOfWeek: [code]        
+    allDay: code        
+    openingTime: code        
+    closingTime: code        
 }
 
 extend type Query {

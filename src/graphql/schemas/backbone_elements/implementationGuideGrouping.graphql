@@ -8,11 +8,11 @@
 
 
 type ImplementationGuideGrouping {
-        id: code            
-        extension: [Extension]            
-        modifierExtension: [Extension]            
-        name: code!            
-        description: code            
+    id: code        
+    extension: [Extension]        
+    modifierExtension: [Extension]        
+    name: code!        
+    description: code        
 }
 
 extend type Query {
