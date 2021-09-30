@@ -1,7 +1,6 @@
 const {searchById} = require('../operations/searchById/searchById');
 const {search} = require('../operations/search/search');
 const {NotFoundError} = require('../utils/httpErrors');
-const {unBundle} = require('./common');
 const async = require('async');
 /**
  * This functions takes a FHIR Bundle and returns the resources in it
@@ -12,7 +11,6 @@ module.exports.unBundle = (bundle) => {
     return bundle.entry.map(e => e.resource);
 };
 
-// noinspection JSUnusedLocalSymbols
 /**
  * This is to handle unions in GraphQL
  * @param obj
@@ -20,6 +18,7 @@ module.exports.unBundle = (bundle) => {
  * @param info
  * @return {null|string}
  */
+// noinspection JSUnusedLocalSymbols
 // eslint-disable-next-line no-unused-vars
 module.exports.resolveType = (obj, context, info) => {
     if (obj) {
@@ -73,9 +72,13 @@ module.exports.findResourcesByReference = async (references) => {
              * @type {string}
              */
             const idOfReference = reference.reference.split('/')[1];
-            return unBundle(
+            return module.exports.unBundle(
                 search(
-                    {base_version: '4_0_0', id: idOfReference},
+                    {
+                        base_version: '4_0_0',
+                        id: idOfReference,
+                        _bundle: '1',
+                    },
                     context.user,
                     context.scope,
                     typeOfReference,
@@ -102,7 +105,7 @@ module.exports.findResourcesByReference = async (references) => {
  */
 // eslint-disable-next-line no-unused-vars
 module.exports.getResources = async (parent, args, context, info, resourceType) => {
-    return unBundle(
+    return module.exports.unBundle(
         await (
             search(
                 {

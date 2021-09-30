@@ -19,7 +19,7 @@ const {VERSIONS} = require('@asymmetrik/node-fhir-server-core').constants;
  * @param {string} scope
  * @param {string} resource_name
  * @param {string} collection_name
- * @return {Resource[] | Resource} array of resources
+ * @return {Resource[] | {entry:{resource: Resource}[]}} array of resources
  */
 module.exports.search = async (args, user, scope, resource_name, collection_name) => {
     logRequest(user, resource_name + ' >>> search' + ' scope:' + scope);
