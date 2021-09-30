@@ -10,7 +10,7 @@
 # import code from "../simple_types/code.graphql"
 # import ContactPoint from "../complex_types/contactPoint.graphql"
 # import instant from "../simple_types/instant.graphql"
-# import SubscriptionChannel from "../backbone_elements/backbone_element.graphql"
+# import SubscriptionChannel from "../backbone_elements/backboneElement.graphql"
 
 
 

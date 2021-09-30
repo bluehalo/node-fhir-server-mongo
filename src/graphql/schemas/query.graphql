@@ -1,4 +1,4 @@
-# import ExplanationOfBenefit from "resources/explanation_of_benefit.graphql"
+# import ExplanationOfBenefit from "resources/explanationOfBenefit.graphql"
 type Query {
     id: String
 }

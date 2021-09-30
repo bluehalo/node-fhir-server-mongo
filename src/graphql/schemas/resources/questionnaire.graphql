@@ -23,7 +23,7 @@
 # import date from "../simple_types/date.graphql"
 # import Period from "../complex_types/period.graphql"
 # import Coding from "../complex_types/coding.graphql"
-# import QuestionnaireItem from "../backbone_elements/backbone_element.graphql"
+# import QuestionnaireItem from "../backbone_elements/backboneElement.graphql"
 
 
 

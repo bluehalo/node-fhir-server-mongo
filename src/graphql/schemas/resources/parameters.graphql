@@ -3,7 +3,7 @@
 # import Meta from "../complex_types/meta.graphql"
 # import uri from "../simple_types/uri.graphql"
 # import code from "../simple_types/code.graphql"
-# import ParametersParameter from "../backbone_elements/backbone_element.graphql"
+# import ParametersParameter from "../backbone_elements/backboneElement.graphql"
 
 
 

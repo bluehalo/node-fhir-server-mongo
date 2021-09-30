@@ -11,14 +11,6 @@
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
-# import Reference from "../complex_types/reference.graphql"
-# import Reference from "../resources/Reference.graphql"
-# import Reference from "../resources/Reference.graphql"
-# import Reference from "../resources/Reference.graphql"
-# import Reference from "../resources/Reference.graphql"
-# import Reference from "../resources/Reference.graphql"
-# import Reference from "../resources/Reference.graphql"
-# import Reference from "../resources/Reference.graphql"
 # import Period from "../complex_types/period.graphql"
 
 union ScheduleActor = Patient | Practitioner | PractitionerRole | RelatedPerson | Device | HealthcareService | Location

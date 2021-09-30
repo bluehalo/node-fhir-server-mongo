@@ -7,8 +7,8 @@
 # import code from "../simple_types/code.graphql"
 # import instant from "../simple_types/instant.graphql"
 # import unsignedInt from "../simple_types/unsignedInt.graphql"
-# import BundleLink from "../backbone_elements/backbone_element.graphql"
-# import BundleEntry from "../backbone_elements/backbone_element.graphql"
+# import BundleLink from "../backbone_elements/backboneElement.graphql"
+# import BundleEntry from "../backbone_elements/backboneElement.graphql"
 # import Signature from "../complex_types/signature.graphql"
 
 

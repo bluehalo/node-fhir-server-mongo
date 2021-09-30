@@ -133,8 +133,9 @@ class FhirXmlSchemaParser:
 
     @staticmethod
     def camel_to_snake(name: str) -> str:
-        name = re.sub("(.)([A-Z][a-z]+)", r"\1_\2", name)
-        return re.sub("([a-z0-9])([A-Z])", r"\1_\2", name).lower()
+        # name = re.sub("(.)([A-Z][a-z]+)", r"\1_\2", name)
+        # return re.sub("([a-z0-9])([A-Z])", r"\1_\2", name).lower()
+        return name[0].lower() + name[1:]
 
     @staticmethod
     def generate_classes(filter_to_resource: Optional[str] = None) -> List[FhirEntity]:
@@ -205,7 +206,7 @@ class FhirXmlSchemaParser:
                         fhir_property.type_
                     ]
                     fhir_property.fhir_type = property_fhir_entity.type_
-                    if property_fhir_entity.base_type != "Element":
+                    if property_fhir_entity.base_type not in ["Element", "Reference"]:
                         fhir_property.is_complex = True
                         fhir_property.cleaned_type = fhir_property.fhir_type
                         fhir_property.type_snake_case = FhirXmlSchemaParser.camel_to_snake(fhir_property.fhir_type)

@@ -15,13 +15,11 @@
 # import ContactPoint from "../complex_types/contactPoint.graphql"
 # import Address from "../complex_types/address.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
-# import LocationPosition from "../backbone_elements/backbone_element.graphql"
-# import Reference from "../complex_types/reference.graphql"
-# import Reference from "../resources/Reference.graphql"
-# import Reference from "../complex_types/reference.graphql"
-# import LocationHoursOfOperation from "../backbone_elements/backbone_element.graphql"
-# import Reference from "../complex_types/reference.graphql"
-# import Reference from "../resources/Reference.graphql"
+# import LocationPosition from "../backbone_elements/backboneElement.graphql"
+# import Organization from "../resources/organization.graphql"
+# import Location from "../resources/location.graphql"
+# import LocationHoursOfOperation from "../backbone_elements/backboneElement.graphql"
+# import Endpoint from "../resources/endpoint.graphql"
 
 
 

@@ -10,12 +10,11 @@
 # import Identifier from "../complex_types/identifier.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import MedicationStatusCodes from "../simple_types/MedicationStatusCodes.graphql"
-# import Reference from "../complex_types/reference.graphql"
-# import Reference from "../resources/Reference.graphql"
+# import Organization from "../resources/organization.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import Ratio from "../complex_types/ratio.graphql"
-# import MedicationIngredient from "../backbone_elements/backbone_element.graphql"
-# import MedicationBatch from "../backbone_elements/backbone_element.graphql"
+# import MedicationIngredient from "../backbone_elements/backboneElement.graphql"
+# import MedicationBatch from "../backbone_elements/backboneElement.graphql"
 
 
 

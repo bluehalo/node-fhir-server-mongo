@@ -26,12 +26,9 @@
 # import ContactDetail from "../complex_types/contactDetail.graphql"
 # import ContactDetail from "../complex_types/contactDetail.graphql"
 # import RelatedArtifact from "../complex_types/relatedArtifact.graphql"
-# import Reference from "../complex_types/reference.graphql"
-# import Reference from "../resources/Reference.graphql"
-# import Reference from "../complex_types/reference.graphql"
-# import Reference from "../resources/Reference.graphql"
-# import Reference from "../complex_types/reference.graphql"
-# import Reference from "../resources/Reference.graphql"
+# import EvidenceVariable from "../resources/evidenceVariable.graphql"
+# import EvidenceVariable from "../resources/evidenceVariable.graphql"
+# import EvidenceVariable from "../resources/evidenceVariable.graphql"
 
 
 

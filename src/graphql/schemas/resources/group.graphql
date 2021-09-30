@@ -11,13 +11,8 @@
 # import code from "../simple_types/code.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import unsignedInt from "../simple_types/unsignedInt.graphql"
-# import Reference from "../complex_types/reference.graphql"
-# import Reference from "../resources/Reference.graphql"
-# import Reference from "../resources/Reference.graphql"
-# import Reference from "../resources/Reference.graphql"
-# import Reference from "../resources/Reference.graphql"
-# import GroupCharacteristic from "../backbone_elements/backbone_element.graphql"
-# import GroupMember from "../backbone_elements/backbone_element.graphql"
+# import GroupCharacteristic from "../backbone_elements/backboneElement.graphql"
+# import GroupMember from "../backbone_elements/backboneElement.graphql"
 
 union GroupManagingEntity = Organization | RelatedPerson | Practitioner | PractitionerRole
 
