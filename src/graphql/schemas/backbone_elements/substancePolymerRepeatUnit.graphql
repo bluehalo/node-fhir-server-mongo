@@ -11,7 +11,7 @@
 
 
 type SubstancePolymerRepeatUnit {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         orientationOfPolymerisation: CodeableConcept            

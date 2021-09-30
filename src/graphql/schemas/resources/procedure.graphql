@@ -69,7 +69,7 @@ union ProcedureUsedReference = Device | Medication | Substance
 
 
 type Procedure {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            

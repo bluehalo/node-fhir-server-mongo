@@ -12,7 +12,7 @@
 
 
 type ExampleScenarioInstance {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         resourceId: code!            

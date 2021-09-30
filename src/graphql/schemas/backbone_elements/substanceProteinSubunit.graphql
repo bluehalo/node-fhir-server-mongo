@@ -14,7 +14,7 @@
 
 
 type SubstanceProteinSubunit {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         subunit: code            

@@ -16,7 +16,7 @@ union ConsentActorReference = Device | Group | CareTeam | Organization | Patient
 
 
 type ConsentActor {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         role: CodeableConcept!            

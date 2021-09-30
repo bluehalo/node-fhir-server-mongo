@@ -19,7 +19,7 @@
 
 
 type QuestionnaireResponseAnswer {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         valueBoolean: code            

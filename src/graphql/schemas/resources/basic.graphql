@@ -21,7 +21,7 @@ union BasicAuthor = Practitioner | PractitionerRole | Patient | RelatedPerson | 
 
 
 type Basic {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            

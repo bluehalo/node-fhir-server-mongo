@@ -22,12 +22,12 @@ union PaymentReconciliationDetailPayee = Practitioner | PractitionerRole | Organ
 
 
 type PaymentReconciliationDetail {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         identifier: Identifier            
         predecessor: Identifier            
-        type_: CodeableConcept!            
+        type: CodeableConcept!            
         request: Resource            
         submitter: PaymentReconciliationDetailSubmitter            
         response: Resource            

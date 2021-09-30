@@ -22,7 +22,7 @@
 
 
 type AuditEvent {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            
@@ -30,7 +30,7 @@ type AuditEvent {
         contained: [code]            
         extension: [Extension]            
         modifierExtension: [Extension]            
-        type_: Coding!            
+        type: Coding!            
         subtype: [Coding]            
         action: code            
         period: Period            

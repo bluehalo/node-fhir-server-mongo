@@ -11,7 +11,7 @@
 
 
 type SubstanceSourceMaterialHybrid {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         maternalOrganismId: code            

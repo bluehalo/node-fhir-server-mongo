@@ -10,12 +10,12 @@
 
 
 type SubstanceSourceMaterialOrganismGeneral {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         kingdom: CodeableConcept            
         phylum: CodeableConcept            
-        class_: CodeableConcept            
+        class: CodeableConcept            
         order: CodeableConcept            
 }
 

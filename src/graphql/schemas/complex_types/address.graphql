@@ -15,10 +15,10 @@
 
 
 type Address {
-        id_: code            
+        id: code            
         extension: [Extension]            
         use: code            
-        type_: code            
+        type: code            
         text: code            
         line: [code]            
         city: code            

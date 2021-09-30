@@ -43,7 +43,7 @@ union FamilyMemberHistoryReasonReference = Condition | Observation | AllergyInto
 
 
 type FamilyMemberHistory {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            

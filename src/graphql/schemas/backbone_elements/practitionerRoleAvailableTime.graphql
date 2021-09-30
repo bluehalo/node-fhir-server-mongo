@@ -10,7 +10,7 @@
 
 
 type PractitionerRoleAvailableTime {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         daysOfWeek: [code]            

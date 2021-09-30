@@ -10,7 +10,7 @@
 
 
 type ObservationDefinitionQuantitativeDetails {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         customaryUnit: CodeableConcept            

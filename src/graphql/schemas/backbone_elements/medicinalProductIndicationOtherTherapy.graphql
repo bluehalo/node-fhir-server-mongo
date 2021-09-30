@@ -13,7 +13,7 @@ union MedicinalProductIndicationOtherTherapyMedicationReference = MedicinalProdu
 
 
 type MedicinalProductIndicationOtherTherapy {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         therapyRelationshipType: CodeableConcept!            

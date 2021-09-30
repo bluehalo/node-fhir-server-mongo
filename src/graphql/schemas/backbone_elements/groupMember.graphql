@@ -16,7 +16,7 @@ union GroupMemberEntity = Patient | Practitioner | PractitionerRole | Device | M
 
 
 type GroupMember {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         entity: GroupMemberEntity!            

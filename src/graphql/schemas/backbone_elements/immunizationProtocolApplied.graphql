@@ -13,7 +13,7 @@
 
 
 type ImmunizationProtocolApplied {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         series: code            

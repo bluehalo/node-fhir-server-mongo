@@ -81,7 +81,7 @@ union ObservationDerivedFrom = DocumentReference | ImagingStudy | Media | Questi
 
 
 type Observation {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            

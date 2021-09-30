@@ -31,7 +31,7 @@ union SupplyDeliveryReceiver = Practitioner | PractitionerRole
 
 
 type SupplyDelivery {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            
@@ -44,7 +44,7 @@ type SupplyDelivery {
         partOf: [SupplyDeliveryPartOf]            
         status: code            
         patient: Patient            
-        type_: CodeableConcept            
+        type: CodeableConcept            
         suppliedItem: SupplyDeliverySuppliedItem            
         occurrenceDateTime: code            
         occurrencePeriod: Period            

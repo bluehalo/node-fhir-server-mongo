@@ -10,7 +10,7 @@
 
 
 type ContractSecurityLabel {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         number: [code]            

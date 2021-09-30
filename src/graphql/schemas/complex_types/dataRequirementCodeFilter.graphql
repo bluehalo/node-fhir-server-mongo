@@ -9,7 +9,7 @@
 
 
 type DataRequirementCodeFilter {
-        id_: code            
+        id: code            
         extension: [Extension]            
         path: code            
         searchParam: code            

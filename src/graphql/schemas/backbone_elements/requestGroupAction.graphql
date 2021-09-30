@@ -34,7 +34,7 @@ union RequestGroupActionParticipant = Patient | Practitioner | PractitionerRole 
 
 
 type RequestGroupAction {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         prefix: code            
@@ -53,7 +53,7 @@ type RequestGroupAction {
         timingRange: Range            
         timingTiming: Timing            
         participant: [RequestGroupActionParticipant]            
-        type_: CodeableConcept            
+        type: CodeableConcept            
         groupingBehavior: code            
         selectionBehavior: code            
         requiredBehavior: code            

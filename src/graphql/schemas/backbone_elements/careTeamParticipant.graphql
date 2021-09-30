@@ -16,7 +16,7 @@ union CareTeamParticipantMember = Practitioner | PractitionerRole | RelatedPerso
 
 
 type CareTeamParticipant {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         role: [CodeableConcept]            

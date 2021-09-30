@@ -9,7 +9,7 @@
 
 
 type CommunicationPayload {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         contentString: code            

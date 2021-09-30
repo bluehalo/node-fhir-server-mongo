@@ -10,11 +10,11 @@
 
 
 type ClaimAccident {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         date: code!            
-        type_: CodeableConcept            
+        type: CodeableConcept            
         locationAddress: Address            
         locationReference: Location            
 }

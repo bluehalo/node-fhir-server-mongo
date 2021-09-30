@@ -25,7 +25,7 @@ union EpisodeOfCareCareManager = Practitioner | PractitionerRole
 
 
 type EpisodeOfCare {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            
@@ -36,7 +36,7 @@ type EpisodeOfCare {
         identifier: [Identifier]            
         status: code!            
         statusHistory: [EpisodeOfCareStatusHistory]            
-        type_: [CodeableConcept]            
+        type: [CodeableConcept]            
         diagnosis: [EpisodeOfCareDiagnosis]            
         patient: Patient!            
         managingOrganization: Organization            

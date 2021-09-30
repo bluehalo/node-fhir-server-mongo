@@ -26,7 +26,7 @@ union ScheduleActor = Patient | Practitioner | PractitionerRole | RelatedPerson 
 
 
 type Schedule {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            

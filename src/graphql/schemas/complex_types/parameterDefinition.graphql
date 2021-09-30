@@ -12,14 +12,14 @@
 
 
 type ParameterDefinition {
-        id_: code            
+        id: code            
         extension: [Extension]            
         name: code            
         use: code!            
         min: code            
         max: code            
         documentation: code            
-        type_: code!            
+        type: code!            
         profile: code            
 }
 

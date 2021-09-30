@@ -10,7 +10,7 @@
 
 
 type CoverageEligibilityResponseInsurance {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         coverage: Coverage!            

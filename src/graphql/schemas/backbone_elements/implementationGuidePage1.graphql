@@ -9,7 +9,7 @@
 
 
 type ImplementationGuidePage1 {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         name: code!            

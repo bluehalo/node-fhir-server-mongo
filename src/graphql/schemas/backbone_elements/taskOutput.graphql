@@ -57,10 +57,10 @@
 
 
 type TaskOutput {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
-        type_: CodeableConcept!            
+        type: CodeableConcept!            
         valueBase64Binary: code            
         valueBoolean: code            
         valueCanonical: code            

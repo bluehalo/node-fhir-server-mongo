@@ -30,7 +30,7 @@ union NutritionOrderOrderer = Practitioner | PractitionerRole
 
 
 type NutritionOrder {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            

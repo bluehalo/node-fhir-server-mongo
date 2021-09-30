@@ -8,7 +8,7 @@
 
 
 type CapabilityStatementInteraction1 {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         code: code!            

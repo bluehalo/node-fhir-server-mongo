@@ -49,7 +49,7 @@ union SupplyRequestDeliverTo = Organization | Location | Patient
 
 
 type SupplyRequest {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            

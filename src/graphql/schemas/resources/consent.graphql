@@ -34,7 +34,7 @@ union ConsentSourceReference = Consent | DocumentReference | Contract | Question
 
 
 type Consent {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            

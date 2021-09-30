@@ -10,10 +10,10 @@
 
 
 type InsurancePlanGeneralCost {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
-        type_: CodeableConcept            
+        type: CodeableConcept            
         groupSize: code            
         cost: Money            
         comment: code            

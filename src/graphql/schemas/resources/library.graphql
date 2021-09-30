@@ -43,7 +43,7 @@
 
 
 type Library {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            
@@ -59,7 +59,7 @@ type Library {
         subtitle: code            
         status: code!            
         experimental: code            
-        type_: CodeableConcept!            
+        type: CodeableConcept!            
         subjectCodeableConcept: CodeableConcept            
         subjectReference: Group            
         date: code            

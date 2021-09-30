@@ -24,7 +24,7 @@
 
 
 type NamingSystem {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            
@@ -39,7 +39,7 @@ type NamingSystem {
         publisher: code            
         contact: [ContactDetail]            
         responsible: code            
-        type_: CodeableConcept            
+        type: CodeableConcept            
         description: code            
         useContext: [UsageContext]            
         jurisdiction: [CodeableConcept]            

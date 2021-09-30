@@ -10,7 +10,7 @@
 
 
 type ConceptMapUnmapped {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         mode: code!            

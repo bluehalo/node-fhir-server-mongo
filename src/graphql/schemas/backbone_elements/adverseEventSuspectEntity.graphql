@@ -15,7 +15,7 @@ union AdverseEventSuspectEntityInstance = Immunization | Procedure | Substance |
 
 
 type AdverseEventSuspectEntity {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         instance: AdverseEventSuspectEntityInstance!            

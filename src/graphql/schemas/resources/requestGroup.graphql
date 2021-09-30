@@ -38,7 +38,7 @@ union RequestGroupReasonReference = Condition | Observation | DiagnosticReport |
 
 
 type RequestGroup {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            

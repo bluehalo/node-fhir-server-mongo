@@ -7,7 +7,7 @@
 
 
 type StructureDefinitionSnapshot {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         element: [ElementDefinition]!            

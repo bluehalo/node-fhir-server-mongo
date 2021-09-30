@@ -24,9 +24,9 @@ union SignatureOnBehalfOf = Practitioner | PractitionerRole | RelatedPerson | Pa
 
 
 type Signature {
-        id_: code            
+        id: code            
         extension: [Extension]            
-        type_: [Coding]!            
+        type: [Coding]!            
         when: code!            
         who: SignatureWho!            
         onBehalfOf: SignatureOnBehalfOf            

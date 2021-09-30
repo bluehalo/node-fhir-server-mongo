@@ -15,7 +15,7 @@ union ContractSubjectReference = Patient | RelatedPerson | Practitioner | Practi
 
 
 type ContractSubject {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         reference: [ContractSubjectReference]!            

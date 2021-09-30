@@ -32,7 +32,7 @@ union InvoiceRecipient = Organization | Patient | RelatedPerson
 
 
 type Invoice {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            
@@ -43,7 +43,7 @@ type Invoice {
         identifier: [Identifier]            
         status: code!            
         cancelledReason: code            
-        type_: CodeableConcept            
+        type: CodeableConcept            
         subject: InvoiceSubject            
         recipient: InvoiceRecipient            
         date: code            

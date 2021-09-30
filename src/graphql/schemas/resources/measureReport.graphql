@@ -33,7 +33,7 @@ union MeasureReportReporter = Practitioner | PractitionerRole | Location | Organ
 
 
 type MeasureReport {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            
@@ -43,7 +43,7 @@ type MeasureReport {
         modifierExtension: [Extension]            
         identifier: [Identifier]            
         status: code!            
-        type_: code!            
+        type: code!            
         measure: code!            
         subject: MeasureReportSubject            
         date: code            

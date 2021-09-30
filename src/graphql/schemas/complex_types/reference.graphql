@@ -9,10 +9,10 @@
 
 
 type Reference {
-        id_: code            
+        id: code            
         extension: [Extension]            
         reference: code            
-        type_: code            
+        type: code            
         identifier: Identifier            
         display: code            
 }

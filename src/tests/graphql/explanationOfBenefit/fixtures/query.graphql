@@ -1,9 +1,9 @@
 query {
-    explanationOfBenefits {
-        id
+    explanationOfBenefit {
+        id_
         identifier {
             system
-            type {
+            type_ {
                 coding {
                     code
                     display
@@ -28,7 +28,7 @@ query {
         careTeam {
             sequence
             provider {
-                reference
+                __typename
             }
         }
         diagnosis {

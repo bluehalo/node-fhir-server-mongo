@@ -20,7 +20,7 @@ union CarePlanActivityReference = Appointment | CommunicationRequest | DeviceReq
 
 
 type CarePlanActivity {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         outcomeCodeableConcept: [CodeableConcept]            

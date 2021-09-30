@@ -20,7 +20,7 @@ union VerificationResultAttestationOnBehalfOf = Organization | Practitioner | Pr
 
 
 type VerificationResultAttestation {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         who: VerificationResultAttestationWho            

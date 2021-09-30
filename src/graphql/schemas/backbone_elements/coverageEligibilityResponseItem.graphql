@@ -22,7 +22,7 @@ union CoverageEligibilityResponseItemProvider = Practitioner | PractitionerRole
 
 
 type CoverageEligibilityResponseItem {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         category: CodeableConcept            

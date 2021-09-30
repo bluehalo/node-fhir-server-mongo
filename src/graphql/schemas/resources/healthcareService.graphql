@@ -35,7 +35,7 @@
 
 
 type HealthcareService {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            
@@ -47,7 +47,7 @@ type HealthcareService {
         active: code            
         providedBy: Organization            
         category: [CodeableConcept]            
-        type_: [CodeableConcept]            
+        type: [CodeableConcept]            
         specialty: [CodeableConcept]            
         location: [Location]            
         name: code            

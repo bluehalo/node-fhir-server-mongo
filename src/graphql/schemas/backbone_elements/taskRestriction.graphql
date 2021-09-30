@@ -15,7 +15,7 @@ union TaskRestrictionRecipient = Patient | Practitioner | PractitionerRole | Rel
 
 
 type TaskRestriction {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         repetitions: code            

@@ -39,7 +39,7 @@ union AllergyIntoleranceAsserter = Patient | RelatedPerson | Practitioner | Prac
 
 
 type AllergyIntolerance {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            
@@ -50,7 +50,7 @@ type AllergyIntolerance {
         identifier: [Identifier]            
         clinicalStatus: CodeableConcept            
         verificationStatus: CodeableConcept            
-        type_: code            
+        type: code            
         category: [code]            
         criticality: code            
         code: CodeableConcept            

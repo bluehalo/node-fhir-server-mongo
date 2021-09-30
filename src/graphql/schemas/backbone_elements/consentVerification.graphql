@@ -11,7 +11,7 @@ union ConsentVerificationVerifiedWith = Patient | RelatedPerson
 
 
 type ConsentVerification {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         verified: code!            

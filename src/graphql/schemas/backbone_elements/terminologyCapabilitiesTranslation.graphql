@@ -7,7 +7,7 @@
 
 
 type TerminologyCapabilitiesTranslation {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         needsMap: code!            

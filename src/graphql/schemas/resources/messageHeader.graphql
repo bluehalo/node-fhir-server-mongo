@@ -33,7 +33,7 @@ union MessageHeaderResponsible = Practitioner | PractitionerRole | Organization
 
 
 type MessageHeader {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            

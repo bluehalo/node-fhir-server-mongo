@@ -53,7 +53,7 @@ union MediaDevice = Device | DeviceMetric
 
 
 type Media {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            
@@ -65,7 +65,7 @@ type Media {
         basedOn: [MediaBasedOn]            
         partOf: [Resource]            
         status: code!            
-        type_: CodeableConcept            
+        type: CodeableConcept            
         modality: CodeableConcept            
         view: CodeableConcept            
         subject: MediaSubject            

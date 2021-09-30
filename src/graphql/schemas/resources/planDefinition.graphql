@@ -43,7 +43,7 @@
 
 
 type PlanDefinition {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            
@@ -57,7 +57,7 @@ type PlanDefinition {
         name: code            
         title: code            
         subtitle: code            
-        type_: CodeableConcept            
+        type: CodeableConcept            
         status: code!            
         experimental: code            
         subjectCodeableConcept: CodeableConcept            

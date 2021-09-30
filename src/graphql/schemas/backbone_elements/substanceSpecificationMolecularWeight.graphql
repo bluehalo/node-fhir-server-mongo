@@ -9,11 +9,11 @@
 
 
 type SubstanceSpecificationMolecularWeight {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         method: CodeableConcept            
-        type_: CodeableConcept            
+        type: CodeableConcept            
         amount: Quantity            
 }
 

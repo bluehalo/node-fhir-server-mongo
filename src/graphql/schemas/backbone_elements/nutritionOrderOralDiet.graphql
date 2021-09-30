@@ -12,10 +12,10 @@
 
 
 type NutritionOrderOralDiet {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
-        type_: [CodeableConcept]            
+        type: [CodeableConcept]            
         schedule: [Timing]            
         nutrient: [NutritionOrderNutrient]            
         texture: [NutritionOrderTexture]            

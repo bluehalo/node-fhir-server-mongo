@@ -10,7 +10,7 @@
 
 
 type MedicationKnowledgeAdministrationGuidelines {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         dosage: [MedicationKnowledgeDosage]            

@@ -9,7 +9,7 @@
 
 
 type EpisodeOfCareDiagnosis {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         condition: Condition!            

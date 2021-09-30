@@ -21,11 +21,11 @@
 
 
 type ContractAsset {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         scope: CodeableConcept            
-        type_: [CodeableConcept]            
+        type: [CodeableConcept]            
         typeReference: [Resource]            
         subtype: [CodeableConcept]            
         relationship: Coding            

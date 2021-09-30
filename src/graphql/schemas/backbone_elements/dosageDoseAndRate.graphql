@@ -12,10 +12,10 @@
 
 
 type DosageDoseAndRate {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
-        type_: CodeableConcept            
+        type: CodeableConcept            
         doseRange: Range            
         doseQuantity: Quantity            
         rateRatio: Ratio            

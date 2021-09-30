@@ -8,7 +8,7 @@
 
 
 type DeviceSpecialization {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         systemType: CodeableConcept!            

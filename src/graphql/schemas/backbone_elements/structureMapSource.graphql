@@ -66,13 +66,13 @@
 
 
 type StructureMapSource {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         context: code!            
         min: code            
         max: code            
-        type_: code            
+        type: code            
         defaultValueBase64Binary: code            
         defaultValueBoolean: code            
         defaultValueCanonical: code            

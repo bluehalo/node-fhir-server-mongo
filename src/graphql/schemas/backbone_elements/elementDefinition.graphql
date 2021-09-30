@@ -203,7 +203,7 @@
 
 
 type ElementDefinition {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         path: code!            
@@ -222,7 +222,7 @@ type ElementDefinition {
         max: code            
         base: ElementDefinitionBase            
         contentReference: code            
-        type_: [ElementDefinitionType]            
+        type: [ElementDefinitionType]            
         defaultValueBase64Binary: code            
         defaultValueBoolean: code            
         defaultValueCanonical: code            

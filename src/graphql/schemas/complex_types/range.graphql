@@ -7,7 +7,7 @@
 
 
 type Range {
-        id_: code            
+        id: code            
         extension: [Extension]            
         low: Quantity            
         high: Quantity            

@@ -8,7 +8,7 @@
 
 
 type ChargeItemDefinitionPropertyGroup {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         applicability: [ChargeItemDefinitionApplicability]            

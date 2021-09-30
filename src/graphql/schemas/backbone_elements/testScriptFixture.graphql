@@ -9,7 +9,7 @@
 
 
 type TestScriptFixture {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         autocreate: code!            

@@ -12,13 +12,13 @@
 
 
 type ExplanationOfBenefitDiagnosis {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         sequence: code!            
         diagnosisCodeableConcept: CodeableConcept            
         diagnosisReference: Condition            
-        type_: [CodeableConcept]            
+        type: [CodeableConcept]            
         onAdmission: CodeableConcept            
         packageCode: CodeableConcept            
 }

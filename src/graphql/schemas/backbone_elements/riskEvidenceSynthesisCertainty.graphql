@@ -9,7 +9,7 @@
 
 
 type RiskEvidenceSynthesisCertainty {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         rating: [CodeableConcept]            

@@ -21,7 +21,7 @@
 
 
 type DeviceMetric {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            
@@ -30,7 +30,7 @@ type DeviceMetric {
         extension: [Extension]            
         modifierExtension: [Extension]            
         identifier: [Identifier]            
-        type_: CodeableConcept!            
+        type: CodeableConcept!            
         unit: CodeableConcept            
         source: Device            
         parent: Device            

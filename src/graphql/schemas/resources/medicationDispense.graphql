@@ -43,7 +43,7 @@ union MedicationDispenseReceiver = Patient | Practitioner
 
 
 type MedicationDispense {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            
@@ -65,7 +65,7 @@ type MedicationDispense {
         performer: [MedicationDispensePerformer]            
         location: Location            
         authorizingPrescription: [MedicationRequest]            
-        type_: CodeableConcept            
+        type: CodeableConcept            
         quantity: Quantity            
         daysSupply: Quantity            
         whenPrepared: code            

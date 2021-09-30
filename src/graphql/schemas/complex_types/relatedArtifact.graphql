@@ -12,9 +12,9 @@
 
 
 type RelatedArtifact {
-        id_: code            
+        id: code            
         extension: [Extension]            
-        type_: code!            
+        type: code!            
         label: code            
         display: code            
         citation: code            

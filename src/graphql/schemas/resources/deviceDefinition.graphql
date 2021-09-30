@@ -34,7 +34,7 @@
 
 
 type DeviceDefinition {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            
@@ -48,7 +48,7 @@ type DeviceDefinition {
         manufacturerReference: Organization            
         deviceName: [DeviceDefinitionDeviceName]            
         modelNumber: code            
-        type_: CodeableConcept            
+        type: CodeableConcept            
         specialization: [DeviceDefinitionSpecialization]            
         version: [code]            
         safety: [CodeableConcept]            

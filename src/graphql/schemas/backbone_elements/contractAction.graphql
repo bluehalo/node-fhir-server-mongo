@@ -53,11 +53,11 @@ union ContractActionReasonReference = Condition | Observation | DiagnosticReport
 
 
 type ContractAction {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         doNotPerform: code            
-        type_: CodeableConcept!            
+        type: CodeableConcept!            
         subject: [ContractSubject]            
         intent: CodeableConcept!            
         linkId: [code]            

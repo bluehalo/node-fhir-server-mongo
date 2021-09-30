@@ -22,7 +22,7 @@ union MedicinalProductIndicationSubject = MedicinalProduct | Medication
 
 
 type MedicinalProductIndication {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            

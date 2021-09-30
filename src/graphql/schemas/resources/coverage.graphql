@@ -36,7 +36,7 @@ union CoveragePayor = Organization | Patient | RelatedPerson
 
 
 type Coverage {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            
@@ -46,7 +46,7 @@ type Coverage {
         modifierExtension: [Extension]            
         identifier: [Identifier]            
         status: code!            
-        type_: CodeableConcept            
+        type: CodeableConcept            
         policyHolder: CoveragePolicyHolder            
         subscriber: CoverageSubscriber            
         subscriberId: code            
@@ -55,7 +55,7 @@ type Coverage {
         relationship: CodeableConcept            
         period: Period            
         payor: [CoveragePayor]!            
-        class_: [CoverageClass]            
+        class: [CoverageClass]            
         order: code            
         network: code            
         costToBeneficiary: [CoverageCostToBeneficiary]            

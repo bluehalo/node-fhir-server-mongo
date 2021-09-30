@@ -41,7 +41,7 @@ union ClaimResponseRequestor = Practitioner | PractitionerRole | Organization
 
 
 type ClaimResponse {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            
@@ -51,7 +51,7 @@ type ClaimResponse {
         modifierExtension: [Extension]            
         identifier: [Identifier]            
         status: code!            
-        type_: CodeableConcept!            
+        type: CodeableConcept!            
         subType: CodeableConcept            
         use: code!            
         patient: Patient!            

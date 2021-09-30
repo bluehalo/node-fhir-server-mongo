@@ -12,7 +12,7 @@
 
 
 type BundleEntry {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         link: [BundleLink]            

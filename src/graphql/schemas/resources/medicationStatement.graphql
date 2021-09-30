@@ -50,7 +50,7 @@ union MedicationStatementReasonReference = Condition | Observation | DiagnosticR
 
 
 type MedicationStatement {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            

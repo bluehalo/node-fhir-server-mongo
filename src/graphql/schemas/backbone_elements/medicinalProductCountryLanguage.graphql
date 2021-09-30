@@ -9,7 +9,7 @@
 
 
 type MedicinalProductCountryLanguage {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         country: CodeableConcept!            

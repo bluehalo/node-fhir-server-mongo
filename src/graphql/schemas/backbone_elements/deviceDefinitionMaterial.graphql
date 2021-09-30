@@ -9,7 +9,7 @@
 
 
 type DeviceDefinitionMaterial {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         substance: CodeableConcept!            

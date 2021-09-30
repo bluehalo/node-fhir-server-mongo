@@ -32,7 +32,7 @@ union ListSource = Practitioner | PractitionerRole | Patient | Device
 
 
 type List {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            

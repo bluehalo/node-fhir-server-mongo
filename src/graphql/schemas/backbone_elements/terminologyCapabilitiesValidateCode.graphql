@@ -7,7 +7,7 @@
 
 
 type TerminologyCapabilitiesValidateCode {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         translations: code!            

@@ -13,12 +13,12 @@
 
 
 type SpecimenContainer {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         identifier: [Identifier]            
         description: code            
-        type_: CodeableConcept            
+        type: CodeableConcept            
         capacity: Quantity            
         specimenQuantity: Quantity            
         additiveCodeableConcept: CodeableConcept            

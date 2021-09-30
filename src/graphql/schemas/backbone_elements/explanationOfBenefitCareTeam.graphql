@@ -14,7 +14,7 @@ union ExplanationOfBenefitCareTeamProvider = Practitioner | PractitionerRole | O
 
 
 type ExplanationOfBenefitCareTeam {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         sequence: code!            

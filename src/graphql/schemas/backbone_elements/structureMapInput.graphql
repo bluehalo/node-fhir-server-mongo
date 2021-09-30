@@ -10,11 +10,11 @@
 
 
 type StructureMapInput {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         name: code!            
-        type_: code            
+        type: code            
         mode: code!            
         documentation: code            
 }

@@ -11,10 +11,10 @@
 
 
 type MedicationKnowledgeDrugCharacteristic {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
-        type_: CodeableConcept            
+        type: CodeableConcept            
         valueCodeableConcept: CodeableConcept            
         valueString: code            
         valueQuantity: Quantity            

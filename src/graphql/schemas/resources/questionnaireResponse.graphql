@@ -36,7 +36,7 @@ union QuestionnaireResponseSource = Patient | Practitioner | PractitionerRole | 
 
 
 type QuestionnaireResponse {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            

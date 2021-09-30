@@ -37,7 +37,7 @@
 
 
 type OperationDefinition {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            
@@ -65,7 +65,7 @@ type OperationDefinition {
         base: code            
         resource: [code]            
         system: code!            
-        type_: code!            
+        type: code!            
         instance: code!            
         inputProfile: code            
         outputProfile: code            

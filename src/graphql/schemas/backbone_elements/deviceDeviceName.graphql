@@ -8,11 +8,11 @@
 
 
 type DeviceDeviceName {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         name: code!            
-        type_: code!            
+        type: code!            
 }
 
 extend type Query {

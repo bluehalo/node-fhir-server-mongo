@@ -12,7 +12,7 @@ union AccountGuarantorParty = Patient | RelatedPerson | Organization
 
 
 type AccountGuarantor {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         party: AccountGuarantorParty!            

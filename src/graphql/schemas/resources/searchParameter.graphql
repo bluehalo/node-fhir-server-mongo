@@ -37,7 +37,7 @@
 
 
 type SearchParameter {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            
@@ -60,7 +60,7 @@ type SearchParameter {
         purpose: code            
         code: code!            
         base: [code]!            
-        type_: code!            
+        type: code!            
         expression: code            
         xpath: code            
         xpathUsage: code            

@@ -10,11 +10,11 @@
 
 
 type SubstancePolymerStartingMaterial {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         material: CodeableConcept            
-        type_: CodeableConcept            
+        type: CodeableConcept            
         isDefining: code            
         amount: SubstanceAmount            
 }

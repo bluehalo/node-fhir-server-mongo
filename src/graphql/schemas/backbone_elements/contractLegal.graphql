@@ -11,7 +11,7 @@ union ContractLegalContentReference = Composition | DocumentReference | Question
 
 
 type ContractLegal {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         contentAttachment: Attachment            

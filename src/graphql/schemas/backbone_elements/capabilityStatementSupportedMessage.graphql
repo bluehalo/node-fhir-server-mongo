@@ -8,7 +8,7 @@
 
 
 type CapabilityStatementSupportedMessage {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         mode: code!            

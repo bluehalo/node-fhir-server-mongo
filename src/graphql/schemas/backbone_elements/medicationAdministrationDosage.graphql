@@ -13,7 +13,7 @@
 
 
 type MedicationAdministrationDosage {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         text: code            

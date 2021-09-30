@@ -12,7 +12,7 @@
 
 
 type ConceptMapGroup {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         source: code            

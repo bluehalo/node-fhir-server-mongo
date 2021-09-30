@@ -17,7 +17,7 @@
 
 
 type SubstancePolymer {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            
@@ -25,7 +25,7 @@ type SubstancePolymer {
         contained: [code]            
         extension: [Extension]            
         modifierExtension: [Extension]            
-        class_: CodeableConcept            
+        class: CodeableConcept            
         geometry: CodeableConcept            
         copolymerConnectivity: [CodeableConcept]            
         modification: [code]            

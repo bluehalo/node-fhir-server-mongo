@@ -10,7 +10,7 @@
 
 
 type SpecimenDefinitionHandling {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         temperatureQualifier: CodeableConcept            

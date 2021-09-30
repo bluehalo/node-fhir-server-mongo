@@ -8,10 +8,10 @@
 
 
 type PaymentReconciliationProcessNote {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
-        type_: code            
+        type: code            
         text: code            
 }
 

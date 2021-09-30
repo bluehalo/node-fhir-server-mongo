@@ -13,10 +13,10 @@ union ClaimPayeeParty = Practitioner | PractitionerRole | Organization | Patient
 
 
 type ClaimPayee {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
-        type_: CodeableConcept!            
+        type: CodeableConcept!            
         party: ClaimPayeeParty            
 }
 

@@ -10,12 +10,12 @@
 
 
 type CapabilityStatementSearchParam {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         name: code!            
         definition: code            
-        type_: code!            
+        type: code!            
         documentation: code            
 }
 

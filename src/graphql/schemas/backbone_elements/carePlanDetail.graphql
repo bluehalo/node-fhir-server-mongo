@@ -40,7 +40,7 @@ union CarePlanDetailProductReference = Medication | Substance
 
 
 type CarePlanDetail {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         kind: code            

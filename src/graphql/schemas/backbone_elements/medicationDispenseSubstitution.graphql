@@ -12,11 +12,11 @@ union MedicationDispenseSubstitutionResponsibleParty = Practitioner | Practition
 
 
 type MedicationDispenseSubstitution {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         wasSubstituted: code!            
-        type_: CodeableConcept            
+        type: CodeableConcept            
         reason: [CodeableConcept]            
         responsibleParty: [MedicationDispenseSubstitutionResponsibleParty]            
 }

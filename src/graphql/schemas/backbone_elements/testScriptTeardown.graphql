@@ -7,7 +7,7 @@
 
 
 type TestScriptTeardown {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         action: [TestScriptAction2]!            

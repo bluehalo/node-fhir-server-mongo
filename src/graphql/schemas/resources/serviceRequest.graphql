@@ -76,7 +76,7 @@ union ServiceRequestInsurance = Coverage | ClaimResponse
 
 
 type ServiceRequest {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            

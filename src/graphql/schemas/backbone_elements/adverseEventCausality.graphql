@@ -12,7 +12,7 @@ union AdverseEventCausalityAuthor = Practitioner | PractitionerRole
 
 
 type AdverseEventCausality {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         assessment: CodeableConcept            

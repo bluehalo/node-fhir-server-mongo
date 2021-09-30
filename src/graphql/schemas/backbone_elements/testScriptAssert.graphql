@@ -28,7 +28,7 @@
 
 
 type TestScriptAssert {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         label: code            

@@ -26,7 +26,7 @@ union AppointmentResponseActor = Patient | Practitioner | PractitionerRole | Rel
 
 
 type AppointmentResponse {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            

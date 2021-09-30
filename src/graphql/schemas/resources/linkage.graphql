@@ -17,7 +17,7 @@ union LinkageAuthor = Practitioner | PractitionerRole | Organization
 
 
 type Linkage {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            

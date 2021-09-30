@@ -8,7 +8,7 @@
 
 
 type EpisodeOfCareStatusHistory {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         status: code!            

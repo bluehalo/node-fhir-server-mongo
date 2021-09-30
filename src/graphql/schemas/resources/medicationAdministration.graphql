@@ -41,7 +41,7 @@ union MedicationAdministrationReasonReference = Condition | Observation | Diagno
 
 
 type MedicationAdministration {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            

@@ -13,7 +13,7 @@
 
 
 type AllergyIntoleranceReaction {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         substance: CodeableConcept            

@@ -15,10 +15,10 @@ union ContractContentDefinitionPublisher = Practitioner | PractitionerRole | Org
 
 
 type ContractContentDefinition {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
-        type_: CodeableConcept!            
+        type: CodeableConcept!            
         subType: CodeableConcept            
         publisher: ContractContentDefinitionPublisher            
         publicationDate: code            

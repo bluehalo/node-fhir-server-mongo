@@ -11,7 +11,7 @@
 
 
 type DeviceRequestParameter {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         code: CodeableConcept            

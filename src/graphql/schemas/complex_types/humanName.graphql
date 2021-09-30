@@ -12,7 +12,7 @@
 
 
 type HumanName {
-        id_: code            
+        id: code            
         extension: [Extension]            
         use: code            
         text: code            

@@ -27,7 +27,7 @@ union DetectedIssueAuthor = Practitioner | PractitionerRole | Device
 
 
 type DetectedIssue {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            

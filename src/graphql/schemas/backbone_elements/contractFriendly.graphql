@@ -11,7 +11,7 @@ union ContractFriendlyContentReference = Composition | DocumentReference | Quest
 
 
 type ContractFriendly {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         contentAttachment: Attachment            

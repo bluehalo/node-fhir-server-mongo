@@ -9,10 +9,10 @@
 
 
 type DeviceMetricCalibration {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
-        type_: code            
+        type: code            
         state: code            
         time: code            
 }

@@ -11,10 +11,10 @@
 
 
 type Identifier {
-        id_: code            
+        id: code            
         extension: [Extension]            
         use: code            
-        type_: CodeableConcept            
+        type: CodeableConcept            
         system: code            
         value: code            
         period: Period            

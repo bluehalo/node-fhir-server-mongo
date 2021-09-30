@@ -8,7 +8,7 @@
 
 
 type CoverageEligibilityRequestDiagnosis {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         diagnosisCodeableConcept: CodeableConcept            

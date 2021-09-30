@@ -30,7 +30,7 @@ union ExplanationOfBenefitAddItemProvider = Practitioner | PractitionerRole | Or
 
 
 type ExplanationOfBenefitAddItem {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         itemSequence: [code]            

@@ -7,7 +7,7 @@
 
 
 type ContactDetail {
-        id_: code            
+        id: code            
         extension: [Extension]            
         name: code            
         telecom: [ContactPoint]            

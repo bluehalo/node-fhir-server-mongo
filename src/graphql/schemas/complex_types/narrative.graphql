@@ -6,7 +6,7 @@
 
 
 type Narrative {
-        id_: code            
+        id: code            
         extension: [Extension]            
         status: code!            
 }

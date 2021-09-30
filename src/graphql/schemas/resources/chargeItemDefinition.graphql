@@ -37,7 +37,7 @@ union ChargeItemDefinitionInstance = Medication | Substance | Device
 
 
 type ChargeItemDefinition {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            

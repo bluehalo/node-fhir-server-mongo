@@ -8,7 +8,7 @@
 
 
 type BundleLink {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         relation: code!            

@@ -13,11 +13,11 @@
 
 
 type RiskEvidenceSynthesisRiskEstimate {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         description: code            
-        type_: CodeableConcept            
+        type: CodeableConcept            
         value: code            
         unitOfMeasure: CodeableConcept            
         denominatorCount: code            

@@ -9,7 +9,7 @@
 
 
 type ExplanationOfBenefitInsurance {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         focal: code!            

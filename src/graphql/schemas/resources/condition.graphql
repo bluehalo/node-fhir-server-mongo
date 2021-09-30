@@ -46,7 +46,7 @@ union ConditionAsserter = Practitioner | PractitionerRole | Patient | RelatedPer
 
 
 type Condition {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            

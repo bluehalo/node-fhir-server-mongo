@@ -55,7 +55,7 @@
 
 
 type Extension {
-        id_: code            
+        id: code            
         extension: [Extension]            
         url: code            
         valueBase64Binary: code            

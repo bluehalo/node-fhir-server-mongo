@@ -11,7 +11,7 @@
 
 
 type ValueSetInclude {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         system: code            

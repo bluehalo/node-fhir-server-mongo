@@ -10,7 +10,7 @@
 
 
 type ListEntry {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         flag: CodeableConcept            

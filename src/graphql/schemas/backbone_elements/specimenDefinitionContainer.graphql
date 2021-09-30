@@ -15,11 +15,11 @@
 
 
 type SpecimenDefinitionContainer {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         material: CodeableConcept            
-        type_: CodeableConcept            
+        type: CodeableConcept            
         cap: CodeableConcept            
         description: code            
         capacity: Quantity            

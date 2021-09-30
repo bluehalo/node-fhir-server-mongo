@@ -40,7 +40,7 @@ union DocumentReferenceAuthenticator = Practitioner | PractitionerRole | Organiz
 
 
 type DocumentReference {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            
@@ -52,7 +52,7 @@ type DocumentReference {
         identifier: [Identifier]            
         status: code!            
         docStatus: code            
-        type_: CodeableConcept            
+        type: CodeableConcept            
         category: [CodeableConcept]            
         subject: DocumentReferenceSubject            
         date: code            

@@ -60,7 +60,7 @@ union DeviceRequestInsurance = Coverage | ClaimResponse
 
 
 type DeviceRequest {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            

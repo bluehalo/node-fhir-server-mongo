@@ -15,7 +15,7 @@ union ImagingStudyPerformerActor = Practitioner | PractitionerRole | Organizatio
 
 
 type ImagingStudyPerformer {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         function: CodeableConcept            

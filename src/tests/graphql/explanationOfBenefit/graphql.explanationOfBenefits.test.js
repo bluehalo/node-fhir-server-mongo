@@ -112,7 +112,7 @@ describe('GraphQL ExplanationOfBenefit Tests', () => {
                         'query': graphqlQueryText
                     })
                     .set(getGraphQLHeaders())
-                    .expect(200, cb)
+                    // .expect(200, cb)
                     .expect((resp) => {
                         // clear out the lastUpdated column since that changes
                         let body = resp.body;

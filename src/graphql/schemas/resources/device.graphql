@@ -37,7 +37,7 @@
 
 
 type Device {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            
@@ -59,7 +59,7 @@ type Device {
         deviceName: [DeviceDeviceName]            
         modelNumber: code            
         partNumber: code            
-        type_: CodeableConcept            
+        type: CodeableConcept            
         specialization: [DeviceSpecialization]            
         version: [DeviceVersion]            
         property: [DeviceProperty]            

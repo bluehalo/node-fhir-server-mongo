@@ -12,7 +12,7 @@ union SupplyDeliverySuppliedItemItemReference = Medication | Substance | Device
 
 
 type SupplyDeliverySuppliedItem {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         quantity: Quantity            

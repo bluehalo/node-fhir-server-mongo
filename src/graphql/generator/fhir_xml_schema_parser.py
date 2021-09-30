@@ -363,11 +363,11 @@ class FhirXmlSchemaParser:
                         p
                         for p in parent_fhir_entity.properties
                         if p.name
-                        == FhirXmlSchemaParser.fix_python_keywords(entity_name_part)
+                        == FhirXmlSchemaParser.fix_graphql_keywords(entity_name_part)
                         or (
                             entity_name_part.endswith("[x]")
                             and p.name
-                            == FhirXmlSchemaParser.fix_python_keywords(
+                            == FhirXmlSchemaParser.fix_graphql_keywords(
                                 entity_name_part.replace("[x]", "") + "CodeableConcept"
                             )
                         )
@@ -397,11 +397,11 @@ class FhirXmlSchemaParser:
                 fhir_property_list = [
                     p
                     for p in fhir_entity.properties
-                    if p.name == FhirXmlSchemaParser.fix_python_keywords(property_name)
+                    if p.name == FhirXmlSchemaParser.fix_graphql_keywords(property_name)
                     or (
                         property_name.endswith("[x]")
                         and p.name
-                        == FhirXmlSchemaParser.fix_python_keywords(
+                        == FhirXmlSchemaParser.fix_graphql_keywords(
                             property_name.replace("[x]", "") + "CodeableConcept"
                         )
                     )
@@ -538,7 +538,7 @@ class FhirXmlSchemaParser:
                         p
                         for p in fhir_entity.properties
                         if p.name
-                        == FhirXmlSchemaParser.fix_python_keywords(property_name)
+                        == FhirXmlSchemaParser.fix_graphql_keywords(property_name)
                     ]
                 if fhir_property_list:
                     fhir_property = fhir_property_list[0]
@@ -742,7 +742,7 @@ class FhirXmlSchemaParser:
                 fhir_properties.append(
                     FhirProperty(
                         fhir_name=property_name,
-                        name=FhirXmlSchemaParser.fix_python_keywords(property_name),
+                        name=FhirXmlSchemaParser.fix_graphql_keywords(property_name),
                         type_=property_type,
                         cleaned_type=cleaned_type
                         if cleaned_type not in FhirXmlSchemaParser.cleaned_type_mapping
@@ -765,49 +765,12 @@ class FhirXmlSchemaParser:
         return fhir_properties
 
     @staticmethod
-    def fix_python_keywords(name: str) -> str:
+    def fix_graphql_keywords(name: str) -> str:
         result: str = (
             name
             if name
             not in [
-                "False",
-                "None",
-                "True",
-                "and",
-                "as",
-                "assert",
-                "async",
-                "await",
-                "break",
-                "class",
-                "continue",
-                "def",
-                "del",
-                "elif",
-                "else",
-                "except",
-                "finally",
-                "for",
-                "from",
-                "global",
-                "if",
-                "import",
-                "in",
-                "is",
-                "lambda",
-                "nonlocal",
-                "not",
-                "or",
-                "pass",
-                "raise",
-                "return",
-                "try",
-                "while",
-                "with",
-                "yield",
-                "id",
-                "type",
-                "List",
+                "as"
             ]
             else f"{name}_"
         )
@@ -1193,7 +1156,7 @@ class FhirXmlSchemaParser:
             [c[:1].upper() + c[1:] for c in display.split(" ")]
         )
         cleaned_display = re.sub("[^0-9a-zA-Z]+", "_", cleaned_display)
-        cleaned_display = FhirXmlSchemaParser.fix_python_keywords(cleaned_display)
+        cleaned_display = FhirXmlSchemaParser.fix_graphql_keywords(cleaned_display)
         return cleaned_display
 
     @staticmethod

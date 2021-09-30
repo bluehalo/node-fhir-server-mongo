@@ -32,7 +32,7 @@ union FlagAuthor = Device | Organization | Patient | Practitioner | Practitioner
 
 
 type Flag {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            

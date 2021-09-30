@@ -15,7 +15,7 @@ union SubstanceSpecificationPropertyDefiningSubstanceReference = SubstanceSpecif
 
 
 type SubstanceSpecificationProperty {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         category: CodeableConcept            

@@ -14,7 +14,7 @@ union BiologicallyDerivedProductCollectionSource = Patient | Organization
 
 
 type BiologicallyDerivedProductCollection {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         collector: BiologicallyDerivedProductCollectionCollector            

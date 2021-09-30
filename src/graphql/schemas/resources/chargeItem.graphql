@@ -61,7 +61,7 @@ union ChargeItemProductReference = Device | Medication | Substance
 
 
 type ChargeItem {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            

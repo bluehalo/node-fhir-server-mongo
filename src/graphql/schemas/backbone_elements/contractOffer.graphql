@@ -16,13 +16,13 @@
 
 
 type ContractOffer {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         identifier: [Identifier]            
         party: [ContractParty]            
         topic: Resource            
-        type_: CodeableConcept            
+        type: CodeableConcept            
         decision: CodeableConcept            
         decisionMode: [CodeableConcept]            
         answer: [ContractAnswer]            

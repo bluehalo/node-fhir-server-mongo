@@ -13,7 +13,7 @@
 
 
 type MolecularSequenceRoc {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         score: [code]            

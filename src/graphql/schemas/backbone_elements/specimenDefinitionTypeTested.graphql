@@ -14,11 +14,11 @@
 
 
 type SpecimenDefinitionTypeTested {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         isDerived: code            
-        type_: CodeableConcept            
+        type: CodeableConcept            
         preference: code!            
         container: SpecimenDefinitionContainer            
         requirement: code            

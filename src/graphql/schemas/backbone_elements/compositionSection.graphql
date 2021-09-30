@@ -21,7 +21,7 @@ union CompositionSectionAuthor = Practitioner | PractitionerRole | Device | Pati
 
 
 type CompositionSection {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         title: code            

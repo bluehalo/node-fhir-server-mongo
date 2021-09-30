@@ -8,7 +8,7 @@
 
 
 type CapabilityStatementEndpoint {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         protocol: Coding!            

@@ -35,7 +35,7 @@ union CatalogEntryReferencedItem = Medication | Device | Organization | Practiti
 
 
 type CatalogEntry {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            
@@ -44,7 +44,7 @@ type CatalogEntry {
         extension: [Extension]            
         modifierExtension: [Extension]            
         identifier: [Identifier]            
-        type_: CodeableConcept            
+        type: CodeableConcept            
         orderable: code!            
         referencedItem: CatalogEntryReferencedItem!            
         additionalIdentifier: [Identifier]            

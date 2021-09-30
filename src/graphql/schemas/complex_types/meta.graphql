@@ -11,7 +11,7 @@
 
 
 type Meta {
-        id_: code            
+        id: code            
         extension: [Extension]            
         versionId: code            
         lastUpdated: code            

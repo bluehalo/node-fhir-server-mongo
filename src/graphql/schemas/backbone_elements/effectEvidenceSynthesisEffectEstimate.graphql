@@ -12,11 +12,11 @@
 
 
 type EffectEvidenceSynthesisEffectEstimate {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         description: code            
-        type_: CodeableConcept            
+        type: CodeableConcept            
         variantState: CodeableConcept            
         value: code            
         unitOfMeasure: CodeableConcept            

@@ -7,7 +7,7 @@
 
 
 type TestReportAction2 {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         operation: TestReportOperation!            

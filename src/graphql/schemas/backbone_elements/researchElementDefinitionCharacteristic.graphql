@@ -27,7 +27,7 @@
 
 
 type ResearchElementDefinitionCharacteristic {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         definitionCodeableConcept: CodeableConcept            

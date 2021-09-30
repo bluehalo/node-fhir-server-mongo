@@ -37,7 +37,7 @@ union AppointmentReasonReference = Condition | Procedure | Observation | Immuniz
 
 
 type Appointment {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            

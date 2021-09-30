@@ -12,10 +12,10 @@
 
 
 type ExplanationOfBenefitPayment {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
-        type_: CodeableConcept            
+        type: CodeableConcept            
         adjustment: Money            
         adjustmentReason: CodeableConcept            
         date: code            

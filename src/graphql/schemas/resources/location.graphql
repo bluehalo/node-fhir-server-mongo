@@ -28,7 +28,7 @@
 
 
 type Location {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            
@@ -43,7 +43,7 @@ type Location {
         alias: [code]            
         description: code            
         mode: code            
-        type_: [CodeableConcept]            
+        type: [CodeableConcept]            
         telecom: [ContactPoint]            
         address: Address            
         physicalType: CodeableConcept            

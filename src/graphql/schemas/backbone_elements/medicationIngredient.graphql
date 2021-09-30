@@ -12,7 +12,7 @@ union MedicationIngredientItemReference = Substance | Medication
 
 
 type MedicationIngredient {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         itemCodeableConcept: CodeableConcept            

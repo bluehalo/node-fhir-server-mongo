@@ -7,7 +7,7 @@
 
 
 type TestReportTeardown {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         action: [TestReportAction2]!            

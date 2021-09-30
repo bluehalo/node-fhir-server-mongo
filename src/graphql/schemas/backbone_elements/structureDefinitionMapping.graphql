@@ -10,7 +10,7 @@
 
 
 type StructureDefinitionMapping {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         identity: code!            

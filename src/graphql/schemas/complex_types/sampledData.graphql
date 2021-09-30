@@ -12,7 +12,7 @@
 
 
 type SampledData {
-        id_: code            
+        id: code            
         extension: [Extension]            
         origin: Quantity!            
         period: code!            

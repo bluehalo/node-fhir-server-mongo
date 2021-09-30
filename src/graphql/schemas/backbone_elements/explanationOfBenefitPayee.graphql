@@ -13,10 +13,10 @@ union ExplanationOfBenefitPayeeParty = Practitioner | PractitionerRole | Organiz
 
 
 type ExplanationOfBenefitPayee {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
-        type_: CodeableConcept            
+        type: CodeableConcept            
         party: ExplanationOfBenefitPayeeParty            
 }
 

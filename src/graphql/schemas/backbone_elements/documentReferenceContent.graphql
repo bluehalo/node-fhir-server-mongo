@@ -8,7 +8,7 @@
 
 
 type DocumentReferenceContent {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         attachment: Attachment!            

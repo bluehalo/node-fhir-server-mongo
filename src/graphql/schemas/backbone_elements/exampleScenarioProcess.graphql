@@ -11,7 +11,7 @@
 
 
 type ExampleScenarioProcess {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         title: code!            

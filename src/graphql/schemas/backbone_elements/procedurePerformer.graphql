@@ -15,7 +15,7 @@ union ProcedurePerformerActor = Practitioner | PractitionerRole | Organization |
 
 
 type ProcedurePerformer {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         function: CodeableConcept            

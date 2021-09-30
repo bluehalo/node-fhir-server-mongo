@@ -13,7 +13,7 @@ union MedicinalProductContraindicationOtherTherapyMedicationReference = Medicina
 
 
 type MedicinalProductContraindicationOtherTherapy {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         therapyRelationshipType: CodeableConcept!            

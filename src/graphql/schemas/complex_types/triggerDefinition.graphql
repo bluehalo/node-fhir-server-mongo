@@ -13,9 +13,9 @@
 
 
 type TriggerDefinition {
-        id_: code            
+        id: code            
         extension: [Extension]            
-        type_: code!            
+        type: code!            
         name: code            
         timingTiming: Timing            
         timingReference: Schedule            

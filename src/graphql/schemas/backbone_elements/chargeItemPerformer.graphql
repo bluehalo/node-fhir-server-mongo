@@ -15,7 +15,7 @@ union ChargeItemPerformerActor = Practitioner | PractitionerRole | Organization 
 
 
 type ChargeItemPerformer {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         function: CodeableConcept            

@@ -11,7 +11,7 @@ union EncounterDiagnosisCondition = Condition | Procedure
 
 
 type EncounterDiagnosis {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         condition: EncounterDiagnosisCondition!            

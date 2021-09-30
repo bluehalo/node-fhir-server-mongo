@@ -50,7 +50,7 @@ union AdverseEventSubjectMedicalHistory = Condition | Observation | AllergyIntol
 
 
 type AdverseEvent {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            

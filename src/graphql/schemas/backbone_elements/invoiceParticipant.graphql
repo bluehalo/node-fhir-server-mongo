@@ -14,7 +14,7 @@ union InvoiceParticipantActor = Practitioner | Organization | Patient | Practiti
 
 
 type InvoiceParticipant {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         role: CodeableConcept            

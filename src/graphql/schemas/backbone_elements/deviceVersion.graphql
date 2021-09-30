@@ -9,10 +9,10 @@
 
 
 type DeviceVersion {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
-        type_: CodeableConcept            
+        type: CodeableConcept            
         component: Identifier            
         value: code!            
 }

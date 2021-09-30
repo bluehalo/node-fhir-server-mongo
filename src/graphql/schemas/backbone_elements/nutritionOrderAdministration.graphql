@@ -10,7 +10,7 @@
 
 
 type NutritionOrderAdministration {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         schedule: Timing            

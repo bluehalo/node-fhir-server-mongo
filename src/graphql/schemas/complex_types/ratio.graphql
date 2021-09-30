@@ -7,7 +7,7 @@
 
 
 type Ratio {
-        id_: code            
+        id: code            
         extension: [Extension]            
         numerator: Quantity            
         denominator: Quantity            

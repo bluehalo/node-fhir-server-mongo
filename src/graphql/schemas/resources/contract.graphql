@@ -54,7 +54,7 @@ union ContractLegallyBindingReference = Composition | DocumentReference | Questi
 
 
 type Contract {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            
@@ -85,7 +85,7 @@ type Contract {
         scope: CodeableConcept            
         topicCodeableConcept: CodeableConcept            
         topicReference: Resource            
-        type_: CodeableConcept            
+        type: CodeableConcept            
         subType: [CodeableConcept]            
         contentDefinition: ContractContentDefinition            
         term: [ContractTerm]            

@@ -12,7 +12,7 @@
 
 
 type MedicinalProductManufacturingBusinessOperation {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         operationType: CodeableConcept            

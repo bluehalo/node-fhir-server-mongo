@@ -10,10 +10,10 @@
 
 
 type ChargeItemDefinitionPriceComponent {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
-        type_: code!            
+        type: code!            
         code: CodeableConcept            
         factor: code            
         amount: Money            

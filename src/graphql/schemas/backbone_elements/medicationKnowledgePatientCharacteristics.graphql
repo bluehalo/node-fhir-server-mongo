@@ -9,7 +9,7 @@
 
 
 type MedicationKnowledgePatientCharacteristics {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         characteristicCodeableConcept: CodeableConcept            

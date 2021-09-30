@@ -21,7 +21,7 @@
 
 
 type QuestionnaireItem {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         linkId: code!            
@@ -29,7 +29,7 @@ type QuestionnaireItem {
         code: [Coding]            
         prefix: code            
         text: code            
-        type_: code!            
+        type: code!            
         enableWhen: [QuestionnaireEnableWhen]            
         enableBehavior: code            
         required: code            

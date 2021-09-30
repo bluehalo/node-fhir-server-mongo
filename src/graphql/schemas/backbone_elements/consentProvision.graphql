@@ -16,16 +16,16 @@
 
 
 type ConsentProvision {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
-        type_: code            
+        type: code            
         period: Period            
         actor: [ConsentActor]            
         action: [CodeableConcept]            
         securityLabel: [Coding]            
         purpose: [Coding]            
-        class_: [Coding]            
+        class: [Coding]            
         code: [CodeableConcept]            
         dataPeriod: Period            
         data: [ConsentData]            

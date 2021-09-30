@@ -15,11 +15,11 @@
 
 
 type AuditEventEntity {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         what: Resource            
-        type_: Coding            
+        type: Coding            
         role: Coding            
         lifecycle: Coding            
         securityLabel: [Coding]            

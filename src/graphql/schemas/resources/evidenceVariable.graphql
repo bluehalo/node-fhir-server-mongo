@@ -38,7 +38,7 @@
 
 
 type EvidenceVariable {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            
@@ -71,7 +71,7 @@ type EvidenceVariable {
         reviewer: [ContactDetail]            
         endorser: [ContactDetail]            
         relatedArtifact: [RelatedArtifact]            
-        type_: code            
+        type: code            
         characteristic: [EvidenceVariableCharacteristic]!            
 }
 

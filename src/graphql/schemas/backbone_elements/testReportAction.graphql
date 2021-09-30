@@ -8,11 +8,11 @@
 
 
 type TestReportAction {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         operation: TestReportOperation            
-        assert_: TestReportAssert            
+        assert: TestReportAssert            
 }
 
 extend type Query {

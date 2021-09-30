@@ -9,7 +9,7 @@
 
 
 type TestReportAssert {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         result: code!            

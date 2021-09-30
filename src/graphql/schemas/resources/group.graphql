@@ -25,7 +25,7 @@ union GroupManagingEntity = Organization | RelatedPerson | Practitioner | Practi
 
 
 type Group {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            
@@ -35,7 +35,7 @@ type Group {
         modifierExtension: [Extension]            
         identifier: [Identifier]            
         active: code            
-        type_: code!            
+        type: code!            
         actual: code!            
         code: CodeableConcept            
         name: code            

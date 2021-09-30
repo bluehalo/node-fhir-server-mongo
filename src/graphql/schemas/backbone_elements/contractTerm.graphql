@@ -18,7 +18,7 @@
 
 
 type ContractTerm {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         identifier: Identifier            
@@ -26,7 +26,7 @@ type ContractTerm {
         applies: Period            
         topicCodeableConcept: CodeableConcept            
         topicReference: Resource            
-        type_: CodeableConcept            
+        type: CodeableConcept            
         subType: CodeableConcept            
         text: code            
         securityLabel: [ContractSecurityLabel]            

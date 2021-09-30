@@ -47,7 +47,7 @@ union DiagnosticReportResultsInterpreter = Practitioner | PractitionerRole | Org
 
 
 type DiagnosticReport {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            

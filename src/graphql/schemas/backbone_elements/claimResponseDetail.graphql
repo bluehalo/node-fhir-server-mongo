@@ -10,7 +10,7 @@
 
 
 type ClaimResponseDetail {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         detailSequence: code!            

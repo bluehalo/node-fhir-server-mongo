@@ -8,11 +8,11 @@
 
 
 type AuditEventNetwork {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         address: code            
-        type_: code            
+        type: code            
 }
 
 extend type Query {

@@ -10,7 +10,7 @@
 
 
 type ValueSetCompose {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         lockedDate: code            

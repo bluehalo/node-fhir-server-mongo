@@ -20,7 +20,7 @@ union CoverageEligibilityRequestItemFacility = Location | Organization
 
 
 type CoverageEligibilityRequestItem {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         supportingInfoSequence: [code]            

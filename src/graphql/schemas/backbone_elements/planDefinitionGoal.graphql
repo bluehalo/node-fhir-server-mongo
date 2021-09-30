@@ -13,7 +13,7 @@
 
 
 type PlanDefinitionGoal {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         category: CodeableConcept            

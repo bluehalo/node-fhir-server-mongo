@@ -9,10 +9,10 @@
 
 
 type InsurancePlanCoverage {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
-        type_: CodeableConcept!            
+        type: CodeableConcept!            
         network: [Organization]            
         benefit: [InsurancePlanBenefit]!            
 }

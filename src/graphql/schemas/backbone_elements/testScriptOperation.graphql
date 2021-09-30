@@ -23,10 +23,10 @@
 
 
 type TestScriptOperation {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
-        type_: Coding            
+        type: Coding            
         resource: code            
         label: code            
         description: code            

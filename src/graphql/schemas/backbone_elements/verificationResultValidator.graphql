@@ -9,7 +9,7 @@
 
 
 type VerificationResultValidator {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         organization: Organization!            

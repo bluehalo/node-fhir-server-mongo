@@ -10,7 +10,7 @@
 
 
 type MedicationKnowledgeIngredient {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         itemCodeableConcept: CodeableConcept            

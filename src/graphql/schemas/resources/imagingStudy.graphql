@@ -48,7 +48,7 @@ union ImagingStudyReasonReference = Condition | Observation | Media | Diagnostic
 
 
 type ImagingStudy {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            

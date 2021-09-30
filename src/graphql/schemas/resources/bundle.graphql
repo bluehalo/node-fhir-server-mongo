@@ -14,12 +14,12 @@
 
 
 type Bundle {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            
         identifier: Identifier            
-        type_: code!            
+        type: code!            
         timestamp: code            
         total: code            
         link: [BundleLink]            

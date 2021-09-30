@@ -15,11 +15,11 @@
 
 
 type SubstanceSpecificationName {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         name: code!            
-        type_: CodeableConcept            
+        type: CodeableConcept            
         status: CodeableConcept            
         preferred: code            
         language: [CodeableConcept]            

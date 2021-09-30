@@ -29,7 +29,7 @@ union AccountSubject = Patient | Device | Practitioner | PractitionerRole | Loca
 
 
 type Account {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            
@@ -39,7 +39,7 @@ type Account {
         modifierExtension: [Extension]            
         identifier: [Identifier]            
         status: code!            
-        type_: CodeableConcept            
+        type: CodeableConcept            
         name: code            
         subject: [AccountSubject]            
         servicePeriod: Period            

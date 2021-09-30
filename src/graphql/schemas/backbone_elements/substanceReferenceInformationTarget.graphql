@@ -16,11 +16,11 @@
 
 
 type SubstanceReferenceInformationTarget {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         target: Identifier            
-        type_: CodeableConcept            
+        type: CodeableConcept            
         interaction: CodeableConcept            
         organism: CodeableConcept            
         organismType: CodeableConcept            

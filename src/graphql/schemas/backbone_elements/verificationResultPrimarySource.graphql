@@ -16,11 +16,11 @@ union VerificationResultPrimarySourceWho = Organization | Practitioner | Practit
 
 
 type VerificationResultPrimarySource {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         who: VerificationResultPrimarySourceWho            
-        type_: [CodeableConcept]            
+        type: [CodeableConcept]            
         communicationMethod: [CodeableConcept]            
         validationStatus: CodeableConcept            
         validationDate: code            

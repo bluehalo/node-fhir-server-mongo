@@ -23,7 +23,7 @@
 
 
 type TimingRepeat {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         boundsDuration: Quantity            

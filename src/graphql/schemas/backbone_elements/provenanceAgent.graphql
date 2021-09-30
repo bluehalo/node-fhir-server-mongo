@@ -22,10 +22,10 @@ union ProvenanceAgentOnBehalfOf = Practitioner | PractitionerRole | RelatedPerso
 
 
 type ProvenanceAgent {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
-        type_: CodeableConcept            
+        type: CodeableConcept            
         role: [CodeableConcept]            
         who: ProvenanceAgentWho!            
         onBehalfOf: ProvenanceAgentOnBehalfOf            

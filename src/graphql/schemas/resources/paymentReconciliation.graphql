@@ -29,7 +29,7 @@ union PaymentReconciliationRequestor = Practitioner | PractitionerRole | Organiz
 
 
 type PaymentReconciliation {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            

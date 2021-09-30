@@ -45,7 +45,7 @@
 
 
 type ResearchElementDefinition {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            
@@ -84,7 +84,7 @@ type ResearchElementDefinition {
         endorser: [ContactDetail]            
         relatedArtifact: [RelatedArtifact]            
         library: [code]            
-        type_: code!            
+        type: code!            
         variableType: code            
         characteristic: [ResearchElementDefinitionCharacteristic]!            
 }

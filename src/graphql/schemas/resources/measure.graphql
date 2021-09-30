@@ -53,7 +53,7 @@
 
 
 type Measure {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            
@@ -93,7 +93,7 @@ type Measure {
         disclaimer: code            
         scoring: CodeableConcept            
         compositeScoring: CodeableConcept            
-        type_: [CodeableConcept]            
+        type: [CodeableConcept]            
         riskAdjustment: code            
         rateAggregation: code            
         rationale: code            

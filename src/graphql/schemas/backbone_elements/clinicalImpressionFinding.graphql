@@ -12,7 +12,7 @@ union ClinicalImpressionFindingItemReference = Condition | Observation | Media
 
 
 type ClinicalImpressionFinding {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         itemCodeableConcept: CodeableConcept            

@@ -12,10 +12,10 @@
 
 
 type MolecularSequenceRepository {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
-        type_: code!            
+        type: code!            
         url: code            
         name: code            
         datasetId: code            

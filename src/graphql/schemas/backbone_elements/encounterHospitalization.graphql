@@ -19,7 +19,7 @@ union EncounterHospitalizationDestination = Location | Organization
 
 
 type EncounterHospitalization {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         preAdmissionIdentifier: Identifier            

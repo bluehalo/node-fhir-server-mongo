@@ -18,7 +18,7 @@
 
 
 type ContractAnswer {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         valueBoolean: code            

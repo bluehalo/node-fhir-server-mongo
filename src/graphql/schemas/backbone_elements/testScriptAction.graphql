@@ -8,11 +8,11 @@
 
 
 type TestScriptAction {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         operation: TestScriptOperation            
-        assert_: TestScriptAssert            
+        assert: TestScriptAssert            
 }
 
 extend type Query {

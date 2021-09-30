@@ -30,7 +30,7 @@ union CoverageEligibilityResponseRequestor = Practitioner | PractitionerRole | O
 
 
 type CoverageEligibilityResponse {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            

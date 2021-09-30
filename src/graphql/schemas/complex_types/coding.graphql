@@ -10,7 +10,7 @@
 
 
 type Coding {
-        id_: code            
+        id: code            
         extension: [Extension]            
         system: code            
         version: code            

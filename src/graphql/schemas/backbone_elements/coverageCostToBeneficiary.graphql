@@ -10,10 +10,10 @@
 
 
 type CoverageCostToBeneficiary {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
-        type_: CodeableConcept            
+        type: CodeableConcept            
         valueQuantity: Quantity            
         valueMoney: Money            
         exception: [CoverageException]            

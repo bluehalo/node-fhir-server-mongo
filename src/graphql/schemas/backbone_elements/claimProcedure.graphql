@@ -12,11 +12,11 @@
 
 
 type ClaimProcedure {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         sequence: code!            
-        type_: [CodeableConcept]            
+        type: [CodeableConcept]            
         date: code            
         procedureCodeableConcept: CodeableConcept            
         procedureReference: Procedure            

@@ -58,7 +58,7 @@ union TaskInsurance = Coverage | ClaimResponse
 
 
 type Task {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            
@@ -80,7 +80,7 @@ type Task {
         code: CodeableConcept            
         description: code            
         focus: Resource            
-        for_: Resource            
+        for: Resource            
         encounter: Encounter            
         executionPeriod: Period            
         authoredOn: code            

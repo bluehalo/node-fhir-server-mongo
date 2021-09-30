@@ -15,7 +15,7 @@ union DocumentReferenceContextEncounter = Encounter | EpisodeOfCare
 
 
 type DocumentReferenceContext {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         encounter: [DocumentReferenceContextEncounter]            

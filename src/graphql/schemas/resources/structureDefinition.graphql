@@ -38,7 +38,7 @@
 
 
 type StructureDefinition {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            
@@ -68,7 +68,7 @@ type StructureDefinition {
         abstract: code!            
         context: [StructureDefinitionContext]            
         contextInvariant: [code]            
-        type_: code!            
+        type: code!            
         baseDefinition: code            
         derivation: code            
         snapshot: StructureDefinitionSnapshot            

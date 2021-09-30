@@ -31,7 +31,7 @@ union CoverageEligibilityRequestProvider = Practitioner | PractitionerRole | Org
 
 
 type CoverageEligibilityRequest {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            

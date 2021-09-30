@@ -27,7 +27,7 @@
 
 
 type MolecularSequence {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            
@@ -36,7 +36,7 @@ type MolecularSequence {
         extension: [Extension]            
         modifierExtension: [Extension]            
         identifier: [Identifier]            
-        type_: code            
+        type: code            
         coordinateSystem: code!            
         patient: Patient            
         specimen: Specimen            

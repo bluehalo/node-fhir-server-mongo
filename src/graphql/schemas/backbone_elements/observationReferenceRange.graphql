@@ -12,12 +12,12 @@
 
 
 type ObservationReferenceRange {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         low: Quantity            
         high: Quantity            
-        type_: CodeableConcept            
+        type: CodeableConcept            
         appliesTo: [CodeableConcept]            
         age: Range            
         text: code            

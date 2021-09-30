@@ -13,7 +13,7 @@
 
 
 type Attachment {
-        id_: code            
+        id: code            
         extension: [Extension]            
         contentType: code            
         language: code            

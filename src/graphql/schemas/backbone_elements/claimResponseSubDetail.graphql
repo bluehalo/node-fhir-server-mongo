@@ -9,7 +9,7 @@
 
 
 type ClaimResponseSubDetail {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         subDetailSequence: code!            

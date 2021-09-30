@@ -9,7 +9,7 @@
 
 
 type ElementDefinitionBase {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         path: code!            

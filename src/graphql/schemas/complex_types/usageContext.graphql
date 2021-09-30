@@ -17,7 +17,7 @@ union UsageContextValueReference = PlanDefinition | ResearchStudy | InsurancePla
 
 
 type UsageContext {
-        id_: code            
+        id: code            
         extension: [Extension]            
         code: Coding!            
         valueCodeableConcept: CodeableConcept            

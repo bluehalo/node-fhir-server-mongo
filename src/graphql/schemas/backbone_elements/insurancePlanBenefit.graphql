@@ -9,10 +9,10 @@
 
 
 type InsurancePlanBenefit {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
-        type_: CodeableConcept!            
+        type: CodeableConcept!            
         requirement: code            
         limit: [InsurancePlanLimit]            
 }

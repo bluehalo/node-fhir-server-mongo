@@ -15,7 +15,7 @@
 
 
 type MolecularSequenceReferenceSeq {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         chromosome: CodeableConcept            

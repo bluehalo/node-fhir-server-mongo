@@ -29,7 +29,7 @@ union MedicinalProductAuthorizationSubject = MedicinalProduct | MedicinalProduct
 
 
 type MedicinalProductAuthorization {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            

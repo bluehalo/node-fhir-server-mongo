@@ -7,7 +7,7 @@
 
 
 type CodeableConcept {
-        id_: code            
+        id: code            
         extension: [Extension]            
         coding: [Coding]            
         text: code            

@@ -41,7 +41,7 @@ union GoalAddresses = Condition | Observation | MedicationStatement | NutritionO
 
 
 type Goal {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            

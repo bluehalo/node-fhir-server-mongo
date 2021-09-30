@@ -8,10 +8,10 @@
 
 
 type EncounterClassHistory {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
-        class_: Coding!            
+        class: Coding!            
         period: Period!            
 }
 

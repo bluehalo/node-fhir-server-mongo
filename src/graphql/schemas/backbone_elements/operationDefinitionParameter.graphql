@@ -16,7 +16,7 @@
 
 
 type OperationDefinitionParameter {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         name: code!            
@@ -24,7 +24,7 @@ type OperationDefinitionParameter {
         min: code!            
         max: code!            
         documentation: code            
-        type_: code            
+        type: code            
         targetProfile: [code]            
         searchType: code            
         binding: OperationDefinitionBinding            

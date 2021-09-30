@@ -61,7 +61,7 @@ union ExplanationOfBenefitPrescription = MedicationRequest | VisionPrescription
 
 
 type ExplanationOfBenefit {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            
@@ -71,7 +71,7 @@ type ExplanationOfBenefit {
         modifierExtension: [Extension]            
         identifier: [Identifier]            
         status: code!            
-        type_: CodeableConcept!            
+        type: CodeableConcept!            
         subType: CodeableConcept            
         use: code!            
         patient: Patient!            

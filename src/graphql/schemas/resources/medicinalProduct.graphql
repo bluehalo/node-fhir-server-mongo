@@ -33,7 +33,7 @@ union MedicinalProductContact = Organization | PractitionerRole
 
 
 type MedicinalProduct {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            
@@ -42,7 +42,7 @@ type MedicinalProduct {
         extension: [Extension]            
         modifierExtension: [Extension]            
         identifier: [Identifier]            
-        type_: CodeableConcept            
+        type: CodeableConcept            
         domain: Coding            
         combinedPharmaceuticalDoseForm: CodeableConcept            
         legalStatusOfSupply: CodeableConcept            

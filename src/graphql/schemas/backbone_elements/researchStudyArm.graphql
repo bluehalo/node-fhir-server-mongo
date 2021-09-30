@@ -9,11 +9,11 @@
 
 
 type ResearchStudyArm {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         name: code!            
-        type_: CodeableConcept            
+        type: CodeableConcept            
         description: code            
 }
 

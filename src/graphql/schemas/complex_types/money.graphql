@@ -7,7 +7,7 @@
 
 
 type Money {
-        id_: code            
+        id: code            
         extension: [Extension]            
         value: code            
         currency: code            

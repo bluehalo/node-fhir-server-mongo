@@ -17,7 +17,7 @@
 
 
 type SubstanceSpecificationRelationship {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         substanceReference: SubstanceSpecification            

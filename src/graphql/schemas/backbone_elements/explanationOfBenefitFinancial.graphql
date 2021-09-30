@@ -12,10 +12,10 @@
 
 
 type ExplanationOfBenefitFinancial {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
-        type_: CodeableConcept!            
+        type: CodeableConcept!            
         allowedUnsignedInt: code            
         allowedString: code            
         allowedMoney: Money            

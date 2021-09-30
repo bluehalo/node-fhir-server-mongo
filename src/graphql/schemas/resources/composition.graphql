@@ -32,7 +32,7 @@ union CompositionAuthor = Practitioner | PractitionerRole | Device | Patient | R
 
 
 type Composition {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            
@@ -42,7 +42,7 @@ type Composition {
         modifierExtension: [Extension]            
         identifier: Identifier            
         status: code!            
-        type_: CodeableConcept!            
+        type: CodeableConcept!            
         category: [CodeableConcept]            
         subject: Resource            
         encounter: Encounter            

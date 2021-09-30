@@ -62,7 +62,7 @@ union CommunicationRequestReasonReference = Condition | Observation | Diagnostic
 
 
 type CommunicationRequest {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            

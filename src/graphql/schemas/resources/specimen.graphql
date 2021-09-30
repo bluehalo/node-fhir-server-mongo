@@ -29,7 +29,7 @@ union SpecimenSubject = Patient | Group | Device | Substance | Location
 
 
 type Specimen {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            
@@ -40,7 +40,7 @@ type Specimen {
         identifier: [Identifier]            
         accessionIdentifier: Identifier            
         status: code            
-        type_: CodeableConcept            
+        type: CodeableConcept            
         subject: SpecimenSubject            
         receivedTime: code            
         parent: [Specimen]            

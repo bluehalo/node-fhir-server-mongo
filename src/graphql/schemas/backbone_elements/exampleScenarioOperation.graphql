@@ -16,11 +16,11 @@
 
 
 type ExampleScenarioOperation {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         number: code!            
-        type_: code            
+        type: code            
         name: code            
         initiator: code            
         receiver: code            

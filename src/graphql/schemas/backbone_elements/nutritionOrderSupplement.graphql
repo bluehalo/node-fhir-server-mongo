@@ -11,10 +11,10 @@
 
 
 type NutritionOrderSupplement {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
-        type_: CodeableConcept            
+        type: CodeableConcept            
         productName: code            
         schedule: [Timing]            
         quantity: Quantity            

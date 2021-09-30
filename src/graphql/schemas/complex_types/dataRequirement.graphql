@@ -14,9 +14,9 @@
 
 
 type DataRequirement {
-        id_: code            
+        id: code            
         extension: [Extension]            
-        type_: code!            
+        type: code!            
         profile: [code]            
         subjectCodeableConcept: CodeableConcept            
         subjectReference: Group            

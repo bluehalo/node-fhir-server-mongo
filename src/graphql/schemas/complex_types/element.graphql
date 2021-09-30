@@ -5,7 +5,7 @@
 
 
 type Element {
-        id_: code            
+        id: code            
         extension: [Extension]            
 }
 

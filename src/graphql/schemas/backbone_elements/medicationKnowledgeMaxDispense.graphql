@@ -8,7 +8,7 @@
 
 
 type MedicationKnowledgeMaxDispense {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         quantity: Quantity!            

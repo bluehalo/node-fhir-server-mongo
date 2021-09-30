@@ -10,10 +10,10 @@
 
 
 type SubscriptionChannel {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
-        type_: code!            
+        type: code!            
         endpoint: code            
         payload: code            
         header: [code]            

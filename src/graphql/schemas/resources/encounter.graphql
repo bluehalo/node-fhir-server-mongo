@@ -40,7 +40,7 @@ union EncounterReasonReference = Condition | Procedure | Observation | Immunizat
 
 
 type Encounter {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            
@@ -51,9 +51,9 @@ type Encounter {
         identifier: [Identifier]            
         status: code!            
         statusHistory: [EncounterStatusHistory]            
-        class_: Coding!            
+        class: Coding!            
         classHistory: [EncounterClassHistory]            
-        type_: [CodeableConcept]            
+        type: [CodeableConcept]            
         serviceType: CodeableConcept            
         priority: CodeableConcept            
         subject: EncounterSubject            

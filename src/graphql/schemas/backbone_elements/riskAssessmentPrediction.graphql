@@ -14,7 +14,7 @@
 
 
 type RiskAssessmentPrediction {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         outcome: CodeableConcept            

@@ -10,7 +10,7 @@
 
 
 type Duration {
-        id_: code            
+        id: code            
         extension: [Extension]            
         value: code            
         comparator: code            

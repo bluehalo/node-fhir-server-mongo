@@ -23,10 +23,10 @@
 
 
 type CapabilityStatementResource {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
-        type_: code!            
+        type: code!            
         profile: code            
         supportedProfile: [code]            
         documentation: code            

@@ -7,7 +7,7 @@
 
 
 type Period {
-        id_: code            
+        id: code            
         extension: [Extension]            
         start: code            
         end: code            

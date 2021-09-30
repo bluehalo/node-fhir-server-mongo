@@ -29,7 +29,7 @@ union PaymentNoticePayee = Practitioner | PractitionerRole | Organization
 
 
 type PaymentNotice {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            

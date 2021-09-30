@@ -39,7 +39,7 @@
 
 
 type PlanDefinitionAction {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         prefix: code            
@@ -65,7 +65,7 @@ type PlanDefinitionAction {
         timingRange: Range            
         timingTiming: Timing            
         participant: [PlanDefinitionParticipant]            
-        type_: CodeableConcept            
+        type: CodeableConcept            
         groupingBehavior: code            
         selectionBehavior: code            
         requiredBehavior: code            

@@ -25,7 +25,7 @@
 
 
 type InsurancePlan {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            
@@ -35,7 +35,7 @@ type InsurancePlan {
         modifierExtension: [Extension]            
         identifier: [Identifier]            
         status: code            
-        type_: [CodeableConcept]            
+        type: [CodeableConcept]            
         name: code            
         alias: [code]            
         period: Period            

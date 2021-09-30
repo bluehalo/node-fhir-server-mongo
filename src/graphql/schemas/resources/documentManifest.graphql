@@ -38,7 +38,7 @@ union DocumentManifestRecipient = Patient | Practitioner | PractitionerRole | Re
 
 
 type DocumentManifest {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            
@@ -49,7 +49,7 @@ type DocumentManifest {
         masterIdentifier: Identifier            
         identifier: [Identifier]            
         status: code!            
-        type_: CodeableConcept            
+        type: CodeableConcept            
         subject: DocumentManifestSubject            
         created: code            
         author: [DocumentManifestAuthor]            

@@ -21,7 +21,7 @@ union MedicinalProductInteractionSubject = MedicinalProduct | Medication | Subst
 
 
 type MedicinalProductInteraction {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            
@@ -32,7 +32,7 @@ type MedicinalProductInteraction {
         subject: [MedicinalProductInteractionSubject]            
         description: code            
         interactant: [MedicinalProductInteractionInteractant]            
-        type_: CodeableConcept            
+        type: CodeableConcept            
         effect: CodeableConcept            
         incidence: CodeableConcept            
         management: CodeableConcept            

@@ -26,7 +26,7 @@ union CareTeamSubject = Patient | Group
 
 
 type CareTeam {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            

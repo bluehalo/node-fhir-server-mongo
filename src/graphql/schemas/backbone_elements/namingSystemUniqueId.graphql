@@ -11,10 +11,10 @@
 
 
 type NamingSystemUniqueId {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
-        type_: code!            
+        type: code!            
         value: code!            
         preferred: code            
         comment: code            

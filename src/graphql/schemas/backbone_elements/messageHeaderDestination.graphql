@@ -13,7 +13,7 @@ union MessageHeaderDestinationReceiver = Practitioner | PractitionerRole | Organ
 
 
 type MessageHeaderDestination {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         name: code            

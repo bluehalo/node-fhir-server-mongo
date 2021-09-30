@@ -21,7 +21,7 @@ union VisionPrescriptionPrescriber = Practitioner | PractitionerRole
 
 
 type VisionPrescription {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            

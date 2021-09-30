@@ -23,10 +23,10 @@ union AuditEventAgentWho = PractitionerRole | Practitioner | Organization | Devi
 
 
 type AuditEventAgent {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
-        type_: CodeableConcept            
+        type: CodeableConcept            
         role: [CodeableConcept]            
         who: AuditEventAgentWho            
         altId: code            

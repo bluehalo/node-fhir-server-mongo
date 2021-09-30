@@ -21,7 +21,7 @@
 
 
 type Organization {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            
@@ -31,7 +31,7 @@ type Organization {
         modifierExtension: [Extension]            
         identifier: [Identifier]            
         active: code            
-        type_: [CodeableConcept]            
+        type: [CodeableConcept]            
         name: code            
         alias: [code]            
         telecom: [ContactPoint]            

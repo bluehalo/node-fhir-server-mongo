@@ -10,12 +10,12 @@
 
 
 type RiskEvidenceSynthesisPrecisionEstimate {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
-        type_: CodeableConcept            
+        type: CodeableConcept            
         level: code            
-        from_: code            
+        from: code            
         to: code            
 }
 

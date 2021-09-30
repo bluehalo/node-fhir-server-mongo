@@ -13,7 +13,7 @@ union MedicationAdministrationPerformerActor = Practitioner | PractitionerRole |
 
 
 type MedicationAdministrationPerformer {
-        id_: code            
+        id: code            
         extension: [Extension]            
         modifierExtension: [Extension]            
         function: CodeableConcept            

@@ -32,7 +32,7 @@ union PatientGeneralPractitioner = Organization | Practitioner | PractitionerRol
 
 
 type Patient {
-        id_: code            
+        id: code            
         meta: Meta            
         implicitRules: code            
         language: code            
