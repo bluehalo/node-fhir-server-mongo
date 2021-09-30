@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
@@ -18,8 +18,8 @@
 # import RelatedPerson from "../resources/relatedPerson.graphql"
 # import Practitioner from "../resources/practitioner.graphql"
 # import PractitionerRole from "../resources/practitionerRole.graphql"
-# import GroupCharacteristic from "../backbone_elements/backboneElement.graphql"
-# import GroupMember from "../backbone_elements/backboneElement.graphql"
+# import GroupCharacteristic from "../backbone_elements/groupCharacteristic.graphql"
+# import GroupMember from "../backbone_elements/groupMember.graphql"
 
 union GroupManagingEntity = Organization | RelatedPerson | Practitioner | PractitionerRole
 
@@ -41,8 +41,8 @@ type Group {
         name: code            
         quantity: code            
         managingEntity: GroupManagingEntity            
-        characteristic: [BackboneElement]            
-        member: [BackboneElement]            
+        characteristic: [GroupCharacteristic]            
+        member: [GroupMember]            
 }
 
 extend type Query {

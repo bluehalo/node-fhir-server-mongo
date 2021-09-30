@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
@@ -20,7 +20,7 @@
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
-# import CompartmentDefinitionResource from "../backbone_elements/backboneElement.graphql"
+# import CompartmentDefinitionResource from "../backbone_elements/compartmentDefinitionResource.graphql"
 
 
 
@@ -46,7 +46,7 @@ type CompartmentDefinition {
         purpose: code            
         code: code!            
         search: code!            
-        resource: [BackboneElement]            
+        resource: [CompartmentDefinitionResource]            
 }
 
 extend type Query {

@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import code from "../simple_types/code.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import code from "../simple_types/code.graphql"
@@ -33,7 +33,7 @@
 # import ContactDetail from "../complex_types/contactDetail.graphql"
 # import RelatedArtifact from "../complex_types/relatedArtifact.graphql"
 # import code from "../simple_types/code.graphql"
-# import EvidenceVariableCharacteristic from "../backbone_elements/backboneElement.graphql"
+# import EvidenceVariableCharacteristic from "../backbone_elements/evidenceVariableCharacteristic.graphql"
 
 
 
@@ -72,7 +72,7 @@ type EvidenceVariable {
         endorser: [ContactDetail]            
         relatedArtifact: [RelatedArtifact]            
         type_: code            
-        characteristic: [BackboneElement]!            
+        characteristic: [EvidenceVariableCharacteristic]!            
 }
 
 extend type Query {

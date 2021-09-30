@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import code from "../simple_types/code.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
@@ -23,23 +23,23 @@
 # import Organization from "../resources/organization.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
-# import ClaimRelated from "../backbone_elements/backboneElement.graphql"
+# import ClaimRelated from "../backbone_elements/claimRelated.graphql"
 # import DeviceRequest from "../resources/deviceRequest.graphql"
 # import MedicationRequest from "../resources/medicationRequest.graphql"
 # import VisionPrescription from "../resources/visionPrescription.graphql"
 # import DeviceRequest from "../resources/deviceRequest.graphql"
 # import MedicationRequest from "../resources/medicationRequest.graphql"
 # import VisionPrescription from "../resources/visionPrescription.graphql"
-# import ClaimPayee from "../backbone_elements/backboneElement.graphql"
+# import ClaimPayee from "../backbone_elements/claimPayee.graphql"
 # import ServiceRequest from "../resources/serviceRequest.graphql"
 # import Location from "../resources/location.graphql"
-# import ClaimCareTeam from "../backbone_elements/backboneElement.graphql"
-# import ClaimSupportingInfo from "../backbone_elements/backboneElement.graphql"
-# import ClaimDiagnosis from "../backbone_elements/backboneElement.graphql"
-# import ClaimProcedure from "../backbone_elements/backboneElement.graphql"
-# import ClaimInsurance from "../backbone_elements/backboneElement.graphql"
-# import ClaimAccident from "../backbone_elements/backboneElement.graphql"
-# import ClaimItem from "../backbone_elements/backboneElement.graphql"
+# import ClaimCareTeam from "../backbone_elements/claimCareTeam.graphql"
+# import ClaimSupportingInfo from "../backbone_elements/claimSupportingInfo.graphql"
+# import ClaimDiagnosis from "../backbone_elements/claimDiagnosis.graphql"
+# import ClaimProcedure from "../backbone_elements/claimProcedure.graphql"
+# import ClaimInsurance from "../backbone_elements/claimInsurance.graphql"
+# import ClaimAccident from "../backbone_elements/claimAccident.graphql"
+# import ClaimItem from "../backbone_elements/claimItem.graphql"
 # import Money from "../complex_types/money.graphql"
 
 union ClaimEnterer = Practitioner | PractitionerRole
@@ -70,19 +70,19 @@ type Claim {
         provider: ClaimProvider!            
         priority: CodeableConcept!            
         fundsReserve: CodeableConcept            
-        related: [BackboneElement]            
+        related: [ClaimRelated]            
         prescription: ClaimPrescription            
         originalPrescription: ClaimOriginalPrescription            
-        payee: BackboneElement            
+        payee: ClaimPayee            
         referral: ServiceRequest            
         facility: Location            
-        careTeam: [BackboneElement]            
-        supportingInfo: [BackboneElement]            
-        diagnosis: [BackboneElement]            
-        procedure: [BackboneElement]            
-        insurance: [BackboneElement]!            
-        accident: BackboneElement            
-        item: [BackboneElement]            
+        careTeam: [ClaimCareTeam]            
+        supportingInfo: [ClaimSupportingInfo]            
+        diagnosis: [ClaimDiagnosis]            
+        procedure: [ClaimProcedure]            
+        insurance: [ClaimInsurance]!            
+        accident: ClaimAccident            
+        item: [ClaimItem]            
         total: Money            
 }
 

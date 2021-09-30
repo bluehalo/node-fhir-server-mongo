@@ -208,7 +208,7 @@ class FhirXmlSchemaParser:
                         fhir_property.type_
                     ]
                     fhir_property.fhir_type = property_fhir_entity.type_
-                    if property_fhir_entity.base_type not in ["Element", "Reference"]:
+                    if property_fhir_entity.base_type not in ["Element", "Reference", "BackboneElement"]:
                         fhir_property.is_complex = True
                         fhir_property.cleaned_type = fhir_property.fhir_type
                         fhir_property.type_snake_case = FhirXmlSchemaParser.camel_to_snake(fhir_property.fhir_type)

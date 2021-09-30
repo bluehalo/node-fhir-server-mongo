@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import code from "../simple_types/code.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import code from "../simple_types/code.graphql"
@@ -37,8 +37,8 @@
 # import ContactDetail from "../complex_types/contactDetail.graphql"
 # import RelatedArtifact from "../complex_types/relatedArtifact.graphql"
 # import code from "../simple_types/code.graphql"
-# import PlanDefinitionGoal from "../backbone_elements/backboneElement.graphql"
-# import PlanDefinitionAction from "../backbone_elements/backboneElement.graphql"
+# import PlanDefinitionGoal from "../backbone_elements/planDefinitionGoal.graphql"
+# import PlanDefinitionAction from "../backbone_elements/planDefinitionAction.graphql"
 
 
 
@@ -81,8 +81,8 @@ type PlanDefinition {
         endorser: [ContactDetail]            
         relatedArtifact: [RelatedArtifact]            
         library: [code]            
-        goal: [BackboneElement]            
-        action: [BackboneElement]            
+        goal: [PlanDefinitionGoal]            
+        action: [PlanDefinitionAction]            
 }
 
 extend type Query {

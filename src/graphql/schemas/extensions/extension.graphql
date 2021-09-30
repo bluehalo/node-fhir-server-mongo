@@ -40,7 +40,7 @@
 # import Resource from "../resources/resource.graphql"
 # import SampledData from "../complex_types/sampledData.graphql"
 # import Signature from "../complex_types/signature.graphql"
-# import Timing from "../backbone_elements/backboneElement.graphql"
+# import Timing from "../backbone_elements/timing.graphql"
 # import ContactDetail from "../complex_types/contactDetail.graphql"
 # import Contributor from "../complex_types/contributor.graphql"
 # import DataRequirement from "../complex_types/dataRequirement.graphql"
@@ -49,7 +49,7 @@
 # import RelatedArtifact from "../complex_types/relatedArtifact.graphql"
 # import TriggerDefinition from "../complex_types/triggerDefinition.graphql"
 # import UsageContext from "../complex_types/usageContext.graphql"
-# import Dosage from "../backbone_elements/backboneElement.graphql"
+# import Dosage from "../backbone_elements/dosage.graphql"
 # import Meta from "../complex_types/meta.graphql"
 
 
@@ -97,7 +97,7 @@ type Extension {
         valueReference: Resource            
         valueSampledData: SampledData            
         valueSignature: Signature            
-        valueTiming: BackboneElement            
+        valueTiming: Timing            
         valueContactDetail: ContactDetail            
         valueContributor: Contributor            
         valueDataRequirement: DataRequirement            
@@ -106,7 +106,7 @@ type Extension {
         valueRelatedArtifact: RelatedArtifact            
         valueTriggerDefinition: TriggerDefinition            
         valueUsageContext: UsageContext            
-        valueDosage: BackboneElement            
+        valueDosage: Dosage            
         valueMeta: Meta            
 }
 

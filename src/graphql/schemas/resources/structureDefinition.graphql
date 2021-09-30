@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import code from "../simple_types/code.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import code from "../simple_types/code.graphql"
@@ -24,16 +24,16 @@
 # import code from "../simple_types/code.graphql"
 # import Coding from "../complex_types/coding.graphql"
 # import code from "../simple_types/code.graphql"
-# import StructureDefinitionMapping from "../backbone_elements/backboneElement.graphql"
+# import StructureDefinitionMapping from "../backbone_elements/structureDefinitionMapping.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
-# import StructureDefinitionContext from "../backbone_elements/backboneElement.graphql"
+# import StructureDefinitionContext from "../backbone_elements/structureDefinitionContext.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
-# import StructureDefinitionSnapshot from "../backbone_elements/backboneElement.graphql"
-# import StructureDefinitionDifferential from "../backbone_elements/backboneElement.graphql"
+# import StructureDefinitionSnapshot from "../backbone_elements/structureDefinitionSnapshot.graphql"
+# import StructureDefinitionDifferential from "../backbone_elements/structureDefinitionDifferential.graphql"
 
 
 
@@ -63,16 +63,16 @@ type StructureDefinition {
         copyright: code            
         keyword: [Coding]            
         fhirVersion: code            
-        mapping: [BackboneElement]            
+        mapping: [StructureDefinitionMapping]            
         kind: code!            
         abstract: code!            
-        context: [BackboneElement]            
+        context: [StructureDefinitionContext]            
         contextInvariant: [code]            
         type_: code!            
         baseDefinition: code            
         derivation: code            
-        snapshot: BackboneElement            
-        differential: BackboneElement            
+        snapshot: StructureDefinitionSnapshot            
+        differential: StructureDefinitionDifferential            
 }
 
 extend type Query {

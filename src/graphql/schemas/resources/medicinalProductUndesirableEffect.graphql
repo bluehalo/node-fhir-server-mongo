@@ -5,14 +5,14 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import MedicinalProduct from "../resources/medicinalProduct.graphql"
 # import Medication from "../resources/medication.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
-# import Population from "../backbone_elements/backboneElement.graphql"
+# import Population from "../backbone_elements/population.graphql"
 
 union MedicinalProductUndesirableEffectSubject = MedicinalProduct | Medication
 
@@ -30,7 +30,7 @@ type MedicinalProductUndesirableEffect {
         symptomConditionEffect: CodeableConcept            
         classification: CodeableConcept            
         frequencyOfOccurrence: CodeableConcept            
-        population: [BackboneElement]            
+        population: [Population]            
 }
 
 extend type Query {

@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import ServiceRequest from "../resources/serviceRequest.graphql"
 # import code from "../simple_types/code.graphql"
@@ -18,7 +18,7 @@
 # import Observation from "../resources/observation.graphql"
 # import QuestionnaireResponse from "../resources/questionnaireResponse.graphql"
 # import DocumentReference from "../resources/documentReference.graphql"
-# import Timing from "../backbone_elements/backboneElement.graphql"
+# import Timing from "../backbone_elements/timing.graphql"
 # import Period from "../complex_types/period.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
@@ -56,7 +56,7 @@ type DeviceUseStatement {
         status: code!            
         subject: DeviceUseStatementSubject!            
         derivedFrom: [DeviceUseStatementDerivedFrom]            
-        timingTiming: BackboneElement            
+        timingTiming: Timing            
         timingPeriod: Period            
         timingDateTime: code            
         recordedOn: code            

@@ -15,17 +15,17 @@
         {% elif property.reference_target_resources %}
 {#            we replace this with the target resource below#}
         {% elif property.is_resource %}
-# import {{ property.type_ | replace(".","") }} from "../resources/{{ property.type_snake_case }}.graphql"
+# import {{ property.type_ | replace(".","") }} from "../resources/{{ lower_case_first_letter(property.type_snake_case) }}.graphql"
         {% elif property.is_extension %}
-# import {{ property.type_ | replace(".","") }} from "../extensions/{{ property.type_snake_case }}.graphql"
+# import {{ property.type_ | replace(".","") }} from "../extensions/{{ lower_case_first_letter(property.type_snake_case) }}.graphql"
         {% elif property.fhir_type == "BackboneElement" %}
-# import {{ property.type_ | replace(".","") }} from "../backbone_elements/{{ property.type_snake_case }}.graphql"
+# import {{ property.type_ | replace(".","") }} from "../backbone_elements/{{ lower_case_first_letter(property.type_snake_case) }}.graphql"
         {% elif property.is_complex or property.fhir_type == "Element" %}
 # import {{ property.cleaned_type | replace(".","") }} from "../complex_types/{{ lower_case_first_letter(property.type_snake_case) }}.graphql"
         {% elif property.type_snake_case in ["string", "boolean", "integer", "positiveInt"] %}
 {# do nothing since this is a GraphQL type            #}
         {%  else %}
-# import {{ property.type_ | replace(".","") }} from "../simple_types/{{ property.type_snake_case }}.graphql"
+# import {{ property.type_ | replace(".","") }} from "../simple_types/{{ lower_case_first_letter(property.type_snake_case) }}.graphql"
         {% endif %}
         {% if property.reference_target_resources %}
 {## Imports for References for {{ property.name }}#}

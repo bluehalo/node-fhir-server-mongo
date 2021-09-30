@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import code from "../simple_types/code.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
@@ -15,7 +15,7 @@
 # import Group from "../resources/group.graphql"
 # import Encounter from "../resources/encounter.graphql"
 # import Period from "../complex_types/period.graphql"
-# import CareTeamParticipant from "../backbone_elements/backboneElement.graphql"
+# import CareTeamParticipant from "../backbone_elements/careTeamParticipant.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import Condition from "../resources/condition.graphql"
 # import Organization from "../resources/organization.graphql"
@@ -41,7 +41,7 @@ type CareTeam {
         subject: CareTeamSubject            
         encounter: Encounter            
         period: Period            
-        participant: [BackboneElement]            
+        participant: [CareTeamParticipant]            
         reasonCode: [CodeableConcept]            
         reasonReference: [Condition]            
         managingOrganization: [Organization]            

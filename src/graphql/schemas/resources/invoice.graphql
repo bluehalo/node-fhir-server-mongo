@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
@@ -17,11 +17,11 @@
 # import Patient from "../resources/patient.graphql"
 # import RelatedPerson from "../resources/relatedPerson.graphql"
 # import code from "../simple_types/code.graphql"
-# import InvoiceParticipant from "../backbone_elements/backboneElement.graphql"
+# import InvoiceParticipant from "../backbone_elements/invoiceParticipant.graphql"
 # import Organization from "../resources/organization.graphql"
 # import Account from "../resources/account.graphql"
-# import InvoiceLineItem from "../backbone_elements/backboneElement.graphql"
-# import InvoicePriceComponent from "../backbone_elements/backboneElement.graphql"
+# import InvoiceLineItem from "../backbone_elements/invoiceLineItem.graphql"
+# import InvoicePriceComponent from "../backbone_elements/invoicePriceComponent.graphql"
 # import Money from "../complex_types/money.graphql"
 # import Money from "../complex_types/money.graphql"
 # import code from "../simple_types/code.graphql"
@@ -47,11 +47,11 @@ type Invoice {
         subject: InvoiceSubject            
         recipient: InvoiceRecipient            
         date: code            
-        participant: [BackboneElement]            
+        participant: [InvoiceParticipant]            
         issuer: Organization            
         account: Account            
-        lineItem: [BackboneElement]            
-        totalPriceComponent: [BackboneElement]            
+        lineItem: [InvoiceLineItem]            
+        totalPriceComponent: [InvoicePriceComponent]            
         totalNet: Money            
         totalGross: Money            
         paymentTerms: code            

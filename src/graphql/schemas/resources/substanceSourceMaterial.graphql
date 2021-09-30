@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
@@ -17,9 +17,9 @@
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import code from "../simple_types/code.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
-# import SubstanceSourceMaterialFractionDescription from "../backbone_elements/backboneElement.graphql"
-# import SubstanceSourceMaterialOrganism from "../backbone_elements/backboneElement.graphql"
-# import SubstanceSourceMaterialPartDescription from "../backbone_elements/backboneElement.graphql"
+# import SubstanceSourceMaterialFractionDescription from "../backbone_elements/substanceSourceMaterialFractionDescription.graphql"
+# import SubstanceSourceMaterialOrganism from "../backbone_elements/substanceSourceMaterialOrganism.graphql"
+# import SubstanceSourceMaterialPartDescription from "../backbone_elements/substanceSourceMaterialPartDescription.graphql"
 
 
 
@@ -42,9 +42,9 @@ type SubstanceSourceMaterial {
         countryOfOrigin: [CodeableConcept]            
         geographicalLocation: [code]            
         developmentStage: CodeableConcept            
-        fractionDescription: [BackboneElement]            
-        organism: BackboneElement            
-        partDescription: [BackboneElement]            
+        fractionDescription: [SubstanceSourceMaterialFractionDescription]            
+        organism: SubstanceSourceMaterialOrganism            
+        partDescription: [SubstanceSourceMaterialPartDescription]            
 }
 
 extend type Query {

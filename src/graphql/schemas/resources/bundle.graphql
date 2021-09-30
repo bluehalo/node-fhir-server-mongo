@@ -7,8 +7,8 @@
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
-# import BundleLink from "../backbone_elements/backboneElement.graphql"
-# import BundleEntry from "../backbone_elements/backboneElement.graphql"
+# import BundleLink from "../backbone_elements/bundleLink.graphql"
+# import BundleEntry from "../backbone_elements/bundleEntry.graphql"
 # import Signature from "../complex_types/signature.graphql"
 
 
@@ -22,8 +22,8 @@ type Bundle {
         type_: code!            
         timestamp: code            
         total: code            
-        link: [BackboneElement]            
-        entry: [BackboneElement]            
+        link: [BundleLink]            
+        entry: [BundleEntry]            
         signature: Signature            
 }
 

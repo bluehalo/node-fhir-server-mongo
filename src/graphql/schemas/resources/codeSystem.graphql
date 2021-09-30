@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import code from "../simple_types/code.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import code from "../simple_types/code.graphql"
@@ -30,9 +30,9 @@
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
-# import CodeSystemFilter from "../backbone_elements/backboneElement.graphql"
-# import CodeSystemProperty from "../backbone_elements/backboneElement.graphql"
-# import CodeSystemConcept from "../backbone_elements/backboneElement.graphql"
+# import CodeSystemFilter from "../backbone_elements/codeSystemFilter.graphql"
+# import CodeSystemProperty from "../backbone_elements/codeSystemProperty.graphql"
+# import CodeSystemConcept from "../backbone_elements/codeSystemConcept.graphql"
 
 
 
@@ -68,9 +68,9 @@ type CodeSystem {
         content: code!            
         supplements: code            
         count: code            
-        filter: [BackboneElement]            
-        property: [BackboneElement]            
-        concept: [BackboneElement]            
+        filter: [CodeSystemFilter]            
+        property: [CodeSystemProperty]            
+        concept: [CodeSystemConcept]            
 }
 
 extend type Query {

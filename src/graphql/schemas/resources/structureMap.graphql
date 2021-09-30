@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import code from "../simple_types/code.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import code from "../simple_types/code.graphql"
@@ -22,9 +22,9 @@
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
-# import StructureMapStructure from "../backbone_elements/backboneElement.graphql"
+# import StructureMapStructure from "../backbone_elements/structureMapStructure.graphql"
 # import code from "../simple_types/code.graphql"
-# import StructureMapGroup from "../backbone_elements/backboneElement.graphql"
+# import StructureMapGroup from "../backbone_elements/structureMapGroup.graphql"
 
 
 
@@ -52,9 +52,9 @@ type StructureMap {
         jurisdiction: [CodeableConcept]            
         purpose: code            
         copyright: code            
-        structure: [BackboneElement]            
+        structure: [StructureMapStructure]            
         import_: [code]            
-        group: [BackboneElement]!            
+        group: [StructureMapGroup]!            
 }
 
 extend type Query {

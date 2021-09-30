@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import Resource from "../resources/resource.graphql"
 # import CommunicationRequest from "../resources/communicationRequest.graphql"
@@ -21,7 +21,7 @@
 # import Group from "../resources/group.graphql"
 # import Resource from "../resources/resource.graphql"
 # import Encounter from "../resources/encounter.graphql"
-# import CommunicationRequestPayload from "../backbone_elements/backboneElement.graphql"
+# import CommunicationRequestPayload from "../backbone_elements/communicationRequestPayload.graphql"
 # import code from "../simple_types/code.graphql"
 # import Period from "../complex_types/period.graphql"
 # import code from "../simple_types/code.graphql"
@@ -83,7 +83,7 @@ type CommunicationRequest {
         subject: CommunicationRequestSubject            
         about: [Resource]            
         encounter: Encounter            
-        payload: [BackboneElement]            
+        payload: [CommunicationRequestPayload]            
         occurrenceDateTime: code            
         occurrencePeriod: Period            
         authoredOn: code            

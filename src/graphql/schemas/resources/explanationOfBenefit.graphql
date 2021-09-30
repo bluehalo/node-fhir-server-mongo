@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import code from "../simple_types/code.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
@@ -24,11 +24,11 @@
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
-# import ExplanationOfBenefitRelated from "../backbone_elements/backboneElement.graphql"
+# import ExplanationOfBenefitRelated from "../backbone_elements/explanationOfBenefitRelated.graphql"
 # import MedicationRequest from "../resources/medicationRequest.graphql"
 # import VisionPrescription from "../resources/visionPrescription.graphql"
 # import MedicationRequest from "../resources/medicationRequest.graphql"
-# import ExplanationOfBenefitPayee from "../backbone_elements/backboneElement.graphql"
+# import ExplanationOfBenefitPayee from "../backbone_elements/explanationOfBenefitPayee.graphql"
 # import ServiceRequest from "../resources/serviceRequest.graphql"
 # import Location from "../resources/location.graphql"
 # import Claim from "../resources/claim.graphql"
@@ -37,23 +37,23 @@
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
 # import Period from "../complex_types/period.graphql"
-# import ExplanationOfBenefitCareTeam from "../backbone_elements/backboneElement.graphql"
-# import ExplanationOfBenefitSupportingInfo from "../backbone_elements/backboneElement.graphql"
-# import ExplanationOfBenefitDiagnosis from "../backbone_elements/backboneElement.graphql"
-# import ExplanationOfBenefitProcedure from "../backbone_elements/backboneElement.graphql"
+# import ExplanationOfBenefitCareTeam from "../backbone_elements/explanationOfBenefitCareTeam.graphql"
+# import ExplanationOfBenefitSupportingInfo from "../backbone_elements/explanationOfBenefitSupportingInfo.graphql"
+# import ExplanationOfBenefitDiagnosis from "../backbone_elements/explanationOfBenefitDiagnosis.graphql"
+# import ExplanationOfBenefitProcedure from "../backbone_elements/explanationOfBenefitProcedure.graphql"
 # import code from "../simple_types/code.graphql"
-# import ExplanationOfBenefitInsurance from "../backbone_elements/backboneElement.graphql"
-# import ExplanationOfBenefitAccident from "../backbone_elements/backboneElement.graphql"
-# import ExplanationOfBenefitItem from "../backbone_elements/backboneElement.graphql"
-# import ExplanationOfBenefitAddItem from "../backbone_elements/backboneElement.graphql"
-# import ExplanationOfBenefitAdjudication from "../backbone_elements/backboneElement.graphql"
-# import ExplanationOfBenefitTotal from "../backbone_elements/backboneElement.graphql"
-# import ExplanationOfBenefitPayment from "../backbone_elements/backboneElement.graphql"
+# import ExplanationOfBenefitInsurance from "../backbone_elements/explanationOfBenefitInsurance.graphql"
+# import ExplanationOfBenefitAccident from "../backbone_elements/explanationOfBenefitAccident.graphql"
+# import ExplanationOfBenefitItem from "../backbone_elements/explanationOfBenefitItem.graphql"
+# import ExplanationOfBenefitAddItem from "../backbone_elements/explanationOfBenefitAddItem.graphql"
+# import ExplanationOfBenefitAdjudication from "../backbone_elements/explanationOfBenefitAdjudication.graphql"
+# import ExplanationOfBenefitTotal from "../backbone_elements/explanationOfBenefitTotal.graphql"
+# import ExplanationOfBenefitPayment from "../backbone_elements/explanationOfBenefitPayment.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import Attachment from "../complex_types/attachment.graphql"
-# import ExplanationOfBenefitProcessNote from "../backbone_elements/backboneElement.graphql"
+# import ExplanationOfBenefitProcessNote from "../backbone_elements/explanationOfBenefitProcessNote.graphql"
 # import Period from "../complex_types/period.graphql"
-# import ExplanationOfBenefitBenefitBalance from "../backbone_elements/backboneElement.graphql"
+# import ExplanationOfBenefitBenefitBalance from "../backbone_elements/explanationOfBenefitBenefitBalance.graphql"
 
 union ExplanationOfBenefitEnterer = Practitioner | PractitionerRole
 union ExplanationOfBenefitProvider = Practitioner | PractitionerRole | Organization
@@ -83,10 +83,10 @@ type ExplanationOfBenefit {
         priority: CodeableConcept            
         fundsReserveRequested: CodeableConcept            
         fundsReserve: CodeableConcept            
-        related: [BackboneElement]            
+        related: [ExplanationOfBenefitRelated]            
         prescription: ExplanationOfBenefitPrescription            
         originalPrescription: MedicationRequest            
-        payee: BackboneElement            
+        payee: ExplanationOfBenefitPayee            
         referral: ServiceRequest            
         facility: Location            
         claim: Claim            
@@ -95,23 +95,23 @@ type ExplanationOfBenefit {
         disposition: code            
         preAuthRef: [code]            
         preAuthRefPeriod: [Period]            
-        careTeam: [BackboneElement]            
-        supportingInfo: [BackboneElement]            
-        diagnosis: [BackboneElement]            
-        procedure: [BackboneElement]            
+        careTeam: [ExplanationOfBenefitCareTeam]            
+        supportingInfo: [ExplanationOfBenefitSupportingInfo]            
+        diagnosis: [ExplanationOfBenefitDiagnosis]            
+        procedure: [ExplanationOfBenefitProcedure]            
         precedence: code            
-        insurance: [BackboneElement]!            
-        accident: BackboneElement            
-        item: [BackboneElement]            
-        addItem: [BackboneElement]            
-        adjudication: [BackboneElement]            
-        total: [BackboneElement]            
-        payment: BackboneElement            
+        insurance: [ExplanationOfBenefitInsurance]!            
+        accident: ExplanationOfBenefitAccident            
+        item: [ExplanationOfBenefitItem]            
+        addItem: [ExplanationOfBenefitAddItem]            
+        adjudication: [ExplanationOfBenefitAdjudication]            
+        total: [ExplanationOfBenefitTotal]            
+        payment: ExplanationOfBenefitPayment            
         formCode: CodeableConcept            
         form: Attachment            
-        processNote: [BackboneElement]            
+        processNote: [ExplanationOfBenefitProcessNote]            
         benefitPeriod: Period            
-        benefitBalance: [BackboneElement]            
+        benefitBalance: [ExplanationOfBenefitBenefitBalance]            
 }
 
 extend type Query {

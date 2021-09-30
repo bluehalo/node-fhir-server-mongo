@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import Coding from "../complex_types/coding.graphql"
@@ -16,7 +16,7 @@
 # import code from "../simple_types/code.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
-# import MarketingStatus from "../backbone_elements/backboneElement.graphql"
+# import MarketingStatus from "../backbone_elements/marketingStatus.graphql"
 # import MedicinalProductPharmaceutical from "../resources/medicinalProductPharmaceutical.graphql"
 # import MedicinalProductPackaged from "../resources/medicinalProductPackaged.graphql"
 # import DocumentReference from "../resources/documentReference.graphql"
@@ -24,10 +24,10 @@
 # import Organization from "../resources/organization.graphql"
 # import PractitionerRole from "../resources/practitionerRole.graphql"
 # import ResearchStudy from "../resources/researchStudy.graphql"
-# import MedicinalProductName from "../backbone_elements/backboneElement.graphql"
+# import MedicinalProductName from "../backbone_elements/medicinalProductName.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
-# import MedicinalProductManufacturingBusinessOperation from "../backbone_elements/backboneElement.graphql"
-# import MedicinalProductSpecialDesignation from "../backbone_elements/backboneElement.graphql"
+# import MedicinalProductManufacturingBusinessOperation from "../backbone_elements/medicinalProductManufacturingBusinessOperation.graphql"
+# import MedicinalProductSpecialDesignation from "../backbone_elements/medicinalProductSpecialDesignation.graphql"
 
 union MedicinalProductContact = Organization | PractitionerRole
 
@@ -50,17 +50,17 @@ type MedicinalProduct {
         specialMeasures: [code]            
         paediatricUseIndicator: CodeableConcept            
         productClassification: [CodeableConcept]            
-        marketingStatus: [BackboneElement]            
+        marketingStatus: [MarketingStatus]            
         pharmaceuticalProduct: [MedicinalProductPharmaceutical]            
         packagedMedicinalProduct: [MedicinalProductPackaged]            
         attachedDocument: [DocumentReference]            
         masterFile: [DocumentReference]            
         contact: [MedicinalProductContact]            
         clinicalTrial: [ResearchStudy]            
-        name: [BackboneElement]!            
+        name: [MedicinalProductName]!            
         crossReference: [Identifier]            
-        manufacturingBusinessOperation: [BackboneElement]            
-        specialDesignation: [BackboneElement]            
+        manufacturingBusinessOperation: [MedicinalProductManufacturingBusinessOperation]            
+        specialDesignation: [MedicinalProductSpecialDesignation]            
 }
 
 extend type Query {

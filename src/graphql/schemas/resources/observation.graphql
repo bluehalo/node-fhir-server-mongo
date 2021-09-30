@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import CarePlan from "../resources/carePlan.graphql"
 # import DeviceRequest from "../resources/deviceRequest.graphql"
@@ -31,7 +31,7 @@
 # import Encounter from "../resources/encounter.graphql"
 # import code from "../simple_types/code.graphql"
 # import Period from "../complex_types/period.graphql"
-# import Timing from "../backbone_elements/backboneElement.graphql"
+# import Timing from "../backbone_elements/timing.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
 # import Practitioner from "../resources/practitioner.graphql"
@@ -59,7 +59,7 @@
 # import Specimen from "../resources/specimen.graphql"
 # import Device from "../resources/device.graphql"
 # import DeviceMetric from "../resources/deviceMetric.graphql"
-# import ObservationReferenceRange from "../backbone_elements/backboneElement.graphql"
+# import ObservationReferenceRange from "../backbone_elements/observationReferenceRange.graphql"
 # import Observation from "../resources/observation.graphql"
 # import QuestionnaireResponse from "../resources/questionnaireResponse.graphql"
 # import MolecularSequence from "../resources/molecularSequence.graphql"
@@ -69,7 +69,7 @@
 # import QuestionnaireResponse from "../resources/questionnaireResponse.graphql"
 # import Observation from "../resources/observation.graphql"
 # import MolecularSequence from "../resources/molecularSequence.graphql"
-# import ObservationComponent from "../backbone_elements/backboneElement.graphql"
+# import ObservationComponent from "../backbone_elements/observationComponent.graphql"
 
 union ObservationBasedOn = CarePlan | DeviceRequest | ImmunizationRecommendation | MedicationRequest | NutritionOrder | ServiceRequest
 union ObservationPartOf = MedicationAdministration | MedicationDispense | MedicationStatement | Procedure | Immunization | ImagingStudy
@@ -100,7 +100,7 @@ type Observation {
         encounter: Encounter            
         effectiveDateTime: code            
         effectivePeriod: Period            
-        effectiveTiming: BackboneElement            
+        effectiveTiming: Timing            
         effectiveInstant: code            
         issued: code            
         performer: [ObservationPerformer]            
@@ -122,10 +122,10 @@ type Observation {
         method: CodeableConcept            
         specimen: Specimen            
         device: ObservationDevice            
-        referenceRange: [BackboneElement]            
+        referenceRange: [ObservationReferenceRange]            
         hasMember: [ObservationHasMember]            
         derivedFrom: [ObservationDerivedFrom]            
-        component: [BackboneElement]            
+        component: [ObservationComponent]            
 }
 
 extend type Query {

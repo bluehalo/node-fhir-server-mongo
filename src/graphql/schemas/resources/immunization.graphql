@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import code from "../simple_types/code.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
@@ -25,7 +25,7 @@
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import Quantity from "../complex_types/quantity.graphql"
-# import ImmunizationPerformer from "../backbone_elements/backboneElement.graphql"
+# import ImmunizationPerformer from "../backbone_elements/immunizationPerformer.graphql"
 # import Annotation from "../complex_types/annotation.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import Condition from "../resources/condition.graphql"
@@ -33,11 +33,11 @@
 # import DiagnosticReport from "../resources/diagnosticReport.graphql"
 # import code from "../simple_types/code.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
-# import ImmunizationEducation from "../backbone_elements/backboneElement.graphql"
+# import ImmunizationEducation from "../backbone_elements/immunizationEducation.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
-# import ImmunizationReaction from "../backbone_elements/backboneElement.graphql"
-# import ImmunizationProtocolApplied from "../backbone_elements/backboneElement.graphql"
+# import ImmunizationReaction from "../backbone_elements/immunizationReaction.graphql"
+# import ImmunizationProtocolApplied from "../backbone_elements/immunizationProtocolApplied.graphql"
 
 union ImmunizationReasonReference = Condition | Observation | DiagnosticReport
 
@@ -69,17 +69,17 @@ type Immunization {
         site: CodeableConcept            
         route: CodeableConcept            
         doseQuantity: Quantity            
-        performer: [BackboneElement]            
+        performer: [ImmunizationPerformer]            
         note: [Annotation]            
         reasonCode: [CodeableConcept]            
         reasonReference: [ImmunizationReasonReference]            
         isSubpotent: code            
         subpotentReason: [CodeableConcept]            
-        education: [BackboneElement]            
+        education: [ImmunizationEducation]            
         programEligibility: [CodeableConcept]            
         fundingSource: CodeableConcept            
-        reaction: [BackboneElement]            
-        protocolApplied: [BackboneElement]            
+        reaction: [ImmunizationReaction]            
+        protocolApplied: [ImmunizationProtocolApplied]            
 }
 
 extend type Query {

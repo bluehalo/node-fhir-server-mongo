@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import code from "../simple_types/code.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
@@ -18,7 +18,7 @@
 # import Organization from "../resources/organization.graphql"
 # import code from "../simple_types/code.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
-# import GoalTarget from "../backbone_elements/backboneElement.graphql"
+# import GoalTarget from "../backbone_elements/goalTarget.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
 # import Patient from "../resources/patient.graphql"
@@ -58,7 +58,7 @@ type Goal {
         subject: GoalSubject!            
         startDate: code            
         startCodeableConcept: CodeableConcept            
-        target: [BackboneElement]            
+        target: [GoalTarget]            
         statusDate: code            
         statusReason: code            
         expressedBy: GoalExpressedBy            

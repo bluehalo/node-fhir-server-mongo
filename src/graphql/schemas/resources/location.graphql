@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import code from "../simple_types/code.graphql"
 # import Coding from "../complex_types/coding.graphql"
@@ -18,10 +18,10 @@
 # import ContactPoint from "../complex_types/contactPoint.graphql"
 # import Address from "../complex_types/address.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
-# import LocationPosition from "../backbone_elements/backboneElement.graphql"
+# import LocationPosition from "../backbone_elements/locationPosition.graphql"
 # import Organization from "../resources/organization.graphql"
 # import Location from "../resources/location.graphql"
-# import LocationHoursOfOperation from "../backbone_elements/backboneElement.graphql"
+# import LocationHoursOfOperation from "../backbone_elements/locationHoursOfOperation.graphql"
 # import code from "../simple_types/code.graphql"
 # import Endpoint from "../resources/endpoint.graphql"
 
@@ -47,10 +47,10 @@ type Location {
         telecom: [ContactPoint]            
         address: Address            
         physicalType: CodeableConcept            
-        position: BackboneElement            
+        position: LocationPosition            
         managingOrganization: Organization            
         partOf: Location            
-        hoursOfOperation: [BackboneElement]            
+        hoursOfOperation: [LocationHoursOfOperation]            
         availabilityExceptions: code            
         endpoint: [Endpoint]            
 }

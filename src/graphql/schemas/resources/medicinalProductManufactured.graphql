@@ -5,14 +5,14 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import Quantity from "../complex_types/quantity.graphql"
 # import Organization from "../resources/organization.graphql"
 # import MedicinalProductIngredient from "../resources/medicinalProductIngredient.graphql"
-# import ProdCharacteristic from "../backbone_elements/backboneElement.graphql"
+# import ProdCharacteristic from "../backbone_elements/prodCharacteristic.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 
 
@@ -31,7 +31,7 @@ type MedicinalProductManufactured {
         quantity: Quantity!            
         manufacturer: [Organization]            
         ingredient: [MedicinalProductIngredient]            
-        physicalCharacteristics: BackboneElement            
+        physicalCharacteristics: ProdCharacteristic            
         otherCharacteristics: [CodeableConcept]            
 }
 

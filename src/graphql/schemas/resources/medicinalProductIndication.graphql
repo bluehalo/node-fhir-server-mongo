@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import MedicinalProduct from "../resources/medicinalProduct.graphql"
 # import Medication from "../resources/medication.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
@@ -14,9 +14,9 @@
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import Quantity from "../complex_types/quantity.graphql"
-# import MedicinalProductIndicationOtherTherapy from "../backbone_elements/backboneElement.graphql"
+# import MedicinalProductIndicationOtherTherapy from "../backbone_elements/medicinalProductIndicationOtherTherapy.graphql"
 # import MedicinalProductUndesirableEffect from "../resources/medicinalProductUndesirableEffect.graphql"
-# import Population from "../backbone_elements/backboneElement.graphql"
+# import Population from "../backbone_elements/population.graphql"
 
 union MedicinalProductIndicationSubject = MedicinalProduct | Medication
 
@@ -36,9 +36,9 @@ type MedicinalProductIndication {
         comorbidity: [CodeableConcept]            
         intendedEffect: CodeableConcept            
         duration: Quantity            
-        otherTherapy: [BackboneElement]            
+        otherTherapy: [MedicinalProductIndicationOtherTherapy]            
         undesirableEffect: [MedicinalProductUndesirableEffect]            
-        population: [BackboneElement]            
+        population: [Population]            
 }
 
 extend type Query {

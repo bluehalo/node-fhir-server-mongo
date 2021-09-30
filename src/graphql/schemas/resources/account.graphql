@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import code from "../simple_types/code.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
@@ -19,10 +19,10 @@
 # import HealthcareService from "../resources/healthcareService.graphql"
 # import Organization from "../resources/organization.graphql"
 # import Period from "../complex_types/period.graphql"
-# import AccountCoverage from "../backbone_elements/backboneElement.graphql"
+# import AccountCoverage from "../backbone_elements/accountCoverage.graphql"
 # import Organization from "../resources/organization.graphql"
 # import code from "../simple_types/code.graphql"
-# import AccountGuarantor from "../backbone_elements/backboneElement.graphql"
+# import AccountGuarantor from "../backbone_elements/accountGuarantor.graphql"
 # import Account from "../resources/account.graphql"
 
 union AccountSubject = Patient | Device | Practitioner | PractitionerRole | Location | HealthcareService | Organization
@@ -43,10 +43,10 @@ type Account {
         name: code            
         subject: [AccountSubject]            
         servicePeriod: Period            
-        coverage: [BackboneElement]            
+        coverage: [AccountCoverage]            
         owner: Organization            
         description: code            
-        guarantor: [BackboneElement]            
+        guarantor: [AccountGuarantor]            
         partOf: Account            
 }
 

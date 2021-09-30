@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import code from "../simple_types/code.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import code from "../simple_types/code.graphql"
@@ -35,9 +35,9 @@
 # import EvidenceVariable from "../resources/evidenceVariable.graphql"
 # import EvidenceVariable from "../resources/evidenceVariable.graphql"
 # import EvidenceVariable from "../resources/evidenceVariable.graphql"
-# import RiskEvidenceSynthesisSampleSize from "../backbone_elements/backboneElement.graphql"
-# import RiskEvidenceSynthesisRiskEstimate from "../backbone_elements/backboneElement.graphql"
-# import RiskEvidenceSynthesisCertainty from "../backbone_elements/backboneElement.graphql"
+# import RiskEvidenceSynthesisSampleSize from "../backbone_elements/riskEvidenceSynthesisSampleSize.graphql"
+# import RiskEvidenceSynthesisRiskEstimate from "../backbone_elements/riskEvidenceSynthesisRiskEstimate.graphql"
+# import RiskEvidenceSynthesisCertainty from "../backbone_elements/riskEvidenceSynthesisCertainty.graphql"
 
 
 
@@ -78,9 +78,9 @@ type RiskEvidenceSynthesis {
         population: EvidenceVariable!            
         exposure: EvidenceVariable            
         outcome: EvidenceVariable!            
-        sampleSize: BackboneElement            
-        riskEstimate: BackboneElement            
-        certainty: [BackboneElement]            
+        sampleSize: RiskEvidenceSynthesisSampleSize            
+        riskEstimate: RiskEvidenceSynthesisRiskEstimate            
+        certainty: [RiskEvidenceSynthesisCertainty]            
 }
 
 extend type Query {

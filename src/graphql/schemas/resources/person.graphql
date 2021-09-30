@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import HumanName from "../complex_types/humanName.graphql"
 # import ContactPoint from "../complex_types/contactPoint.graphql"
@@ -16,7 +16,7 @@
 # import Attachment from "../complex_types/attachment.graphql"
 # import Organization from "../resources/organization.graphql"
 # import code from "../simple_types/code.graphql"
-# import PersonLink from "../backbone_elements/backboneElement.graphql"
+# import PersonLink from "../backbone_elements/personLink.graphql"
 
 
 
@@ -38,7 +38,7 @@ type Person {
         photo: Attachment            
         managingOrganization: Organization            
         active: code            
-        link: [BackboneElement]            
+        link: [PersonLink]            
 }
 
 extend type Query {

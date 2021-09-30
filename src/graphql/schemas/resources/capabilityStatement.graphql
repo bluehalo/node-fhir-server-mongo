@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
@@ -24,15 +24,15 @@
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
-# import CapabilityStatementSoftware from "../backbone_elements/backboneElement.graphql"
-# import CapabilityStatementImplementation from "../backbone_elements/backboneElement.graphql"
+# import CapabilityStatementSoftware from "../backbone_elements/capabilityStatementSoftware.graphql"
+# import CapabilityStatementImplementation from "../backbone_elements/capabilityStatementImplementation.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
-# import CapabilityStatementRest from "../backbone_elements/backboneElement.graphql"
-# import CapabilityStatementMessaging from "../backbone_elements/backboneElement.graphql"
-# import CapabilityStatementDocument from "../backbone_elements/backboneElement.graphql"
+# import CapabilityStatementRest from "../backbone_elements/capabilityStatementRest.graphql"
+# import CapabilityStatementMessaging from "../backbone_elements/capabilityStatementMessaging.graphql"
+# import CapabilityStatementDocument from "../backbone_elements/capabilityStatementDocument.graphql"
 
 
 
@@ -62,15 +62,15 @@ type CapabilityStatement {
         kind: code!            
         instantiates: [code]            
         imports: [code]            
-        software: BackboneElement            
-        implementation: BackboneElement            
+        software: CapabilityStatementSoftware            
+        implementation: CapabilityStatementImplementation            
         fhirVersion: code!            
         format: [code]!            
         patchFormat: [code]            
         implementationGuide: [code]            
-        rest: [BackboneElement]            
-        messaging: [BackboneElement]            
-        document: [BackboneElement]            
+        rest: [CapabilityStatementRest]            
+        messaging: [CapabilityStatementMessaging]            
+        document: [CapabilityStatementDocument]            
 }
 
 extend type Query {

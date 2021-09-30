@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import MedicationRequest from "../resources/medicationRequest.graphql"
 # import CarePlan from "../resources/carePlan.graphql"
@@ -39,7 +39,7 @@
 # import Observation from "../resources/observation.graphql"
 # import DiagnosticReport from "../resources/diagnosticReport.graphql"
 # import Annotation from "../complex_types/annotation.graphql"
-# import Dosage from "../backbone_elements/backboneElement.graphql"
+# import Dosage from "../backbone_elements/dosage.graphql"
 
 union MedicationStatementBasedOn = MedicationRequest | CarePlan | ServiceRequest
 union MedicationStatementPartOf = MedicationAdministration | MedicationDispense | MedicationStatement | Procedure | Observation
@@ -76,7 +76,7 @@ type MedicationStatement {
         reasonCode: [CodeableConcept]            
         reasonReference: [MedicationStatementReasonReference]            
         note: [Annotation]            
-        dosage: [BackboneElement]            
+        dosage: [Dosage]            
 }
 
 extend type Query {

@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import code from "../simple_types/code.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
@@ -22,11 +22,11 @@
 # import Organization from "../resources/organization.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
-# import CompositionAttester from "../backbone_elements/backboneElement.graphql"
+# import CompositionAttester from "../backbone_elements/compositionAttester.graphql"
 # import Organization from "../resources/organization.graphql"
-# import CompositionRelatesTo from "../backbone_elements/backboneElement.graphql"
-# import CompositionEvent from "../backbone_elements/backboneElement.graphql"
-# import CompositionSection from "../backbone_elements/backboneElement.graphql"
+# import CompositionRelatesTo from "../backbone_elements/compositionRelatesTo.graphql"
+# import CompositionEvent from "../backbone_elements/compositionEvent.graphql"
+# import CompositionSection from "../backbone_elements/compositionSection.graphql"
 
 union CompositionAuthor = Practitioner | PractitionerRole | Device | Patient | RelatedPerson | Organization
 
@@ -50,11 +50,11 @@ type Composition {
         author: [CompositionAuthor]!            
         title: code!            
         confidentiality: code            
-        attester: [BackboneElement]            
+        attester: [CompositionAttester]            
         custodian: Organization            
-        relatesTo: [BackboneElement]            
-        event: [BackboneElement]            
-        section: [BackboneElement]            
+        relatesTo: [CompositionRelatesTo]            
+        event: [CompositionEvent]            
+        section: [CompositionSection]            
 }
 
 extend type Query {

@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import code from "../simple_types/code.graphql"
@@ -19,9 +19,9 @@
 # import code from "../simple_types/code.graphql"
 # import Specimen from "../resources/specimen.graphql"
 # import ServiceRequest from "../resources/serviceRequest.graphql"
-# import SpecimenCollection from "../backbone_elements/backboneElement.graphql"
-# import SpecimenProcessing from "../backbone_elements/backboneElement.graphql"
-# import SpecimenContainer from "../backbone_elements/backboneElement.graphql"
+# import SpecimenCollection from "../backbone_elements/specimenCollection.graphql"
+# import SpecimenProcessing from "../backbone_elements/specimenProcessing.graphql"
+# import SpecimenContainer from "../backbone_elements/specimenContainer.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import Annotation from "../complex_types/annotation.graphql"
 
@@ -45,9 +45,9 @@ type Specimen {
         receivedTime: code            
         parent: [Specimen]            
         request: [ServiceRequest]            
-        collection: BackboneElement            
-        processing: [BackboneElement]            
-        container: [BackboneElement]            
+        collection: SpecimenCollection            
+        processing: [SpecimenProcessing]            
+        container: [SpecimenContainer]            
         condition: [CodeableConcept]            
         note: [Annotation]            
 }

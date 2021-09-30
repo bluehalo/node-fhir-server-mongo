@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import code from "../simple_types/code.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import code from "../simple_types/code.graphql"
@@ -22,15 +22,15 @@
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
-# import TestScriptOrigin from "../backbone_elements/backboneElement.graphql"
-# import TestScriptDestination from "../backbone_elements/backboneElement.graphql"
-# import TestScriptMetadata from "../backbone_elements/backboneElement.graphql"
-# import TestScriptFixture from "../backbone_elements/backboneElement.graphql"
+# import TestScriptOrigin from "../backbone_elements/testScriptOrigin.graphql"
+# import TestScriptDestination from "../backbone_elements/testScriptDestination.graphql"
+# import TestScriptMetadata from "../backbone_elements/testScriptMetadata.graphql"
+# import TestScriptFixture from "../backbone_elements/testScriptFixture.graphql"
 # import Resource from "../resources/resource.graphql"
-# import TestScriptVariable from "../backbone_elements/backboneElement.graphql"
-# import TestScriptSetup from "../backbone_elements/backboneElement.graphql"
-# import TestScriptTest from "../backbone_elements/backboneElement.graphql"
-# import TestScriptTeardown from "../backbone_elements/backboneElement.graphql"
+# import TestScriptVariable from "../backbone_elements/testScriptVariable.graphql"
+# import TestScriptSetup from "../backbone_elements/testScriptSetup.graphql"
+# import TestScriptTest from "../backbone_elements/testScriptTest.graphql"
+# import TestScriptTeardown from "../backbone_elements/testScriptTeardown.graphql"
 
 
 
@@ -58,15 +58,15 @@ type TestScript {
         jurisdiction: [CodeableConcept]            
         purpose: code            
         copyright: code            
-        origin: [BackboneElement]            
-        destination: [BackboneElement]            
-        metadata: BackboneElement            
-        fixture: [BackboneElement]            
+        origin: [TestScriptOrigin]            
+        destination: [TestScriptDestination]            
+        metadata: TestScriptMetadata            
+        fixture: [TestScriptFixture]            
         profile: [Resource]            
-        variable: [BackboneElement]            
-        setup: BackboneElement            
-        test: [BackboneElement]            
-        teardown: BackboneElement            
+        variable: [TestScriptVariable]            
+        setup: TestScriptSetup            
+        test: [TestScriptTest]            
+        teardown: TestScriptTeardown            
 }
 
 extend type Query {

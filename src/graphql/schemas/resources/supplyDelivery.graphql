@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import SupplyRequest from "../resources/supplyRequest.graphql"
 # import SupplyDelivery from "../resources/supplyDelivery.graphql"
@@ -14,10 +14,10 @@
 # import code from "../simple_types/code.graphql"
 # import Patient from "../resources/patient.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
-# import SupplyDeliverySuppliedItem from "../backbone_elements/backboneElement.graphql"
+# import SupplyDeliverySuppliedItem from "../backbone_elements/supplyDeliverySuppliedItem.graphql"
 # import code from "../simple_types/code.graphql"
 # import Period from "../complex_types/period.graphql"
-# import Timing from "../backbone_elements/backboneElement.graphql"
+# import Timing from "../backbone_elements/timing.graphql"
 # import Practitioner from "../resources/practitioner.graphql"
 # import PractitionerRole from "../resources/practitionerRole.graphql"
 # import Organization from "../resources/organization.graphql"
@@ -45,10 +45,10 @@ type SupplyDelivery {
         status: code            
         patient: Patient            
         type_: CodeableConcept            
-        suppliedItem: BackboneElement            
+        suppliedItem: SupplyDeliverySuppliedItem            
         occurrenceDateTime: code            
         occurrencePeriod: Period            
-        occurrenceTiming: BackboneElement            
+        occurrenceTiming: Timing            
         supplier: SupplyDeliverySupplier            
         destination: Location            
         receiver: [SupplyDeliveryReceiver]            

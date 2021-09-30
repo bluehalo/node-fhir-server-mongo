@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
@@ -35,14 +35,14 @@
 # import Resource from "../resources/resource.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
-# import ContractContentDefinition from "../backbone_elements/backboneElement.graphql"
-# import ContractTerm from "../backbone_elements/backboneElement.graphql"
+# import ContractContentDefinition from "../backbone_elements/contractContentDefinition.graphql"
+# import ContractTerm from "../backbone_elements/contractTerm.graphql"
 # import Resource from "../resources/resource.graphql"
 # import Provenance from "../resources/provenance.graphql"
-# import ContractSigner from "../backbone_elements/backboneElement.graphql"
-# import ContractFriendly from "../backbone_elements/backboneElement.graphql"
-# import ContractLegal from "../backbone_elements/backboneElement.graphql"
-# import ContractRule from "../backbone_elements/backboneElement.graphql"
+# import ContractSigner from "../backbone_elements/contractSigner.graphql"
+# import ContractFriendly from "../backbone_elements/contractFriendly.graphql"
+# import ContractLegal from "../backbone_elements/contractLegal.graphql"
+# import ContractRule from "../backbone_elements/contractRule.graphql"
 # import Attachment from "../complex_types/attachment.graphql"
 # import Composition from "../resources/composition.graphql"
 # import DocumentReference from "../resources/documentReference.graphql"
@@ -87,14 +87,14 @@ type Contract {
         topicReference: Resource            
         type_: CodeableConcept            
         subType: [CodeableConcept]            
-        contentDefinition: BackboneElement            
-        term: [BackboneElement]            
+        contentDefinition: ContractContentDefinition            
+        term: [ContractTerm]            
         supportingInfo: [Resource]            
         relevantHistory: [Provenance]            
-        signer: [BackboneElement]            
-        friendly: [BackboneElement]            
-        legal: [BackboneElement]            
-        rule: [BackboneElement]            
+        signer: [ContractSigner]            
+        friendly: [ContractFriendly]            
+        legal: [ContractLegal]            
+        rule: [ContractRule]            
         legallyBindingAttachment: Attachment            
         legallyBindingReference: ContractLegallyBindingReference            
 }

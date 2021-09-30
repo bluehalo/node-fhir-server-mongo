@@ -5,13 +5,13 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import code from "../simple_types/code.graphql"
-# import SubstanceReferenceInformationGene from "../backbone_elements/backboneElement.graphql"
-# import SubstanceReferenceInformationGeneElement from "../backbone_elements/backboneElement.graphql"
-# import SubstanceReferenceInformationClassification from "../backbone_elements/backboneElement.graphql"
-# import SubstanceReferenceInformationTarget from "../backbone_elements/backboneElement.graphql"
+# import SubstanceReferenceInformationGene from "../backbone_elements/substanceReferenceInformationGene.graphql"
+# import SubstanceReferenceInformationGeneElement from "../backbone_elements/substanceReferenceInformationGeneElement.graphql"
+# import SubstanceReferenceInformationClassification from "../backbone_elements/substanceReferenceInformationClassification.graphql"
+# import SubstanceReferenceInformationTarget from "../backbone_elements/substanceReferenceInformationTarget.graphql"
 
 
 
@@ -25,10 +25,10 @@ type SubstanceReferenceInformation {
         extension: [Extension]            
         modifierExtension: [Extension]            
         comment: code            
-        gene: [BackboneElement]            
-        geneElement: [BackboneElement]            
-        classification: [BackboneElement]            
-        target: [BackboneElement]            
+        gene: [SubstanceReferenceInformationGene]            
+        geneElement: [SubstanceReferenceInformationGeneElement]            
+        classification: [SubstanceReferenceInformationClassification]            
+        target: [SubstanceReferenceInformationTarget]            
 }
 
 extend type Query {

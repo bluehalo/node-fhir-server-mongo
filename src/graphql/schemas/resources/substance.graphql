@@ -5,15 +5,15 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import code from "../simple_types/code.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import code from "../simple_types/code.graphql"
-# import SubstanceInstance from "../backbone_elements/backboneElement.graphql"
-# import SubstanceIngredient from "../backbone_elements/backboneElement.graphql"
+# import SubstanceInstance from "../backbone_elements/substanceInstance.graphql"
+# import SubstanceIngredient from "../backbone_elements/substanceIngredient.graphql"
 
 
 
@@ -31,8 +31,8 @@ type Substance {
         category: [CodeableConcept]            
         code: CodeableConcept!            
         description: code            
-        instance: [BackboneElement]            
-        ingredient: [BackboneElement]            
+        instance: [SubstanceInstance]            
+        ingredient: [SubstanceIngredient]            
 }
 
 extend type Query {

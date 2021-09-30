@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import code from "../simple_types/code.graphql"
 # import Period from "../complex_types/period.graphql"
@@ -21,9 +21,9 @@
 # import code from "../simple_types/code.graphql"
 # import Money from "../complex_types/money.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
-# import PaymentReconciliationDetail from "../backbone_elements/backboneElement.graphql"
+# import PaymentReconciliationDetail from "../backbone_elements/paymentReconciliationDetail.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
-# import PaymentReconciliationProcessNote from "../backbone_elements/backboneElement.graphql"
+# import PaymentReconciliationProcessNote from "../backbone_elements/paymentReconciliationProcessNote.graphql"
 
 union PaymentReconciliationRequestor = Practitioner | PractitionerRole | Organization
 
@@ -49,9 +49,9 @@ type PaymentReconciliation {
         paymentDate: code!            
         paymentAmount: Money!            
         paymentIdentifier: Identifier            
-        detail: [BackboneElement]            
+        detail: [PaymentReconciliationDetail]            
         formCode: CodeableConcept            
-        processNote: [BackboneElement]            
+        processNote: [PaymentReconciliationProcessNote]            
 }
 
 extend type Query {

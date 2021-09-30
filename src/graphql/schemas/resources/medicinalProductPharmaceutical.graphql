@@ -5,15 +5,15 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import MedicinalProductIngredient from "../resources/medicinalProductIngredient.graphql"
 # import DeviceDefinition from "../resources/deviceDefinition.graphql"
-# import MedicinalProductPharmaceuticalCharacteristics from "../backbone_elements/backboneElement.graphql"
-# import MedicinalProductPharmaceuticalRouteOfAdministration from "../backbone_elements/backboneElement.graphql"
+# import MedicinalProductPharmaceuticalCharacteristics from "../backbone_elements/medicinalProductPharmaceuticalCharacteristics.graphql"
+# import MedicinalProductPharmaceuticalRouteOfAdministration from "../backbone_elements/medicinalProductPharmaceuticalRouteOfAdministration.graphql"
 
 
 
@@ -31,8 +31,8 @@ type MedicinalProductPharmaceutical {
         unitOfPresentation: CodeableConcept            
         ingredient: [MedicinalProductIngredient]            
         device: [DeviceDefinition]            
-        characteristics: [BackboneElement]            
-        routeOfAdministration: [BackboneElement]!            
+        characteristics: [MedicinalProductPharmaceuticalCharacteristics]            
+        routeOfAdministration: [MedicinalProductPharmaceuticalRouteOfAdministration]!            
 }
 
 extend type Query {

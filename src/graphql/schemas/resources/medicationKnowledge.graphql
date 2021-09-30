@@ -5,30 +5,30 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import code from "../simple_types/code.graphql"
 # import Organization from "../resources/organization.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import Quantity from "../complex_types/quantity.graphql"
 # import code from "../simple_types/code.graphql"
-# import MedicationKnowledgeRelatedMedicationKnowledge from "../backbone_elements/backboneElement.graphql"
+# import MedicationKnowledgeRelatedMedicationKnowledge from "../backbone_elements/medicationKnowledgeRelatedMedicationKnowledge.graphql"
 # import Medication from "../resources/medication.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
-# import MedicationKnowledgeMonograph from "../backbone_elements/backboneElement.graphql"
-# import MedicationKnowledgeIngredient from "../backbone_elements/backboneElement.graphql"
+# import MedicationKnowledgeMonograph from "../backbone_elements/medicationKnowledgeMonograph.graphql"
+# import MedicationKnowledgeIngredient from "../backbone_elements/medicationKnowledgeIngredient.graphql"
 # import code from "../simple_types/code.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
-# import MedicationKnowledgeCost from "../backbone_elements/backboneElement.graphql"
-# import MedicationKnowledgeMonitoringProgram from "../backbone_elements/backboneElement.graphql"
-# import MedicationKnowledgeAdministrationGuidelines from "../backbone_elements/backboneElement.graphql"
-# import MedicationKnowledgeMedicineClassification from "../backbone_elements/backboneElement.graphql"
-# import MedicationKnowledgePackaging from "../backbone_elements/backboneElement.graphql"
-# import MedicationKnowledgeDrugCharacteristic from "../backbone_elements/backboneElement.graphql"
+# import MedicationKnowledgeCost from "../backbone_elements/medicationKnowledgeCost.graphql"
+# import MedicationKnowledgeMonitoringProgram from "../backbone_elements/medicationKnowledgeMonitoringProgram.graphql"
+# import MedicationKnowledgeAdministrationGuidelines from "../backbone_elements/medicationKnowledgeAdministrationGuidelines.graphql"
+# import MedicationKnowledgeMedicineClassification from "../backbone_elements/medicationKnowledgeMedicineClassification.graphql"
+# import MedicationKnowledgePackaging from "../backbone_elements/medicationKnowledgePackaging.graphql"
+# import MedicationKnowledgeDrugCharacteristic from "../backbone_elements/medicationKnowledgeDrugCharacteristic.graphql"
 # import DetectedIssue from "../resources/detectedIssue.graphql"
-# import MedicationKnowledgeRegulatory from "../backbone_elements/backboneElement.graphql"
-# import MedicationKnowledgeKinetics from "../backbone_elements/backboneElement.graphql"
+# import MedicationKnowledgeRegulatory from "../backbone_elements/medicationKnowledgeRegulatory.graphql"
+# import MedicationKnowledgeKinetics from "../backbone_elements/medicationKnowledgeKinetics.graphql"
 
 
 
@@ -47,22 +47,22 @@ type MedicationKnowledge {
         doseForm: CodeableConcept            
         amount: Quantity            
         synonym: [code]            
-        relatedMedicationKnowledge: [BackboneElement]            
+        relatedMedicationKnowledge: [MedicationKnowledgeRelatedMedicationKnowledge]            
         associatedMedication: [Medication]            
         productType: [CodeableConcept]            
-        monograph: [BackboneElement]            
-        ingredient: [BackboneElement]            
+        monograph: [MedicationKnowledgeMonograph]            
+        ingredient: [MedicationKnowledgeIngredient]            
         preparationInstruction: code            
         intendedRoute: [CodeableConcept]            
-        cost: [BackboneElement]            
-        monitoringProgram: [BackboneElement]            
-        administrationGuidelines: [BackboneElement]            
-        medicineClassification: [BackboneElement]            
-        packaging: BackboneElement            
-        drugCharacteristic: [BackboneElement]            
+        cost: [MedicationKnowledgeCost]            
+        monitoringProgram: [MedicationKnowledgeMonitoringProgram]            
+        administrationGuidelines: [MedicationKnowledgeAdministrationGuidelines]            
+        medicineClassification: [MedicationKnowledgeMedicineClassification]            
+        packaging: MedicationKnowledgePackaging            
+        drugCharacteristic: [MedicationKnowledgeDrugCharacteristic]            
         contraindication: [DetectedIssue]            
-        regulatory: [BackboneElement]            
-        kinetics: [BackboneElement]            
+        regulatory: [MedicationKnowledgeRegulatory]            
+        kinetics: [MedicationKnowledgeKinetics]            
 }
 
 extend type Query {

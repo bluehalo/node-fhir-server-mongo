@@ -5,13 +5,13 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import code from "../simple_types/code.graphql"
-# import EpisodeOfCareStatusHistory from "../backbone_elements/backboneElement.graphql"
+# import EpisodeOfCareStatusHistory from "../backbone_elements/episodeOfCareStatusHistory.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
-# import EpisodeOfCareDiagnosis from "../backbone_elements/backboneElement.graphql"
+# import EpisodeOfCareDiagnosis from "../backbone_elements/episodeOfCareDiagnosis.graphql"
 # import Patient from "../resources/patient.graphql"
 # import Organization from "../resources/organization.graphql"
 # import Period from "../complex_types/period.graphql"
@@ -35,9 +35,9 @@ type EpisodeOfCare {
         modifierExtension: [Extension]            
         identifier: [Identifier]            
         status: code!            
-        statusHistory: [BackboneElement]            
+        statusHistory: [EpisodeOfCareStatusHistory]            
         type_: [CodeableConcept]            
-        diagnosis: [BackboneElement]            
+        diagnosis: [EpisodeOfCareDiagnosis]            
         patient: Patient!            
         managingOrganization: Organization            
         period: Period            

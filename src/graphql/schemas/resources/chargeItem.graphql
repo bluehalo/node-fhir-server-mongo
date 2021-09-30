@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
@@ -19,8 +19,8 @@
 # import EpisodeOfCare from "../resources/episodeOfCare.graphql"
 # import code from "../simple_types/code.graphql"
 # import Period from "../complex_types/period.graphql"
-# import Timing from "../backbone_elements/backboneElement.graphql"
-# import ChargeItemPerformer from "../backbone_elements/backboneElement.graphql"
+# import Timing from "../backbone_elements/timing.graphql"
+# import ChargeItemPerformer from "../backbone_elements/chargeItemPerformer.graphql"
 # import Organization from "../resources/organization.graphql"
 # import Organization from "../resources/organization.graphql"
 # import Organization from "../resources/organization.graphql"
@@ -79,8 +79,8 @@ type ChargeItem {
         context: ChargeItemContext            
         occurrenceDateTime: code            
         occurrencePeriod: Period            
-        occurrenceTiming: BackboneElement            
-        performer: [BackboneElement]            
+        occurrenceTiming: Timing            
+        performer: [ChargeItemPerformer]            
         performingOrganization: Organization            
         requestingOrganization: Organization            
         costCenter: Organization            

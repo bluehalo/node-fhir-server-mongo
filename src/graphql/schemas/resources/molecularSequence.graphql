@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
@@ -15,14 +15,14 @@
 # import Device from "../resources/device.graphql"
 # import Organization from "../resources/organization.graphql"
 # import Quantity from "../complex_types/quantity.graphql"
-# import MolecularSequenceReferenceSeq from "../backbone_elements/backboneElement.graphql"
-# import MolecularSequenceVariant from "../backbone_elements/backboneElement.graphql"
+# import MolecularSequenceReferenceSeq from "../backbone_elements/molecularSequenceReferenceSeq.graphql"
+# import MolecularSequenceVariant from "../backbone_elements/molecularSequenceVariant.graphql"
 # import code from "../simple_types/code.graphql"
-# import MolecularSequenceQuality from "../backbone_elements/backboneElement.graphql"
+# import MolecularSequenceQuality from "../backbone_elements/molecularSequenceQuality.graphql"
 # import code from "../simple_types/code.graphql"
-# import MolecularSequenceRepository from "../backbone_elements/backboneElement.graphql"
+# import MolecularSequenceRepository from "../backbone_elements/molecularSequenceRepository.graphql"
 # import MolecularSequence from "../resources/molecularSequence.graphql"
-# import MolecularSequenceStructureVariant from "../backbone_elements/backboneElement.graphql"
+# import MolecularSequenceStructureVariant from "../backbone_elements/molecularSequenceStructureVariant.graphql"
 
 
 
@@ -43,14 +43,14 @@ type MolecularSequence {
         device: Device            
         performer: Organization            
         quantity: Quantity            
-        referenceSeq: BackboneElement            
-        variant: [BackboneElement]            
+        referenceSeq: MolecularSequenceReferenceSeq            
+        variant: [MolecularSequenceVariant]            
         observedSeq: code            
-        quality: [BackboneElement]            
+        quality: [MolecularSequenceQuality]            
         readCoverage: code            
-        repository: [BackboneElement]            
+        repository: [MolecularSequenceRepository]            
         pointer: [MolecularSequence]            
-        structureVariant: [BackboneElement]            
+        structureVariant: [MolecularSequenceStructureVariant]            
 }
 
 extend type Query {

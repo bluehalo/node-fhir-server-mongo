@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
@@ -15,8 +15,8 @@
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
-# import Timing from "../backbone_elements/backboneElement.graphql"
-# import DeviceMetricCalibration from "../backbone_elements/backboneElement.graphql"
+# import Timing from "../backbone_elements/timing.graphql"
+# import DeviceMetricCalibration from "../backbone_elements/deviceMetricCalibration.graphql"
 
 
 
@@ -37,8 +37,8 @@ type DeviceMetric {
         operationalStatus: code            
         color: code            
         category: code!            
-        measurementPeriod: BackboneElement            
-        calibration: [BackboneElement]            
+        measurementPeriod: Timing            
+        calibration: [DeviceMetricCalibration]            
 }
 
 extend type Query {

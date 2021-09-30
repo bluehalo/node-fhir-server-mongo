@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import code from "../simple_types/code.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import code from "../simple_types/code.graphql"
@@ -47,8 +47,8 @@
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
-# import MeasureGroup from "../backbone_elements/backboneElement.graphql"
-# import MeasureSupplementalData from "../backbone_elements/backboneElement.graphql"
+# import MeasureGroup from "../backbone_elements/measureGroup.graphql"
+# import MeasureSupplementalData from "../backbone_elements/measureSupplementalData.graphql"
 
 
 
@@ -101,8 +101,8 @@ type Measure {
         improvementNotation: CodeableConcept            
         definition: [code]            
         guidance: code            
-        group: [BackboneElement]            
-        supplementalData: [BackboneElement]            
+        group: [MeasureGroup]            
+        supplementalData: [MeasureSupplementalData]            
 }
 
 extend type Query {

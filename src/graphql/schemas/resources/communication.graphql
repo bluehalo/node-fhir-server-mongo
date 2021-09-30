@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
@@ -46,7 +46,7 @@
 # import Observation from "../resources/observation.graphql"
 # import DiagnosticReport from "../resources/diagnosticReport.graphql"
 # import DocumentReference from "../resources/documentReference.graphql"
-# import CommunicationPayload from "../backbone_elements/backboneElement.graphql"
+# import CommunicationPayload from "../backbone_elements/communicationPayload.graphql"
 # import Annotation from "../complex_types/annotation.graphql"
 
 union CommunicationSubject = Patient | Group
@@ -85,7 +85,7 @@ type Communication {
         sender: CommunicationSender            
         reasonCode: [CodeableConcept]            
         reasonReference: [CommunicationReasonReference]            
-        payload: [BackboneElement]            
+        payload: [CommunicationPayload]            
         note: [Annotation]            
 }
 

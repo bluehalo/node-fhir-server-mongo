@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import code from "../simple_types/code.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import code from "../simple_types/code.graphql"
@@ -23,8 +23,8 @@
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
-# import ValueSetCompose from "../backbone_elements/backboneElement.graphql"
-# import ValueSetExpansion from "../backbone_elements/backboneElement.graphql"
+# import ValueSetCompose from "../backbone_elements/valueSetCompose.graphql"
+# import ValueSetExpansion from "../backbone_elements/valueSetExpansion.graphql"
 
 
 
@@ -53,8 +53,8 @@ type ValueSet {
         immutable: code            
         purpose: code            
         copyright: code            
-        compose: BackboneElement            
-        expansion: BackboneElement            
+        compose: ValueSetCompose            
+        expansion: ValueSetExpansion            
 }
 
 extend type Query {

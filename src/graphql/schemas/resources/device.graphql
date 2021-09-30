@@ -5,11 +5,11 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import DeviceDefinition from "../resources/deviceDefinition.graphql"
-# import DeviceUdiCarrier from "../backbone_elements/backboneElement.graphql"
+# import DeviceUdiCarrier from "../backbone_elements/deviceUdiCarrier.graphql"
 # import code from "../simple_types/code.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import code from "../simple_types/code.graphql"
@@ -18,13 +18,13 @@
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
-# import DeviceDeviceName from "../backbone_elements/backboneElement.graphql"
+# import DeviceDeviceName from "../backbone_elements/deviceDeviceName.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
-# import DeviceSpecialization from "../backbone_elements/backboneElement.graphql"
-# import DeviceVersion from "../backbone_elements/backboneElement.graphql"
-# import DeviceProperty from "../backbone_elements/backboneElement.graphql"
+# import DeviceSpecialization from "../backbone_elements/deviceSpecialization.graphql"
+# import DeviceVersion from "../backbone_elements/deviceVersion.graphql"
+# import DeviceProperty from "../backbone_elements/deviceProperty.graphql"
 # import Patient from "../resources/patient.graphql"
 # import Organization from "../resources/organization.graphql"
 # import ContactPoint from "../complex_types/contactPoint.graphql"
@@ -47,7 +47,7 @@ type Device {
         modifierExtension: [Extension]            
         identifier: [Identifier]            
         definition: DeviceDefinition            
-        udiCarrier: [BackboneElement]            
+        udiCarrier: [DeviceUdiCarrier]            
         status: code            
         statusReason: [CodeableConcept]            
         distinctIdentifier: code            
@@ -56,13 +56,13 @@ type Device {
         expirationDate: code            
         lotNumber: code            
         serialNumber: code            
-        deviceName: [BackboneElement]            
+        deviceName: [DeviceDeviceName]            
         modelNumber: code            
         partNumber: code            
         type_: CodeableConcept            
-        specialization: [BackboneElement]            
-        version: [BackboneElement]            
-        property: [BackboneElement]            
+        specialization: [DeviceSpecialization]            
+        version: [DeviceVersion]            
+        property: [DeviceProperty]            
         patient: Patient            
         owner: Organization            
         contact: [ContactPoint]            

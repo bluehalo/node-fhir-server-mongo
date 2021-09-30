@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import code from "../simple_types/code.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import code from "../simple_types/code.graphql"
@@ -42,25 +42,25 @@
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
-# import Timing from "../backbone_elements/backboneElement.graphql"
+# import Timing from "../backbone_elements/timing.graphql"
 # import code from "../simple_types/code.graphql"
 # import Quantity from "../complex_types/quantity.graphql"
 # import Period from "../complex_types/period.graphql"
 # import Range from "../complex_types/range.graphql"
 # import Quantity from "../complex_types/quantity.graphql"
 # import Location from "../resources/location.graphql"
-# import ActivityDefinitionParticipant from "../backbone_elements/backboneElement.graphql"
+# import ActivityDefinitionParticipant from "../backbone_elements/activityDefinitionParticipant.graphql"
 # import Medication from "../resources/medication.graphql"
 # import Substance from "../resources/substance.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import Quantity from "../complex_types/quantity.graphql"
-# import Dosage from "../backbone_elements/backboneElement.graphql"
+# import Dosage from "../backbone_elements/dosage.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import SpecimenDefinition from "../resources/specimenDefinition.graphql"
 # import ObservationDefinition from "../resources/observationDefinition.graphql"
 # import ObservationDefinition from "../resources/observationDefinition.graphql"
 # import code from "../simple_types/code.graphql"
-# import ActivityDefinitionDynamicValue from "../backbone_elements/backboneElement.graphql"
+# import ActivityDefinitionDynamicValue from "../backbone_elements/activityDefinitionDynamicValue.graphql"
 
 union ActivityDefinitionProductReference = Medication | Substance
 
@@ -109,24 +109,24 @@ type ActivityDefinition {
         intent: code            
         priority: code            
         doNotPerform: code            
-        timingTiming: BackboneElement            
+        timingTiming: Timing            
         timingDateTime: code            
         timingAge: Quantity            
         timingPeriod: Period            
         timingRange: Range            
         timingDuration: Quantity            
         location: Location            
-        participant: [BackboneElement]            
+        participant: [ActivityDefinitionParticipant]            
         productReference: ActivityDefinitionProductReference            
         productCodeableConcept: CodeableConcept            
         quantity: Quantity            
-        dosage: [BackboneElement]            
+        dosage: [Dosage]            
         bodySite: [CodeableConcept]            
         specimenRequirement: [SpecimenDefinition]            
         observationRequirement: [ObservationDefinition]            
         observationResultRequirement: [ObservationDefinition]            
         transform: code            
-        dynamicValue: [BackboneElement]            
+        dynamicValue: [ActivityDefinitionDynamicValue]            
 }
 
 extend type Query {

@@ -5,14 +5,14 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import code from "../simple_types/code.graphql"
-# import SubstancePolymerMonomerSet from "../backbone_elements/backboneElement.graphql"
-# import SubstancePolymerRepeat from "../backbone_elements/backboneElement.graphql"
+# import SubstancePolymerMonomerSet from "../backbone_elements/substancePolymerMonomerSet.graphql"
+# import SubstancePolymerRepeat from "../backbone_elements/substancePolymerRepeat.graphql"
 
 
 
@@ -29,8 +29,8 @@ type SubstancePolymer {
         geometry: CodeableConcept            
         copolymerConnectivity: [CodeableConcept]            
         modification: [code]            
-        monomerSet: [BackboneElement]            
-        repeat: [BackboneElement]            
+        monomerSet: [SubstancePolymerMonomerSet]            
+        repeat: [SubstancePolymerRepeat]            
 }
 
 extend type Query {

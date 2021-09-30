@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
@@ -41,7 +41,7 @@
 # import Condition from "../resources/condition.graphql"
 # import Resource from "../resources/resource.graphql"
 # import Goal from "../resources/goal.graphql"
-# import CarePlanActivity from "../backbone_elements/backboneElement.graphql"
+# import CarePlanActivity from "../backbone_elements/carePlanActivity.graphql"
 # import Annotation from "../complex_types/annotation.graphql"
 
 union CarePlanSubject = Patient | Group
@@ -79,7 +79,7 @@ type CarePlan {
         addresses: [Condition]            
         supportingInfo: [Resource]            
         goal: [Goal]            
-        activity: [BackboneElement]            
+        activity: [CarePlanActivity]            
         note: [Annotation]            
 }
 

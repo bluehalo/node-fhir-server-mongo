@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
@@ -19,7 +19,7 @@
 # import UsageContext from "../complex_types/usageContext.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import code from "../simple_types/code.graphql"
-# import NamingSystemUniqueId from "../backbone_elements/backboneElement.graphql"
+# import NamingSystemUniqueId from "../backbone_elements/namingSystemUniqueId.graphql"
 
 
 
@@ -44,7 +44,7 @@ type NamingSystem {
         useContext: [UsageContext]            
         jurisdiction: [CodeableConcept]            
         usage: code            
-        uniqueId: [BackboneElement]!            
+        uniqueId: [NamingSystemUniqueId]!            
 }
 
 extend type Query {

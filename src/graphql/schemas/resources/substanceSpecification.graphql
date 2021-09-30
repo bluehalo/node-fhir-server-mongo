@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
@@ -14,14 +14,14 @@
 # import code from "../simple_types/code.graphql"
 # import DocumentReference from "../resources/documentReference.graphql"
 # import code from "../simple_types/code.graphql"
-# import SubstanceSpecificationMoiety from "../backbone_elements/backboneElement.graphql"
-# import SubstanceSpecificationProperty from "../backbone_elements/backboneElement.graphql"
+# import SubstanceSpecificationMoiety from "../backbone_elements/substanceSpecificationMoiety.graphql"
+# import SubstanceSpecificationProperty from "../backbone_elements/substanceSpecificationProperty.graphql"
 # import SubstanceReferenceInformation from "../resources/substanceReferenceInformation.graphql"
-# import SubstanceSpecificationStructure from "../backbone_elements/backboneElement.graphql"
-# import SubstanceSpecificationCode from "../backbone_elements/backboneElement.graphql"
-# import SubstanceSpecificationName from "../backbone_elements/backboneElement.graphql"
-# import SubstanceSpecificationMolecularWeight from "../backbone_elements/backboneElement.graphql"
-# import SubstanceSpecificationRelationship from "../backbone_elements/backboneElement.graphql"
+# import SubstanceSpecificationStructure from "../backbone_elements/substanceSpecificationStructure.graphql"
+# import SubstanceSpecificationCode from "../backbone_elements/substanceSpecificationCode.graphql"
+# import SubstanceSpecificationName from "../backbone_elements/substanceSpecificationName.graphql"
+# import SubstanceSpecificationMolecularWeight from "../backbone_elements/substanceSpecificationMolecularWeight.graphql"
+# import SubstanceSpecificationRelationship from "../backbone_elements/substanceSpecificationRelationship.graphql"
 # import SubstanceNucleicAcid from "../resources/substanceNucleicAcid.graphql"
 # import SubstancePolymer from "../resources/substancePolymer.graphql"
 # import SubstanceProtein from "../resources/substanceProtein.graphql"
@@ -45,14 +45,14 @@ type SubstanceSpecification {
         description: code            
         source: [DocumentReference]            
         comment: code            
-        moiety: [BackboneElement]            
-        property: [BackboneElement]            
+        moiety: [SubstanceSpecificationMoiety]            
+        property: [SubstanceSpecificationProperty]            
         referenceInformation: SubstanceReferenceInformation            
-        structure: BackboneElement            
-        code: [BackboneElement]            
-        name: [BackboneElement]            
-        molecularWeight: [BackboneElement]            
-        relationship: [BackboneElement]            
+        structure: SubstanceSpecificationStructure            
+        code: [SubstanceSpecificationCode]            
+        name: [SubstanceSpecificationName]            
+        molecularWeight: [SubstanceSpecificationMolecularWeight]            
+        relationship: [SubstanceSpecificationRelationship]            
         nucleicAcid: SubstanceNucleicAcid            
         polymer: SubstancePolymer            
         protein: SubstanceProtein            

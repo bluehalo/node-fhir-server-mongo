@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
@@ -31,8 +31,8 @@
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
-# import OperationDefinitionParameter from "../backbone_elements/backboneElement.graphql"
-# import OperationDefinitionOverload from "../backbone_elements/backboneElement.graphql"
+# import OperationDefinitionParameter from "../backbone_elements/operationDefinitionParameter.graphql"
+# import OperationDefinitionOverload from "../backbone_elements/operationDefinitionOverload.graphql"
 
 
 
@@ -69,8 +69,8 @@ type OperationDefinition {
         instance: code!            
         inputProfile: code            
         outputProfile: code            
-        parameter: [BackboneElement]            
-        overload: [BackboneElement]            
+        parameter: [OperationDefinitionParameter]            
+        overload: [OperationDefinitionOverload]            
 }
 
 extend type Query {

@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import Procedure from "../resources/procedure.graphql"
 # import code from "../simple_types/code.graphql"
@@ -20,7 +20,7 @@
 # import Encounter from "../resources/encounter.graphql"
 # import EpisodeOfCare from "../resources/episodeOfCare.graphql"
 # import Resource from "../resources/resource.graphql"
-# import MedicationDispensePerformer from "../backbone_elements/backboneElement.graphql"
+# import MedicationDispensePerformer from "../backbone_elements/medicationDispensePerformer.graphql"
 # import Location from "../resources/location.graphql"
 # import MedicationRequest from "../resources/medicationRequest.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
@@ -32,8 +32,8 @@
 # import Patient from "../resources/patient.graphql"
 # import Practitioner from "../resources/practitioner.graphql"
 # import Annotation from "../complex_types/annotation.graphql"
-# import Dosage from "../backbone_elements/backboneElement.graphql"
-# import MedicationDispenseSubstitution from "../backbone_elements/backboneElement.graphql"
+# import Dosage from "../backbone_elements/dosage.graphql"
+# import MedicationDispenseSubstitution from "../backbone_elements/medicationDispenseSubstitution.graphql"
 # import DetectedIssue from "../resources/detectedIssue.graphql"
 # import Provenance from "../resources/provenance.graphql"
 
@@ -62,7 +62,7 @@ type MedicationDispense {
         subject: MedicationDispenseSubject            
         context: MedicationDispenseContext            
         supportingInformation: [Resource]            
-        performer: [BackboneElement]            
+        performer: [MedicationDispensePerformer]            
         location: Location            
         authorizingPrescription: [MedicationRequest]            
         type_: CodeableConcept            
@@ -73,8 +73,8 @@ type MedicationDispense {
         destination: Location            
         receiver: [MedicationDispenseReceiver]            
         note: [Annotation]            
-        dosageInstruction: [BackboneElement]            
-        substitution: BackboneElement            
+        dosageInstruction: [Dosage]            
+        substitution: MedicationDispenseSubstitution            
         detectedIssue: [DetectedIssue]            
         eventHistory: [Provenance]            
 }

@@ -5,13 +5,13 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import code from "../simple_types/code.graphql"
-# import EncounterStatusHistory from "../backbone_elements/backboneElement.graphql"
+# import EncounterStatusHistory from "../backbone_elements/encounterStatusHistory.graphql"
 # import Coding from "../complex_types/coding.graphql"
-# import EncounterClassHistory from "../backbone_elements/backboneElement.graphql"
+# import EncounterClassHistory from "../backbone_elements/encounterClassHistory.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
@@ -19,7 +19,7 @@
 # import Group from "../resources/group.graphql"
 # import EpisodeOfCare from "../resources/episodeOfCare.graphql"
 # import ServiceRequest from "../resources/serviceRequest.graphql"
-# import EncounterParticipant from "../backbone_elements/backboneElement.graphql"
+# import EncounterParticipant from "../backbone_elements/encounterParticipant.graphql"
 # import Appointment from "../resources/appointment.graphql"
 # import Period from "../complex_types/period.graphql"
 # import Quantity from "../complex_types/quantity.graphql"
@@ -28,10 +28,10 @@
 # import Procedure from "../resources/procedure.graphql"
 # import Observation from "../resources/observation.graphql"
 # import ImmunizationRecommendation from "../resources/immunizationRecommendation.graphql"
-# import EncounterDiagnosis from "../backbone_elements/backboneElement.graphql"
+# import EncounterDiagnosis from "../backbone_elements/encounterDiagnosis.graphql"
 # import Account from "../resources/account.graphql"
-# import EncounterHospitalization from "../backbone_elements/backboneElement.graphql"
-# import EncounterLocation from "../backbone_elements/backboneElement.graphql"
+# import EncounterHospitalization from "../backbone_elements/encounterHospitalization.graphql"
+# import EncounterLocation from "../backbone_elements/encounterLocation.graphql"
 # import Organization from "../resources/organization.graphql"
 # import Encounter from "../resources/encounter.graphql"
 
@@ -50,25 +50,25 @@ type Encounter {
         modifierExtension: [Extension]            
         identifier: [Identifier]            
         status: code!            
-        statusHistory: [BackboneElement]            
+        statusHistory: [EncounterStatusHistory]            
         class_: Coding!            
-        classHistory: [BackboneElement]            
+        classHistory: [EncounterClassHistory]            
         type_: [CodeableConcept]            
         serviceType: CodeableConcept            
         priority: CodeableConcept            
         subject: EncounterSubject            
         episodeOfCare: [EpisodeOfCare]            
         basedOn: [ServiceRequest]            
-        participant: [BackboneElement]            
+        participant: [EncounterParticipant]            
         appointment: [Appointment]            
         period: Period            
         length: Quantity            
         reasonCode: [CodeableConcept]            
         reasonReference: [EncounterReasonReference]            
-        diagnosis: [BackboneElement]            
+        diagnosis: [EncounterDiagnosis]            
         account: [Account]            
-        hospitalization: BackboneElement            
-        location: [BackboneElement]            
+        hospitalization: EncounterHospitalization            
+        location: [EncounterLocation]            
         serviceProvider: Organization            
         partOf: Encounter            
 }

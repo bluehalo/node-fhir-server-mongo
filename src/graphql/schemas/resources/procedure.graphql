@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
@@ -35,7 +35,7 @@
 # import RelatedPerson from "../resources/relatedPerson.graphql"
 # import Practitioner from "../resources/practitioner.graphql"
 # import PractitionerRole from "../resources/practitionerRole.graphql"
-# import ProcedurePerformer from "../backbone_elements/backboneElement.graphql"
+# import ProcedurePerformer from "../backbone_elements/procedurePerformer.graphql"
 # import Location from "../resources/location.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import Condition from "../resources/condition.graphql"
@@ -52,7 +52,7 @@
 # import Condition from "../resources/condition.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import Annotation from "../complex_types/annotation.graphql"
-# import ProcedureFocalDevice from "../backbone_elements/backboneElement.graphql"
+# import ProcedureFocalDevice from "../backbone_elements/procedureFocalDevice.graphql"
 # import Device from "../resources/device.graphql"
 # import Medication from "../resources/medication.graphql"
 # import Substance from "../resources/substance.graphql"
@@ -95,7 +95,7 @@ type Procedure {
         performedRange: Range            
         recorder: ProcedureRecorder            
         asserter: ProcedureAsserter            
-        performer: [BackboneElement]            
+        performer: [ProcedurePerformer]            
         location: Location            
         reasonCode: [CodeableConcept]            
         reasonReference: [ProcedureReasonReference]            
@@ -106,7 +106,7 @@ type Procedure {
         complicationDetail: [Condition]            
         followUp: [CodeableConcept]            
         note: [Annotation]            
-        focalDevice: [BackboneElement]            
+        focalDevice: [ProcedureFocalDevice]            
         usedReference: [ProcedureUsedReference]            
         usedCode: [CodeableConcept]            
 }

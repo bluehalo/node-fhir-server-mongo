@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
@@ -21,7 +21,7 @@
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
-# import GraphDefinitionLink from "../backbone_elements/backboneElement.graphql"
+# import GraphDefinitionLink from "../backbone_elements/graphDefinitionLink.graphql"
 
 
 
@@ -48,7 +48,7 @@ type GraphDefinition {
         purpose: code            
         start: code!            
         profile: code            
-        link: [BackboneElement]            
+        link: [GraphDefinitionLink]            
 }
 
 extend type Query {

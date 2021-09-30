@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
@@ -22,15 +22,15 @@
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
-# import TerminologyCapabilitiesSoftware from "../backbone_elements/backboneElement.graphql"
-# import TerminologyCapabilitiesImplementation from "../backbone_elements/backboneElement.graphql"
+# import TerminologyCapabilitiesSoftware from "../backbone_elements/terminologyCapabilitiesSoftware.graphql"
+# import TerminologyCapabilitiesImplementation from "../backbone_elements/terminologyCapabilitiesImplementation.graphql"
 # import code from "../simple_types/code.graphql"
-# import TerminologyCapabilitiesCodeSystem from "../backbone_elements/backboneElement.graphql"
-# import TerminologyCapabilitiesExpansion from "../backbone_elements/backboneElement.graphql"
+# import TerminologyCapabilitiesCodeSystem from "../backbone_elements/terminologyCapabilitiesCodeSystem.graphql"
+# import TerminologyCapabilitiesExpansion from "../backbone_elements/terminologyCapabilitiesExpansion.graphql"
 # import code from "../simple_types/code.graphql"
-# import TerminologyCapabilitiesValidateCode from "../backbone_elements/backboneElement.graphql"
-# import TerminologyCapabilitiesTranslation from "../backbone_elements/backboneElement.graphql"
-# import TerminologyCapabilitiesClosure from "../backbone_elements/backboneElement.graphql"
+# import TerminologyCapabilitiesValidateCode from "../backbone_elements/terminologyCapabilitiesValidateCode.graphql"
+# import TerminologyCapabilitiesTranslation from "../backbone_elements/terminologyCapabilitiesTranslation.graphql"
+# import TerminologyCapabilitiesClosure from "../backbone_elements/terminologyCapabilitiesClosure.graphql"
 
 
 
@@ -58,15 +58,15 @@ type TerminologyCapabilities {
         purpose: code            
         copyright: code            
         kind: code!            
-        software: BackboneElement            
-        implementation: BackboneElement            
+        software: TerminologyCapabilitiesSoftware            
+        implementation: TerminologyCapabilitiesImplementation            
         lockedDate: code            
-        codeSystem: [BackboneElement]            
-        expansion: BackboneElement            
+        codeSystem: [TerminologyCapabilitiesCodeSystem]            
+        expansion: TerminologyCapabilitiesExpansion            
         codeSearch: code            
-        validateCode: BackboneElement            
-        translation: BackboneElement            
-        closure: BackboneElement            
+        validateCode: TerminologyCapabilitiesValidateCode            
+        translation: TerminologyCapabilitiesTranslation            
+        closure: TerminologyCapabilitiesClosure            
 }
 
 extend type Query {

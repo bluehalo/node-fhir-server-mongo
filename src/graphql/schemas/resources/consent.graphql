@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import code from "../simple_types/code.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
@@ -24,10 +24,10 @@
 # import DocumentReference from "../resources/documentReference.graphql"
 # import Contract from "../resources/contract.graphql"
 # import QuestionnaireResponse from "../resources/questionnaireResponse.graphql"
-# import ConsentPolicy from "../backbone_elements/backboneElement.graphql"
+# import ConsentPolicy from "../backbone_elements/consentPolicy.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
-# import ConsentVerification from "../backbone_elements/backboneElement.graphql"
-# import ConsentProvision from "../backbone_elements/backboneElement.graphql"
+# import ConsentVerification from "../backbone_elements/consentVerification.graphql"
+# import ConsentProvision from "../backbone_elements/consentProvision.graphql"
 
 union ConsentPerformer = Organization | Patient | Practitioner | RelatedPerson | PractitionerRole
 union ConsentSourceReference = Consent | DocumentReference | Contract | QuestionnaireResponse
@@ -52,10 +52,10 @@ type Consent {
         organization: [Organization]            
         sourceAttachment: Attachment            
         sourceReference: ConsentSourceReference            
-        policy: [BackboneElement]            
+        policy: [ConsentPolicy]            
         policyRule: CodeableConcept            
-        verification: [BackboneElement]            
-        provision: BackboneElement            
+        verification: [ConsentVerification]            
+        provision: ConsentProvision            
 }
 
 extend type Query {

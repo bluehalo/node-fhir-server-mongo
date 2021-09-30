@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import code from "../simple_types/code.graphql"
 # import Period from "../complex_types/period.graphql"
@@ -17,8 +17,8 @@
 # import Location from "../resources/location.graphql"
 # import HealthcareService from "../resources/healthcareService.graphql"
 # import ContactPoint from "../complex_types/contactPoint.graphql"
-# import PractitionerRoleAvailableTime from "../backbone_elements/backboneElement.graphql"
-# import PractitionerRoleNotAvailable from "../backbone_elements/backboneElement.graphql"
+# import PractitionerRoleAvailableTime from "../backbone_elements/practitionerRoleAvailableTime.graphql"
+# import PractitionerRoleNotAvailable from "../backbone_elements/practitionerRoleNotAvailable.graphql"
 # import code from "../simple_types/code.graphql"
 # import Endpoint from "../resources/endpoint.graphql"
 
@@ -43,8 +43,8 @@ type PractitionerRole {
         location: [Location]            
         healthcareService: [HealthcareService]            
         telecom: [ContactPoint]            
-        availableTime: [BackboneElement]            
-        notAvailable: [BackboneElement]            
+        availableTime: [PractitionerRoleAvailableTime]            
+        notAvailable: [PractitionerRoleNotAvailable]            
         availabilityExceptions: code            
         endpoint: [Endpoint]            
 }

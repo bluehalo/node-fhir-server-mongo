@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
@@ -48,9 +48,9 @@
 # import ClaimResponse from "../resources/claimResponse.graphql"
 # import Annotation from "../complex_types/annotation.graphql"
 # import Provenance from "../resources/provenance.graphql"
-# import TaskRestriction from "../backbone_elements/backboneElement.graphql"
-# import TaskInput from "../backbone_elements/backboneElement.graphql"
-# import TaskOutput from "../backbone_elements/backboneElement.graphql"
+# import TaskRestriction from "../backbone_elements/taskRestriction.graphql"
+# import TaskInput from "../backbone_elements/taskInput.graphql"
+# import TaskOutput from "../backbone_elements/taskOutput.graphql"
 
 union TaskRequester = Device | Organization | Patient | Practitioner | PractitionerRole | RelatedPerson
 union TaskOwner = Practitioner | PractitionerRole | Organization | CareTeam | HealthcareService | Patient | Device | RelatedPerson
@@ -94,9 +94,9 @@ type Task {
         insurance: [TaskInsurance]            
         note: [Annotation]            
         relevantHistory: [Provenance]            
-        restriction: BackboneElement            
-        input: [BackboneElement]            
-        output: [BackboneElement]            
+        restriction: TaskRestriction            
+        input: [TaskInput]            
+        output: [TaskOutput]            
 }
 
 extend type Query {

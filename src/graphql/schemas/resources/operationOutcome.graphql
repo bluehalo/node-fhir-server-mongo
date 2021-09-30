@@ -5,9 +5,9 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import OperationOutcomeIssue from "../backbone_elements/backboneElement.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import OperationOutcomeIssue from "../backbone_elements/operationOutcomeIssue.graphql"
 
 
 
@@ -20,7 +20,7 @@ type OperationOutcome {
         contained: [code]            
         extension: [Extension]            
         modifierExtension: [Extension]            
-        issue: [BackboneElement]!            
+        issue: [OperationOutcomeIssue]!            
 }
 
 extend type Query {

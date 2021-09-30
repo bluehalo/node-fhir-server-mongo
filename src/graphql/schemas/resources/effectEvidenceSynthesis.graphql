@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import code from "../simple_types/code.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import code from "../simple_types/code.graphql"
@@ -36,10 +36,10 @@
 # import EvidenceVariable from "../resources/evidenceVariable.graphql"
 # import EvidenceVariable from "../resources/evidenceVariable.graphql"
 # import EvidenceVariable from "../resources/evidenceVariable.graphql"
-# import EffectEvidenceSynthesisSampleSize from "../backbone_elements/backboneElement.graphql"
-# import EffectEvidenceSynthesisResultsByExposure from "../backbone_elements/backboneElement.graphql"
-# import EffectEvidenceSynthesisEffectEstimate from "../backbone_elements/backboneElement.graphql"
-# import EffectEvidenceSynthesisCertainty from "../backbone_elements/backboneElement.graphql"
+# import EffectEvidenceSynthesisSampleSize from "../backbone_elements/effectEvidenceSynthesisSampleSize.graphql"
+# import EffectEvidenceSynthesisResultsByExposure from "../backbone_elements/effectEvidenceSynthesisResultsByExposure.graphql"
+# import EffectEvidenceSynthesisEffectEstimate from "../backbone_elements/effectEvidenceSynthesisEffectEstimate.graphql"
+# import EffectEvidenceSynthesisCertainty from "../backbone_elements/effectEvidenceSynthesisCertainty.graphql"
 
 
 
@@ -81,10 +81,10 @@ type EffectEvidenceSynthesis {
         exposure: EvidenceVariable!            
         exposureAlternative: EvidenceVariable!            
         outcome: EvidenceVariable!            
-        sampleSize: BackboneElement            
-        resultsByExposure: [BackboneElement]            
-        effectEstimate: [BackboneElement]            
-        certainty: [BackboneElement]            
+        sampleSize: EffectEvidenceSynthesisSampleSize            
+        resultsByExposure: [EffectEvidenceSynthesisResultsByExposure]            
+        effectEstimate: [EffectEvidenceSynthesisEffectEstimate]            
+        certainty: [EffectEvidenceSynthesisCertainty]            
 }
 
 extend type Query {

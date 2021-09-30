@@ -5,16 +5,16 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import code from "../simple_types/code.graphql"
 # import Organization from "../resources/organization.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import Ratio from "../complex_types/ratio.graphql"
-# import MedicationIngredient from "../backbone_elements/backboneElement.graphql"
-# import MedicationBatch from "../backbone_elements/backboneElement.graphql"
+# import MedicationIngredient from "../backbone_elements/medicationIngredient.graphql"
+# import MedicationBatch from "../backbone_elements/medicationBatch.graphql"
 
 
 
@@ -33,8 +33,8 @@ type Medication {
         manufacturer: Organization            
         form: CodeableConcept            
         amount: Ratio            
-        ingredient: [BackboneElement]            
-        batch: BackboneElement            
+        ingredient: [MedicationIngredient]            
+        batch: MedicationBatch            
 }
 
 extend type Query {

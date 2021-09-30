@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import code from "../simple_types/code.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
@@ -24,18 +24,18 @@
 # import code from "../simple_types/code.graphql"
 # import Period from "../complex_types/period.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
-# import ClaimResponseItem from "../backbone_elements/backboneElement.graphql"
-# import ClaimResponseAddItem from "../backbone_elements/backboneElement.graphql"
-# import ClaimResponseAdjudication from "../backbone_elements/backboneElement.graphql"
-# import ClaimResponseTotal from "../backbone_elements/backboneElement.graphql"
-# import ClaimResponsePayment from "../backbone_elements/backboneElement.graphql"
+# import ClaimResponseItem from "../backbone_elements/claimResponseItem.graphql"
+# import ClaimResponseAddItem from "../backbone_elements/claimResponseAddItem.graphql"
+# import ClaimResponseAdjudication from "../backbone_elements/claimResponseAdjudication.graphql"
+# import ClaimResponseTotal from "../backbone_elements/claimResponseTotal.graphql"
+# import ClaimResponsePayment from "../backbone_elements/claimResponsePayment.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import Attachment from "../complex_types/attachment.graphql"
-# import ClaimResponseProcessNote from "../backbone_elements/backboneElement.graphql"
+# import ClaimResponseProcessNote from "../backbone_elements/claimResponseProcessNote.graphql"
 # import CommunicationRequest from "../resources/communicationRequest.graphql"
-# import ClaimResponseInsurance from "../backbone_elements/backboneElement.graphql"
-# import ClaimResponseError from "../backbone_elements/backboneElement.graphql"
+# import ClaimResponseInsurance from "../backbone_elements/claimResponseInsurance.graphql"
+# import ClaimResponseError from "../backbone_elements/claimResponseError.graphql"
 
 union ClaimResponseRequestor = Practitioner | PractitionerRole | Organization
 
@@ -64,18 +64,18 @@ type ClaimResponse {
         preAuthRef: code            
         preAuthPeriod: Period            
         payeeType: CodeableConcept            
-        item: [BackboneElement]            
-        addItem: [BackboneElement]            
-        adjudication: [BackboneElement]            
-        total: [BackboneElement]            
-        payment: BackboneElement            
+        item: [ClaimResponseItem]            
+        addItem: [ClaimResponseAddItem]            
+        adjudication: [ClaimResponseAdjudication]            
+        total: [ClaimResponseTotal]            
+        payment: ClaimResponsePayment            
         fundsReserve: CodeableConcept            
         formCode: CodeableConcept            
         form: Attachment            
-        processNote: [BackboneElement]            
+        processNote: [ClaimResponseProcessNote]            
         communicationRequest: [CommunicationRequest]            
-        insurance: [BackboneElement]            
-        error: [BackboneElement]            
+        insurance: [ClaimResponseInsurance]            
+        error: [ClaimResponseError]            
 }
 
 extend type Query {

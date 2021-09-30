@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import code from "../simple_types/code.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import code from "../simple_types/code.graphql"
@@ -20,9 +20,9 @@
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
-# import ExampleScenarioActor from "../backbone_elements/backboneElement.graphql"
-# import ExampleScenarioInstance from "../backbone_elements/backboneElement.graphql"
-# import ExampleScenarioProcess from "../backbone_elements/backboneElement.graphql"
+# import ExampleScenarioActor from "../backbone_elements/exampleScenarioActor.graphql"
+# import ExampleScenarioInstance from "../backbone_elements/exampleScenarioInstance.graphql"
+# import ExampleScenarioProcess from "../backbone_elements/exampleScenarioProcess.graphql"
 # import code from "../simple_types/code.graphql"
 
 
@@ -49,9 +49,9 @@ type ExampleScenario {
         jurisdiction: [CodeableConcept]            
         copyright: code            
         purpose: code            
-        actor: [BackboneElement]            
-        instance: [BackboneElement]            
-        process: [BackboneElement]            
+        actor: [ExampleScenarioActor]            
+        instance: [ExampleScenarioInstance]            
+        process: [ExampleScenarioProcess]            
         workflow: [code]            
 }
 

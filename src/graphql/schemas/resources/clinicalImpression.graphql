@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import code from "../simple_types/code.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
@@ -23,10 +23,10 @@
 # import ClinicalImpression from "../resources/clinicalImpression.graphql"
 # import Condition from "../resources/condition.graphql"
 # import AllergyIntolerance from "../resources/allergyIntolerance.graphql"
-# import ClinicalImpressionInvestigation from "../backbone_elements/backboneElement.graphql"
+# import ClinicalImpressionInvestigation from "../backbone_elements/clinicalImpressionInvestigation.graphql"
 # import code from "../simple_types/code.graphql"
 # import code from "../simple_types/code.graphql"
-# import ClinicalImpressionFinding from "../backbone_elements/backboneElement.graphql"
+# import ClinicalImpressionFinding from "../backbone_elements/clinicalImpressionFinding.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import RiskAssessment from "../resources/riskAssessment.graphql"
 # import Resource from "../resources/resource.graphql"
@@ -59,10 +59,10 @@ type ClinicalImpression {
         assessor: ClinicalImpressionAssessor            
         previous: ClinicalImpression            
         problem: [ClinicalImpressionProblem]            
-        investigation: [BackboneElement]            
+        investigation: [ClinicalImpressionInvestigation]            
         protocol: [code]            
         summary: code            
-        finding: [BackboneElement]            
+        finding: [ClinicalImpressionFinding]            
         prognosisCodeableConcept: [CodeableConcept]            
         prognosisReference: [RiskAssessment]            
         supportingInfo: [Resource]            

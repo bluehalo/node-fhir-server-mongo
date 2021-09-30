@@ -5,8 +5,8 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
 # import CodeableConcept from "../complex_types/codeableConcept.graphql"
@@ -36,8 +36,8 @@
 # import PractitionerRole from "../resources/practitionerRole.graphql"
 # import Patient from "../resources/patient.graphql"
 # import RelatedPerson from "../resources/relatedPerson.graphql"
-# import ConditionStage from "../backbone_elements/backboneElement.graphql"
-# import ConditionEvidence from "../backbone_elements/backboneElement.graphql"
+# import ConditionStage from "../backbone_elements/conditionStage.graphql"
+# import ConditionEvidence from "../backbone_elements/conditionEvidence.graphql"
 # import Annotation from "../complex_types/annotation.graphql"
 
 union ConditionSubject = Patient | Group
@@ -76,8 +76,8 @@ type Condition {
         recordedDate: code            
         recorder: ConditionRecorder            
         asserter: ConditionAsserter            
-        stage: [BackboneElement]            
-        evidence: [BackboneElement]            
+        stage: [ConditionStage]            
+        evidence: [ConditionEvidence]            
         note: [Annotation]            
 }
 

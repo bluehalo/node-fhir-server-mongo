@@ -5,13 +5,13 @@
 # import code from "../simple_types/code.graphql"
 # import Narrative from "../complex_types/narrative.graphql"
 # import code from "../simple_types/code.graphql"
-# import Extension from "../extensions/Extension.graphql"
-# import Extension from "../extensions/Extension.graphql"
+# import Extension from "../extensions/extension.graphql"
+# import Extension from "../extensions/extension.graphql"
 # import Identifier from "../complex_types/identifier.graphql"
 # import Patient from "../resources/patient.graphql"
 # import code from "../simple_types/code.graphql"
 # import Organization from "../resources/organization.graphql"
-# import ImmunizationRecommendationRecommendation from "../backbone_elements/backboneElement.graphql"
+# import ImmunizationRecommendationRecommendation from "../backbone_elements/immunizationRecommendationRecommendation.graphql"
 
 
 
@@ -28,7 +28,7 @@ type ImmunizationRecommendation {
         patient: Patient!            
         date: code!            
         authority: Organization            
-        recommendation: [BackboneElement]!            
+        recommendation: [ImmunizationRecommendationRecommendation]!            
 }
 
 extend type Query {
