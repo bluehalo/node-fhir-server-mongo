@@ -1,15 +1,11 @@
 /* eslint-disable no-unused-vars */
-const {MongoClient} = require('mongodb');
 const supertest = require('supertest');
 
 const {app} = require('../../../app');
-const globals = require('../../../globals');
-const {CLIENT, CLIENT_DB} = require('../../../constants');
 const questionnaireResponseBundle = require('./fixtures/questionnaire_responses.json');
 const expectedQuestionnaireResponseBundle = require('./fixtures/expected_questionnaire_responses.json');
 const expectedQuestionnaireResponseBundle2 = require('./fixtures/expected_questionnaire_responses_2.json');
 const async = require('async');
-const env = require('var');
 
 const request = supertest(app);
 const {commonBeforeEach, commonAfterEach, getHeaders} = require('../../common');
