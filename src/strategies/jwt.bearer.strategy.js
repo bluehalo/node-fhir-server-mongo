@@ -4,6 +4,37 @@ const jwksRsa = require('jwks-rsa');
 const env = require('var');
 const {logRequest, logDebug} = require('../operations/common/logging');
 const {isTrue} = require('../operations/common/isTrue');
+const fetch = require('node-fetch');
+
+/**
+ * Retrieve jwks for URL
+ * @param string jwksUrl
+ * @returns {array}
+ */
+const getExternalJwksByUrl = async (jwksUrl) => {
+    const jwksResponse = await fetch(jwksUrl);
+    const keys = await jwksResponse.json();
+    return keys;
+};
+
+/**
+ * Retrieve jwks from external IDPs
+ * @returns {array}
+ */
+const getExternalJwks = async () => {
+    var extJwksKeys = [];
+
+    if (env.EXTERNAL_AUTH_JWKS_URLS.length > 0) {
+        let extJwksUrls = env.EXTERNAL_AUTH_JWKS_URLS.split(', ');
+
+        for (const extJwksUrl of extJwksUrls) {
+            const jwksKeys = await getExternalJwksByUrl(extJwksUrl);
+            extJwksKeys = extJwksKeys.concat(jwksKeys.keys);
+        }
+    }
+
+    return extJwksKeys;
+};
 
 /**
  * extracts the client_id and scope from the decoded token
@@ -90,7 +121,19 @@ module.exports.strategy = new MyJwtStrategy({
             cache: true,
             rateLimit: true,
             jwksRequestsPerMinute: 5,
-            jwksUri: env.AUTH_JWKS_URL
+            jwksUri: env.AUTH_JWKS_URL,
+            getKeysInterceptor: async () => {
+                let keys = await getExternalJwks();
+
+                return keys;
+            },
+            handleSigningKeyError: (err, cb) => {
+                if (err instanceof jwksRsa.SigningKeyNotFoundError) {
+                    logDebug('No Signing Key found!');
+                  return cb(new Error('No Signing Key found!'));
+                }
+                return cb(err);
+              }
         }),
         /* specify a list of extractors and it will use the first one that returns the token */
         jwtFromRequest: ExtractJwt.fromExtractors([
@@ -101,7 +144,7 @@ module.exports.strategy = new MyJwtStrategy({
 
         // Validate the audience and the issuer.
         // audience: 'urn:my-resource-server',
-        issuer: env.AUTH_ISSUER,
+        // issuer: env.AUTH_ISSUER,
         algorithms: ['RS256']
     },
     verify);
