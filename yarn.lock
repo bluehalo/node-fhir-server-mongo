@@ -1185,10 +1185,10 @@
     "tslib" "~2.3.0"
     "unixify" "^1.0.0"
 
-"@graphql-tools/load-files@^6.4.0":
-  "integrity" "sha512-Dl/3mhFDXWRHhEyVY0nABw+yOFcxfU0iKsLrX0E/wlTiqHRQJORGmxLFRbSGpwcP694dvpujsp/SCt+qz//PkA=="
-  "resolved" "https://registry.npmjs.org/@graphql-tools/load-files/-/load-files-6.4.0.tgz"
-  "version" "6.4.0"
+"@graphql-tools/load-files@^6.5.0":
+  "integrity" "sha512-/Q4Mrnv8QdJ+5dUKTAAW/pqsNengBJvA8FluwUXNTpx2D4X6/bDIAHef0xpNzSSEO4zFnRy5hi9sCEYvFvFIdA=="
+  "resolved" "https://registry.npmjs.org/@graphql-tools/load-files/-/load-files-6.5.0.tgz"
+  "version" "6.5.0"
   dependencies:
     "globby" "11.0.4"
     "tslib" "~2.3.0"

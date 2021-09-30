@@ -71,7 +71,7 @@
     "@graphql-eslint/eslint-plugin": "^2.2.0",
     "@graphql-tools/graphql-file-loader": "^7.1.0",
     "@graphql-tools/load": "^7.3.2",
-    "@graphql-tools/load-files": "^6.4.0",
+    "@graphql-tools/load-files": "^6.5.0",
     "@graphql-tools/merge": "^8.1.2",
     "@graphql-tools/schema": "^8.2.0",
     "@popperjs/core": "^2.10.1",
