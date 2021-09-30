@@ -119,6 +119,10 @@ describe('GraphQL ExplanationOfBenefit Tests', () => {
                         console.log('------- response graphql ------------');
                         console.log(JSON.stringify(resp.body, null, 2));
                         console.log('------- end response graphql  ------------');
+                        if (body.errors) {
+                            console.log(body.errors);
+                            expect(body.errors).toBeUndefined();
+                        }
                         expect(body.data.explanationOfBenefit.length).toBe(2);
                         let expected = expectedExplanationOfBenefitBundleResource;
                         expected.forEach(element => {
@@ -130,7 +134,7 @@ describe('GraphQL ExplanationOfBenefit Tests', () => {
                                 delete element['$schema'];
                             }
                         });
-                        expect(body.data.explanationOfBenefits).toStrictEqual(expected);
+                        expect(body.data.explanationOfBenefit).toStrictEqual(expected);
                     }, cb),
             ]);
         });

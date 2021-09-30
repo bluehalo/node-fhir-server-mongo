@@ -54,13 +54,13 @@
     "insurance": [
       {
         "coverage": {
-          "reference": "Coverage/WPS-0559166162"
+          "id": null
         },
         "focal": true
       }
     ],
     "insurer": {
-      "reference": "Organization/WPS-Health"
+      "id": "WPS-Health"
     },
     "item": [
       {
@@ -368,13 +368,13 @@
     "insurance": [
       {
         "coverage": {
-          "reference": "Coverage/WPS-5458231534"
+          "id": null
         },
         "focal": true
       }
     ],
     "insurer": {
-      "reference": "Organization/WPS-Health"
+      "id": "WPS-Health"
     },
     "item": [
       {
