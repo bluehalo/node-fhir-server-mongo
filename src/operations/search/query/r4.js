@@ -64,8 +64,11 @@ module.exports.buildR4SearchQuery = (resource_name, args) => {
     let and_segments = [];
 
     if (id) {
-        // see if this is an array
-        if (id.includes(',')) {
+        if (Array.isArray(id)) {
+            query.id = {
+                $in: id
+            };
+        } else if (id.includes(',')) { // see if this is a comma separated list
             const id_list = id.split(',');
             query.id = {
                 $in: id_list

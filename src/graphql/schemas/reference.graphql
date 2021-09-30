@@ -1,9 +1,0 @@
-# import uri from "uri.graphql"
-# import Identifier from "identifier.graphql"
-
-type Reference {
-    reference: String
-    type: uri
-    identifier: Identifier
-    display: String
-}

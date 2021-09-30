@@ -19,7 +19,7 @@ const {VERSIONS} = require('@asymmetrik/node-fhir-server-core').constants;
  * @param {string} scope
  * @param {string} resource_name
  * @param {string} collection_name
- * @return {Resource[] | Resource} array of resources
+ * @return {Resource[] | {entry:{resource: Resource}[]}} array of resources
  */
 module.exports.search = async (args, user, scope, resource_name, collection_name) => {
     logRequest(user, resource_name + ' >>> search' + ' scope:' + scope);
@@ -129,13 +129,9 @@ module.exports.search = async (args, user, scope, resource_name, collection_name
             // Each item in the comma separated list is a search parameter, optionally with a '-' prefix.
             // The prefix indicates decreasing order; in its absence, the parameter is applied in increasing order.
             /**
-             * @type {string}
-             */
-            const sort_properties_as_csv = args['_sort'];
-            /**
              * @type {string[]}
              */
-            const sort_properties_list = sort_properties_as_csv.split(',');
+            const sort_properties_list = Array.isArray(args['_sort']) ? args['_sort'] : args['_sort'].split(',');
             if (sort_properties_list.length > 0) {
                 /**
                  * @type {import('mongodb').Sort}

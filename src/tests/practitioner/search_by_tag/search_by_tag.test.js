@@ -24,13 +24,13 @@ describe('search_by_tag', () => {
         await commonAfterEach();
     });
 
-    function sleep(milliseconds) {
-        const date = Date.now();
-        let currentDate = null;
-        do {
-            currentDate = Date.now();
-        } while (currentDate - date < milliseconds);
-    }
+    // function sleep(milliseconds) {
+    //     const date = Date.now();
+    //     let currentDate = null;
+    //     do {
+    //         currentDate = Date.now();
+    //     } while (currentDate - date < milliseconds);
+    // }
 
     describe('Practitioner Search By Tag Tests', () => {
         test('search by tag works', async () => {

@@ -1,5 +1,9 @@
 query {
-    explanationOfBenefits {
+    explanationOfBenefit (
+        id: ["WPS-Claim-230916613369", "WPS-Claim-429017018331"],
+        _sort: ["id"],
+        _count: 2
+    ) {
         id
         identifier {
             system
@@ -28,7 +32,7 @@ query {
         careTeam {
             sequence
             provider {
-                reference
+                __typename
             }
         }
         diagnosis {
@@ -57,11 +61,11 @@ query {
         insurance {
             focal
             coverage {
-                reference
+                id
             }
         }
         insurer {
-            reference
+            id
         }
         item {
             adjudication {
@@ -122,7 +126,7 @@ query {
                 }
             }
             party {
-                reference
+                __typename
             }
         }
         procedure {

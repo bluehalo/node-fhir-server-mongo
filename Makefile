@@ -87,3 +87,8 @@ setup-pre-commit:
 .PHONY:run-pre-commit
 run-pre-commit: setup-pre-commit
 	./.git/hooks/pre-commit
+
+.PHONY:graphql
+graphql:
+	python3 src/graphql/generator/generate_classes.py && \
+	graphql-schema-linter

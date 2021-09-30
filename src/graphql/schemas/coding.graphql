@@ -1,9 +1,0 @@
-# import uri from "uri.graphql"
-# import code from "code.graphql"
-
-type Coding {
-    system: uri
-    version: String
-    code: code
-    display: String
-}

@@ -1,7 +1,0 @@
-# import decimal from "decimal.graphql"
-# import code from "code.graphql"
-
-type Money {
-    value: decimal
-    currency: code
-}
