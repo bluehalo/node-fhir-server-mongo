@@ -201,6 +201,8 @@ class FhirXmlSchemaParser:
                     logger.warning(
                         f"WARNING: 2nd pass: {fhir_property.type_} not found in property_type_mapping"
                     )
+                    # assume this is a code
+                    fhir_property.is_code = True
                 else:
                     property_fhir_entity: FhirEntity = property_type_mapping[
                         fhir_property.type_

@@ -39,7 +39,7 @@
 {% for property in fhir_entity.properties %}
 {% if property.reference_target_resources -%}
     {% if property.reference_target_resources | length > 1  %}
-union {{fhir_entity.cleaned_name}}{{ upper_case_first_letter(property.name) }} = {{ property.reference_target_resources_names | join(" | ") }}
+union {{fhir_entity.cleaned_name}}{{ upper_case_first_letter(property.name) }} = {{ property.reference_target_resources_names | unique | join(" | ") }}
     {%  endif %}
 {% endif -%}
 {% endfor %}
