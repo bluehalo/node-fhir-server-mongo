@@ -12,5 +12,14 @@ query {
                 value
             }
         }
+        allergyIntolerance {
+            id
+            type
+            category
+            criticality
+            code {
+                text
+            }
+        }
     }
 }

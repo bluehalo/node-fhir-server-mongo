@@ -3,6 +3,7 @@ const supertest = require('supertest');
 
 const {app} = require('../../../app');
 const explanationOfBenefitBundleResource = require('./fixtures/explanation_of_benefits.json');
+const allergyIntoleranceBundleResource = require('./fixtures/allergy_intolerances.json');
 const expectedGraphQlResponse = require('./fixtures/expected_graphql_response.json');
 
 const patientBundleResource = require('./fixtures/patients.json');
@@ -50,6 +51,17 @@ describe('GraphQL Patient Tests', () => {
                             console.log('------- end response 1 ------------');
                             return cb(err, resp);
                         }),
+                (results, cb) => // first confirm there are no records
+                    request
+                        .get('/4_0_0/AllergyIntolerance')
+                        .set(getHeaders())
+                        .expect(200, (err, resp) => {
+                            expect(resp.body.length).toBe(0);
+                            console.log('------- response 1 ------------');
+                            console.log(JSON.stringify(resp.body, null, 2));
+                            console.log('------- end response 1 ------------');
+                            return cb(err, resp);
+                        }),
                 (results, cb) =>
                     request
                         .post('/4_0_0/Patient/1/$merge')
@@ -76,6 +88,17 @@ describe('GraphQL Patient Tests', () => {
                     request
                         .post('/4_0_0/ExplanationOfBenefit/1/$merge')
                         .send(explanationOfBenefitBundleResource)
+                        .set(getHeaders())
+                        .expect(200, (err, resp) => {
+                            console.log('------- response 2 ------------');
+                            console.log(JSON.stringify(resp.body, null, 2));
+                            console.log('------- end response 2  ------------');
+                            return cb(err, resp);
+                        }),
+                (results, cb) =>
+                    request
+                        .post('/4_0_0/AllergyIntolerance/1/$merge')
+                        .send(allergyIntoleranceBundleResource)
                         .set(getHeaders())
                         .expect(200, (err, resp) => {
                             console.log('------- response 2 ------------');
