@@ -106,7 +106,7 @@ In addition we support wildcard scopes e.g., user/*.* or user/*.read.  The forme
 
 In addition to giving users permissions to access resources, we can also control what data in those resources the user can access.  All resources in the b.well FHIR server must specify access tags. 
 
-The FHIR server looks for scopes that start with “access/”.  These are in the form access/<access code>.* e.g., access/somehealth.*  This scope grants the user access to resources where the security access tag is set to somehealth.
+The FHIR server looks for scopes that start with “access/”.  These are in the form `access/<access code>.*` e.g., `access/somehealth.*`  This scope grants the user access to resources where the security access tag is set to somehealth.
 
 A user can have multiple access scopes and they will have permission to resources that match EITHER access code.
 
@@ -119,7 +119,7 @@ Note that the final access for a user is a combination of both of the above meth
 ##### 4.4.1 Example 1
 A user has scopes:
 ```
-user/Practitioner.read user/Practitioner.write user/Organization.read access/somehealth access/goodhealth
+user/Practitioner.read user/Practitioner.write user/Organization.read access/somehealth.* access/goodhealth.*
 ``` 
 
 This means:
