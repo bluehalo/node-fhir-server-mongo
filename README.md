@@ -13,7 +13,19 @@ For example:
 4. Added support for authentication
 5. Added support for checking user/x.x and access/x.x scopes
 6. Provides a WebUI to explore the FHIR data using the web browser
+7. Support GraphQL access to FHIR resources
 
 ## Cheat sheet
 [Cheatsheet](cheatsheet.md)
 
+## Security
+[Security](security.md)
+
+## FHIR GraphDefinition Support (We recommend using graphql below whenever possible instead)
+[Graph](graph.md)
+
+## GraphQL Support
+[GraphQL](graphql.md)
+
+## Merge functionality
+[Merge](merge.md)
