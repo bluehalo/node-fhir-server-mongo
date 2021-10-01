@@ -1,0 +1,12 @@
+query {
+    allergyIntolerance(patient: "d91ff6ce-6146-9c08-db4f-c740554f52a6") {
+        id
+        type
+        category
+        criticality
+        code {
+            text
+        }
+        type
+    }
+}
