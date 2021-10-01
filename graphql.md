@@ -25,7 +25,7 @@ For security, we use the same mechanism for both REST and GraphQL.  There are tw
 ### Code Generation
 We use a code generator to read the FHIR schema and generate the GraphQL schema and resolvers.  This code generator is in https://github.com/icanbwell/fhir-server/blob/master/src/graphql/generator/generate_classes.py and can be run by typing the command `make graphql`.
 
-In the https://github.com/icanbwell/fhir-server/tree/master/src/graphql/schemas folder each FHIR entity has its own GraphQL schema file.  The query.graphql file is the top level schema element.
+In the https://github.com/icanbwell/fhir-server/tree/master/src/graphql/schemas folder each FHIR entity has its own GraphQL schema file.  The schema.graphql file is the top level schema element.
 In the https://github.com/icanbwell/fhir-server/tree/master/src/graphql/resolvers folder each FHIR resource has its own GraphQL resolver file.  The resolvers.js merges all the resolvers together.
 
 ### FHIR References
