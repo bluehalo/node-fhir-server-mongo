@@ -4,6 +4,7 @@ const globals = require('../../globals');
 const {CLIENT_DB} = require('../../constants');
 const {getResource} = require('../common/getResource');
 const {BadRequestError, ForbiddenError, NotFoundError} = require('../../utils/httpErrors');
+const {enrich} = require('../../enrich/enrich');
 /**
  * does a FHIR Search By Id
  * @param {Object} args
@@ -46,12 +47,15 @@ module.exports.searchById = async (args, user, scope, resource_name, collection_
         logError(`Error with ${resource_name}.searchById: `, e);
         throw new BadRequestError(e);
     }
+
     if (resource) {
         if (!(isAccessToResourceAllowedBySecurityTags(resource, user, scope))) {
             throw new ForbiddenError(
                 'user ' + user + ' with scopes [' + scope + '] has no access to resource ' +
                 resource.resourceType + ' with id ' + id);
         }
+        // run any enrichment
+        resource = (await enrich([resource], resource_name))[0];
         return new Resource(resource);
     } else {
         throw new NotFoundError(`Not Found: ${resource_name}.searchById: ${id.toString()}`);

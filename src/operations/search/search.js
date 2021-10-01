@@ -10,6 +10,7 @@ const {buildDstu2SearchQuery} = require('./query/dstu2');
 const {buildStu3SearchQuery} = require('./query/stu3');
 const {getResource} = require('../common/getResource');
 const {logRequest, logDebug} = require('../common/logging');
+const {enrich} = require('../../enrich/enrich');
 const {VERSIONS} = require('@asymmetrik/node-fhir-server-core').constants;
 
 /**
@@ -203,7 +204,7 @@ module.exports.search = async (args, user, scope, resource_name, collection_name
          * resources to return
          * @type {Resource[]}
          */
-        const resources = [];
+        let resources = [];
         while (await cursor.hasNext()) {
             /**
              * element
@@ -236,6 +237,9 @@ module.exports.search = async (args, user, scope, resource_name, collection_name
                 resources.push(new Resource(element));
             }
         }
+
+        // run any enrichment
+        resources = await enrich(resources, resource_name);
 
         // if env.RETURN_BUNDLE is set then return as a Bundle
         if (env.RETURN_BUNDLE || args['_bundle']) {

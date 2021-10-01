@@ -48,7 +48,8 @@
     "preset": "@shelf/jest-mongodb",
     "setupFiles": [
       "<rootDir>/jest/setEnvVars.js"
-    ]
+    ],
+    "testTimeout": 20000
   },
   "graphql-schema-linter": {
     "rules": [

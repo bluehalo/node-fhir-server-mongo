@@ -65,7 +65,7 @@ describe('PractitionerReturnIdTests', () => {
                     (results, cb) =>
                         request
                             .get('/4_0_0/Practitioner')
-                                .set(getHeaders())
+                            .set(getHeaders())
                             .expect(200, (err, resp) => {
                                 console.log('------- response 3 ------------');
                                 console.log(JSON.stringify(resp.body, null, 2));
@@ -74,7 +74,7 @@ describe('PractitionerReturnIdTests', () => {
                             }),
                     (results, cb) => request
                         .get('/4_0_0/Practitioner?id=0')
-                                .set(getHeaders())
+                        .set(getHeaders())
                         .expect(200, cb)
                         .expect((resp) => {
                             console.log('------- response Practitioner sorted ------------');

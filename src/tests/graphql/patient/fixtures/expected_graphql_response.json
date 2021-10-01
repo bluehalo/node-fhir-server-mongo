@@ -1,0 +1,46 @@
+[
+  {
+    "explanationOfBenefit": [
+      {
+        "id": "WPS-Claim-230916613369",
+        "identifier": [
+          {
+            "system": "https://www.wpshealth.com/",
+            "value": "230916613369"
+          }
+        ]
+      }
+    ],
+    "id": "WPS-0559166162",
+    "name": [
+      {
+        "family": "PATIENT1",
+        "given": [
+          "SHYLA"
+        ]
+      }
+    ]
+  },
+  {
+    "explanationOfBenefit": [
+      {
+        "id": "WPS-Claim-429017018331",
+        "identifier": [
+          {
+            "system": "https://www.wpshealth.com/",
+            "value": "429017018331"
+          }
+        ]
+      }
+    ],
+    "id": "WPS-5458231534",
+    "name": [
+      {
+        "family": "PATIENT2",
+        "given": [
+          "SHYLA"
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,16 @@
+query {
+    patient {
+        id
+        name {
+            family
+            given
+        }
+        explanationOfBenefit {
+            id
+            identifier {
+                system
+                value
+            }
+        }
+    }
+}
