@@ -7,6 +7,5 @@ query {
         code {
             text
         }
-        type
     }
 }
