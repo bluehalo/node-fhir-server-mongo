@@ -63,6 +63,10 @@ tests_integration:
 tests_everything:
 	npm run test:everything
 
+.PHONY:tests_graphql
+tests_graphql:
+	npm run test:graphql
+
 .PHONY:lint
 lint:
 	npm run test:lint && \

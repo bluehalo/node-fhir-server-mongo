@@ -18,7 +18,7 @@
     "test:jest": "NODE_ENV=test NODE_OPTIONS=--max_old_space_size=4096 node --expose-gc ./node_modules/.bin/jest --runInBand --logHeapUsage --forceExit --detectOpenHandles -i .",
     "test:integration": "NODE_ENV=test jest --forceExit --detectOpenHandles -i src/tests/practitioner/complex_merge",
     "test:everything": "NODE_ENV=test jest --forceExit --detectOpenHandles -i src/tests/practitioner/everything",
-    "test:return_specific_elements": "NODE_ENV=test jest --forceExit --detectOpenHandles -i src/tests/practitioner/search_return_specific_elements",
+    "test:graphql": "NODE_ENV=test jest --forceExit --detectOpenHandles -i src/tests/graphql",
     "test:merge": "NODE_ENV=test jest --forceExit --detectOpenHandles -i src/tests/practitioner/practitioner.merge.test.js",
     "snyk-protect": "snyk protect",
     "prepare": "",
@@ -49,7 +49,7 @@
     "setupFiles": [
       "<rootDir>/jest/setEnvVars.js"
     ],
-    "testTimeout": 20000
+    "testTimeout": 60000
   },
   "graphql-schema-linter": {
     "rules": [

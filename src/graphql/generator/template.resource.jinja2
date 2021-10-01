@@ -29,8 +29,8 @@
         {% endif %}
         {% if property.reference_target_resources %}
 {## Imports for References for {{ property.name }}#}
-            {% for reference_target_resource in property.reference_target_resources %}
-# import {{ reference_target_resource.cleaned_name }} from "../resources/{{ lower_case_first_letter(reference_target_resource.cleaned_name) }}.graphql"
+            {% for reference_target_resource_name in property.reference_target_resources_names %}
+# import {{ reference_target_resource_name }} from "../resources/{{ lower_case_first_letter(reference_target_resource_name) }}.graphql"
             {% endfor %}
         {% endif %}
     {% endif %}

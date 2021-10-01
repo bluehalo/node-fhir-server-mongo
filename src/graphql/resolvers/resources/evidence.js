@@ -22,6 +22,7 @@ module.exports = {
         // eslint-disable-next-line no-unused-vars
         exposureBackground: async (parent, args, context, info) => {
             return await findResourceByReference(
+                parent,
                 args,
                 context,
                 info,
@@ -31,6 +32,7 @@ module.exports = {
         // eslint-disable-next-line no-unused-vars
         exposureVariant: async (parent, args, context, info) => {
             return await findResourcesByReference(
+                parent,
                 args,
                 context,
                 info,
@@ -40,6 +42,7 @@ module.exports = {
         // eslint-disable-next-line no-unused-vars
         outcome: async (parent, args, context, info) => {
             return await findResourcesByReference(
+                parent,
                 args,
                 context,
                 info,

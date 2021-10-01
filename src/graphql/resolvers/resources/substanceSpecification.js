@@ -22,6 +22,7 @@ module.exports = {
         // eslint-disable-next-line no-unused-vars
         source: async (parent, args, context, info) => {
             return await findResourcesByReference(
+                parent,
                 args,
                 context,
                 info,
@@ -31,6 +32,7 @@ module.exports = {
         // eslint-disable-next-line no-unused-vars
         referenceInformation: async (parent, args, context, info) => {
             return await findResourceByReference(
+                parent,
                 args,
                 context,
                 info,
@@ -40,6 +42,7 @@ module.exports = {
         // eslint-disable-next-line no-unused-vars
         nucleicAcid: async (parent, args, context, info) => {
             return await findResourceByReference(
+                parent,
                 args,
                 context,
                 info,
@@ -49,6 +52,7 @@ module.exports = {
         // eslint-disable-next-line no-unused-vars
         polymer: async (parent, args, context, info) => {
             return await findResourceByReference(
+                parent,
                 args,
                 context,
                 info,
@@ -58,6 +62,7 @@ module.exports = {
         // eslint-disable-next-line no-unused-vars
         protein: async (parent, args, context, info) => {
             return await findResourceByReference(
+                parent,
                 args,
                 context,
                 info,
@@ -67,6 +72,7 @@ module.exports = {
         // eslint-disable-next-line no-unused-vars
         sourceMaterial: async (parent, args, context, info) => {
             return await findResourceByReference(
+                parent,
                 args,
                 context,
                 info,

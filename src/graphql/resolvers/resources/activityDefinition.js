@@ -27,6 +27,7 @@ module.exports = {
         // eslint-disable-next-line no-unused-vars
         subjectReference: async (parent, args, context, info) => {
             return await findResourceByReference(
+                parent,
                 args,
                 context,
                 info,
@@ -36,6 +37,7 @@ module.exports = {
         // eslint-disable-next-line no-unused-vars
         location: async (parent, args, context, info) => {
             return await findResourceByReference(
+                parent,
                 args,
                 context,
                 info,
@@ -45,6 +47,7 @@ module.exports = {
         // eslint-disable-next-line no-unused-vars
         productReference: async (parent, args, context, info) => {
             return await findResourceByReference(
+                parent,
                 args,
                 context,
                 info,
@@ -54,6 +57,7 @@ module.exports = {
         // eslint-disable-next-line no-unused-vars
         specimenRequirement: async (parent, args, context, info) => {
             return await findResourcesByReference(
+                parent,
                 args,
                 context,
                 info,
@@ -63,6 +67,7 @@ module.exports = {
         // eslint-disable-next-line no-unused-vars
         observationRequirement: async (parent, args, context, info) => {
             return await findResourcesByReference(
+                parent,
                 args,
                 context,
                 info,
@@ -72,6 +77,7 @@ module.exports = {
         // eslint-disable-next-line no-unused-vars
         observationResultRequirement: async (parent, args, context, info) => {
             return await findResourcesByReference(
+                parent,
                 args,
                 context,
                 info,

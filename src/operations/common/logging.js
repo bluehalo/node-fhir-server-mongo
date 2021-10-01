@@ -24,7 +24,7 @@ module.exports.logDebug = (user, msg) => {
 };
 
 /**
- * Logs as error if env.IS_PRODUCTION is not set
+ * Logs as error
  * @param {string} user
  * @param {*} msg
  */
@@ -33,7 +33,7 @@ module.exports.logError = (user, msg) => {
 };
 
 /**
- * Logs as warning if env.IS_PRODUCTION is not set
+ * Logs as warning
  * @param {string} user
  * @param {*} msg
  */
