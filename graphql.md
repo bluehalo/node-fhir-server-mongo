@@ -1,6 +1,6 @@
 # GraphQL Support in FHIR Server
 
-This FHIR server implements support for querying FHIR data using GraphQL.
+This FHIR server implements support for querying FHIR data using GraphQL(https://graphql.org/).
 
 ### Playground
 You can access the GraphQL playground by going to the /graphql url in your browser e.g., http://fhir.dev.bwell.zone/graphql.  This will redirect you to the OAuth provider to login and then will store your JWT token in a cookie so you can use the Playground.

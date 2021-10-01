@@ -37,6 +37,7 @@ module.exports = {
         // eslint-disable-next-line no-unused-vars
         policyHolder: async (parent, args, context, info) => {
             return await findResourceByReference(
+                parent,
                 args,
                 context,
                 info,
@@ -46,6 +47,7 @@ module.exports = {
         // eslint-disable-next-line no-unused-vars
         subscriber: async (parent, args, context, info) => {
             return await findResourceByReference(
+                parent,
                 args,
                 context,
                 info,
@@ -55,6 +57,7 @@ module.exports = {
         // eslint-disable-next-line no-unused-vars
         beneficiary: async (parent, args, context, info) => {
             return await findResourceByReference(
+                parent,
                 args,
                 context,
                 info,
@@ -64,6 +67,7 @@ module.exports = {
         // eslint-disable-next-line no-unused-vars
         payor: async (parent, args, context, info) => {
             return await findResourcesByReference(
+                parent,
                 args,
                 context,
                 info,
@@ -73,6 +77,7 @@ module.exports = {
         // eslint-disable-next-line no-unused-vars
         contract: async (parent, args, context, info) => {
             return await findResourcesByReference(
+                parent,
                 args,
                 context,
                 info,

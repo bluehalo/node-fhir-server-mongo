@@ -22,6 +22,7 @@ module.exports = {
         // eslint-disable-next-line no-unused-vars
         validCodedValueSet: async (parent, args, context, info) => {
             return await findResourceByReference(
+                parent,
                 args,
                 context,
                 info,
@@ -31,6 +32,7 @@ module.exports = {
         // eslint-disable-next-line no-unused-vars
         normalCodedValueSet: async (parent, args, context, info) => {
             return await findResourceByReference(
+                parent,
                 args,
                 context,
                 info,
@@ -40,6 +42,7 @@ module.exports = {
         // eslint-disable-next-line no-unused-vars
         abnormalCodedValueSet: async (parent, args, context, info) => {
             return await findResourceByReference(
+                parent,
                 args,
                 context,
                 info,
@@ -49,6 +52,7 @@ module.exports = {
         // eslint-disable-next-line no-unused-vars
         criticalCodedValueSet: async (parent, args, context, info) => {
             return await findResourceByReference(
+                parent,
                 args,
                 context,
                 info,

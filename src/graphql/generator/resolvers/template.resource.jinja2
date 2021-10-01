@@ -42,6 +42,7 @@ module.exports = {
         {{ property.name -}}: async (parent, args, context, info) => {
             {% if property.is_list %}
             return await findResourcesByReference(
+                parent,
                 args,
                 context,
                 info,
@@ -49,6 +50,7 @@ module.exports = {
             );
             {% else %}
             return await findResourceByReference(
+                parent,
                 args,
                 context,
                 info,

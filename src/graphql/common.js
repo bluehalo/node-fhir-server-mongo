@@ -1,6 +1,7 @@
 const {searchById} = require('../operations/searchById/searchById');
 const {search} = require('../operations/search/search');
 const async = require('async');
+const {logWarn} = require('../operations/common/logging');
 /**
  * This functions takes a FHIR Bundle and returns the resources in it
  * @param {{entry:{resource: Resource}[]}} bundle
@@ -28,22 +29,26 @@ module.exports.resolveType = (obj, context, info) => {
 
 /**
  * Finds a single resource by reference
+ * @param {Resource} parent
  * @param args
  * @param context
  * @param info
  * @param {{reference: string}} reference
  * @return {Promise<null|Resource>}
  */
-module.exports.findResourceByReference = async (args, context, info, reference) => {
+module.exports.findResourceByReference = async (parent, args, context, info, reference) => {
+    if (!(reference)) {
+        return null;
+    }
+    /**
+     * @type {string}
+     */
+    const typeOfReference = reference.reference.split('/')[0];
+    /**
+     * @type {string}
+     */
+    const idOfReference = reference.reference.split('/')[1];
     try {
-        /**
-         * @type {string}
-         */
-        const typeOfReference = reference.reference.split('/')[0];
-        /**
-         * @type {string}
-         */
-        const idOfReference = reference.reference.split('/')[1];
         return await searchById(
             {base_version: '4_0_0', id: idOfReference},
             context.user,
@@ -53,6 +58,7 @@ module.exports.findResourceByReference = async (args, context, info, reference) 
         );
     } catch (e) {
         if (e.name === 'NotFound') {
+            logWarn(context.user, `findResourceByReference: Resource ${typeOfReference}/${idOfReference} not found for parent:${parent.resourceType}/${parent.id} `);
             return null;
         }
     }
@@ -60,23 +66,27 @@ module.exports.findResourceByReference = async (args, context, info, reference) 
 
 /**
  * Finds one or more resources by references array
+ * @param {Resource} parent
  * @param args
  * @param context
  * @param info
  * @param {{reference: string}[]} references
  * @return {Promise<null|Resource[]>}
  */
-module.exports.findResourcesByReference = async (args, context, info, references) => {
-    try {
-        return await async.map(references, async reference => {
-            /**
-             * @type {string}
-             */
-            const typeOfReference = reference.reference.split('/')[0];
-            /**
-             * @type {string}
-             */
-            const idOfReference = reference.reference.split('/')[1];
+module.exports.findResourcesByReference = async (parent, args, context, info, references) => {
+    if (!(references)) {
+        return null;
+    }
+    return async.map(references, async reference => {
+        /**
+         * @type {string}
+         */
+        const typeOfReference = reference.reference.split('/')[0];
+        /**
+         * @type {string}
+         */
+        const idOfReference = reference.reference.split('/')[1];
+        try {
             return module.exports.unBundle(
                 await search(
                     {
@@ -90,12 +100,13 @@ module.exports.findResourcesByReference = async (args, context, info, references
                     typeOfReference
                 )
             );
-        });
-    } catch (e) {
-        if (e.name === 'NotFound') {
-            return null;
+        } catch (e) {
+            if (e.name === 'NotFound') {
+                logWarn(context.user, `findResourcesByReference: Resource ${typeOfReference}/${idOfReference} not found for parent:${parent.resourceType}/${parent.id}`);
+                return null;
+            }
         }
-    }
+    });
 };
 
 // noinspection JSUnusedLocalSymbols

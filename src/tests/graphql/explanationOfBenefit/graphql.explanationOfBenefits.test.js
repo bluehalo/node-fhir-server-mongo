@@ -3,10 +3,11 @@ const supertest = require('supertest');
 
 const {app} = require('../../../app');
 const explanationOfBenefitBundleResource = require('./fixtures/explanation_of_benefits.json');
-const expectedExplanationOfBenefitBundleResource = require('./fixtures/expected_explanation_of_benefits.json');
+const expectedGraphQLResponse = require('./fixtures/expected_graphql_response.json');
 
 const patientBundleResource = require('./fixtures/patients.json');
 const organizationBundleResource = require('./fixtures/organizations.json');
+const coverageBundleResource = require('./fixtures/coverages.json');
 
 const fs = require('fs');
 const path = require('path');
@@ -73,6 +74,17 @@ describe('GraphQL ExplanationOfBenefit Tests', () => {
                         }),
                 (results, cb) =>
                     request
+                        .post('/4_0_0/Coverage/1/$merge')
+                        .send(coverageBundleResource)
+                        .set(getHeaders())
+                        .expect(200, (err, resp) => {
+                            console.log('------- response 2 ------------');
+                            console.log(JSON.stringify(resp.body, null, 2));
+                            console.log('------- end response 2  ------------');
+                            return cb(err, resp);
+                        }),
+                (results, cb) =>
+                    request
                         .post('/4_0_0/ExplanationOfBenefit/1/$merge')
                         .send(explanationOfBenefitBundleResource)
                         .set(getHeaders())
@@ -124,7 +136,7 @@ describe('GraphQL ExplanationOfBenefit Tests', () => {
                             expect(body.errors).toBeUndefined();
                         }
                         expect(body.data.explanationOfBenefit.length).toBe(2);
-                        let expected = expectedExplanationOfBenefitBundleResource;
+                        let expected = expectedGraphQLResponse;
                         expected.forEach(element => {
                             if ('meta' in element) {
                                 delete element['meta']['lastUpdated'];

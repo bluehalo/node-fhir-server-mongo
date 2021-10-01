@@ -27,6 +27,7 @@ module.exports = {
         // eslint-disable-next-line no-unused-vars
         pharmaceuticalProduct: async (parent, args, context, info) => {
             return await findResourcesByReference(
+                parent,
                 args,
                 context,
                 info,
@@ -36,6 +37,7 @@ module.exports = {
         // eslint-disable-next-line no-unused-vars
         packagedMedicinalProduct: async (parent, args, context, info) => {
             return await findResourcesByReference(
+                parent,
                 args,
                 context,
                 info,
@@ -45,6 +47,7 @@ module.exports = {
         // eslint-disable-next-line no-unused-vars
         attachedDocument: async (parent, args, context, info) => {
             return await findResourcesByReference(
+                parent,
                 args,
                 context,
                 info,
@@ -54,6 +57,7 @@ module.exports = {
         // eslint-disable-next-line no-unused-vars
         masterFile: async (parent, args, context, info) => {
             return await findResourcesByReference(
+                parent,
                 args,
                 context,
                 info,
@@ -63,6 +67,7 @@ module.exports = {
         // eslint-disable-next-line no-unused-vars
         contact: async (parent, args, context, info) => {
             return await findResourcesByReference(
+                parent,
                 args,
                 context,
                 info,
@@ -72,6 +77,7 @@ module.exports = {
         // eslint-disable-next-line no-unused-vars
         clinicalTrial: async (parent, args, context, info) => {
             return await findResourcesByReference(
+                parent,
                 args,
                 context,
                 info,

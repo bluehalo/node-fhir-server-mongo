@@ -22,6 +22,7 @@ module.exports = {
         // eslint-disable-next-line no-unused-vars
         definition: async (parent, args, context, info) => {
             return await findResourceByReference(
+                parent,
                 args,
                 context,
                 info,
@@ -31,6 +32,7 @@ module.exports = {
         // eslint-disable-next-line no-unused-vars
         patient: async (parent, args, context, info) => {
             return await findResourceByReference(
+                parent,
                 args,
                 context,
                 info,
@@ -40,6 +42,7 @@ module.exports = {
         // eslint-disable-next-line no-unused-vars
         owner: async (parent, args, context, info) => {
             return await findResourceByReference(
+                parent,
                 args,
                 context,
                 info,
@@ -49,6 +52,7 @@ module.exports = {
         // eslint-disable-next-line no-unused-vars
         location: async (parent, args, context, info) => {
             return await findResourceByReference(
+                parent,
                 args,
                 context,
                 info,
@@ -58,6 +62,7 @@ module.exports = {
         // eslint-disable-next-line no-unused-vars
         parent: async (parent, args, context, info) => {
             return await findResourceByReference(
+                parent,
                 args,
                 context,
                 info,
