@@ -1,5 +1,5 @@
 # import ExplanationOfBenefit from 'explanationOfBenefit.graphql'
 
 extend type Patient {
-    explanationOfBenefit: [ExplanationOfBenefit]!
+    explanationOfBenefit: [ExplanationOfBenefit]
 }
