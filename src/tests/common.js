@@ -39,7 +39,7 @@ module.exports.commonBeforeEach = async () => {
         extJwksUrl => {
             if (extJwksUrl) {
                 const urlObject1 = new URL(extJwksUrl.trim());
-                jwksEndpoint(urlObject1.protocol + '//' + urlObject1.host, urlObject.pathname, [{
+                jwksEndpoint(urlObject1.protocol + '//' + urlObject1.host, urlObject1.pathname, [{
                     pub: publicKey,
                     kid: '123'
                 }]);
