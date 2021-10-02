@@ -34,11 +34,11 @@ module.exports.commonBeforeEach = async () => {
     /**
      * @type {string[]}
      */
-    const extJwksUrls = env.EXTERNAL_AUTH_JWKS_URLS.split(', ');
+    const extJwksUrls = env.EXTERNAL_AUTH_JWKS_URLS.split(',');
     extJwksUrls.forEach(
         extJwksUrl => {
             if (extJwksUrl) {
-                const urlObject1 = new URL(extJwksUrl);
+                const urlObject1 = new URL(extJwksUrl.trim());
                 jwksEndpoint(urlObject1.protocol + '//' + urlObject1.host, urlObject.pathname, [{
                     pub: publicKey,
                     kid: '123'

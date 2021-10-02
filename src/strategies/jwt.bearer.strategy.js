@@ -29,13 +29,13 @@ const getExternalJwks = async () => {
         /**
          * @type {string[]}
          */
-        const extJwksUrls = env.EXTERNAL_AUTH_JWKS_URLS.split(', ');
+        const extJwksUrls = env.EXTERNAL_AUTH_JWKS_URLS.split(',');
 
         // noinspection UnnecessaryLocalVariableJS
         /**
          * @type {import('jwks-rsa').JSONWebKey[][]}
          */
-        const keysArray = await async.map(extJwksUrls, async extJwksUrl => await getExternalJwksByUrl(extJwksUrl));
+        const keysArray = await async.map(extJwksUrls, async extJwksUrl => await getExternalJwksByUrl(extJwksUrl.trim()));
         /**
          * @type {import('jwks-rsa').JSONWebKey[]}
          */
