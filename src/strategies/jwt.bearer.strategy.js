@@ -19,18 +19,18 @@ const getExternalJwksByUrl = async (jwksUrl) => {
 
 /**
  * Retrieve jwks from external IDPs
- * @returns {Promise<import('jwks-rsa').JSONWebKey.JsonWebKey[]>}
+ * @returns {Promise<import('jwks-rsa').JSONWebKey[]>}
  */
 const getExternalJwks = async () => {
     if (env.EXTERNAL_AUTH_JWKS_URLS.length > 0) {
         /**
-         * @type {import('jwks-rsa').JSONWebKey.JsonWebKey[]}
+         * @type {string[]}
          */
-        let extJwksUrls = env.EXTERNAL_AUTH_JWKS_URLS.split(', ');
+        const extJwksUrls = env.EXTERNAL_AUTH_JWKS_URLS.split(', ');
 
         // noinspection UnnecessaryLocalVariableJS
         /**
-         * @type {import('jwks-rsa').JSONWebKey.JsonWebKey[]}
+         * @type {import('jwks-rsa').JSONWebKey[]}
          */
         const keys = await async.map(extJwksUrls, async extJwksUrl => {
             /**
@@ -47,10 +47,10 @@ const getExternalJwks = async () => {
                 }
             );
         });
-        return Promise.resolve(keys);
+        return keys;
     }
 
-    return Promise.resolve([]);
+    return [];
 };
 
 /**
@@ -143,7 +143,7 @@ module.exports.strategy = new MyJwtStrategy({
             jwksRequestsPerMinute: 5,
             jwksUri: env.AUTH_JWKS_URL,
             /**
-             * @return {Promise<import('jwks-rsa').JSONWebKey.JsonWebKey[]>}
+             * @return {Promise<import('jwks-rsa').JSONWebKey[]>}
              */
             getKeysInterceptor: async () => {
                 return await getExternalJwks();
