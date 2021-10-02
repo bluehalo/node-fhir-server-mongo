@@ -490,7 +490,7 @@ module.exports.graph = async (args, user, scope, body, path, host_, resource_nam
         }
 
         /**
-         * @type {[[{resource: Resource, fullUrl: string}]]}]
+         * @type {[[{resource: Resource, fullUrl: string}]]}
          */
         const entriesById = await async.map(id, async x => await processSingleId(x));
         /**

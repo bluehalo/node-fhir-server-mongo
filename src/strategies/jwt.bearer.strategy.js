@@ -5,40 +5,57 @@ const env = require('var');
 const {logRequest, logDebug} = require('../operations/common/logging');
 const {isTrue} = require('../operations/common/isTrue');
 const fetch = require('node-fetch');
+const async = require('async');
 
 /**
  * Retrieve jwks for URL
- * @param string jwksUrl
- * @returns {array}
+ * @param {string} jwksUrl
+ * @returns {Promise<{keys:{alg:string, kid: string, n: string}[]}>}
  */
 const getExternalJwksByUrl = async (jwksUrl) => {
     const jwksResponse = await fetch(jwksUrl);
-    const keys = await jwksResponse.json();
-    return keys;
+    return await jwksResponse.json();
 };
 
 /**
  * Retrieve jwks from external IDPs
- * @returns {array}
+ * @returns {Promise<import('jwks-rsa').JSONWebKey.JsonWebKey[]>}
  */
 const getExternalJwks = async () => {
-    var extJwksKeys = [];
-
     if (env.EXTERNAL_AUTH_JWKS_URLS.length > 0) {
+        /**
+         * @type {import('jwks-rsa').JSONWebKey.JsonWebKey[]}
+         */
         let extJwksUrls = env.EXTERNAL_AUTH_JWKS_URLS.split(', ');
 
-        for (const extJwksUrl of extJwksUrls) {
-            const jwksKeys = await getExternalJwksByUrl(extJwksUrl);
-            extJwksKeys = extJwksKeys.concat(jwksKeys.keys);
-        }
+        // noinspection UnnecessaryLocalVariableJS
+        /**
+         * @type {import('jwks-rsa').JSONWebKey.JsonWebKey[]}
+         */
+        const keys = await async.map(extJwksUrls, async extJwksUrl => {
+            /**
+             * @type {{keys: {alg: string, kid: string, n: string}[]}}
+             */
+            const keyHolder = await getExternalJwksByUrl(extJwksUrl);
+            return keyHolder.keys.map(
+                key => {
+                    return {
+                        kid: key.kid,
+                        alg: key.alg,
+                        keys: [key.n]
+                    };
+                }
+            );
+        });
+        return Promise.resolve(keys);
     }
 
-    return extJwksKeys;
+    return Promise.resolve([]);
 };
 
 /**
  * extracts the client_id and scope from the decoded token
- * @param jwt_payload
+ * @param {Object} jwt_payload
  * @param done
  * @return {*}
  */
@@ -95,6 +112,9 @@ class MyJwtStrategy extends JwtStrategy {
 /* This function is called to extract the token from the jwt cookie
 */
 const cookieExtractor = function (req) {
+    /**
+     * @type {string|null}
+     */
     let token = null;
     logDebug('', 'Cookie req: ');
     logDebug('', req);
@@ -122,18 +142,19 @@ module.exports.strategy = new MyJwtStrategy({
             rateLimit: true,
             jwksRequestsPerMinute: 5,
             jwksUri: env.AUTH_JWKS_URL,
+            /**
+             * @return {Promise<import('jwks-rsa').JSONWebKey.JsonWebKey[]>}
+             */
             getKeysInterceptor: async () => {
-                let keys = await getExternalJwks();
-
-                return keys;
+                return await getExternalJwks();
             },
             handleSigningKeyError: (err, cb) => {
                 if (err instanceof jwksRsa.SigningKeyNotFoundError) {
-                    logDebug('No Signing Key found!');
-                  return cb(new Error('No Signing Key found!'));
+                    logDebug('', 'No Signing Key found!');
+                    return cb(new Error('No Signing Key found!'));
                 }
                 return cb(err);
-              }
+            }
         }),
         /* specify a list of extractors and it will use the first one that returns the token */
         jwtFromRequest: ExtractJwt.fromExtractors([
