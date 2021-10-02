@@ -4,7 +4,6 @@ const jwksRsa = require('jwks-rsa');
 const env = require('var');
 const {logRequest, logDebug} = require('../operations/common/logging');
 const {isTrue} = require('../operations/common/isTrue');
-const fetch = require('node-fetch');
 const async = require('async');
 const {request} = require('../utils/request');
 
