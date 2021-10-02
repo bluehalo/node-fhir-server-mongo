@@ -6,6 +6,7 @@ const {logRequest, logDebug} = require('../operations/common/logging');
 const {isTrue} = require('../operations/common/isTrue');
 const fetch = require('node-fetch');
 const async = require('async');
+const {request} = require('../utils/request');
 
 /**
  * Retrieve jwks for URL
@@ -13,8 +14,11 @@ const async = require('async');
  * @returns {Promise<{keys:{alg:string, kid: string, n: string}[]}>}
  */
 const getExternalJwksByUrl = async (jwksUrl) => {
-    const jwksResponse = await fetch(jwksUrl);
-    return await jwksResponse.json();
+    const res = await request({
+        uri: jwksUrl,
+    });
+
+    return res.keys;
 };
 
 /**
@@ -30,23 +34,13 @@ const getExternalJwks = async () => {
 
         // noinspection UnnecessaryLocalVariableJS
         /**
+         * @type {import('jwks-rsa').JSONWebKey[][]}
+         */
+        const keysArray = await async.map(extJwksUrls, async extJwksUrl => await getExternalJwksByUrl(extJwksUrl));
+        /**
          * @type {import('jwks-rsa').JSONWebKey[]}
          */
-        const keys = await async.map(extJwksUrls, async extJwksUrl => {
-            /**
-             * @type {{keys: {alg: string, kid: string, n: string}[]}}
-             */
-            const keyHolder = await getExternalJwksByUrl(extJwksUrl);
-            return keyHolder.keys.map(
-                key => {
-                    return {
-                        kid: key.kid,
-                        alg: key.alg,
-                        keys: [key.n]
-                    };
-                }
-            );
-        });
+        const keys = keysArray.flat(2);
         return keys;
     }
 
