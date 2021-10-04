@@ -30,7 +30,22 @@ module.exports.commonBeforeEach = async () => {
     env['VALIDATE_SCHEMA'] = true;
     process.env.AUTH_ENABLED = '1';
     const urlObject = new URL(env.AUTH_JWKS_URL);
-    jwksEndpoint(urlObject.protocol + '//' + urlObject.host, [{pub: publicKey, kid: '123'}]);
+    jwksEndpoint(urlObject.protocol + '//' + urlObject.host, urlObject.pathname, [{pub: publicKey, kid: '123'}]);
+    /**
+     * @type {string[]}
+     */
+    const extJwksUrls = env.EXTERNAL_AUTH_JWKS_URLS.split(',');
+    extJwksUrls.forEach(
+        extJwksUrl => {
+            if (extJwksUrl) {
+                const urlObject1 = new URL(extJwksUrl.trim());
+                jwksEndpoint(urlObject1.protocol + '//' + urlObject1.host, urlObject1.pathname, [{
+                    pub: publicKey,
+                    kid: '123'
+                }]);
+            }
+        }
+    );
 };
 
 /**
