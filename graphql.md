@@ -12,7 +12,7 @@ You can use the standard GraphQL client libraries or Postman and access the /gra
 All the GraphQL entities and properties have inline documentation from FHIR specifications
 
 ### Sample GraphQL query
-```
+```graphql
 query {
   practitionerRole {
     id
@@ -35,7 +35,7 @@ query {
 }
 ```
 ### Sample Python Code
-```
+```python
 import requests
 import json
 
@@ -53,7 +53,7 @@ print(response.text)
 ```
 
 ### Sample Node.js code
-```
+```javascript
 var https = require('follow-redirects').https;
 var fs = require('fs');
 
@@ -115,7 +115,7 @@ req.end();
 ```
 
 ### Sample cUrl Code
-```
+```shell
 curl --location --request POST 'https://fhir.dev.bwell.zone/graphql' \
 --header 'Authorization: Bearer {put token here}' \
 --header 'Content-Type: application/json' \
