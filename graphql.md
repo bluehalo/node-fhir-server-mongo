@@ -11,6 +11,117 @@ You can use the standard GraphQL client libraries or Postman and access the /gra
 ### Documentation
 All the GraphQL entities and properties have inline documentation from FHIR specifications
 
+### Sample GraphQL query
+```
+query {
+  practitionerRole {
+    id
+    practitioner {
+      name {
+        family
+        given
+      }
+    }
+    organization {
+      name
+    }
+    healthcareService {
+      name
+    }
+    location {
+      name
+    }
+  }
+}
+```
+### Sample Python Code
+```
+import requests
+import json
+
+url = "https://fhir.dev.bwell.zone/graphql"
+
+payload="{\"query\":\"query {\\n  practitionerRole {\\n    id\\n    practitioner {\\n      name {\\n        family\\n        given\\n      }\\n    }\\n    organization {\\n      name\\n    }\\n    healthcareService {\\n      name\\n    }\\n    location {\\n      name\\n    }\\n  }\\n}\",\"variables\":{}}"
+headers = {
+  'Authorization': 'Bearer {put token here}',
+  'Content-Type': 'application/json'
+}
+
+response = requests.request("POST", url, headers=headers, data=payload)
+
+print(response.text)
+```
+
+### Sample Node.js code
+```
+var https = require('follow-redirects').https;
+var fs = require('fs');
+
+var options = {
+  'method': 'POST',
+  'hostname': 'fhir.dev.bwell.zone',
+  'path': '/graphql',
+  'headers': {
+    'Authorization': 'Bearer {put token here}',
+    'Content-Type': 'application/json'
+  },
+  'maxRedirects': 20
+};
+
+var req = https.request(options, function (res) {
+  var chunks = [];
+
+  res.on("data", function (chunk) {
+    chunks.push(chunk);
+  });
+
+  res.on("end", function (chunk) {
+    var body = Buffer.concat(chunks);
+    console.log(body.toString());
+  });
+
+  res.on("error", function (error) {
+    console.error(error);
+  });
+});
+
+var postData = JSON.stringify({
+  query: `query {
+  practitionerRole {
+    id
+    practitioner {
+      name {
+        family
+        given
+      }
+    }
+    organization {
+      name
+    }
+    healthcareService {
+      name
+    }
+    location {
+      name
+    }
+  }
+}`,
+  variables: {}
+});
+
+req.write(postData);
+
+req.end();
+```
+
+### Sample cUrl Code
+```
+curl --location --request POST 'https://fhir.dev.bwell.zone/graphql' \
+--header 'Authorization: Bearer {put token here}' \
+--header 'Content-Type: application/json' \
+--data-raw '{"query":"query {\n  practitionerRole {\n    id\n    practitioner {\n      name {\n        family\n        given\n      }\n    }\n    organization {\n      name\n    }\n    healthcareService {\n      name\n    }\n    location {\n      name\n    }\n  }\n}","variables":{}}'
+```
+
 ### GraphQL Server Implementation
 We use the apollo-server-express framework to implement the GraphQL middleware.  This is implemented in 
 https://github.com/icanbwell/fhir-server/blob/master/src/middleware/graphqlServer.js
