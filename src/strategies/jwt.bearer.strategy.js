@@ -67,7 +67,7 @@ const verify = (jwt_payload, done) => {
         /**
          * @type {string}
          */
-        const groups = jwt_payload['cognito:groups'] ? jwt_payload['cognito:groups'] : '';
+        const groups = jwt_payload[env.AUTH_CUSTOM_GROUP] ? jwt_payload[env.AUTH_CUSTOM_GROUP] : '';
 
         if (groups.length > 0) {
             scope = scope + ' ' + groups.join(' ');

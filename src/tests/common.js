@@ -76,6 +76,21 @@ const getFullAccessToken = module.exports.getFullAccessToken = () => {
     );
 };
 
+const getTokenWithGroupClaims = module.exports.getTokenWithGroupClaims = (scope) => {
+    return createToken(privateKey, '123', {
+        sub: 'john',
+        client_id: 'my_client_id',
+        scope: scope,
+        groups: ['access/*.*']
+    });
+};
+
+const getFullAccessTokenWithGroupClaims = module.exports.getFullAccessTokenWithGroupClaims = () => {
+    return getTokenWithGroupClaims(
+        'user/*.read user/*.write'
+    );
+};
+
 module.exports.getHeaders = (scope) => {
     return {
         'Content-Type': 'application/fhir+json',
@@ -103,6 +118,14 @@ module.exports.getUnAuthenticatedHeaders = () => {
     return {
         'Content-Type': 'application/fhir+json',
         'Accept': 'application/fhir+json'
+    };
+};
+
+module.exports.getHeadersWithGroupInToken = (scope) => {
+    return {
+        'Content-Type': 'application/fhir+json',
+        'Accept': 'application/fhir+json',
+        'Authorization': `Bearer ${scope ? getTokenWithGroupClaims(scope) : getFullAccessTokenWithGroupClaims()}`
     };
 };
 
