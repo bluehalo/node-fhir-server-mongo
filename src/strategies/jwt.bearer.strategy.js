@@ -59,11 +59,11 @@ const verify = (jwt_payload, done) => {
         /**
          * @type {string}
          */
-        const client_id = jwt_payload.client_id ? jwt_payload.client_id : jwt_payload['custom:bwell_fhir_id'];
+        const client_id = jwt_payload.client_id ? jwt_payload.client_id : jwt_payload[env.AUTH_CUSTOM_CLIENT_ID];
         /**
          * @type {string}
          */
-        let scope = jwt_payload.scope ? jwt_payload.scope : jwt_payload['custom:scope'];
+        let scope = jwt_payload.scope ? jwt_payload.scope : jwt_payload[env.AUTH_CUSTOM_SCOPE];
         /**
          * @type {string}
          */

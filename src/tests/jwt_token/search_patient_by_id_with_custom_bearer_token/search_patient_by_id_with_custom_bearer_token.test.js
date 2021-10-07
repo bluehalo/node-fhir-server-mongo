@@ -10,9 +10,9 @@ const expectedSinglePatientResource = require('./fixtures/expected/expected_sing
 const async = require('async');
 
 const request = supertest(app);
-const {commonBeforeEach, commonAfterEach, getHeadersWithGroupInToken} = require('../../common');
+const {commonBeforeEach, commonAfterEach, getHeadersWithCustomToken} = require('../../common');
 
-describe('PatientReturnIdWithGroupInTokenTests', () => {
+describe('PatientReturnIdWithCustomBearerTokenTests', () => {
     beforeEach(async () => {
         await commonBeforeEach();
     });
@@ -21,13 +21,13 @@ describe('PatientReturnIdWithGroupInTokenTests', () => {
         await commonAfterEach();
     });
 
-    describe('Patient Search By Id Tests With Group In Token', () => {
+    describe('Patient Search By Id Tests With Custom Bearer Token', () => {
         test('search by single id works', async () => {
             await async.waterfall([
                     (cb) => // first confirm there are no patients
                         request
                             .get('/4_0_0/Patient')
-                            .set(getHeadersWithGroupInToken())
+                            .set(getHeadersWithCustomToken())
                             .expect(200, (err, resp) => {
                                 expect(resp.body.length).toBe(0);
                                 console.log('------- response 1 ------------');
@@ -39,7 +39,7 @@ describe('PatientReturnIdWithGroupInTokenTests', () => {
                         request
                             .post('/4_0_0/Patient/1679033641/$merge?validate=true')
                             .send(patient1Resource)
-                            .set(getHeadersWithGroupInToken())
+                            .set(getHeadersWithCustomToken())
                             .expect(200, (err, resp) => {
                                 console.log('------- response patient1Resource ------------');
                                 console.log(JSON.stringify(resp.body, null, 2));
@@ -50,7 +50,7 @@ describe('PatientReturnIdWithGroupInTokenTests', () => {
                     (results, cb) =>
                         request
                             .get('/4_0_0/Patient')
-                            .set(getHeadersWithGroupInToken())
+                            .set(getHeadersWithCustomToken())
                             .expect(200, (err, resp) => {
                                 console.log('------- response 3 ------------');
                                 console.log(JSON.stringify(resp.body, null, 2));
@@ -59,7 +59,7 @@ describe('PatientReturnIdWithGroupInTokenTests', () => {
                             }),
                     (results, cb) => request
                         .get('/4_0_0/Patient/00100000000')
-                        .set(getHeadersWithGroupInToken())
+                        .set(getHeadersWithCustomToken())
                         .expect(200, cb)
                         .expect((resp) => {
                             console.log('------- response Patient sorted ------------');
