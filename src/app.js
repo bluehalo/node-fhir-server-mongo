@@ -22,7 +22,7 @@ const {handleStats} = require('./routeHandlers/stats');
 const {handleSmartConfiguration} = require('./routeHandlers/smartConfiguration');
 const {isTrue} = require('./operations/common/isTrue');
 
-if (isTrue(process.env.TRACING_ENABLED)) {
+if (isTrue(env.TRACING_ENABLED)) {
     require('./tracing');
 }
 
