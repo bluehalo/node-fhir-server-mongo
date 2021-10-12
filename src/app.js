@@ -22,6 +22,10 @@ const {handleStats} = require('./routeHandlers/stats');
 const {handleSmartConfiguration} = require('./routeHandlers/smartConfiguration');
 const {isTrue} = require('./operations/common/isTrue');
 
+if (isTrue(env.TRACING_ENABLED)) {
+    require('./tracing');
+}
+
 const app = express();
 
 const cookieParser = require('cookie-parser');
