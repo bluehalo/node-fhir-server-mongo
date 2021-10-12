@@ -59,13 +59,24 @@ const verify = (jwt_payload, done) => {
         /**
          * @type {string}
          */
-        const client_id = jwt_payload.client_id;
+        const client_id = jwt_payload.client_id ? jwt_payload.client_id : jwt_payload[env.AUTH_CUSTOM_CLIENT_ID];
         /**
          * @type {string}
          */
-        const scope = jwt_payload.scope;
-        logRequest('', 'Verified client_id: ' + client_id + 'scope: ' + scope);
+        let scope = jwt_payload.scope ? jwt_payload.scope : jwt_payload[env.AUTH_CUSTOM_SCOPE];
+        /**
+         * @type {string}
+         */
+        const groups = jwt_payload[env.AUTH_CUSTOM_GROUP] ? jwt_payload[env.AUTH_CUSTOM_GROUP] : '';
+
+        if (groups.length > 0) {
+            scope = scope + ' ' + groups.join(' ');
+        }
+
+        logRequest('', 'Verified client_id: ' + client_id + ' scope: ' + scope);
+
         const context = null;
+
         return done(null, client_id, {scope, context});
     }
 
@@ -85,10 +96,6 @@ class MyJwtStrategy extends JwtStrategy {
         const self = this;
 
         const token = self._jwtFromRequest(req);
-
-        logDebug('', 'No token found in request');
-        logDebug('', req);
-        logDebug('', 'Accepts text/html: ' + req.accepts('text/html'));
 
         if (!token && req.accepts('text/html') && req.useragent && req.useragent.isDesktop && isTrue(env.REDIRECT_TO_LOGIN) && req.method === 'GET') {
             const resourceUrl = req.originalUrl;

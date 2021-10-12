@@ -1,5 +1,8 @@
 # Security
 
+### High Level Sequence
+![](https://www.websequencediagrams.com/cgi-bin/cdraw?lz=dGl0bGUgRkhJUiBTZXJ2ZXIvQ2xpZW50IEFwcCBBdXRob3JpemF0aW9uCgoAEAotPgAODQA0ByhzKToALwUgVG9rZW4gUmVxdWVzdAoAFRctPgBhCjogUmVjZWl2ZXMANgsAZA0AgRgLOiBHcmFwaFFML1Jlc291cmNlAGMIIHcvADQLAIFLCwCBFhtWZXJpZnkAgSwMYWdhaW5zdACBcQ4AghgHIEpXS1Mga2V5cwCBPRoAgR4NAIIFCwBlBWllZACBCw5Nb25nb0RiOiBRdWVyeSBmb3IgcgCCMwZlZACDEwZyAIFfBwoAJAcAgX4PUmV0dXJuABwPAIFvDQCCWg4AKQUASxgKCg&s=default)
+
 ### 1. Get OAuth Url for a FHIR server
 
 Helix FHIR server supports the `well-known confiuration` feature so you can get the token-url from the FHIR server.  (The helix fhir client sdk   does this automatically)
