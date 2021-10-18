@@ -98,9 +98,9 @@ This token contains a list of scopes that have been granted to this `client_id` 
 
 
 #### 4.1 Control access by resource
-FHIR server looks for scopes that start with “user/”.  These are in the form of user/<resource|*>.<read|write|*> e.g., user/Practitioner.read.  This scope grants the client the permission to read the Practitioner resources.
+FHIR server looks for scopes that start with “user/”.  These are in the form of user/<resource|*>.<read|write|*> e.g., `user/Practitioner.read`.  This scope grants the client the permission to read the Practitioner resources.
 
-In addition we support wildcard scopes e.g., user/*.* or user/*.read.  The former gives the user the permission to read or write any resource and the latter gives the user the right to read any resource.
+In addition we support wildcard scopes e.g., `user/*.*` or `user/*.read`.  The former gives the user the permission to read or write any resource and the latter gives the user the right to read any resource.
 
  
 
