@@ -67,6 +67,9 @@
             "code": "MD"
           }
         ]
+      },
+      "issuer": {
+        "reference": "Organization/123456"
       }
     },
     {
