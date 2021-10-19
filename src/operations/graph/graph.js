@@ -416,8 +416,9 @@ module.exports.graph = async (args, user, scope, body, path, host_, resource_nam
          * @return {Promise<Resource>}
          */
         async function processReferences(parent_entity, linkReferences) {
+            const uniqueReferences = new Set(linkReferences);
             if (parent_entity) {
-                for (const link_reference of linkReferences) {
+                for (const link_reference of uniqueReferences) {
                     // eslint-disable-next-line security/detect-non-literal-regexp
                     let re = new RegExp('\\b' + link_reference + '\\b', 'g');
                     parent_entity = JSON.parse(JSON.stringify(parent_entity).replace(re, '#'.concat(link_reference)));
@@ -465,7 +466,9 @@ module.exports.graph = async (args, user, scope, body, path, host_, resource_nam
                     for (const related_item of related_entries) {
                         related_references.push(related_item['resource']['resourceType'].concat('/', related_item['resource']['id']));
                     }
-                    current_entity.resource = await processReferences(current_entity.resource, related_references);
+                    if (related_references.length > 0){
+                        current_entity.resource = await processReferences(current_entity.resource, related_references);
+                    }
                 }
                 if (contained) {
                     /**
