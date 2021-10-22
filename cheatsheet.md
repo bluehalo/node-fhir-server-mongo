@@ -96,6 +96,8 @@ While this results in multiple calls, it will tend to be faster due to how index
 ##### 1.4.1.1 Technical Detail
 We have covering indexes that include `id` so the first calls above can be typically satisfied by the index without going to the underlying tables.  The second calls request data by `id` and there are other indexes that index on `id`.
 
+If you request the whole records with paging, this requires the database to get all the data and sort it before it can find the records that satisfy the page you're requesting.  
+
 ### 1.5 Additional Filters
 
 | Filter By | Query Parameter | Example | Supported for Resources  |  |
