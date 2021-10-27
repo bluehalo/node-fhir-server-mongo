@@ -70,21 +70,23 @@ module.exports.graph = async (args, user, scope, body, path, host_, resource_nam
                         continue;
                     }
                 }
-                /**
-                 * @type {string}
-                 */
-                const related_resource_id = relatedResourcePropertyCurrent.reference.replace(collectionName + '/', '');
+                if (relatedResourcePropertyCurrent.reference) {
+                    /**
+                     * @type {string}
+                     */
+                    const related_resource_id = relatedResourcePropertyCurrent.reference.replace(collectionName + '/', '');
 
-                /**
-                 * @type {Document | null}
-                 */
-                const found_related_resource = await collection.findOne({id: related_resource_id.toString()});
-                if (found_related_resource) {
-                    // noinspection UnnecessaryLocalVariableJS
-                    entries = entries.concat([{
-                        'fullUrl': `https://${host}/${base_version}/${found_related_resource.resourceType}/${found_related_resource.id}`,
-                        'resource': new RelatedResource(found_related_resource)
-                    }]);
+                    /**
+                     * @type {Document | null}
+                     */
+                    const found_related_resource = await collection.findOne({id: related_resource_id.toString()});
+                    if (found_related_resource) {
+                        // noinspection UnnecessaryLocalVariableJS
+                        entries = entries.concat([{
+                            'fullUrl': `https://${host}/${base_version}/${found_related_resource.resourceType}/${found_related_resource.id}`,
+                            'resource': new RelatedResource(found_related_resource)
+                        }]);
+                    }
                 }
             }
         }
@@ -215,11 +217,12 @@ module.exports.graph = async (args, user, scope, body, path, host_, resource_nam
                      * @type {[{resource: Resource, fullUrl: string}]}
                      */
                     let entries_for_current_link = [];
-                    if (link.target && link.target.length > 0) {
+                    let link_targets = link.target;
+                    for (const target of link_targets) {
                         /**
                          * @type {string}
                          */
-                        const resourceType = link.target[0].type;
+                        const resourceType = target.type;
                         if (link.path) {
                             // forward link
                             /**
@@ -363,12 +366,12 @@ module.exports.graph = async (args, user, scope, body, path, host_, resource_nam
                                     )
                                 );
                             }
-                        } else if (link.target && link.target.length > 0 && link.target[0].params) {
+                        } else if (target.params) {
                             // reverse link
                             /**
                              * @type {string}
                              */
-                            const reverseProperty = link.target[0].params.replace('={ref}', '');
+                            const reverseProperty = target.params.replace('={ref}', '');
                             verifyHasValidScopes(parentEntity.resourceType, 'read', user, scope);
                             entries_for_current_link = entries_for_current_link.concat(
                                 await get_reverse_related_resources(
@@ -388,11 +391,11 @@ module.exports.graph = async (args, user, scope, body, path, host_, resource_nam
                     entries = entries.concat(
                         entries_for_current_link.filter(e => e.resource['resourceType'] && e.fullUrl)
                     );
-                    if (link.target && link.target.length > 0) {
+                    for (const target of link_targets) {
                         /**
                          * @type {[{path:string, params: string,target:[{type: string}]}]}
                          */
-                        const childLinks = link.target[0].link;
+                        const childLinks = target.link;
                         if (childLinks) {
                             /**
                              * @type {resource: Resource, fullUrl: string}
