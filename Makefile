@@ -53,6 +53,7 @@ update:
 
 .PHONY:tests
 tests:
+	. ${NVM_DIR}/nvm.sh && nvm use 15.14.0 && \
 	npm test
 
 .PHONY:tests_integration

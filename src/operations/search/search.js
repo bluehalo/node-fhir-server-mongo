@@ -91,7 +91,7 @@ module.exports.search = async (args, user, scope, resource_name, collection_name
     logDebug(user, '--------');
 
     /**
-     * @type {import('mongodb').FindOptions}
+     * @type {import('mongodb').FindOneOptions}
      */
     let options = {};
 
@@ -158,10 +158,15 @@ module.exports.search = async (args, user, scope, resource_name, collection_name
 
         // if _count is specified then limit mongo query to that
         if (args['_count']) {
+            // for consistency in results while paging, always sort by id
+            // https://docs.mongodb.com/manual/reference/method/cursor.sort/#sort-cursor-consistent-sorting
+            const defaultSortId = env.DEFAULT_SORT_ID || 'id';
             if (!('sort' in options)) {
-                // for consistency in results while paging, always sort by _id
-                // https://docs.mongodb.com/manual/reference/method/cursor.sort/#sort-cursor-consistent-sorting
-                options['sort'] = {'_id': 1};
+                options['sort'] = {};
+            }
+            // add id to end if not present in sort
+            if (!(`${defaultSortId}` in options['sort'])) {
+                options['sort'][`${defaultSortId}`] = 1;
             }
             /**
              * @type {number}
@@ -187,7 +192,7 @@ module.exports.search = async (args, user, scope, resource_name, collection_name
         // Now run the query to get a cursor we will enumerate next
         /**
          * mongo db cursor
-         * @type {import('mongodb').FindCursor}
+         * @type {import('mongodb').Cursor}
          */
         let cursor = await collection.find(query, options).maxTimeMS(maxMongoTimeMS);
 
