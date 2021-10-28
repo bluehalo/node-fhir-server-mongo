@@ -1,7 +1,9 @@
 # import ExplanationOfBenefit from 'explanationOfBenefit.graphql'
 # import AllergyIntolerance from 'allergyIntolerance.graphql'
+# import CarePlan from 'carePlan.graphql'
 
 extend type Patient {
     explanationOfBenefit: [ExplanationOfBenefit]
     allergyIntolerance: [AllergyIntolerance]
+    carePlan: [CarePlan]
 }
