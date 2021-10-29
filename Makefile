@@ -18,7 +18,8 @@ up:
 
 .PHONY:down
 down:
-	docker-compose -p fhir-dev -f docker-compose.yml down
+	docker-compose -p fhir-dev -f docker-compose.yml down && \
+	docker system prune -f
 
 .PHONY:clean
 clean: down

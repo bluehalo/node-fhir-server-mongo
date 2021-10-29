@@ -6,64 +6,28 @@ const async = require('async');
 const env = require('var');
 
 const {logMessageToSlack} = require('./slack.logger');
-
-const customIndexes = {
-    'PractitionerRole_4_0_0': [
-        'practitioner.reference',
-        'organization.reference',
-        'location.reference'
-    ]
-};
-
-/**
- * creates an index if it does not exist
- * @param {import('mongodb').Db} db
- * @param {string} property_to_index
- * @param {string} collection_name
- * @return {Promise<boolean>}
- */
-async function create_index_if_not_exists(db, property_to_index, collection_name) {
-    // from https://docs.aws.amazon.com/documentdb/latest/developerguide/limits.html#limits.naming
-    // Index name: <col>$<index> :	 Length is [3–63] characters.
-    // total length combines both collection name and index name
-    const mex_index_name_length = (env.MAX_INDEX_NAME_LENGTH ? parseInt(env.MAX_INDEX_NAME_LENGTH) : 63) - collection_name.length - 1;
-
-    const index_name = (property_to_index + '_1').slice(0, mex_index_name_length - 1); // max index name length is 125 in mongo
-    try {
-        // https://www.tutorialspoint.com/mongodb/mongodb_indexing_limitations.htm#:~:text=A%20collection%20cannot%20have%20more,have%20maximum%2031%20fields%20indexed.
-        if (!await db.collection(collection_name).indexExists(index_name)) {
-            console.log('Creating index ' + index_name + ' in ' + collection_name);
-            await logMessageToSlack('Creating index ' + index_name + ' in ' + collection_name);
-            const my_dict = {};
-            my_dict[String(property_to_index)] = 1;
-            await db.collection(collection_name).createIndex(my_dict, {name: index_name});
-            return true;
-        }
-    } catch (e) {
-        console.log('Error creating index: ' + index_name + ' for collection ' + collection_name + ': ' + JSON.stringify(e));
-        await logMessageToSlack('Error creating index: ' + index_name + ' for collection ' + collection_name + ': ' + JSON.stringify(e));
-    }
-    return false;
-}
+const {customIndexes} = require('./customIndexes');
 
 /**
  * creates an multi key index if it does not exist
  * @param {import('mongodb').Db} db
  * @param {string[]} properties_to_index
  * @param {string} collection_name
+ * @param {string?} index_name
  * @return {Promise<boolean>}
  */
-async function create_multikey_index_if_not_exists(db, properties_to_index, collection_name) {
+async function create_index_if_not_exists(db, properties_to_index, collection_name, index_name) {
     // from https://docs.aws.amazon.com/documentdb/latest/developerguide/limits.html#limits.naming
     // Index name: <col>$<index> :	 Length is [3–63] characters.
     // total length combines both collection name and index name
     const mex_index_name_length = (env.MAX_INDEX_NAME_LENGTH ? parseInt(env.MAX_INDEX_NAME_LENGTH) : 63) - collection_name.length - 1;
 
-    const index_name = (properties_to_index.join('_1_') + '_1').slice(0, mex_index_name_length - 1);
+    index_name = index_name || (properties_to_index.join('_1_') + '_1').slice(0, mex_index_name_length - 1);
     try {
         if (!await db.collection(collection_name).indexExists(index_name)) {
-            console.log('Creating multi key index ' + index_name + ' in ' + collection_name);
-            await logMessageToSlack('Creating multi key index ' + index_name + ' in ' + collection_name);
+            const message = 'Creating index ' + index_name + ' with columns: [' + properties_to_index.join(',') + ']' + ' in ' + collection_name;
+            console.log(message);
+            await logMessageToSlack(message);
             const my_dict = {};
             for (const property_to_index of properties_to_index) {
                 my_dict[String(property_to_index)] = 1;
@@ -87,10 +51,31 @@ async function create_multikey_index_if_not_exists(db, properties_to_index, coll
 async function indexCollection(collection_name, db) {
     console.log('Processing collection', collection_name);
     // check if index exists
-    let createdIndex = await create_index_if_not_exists(db, 'id', collection_name);
-    createdIndex = await create_index_if_not_exists(db, 'meta.lastUpdated', collection_name) || createdIndex;
-    createdIndex = await create_index_if_not_exists(db, 'meta.source', collection_name) || createdIndex;
-    createdIndex = await create_multikey_index_if_not_exists(db, ['meta.security.system', 'meta.security.code'], collection_name) || createdIndex;
+    let createdIndex = false;
+
+    // now add custom indices
+    for (const [collection, indexesArray] of Object.entries(customIndexes)) {
+        if (collection === '*') {
+            console.log('Creating Standard Indexes: ', collection_name);
+            for (const indexDefinition of indexesArray) {
+                for (const [indexName, indexColumns] of Object.entries(indexDefinition)) {
+                    createdIndex = await create_index_if_not_exists(db, indexColumns, collection_name, indexName) || createdIndex;
+                }
+            }
+        }
+    }
+
+    for (const [collection, indexesArray] of Object.entries(customIndexes)) {
+        if (collection === collection_name) {
+            console.log('Creating Custom Indexes: ', collection_name);
+            for (const indexDefinition of indexesArray) {
+                for (const [indexName, indexColumns] of Object.entries(indexDefinition)) {
+                    createdIndex = await create_index_if_not_exists(db, indexColumns, collection_name, indexName) || createdIndex;
+                }
+            }
+        }
+    }
+
     const indexes = await db.collection(collection_name).indexes();
     return {
         name: collection_name,
@@ -126,18 +111,6 @@ async function indexAllCollections() {
             collection_names.push(collection.name);
         }
     });
-
-    // now add custom indices
-    for (const collection of Object.keys(customIndexes)) {
-        if (collection_names.includes(collection)) {
-            console.log('Creating Custom Indexes: ', collection);
-            // eslint-disable-next-line security/detect-object-injection
-            for (const index of customIndexes[collection]) {
-                await create_index_if_not_exists(db, index, collection);
-                // console.log(index);
-            }
-        }
-    }
 
     // now add indices on id column for every collection
     const collection_stats = await async.map(
