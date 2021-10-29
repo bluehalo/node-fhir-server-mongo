@@ -1,4 +1,5 @@
 const {MongoClient} = require('mongodb');
+const {MongoMemoryServer} = require('mongodb-memory-server');
 
 const globals = require('../globals');
 const {CLIENT, CLIENT_DB} = require('../constants');
@@ -9,16 +10,34 @@ const env = require('var');
 const {jwksEndpoint} = require('./mocks/jwks');
 const {publicKey, privateKey} = require('./mocks/keys');
 const {createToken} = require('./mocks/tokens');
+const nock = require('nock');
+// const {app} = require('../app');
 
 let connection;
 let db;
+let mongo;
 
 /**
  * sets up the mongo db and token endpoint
  * @return {Promise<void>}
  */
 module.exports.commonBeforeEach = async () => {
-    connection = await MongoClient.connect(process.env.MONGO_URL, {
+    // https://levelup.gitconnected.com/testing-your-node-js-application-with-an-in-memory-mongodb-976c1da1288f
+    /**
+     * 1.1
+     * Start in-memory MongoDB
+     */
+    mongo = await MongoMemoryServer.create();
+    /**
+     * 1.2
+     * Set the MongoDB host and DB name as environment variables,
+     * because the application expect it as ENV vars.
+     * The values are being created by the in-memory MongoDB
+     */
+    process.env.MONGO_HOST = mongo.getUri();
+    // process.env.MONGO_DB = mongo.getdb.getDbName();
+
+    connection = await MongoClient.connect(process.env.MONGO_HOST, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     });
@@ -53,8 +72,15 @@ module.exports.commonBeforeEach = async () => {
  * @return {Promise<void>}
  */
 module.exports.commonAfterEach = async () => {
+    globals.delete(CLIENT);
+    globals.delete(CLIENT_DB);
+    nock.cleanAll();
+    nock.restore();
     await db.dropDatabase();
     await connection.close();
+    await mongo.stop();
+    // global.gc();
+    // await app.close();
 };
 
 

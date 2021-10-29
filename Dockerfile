@@ -1,16 +1,9 @@
-FROM node:15.14-slim
+FROM node:16.13-bullseye-slim
 
 # set our node environment, either development or production
 # defaults to production, compose overrides this to development on build and run
 ARG NODE_ENV=production
 #ENV NODE_ENV $NODE_ENV
-
-# Enable apt-get to run from the new sources.
-RUN printf "deb http://archive.debian.org/debian/ \
-    jessie main\ndeb-src http://archive.debian.org/debian/ \
-    jessie main\ndeb http://security.debian.org \
-    jessie/updates main\ndeb-src http://security.debian.org \
-    jessie/updates main" > /etc/apt/sources.list
 
 # Update everything on the box
 RUN apt-get -y update && apt-get -y install curl && apt-get clean

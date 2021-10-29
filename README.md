@@ -33,7 +33,7 @@ For example:
 ## Contributing
 You will need:
 1. Docker Desktop
-2. Node.js 15.14
+2. Node.js 16.13
 
 
 Run `make lint` to do lint checking

@@ -34,7 +34,7 @@ init:
 	brew install kompose
 	#brew install nvm
 	curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.37.2/install.sh | zsh
-	nvm install 15.14
+	nvm install 16.13
 	make update
 
 #   We use gitpkg to expose the subfolder as a package here.
@@ -47,13 +47,13 @@ init:
 
 .PHONY:update
 update:
-	. ${NVM_DIR}/nvm.sh && nvm use 15.14.0 && \
+	. ${NVM_DIR}/nvm.sh && nvm use 16.13.0 && \
 	yarn install --no-optional && \
 	npm i --package-lock-only
 
 .PHONY:tests
 tests:
-	. ${NVM_DIR}/nvm.sh && nvm use 15.14.0 && \
+	. ${NVM_DIR}/nvm.sh && nvm use 16.13.0 && \
 	npm test
 
 .PHONY:tests_integration
