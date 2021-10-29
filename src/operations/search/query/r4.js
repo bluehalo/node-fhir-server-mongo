@@ -20,7 +20,7 @@ const logger = require('@asymmetrik/node-fhir-server-core').loggers.get();
  */
 module.exports.buildR4SearchQuery = (resource_name, args) => {
     // Common search params
-    let {id} = args;
+    let id = args['id'] || args['_id'];
     let patient = args['patient'];
     let practitioner = args['practitioner'];
     let organization = args['organization'];
@@ -76,6 +76,17 @@ module.exports.buildR4SearchQuery = (resource_name, args) => {
         } else {
             query.id = id;
         }
+    }
+    if (args['id:above']) {
+        query.id = {
+            $gt: args['id:above']
+        };
+    }
+
+    if (args['id:below']) {
+        query.id = {
+            $lt: args['id:below']
+        };
     }
 
     if (source) {

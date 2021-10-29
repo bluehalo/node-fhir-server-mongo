@@ -9,5 +9,15 @@
   ],
   "resourceType": "Bundle",
   "type": "searchset",
-  "total": 1
+  "total": 1,
+  "link": [
+    {
+      "relation": "self",
+      "url": "/4_0_0/Practitioner?_elements=id&_bundle=true&_total=accurate"
+    },
+    {
+      "relation": "next",
+      "url": "/4_0_0/Practitioner?_elements=id&_bundle=true&_total=accurate&id%3Aabove=1679033641"
+    }
+  ]
 }

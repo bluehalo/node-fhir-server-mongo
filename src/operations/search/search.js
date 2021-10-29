@@ -20,9 +20,10 @@ const {VERSIONS} = require('@asymmetrik/node-fhir-server-core').constants;
  * @param {string} scope
  * @param {string} resource_name
  * @param {string} collection_name
+ * @param {?string} url
  * @return {Resource[] | {entry:{resource: Resource}[]}} array of resources
  */
-module.exports.search = async (args, user, scope, resource_name, collection_name) => {
+module.exports.search = async (args, user, scope, resource_name, collection_name, url) => {
     logRequest(user, resource_name + ' >>> search' + ' scope:' + scope);
     // logRequest('user: ' + req.user);
     // logRequest('scope: ' + req.authInfo.scope);
@@ -121,6 +122,8 @@ module.exports.search = async (args, user, scope, resource_name, collection_name
                 for (const property of properties_to_return_list) {
                     projection[`${property}`] = 1;
                 }
+                // also exclude _id so if there is a covering index the query can be satisfied from the covering index
+                projection['_id'] = 0;
                 options['projection'] = projection;
             }
         }
@@ -202,7 +205,11 @@ module.exports.search = async (args, user, scope, resource_name, collection_name
             // https://www.hl7.org/fhir/search.html#total
             // if _total is passed then calculate the total count for matching records also
             // don't use the options since they set a limit and skip
-            total_count = await collection.countDocuments(query, {maxTimeMS: maxMongoTimeMS});
+            if (args['_total'] === 'estimate') {
+                total_count = await collection.estimatedDocumentCount(query, {maxTimeMS: maxMongoTimeMS});
+            } else {
+                total_count = await collection.countDocuments(query, {maxTimeMS: maxMongoTimeMS});
+            }
         }
         // Resource is a resource cursor, pull documents out before resolving
         /**
@@ -249,6 +256,50 @@ module.exports.search = async (args, user, scope, resource_name, collection_name
         // if env.RETURN_BUNDLE is set then return as a Bundle
         if (env.RETURN_BUNDLE || args['_bundle']) {
             /**
+             * array of links
+             * @type {[{relation:string, url: string}]}
+             */
+            let link = [];
+            // find id of last resource
+            if (url) {
+
+                /**
+                 * id of last resource in the list
+                 * @type {?number}
+                 */
+                const last_id = resources.length > 0 ? resources[resources.length - 1].id : null;
+                if (last_id) {
+                    // have to use a base url or URL() errors
+                    const baseUrl = 'https://example.org';
+                    /**
+                     * url to get next page
+                     * @type {URL}
+                     */
+                    const nextUrl = new URL(url, baseUrl);
+                    // add or update the id:above param
+                    nextUrl.searchParams.set('id:above', `${last_id}`);
+                    // remove the _getpagesoffset param since that will skip again from this id
+                    nextUrl.searchParams.delete('_getpagesoffset');
+                    link = [
+                        {
+                            'relation': 'self',
+                            'url': `${url}`
+                        },
+                        {
+                            'relation': 'next',
+                            'url': `${nextUrl.toString().replace(baseUrl, '')}`
+                        }
+                    ];
+                } else {
+                    link = [
+                        {
+                            'relation': 'self',
+                            'url': `${url}`
+                        }
+                    ];
+                }
+            }
+            /**
              * @type {function({Object}):Resource}
              */
             const Bundle = getResource(base_version, 'bundle');
@@ -262,7 +313,8 @@ module.exports.search = async (args, user, scope, resource_name, collection_name
                 type: 'searchset',
                 timestamp: moment.utc().format('YYYY-MM-DDThh:mm:ss.sss') + 'Z',
                 entry: entries,
-                total: total_count
+                total: total_count,
+                link: link
             });
         } else {
             return resources;
