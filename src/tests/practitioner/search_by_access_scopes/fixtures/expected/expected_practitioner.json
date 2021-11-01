@@ -12,7 +12,7 @@
       }
     ],
     "gender": "unknown",
-    "id": "1679033641",
+    "id": "1",
     "identifier": [
       {
         "system": "http://medstarhealth.org",
@@ -43,6 +43,10 @@
     ],
     "meta": {
       "security": [
+        {
+          "code": "thedacare",
+          "system": "https://www.icanbwell.com/access"
+        },
         {
           "code": "medstar",
           "system": "https://www.icanbwell.com/access"
@@ -111,7 +115,7 @@
       }
     ],
     "gender": "unknown",
-    "id": "1",
+    "id": "1679033641",
     "identifier": [
       {
         "system": "http://medstarhealth.org",
@@ -142,10 +146,6 @@
     ],
     "meta": {
       "security": [
-        {
-          "code": "thedacare",
-          "system": "https://www.icanbwell.com/access"
-        },
         {
           "code": "medstar",
           "system": "https://www.icanbwell.com/access"

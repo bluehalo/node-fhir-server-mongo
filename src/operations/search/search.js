@@ -171,17 +171,6 @@ module.exports.search = async (args, user, scope, resource_name, collection_name
 
         // if _count is specified then limit mongo query to that
         if (args['_count']) {
-            // for consistency in results while paging, always sort by id
-            // https://docs.mongodb.com/manual/reference/method/cursor.sort/#sort-cursor-consistent-sorting
-            const defaultSortId = env.DEFAULT_SORT_ID || 'id';
-            columns.add(defaultSortId);
-            if (!('sort' in options)) {
-                options['sort'] = {};
-            }
-            // add id to end if not present in sort
-            if (!(`${defaultSortId}` in options['sort'])) {
-                options['sort'][`${defaultSortId}`] = 1;
-            }
             /**
              * @type {number}
              */
@@ -200,6 +189,20 @@ module.exports.search = async (args, user, scope, resource_name, collection_name
             if (!args['id'] && !args['_elements']) {
                 // set a limit so the server does not come down due to volume of data
                 options['limit'] = 10;
+            }
+        }
+
+        if (!(args['_elements'])) {
+            // for consistency in results while paging, always sort by id
+            // https://docs.mongodb.com/manual/reference/method/cursor.sort/#sort-cursor-consistent-sorting
+            const defaultSortId = env.DEFAULT_SORT_ID || 'id';
+            columns.add(defaultSortId);
+            if (!('sort' in options)) {
+                options['sort'] = {};
+            }
+            // add id to end if not present in sort
+            if (!(`${defaultSortId}` in options['sort'])) {
+                options['sort'][`${defaultSortId}`] = 1;
             }
         }
 

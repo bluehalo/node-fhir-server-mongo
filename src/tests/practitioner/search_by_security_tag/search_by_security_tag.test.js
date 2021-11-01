@@ -24,13 +24,6 @@ describe('search_by_security_tag', () => {
         await commonAfterEach();
     });
 
-    function sleep(milliseconds) {
-        const date = Date.now();
-        let currentDate = null;
-        do {
-            currentDate = Date.now();
-        } while (currentDate - date < milliseconds);
-    }
 
     describe('Practitioner Search By Security Tests', () => {
         test('search by security tag works', async () => {
