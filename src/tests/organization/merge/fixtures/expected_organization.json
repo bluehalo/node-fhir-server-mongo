@@ -1,94 +1,55 @@
 [
   {
-    "resourceType": "Organization",
-    "id": "Medstar-Org-733797173",
+    "id": "MedStar-Medical-Group",
     "meta": {
-      "versionId": "2",
-      "lastUpdated": "2021-04-20T02:44:45+00:00",
-      "source": "https://www.foo.com",
       "security": [
         {
-          "system": "https://www.icanbwell.com/access",
-          "code": "medstar"
+          "code": "medstar",
+          "system": "https://www.icanbwell.com/access"
         }
-      ]
+      ],
+      "source": "https://www.foo.com",
+      "versionId": "2"
     },
-    "extension": [
-      {
-        "valueDecimal": -76.61668
-      },
-      {
-        "valueDecimal": 39.32792
-      }
-    ],
-    "identifier": [
-      {
-        "use": "usual",
-        "system": "bwell",
-        "value": "-733797173"
-      }
-    ],
-    "active": true,
+    "name": "MedStar Medical Group",
+    "resourceType": "Organization",
     "type": [
       {
         "coding": [
           {
-            "system": "http://terminology.hl7.org/CodeSystem/organization-type",
             "code": "prov",
-            "display": "Healthcare Provider"
+            "display": "Healthcare Provider",
+            "system": "http://terminology.hl7.org/CodeSystem/organization-type"
           }
         ],
         "text": "Healthcare Organization"
-      },
-      {
-        "coding": [
-          {
-            "system": "http://terminology.hl7.org/CodeSystem/organization-type",
-            "code": "prov",
-            "display": "Emergency Room"
-          }
-        ],
-        "text": "ER Indicator"
       }
-    ],
-    "name": "MedStar Medical Group Dermatology at Honeygo",
-    "alias": [
-
-      "MedStar Medical Group Derm at Honeygo OLD",
-      "MedStar Medical Group Derm at Honeygo"
-    ],
-    "telecom": [
-      {
-        "system": "phone",
-        "value": "(410) 256-5858"
-      },
-      {
-        "system": "fax",
-        "value": "(866) 733-0434"
-      }
-    ],
+    ]
+  },
+  {
+    "active": true,
     "address": [
       {
+        "city": "Perry Hall",
         "line": [
           "5009 Honeygo Center Drive",
           "Suite 216"
         ],
-        "city": "Perry Hall",
-        "state": "MD",
-        "postalCode": "21128"
+        "postalCode": "21128",
+        "state": "MD"
       }
     ],
-    "partOf": {
-      "type": "Organization",
-      "display": "MedStar Medical Group"
-    },
+    "alias": [
+      "MedStar Medical Group Derm at Honeygo OLD",
+      "MedStar Medical Group Derm at Honeygo"
+    ],
     "contact": [
       {
         "purpose": {
           "coding": [
             {
-              "system": "MedstarHealth.org",
-              "code": "Central Scheduling"
+              "code": "Central Scheduling",
+              "system": "MedstarHealth.org"
             }
           ]
         },
@@ -99,34 +60,70 @@
           }
         ]
       }
-    ]
-  },
-  {
-    "resourceType": "Organization",
-    "id": "MedStar-Medical-Group",
+    ],
+    "extension": [
+      {
+        "valueDecimal": -76.61668
+      },
+      {
+        "valueDecimal": 39.32792
+      }
+    ],
+    "id": "Medstar-Org-733797173",
+    "identifier": [
+      {
+        "system": "bwell",
+        "use": "usual",
+        "value": "-733797173"
+      }
+    ],
     "meta": {
-      "versionId": "2",
-      "lastUpdated": "2021-04-20T02:44:45+00:00",
-      "source": "https://www.foo.com",
       "security": [
         {
-          "system": "https://www.icanbwell.com/access",
-          "code": "medstar"
+          "code": "medstar",
+          "system": "https://www.icanbwell.com/access"
         }
-      ]
+      ],
+      "source": "https://www.foo.com",
+      "versionId": "2"
     },
+    "name": "MedStar Medical Group Dermatology at Honeygo",
+    "partOf": {
+      "display": "MedStar Medical Group",
+      "type": "Organization"
+    },
+    "resourceType": "Organization",
+    "telecom": [
+      {
+        "system": "phone",
+        "value": "(410) 256-5858"
+      },
+      {
+        "system": "fax",
+        "value": "(866) 733-0434"
+      }
+    ],
     "type": [
       {
         "coding": [
           {
-            "system": "http://terminology.hl7.org/CodeSystem/organization-type",
             "code": "prov",
-            "display": "Healthcare Provider"
+            "display": "Healthcare Provider",
+            "system": "http://terminology.hl7.org/CodeSystem/organization-type"
           }
         ],
         "text": "Healthcare Organization"
+      },
+      {
+        "coding": [
+          {
+            "code": "prov",
+            "display": "Emergency Room",
+            "system": "http://terminology.hl7.org/CodeSystem/organization-type"
+          }
+        ],
+        "text": "ER Indicator"
       }
-    ],
-    "name": "MedStar Medical Group"
+    ]
   }
 ]

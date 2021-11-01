@@ -48,7 +48,7 @@ describe('Organization Merge Tests', () => {
             console.log('------- end response 3  ------------');
 
             resp = await request
-                .get('/4_0_0/Organization')
+                .get('/4_0_0/Organization?_count=10')
                 .set(getHeaders())
                 .expect(200);
 
