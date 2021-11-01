@@ -17,6 +17,7 @@ const {compare, applyPatch} = require('fast-json-patch');
 const {getMeta} = require('../common/getMeta');
 const {check_fhir_mismatch} = require('../common/check_fhir_mismatch');
 const {logError} = require('../common/logging');
+const {getOrCreateCollection} = require('../../utils/mongoCollectionManager');
 /**
  * does a FHIR Update (PUT)
  * @param {Object} args
@@ -79,7 +80,10 @@ module.exports.update = async (args, user, scope, body, path, resource_name, col
     try {
         // Grab an instance of our DB and collection
         let db = globals.get(CLIENT_DB);
-        let collection = db.collection(`${collection_name}_${base_version}`);
+        /**
+         * @type {import('mongodb').Collection}
+         */
+        let collection = await getOrCreateCollection(db, `${collection_name}_${base_version}`);
 
         // Get current record
         // Query our collection for this observation
@@ -190,7 +194,7 @@ module.exports.update = async (args, user, scope, body, path, resource_name, col
         // When using the $set operator, only the specified fields are updated
         const res = await collection.findOneAndUpdate({id: id}, {$set: doc}, {upsert: true});
         // save to history
-        let history_collection = db.collection(`${collection_name}_${base_version}_History`);
+        let history_collection = await getOrCreateCollection(db, `${collection_name}_${base_version}_History`);
 
         // let history_resource = Object.assign(cleaned, {id: id});
         let history_resource = Object.assign(cleaned, {_id: id + cleaned.meta.versionId});

@@ -1,193 +1,6 @@
 [
   {
-    "resourceType": "Practitioner",
-    "id": "1679033641",
-    "meta": {
-      "versionId": "1",
-      "lastUpdated": "2021-04-28T17:48:50+00:00",
-      "security": [
-        {
-          "system": "https://www.icanbwell.com/access",
-          "code": "medstar"
-        }
-      ]
-    },
-    "identifier": [
-      {
-        "use": "usual",
-        "type": {
-          "coding": [
-            {
-              "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
-              "code": "PRN"
-            }
-          ]
-        },
-        "system": "http://medstarhealth.org",
-        "value": "4657"
-      },
-      {
-        "use": "official",
-        "type": {
-          "coding": [
-            {
-              "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
-              "code": "NPI"
-            }
-          ]
-        },
-        "system": "http://hl7.org/fhir/sid/us-npi",
-        "value": "1679033641"
-      }
-    ],
     "active": true,
-    "name": [
-      {
-        "use": "usual",
-        "text": "SAMER S. NAJJAR  MD",
-        "family": "NAJJAR  MD",
-        "given": [
-          "SAMER S."
-        ]
-      }
-    ],
-    "telecom": [
-      {
-        "system": "email",
-        "value": "foo@foo.com",
-        "use": "work"
-      }
-    ],
-    "gender": "unknown",
-    "qualification": [
-      {
-        "code": {
-          "coding": [
-            {
-              "system": "http://terminology.hl7.org/ValueSet/v2-2.7-030",
-              "code": "MD"
-            }
-          ]
-        }
-      },
-      {
-        "code": {
-          "coding": [
-            {
-              "system": "http://terminology.hl7.org/ValueSet/v2-2.7-030",
-              "code": "MD"
-            }
-          ]
-        },
-        "period": {
-          "start": "1960-01-01",
-          "end": "2021-12-11"
-        },
-        "issuer": {
-          "reference": "Organization/Stanford_Medical_School"
-        }
-      }
-    ],
-    "communication": [
-      {
-        "coding": [
-          {
-            "system": "urn:ietf:bcp:47",
-            "code": "en"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "resourceType": "Practitioner",
-    "meta": {
-      "versionId": "1",
-      "lastUpdated": "2021-01-18T23:42:00+00:00",
-      "security": [
-        {
-          "system": "https://www.icanbwell.com/access",
-          "code": "thedacare"
-        }
-      ]
-    },
-    "id": "2",
-    "identifier": [
-      {
-        "use": "usual",
-        "type": {
-          "coding": [
-            {
-              "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
-              "code": "PRN"
-            }
-          ]
-        },
-        "system": "http://medstarhealth.org",
-        "value": "4657"
-      },
-      {
-        "use": "official",
-        "type": {
-          "coding": [
-            {
-              "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
-              "code": "NPI"
-            }
-          ]
-        },
-        "system": "http://hl7.org/fhir/sid/us-npi",
-        "value": "1679033641"
-      }
-    ],
-    "active": true,
-    "name": [
-      {
-        "use": "usual",
-        "text": "SAMER S. NAJJAR  MD",
-        "family": "NAJJAR  MD",
-        "given": [
-          "SAMER S."
-        ]
-      }
-    ],
-    "telecom": [
-      {
-        "system": "email",
-        "use": "work",
-        "value": "foo@foo.com"
-      }
-    ],
-    "gender": "unknown",
-    "qualification": [
-      {
-        "code": {
-          "coding": [
-            {
-              "system": "http://terminology.hl7.org/ValueSet/v2-2.7-030",
-              "code": "MD"
-            }
-          ]
-        }
-      },
-      {
-        "code": {
-          "coding": [
-            {
-              "system": "http://terminology.hl7.org/ValueSet/v2-2.7-030",
-              "code": "MD"
-            }
-          ]
-        },
-        "period": {
-          "start": "1960-01-01",
-          "end": "2021-12-11"
-        },
-        "issuer": {
-          "reference": "Organization/Stanford_Medical_School"
-        }
-      }
-    ],
     "communication": [
       {
         "coding": [
@@ -197,79 +10,63 @@
           }
         ]
       }
-    ]
-  },
-  {
-    "resourceType": "Practitioner",
-    "id": "1",
-    "meta": {
-      "versionId": "1",
-      "lastUpdated": "2021-04-28T17:48:50+00:00",
-      "security": [
-        {
-          "system": "https://www.icanbwell.com/access",
-          "code": "thedacare"
-        },
-        {
-          "system": "https://www.icanbwell.com/access",
-          "code": "medstar"
-        }
-      ]
-    },
+    ],
+    "gender": "unknown",
+    "id": "1679033641",
     "identifier": [
       {
-        "use": "usual",
+        "system": "http://medstarhealth.org",
         "type": {
           "coding": [
             {
-              "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
-              "code": "PRN"
+              "code": "PRN",
+              "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
             }
           ]
         },
-        "system": "http://medstarhealth.org",
+        "use": "usual",
         "value": "4657"
       },
       {
-        "use": "official",
+        "system": "http://hl7.org/fhir/sid/us-npi",
         "type": {
           "coding": [
             {
-              "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
-              "code": "NPI"
+              "code": "NPI",
+              "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
             }
           ]
         },
-        "system": "http://hl7.org/fhir/sid/us-npi",
+        "use": "official",
         "value": "1679033641"
       }
     ],
-    "active": true,
+    "meta": {
+      "security": [
+        {
+          "code": "medstar",
+          "system": "https://www.icanbwell.com/access"
+        }
+      ],
+      "versionId": "1"
+    },
     "name": [
       {
-        "use": "usual",
-        "text": "SAMER S. NAJJAR  MD",
         "family": "NAJJAR  MD",
         "given": [
           "SAMER S."
-        ]
+        ],
+        "text": "SAMER S. NAJJAR  MD",
+        "use": "usual"
       }
     ],
-    "telecom": [
-      {
-        "system": "email",
-        "value": "foo@foo.com",
-        "use": "work"
-      }
-    ],
-    "gender": "unknown",
     "qualification": [
       {
         "code": {
           "coding": [
             {
-              "system": "http://terminology.hl7.org/ValueSet/v2-2.7-030",
-              "code": "MD"
+              "code": "MD",
+              "system": "http://terminology.hl7.org/ValueSet/v2-2.7-030"
             }
           ]
         }
@@ -278,28 +75,228 @@
         "code": {
           "coding": [
             {
-              "system": "http://terminology.hl7.org/ValueSet/v2-2.7-030",
-              "code": "MD"
+              "code": "MD",
+              "system": "http://terminology.hl7.org/ValueSet/v2-2.7-030"
             }
           ]
         },
-        "period": {
-          "start": "1960-01-01",
-          "end": "2021-12-11"
-        },
         "issuer": {
           "reference": "Organization/Stanford_Medical_School"
+        },
+        "period": {
+          "end": "2021-12-11",
+          "start": "1960-01-01"
         }
       }
     ],
+    "resourceType": "Practitioner",
+    "telecom": [
+      {
+        "system": "email",
+        "use": "work",
+        "value": "foo@foo.com"
+      }
+    ]
+  },
+  {
+    "active": true,
     "communication": [
       {
         "coding": [
           {
-            "system": "urn:ietf:bcp:47",
-            "code": "en"
+            "code": "en",
+            "system": "urn:ietf:bcp:47"
           }
         ]
+      }
+    ],
+    "gender": "unknown",
+    "id": "1",
+    "identifier": [
+      {
+        "system": "http://medstarhealth.org",
+        "type": {
+          "coding": [
+            {
+              "code": "PRN",
+              "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+            }
+          ]
+        },
+        "use": "usual",
+        "value": "4657"
+      },
+      {
+        "system": "http://hl7.org/fhir/sid/us-npi",
+        "type": {
+          "coding": [
+            {
+              "code": "NPI",
+              "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+            }
+          ]
+        },
+        "use": "official",
+        "value": "1679033641"
+      }
+    ],
+    "meta": {
+      "security": [
+        {
+          "code": "thedacare",
+          "system": "https://www.icanbwell.com/access"
+        },
+        {
+          "code": "medstar",
+          "system": "https://www.icanbwell.com/access"
+        }
+      ],
+      "versionId": "1"
+    },
+    "name": [
+      {
+        "family": "NAJJAR  MD",
+        "given": [
+          "SAMER S."
+        ],
+        "text": "SAMER S. NAJJAR  MD",
+        "use": "usual"
+      }
+    ],
+    "qualification": [
+      {
+        "code": {
+          "coding": [
+            {
+              "code": "MD",
+              "system": "http://terminology.hl7.org/ValueSet/v2-2.7-030"
+            }
+          ]
+        }
+      },
+      {
+        "code": {
+          "coding": [
+            {
+              "code": "MD",
+              "system": "http://terminology.hl7.org/ValueSet/v2-2.7-030"
+            }
+          ]
+        },
+        "issuer": {
+          "reference": "Organization/Stanford_Medical_School"
+        },
+        "period": {
+          "end": "2021-12-11",
+          "start": "1960-01-01"
+        }
+      }
+    ],
+    "resourceType": "Practitioner",
+    "telecom": [
+      {
+        "system": "email",
+        "use": "work",
+        "value": "foo@foo.com"
+      }
+    ]
+  },
+  {
+    "active": true,
+    "communication": [
+      {
+        "coding": [
+          {
+            "code": "en",
+            "system": "urn:ietf:bcp:47"
+          }
+        ]
+      }
+    ],
+    "gender": "unknown",
+    "id": "2",
+    "identifier": [
+      {
+        "system": "http://medstarhealth.org",
+        "type": {
+          "coding": [
+            {
+              "code": "PRN",
+              "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+            }
+          ]
+        },
+        "use": "usual",
+        "value": "4657"
+      },
+      {
+        "system": "http://hl7.org/fhir/sid/us-npi",
+        "type": {
+          "coding": [
+            {
+              "code": "NPI",
+              "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+            }
+          ]
+        },
+        "use": "official",
+        "value": "1679033641"
+      }
+    ],
+    "meta": {
+      "security": [
+        {
+          "code": "thedacare",
+          "system": "https://www.icanbwell.com/access"
+        }
+      ],
+      "versionId": "1"
+    },
+    "name": [
+      {
+        "family": "NAJJAR  MD",
+        "given": [
+          "SAMER S."
+        ],
+        "text": "SAMER S. NAJJAR  MD",
+        "use": "usual"
+      }
+    ],
+    "qualification": [
+      {
+        "code": {
+          "coding": [
+            {
+              "code": "MD",
+              "system": "http://terminology.hl7.org/ValueSet/v2-2.7-030"
+            }
+          ]
+        }
+      },
+      {
+        "code": {
+          "coding": [
+            {
+              "code": "MD",
+              "system": "http://terminology.hl7.org/ValueSet/v2-2.7-030"
+            }
+          ]
+        },
+        "issuer": {
+          "reference": "Organization/Stanford_Medical_School"
+        },
+        "period": {
+          "end": "2021-12-11",
+          "start": "1960-01-01"
+        }
+      }
+    ],
+    "resourceType": "Practitioner",
+    "telecom": [
+      {
+        "system": "email",
+        "use": "work",
+        "value": "foo@foo.com"
       }
     ]
   }

@@ -20,7 +20,7 @@ const {handleClean} = require('./routeHandlers/clean');
 const {handleIndex} = require('./routeHandlers/index');
 const {handleStats} = require('./routeHandlers/stats');
 const {handleSmartConfiguration} = require('./routeHandlers/smartConfiguration');
-const {isTrue} = require('./operations/common/isTrue');
+const {isTrue} = require('./utils/isTrue');
 
 if (isTrue(env.TRACING_ENABLED)) {
     require('./tracing');

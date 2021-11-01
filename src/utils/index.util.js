@@ -179,5 +179,6 @@ async function getIndexesInAllCollections() {
 
 module.exports = {
     indexAllCollections,
+    indexCollection,
     getIndexesInAllCollections
 };

@@ -59,18 +59,22 @@ tests:
 
 .PHONY:tests_integration
 tests_integration:
+	. ${NVM_DIR}/nvm.sh && nvm use 16.13.0 && \
 	npm run test:integration
 
 .PHONY:tests_everything
 tests_everything:
+	. ${NVM_DIR}/nvm.sh && nvm use 16.13.0 && \
 	npm run test:everything
 
 .PHONY:tests_graphql
 tests_graphql:
+	. ${NVM_DIR}/nvm.sh && nvm use 16.13.0 && \
 	npm run test:graphql
 
 .PHONY:lint
 lint:
+	. ${NVM_DIR}/nvm.sh && nvm use 16.13.0 && \
 	npm run test:lint && \
 	npm run test:ejslint
 
