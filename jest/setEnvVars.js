@@ -8,3 +8,5 @@ process.env.EXTERNAL_AUTH_JWKS_URLS = 'http://foo:80/bar/.well-known/jwks.json';
 process.env.AUTH_CUSTOM_GROUP = 'groups';
 process.env.AUTH_CUSTOM_SCOPE = 'customscope';
 process.env.AUTH_CUSTOM_CLIENT_ID = 'custom_client_id';
+process.env.SET_INDEX_HINTS = '1';
+process.env.CREATE_INDEX_ON_COLLECTION_CREATION = '1';

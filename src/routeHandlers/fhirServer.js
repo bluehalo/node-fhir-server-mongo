@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const env = require('var');
 const {htmlRenderer} = require('../middleware/htmlRenderer');
 const {slackErrorHandler} = require('../middleware/slackErrorHandler');
-const {isTrue} = require('../operations/common/isTrue');
+const {isTrue} = require('../utils/isTrue');
 
 class MyFHIRServer extends FHIRServer.Server {
     configureMiddleware() {

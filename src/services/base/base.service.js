@@ -43,7 +43,7 @@ module.exports.search = async (args, {req}, resource_name, collection_name) => {
      * @type {string}
      */
     const scope = req.authInfo && req.authInfo.scope;
-    return search(combined_args, user, scope, resource_name, collection_name);
+    return search(combined_args, user, scope, resource_name, collection_name, req.originalUrl);
 };
 
 /**

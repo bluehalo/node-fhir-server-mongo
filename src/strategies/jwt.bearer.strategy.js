@@ -3,7 +3,7 @@ const ExtractJwt = require('passport-jwt').ExtractJwt;
 const jwksRsa = require('jwks-rsa');
 const env = require('var');
 const {logRequest, logDebug} = require('../operations/common/logging');
-const {isTrue} = require('../operations/common/isTrue');
+const {isTrue} = require('../utils/isTrue');
 const async = require('async');
 const {request} = require('../utils/request');
 

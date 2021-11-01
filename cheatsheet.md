@@ -86,6 +86,18 @@ To page through the data specify the `_count` and the `_getpageoffset` query par
 
 When you get no resources back then this means you've reached the end.
 
+#### 1.4.1 Efficient Paging
+We recommend the following pattern for efficient paging:
+1. Call the FHIR server with `_count` and `_getpageoffset` and `_elements=id` so you get just the ids of the resources
+2. Call the FHIR server passing in a subset of ids to get the records
+
+While this results in multiple calls, it will tend to be faster due to how indexing works in databases.  
+
+##### 1.4.1.1 Technical Detail
+We have covering indexes that include `id` so the first calls above can be typically satisfied by the index without going to the underlying tables.  The second calls request data by `id` and there are other indexes that index on `id`.
+
+If you request the whole records with paging, this requires the database to get all the data and sort it before it can find the records that satisfy the page you're requesting.  
+
 ### 1.5 Additional Filters
 
 | Filter By | Query Parameter | Example | Supported for Resources  |  |

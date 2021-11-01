@@ -11,6 +11,8 @@ const {buildStu3SearchQuery} = require('./query/stu3');
 const {getResource} = require('../common/getResource');
 const {logRequest, logDebug} = require('../common/logging');
 const {enrich} = require('../../enrich/enrich');
+const {findIndexForFields} = require('../../utils/indexHinter');
+const {isTrue} = require('../../utils/isTrue');
 const {VERSIONS} = require('@asymmetrik/node-fhir-server-core').constants;
 
 /**
@@ -20,9 +22,10 @@ const {VERSIONS} = require('@asymmetrik/node-fhir-server-core').constants;
  * @param {string} scope
  * @param {string} resource_name
  * @param {string} collection_name
+ * @param {?string} url
  * @return {Resource[] | {entry:{resource: Resource}[]}} array of resources
  */
-module.exports.search = async (args, user, scope, resource_name, collection_name) => {
+module.exports.search = async (args, user, scope, resource_name, collection_name, url) => {
     logRequest(user, resource_name + ' >>> search' + ' scope:' + scope);
     // logRequest('user: ' + req.user);
     // logRequest('scope: ' + req.authInfo.scope);
@@ -62,12 +65,17 @@ module.exports.search = async (args, user, scope, resource_name, collection_name
      */
     let query;
 
+    /**
+     * @type {Set}
+     */
+    let columns;
+
     if (base_version === VERSIONS['3_0_1']) {
         query = buildStu3SearchQuery(args);
     } else if (base_version === VERSIONS['1_0_2']) {
         query = buildDstu2SearchQuery(args);
     } else {
-        query = buildR4SearchQuery(resource_name, args);
+        ({query, columns} = buildR4SearchQuery(resource_name, args));
     }
 
     // Grab an instance of our DB and collection
@@ -91,7 +99,7 @@ module.exports.search = async (args, user, scope, resource_name, collection_name
     logDebug(user, '--------');
 
     /**
-     * @type {import('mongodb').FindOptions}
+     * @type {import('mongodb').FindOneOptions}
      */
     let options = {};
 
@@ -120,7 +128,10 @@ module.exports.search = async (args, user, scope, resource_name, collection_name
                 const projection = {};
                 for (const property of properties_to_return_list) {
                     projection[`${property}`] = 1;
+                    columns.add(property);
                 }
+                // also exclude _id so if there is a covering index the query can be satisfied from the covering index
+                projection['_id'] = 0;
                 options['projection'] = projection;
             }
         }
@@ -148,8 +159,10 @@ module.exports.search = async (args, user, scope, resource_name, collection_name
                          */
                         const sortPropertyWithoutMinus = sortProperty.substring(1);
                         sort[`${sortPropertyWithoutMinus}`] = -1;
+                        columns.add(sortPropertyWithoutMinus);
                     } else {
                         sort[`${sortProperty}`] = 1;
+                        columns.add(sortProperty);
                     }
                 }
                 options['sort'] = sort;
@@ -158,10 +171,16 @@ module.exports.search = async (args, user, scope, resource_name, collection_name
 
         // if _count is specified then limit mongo query to that
         if (args['_count']) {
+            // for consistency in results while paging, always sort by id
+            // https://docs.mongodb.com/manual/reference/method/cursor.sort/#sort-cursor-consistent-sorting
+            const defaultSortId = env.DEFAULT_SORT_ID || 'id';
+            columns.add(defaultSortId);
             if (!('sort' in options)) {
-                // for consistency in results while paging, always sort by _id
-                // https://docs.mongodb.com/manual/reference/method/cursor.sort/#sort-cursor-consistent-sorting
-                options['sort'] = {'_id': 1};
+                options['sort'] = {};
+            }
+            // add id to end if not present in sort
+            if (!(`${defaultSortId}` in options['sort'])) {
+                options['sort'][`${defaultSortId}`] = 1;
             }
             /**
              * @type {number}
@@ -187,9 +206,22 @@ module.exports.search = async (args, user, scope, resource_name, collection_name
         // Now run the query to get a cursor we will enumerate next
         /**
          * mongo db cursor
-         * @type {import('mongodb').FindCursor}
+         * @type {import('mongodb').Cursor}
          */
         let cursor = await collection.find(query, options).maxTimeMS(maxMongoTimeMS);
+        // find columns being queried and match them to an index
+        /**
+         * which index hint to use (if any)
+         * @type {string|null}
+         */
+        let indexHint = null;
+        if (isTrue(env.SET_INDEX_HINTS) || args['_setIndexHint']) {
+            indexHint = findIndexForFields(collection_name, Array.from(columns));
+            if (indexHint) {
+                cursor = cursor.hint(indexHint);
+                logDebug(user, `Using index hint ${indexHint} for columns [${Array.from(columns).join(',')}]`);
+            }
+        }
 
         // if _total is specified then ask mongo for the total else set total to 0
         let total_count = 0;
@@ -197,7 +229,11 @@ module.exports.search = async (args, user, scope, resource_name, collection_name
             // https://www.hl7.org/fhir/search.html#total
             // if _total is passed then calculate the total count for matching records also
             // don't use the options since they set a limit and skip
-            total_count = await collection.countDocuments(query, {maxTimeMS: maxMongoTimeMS});
+            if (args['_total'] === 'estimate') {
+                total_count = await collection.estimatedDocumentCount(query, {maxTimeMS: maxMongoTimeMS});
+            } else {
+                total_count = await collection.countDocuments(query, {maxTimeMS: maxMongoTimeMS});
+            }
         }
         // Resource is a resource cursor, pull documents out before resolving
         /**
@@ -244,6 +280,50 @@ module.exports.search = async (args, user, scope, resource_name, collection_name
         // if env.RETURN_BUNDLE is set then return as a Bundle
         if (env.RETURN_BUNDLE || args['_bundle']) {
             /**
+             * array of links
+             * @type {[{relation:string, url: string}]}
+             */
+            let link = [];
+            // find id of last resource
+            if (url) {
+
+                /**
+                 * id of last resource in the list
+                 * @type {?number}
+                 */
+                const last_id = resources.length > 0 ? resources[resources.length - 1].id : null;
+                if (last_id) {
+                    // have to use a base url or URL() errors
+                    const baseUrl = 'https://example.org';
+                    /**
+                     * url to get next page
+                     * @type {URL}
+                     */
+                    const nextUrl = new URL(url, baseUrl);
+                    // add or update the id:above param
+                    nextUrl.searchParams.set('id:above', `${last_id}`);
+                    // remove the _getpagesoffset param since that will skip again from this id
+                    nextUrl.searchParams.delete('_getpagesoffset');
+                    link = [
+                        {
+                            'relation': 'self',
+                            'url': `${url}`
+                        },
+                        {
+                            'relation': 'next',
+                            'url': `${nextUrl.toString().replace(baseUrl, '')}`
+                        }
+                    ];
+                } else {
+                    link = [
+                        {
+                            'relation': 'self',
+                            'url': `${url}`
+                        }
+                    ];
+                }
+            }
+            /**
              * @type {function({Object}):Resource}
              */
             const Bundle = getResource(base_version, 'bundle');
@@ -253,12 +333,42 @@ module.exports.search = async (args, user, scope, resource_name, collection_name
             const entries = resources.map(resource => {
                 return {resource: resource};
             });
-            return new Bundle({
+            const bundle = new Bundle({
                 type: 'searchset',
                 timestamp: moment.utc().format('YYYY-MM-DDThh:mm:ss.sss') + 'Z',
                 entry: entries,
-                total: total_count
+                total: total_count,
+                link: link
             });
+            if (args['_debug'] || (env.LOGLEVEL === 'DEBUG')) {
+                const tag = [
+                    {
+                        system: 'https://www.icanbwell.com/queryIndexHint',
+                        code: indexHint
+                    },
+                    {
+                        system: 'https://www.icanbwell.com/query',
+                        display: JSON.stringify(query)
+                    },
+                    {
+                        system: 'https://www.icanbwell.com/queryCollection',
+                        code: collection_name
+                    },
+                    {
+                        system: 'https://www.icanbwell.com/queryOptions',
+                        display: options ? JSON.stringify(options) : null
+                    },
+                    {
+                        system: 'https://www.icanbwell.com/queryFields',
+                        display: columns ? JSON.stringify(Array.from(columns)) : null
+                    }
+                ];
+                bundle['meta'] = {
+                    tag: tag
+                };
+                logDebug(user, JSON.stringify(tag));
+            }
+            return bundle;
         } else {
             return resources;
         }
