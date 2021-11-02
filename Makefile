@@ -18,7 +18,8 @@ up:
 
 .PHONY:down
 down:
-	docker-compose -p fhir-dev -f docker-compose.yml down
+	docker-compose -p fhir-dev -f docker-compose.yml down && \
+	docker system prune -f
 
 .PHONY:clean
 clean: down
@@ -34,7 +35,7 @@ init:
 	brew install kompose
 	#brew install nvm
 	curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.37.2/install.sh | zsh
-	nvm install 15.14
+	nvm install 16.13
 	make update
 
 #   We use gitpkg to expose the subfolder as a package here.
@@ -47,28 +48,33 @@ init:
 
 .PHONY:update
 update:
-	. ${NVM_DIR}/nvm.sh && nvm use 15.14.0 && \
+	. ${NVM_DIR}/nvm.sh && nvm use 16.13.0 && \
 	yarn install --no-optional && \
 	npm i --package-lock-only
 
 .PHONY:tests
 tests:
+	. ${NVM_DIR}/nvm.sh && nvm use 16.13.0 && \
 	npm test
 
 .PHONY:tests_integration
 tests_integration:
+	. ${NVM_DIR}/nvm.sh && nvm use 16.13.0 && \
 	npm run test:integration
 
 .PHONY:tests_everything
 tests_everything:
+	. ${NVM_DIR}/nvm.sh && nvm use 16.13.0 && \
 	npm run test:everything
 
 .PHONY:tests_graphql
 tests_graphql:
+	. ${NVM_DIR}/nvm.sh && nvm use 16.13.0 && \
 	npm run test:graphql
 
 .PHONY:lint
 lint:
+	. ${NVM_DIR}/nvm.sh && nvm use 16.13.0 && \
 	npm run test:lint && \
 	npm run test:ejslint
 

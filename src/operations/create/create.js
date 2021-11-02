@@ -10,6 +10,7 @@ const globals = require('../../globals');
 const {CLIENT_DB} = require('../../constants');
 const {getResource} = require('../common/getResource');
 const {getMeta} = require('../common/getMeta');
+const {getOrCreateCollection} = require('../../utils/mongoCollectionManager');
 
 /**
  * does a FHIR Create (POST)
@@ -74,7 +75,10 @@ module.exports.create = async (args, user, scope, body, path, resource_name, col
     try {
         // Grab an instance of our DB and collection (by version)
         let db = globals.get(CLIENT_DB);
-        let collection = db.collection(`${collection_name}_${base_version}`);
+        /**
+         * @type {import('mongodb').Collection}
+         */
+        let collection = await getOrCreateCollection(db, `${collection_name}_${base_version}`);
 
         // Get current record
         let Resource = getResource(base_version, resource_name);
@@ -131,7 +135,7 @@ module.exports.create = async (args, user, scope, body, path, resource_name, col
             throw new BadRequestError(e);
         }
         // Save the resource to history
-        let history_collection = db.collection(`${collection_name}_${base_version}_History`);
+        let history_collection = await getOrCreateCollection(db, `${collection_name}_${base_version}_History`);
 
         // Insert our resource record to history but don't assign _id
         await history_collection.insertOne(history_doc);

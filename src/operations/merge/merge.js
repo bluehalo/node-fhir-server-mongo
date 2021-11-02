@@ -6,7 +6,7 @@ const {
     isAccessToResourceAllowedBySecurityTags
 } = require('../security/scopes');
 const moment = require('moment-timezone');
-const {isTrue} = require('../common/isTrue');
+const {isTrue} = require('../../utils/isTrue');
 const env = require('var');
 const scopeChecker = require('@asymmetrik/sof-scope-checker');
 const {validateResource} = require('../../utils/validator.util');
@@ -23,6 +23,7 @@ const {getMeta} = require('../common/getMeta');
 const async = require('async');
 const {check_fhir_mismatch} = require('../common/check_fhir_mismatch');
 const {logError} = require('../common/logging');
+const {getOrCreateCollection} = require('../../utils/mongoCollectionManager');
 
 /**
  * does a FHIR Merge
@@ -217,7 +218,8 @@ module.exports.merge = async (args, user, scope, body, path, resource_name, coll
         /**
          * @type {import('mongodb').Collection}
          */
-        let collection = db.collection(`${resourceToMerge.resourceType}_${base_version}`);
+        let collection = await getOrCreateCollection(db, `${resourceToMerge.resourceType}_${base_version}`);
+
         // Insert/update our resource record
         // When using the $set operator, only the specified fields are updated
         /**
@@ -229,7 +231,7 @@ module.exports.merge = async (args, user, scope, body, path, resource_name, coll
         /**
          * @type {import('mongodb').Collection}
          */
-        let history_collection = db.collection(`${collection_name}_${base_version}_History`);
+        let history_collection = await getOrCreateCollection(db, `${collection_name}_${base_version}_History`);
         /**
          * @type {import('mongodb').Document}
          */
@@ -573,7 +575,7 @@ module.exports.merge = async (args, user, scope, body, path, resource_name, coll
             /**
              * @type {import('mongodb').Collection}
              */
-            let collection = db.collection(`${resource_to_merge.resourceType}_${base_version}`);
+            let collection = await getOrCreateCollection(db, `${resource_to_merge.resourceType}_${base_version}`);
 
             // Query our collection for this id
             /**

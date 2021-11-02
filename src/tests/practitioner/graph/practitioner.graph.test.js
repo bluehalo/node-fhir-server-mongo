@@ -110,7 +110,7 @@ describe('Organization Graph Contained Tests', () => {
                             });
                             expect(body).toStrictEqual(expected);
                         }),
-                        (results, cb) => request
+                    (results, cb) => request
                         .post('/4_0_0/Practitioner/$graph?id=1679033641&contained=true&_hash_references=true')
                         .send(graphDefinitionResource)
                         .set(getHeaders())

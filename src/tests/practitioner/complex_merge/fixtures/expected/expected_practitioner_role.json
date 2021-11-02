@@ -1,89 +1,5 @@
 [
   {
-    "resourceType": "PractitionerRole",
-    "id": "4657-3437",
-    "meta": {
-      "versionId": "1",
-      "lastUpdated": "2020-11-29T02:54:00+00:00",
-      "security": [
-        {
-          "system": "https://www.icanbwell.com/access",
-          "code": "medstar"
-        }
-      ]
-    },
-    "practitioner": {
-      "reference": "Practitioner/1679033641"
-    },
-    "code": [
-      {
-        "coding": [
-          {
-            "system": "http://terminology.hl7.org/CodeSystem/practitioner-role",
-            "code": "doctor",
-            "display": "Doctor"
-          }
-        ],
-        "text": "Doctor"
-      }
-    ],
-    "specialty": [
-      {
-        "coding": [
-          {
-            "system": "https://www.http://medstarhealth.org/",
-            "code": "Family Medicine",
-            "display": "Family Medicine"
-          }
-        ],
-        "text": "Family Medicine"
-      },
-      {
-        "coding": [
-          {
-            "system": "http://nucc.org/provider-taxonomy",
-            "code": "207Q00000X",
-            "display": "Family Medicine"
-          }
-        ],
-        "text": "Family Medicine"
-      },
-      {
-        "coding": [
-          {
-            "system": "http://nucc.org/provider-taxonomy",
-            "code": "261QP2300X",
-            "display": "Primary Care"
-          }
-        ],
-        "text": "Primary Care"
-      }
-    ],
-    "location": [
-      {
-        "reference": "Location/UF3-UADM"
-      }
-    ],
-    "healthcareService": [
-      {
-        "reference": "HealthcareService/1679033641-UF3-UADM"
-      }
-    ]
-  },
-  {
-    "resourceType": "PractitionerRole",
-    "id": "1679033641-AETNA-Aetna-Elect-Choice--EPO--Aetna-Health-Fund--In",
-    "meta": {
-      "versionId": "1",
-      "lastUpdated": "2020-11-29T02:54:00+00:00",
-      "security": [
-        {
-          "system": "https://www.icanbwell.com/access",
-          "code": "medstar"
-        }
-      ]
-
-    },
     "extension": [
       {
         "extension": [
@@ -97,78 +13,127 @@
         "url": "https://raw.githubusercontent.com/imranq2/SparkAutoMapper.FHIR/main/StructureDefinition/insurance_plan"
       }
     ],
-    "practitioner": {
-      "reference": "Practitioner/1679033641"
-    },
-    "organization": {
-      "reference": "Organization/MWHC",
-      "type": "Organization",
-      "display": "MWHC"
-    }
-  },
-  {
-    "resourceType": "PractitionerRole",
-    "id": "MAX-MALX",
+    "id": "1679033641-AETNA-Aetna-Elect-Choice--EPO--Aetna-Health-Fund--In",
     "meta": {
-      "versionId": "1",
-      "lastUpdated": "2020-11-29T02:54:00+00:00",
       "security": [
         {
-          "system": "https://www.icanbwell.com/access",
-          "code": "medstar"
+          "code": "medstar",
+          "system": "https://www.icanbwell.com/access"
         }
-      ]
-
+      ],
+      "versionId": "1"
     },
-    "identifier": [
-      {
-        "use": "usual",
-        "type": {
-          "coding": [
-            {
-              "system": "MedstarHealth.org",
-              "code": "Medstar Provider-Scheduling ID",
-              "display": "Medstar Provider-Scheduling ID"
-            }
-          ]
-        },
-        "system": "MedstarHealth.org",
-        "value": "MAX-MALX"
-      }
-    ],
+    "organization": {
+      "display": "MWHC",
+      "reference": "Organization/MWHC",
+      "type": "Organization"
+    },
     "practitioner": {
       "reference": "Practitioner/1679033641"
     },
+    "resourceType": "PractitionerRole"
+  },
+  {
     "code": [
       {
         "coding": [
           {
-            "system": "http://terminology.hl7.org/CodeSystem/practitioner-role",
-            "code": "doctor"
+            "code": "doctor",
+            "display": "Doctor",
+            "system": "http://terminology.hl7.org/CodeSystem/practitioner-role"
           }
-        ]
+        ],
+        "text": "Doctor"
       }
     ],
+    "healthcareService": [
+      {
+        "reference": "HealthcareService/1679033641-UF3-UADM"
+      }
+    ],
+    "id": "4657-3437",
+    "location": [
+      {
+        "reference": "Location/UF3-UADM"
+      }
+    ],
+    "meta": {
+      "security": [
+        {
+          "code": "medstar",
+          "system": "https://www.icanbwell.com/access"
+        }
+      ],
+      "versionId": "1"
+    },
+    "practitioner": {
+      "reference": "Practitioner/1679033641"
+    },
+    "resourceType": "PractitionerRole",
     "specialty": [
       {
         "coding": [
           {
-            "system": "MedstarHealth.org",
             "code": "Family Medicine",
-            "display": "Family Medicine"
+            "display": "Family Medicine",
+            "system": "https://www.http://medstarhealth.org/"
           }
         ],
-        "text": "Provider's Primary Specialty"
+        "text": "Family Medicine"
       },
       {
         "coding": [
           {
-            "system": "MedstarHealth.org",
-            "code": "Family Medicine",
-            "display": "Family Medicine"
+            "code": "207Q00000X",
+            "display": "Family Medicine",
+            "system": "http://nucc.org/provider-taxonomy"
           }
         ],
-        "text": "Provider's Primary Specialty Group"
+        "text": "Family Medicine"
+      },
+      {
+        "coding": [
+          {
+            "code": "261QP2300X",
+            "display": "Primary Care",
+            "system": "http://nucc.org/provider-taxonomy"
+          }
+        ],
+        "text": "Primary Care"
+      }
+    ]
+  },
+  {
+    "code": [
+      {
+        "coding": [
+          {
+            "code": "doctor",
+            "system": "http://terminology.hl7.org/CodeSystem/practitioner-role"
+          }
+        ]
+      }
+    ],
+    "healthcareService": [
+      {
+        "reference": "HealthcareService/MAX-MALX"
+      }
+    ],
+    "id": "MAX-MALX",
+    "identifier": [
+      {
+        "system": "MedstarHealth.org",
+        "type": {
+          "coding": [
+            {
+              "code": "Medstar Provider-Scheduling ID",
+              "display": "Medstar Provider-Scheduling ID",
+              "system": "MedstarHealth.org"
+            }
+          ]
+        },
+        "use": "usual",
+        "value": "MAX-MALX"
       }
     ],
     "location": [
@@ -176,9 +141,39 @@
         "reference": "Location/MAX-MALX"
       }
     ],
-    "healthcareService": [
+    "meta": {
+      "security": [
+        {
+          "code": "medstar",
+          "system": "https://www.icanbwell.com/access"
+        }
+      ],
+      "versionId": "1"
+    },
+    "practitioner": {
+      "reference": "Practitioner/1679033641"
+    },
+    "resourceType": "PractitionerRole",
+    "specialty": [
       {
-        "reference": "HealthcareService/MAX-MALX"
+        "coding": [
+          {
+            "code": "Family Medicine",
+            "display": "Family Medicine",
+            "system": "MedstarHealth.org"
+          }
+        ],
+        "text": "Provider's Primary Specialty"
+      },
+      {
+        "coding": [
+          {
+            "code": "Family Medicine",
+            "display": "Family Medicine",
+            "system": "MedstarHealth.org"
+          }
+        ],
+        "text": "Provider's Primary Specialty Group"
       }
     ]
   }
