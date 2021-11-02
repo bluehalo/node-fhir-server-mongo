@@ -85,10 +85,14 @@ module.exports.search = async (args, user, scope, resource_name, collection_name
      */
     let db = globals.get(CLIENT_DB);
     /**
+     * @type {string}
+     */
+    const mongoCollectionName = `${collection_name}_${base_version}`;
+    /**
      * mongo collection
      * @type {import('mongodb').Collection}
      */
-    let collection = db.collection(`${collection_name}_${base_version}`);
+    let collection = db.collection(mongoCollectionName);
     /**
      * @type {function(?Object): Resource}
      */
@@ -219,7 +223,7 @@ module.exports.search = async (args, user, scope, resource_name, collection_name
          */
         let indexHint = null;
         if (isTrue(env.SET_INDEX_HINTS) || args['_setIndexHint']) {
-            indexHint = findIndexForFields(collection_name, Array.from(columns));
+            indexHint = findIndexForFields(mongoCollectionName, Array.from(columns));
             if (indexHint) {
                 cursor = cursor.hint(indexHint);
                 logDebug(user, `Using index hint ${indexHint} for columns [${Array.from(columns).join(',')}]`);
@@ -355,7 +359,7 @@ module.exports.search = async (args, user, scope, resource_name, collection_name
                     },
                     {
                         system: 'https://www.icanbwell.com/queryCollection',
-                        code: collection_name
+                        code: mongoCollectionName
                     },
                     {
                         system: 'https://www.icanbwell.com/queryOptions',
@@ -376,6 +380,6 @@ module.exports.search = async (args, user, scope, resource_name, collection_name
             return resources;
         }
     } catch (e) {
-        throw new MongoError(e.message, e, collection_name, query, options);
+        throw new MongoError(e.message, e, mongoCollectionName, query, options);
     }
 };
