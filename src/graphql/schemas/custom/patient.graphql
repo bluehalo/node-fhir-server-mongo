@@ -4,4 +4,5 @@
 extend type Patient {
     explanationOfBenefit: [ExplanationOfBenefit]
     allergyIntolerance: [AllergyIntolerance]
+    condition: [Condition]
 }
