@@ -147,6 +147,19 @@
             "issuer": {
               "reference": "Organization/123456"
             }
+          },
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/ValueSet/v2-2.7-030",
+                  "code": "MD"
+                }
+              ]
+            },
+            "issuer": {
+              "display": "the person who issued it"
+            }
           }
         ],
         "communication": [
