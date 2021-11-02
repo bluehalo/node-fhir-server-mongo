@@ -368,7 +368,8 @@ module.exports.buildR4SearchQuery = (resource_name, args) => {
         for (let i in queryBuilder) {
             query[`${i}`] = queryBuilder[`${i}`];
         }
-        columns.add('identifier');
+        columns.add('identifier.system');
+        columns.add('identifier.value');
     }
     if (type_) {
         let queryBuilder = tokenQueryBuilder(type_, 'code', 'type.coding', '');
@@ -378,7 +379,8 @@ module.exports.buildR4SearchQuery = (resource_name, args) => {
         for (let i in queryBuilder) {
             query[`${i}`] = queryBuilder[`${i}`];
         }
-        columns.add('type.coding');
+        columns.add('type.coding.system');
+        columns.add('type.coding.code');
     }
     if (security) {
         let queryBuilder = tokenQueryBuilder(security, 'code', 'meta.security', '');
@@ -388,7 +390,8 @@ module.exports.buildR4SearchQuery = (resource_name, args) => {
         for (let i in queryBuilder) {
             query[`${i}`] = queryBuilder[`${i}`];
         }
-        columns.add('meta.security');
+        columns.add('meta.security.system');
+        columns.add('meta.security.code');
     }
     if (tag) {
         let queryBuilder = tokenQueryBuilder(tag, 'code', 'meta.tag', '');
@@ -398,7 +401,8 @@ module.exports.buildR4SearchQuery = (resource_name, args) => {
         for (let i in queryBuilder) {
             query[`${i}`] = queryBuilder[`${i}`];
         }
-        columns.add('meta.tag');
+        columns.add('meta.tag.system');
+        columns.add('meta.tag.code');
     }
     if (active) {
         query.active = active === 'true';
@@ -416,7 +420,8 @@ module.exports.buildR4SearchQuery = (resource_name, args) => {
         for (let i in queryBuilder) {
             query[`${i}`] = queryBuilder[`${i}`];
         }
-        columns.add('telecom.email');
+        columns.add('telecom.system');
+        columns.add('telecom.value');
     }
 
     // Forces system = 'phone'
@@ -425,7 +430,8 @@ module.exports.buildR4SearchQuery = (resource_name, args) => {
         for (let i in queryBuilder) {
             query[`${i}`] = queryBuilder[`${i}`];
         }
-        columns.add('telecom.phone');
+        columns.add('telecom.system');
+        columns.add('telecom.value');
     }
 
     if (and_segments.length !== 0) {
