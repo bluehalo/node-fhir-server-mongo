@@ -31,18 +31,7 @@ For example:
 [Merge](merge.md)
 
 ## Contributing
-You will need:
-1. Docker Desktop
-2. Node.js 16.13
-
-
-Run `make lint` to do lint checking
-
-Run `make tests` to run all the tests locally
-
-To add a new package or update version of a package, edit package.json and then run `make update` to regenerate `yarn.lock` file.
-
-Run `make up` to bring up the fhir server in docker on your local machine.
+[Contributing](CONTRIBUTING.md)
 
 ## Continous Integration
 This project has continuous integration set up so GitHub will automatically run tests on your Pull Requests.
