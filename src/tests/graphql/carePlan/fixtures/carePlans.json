@@ -1,0 +1,540 @@
+[
+    {
+        "resourceType": "CarePlan",
+        "id": "7ce5b86e-e0a1-032d-c71e-1ec032394b3c",
+        "meta": {
+            "versionId": "1",
+            "lastUpdated": "2021-11-02T22:07:58+00:00",
+            "profile": [
+                "http://hl7.org/fhir/us/core/StructureDefinition/us-core-careplan"
+            ],
+            "security": [
+                {
+                    "system": "https://www.icanbwell.com/access",
+                    "code": "mps-api"
+                }
+            ]
+        },
+        "text": {
+            "status": "generated",
+            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Care Plan for Musculoskeletal care.<br/>Activities: <ul><li>Musculoskeletal care</li><li>Musculoskeletal care</li></ul><br/>Care plan is meant to treat Osteoarthritis of hip.</div>"
+        },
+        "status": "active",
+        "intent": "order",
+        "category": [
+            {
+                "coding": [
+                    {
+                        "system": "http://hl7.org/fhir/us/core/CodeSystem/careplan-category",
+                        "code": "assess-plan"
+                    }
+                ]
+            },
+            {
+                "coding": [
+                    {
+                        "system": "http://snomed.info/sct",
+                        "code": "408869004",
+                        "display": "Musculoskeletal care"
+                    }
+                ],
+                "text": "Musculoskeletal care"
+            }
+        ],
+        "subject": {
+            "reference": "Patient/8ba1017f-0aad-1b91-ff9e-416a96e11f0b"
+        },
+        "encounter": {
+            "reference": "Encounter/43b17aee-f0a0-3eb7-8e68-9d3454869a77"
+        },
+        "period": {
+            "start": "2021-02-13T20:21:20-05:00"
+        },
+        "careTeam": [
+            {
+                "reference": "CareTeam/bdb2e9ce-6c33-97d3-c996-9555451d31df"
+            }
+        ],
+        "addresses": [
+            {
+                "reference": "Condition/f22ada92-abfd-c6a0-bb56-c9e4efde6be3"
+            }
+        ],
+        "activity": [
+            {
+                "detail": {
+                    "code": {
+                        "coding": [
+                            {
+                                "system": "http://snomed.info/sct",
+                                "code": "386294003",
+                                "display": "Joint mobility exercises"
+                            }
+                        ],
+                        "text": "Joint mobility exercises"
+                    },
+                    "status": "in-progress",
+                    "location": {
+                        "display": "MEDSTAR HARBOR HOSPITAL"
+                    }
+                }
+            },
+            {
+                "detail": {
+                    "code": {
+                        "coding": [
+                            {
+                                "system": "http://snomed.info/sct",
+                                "code": "266694003",
+                                "display": "Heat therapy"
+                            }
+                        ],
+                        "text": "Heat therapy"
+                    },
+                    "status": "in-progress",
+                    "location": {
+                        "display": "MEDSTAR HARBOR HOSPITAL"
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "resourceType": "CarePlan",
+        "id": "8dea4e52-5e76-35a7-0bf9-0f07b83a7e7f",
+        "meta": {
+            "versionId": "1",
+            "lastUpdated": "2021-11-02T22:07:56+00:00",
+            "profile": [
+                "http://hl7.org/fhir/us/core/StructureDefinition/us-core-careplan"
+            ],
+            "security": [
+                {
+                    "system": "https://www.icanbwell.com/access",
+                    "code": "mps-api"
+                }
+            ]
+        },
+        "text": {
+            "status": "generated",
+            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Care Plan for Infectious disease care plan (record artifact).<br/>Activities: <ul><li>Infectious disease care plan (record artifact)</li><li>Infectious disease care plan (record artifact)</li></ul><br/>Care plan is meant to treat Suspected COVID-19.</div>"
+        },
+        "status": "completed",
+        "intent": "order",
+        "category": [
+            {
+                "coding": [
+                    {
+                        "system": "http://hl7.org/fhir/us/core/CodeSystem/careplan-category",
+                        "code": "assess-plan"
+                    }
+                ]
+            },
+            {
+                "coding": [
+                    {
+                        "system": "http://snomed.info/sct",
+                        "code": "736376001",
+                        "display": "Infectious disease care plan (record artifact)"
+                    }
+                ],
+                "text": "Infectious disease care plan (record artifact)"
+            }
+        ],
+        "subject": {
+            "reference": "Patient/8ba1017f-0aad-1b91-ff9e-416a96e11f0b"
+        },
+        "encounter": {
+            "reference": "Encounter/3f8b341f-09ba-5497-4a6e-59f5227ff93b"
+        },
+        "period": {
+            "start": "2020-02-29T20:33:52-05:00",
+            "end": "2020-02-29T21:35:29-05:00"
+        },
+        "careTeam": [
+            {
+                "reference": "CareTeam/cd288a66-25f7-96f3-1300-73e158934c81"
+            }
+        ],
+        "addresses": [
+            {
+                "reference": "Condition/30c68866-9981-bf69-d56f-13fd8bbf9710"
+            }
+        ],
+        "activity": [
+            {
+                "detail": {
+                    "code": {
+                        "coding": [
+                            {
+                                "system": "http://snomed.info/sct",
+                                "code": "409524006",
+                                "display": "Airborne precautions (procedure)"
+                            }
+                        ],
+                        "text": "Airborne precautions (procedure)"
+                    },
+                    "status": "completed",
+                    "location": {
+                        "display": "MEDSTAR HARBOR HOSPITAL"
+                    }
+                }
+            },
+            {
+                "detail": {
+                    "code": {
+                        "coding": [
+                            {
+                                "system": "http://snomed.info/sct",
+                                "code": "409526008",
+                                "display": "Personal protective equipment (physical object)"
+                            }
+                        ],
+                        "text": "Personal protective equipment (physical object)"
+                    },
+                    "status": "completed",
+                    "location": {
+                        "display": "MEDSTAR HARBOR HOSPITAL"
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "resourceType": "CarePlan",
+        "id": "9f09ae91-3377-47cf-ceb8-dba09145c11c",
+        "meta": {
+            "versionId": "1",
+            "lastUpdated": "2021-11-02T22:07:56+00:00",
+            "profile": [
+                "http://hl7.org/fhir/us/core/StructureDefinition/us-core-careplan"
+            ],
+            "security": [
+                {
+                    "system": "https://www.icanbwell.com/access",
+                    "code": "mps-api"
+                }
+            ]
+        },
+        "text": {
+            "status": "generated",
+            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Care Plan for Infectious disease care plan (record artifact).<br/>Activities: <ul><li>Infectious disease care plan (record artifact)</li><li>Infectious disease care plan (record artifact)</li></ul><br/>Care plan is meant to treat COVID-19.</div>"
+        },
+        "status": "completed",
+        "intent": "order",
+        "category": [
+            {
+                "coding": [
+                    {
+                        "system": "http://hl7.org/fhir/us/core/CodeSystem/careplan-category",
+                        "code": "assess-plan"
+                    }
+                ]
+            },
+            {
+                "coding": [
+                    {
+                        "system": "http://snomed.info/sct",
+                        "code": "736376001",
+                        "display": "Infectious disease care plan (record artifact)"
+                    }
+                ],
+                "text": "Infectious disease care plan (record artifact)"
+            }
+        ],
+        "subject": {
+            "reference": "Patient/8ba1017f-0aad-1b91-ff9e-416a96e11f0b"
+        },
+        "encounter": {
+            "reference": "Encounter/3f8b341f-09ba-5497-4a6e-59f5227ff93b"
+        },
+        "period": {
+            "start": "2020-02-29T21:35:29-05:00",
+            "end": "2020-04-01T14:35:29-04:00"
+        },
+        "careTeam": [
+            {
+                "reference": "CareTeam/69ec5d17-8402-626e-8044-035dcb92dfbb"
+            }
+        ],
+        "addresses": [
+            {
+                "reference": "Condition/79b4b4be-3ba9-a4bb-74d8-32ccd6c1d675"
+            }
+        ],
+        "activity": [
+            {
+                "detail": {
+                    "code": {
+                        "coding": [
+                            {
+                                "system": "http://snomed.info/sct",
+                                "code": "409524006",
+                                "display": "Airborne precautions (procedure)"
+                            }
+                        ],
+                        "text": "Airborne precautions (procedure)"
+                    },
+                    "status": "completed",
+                    "location": {
+                        "display": "MEDSTAR HARBOR HOSPITAL"
+                    }
+                }
+            },
+            {
+                "detail": {
+                    "code": {
+                        "coding": [
+                            {
+                                "system": "http://snomed.info/sct",
+                                "code": "361235007",
+                                "display": "Isolation of infected patient (procedure)"
+                            }
+                        ],
+                        "text": "Isolation of infected patient (procedure)"
+                    },
+                    "status": "completed",
+                    "location": {
+                        "display": "MEDSTAR HARBOR HOSPITAL"
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "resourceType": "CarePlan",
+        "id": "b0f52463-73a1-5a09-e7e9-a65c62663f1e",
+        "meta": {
+            "versionId": "1",
+            "lastUpdated": "2021-11-02T22:07:43+00:00",
+            "profile": [
+                "http://hl7.org/fhir/us/core/StructureDefinition/us-core-careplan"
+            ],
+            "security": [
+                {
+                    "system": "https://www.icanbwell.com/access",
+                    "code": "mps-api"
+                }
+            ]
+        },
+        "text": {
+            "status": "generated",
+            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Care Plan for Lifestyle education regarding hypertension.<br/>Activities: <ul><li>Lifestyle education regarding hypertension</li><li>Lifestyle education regarding hypertension</li><li>Lifestyle education regarding hypertension</li><li>Lifestyle education regarding hypertension</li></ul><br/>Care plan is meant to treat Hypertension.</div>"
+        },
+        "status": "active",
+        "intent": "order",
+        "category": [
+            {
+                "coding": [
+                    {
+                        "system": "http://hl7.org/fhir/us/core/CodeSystem/careplan-category",
+                        "code": "assess-plan"
+                    }
+                ]
+            },
+            {
+                "coding": [
+                    {
+                        "system": "http://snomed.info/sct",
+                        "code": "443402002",
+                        "display": "Lifestyle education regarding hypertension"
+                    }
+                ],
+                "text": "Lifestyle education regarding hypertension"
+            }
+        ],
+        "subject": {
+            "reference": "Patient/8ba1017f-0aad-1b91-ff9e-416a96e11f0b"
+        },
+        "encounter": {
+            "reference": "Encounter/41d6e6ec-a00b-984b-c913-849888a4ac09"
+        },
+        "period": {
+            "start": "1974-02-07T21:21:20-04:00"
+        },
+        "careTeam": [
+            {
+                "reference": "CareTeam/8fa875b1-a4bd-3a65-57cc-9539ac5106e5"
+            }
+        ],
+        "addresses": [
+            {
+                "reference": "Condition/d2025dd8-d6fe-4149-b892-50dd4fac0252"
+            }
+        ],
+        "activity": [
+            {
+                "detail": {
+                    "code": {
+                        "coding": [
+                            {
+                                "system": "http://snomed.info/sct",
+                                "code": "386463000",
+                                "display": "Prescribed activity/exercise education"
+                            }
+                        ],
+                        "text": "Prescribed activity/exercise education"
+                    },
+                    "status": "in-progress",
+                    "location": {
+                        "display": "PCP218509"
+                    }
+                }
+            },
+            {
+                "detail": {
+                    "code": {
+                        "coding": [
+                            {
+                                "system": "http://snomed.info/sct",
+                                "code": "413473000",
+                                "display": "Counseling about alcohol consumption"
+                            }
+                        ],
+                        "text": "Counseling about alcohol consumption"
+                    },
+                    "status": "in-progress",
+                    "location": {
+                        "display": "PCP218509"
+                    }
+                }
+            },
+            {
+                "detail": {
+                    "code": {
+                        "coding": [
+                            {
+                                "system": "http://snomed.info/sct",
+                                "code": "1151000175103",
+                                "display": "Dietary approaches to stop hypertension diet"
+                            }
+                        ],
+                        "text": "Dietary approaches to stop hypertension diet"
+                    },
+                    "status": "in-progress",
+                    "location": {
+                        "display": "PCP218509"
+                    }
+                }
+            },
+            {
+                "detail": {
+                    "code": {
+                        "coding": [
+                            {
+                                "system": "http://snomed.info/sct",
+                                "code": "225323000",
+                                "display": "Smoking cessation education"
+                            }
+                        ],
+                        "text": "Smoking cessation education"
+                    },
+                    "status": "in-progress",
+                    "location": {
+                        "display": "PCP218509"
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "resourceType": "CarePlan",
+        "id": "b180158b-dfa3-2a5f-c305-3ca0baf28b81",
+        "meta": {
+            "versionId": "1",
+            "lastUpdated": "2021-11-02T22:07:44+00:00",
+            "profile": [
+                "http://hl7.org/fhir/us/core/StructureDefinition/us-core-careplan"
+            ],
+            "security": [
+                {
+                    "system": "https://www.icanbwell.com/access",
+                    "code": "mps-api"
+                }
+            ]
+        },
+        "text": {
+            "status": "generated",
+            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Care Plan for Diabetes self management plan.<br/>Activities: <ul><li>Diabetes self management plan</li><li>Diabetes self management plan</li></ul><br/>Care plan is meant to treat Prediabetes.</div>"
+        },
+        "status": "active",
+        "intent": "order",
+        "category": [
+            {
+                "coding": [
+                    {
+                        "system": "http://hl7.org/fhir/us/core/CodeSystem/careplan-category",
+                        "code": "assess-plan"
+                    }
+                ]
+            },
+            {
+                "coding": [
+                    {
+                        "system": "http://snomed.info/sct",
+                        "code": "698360004",
+                        "display": "Diabetes self management plan"
+                    }
+                ],
+                "text": "Diabetes self management plan"
+            }
+        ],
+        "subject": {
+            "reference": "Patient/8ba1017f-0aad-1b91-ff9e-416a96e11f0b"
+        },
+        "encounter": {
+            "reference": "Encounter/57f778c4-5a61-189a-0fa3-515f9443adb3"
+        },
+        "period": {
+            "start": "1982-03-25T20:21:20-05:00"
+        },
+        "careTeam": [
+            {
+                "reference": "CareTeam/20cf67cb-57cb-4586-b46a-3e0e542ed698"
+            }
+        ],
+        "addresses": [
+            {
+                "reference": "Condition/dac12b2f-9021-6645-5ce4-7bb472675338"
+            }
+        ],
+        "activity": [
+            {
+                "detail": {
+                    "code": {
+                        "coding": [
+                            {
+                                "system": "http://snomed.info/sct",
+                                "code": "160670007",
+                                "display": "Diabetic diet"
+                            }
+                        ],
+                        "text": "Diabetic diet"
+                    },
+                    "status": "in-progress",
+                    "location": {
+                        "display": "PCP218509"
+                    }
+                }
+            },
+            {
+                "detail": {
+                    "code": {
+                        "coding": [
+                            {
+                                "system": "http://snomed.info/sct",
+                                "code": "229065009",
+                                "display": "Exercise therapy"
+                            }
+                        ],
+                        "text": "Exercise therapy"
+                    },
+                    "status": "in-progress",
+                    "location": {
+                        "display": "PCP218509"
+                    }
+                }
+            }
+        ]
+    }
+]

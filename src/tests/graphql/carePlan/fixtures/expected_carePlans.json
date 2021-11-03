@@ -1,0 +1,166 @@
+[
+  {
+    "activity": [
+      {
+        "detail": {
+          "code": {
+            "text": "Joint mobility exercises"
+          }
+        }
+      },
+      {
+        "detail": {
+          "code": {
+            "text": "Heat therapy"
+          }
+        }
+      }
+    ],
+    "category": [
+      {
+        "text": null
+      },
+      {
+        "text": "Musculoskeletal care"
+      }
+    ],
+    "id": "7ce5b86e-e0a1-032d-c71e-1ec032394b3c",
+    "period": {
+      "start": "2021-02-13T20:21:20-05:00"
+    }
+  },
+  {
+    "activity": [
+      {
+        "detail": {
+          "code": {
+            "text": "Airborne precautions (procedure)"
+          }
+        }
+      },
+      {
+        "detail": {
+          "code": {
+            "text": "Personal protective equipment (physical object)"
+          }
+        }
+      }
+    ],
+    "category": [
+      {
+        "text": null
+      },
+      {
+        "text": "Infectious disease care plan (record artifact)"
+      }
+    ],
+    "id": "8dea4e52-5e76-35a7-0bf9-0f07b83a7e7f",
+    "period": {
+      "start": "2020-02-29T20:33:52-05:00"
+    }
+  },
+  {
+    "activity": [
+      {
+        "detail": {
+          "code": {
+            "text": "Airborne precautions (procedure)"
+          }
+        }
+      },
+      {
+        "detail": {
+          "code": {
+            "text": "Isolation of infected patient (procedure)"
+          }
+        }
+      }
+    ],
+    "category": [
+      {
+        "text": null
+      },
+      {
+        "text": "Infectious disease care plan (record artifact)"
+      }
+    ],
+    "id": "9f09ae91-3377-47cf-ceb8-dba09145c11c",
+    "period": {
+      "start": "2020-02-29T21:35:29-05:00"
+    }
+  },
+  {
+    "activity": [
+      {
+        "detail": {
+          "code": {
+            "text": "Prescribed activity/exercise education"
+          }
+        }
+      },
+      {
+        "detail": {
+          "code": {
+            "text": "Counseling about alcohol consumption"
+          }
+        }
+      },
+      {
+        "detail": {
+          "code": {
+            "text": "Dietary approaches to stop hypertension diet"
+          }
+        }
+      },
+      {
+        "detail": {
+          "code": {
+            "text": "Smoking cessation education"
+          }
+        }
+      }
+    ],
+    "category": [
+      {
+        "text": null
+      },
+      {
+        "text": "Lifestyle education regarding hypertension"
+      }
+    ],
+    "id": "b0f52463-73a1-5a09-e7e9-a65c62663f1e",
+    "period": {
+      "start": "1974-02-07T21:21:20-04:00"
+    }
+  },
+  {
+    "activity": [
+      {
+        "detail": {
+          "code": {
+            "text": "Diabetic diet"
+          }
+        }
+      },
+      {
+        "detail": {
+          "code": {
+            "text": "Exercise therapy"
+          }
+        }
+      }
+    ],
+    "category": [
+      {
+        "text": null
+      },
+      {
+        "text": "Diabetes self management plan"
+      }
+    ],
+    "id": "b180158b-dfa3-2a5f-c305-3ca0baf28b81",
+    "period": {
+      "start": "1982-03-25T20:21:20-05:00"
+    }
+  }
+]
