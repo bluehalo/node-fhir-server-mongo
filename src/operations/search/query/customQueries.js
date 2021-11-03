@@ -34,7 +34,7 @@ const customQueries = {
         }
     },
     'practitioner': {
-        'resourceType': 'Patient',
+        'resourceType': 'Practitioner',
         'mappings': {
             'Practitioner': 'id',
             'PractitionerRole': 'practitioner.reference',
@@ -42,7 +42,7 @@ const customQueries = {
         }
     },
     'organization': {
-        'resourceType': 'Patient',
+        'resourceType': 'Organization',
         'mappings': {
             'Organization': 'id',
             'HealthcareService': 'providedBy.reference',
@@ -51,7 +51,7 @@ const customQueries = {
         }
     },
     'location': {
-        'resourceType': 'Patient',
+        'resourceType': 'Location',
         'mappings': {
             'Location': 'id',
             'PractitionerRole': 'location.reference',
@@ -59,7 +59,7 @@ const customQueries = {
         }
     },
     'healthcareService': {
-        'resourceType': 'Patient',
+        'resourceType': 'HealthcareService',
         'mappings': {
             'HealthcareService': 'id',
             'PractitionerRole': 'healthcareService.reference',
@@ -67,14 +67,14 @@ const customQueries = {
         }
     },
     'schedule': {
-        'resourceType': 'Patient',
+        'resourceType': 'Schedule',
         'mappings': {
             'Schedule': 'id',
             'Slot': 'schedule.reference'
         }
     },
     'agent': {
-        'resourceType': 'Patient',
+        'resourceType': 'Person',
         'mappings': {
             'Person': 'id',
             'AuditEvent': 'agent.who.reference'
