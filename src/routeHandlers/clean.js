@@ -43,7 +43,7 @@ module.exports.handleClean = async (req, res) => {
             });
 
             console.info('Collection_names:' + collection_names);
-            res.status(202).json({'status': 'processing request, check the stats endpoint for progress.', 'deleting_from_collections':  collection_names})
+            res.status(202).json({'status': 'processing request, check the stats endpoint for progress.', 'deleting_from_collections': collection_names});
             for (const collection_index in collection_names) {
                 const collection_name = collection_names[parseInt(collection_index)];
                 console.log(collection_name);
