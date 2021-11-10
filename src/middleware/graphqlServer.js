@@ -11,6 +11,7 @@ const {
     ApolloServerPluginLandingPageGraphQLPlayground,
     // ApolloServerPluginLandingPageDisabled
 } = require('apollo-server-core');
+const { fhirServerConfig } = require('../config');
 
 
 
@@ -67,8 +68,7 @@ const graphql = async () => {
 
     // apollo requires us to start the sever first
     await server.start();
-
-    return server.getMiddleware({path: '/'});
+    return server.getMiddleware({path: '/', cors: fhirServerConfig.server.corsOptions});
 };
 
 module.exports.graphql = graphql;
