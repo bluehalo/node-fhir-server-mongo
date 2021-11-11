@@ -6,7 +6,6 @@ const { join } = require('path');
 const resolvers = require('../graphql/resolvers');
 const { loadFilesSync } = require('@graphql-tools/load-files');
 const { mergeTypeDefs } = require('@graphql-tools/merge');
-const { fhirServerConfig } = require('../config');
 
 const {
   ApolloServerPluginLandingPageGraphQLPlayground,
@@ -63,7 +62,7 @@ const graphql = async () => {
 
   // apollo requires us to start the sever first
   await server.start();
-  return server.getMiddleware({ path: '/', cors: fhirServerConfig.server.corsOptions });
+  return server.getMiddleware({ path: '/' });
 };
 
 module.exports.graphql = graphql;

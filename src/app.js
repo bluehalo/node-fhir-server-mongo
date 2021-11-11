@@ -1,6 +1,7 @@
 const express = require('express');
 const {fhirServerConfig} = require('./config');
 const Prometheus = require('./utils/prometheus.utils');
+const cors = require('cors');
 const env = require('var');
 const helmet = require('helmet');
 const path = require('path');
@@ -127,6 +128,7 @@ if (isTrue(env.ENABLE_GRAPHQL)) {
 
         router.use(x);
         // app.use('/graphql', x);
+        app.use(cors(fhirServerConfig.server.corsOptions));
         app.use('/graphql', router);
         app.use(fhirApp.app);
     });
