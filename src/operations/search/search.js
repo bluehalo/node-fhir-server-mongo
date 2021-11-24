@@ -20,39 +20,41 @@ const {VERSIONS} = require('@asymmetrik/node-fhir-server-core').constants;
  * @param {Object} args
  * @param {string} user
  * @param {string} scope
- * @param {string} resource_name
+ * @param {string} resourceName
  * @param {string} collection_name
  * @param {?string} url
  * @return {Resource[] | {entry:{resource: Resource}[]}} array of resources
  */
-module.exports.search = async (args, user, scope, resource_name, collection_name, url) => {
-    logRequest(user, resource_name + ' >>> search' + ' scope:' + scope);
+module.exports.search = async (args, user, scope, resourceName, collection_name, url) => {
+    logRequest(user, resourceName + ' >>> search' + ' scope:' + scope);
     // logRequest('user: ' + req.user);
     // logRequest('scope: ' + req.authInfo.scope);
-    verifyHasValidScopes(resource_name, 'read', user, scope);
+    verifyHasValidScopes(resourceName, 'read', user, scope);
     logRequest(user, '---- args ----');
     logRequest(user, JSON.stringify(args));
     logRequest(user, '--------');
 
     // add any access codes from scopes
     const accessCodes = getAccessCodesFromScopes('read', user, scope);
-    // fail if there are no access codes
-    if (accessCodes.length === 0) {
-        let errorMessage = 'user ' + user + ' with scopes [' + scope + '] has no access scopes';
-        throw new ForbiddenError(errorMessage);
-    }
-    // see if we have the * access code
-    else if (accessCodes.includes('*')) {
-        // no security check since user has full access to everything
-    } else {
-        /**
-         * @type {string}
-         */
-        for (const accessCode of accessCodes) {
-            if (args['_security']) {
-                args['_security'] = args['_security'] + ',' + accessCode;
-            } else {
-                args['_security'] = 'https://www.icanbwell.com/access|' + accessCode;
+    if (env.AUTH_ENABLED === '1') {
+        // fail if there are no access codes
+        if (accessCodes.length === 0) {
+            let errorMessage = 'user ' + user + ' with scopes [' + scope + '] has no access scopes';
+            throw new ForbiddenError(errorMessage);
+        }
+        // see if we have the * access code
+        else if (accessCodes.includes('*')) {
+            // no security check since user has full access to everything
+        } else {
+            /**
+             * @type {string}
+             */
+            for (const accessCode of accessCodes) {
+                if (args['_security']) {
+                    args['_security'] = args['_security'] + ',' + accessCode;
+                } else {
+                    args['_security'] = 'https://www.icanbwell.com/access|' + accessCode;
+                }
             }
         }
     }
@@ -75,7 +77,7 @@ module.exports.search = async (args, user, scope, resource_name, collection_name
     } else if (base_version === VERSIONS['1_0_2']) {
         query = buildDstu2SearchQuery(args);
     } else {
-        ({query, columns} = buildR4SearchQuery(resource_name, args));
+        ({query, columns} = buildR4SearchQuery(resourceName, args));
     }
 
     // Grab an instance of our DB and collection
@@ -96,7 +98,7 @@ module.exports.search = async (args, user, scope, resource_name, collection_name
     /**
      * @type {function(?Object): Resource}
      */
-    let Resource = getResource(base_version, resource_name);
+    let Resource = getResource(base_version, resourceName);
 
     logDebug(user, '---- query ----');
     logDebug(user, query);
@@ -282,7 +284,7 @@ module.exports.search = async (args, user, scope, resource_name, collection_name
         }
 
         // run any enrichment
-        resources = await enrich(resources, resource_name);
+        resources = await enrich(resources, resourceName);
 
         // if env.RETURN_BUNDLE is set then return as a Bundle
         if (env.RETURN_BUNDLE || args['_bundle']) {
