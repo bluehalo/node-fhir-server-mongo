@@ -1,5 +1,6 @@
 const {search} = require('../../operations/search/search');
 const {searchById} = require('../../operations/searchById/searchById');
+const {expand} = require('../../operations/expand/expand');
 const {create} = require('../../operations/create/create');
 const {update} = require('../../operations/update/update');
 const {merge} = require('../../operations/merge/merge');
@@ -343,4 +344,24 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
     const host = req.headers.host;
 
     return graph(combined_args, user, scope, body, path, host, resource_name, collection_name);
+};
+
+/**
+ * does a FHIR Search By Id
+ * @param {string[]} args
+ * @param {IncomingMessage} req
+ * @param {string} resource_name
+ * @param {string} collection_name
+ */
+// eslint-disable-next-line no-unused-vars
+module.exports.expand = async (args, {req}, resource_name, collection_name) => {
+    /**
+     * @type {string}
+     */
+    const user = req.user;
+    /**
+     * @type {string}
+     */
+    const scope = req.authInfo && req.authInfo.scope;
+    return expand(args, user, scope, resource_name, collection_name);
 };

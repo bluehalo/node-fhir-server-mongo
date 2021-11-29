@@ -43,3 +43,8 @@ module.exports.validate = (args, { req }) =>
 
 module.exports.graph = (args, { req }) =>
   base_service.graph(args, { req }, resource_name, collection_name);
+
+module.exports.expand = (args, { req }) =>
+  base_service.expand(args, { req }, resource_name, collection_name);
+
+
