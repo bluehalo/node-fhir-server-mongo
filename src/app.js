@@ -34,6 +34,8 @@ app.use(cookieParser());
 
 app.use(useragent.express());
 
+app.use(passport.initialize({}));
+
 app.use(helmet());
 app.use(Prometheus.requestCounters);
 // noinspection JSCheckFunctionSignatures
