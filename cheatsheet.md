@@ -114,6 +114,9 @@ If you request the whole records with paging, this requires the database to get 
 | Updated between dates | _lastUpdated=lt{date}&_lastUpdated=gt{date} | https://fhir.icanbwell.com/4_0_0/QuestionnaireResponse?_lastUpdated=gt2021-01-16&_lastUpdated=lt2021-01-17 | All |  |
 | By missing field | {field_name}:missing={true or false} | https://fhir.icanbwell.com/4_0_0/ExplanationOfBenefit?patient:missing=true | Specific Resources |  |
 | By field and value | {field name}={field value} | https://fhir.icanbwell.com/4_0_0/PractitionerRole?organization=-824888254&practitioner=1487831681 | All |  |
+| Before recorded date | date=lt{date} | https://fhir.prod-mstarvac.icanbwell.com/4_0_0/AuditEvent?date=lt2021-09-19 | AuditEvent |  |
+| After recorded date | date=gt{date} | https://fhir.prod-mstarvac.icanbwell.com/4_0_0/AuditEvent?date=gt2021-09-19 | AuditEvent |  |
+| By url | url={url} | https://fhir.prod-mstarvac.icanbwell.com/4_0_0/ValueSet?url=foo | ValueSet |  |
 
 FHIR Specification: https://www.hl7.org/fhir/search.html.
 
