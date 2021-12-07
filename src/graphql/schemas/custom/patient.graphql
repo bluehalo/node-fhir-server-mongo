@@ -8,3 +8,7 @@ extend type Patient {
     carePlan: [CarePlan]
     condition: [Condition]
 }
+
+type Mutation {
+    updateGeneralPractitioner(patientId: String, practitionerId: String): Patient
+}

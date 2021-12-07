@@ -1,0 +1,194 @@
+scalar xhtml
+scalar positiveInt
+"""
+Base StructureDefinition for CodeableConcept Type: A concept that may be defined
+by a formal reference to a terminology or ontology or may be provided by text.
+"""
+input CodeableConcept_Input {
+  """
+  Unique id for the element within a resource (for internal references). This
+  may be any string value that does not contain spaces.
+  """
+  id: String
+
+  """A reference to a code defined by a terminology system."""
+  coding: [Coding_Input]
+
+  """
+  A human language representation of the concept as seen/selected/uttered by the
+  user who entered the data and/or which represents the intended meaning of the user.
+  """
+  text: String
+}
+
+"""
+Base StructureDefinition for Coding Type: A reference to a code defined by a terminology system.
+"""
+input Coding_Input {
+  """
+  Unique id for the element within a resource (for internal references). This
+  may be any string value that does not contain spaces.
+  """
+  id: String
+
+  """
+  The identification of the code system that defines the meaning of the symbol in the code.
+  """
+  system: uri
+
+  """
+  The version of the code system which was used when choosing this code. Note
+  that a well-maintained code system does not need the version reported, because
+  the meaning of codes is consistent across versions. However this cannot
+  consistently be assured, and when the meaning is not guaranteed to be
+  consistent, the version SHOULD be exchanged.
+  """
+  version: String
+
+  """
+  A symbol in syntax defined by the system. The symbol may be a predefined code
+  or an expression in a syntax defined by the coding system (e.g.
+  post-coordination).
+  """
+  code: code
+
+  """
+  A representation of the meaning of the code in the system, following the rules of the system.
+  """
+  display: String
+
+  """
+  Indicates that this coding was chosen by a user directly - e.g. off a pick list of available items (codes or displays).
+  """
+  userSelected: Boolean
+}
+
+input Narrative_Input {
+
+  """
+  Unique id for the element within a resource (for internal references). This
+  may be any string value that does not contain spaces.
+  """
+  id: String
+
+  """
+  The status of the narrative - whether it's entirely generated (from just the
+  defined data or the extensions too), or whether a human authored it and it may
+  contain additional data.
+  """
+  status: code!
+
+  """The actual narrative content, a stripped down version of XHTML."""
+  div: xhtml!
+}
+
+input Period_Input {
+  """
+  Unique id for the element within a resource (for internal references). This
+  may be any string value that does not contain spaces.
+  """
+  id: String
+
+  """The start of the period. The boundary is inclusive."""
+  start: dateTime
+
+  """
+  The end of the period. If the end of the period is missing, it means no end
+  was known or planned at the time the instance was created. The start may be in
+  the past, and the end date in the future, which means that period is
+  expected/planned to end at that time.
+  """
+  end: dateTime
+}
+
+input Identifier_Input {
+
+  """
+  Unique id for the element within a resource (for internal references). This
+  may be any string value that does not contain spaces.
+  """
+  id: String
+
+  """The purpose of this identifier."""
+  use: code
+
+  """
+  A coded type for the identifier that can be used to determine which identifier to use for a specific purpose.
+  """
+  type: CodeableConcept_Input
+
+  """
+  Establishes the namespace for the value - that is, a URL that describes a set values that are unique.
+  """
+  system: uri
+
+  """
+  The portion of the identifier typically relevant to the user and which is unique within the context of the system.
+  """
+  value: String
+
+  """Time period during which identifier is/was valid for use."""
+  period: Period_Input
+
+  """Organization that issued/manages the identifier."""
+  assigner: String
+}
+"""
+Base StructureDefinition for ContactPoint Type: Details for all kinds of
+technology mediated contact points for a person or organization, including
+telephone, email, etc.
+"""
+input ContactPoint_Input {
+  """
+  Unique id for the element within a resource (for internal references). This
+  may be any string value that does not contain spaces.
+  """
+  id: String
+
+  """
+  Telecommunications form for contact point - what communications system is required to make use of the contact.
+  """
+  system: code
+
+  """
+  The actual contact point details, in a form that is meaningful to the
+  designated communication system (i.e. phone number or email address).
+  """
+  value: String
+
+  """Identifies the purpose for the contact point."""
+  use: code
+
+  """
+  Specifies a preferred order in which to use a set of contacts. ContactPoints
+  with lower rank values are more preferred than those with higher rank values.
+  """
+  rank: positiveInt
+
+  """Time period when the contact point was/is in use."""
+  period: Period_Input
+}
+
+"""
+Base StructureDefinition for Annotation Type: A  text note which also  contains
+information about who made the statement and when.
+"""
+input Annotation_Input {
+  """
+  Unique id for the element within a resource (for internal references). This
+  may be any string value that does not contain spaces.
+  """
+  id: String
+
+  """The individual responsible for making the annotation."""
+  authorReference: String
+
+  """The individual responsible for making the annotation."""
+  authorString: String
+
+  """Indicates when this particular annotation was made."""
+  time: dateTime
+
+  """The text of the annotation in markdown format."""
+  text: String!
+}

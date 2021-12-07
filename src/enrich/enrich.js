@@ -1,11 +1,14 @@
 const ExplanationOfBenefitsEnrichmentProvider = require('./providers/explanationOfBenefitsEnrichmentProvider');
-
+const PatientEnrichmentProvider = require('./providers/patientEnrichmentProvider');
+const MutationEnrichmentProvider = require('./providers/mutationProvider');
 /**
  * Registered set of enrichment providers
  * @type {EnrichmentProvider[]}
  */
 const enrichmentProviders = [
-    new ExplanationOfBenefitsEnrichmentProvider()
+    new ExplanationOfBenefitsEnrichmentProvider(),
+    new PatientEnrichmentProvider(),
+    new MutationEnrichmentProvider()
 ];
 
 /**
