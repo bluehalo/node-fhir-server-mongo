@@ -132,5 +132,5 @@ enum CareTeam_Enum_input {
 }
 
 type Mutation {
-    updatePreferredProviders(patientId: String, CareTeam_Input: String): Patient
+    updatePreferredProviders(patientId: String, team: CareTeam_Input): Patient
 }
