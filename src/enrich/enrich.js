@@ -1,4 +1,5 @@
 const ExplanationOfBenefitsEnrichmentProvider = require('./providers/explanationOfBenefitsEnrichmentProvider');
+
 /**
  * Registered set of enrichment providers
  * @type {EnrichmentProvider[]}
