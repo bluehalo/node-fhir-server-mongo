@@ -11,12 +11,13 @@ const organizationResource = require('./fixtures/claim/organization.json');
 const graphDefinitionResource = require('./fixtures/graph/my_graph.json');
 
 // expected
-const expectedResource = require('./fixtures/expected/expected.json');
+const expectedResource_230916613368 = require('./fixtures/expected/expected-WPS-Claim-230916613368.json');
+const expectedResource_230916613369 = require('./fixtures/expected/expected-WPS-Claim-230916613369.json');
 
 const request = supertest(app);
 const {commonBeforeEach, commonAfterEach, getHeaders} = require('../../common');
 
-describe('Claim Graph Contained Tests', () => {
+describe('Claim Graph By Id Contained Tests', () => {
     beforeEach(async () => {
         await commonBeforeEach();
     });
@@ -25,7 +26,7 @@ describe('Claim Graph Contained Tests', () => {
         await commonAfterEach();
     });
 
-    describe('Graph Contained Tests', () => {
+    describe('Graph By Id Contained Tests', () => {
         test('Graph contained with multiple targets works properly', async () => {
             let resp = await request
                 .get('/4_0_0/ExplanationOfBenefit')
@@ -77,7 +78,7 @@ describe('Claim Graph Contained Tests', () => {
             expect(resp.body['created']).toBe(true);
 
             resp = await request
-                .post('/4_0_0/ExplanationOfBenefit/$graph?id=WPS-Claim-230916613369,WPS-Claim-230916613368&contained=true')
+                .post('/4_0_0/ExplanationOfBenefit/WPS-Claim-230916613368/$graph?contained=true')
                 .set(getHeaders())
                 .send(graphDefinitionResource)
                 .expect(200);
@@ -96,7 +97,46 @@ describe('Claim Graph Contained Tests', () => {
                     });
                 }
             });
-            let expected = expectedResource;
+            let expected = expectedResource_230916613368;
+            delete expected['timestamp'];
+            expected.entry.forEach(element => {
+                delete element['fullUrl'];
+                if ('meta' in element['resource']) {
+                    delete element['resource']['meta']['lastUpdated'];
+                }
+                element['resource']['meta']['versionId'] = '1';
+                if ('$schema' in element) {
+                    delete element['$schema'];
+                }
+                if (element['resource']['contained']) {
+                    element['resource']['contained'].forEach(containedElement => {
+                        delete containedElement['meta']['lastUpdated'];
+                    });
+                }
+            });
+            expect(body).toStrictEqual(expected);
+
+            resp = await request
+                .post('/4_0_0/ExplanationOfBenefit/WPS-Claim-230916613369/$graph?contained=true')
+                .set(getHeaders())
+                .send(graphDefinitionResource)
+                .expect(200);
+
+            console.log('------- response ExplanationOfBenefit $graph ------------');
+            console.log(JSON.stringify(resp.body, null, 2));
+            console.log('------- end response  ------------');
+            body = resp.body;
+            delete body['timestamp'];
+            body.entry.forEach(element => {
+                delete element['fullUrl'];
+                delete element['resource']['meta']['lastUpdated'];
+                if (element['resource']['contained']) {
+                    element['resource']['contained'].forEach(containedElement => {
+                        delete containedElement['meta']['lastUpdated'];
+                    });
+                }
+            });
+            expected = expectedResource_230916613369;
             delete expected['timestamp'];
             expected.entry.forEach(element => {
                 delete element['fullUrl'];

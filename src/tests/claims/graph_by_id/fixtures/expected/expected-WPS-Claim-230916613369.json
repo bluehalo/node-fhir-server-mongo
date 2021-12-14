@@ -1,0 +1,100 @@
+{
+  "id": "bundle-example",
+  "resourceType": "Bundle",
+  "type": "collection",
+  "entry": [
+    {
+      "resource": {
+        "careTeam": [],
+        "contained": [
+          {
+            "id": "1407857790",
+            "meta": {
+              "security": [
+                {
+                  "code": "medstar",
+                  "system": "https://www.icanbwell.com/access"
+                }
+              ],
+              "versionId": "1"
+            },
+            "name": "MedStar Medical Group",
+            "resourceType": "Organization",
+            "type": [
+              {
+                "coding": [
+                  {
+                    "code": "prov",
+                    "display": "Healthcare Provider",
+                    "system": "http://terminology.hl7.org/CodeSystem/organization-type"
+                  }
+                ],
+                "text": "Healthcare Organization"
+              }
+            ]
+          }
+        ],
+        "id": "WPS-Claim-230916613369",
+        "identifier": [
+          {
+            "system": "https://www.wpshealth.com/",
+            "type": {
+              "coding": [
+                {
+                  "code": "claimnumber",
+                  "display": "Claim Number",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                }
+              ],
+              "text": "Claim Number"
+            },
+            "value": "230916613369"
+          }
+        ],
+        "insurance": [
+          {
+            "coverage": {
+              "reference": "Coverage/WPS-6678928210"
+            },
+            "focal": true
+          }
+        ],
+        "insurer": {
+          "reference": "Organization/WPS-Health"
+        },
+        "meta": {
+          "security": [
+            {
+              "code": "medstar",
+              "system": "https://www.icanbwell.com/access"
+            }
+          ],
+          "source": "https://www.wpshealth.com/medical_claims",
+          "versionId": "1"
+        },
+        "outcome": "Complete",
+        "patient": {
+          "reference": "Patient/WPS-0559166162"
+        },
+        "provider": {
+          "reference": "Organization/1407857790"
+        },
+        "resourceType": "ExplanationOfBenefit",
+        "status": "active",
+        "supportingInfo": [
+
+        ],
+        "type": {
+          "coding": [
+            {
+              "code": "Institutional",
+              "system": "https://hl7.org/FHIR/codesystem-claim-type.html"
+            }
+          ],
+          "text": "Claim Type"
+        },
+        "use": "Claim"
+      }
+    }
+  ]
+}

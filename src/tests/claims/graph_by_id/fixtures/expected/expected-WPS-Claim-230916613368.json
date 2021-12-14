@@ -1,0 +1,138 @@
+{
+  "id": "bundle-example",
+  "resourceType": "Bundle",
+  "type": "collection",
+  "entry": [
+    {
+      "resource": {
+        "careTeam": [],
+        "contained": [
+          {
+            "active": true,
+            "communication": [
+              {
+                "coding": [
+                  {
+                    "code": "en",
+                    "system": "urn:ietf:bcp:47"
+                  }
+                ]
+              }
+            ],
+            "gender": "unknown",
+            "id": "1376656959",
+            "identifier": [
+              {
+                "use": "official",
+                "type": {
+                  "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                      "code": "NPI"
+                    }
+                  ]
+                },
+                "system": "http://hl7.org/fhir/sid/us-npi",
+                "value": "1376656959"
+              }
+            ],
+            "meta": {
+              "security": [
+                {
+                  "code": "medstar",
+                  "system": "https://www.icanbwell.com/access"
+                }
+              ],
+              "versionId": "1"
+            },
+            "name": [
+              {
+                "family": "NAJJAR  MD",
+                "given": [
+                  "SAMER S."
+                ],
+                "text": "SAMER S. NAJJAR  MD",
+                "use": "usual"
+              }
+            ],
+            "resourceType": "Practitioner",
+            "telecom": [
+              {
+                "system": "email",
+                "use": "work",
+                "value": "foo@foo.com"
+              }
+            ]
+          }
+        ],
+        "id": "WPS-Claim-230916613368",
+        "identifier": [
+          {
+            "system": "https://www.wpshealth.com/",
+            "type": {
+              "coding": [
+                {
+                  "code": "claimnumber",
+                  "display": "Claim Number",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                }
+              ],
+              "text": "Claim Number"
+            },
+            "value": "230916613368"
+          }
+        ],
+        "insurance": [
+          {
+            "coverage": {
+              "reference": "Coverage/WPS-6678928210"
+            },
+            "focal": true
+          }
+        ],
+        "insurer": {
+          "reference": "Organization/WPS-Health"
+        },
+        "meta": {
+          "security": [
+            {
+              "code": "medstar",
+              "system": "https://www.icanbwell.com/access"
+            }
+          ],
+          "source": "https://www.wpshealth.com/medical_claims",
+          "versionId": "1"
+        },
+        "outcome": "Complete",
+        "patient": {
+          "reference": "Patient/WPS-6678928210"
+        },
+        "payee": {
+          "type": {
+            "coding": [
+              {
+                "code": "Provider",
+                "system": "http://terminology.hl7.org/CodeSystem/payeetype"
+              }
+            ]
+          }
+        },
+        "provider": {
+          "reference": "Practitioner/1376656959"
+        },
+        "resourceType": "ExplanationOfBenefit",
+        "status": "active",
+        "type": {
+          "coding": [
+            {
+              "code": "Institutional",
+              "system": "https://hl7.org/FHIR/codesystem-claim-type.html"
+            }
+          ],
+          "text": "Claim Type"
+        },
+        "use": "Claim"
+      }
+    }
+  ]
+}
