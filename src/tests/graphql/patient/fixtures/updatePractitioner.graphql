@@ -1,0 +1,5 @@
+mutation {
+  updateGeneralPractitioner(patientId: "WPS-5458231534", practitionerId:"f005"){
+    id
+  }
+}
