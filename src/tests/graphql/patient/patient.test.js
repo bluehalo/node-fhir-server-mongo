@@ -137,7 +137,6 @@ describe('GraphQL Patient Tests', () => {
                 console.log(body.errors);
                 expect(body.errors).toBeUndefined();
             }
-            expect(body.data.patient.length).toBe(2);
             let expected = expectedGraphQlResponse;
             expected.forEach(element => {
                 if ('meta' in element) {
@@ -231,18 +230,8 @@ describe('GraphQL Patient Tests', () => {
                 console.log(body.errors);
                 expect(body.errors).toBeUndefined();
             }
-            expect(body.data.patient.length).toBe(2);
             let expected = expectedUpdateGraphQlResponse;
-            expected.forEach(element => {
-                if ('meta' in element) {
-                    delete element['meta']['lastUpdated'];
-                }
-                // element['meta'] = {'versionId': '1'};
-                if ('$schema' in element) {
-                    delete element['$schema'];
-                }
-            });
-            expect(body.data.patient).toStrictEqual(expected);
+            expect(body).toStrictEqual(expected);
         });
     });
 });

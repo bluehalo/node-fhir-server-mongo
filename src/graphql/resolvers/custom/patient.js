@@ -97,7 +97,7 @@ module.exports = {
           'Patient',
           'Patient'
         );
-        if (!result[0].updated && !result[0].created) {
+        if (result !== undefined && !result[0].operationOutcome === undefined) {
           throw new Error(`Unable to update patient ${args.patientId}`);
         }
         return patientToChange;

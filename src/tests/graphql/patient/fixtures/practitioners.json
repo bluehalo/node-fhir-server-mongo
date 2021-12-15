@@ -2,6 +2,17 @@
   {
     "resourceType": "Practitioner",
     "id": "WPS-Health",
+    "meta": {
+      "versionId": "1",
+      "lastUpdated": "2021-04-20T02:44:45+00:00",
+      "source": "https://www.foo.com",
+      "security": [
+        {
+          "system": "https://www.icanbwell.com/access",
+          "code": "medstar"
+        }
+      ]
+    },
     "text": {
       "status": "generated",
       "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: f001</p><p><b>identifier</b>: 938273695 (OFFICIAL), 129IDH4OP733 (USUAL)</p><p><b>name</b>: Eric van den broek (OFFICIAL)</p><p><b>telecom</b>: ph: 0205568263(WORK), E.M.vandenbroek@bmc.nl(WORK), fax: 0205664440(WORK)</p><p><b>address</b>: Galapagosweg 91 Den Burg 9105 PZ NLD (WORK)</p><p><b>gender</b>: male</p><p><b>birthDate</b>: 07/12/1975</p></div>"
@@ -61,6 +72,17 @@
     "text": {
       "status": "generated",
       "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: f005</p><p><b>identifier</b>: 118265112 (OFFICIAL), 191REW8WE916 (USUAL)</p><p><b>name</b>: Langeveld Anne (OFFICIAL)</p><p><b>telecom</b>: ph: 0205563847(WORK), a.langeveld@bmc.nl(WORK), fax: 0205668916(WORK)</p><p><b>address</b>: Galapagosweg 9 Amsterdam 1105 AZ NLD (WORK)</p><p><b>gender</b>: female</p><p><b>birthDate</b>: 11/03/1959</p><p><b>photo</b>: </p><p><b>communication</b>: France <span>(Details : {urn:ietf:bcp:47 code 'fr' = 'French', given as 'France'})</span></p></div>"
+    },
+    "meta": {
+      "versionId": "1",
+      "lastUpdated": "2021-04-20T02:44:45+00:00",
+      "source": "https://www.foo.com",
+      "security": [
+        {
+          "system": "https://www.icanbwell.com/access",
+          "code": "medstar"
+        }
+      ]
     },
     "identifier": [
       {
