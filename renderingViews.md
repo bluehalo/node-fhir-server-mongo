@@ -1,3 +1,5 @@
+# Adding custom rendering views
+
 When you access the FHIR server via a browser (detected through user agent string), the FHIR server converts the JSON resources into HTML for easier viewing.
 
 If there is a custom view template defined for that resource then it is used else we use the generic view template.
