@@ -27,3 +27,6 @@ Custom query filters are defined here: [customQueries.js](src/operations/search/
 
 ## Index hinting
 Some mongo implementations (such as AWS DocumentDB) are not very good at selecting an index to serve a query.  Hence we've added an index hinting feature that compares the columns in the query with the existing indexes and adds a hint to mongo to use that index.  This feature can be turned on by setting the `SET_INDEX_HINTS` environment variable.
+
+## Adding custom rendering views
+[renderingViews.md](renderingViews.md)
