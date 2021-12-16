@@ -58,7 +58,7 @@ module.exports = {
           throw new Error(`Patient not found ${args.patientId}`);
         }
         const patientToChange = patients[0];
-        // merge/create care team
+        // create care team
         const careTeam = mapCareTeam(args.team);
         const result = await merge(
           { ...args, base_version: '4_0_0' },
@@ -69,7 +69,7 @@ module.exports = {
           'CareTeam',
           'CareTeam'
         );
-        if (!result[0].updated && !result[0].created) {
+        if (result !== undefined && !result[0].operationOutcome === undefined) {
           throw new Error(`Unable to update care team data for ${args.patientId}`);
         }
         return patientToChange;

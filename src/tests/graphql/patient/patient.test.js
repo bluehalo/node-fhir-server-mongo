@@ -137,6 +137,7 @@ describe('GraphQL Patient Tests', () => {
                 console.log(body.errors);
                 expect(body.errors).toBeUndefined();
             }
+            expect(body.data.patient.length).toBe(2);
             let expected = expectedGraphQlResponse;
             expected.forEach(element => {
                 if ('meta' in element) {
@@ -198,7 +199,7 @@ describe('GraphQL Patient Tests', () => {
                 .get('/4_0_0/Patient/')
                 .set(getHeaders())
                 .expect(200);
-
+            expect(resp.body.length).toBe(2);
             console.log('------- response patient ------------');
             console.log(JSON.stringify(resp.body, null, 2));
             console.log('------- end response patient  ------------');
@@ -207,7 +208,7 @@ describe('GraphQL Patient Tests', () => {
                 .get('/4_0_0/Practitioner/')
                 .set(getHeaders())
                 .expect(200);
-
+            expect(resp.body.length).toBe(2);
             console.log('------- response practitioner ------------');
             console.log(JSON.stringify(resp.body, null, 2));
             console.log('------- end response practitioner  ------------');

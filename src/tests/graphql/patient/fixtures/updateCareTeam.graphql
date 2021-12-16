@@ -1,0 +1,60 @@
+mutation {
+  updatePreferredProviders(patientId: "WPS-5458231534", team: {
+  resourceType: CareTeam,
+  id: "example2",
+  text: {
+    status: "generated",
+    div: "<div xmlns=\"http://www.w3.org/1999/xhtml\">Care Team</div>"
+  },
+  contained: "34234",
+  identifier: [
+    {
+      value: "12345"
+    }
+  ],
+  status: "active",
+  category: [
+    {
+      coding: [
+        {
+          system: "http://loinc.org",
+          code: "LA27976-2",
+          display: "Encounter-focused care team"
+        }
+      ]
+    }
+  ],
+  name: "Peter James Charlmers Care Plan for Inpatient Encounter",
+  subject:  "Patient/WPS-5458231534",
+  encounter: "Encounter/example",
+  period: {
+    end: "2013-01-01"
+  },
+  participant: [
+    {
+      role: [
+        {
+          text: "responsiblePerson"
+        }
+      ],
+      member: "Patient/WPS-5458231534",
+    },
+    {
+      role: [
+        {
+          text: "adviser"
+        }
+      ],
+      member:  "Practitioner/f005",
+      onBehalfOf: "Organization/f001",
+      period: {
+        end: "2013-01-01"
+      }
+    }
+  ],
+	managingOrganization: ["Organization/f001"]
+}
+){
+    id
+  }
+}
