@@ -15,7 +15,7 @@
     "failed_tests": "NODE_ENV=test npm run test:lint && npm run test:jest --onlyFailures",
     "test:lint": "eslint \"src/**/*.js\"",
     "test:ejslint": "ejslint \"src/**/*.ejs\"",
-    "test:jest": "NODE_ENV=test NODE_OPTIONS=--max_old_space_size=10240 node --max-old-space-size=10240 --expose-gc ./node_modules/.bin/jest --no-watchman --silent --logHeapUsage --forceExit .",
+    "test:jest": "NODE_ENV=test NODE_OPTIONS=--max_old_space_size=11264 node --max-old-space-size=11264 --expose-gc ./node_modules/.bin/jest --no-watchman --silent --logHeapUsage --forceExit .",
     "test:integration": "NODE_ENV=test jest --forceExit --detectOpenHandles -i src/tests/practitioner/complex_merge",
     "test:everything": "NODE_ENV=test jest --forceExit --detectOpenHandles -i src/tests/practitioner/everything",
     "test:graphql": "NODE_ENV=test jest --forceExit --detectOpenHandles -i src/tests/graphql",
