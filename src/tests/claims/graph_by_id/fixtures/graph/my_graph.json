@@ -1,0 +1,63 @@
+{
+    "resourceType": "GraphDefinition",
+    "id": "o",
+    "name": "explanationofbenefit_references",
+    "status": "active",
+    "start": "ExplanationOfBenefit",
+    "link": [
+        {
+            "path": "patient",
+            "target": [{"type": "Patient"}]
+        },
+        {
+            "path": "enterer",
+            "target": [
+                {"type": "Practitioner"},
+                {"type": "PractitionerRole"}
+            ]
+        },
+        {
+            "path": "insurer",
+            "target": [{"type": "Organization"}]
+        },
+        {
+            "path": "provider",
+            "target": [
+                {"type": "Practitioner"},
+                {"type": "PractitionerRole"},
+                {"type": "Organization"}
+            ]
+        },
+        {
+            "path": "related[x].claim",
+            "target": [{"type": "Claim"}]
+        },
+        {
+            "path": "prescription",
+            "target": [
+                {"type": "MedicationRequest"},
+                {"type": "VisionPrescription"}
+            ]
+        },
+        {
+            "path": "originalPrescription",
+            "target": [{"type": "MedicationRequest"}]
+        },
+        {
+            "path": "careTeam[x].provider",
+            "target": [
+                {"type": "Practitioner"},
+                {"type": "PractitionerRole"},
+                {"type": "Organization"}
+            ]
+        },
+        {
+            "path": "diagnosis[x].diagnosisReference",
+            "target": [{"type": "Condition"}]
+        },
+        {
+            "path": "procedure[x].procedureReference",
+            "target": [{"type": "Procedure"}]
+        }
+    ]
+}

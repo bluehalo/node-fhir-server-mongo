@@ -1,14 +1,15 @@
 const {
     dateQueryBuilder,
     referenceQueryBuilder,
-    nameQueryBuilder,
-    stringQueryBuilder,
-    addressQueryBuilder,
+    // nameQueryBuilder,
+    // stringQueryBuilder,
+    // addressQueryBuilder,
     tokenQueryBuilder
 } = require('../../../utils/querybuilder.util');
 const {isTrue} = require('../../../utils/isTrue');
 
-const {customReferenceQueries, customScalarQueries} = require('./customQueries');
+const {fhirFilterTypes} = require('./customQueries');
+const {searchParameterQueries} = require('../../../searchParameters/searchParameters');
 
 // /**
 //  * @type {import('winston').logger}
@@ -24,41 +25,10 @@ const {customReferenceQueries, customScalarQueries} = require('./customQueries')
 module.exports.buildR4SearchQuery = (resourceName, args) => {
     // Common search params
     let id = args['id'] || args['_id'];
-    // let patient = args['patient'];
-    // let practitioner = args['practitioner'];
-    // let organization = args['organization'];
-    // let location = args['location'];
-    // let healthcareService = args['healthcareService'];
-    // let schedule = args['schedule'];
-    // let agent = args['agent'];
-    let name = args['name'];
-    let family = args['family'];
 
-    let address = args['address'];
-    let address_city = args['address-city'];
-    let address_country = args['address-country'];
-    let addressPostalCode = args['address-postalcode'];
-    let address_state = args['address-state'];
-
-    let identifier = args['identifier'];
-    let type_ = args['type'];
-
-    let gender = args['gender'];
-    let email = args['email'];
-    let phone = args['phone'];
-    let source = args['source'];
-    let versionId = args['versionId'];
-    let lastUpdated = args['_lastUpdated']; // _lastUpdated=gt2010-10-01
-    let security = args['_security'];
-    let tag = args['_tag'];
-    // Search Result params
-
-    // let extension_missing = args['extension:missing'];
-    // extension:missing=true
-
-    // Patient search params
-    let active = args['active'];
-
+    if (args['source'] && !args['_source']) {
+        args['_source'] = args['source'];
+    }
     let query = {};
 
     /**
@@ -101,193 +71,120 @@ module.exports.buildR4SearchQuery = (resourceName, args) => {
         columns.add('id');
     }
 
-    if (source) {
-        query['meta.source'] = source;
-        columns.add('meta.source');
-    }
-
-    if (versionId) {
-        query['meta.versionId'] = versionId;
-        columns.add('meta.versionId');
-    }
-
-    if (lastUpdated) {
-        if (Array.isArray(lastUpdated)) {
-            for (const lastUpdatedItem of lastUpdated) {
-                and_segments.push({'meta.lastUpdated': dateQueryBuilder(lastUpdatedItem, 'instant', '')});
-            }
-        } else {
-            query['meta.lastUpdated'] = dateQueryBuilder(lastUpdated, 'instant', '');
-        }
-        columns.add('meta.lastUpdated');
-    }
-
-    for (const [resourceType, filterObj] of Object.entries(customScalarQueries)) {
-        if (resourceType === resourceName) {
-            for (const [property, propertyObj] of Object.entries(filterObj)) {
-                if (args[`${property}`]) {
+    // add FHIR queries
+    for (const [resourceType, resourceObj] of Object.entries(searchParameterQueries)) {
+        if (resourceType === resourceName || resourceType === 'Resource') {
+            for (const [queryParameter, propertyObj] of Object.entries(resourceObj)) {
+                if (args[`${queryParameter}`]) {
                     switch (propertyObj.type) {
-                        case 'instant':
-                            query[`${propertyObj.field}`] = dateQueryBuilder(args[`${property}`], 'instant', '');
+                        case fhirFilterTypes.string:
+                            if (Array.isArray(args[`${queryParameter}`])) {
+                                and_segments.push({
+                                    [`${propertyObj.field}`]: {
+                                        $in: args[`${queryParameter}`]
+                                    }
+                                });
+                            } else if (args[`${queryParameter}`].includes(',')) { // see if this is a comma separated list
+                                const value_list = args[`${queryParameter}`].split(',');
+                                and_segments.push({
+                                    [`${propertyObj.field}`]: {
+                                        $in: value_list
+                                    }
+                                });
+                            } else {
+                                and_segments.push({
+                                    [`${propertyObj.field}`]: args[`${queryParameter}`]
+                                });
+                            }
+                            columns.add(`${propertyObj.field}`);
                             break;
-                        case 'uri':
-                            query[`${propertyObj.field}`] = args[`${property}`];
+                        case fhirFilterTypes.uri:
+                            and_segments.push({[`${propertyObj.field}`]: args[`${queryParameter}`]});
+                            columns.add(`${propertyObj.field}`);
                             break;
+                        case fhirFilterTypes.dateTime:
+                        case fhirFilterTypes.date:
+                        case fhirFilterTypes.period:
+                        case fhirFilterTypes.instant:
+                            if (Array.isArray(args[`${queryParameter}`])) {
+                                for (const dateQueryItem of args[`${queryParameter}`]) {
+                                    and_segments.push({[`${propertyObj.field}`]: dateQueryBuilder(dateQueryItem, propertyObj.type, '')});
+                                }
+                            } else {
+                                and_segments.push({[`${propertyObj.field}`]: dateQueryBuilder(args[`${queryParameter}`], propertyObj.type, '')});
+                            }
+                            columns.add(`${propertyObj.field}`);
+                            break;
+                        case fhirFilterTypes.token:
+                            if (propertyObj.fieldFilter === '[system/@value=\'email\']') {
+                                and_segments.push(tokenQueryBuilder(args[`${queryParameter}`], 'value', `${propertyObj.field}`, 'email'));
+                                columns.add(`${propertyObj.field}.system`);
+                                columns.add(`${propertyObj.field}.value`);
+                            } else if (propertyObj.fieldFilter === '[system/@value=\'phone\']') {
+                                and_segments.push(tokenQueryBuilder(args[`${queryParameter}`], 'value', `${propertyObj.field}`, 'phone'));
+                                columns.add(`${propertyObj.field}.system`);
+                                columns.add(`${propertyObj.field}.value`);
+                            } else {
+                                and_segments.push(
+                                    {
+                                        $or: [
+                                            tokenQueryBuilder(args[`${queryParameter}`], 'code', `${propertyObj.field}`, ''),
+                                            tokenQueryBuilder(args[`${queryParameter}`], 'code', `${propertyObj.field}.coding`, ''),
+                                        ]
+                                    }
+                                );
+                                // HACK ALERT: token can be for either CodeableConcept or Coding.  Currently, we can't figure out in advance
+                                //  Ideally we would set the former when we have a Coding and the latter when we have a CodeableConcept
+                                //  but this would require us parsing the FHIR resource schemas to know that
+                                if (propertyObj.field === 'meta.security' || propertyObj.field === 'meta.tag') {
+                                    columns.add(`${propertyObj.field}.system`);
+                                    columns.add(`${propertyObj.field}.code`);
+                                } else {
+                                    columns.add(`${propertyObj.field}.coding.system`);
+                                    columns.add(`${propertyObj.field}.coding.code`);
+                                }
+                            }
+
+                            break;
+                        case fhirFilterTypes.reference:
+                            if (propertyObj.target.length === 1) { // handle simple case without an OR to keep it simple
+                                const target = propertyObj.target[0];
+                                and_segments.push(
+                                    referenceQueryBuilder(
+                                        `${target}/` + args[`${queryParameter}`],
+                                        `${propertyObj.field}.reference`,
+                                        null
+                                    )
+                                );
+                            } else {
+                                and_segments.push(
+                                    {
+                                        $or: propertyObj.target.map(
+                                            target => referenceQueryBuilder(
+                                                `${target}/` + args[`${queryParameter}`],
+                                                `${propertyObj.field}.reference`,
+                                                null
+                                            )
+                                        )
+                                    }
+                                );
+                            }
+                            columns.add(`${propertyObj.field}.reference`);
+                            break;
+                        default:
+                            throw new Error('Unknown type=' + propertyObj.type);
                     }
+                } else if (args[`${queryParameter}:missing`]) {
+                    const exists_flag = !isTrue(args[`${queryParameter}:missing`]);
+                    and_segments.push({
+                        [`${propertyObj.field}`]: {$exists: exists_flag}
+                    });
                     columns.add(`${propertyObj.field}`);
                 }
             }
         }
     }
 
-    for (const [field, filterObj] of Object.entries(customReferenceQueries)) {
-        const resourceType = filterObj.resourceType;
-        if (args[`${field}`] || args[`${field}:missing`]) {
-            const reference = `${resourceType}/` + args[`${field}`];
-            /**
-             * @type {?boolean}
-             */
-            let reference_exists_flag = null;
-            if (args[`${field}:missing`]) {
-                reference_exists_flag = !isTrue(args[`${field}:missing`]);
-            }
-            for (const [resource, property] of Object.entries(filterObj.mappings)) {
-                if ([`${resource}`].includes(resourceName)) {
-                    if (property === 'id') {
-                        columns.add('id');
-                        query.id = args[`${field}`];
-                    } else {
-                        and_segments.push(referenceQueryBuilder(reference, property, reference_exists_flag));
-                        columns.add(property);
-                    }
-                }
-            }
-        }
-    }
-
-    if (name) {
-        if (['Practitioner'].includes(resourceName)) {
-            if (name) {
-                let orsName = nameQueryBuilder(name);
-                for (let i = 0; i < orsName.length; i++) {
-                    and_segments.push(orsName[`${i}`]);
-                }
-            }
-        } else {
-            query['name'] = stringQueryBuilder(name);
-        }
-        columns.add('name');
-    }
-    if (family) {
-        query['name.family'] = stringQueryBuilder(family);
-        columns.add('name.family');
-    }
-
-    if (address) {
-        let orsAddress = addressQueryBuilder(address);
-        for (let i = 0; i < orsAddress.length; i++) {
-            and_segments.push(orsAddress[`${i}`]);
-        }
-        columns.add('address');
-    }
-
-    if (address_city) {
-        query['address.city'] = stringQueryBuilder(address_city);
-        columns.add('address.city');
-    }
-
-    if (address_country) {
-        query['address.country'] = stringQueryBuilder(address_country);
-        columns.add('address.country');
-    }
-
-    if (addressPostalCode) {
-        query['address.postalCode'] = stringQueryBuilder(addressPostalCode);
-        columns.add('address.postalCode');
-    }
-
-    if (address_state) {
-        query['address.state'] = stringQueryBuilder(address_state);
-        columns.add('address.state');
-    }
-
-    if (identifier || args['identifier:missing']) {
-        let identifier_exists_flag = null;
-        if (args['identifier:missing']) {
-            identifier_exists_flag = !isTrue(args['identifier:missing']);
-        }
-        let queryBuilder = tokenQueryBuilder(identifier, 'value', 'identifier', '', identifier_exists_flag);
-        /**
-         * @type {string}
-         */
-        for (let i in queryBuilder) {
-            query[`${i}`] = queryBuilder[`${i}`];
-        }
-        columns.add('identifier.system');
-        columns.add('identifier.value');
-    }
-    if (type_) {
-        let queryBuilder = tokenQueryBuilder(type_, 'code', 'type.coding', '');
-        /**
-         * @type {string}
-         */
-        for (let i in queryBuilder) {
-            query[`${i}`] = queryBuilder[`${i}`];
-        }
-        columns.add('type.coding.system');
-        columns.add('type.coding.code');
-    }
-    if (security) {
-        let queryBuilder = tokenQueryBuilder(security, 'code', 'meta.security', '');
-        /**
-         * @type {string}
-         */
-        for (let i in queryBuilder) {
-            query[`${i}`] = queryBuilder[`${i}`];
-        }
-        columns.add('meta.security.system');
-        columns.add('meta.security.code');
-    }
-    if (tag) {
-        let queryBuilder = tokenQueryBuilder(tag, 'code', 'meta.tag', '');
-        /**
-         * @type {string}
-         */
-        for (let i in queryBuilder) {
-            query[`${i}`] = queryBuilder[`${i}`];
-        }
-        columns.add('meta.tag.system');
-        columns.add('meta.tag.code');
-    }
-    if (active) {
-        query.active = active === 'true';
-        columns.add('active');
-    }
-
-    if (gender) {
-        query.gender = gender;
-        columns.add('gender');
-    }
-
-    // Forces system = 'email'
-    if (email) {
-        let queryBuilder = tokenQueryBuilder(email, 'value', 'telecom', 'email');
-        for (let i in queryBuilder) {
-            query[`${i}`] = queryBuilder[`${i}`];
-        }
-        columns.add('telecom.system');
-        columns.add('telecom.value');
-    }
-
-    // Forces system = 'phone'
-    if (phone) {
-        let queryBuilder = tokenQueryBuilder(phone, 'value', 'telecom', 'phone');
-        for (let i in queryBuilder) {
-            query[`${i}`] = queryBuilder[`${i}`];
-        }
-        columns.add('telecom.system');
-        columns.add('telecom.value');
-    }
 
     if (and_segments.length !== 0) {
         query.$and = and_segments;

@@ -44,6 +44,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -88,6 +94,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -140,6 +152,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -184,6 +202,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -236,6 +260,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -280,6 +310,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -332,6 +368,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -376,6 +418,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -428,6 +476,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -472,6 +526,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -524,6 +584,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -568,6 +634,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -620,6 +692,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -664,6 +742,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -716,6 +800,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -760,6 +850,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -812,6 +908,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -856,6 +958,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -908,6 +1016,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -952,6 +1066,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -1004,6 +1124,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -1048,6 +1174,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -1100,6 +1232,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -1144,6 +1282,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -1196,6 +1340,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -1240,6 +1390,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -1292,6 +1448,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -1336,6 +1498,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -1388,6 +1556,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -1432,6 +1606,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -1484,6 +1664,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -1528,6 +1714,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -1580,6 +1772,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -1624,6 +1822,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -1676,6 +1880,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -1720,6 +1930,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -1772,6 +1988,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -1816,6 +2038,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -1868,6 +2096,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -1912,6 +2146,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -1964,6 +2204,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -2008,6 +2254,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -2060,6 +2312,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -2104,6 +2362,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -2156,6 +2420,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -2200,6 +2470,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -2252,6 +2528,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -2296,6 +2578,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -2348,6 +2636,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -2392,6 +2686,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -2444,6 +2744,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -2488,6 +2794,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -2540,6 +2852,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -2584,6 +2902,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -2636,6 +2960,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -2680,6 +3010,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -2732,6 +3068,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -2776,6 +3118,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -2828,6 +3176,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -2872,6 +3226,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -2924,6 +3284,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -2968,6 +3334,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -3020,6 +3392,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -3064,6 +3442,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -3116,6 +3500,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -3160,6 +3550,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -3212,6 +3608,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -3256,6 +3658,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -3308,6 +3716,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -3352,6 +3766,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -3404,6 +3824,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -3448,6 +3874,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -3500,6 +3932,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -3544,6 +3982,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -3596,6 +4040,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -3640,6 +4090,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -3692,6 +4148,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -3736,6 +4198,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -3788,6 +4256,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -3832,6 +4306,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -3884,6 +4364,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -3928,6 +4414,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -3980,6 +4472,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -4024,6 +4522,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -4076,6 +4580,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -4120,6 +4630,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -4172,6 +4688,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -4216,6 +4738,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -4268,6 +4796,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -4312,6 +4846,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -4364,6 +4904,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -4408,6 +4954,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -4460,6 +5012,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -4504,6 +5062,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -4556,6 +5120,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -4600,6 +5170,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -4652,6 +5228,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -4696,6 +5278,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -4748,6 +5336,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -4792,6 +5386,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -4844,6 +5444,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -4888,6 +5494,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -4940,6 +5552,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -4984,6 +5602,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -5036,6 +5660,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -5080,6 +5710,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -5132,6 +5768,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -5176,6 +5818,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -5228,6 +5876,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -5272,6 +5926,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -5324,6 +5984,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -5368,6 +6034,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -5420,6 +6092,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -5464,6 +6142,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -5516,6 +6200,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -5560,6 +6250,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -5612,6 +6308,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -5656,6 +6358,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -5708,6 +6416,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -5752,6 +6466,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -5804,6 +6524,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -5848,6 +6574,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -5900,6 +6632,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -5944,6 +6682,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -5996,6 +6740,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -6040,6 +6790,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -6092,6 +6848,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -6136,6 +6898,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
@@ -6188,6 +6956,12 @@ const profiles = {
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },
         {
+          name: 'graph',
+          route: '/:id/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
           name: 'expand',
           route: '/:id/$expand',
           method: 'GET',
@@ -6232,6 +7006,12 @@ const profiles = {
         {
           name: 'graph',
           route: '/$graph',
+          method: 'POST',
+          reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
+        },
+        {
+          name: 'graph',
+          route: '/:id/$graph',
           method: 'POST',
           reference: 'https://www.hl7.org/fhir/resource-operation-graph.html',
         },

@@ -18,7 +18,7 @@
 
         <%- include('../partials/coding', {codings: [res.class], name: "Class"}); %>
 
-        <%- include('../partials/codeableConcept', {codeableConcepts: res.type, name: "Type"}); %>
+        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.type, name: "Type"}); %>
 
         <%- include('../partials/reference', {references: [res.subject], name: "Subject"}); %>
 
@@ -30,7 +30,7 @@
             <% }) %>
         <% } %>
 
-        <%- include('../partials/codeableConcept', {codeableConcepts: res.reasonCode, name: "Reason Code"}); %>
+        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.reasonCode, name: "Reason Code"}); %>
 
         <% if (res.location) { %>
             <% res.location.forEach(function(location){ %>

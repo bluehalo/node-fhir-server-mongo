@@ -1,0 +1,93 @@
+{
+  "entry": [
+    {
+      "resource": {
+        "code": {
+          "coding": [
+            {
+              "code": "BMI001",
+              "system": "http://www.icanbwell.com/cql/library"
+            },
+            {
+              "code": "1.0.0",
+              "system": "http://www.icanbwell.com/cql/libraryVersion"
+            },
+            {
+              "code": "InAgeCohort",
+              "system": "http://www.icanbwell.com/cql/rule"
+            }
+          ]
+        },
+        "effectivePeriod": {
+          "end": "2021-12-31T00:00:00.000Z",
+          "start": "2021-01-01T00:00:00.000Z"
+        },
+        "id": "2354-InAgeCohort",
+        "issued": "2021-01-01T12:00:00Z",
+        "meta": {
+          "security": [
+            {
+              "code": "A",
+              "system": "https://www.icanbwell.com/owner"
+            },
+            {
+              "code": "A",
+              "system": "https://www.icanbwell.com/access"
+            },
+            {
+              "code": "B",
+              "system": "https://www.icanbwell.com/vendor"
+            },
+            {
+              "code": "B",
+              "system": "https://www.icanbwell.com/access"
+            }
+          ],
+          "source": "/patients",
+          "versionId": "1"
+        },
+        "resourceType": "Observation",
+        "status": "final",
+        "subject": {
+          "reference": "Patient/2354"
+        },
+        "valueBoolean": false
+      }
+    }
+  ],
+  "link": [
+    {
+      "relation": "self",
+      "url": "/4_0_0/Observation/?token=http://www.icanbwell.com/cql/library%7CBMI001&_setIndexHint=1&_debug=1&_bundle=1"
+    },
+    {
+      "relation": "next",
+      "url": "/4_0_0/Observation/?token=http%3A%2F%2Fwww.icanbwell.com%2Fcql%2Flibrary%7CBMI001&_setIndexHint=1&_debug=1&_bundle=1&id%3Aabove=2354-InAgeCohort"
+    }
+  ],
+  "meta": {
+    "tag": [
+      {
+        "system": "https://www.icanbwell.com/queryIndexHint"
+      },
+      {
+        "system": "https://www.icanbwell.com/query"
+      },
+      {
+        "code": "Observation_4_0_0",
+        "system": "https://www.icanbwell.com/queryCollection"
+      },
+      {
+        "display": "{\"limit\":10,\"sort\":{\"id\":1}}",
+        "system": "https://www.icanbwell.com/queryOptions"
+      },
+      {
+        "display": "[\"code.coding.system\",\"code.coding.code\",\"id\"]",
+        "system": "https://www.icanbwell.com/queryFields"
+      }
+    ]
+  },
+  "resourceType": "Bundle",
+  "total": 0,
+  "type": "searchset"
+}

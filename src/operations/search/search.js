@@ -101,7 +101,7 @@ module.exports.search = async (args, user, scope, resourceName, collection_name,
     let Resource = getResource(base_version, resourceName);
 
     logDebug(user, '---- query ----');
-    logDebug(user, query);
+    logDebug(user, JSON.stringify(query));
     logDebug(user, '--------');
 
     /**

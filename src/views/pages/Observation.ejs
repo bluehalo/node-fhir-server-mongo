@@ -16,8 +16,8 @@
 
         <div><h4>Status</h4><%= res.status %></div>
 
-        <%- include('../partials/codeableConcept', {codeableConcepts: res.category, name: "Category"}); %>
-        <%- include('../partials/codeableConcept', {codeableConcepts: [res.code], name: "Code"}); %>
+        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.category, name: "Category"}); %>
+        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: [res.code], name: "Code"}); %>
 
        <%- include('../partials/reference', {references: [res.subject], name: "Subject"}); %>
 
@@ -28,7 +28,77 @@
 
         <%- include('../partials/reference', {references: res.performer, name: "Performer"}); %>
 
-        <%- include('../partials/codeableConceptWithValue', {codeableConceptsWithValue: res.component, codePropertyName: "code", name: "Code"}); %>
+        <%- include('../partials/codeableConceptWithValue', {resourceType: res.resourceType, codeableConceptsWithValue: res.component, codePropertyName: "code", name: "Code"}); %>
+
+        <%- include('../partials/codeableConceptWithValue', {resourceType: res.resourceType, codeableConceptsWithValue: res.valueCodeableConcept, codePropertyName: "code", name: "Value"}); %>
+
+        <div>
+            <h4>Value</h4>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Type</th>
+                  <th scope="col">Value</th>
+                </tr>
+              </thead>
+              <tbody>
+              <% if (res.valueString != null) {%>
+                <tr>
+                  <td>valueString</td>
+                  <td><%= res.valueString %></td>
+                </tr>
+              <%}%>
+              <% if (res.valueBoolean != null) {%>
+                <tr>
+                  <td>valueBoolean</td>
+                  <td><%= res.valueBoolean %></td>
+                </tr>
+              <%}%>
+              <% if (res.valueInteger != null) {%>
+                <tr>
+                  <td>valueInteger</td>
+                  <td><%= res.valueInteger %></td>
+                </tr>
+              <%}%>
+              <% if (res.valueQuantity != null && res.valueQuantity.value) {%>
+                <tr>
+                  <td>valueQuantity</td>
+                  <td><%= res.valueQuantity.value %> <%= res.valueQuantity.unit %></td>
+                </tr>
+              <%}%>
+              <% if (res.valueRange != null) {%>
+                <tr>
+                  <td>valueRange</td>
+                  <td><%= res.valueRange.low.value %> to <%= res.valueRange.high.value %></td>
+                </tr>
+              <%}%>
+              <% if (res.valueRatio != null && res.valueRatio.numerator && res.valueRatio.numerator.value && res.valueRatio.denominator && res.valueRatio.denominator.value) {%>
+                <tr>
+                  <td>valueRatio</td>
+                  <td><%= res.valueRatio.numerator.value %> / <%= res.valueRatio.denominator.value %></td>
+                </tr>
+              <%}%>
+              <% if (res.valueTime != null) {%>
+                <tr>
+                  <td>valueTime</td>
+                  <td><%= res.valueTime %></td>
+                </tr>
+              <%}%>
+              <% if (res.valueDateTime != null) {%>
+                <tr>
+                  <td>valueDateTime</td>
+                  <td><%= res.valueDateTime %></td>
+                </tr>
+              <%}%>
+              <% if (res.valuePeriod != null) {%>
+                <tr>
+                  <td>valuePeriod</td>
+                  <td><%= res.valuePeriod.start %> to <%= res.valuePeriod.end %></td>
+                </tr>
+              <%}%>
+              </tbody>
+            </table>
+        </div>
 
         <%- include('../partials/json', {res: res}); %>
     <%})%>

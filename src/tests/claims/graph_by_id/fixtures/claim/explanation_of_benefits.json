@@ -1,0 +1,131 @@
+[
+  {
+    "resourceType": "ExplanationOfBenefit",
+    "id": "WPS-Claim-230916613369",
+    "meta": {
+      "source": "https://www.wpshealth.com/medical_claims",
+      "security": [
+        {
+          "system": "https://www.icanbwell.com/access",
+          "code": "medstar"
+        }
+      ]
+    },
+    "identifier": [
+      {
+        "type": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+              "code": "claimnumber",
+              "display": "Claim Number"
+            }
+          ],
+          "text": "Claim Number"
+        },
+        "system": "https://www.wpshealth.com/",
+        "value": "230916613369"
+      }
+    ],
+    "status": "active",
+    "type": {
+      "coding": [
+        {
+          "system": "https://hl7.org/FHIR/codesystem-claim-type.html",
+          "code": "Institutional"
+        }
+      ],
+      "text": "Claim Type"
+    },
+    "use": "Claim",
+    "patient": {
+      "reference": "Patient/WPS-0559166162"
+    },
+    "insurer": {
+      "reference": "Organization/WPS-Health"
+    },
+    "provider": {
+      "reference": "Organization/1407857790"
+    },
+    "outcome": "Complete",
+    "careTeam": [],
+    "insurance": [
+      {
+        "focal": true,
+        "coverage": {
+          "reference": "Coverage/WPS-6678928210"
+        }
+      }
+    ],
+    "supportingInfo": []
+  },
+  {
+    "resourceType": "ExplanationOfBenefit",
+    "id": "WPS-Claim-230916613368",
+    "meta": {
+      "source": "https://www.wpshealth.com/medical_claims",
+      "security": [
+        {
+          "system": "https://www.icanbwell.com/access",
+          "code": "medstar"
+        }
+      ]
+    },
+    "identifier": [
+      {
+        "type": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+              "code": "claimnumber",
+              "display": "Claim Number"
+            }
+          ],
+          "text": "Claim Number"
+        },
+        "system": "https://www.wpshealth.com/",
+        "value": "230916613368"
+      }
+    ],
+    "status": "active",
+    "type": {
+      "coding": [
+        {
+          "system": "https://hl7.org/FHIR/codesystem-claim-type.html",
+          "code": "Institutional"
+        }
+      ],
+      "text": "Claim Type"
+    },
+    "use": "Claim",
+    "patient": {
+      "reference": "Patient/WPS-6678928210"
+    },
+    "insurer": {
+      "reference": "Organization/WPS-Health"
+    },
+    "provider": {
+      "reference": "Practitioner/1376656959"
+    },
+    "payee": {
+      "type": {
+        "coding": [
+          {
+            "system": "http://terminology.hl7.org/CodeSystem/payeetype",
+            "code": "Provider"
+          }
+        ]
+      }
+    },
+    "outcome": "Complete",
+    "careTeam": [],
+    "insurance": [
+      {
+        "focal": true,
+        "coverage": {
+          "reference": "Coverage/WPS-6678928210"
+        }
+      }
+    ]
+  }
+]

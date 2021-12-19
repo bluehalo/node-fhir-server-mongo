@@ -17,7 +17,7 @@
         <h4>Status</h4><%= res.active %>
         <h4>Intent</h4><%= res.intent %>
 
-        <%- include('../partials/codeableConcept', {codeableConcepts: [res.code], name: "Code"}); %>
+        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: [res.code], name: "Code"}); %>
 
         <%- include('../partials/reference', {references: [res.subject], name: "Subject"}); %>
 

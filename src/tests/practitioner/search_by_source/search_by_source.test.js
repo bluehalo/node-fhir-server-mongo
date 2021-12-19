@@ -93,7 +93,7 @@ describe('search_by_source', () => {
                                 return cb(err, resp);
                             }),
                     (results, cb) => request
-                        .get('/4_0_0/Practitioner?_count=500&_getpagesoffset=0&source=https://thedacare.org&_security=https://www.icanbwell.com/access|medstar')
+                        .get('/4_0_0/Practitioner?_count=500&_getpagesoffset=0&_source=https://thedacare.org&_security=https://www.icanbwell.com/access|medstar')
                         .set(getHeaders())
                         .expect(200, cb)
                         .expect((resp) => {

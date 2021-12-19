@@ -18,13 +18,13 @@
         <h4>Name</h4><%= res.name %>
         <h4>Mode</h4><%= res.mode %>
 
-        <%- include('../partials/codeableConcept', {codeableConcepts: res.type, name: "Type"}); %>
+        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.type, name: "Type"}); %>
 
          <%- include('../partials/contactpoint', {contacts: res.telecom, name: "Telecom"}); %>
 
          <%- include('../partials/address', {addresses: [res.address], name: "Address"}); %>
 
-        <%- include('../partials/codeableConcept', {codeableConcepts: [res.physicalType], name: "Physical Type"}); %>
+        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: [res.physicalType], name: "Physical Type"}); %>
 
         <%- include('../partials/position', {positions: [res.position], name: "Position"}); %>
 

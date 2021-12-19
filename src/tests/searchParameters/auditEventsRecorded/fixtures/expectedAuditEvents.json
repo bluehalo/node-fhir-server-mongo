@@ -461,7 +461,7 @@
         "system": "https://www.icanbwell.com/queryOptions"
       },
       {
-        "display": "[\"meta.lastUpdated\",\"recorded\",\"meta.security.system\",\"meta.security.code\",\"id\"]",
+        "display": "[\"recorded\",\"meta.lastUpdated\",\"meta.security.system\",\"meta.security.code\",\"id\"]",
         "system": "https://www.icanbwell.com/queryFields"
       }
     ]

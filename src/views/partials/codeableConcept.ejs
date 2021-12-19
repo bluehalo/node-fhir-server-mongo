@@ -17,8 +17,8 @@
         <tr>
            <td><%= coding.id %></td>
           <td><%= codeableConcept.text || coding.display %></td>
-          <td><%= coding.system %></td>
-          <td><%= coding.code %></td>
+          <td><a href="/4_0_0/<%= resourceType %>?code=<%= coding.system %>|"><%= coding.system %></a></td>
+          <td><a href="/4_0_0/<%= resourceType %>?code=<%= coding.system %>|<%= coding.code %>"><%= coding.code %></a></td>
         </tr>
             <%})%>
         <%}%>
