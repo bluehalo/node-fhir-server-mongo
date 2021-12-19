@@ -15,7 +15,7 @@
         <%- include('../partials/resourceHeader', {res: res}); %>
 
         <h4>Status</h4><%= res.status %>
-        <%- include('../partials/codeableConcept', {codeableConcepts: [res.type], name: "Type"}); %>
+        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: [res.type], name: "Type"}); %>
 
         <%- include('../partials/reference', {references: [res.subscriber], name: "Subscriber"}); %>
         <%- include('../partials/reference', {references: [res.beneficiary], name: "Beneficiary"}); %>
@@ -23,7 +23,7 @@
 
         <%- include('../partials/period', {periods: [res.period], name: "Period"}); %>
 
-        <%- include('../partials/codeableConceptWithValue', {codeableConceptsWithValue: res.class, codePropertyName: "type", name: "Class"}); %>
+        <%- include('../partials/codeableConceptWithValue', {resourceType: res.resourceType, codeableConceptsWithValue: res.class, codePropertyName: "type", name: "Class"}); %>
 
         <%- include('../partials/reference', {references: res.contract, name: "Contract"}); %>
 

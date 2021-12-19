@@ -20,7 +20,7 @@
         <h4>Created</h4><%= res.created %>
         <% if (res.billablePeriod) {%><h4>Billable Period</h4><%= res.billablePeriod.start %> to <%= res.billablePeriod.start %><%}%>
 
-        <%- include('../partials/codeableConcept', {codeableConcepts: [res.type], name: "Type"}); %>
+        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: [res.type], name: "Type"}); %>
 
         <%- include('../partials/reference', {references: [res.patient], name: "Patient"}); %>
 

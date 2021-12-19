@@ -76,7 +76,7 @@ let nameQueryBuilder = function (target) {
 
 /**
  * @name tokenQueryBuilder
- * @param {string} target what we are searching for
+ * @param {?string} target what we are searching for
  * @param {string} type codeable concepts use a code field and identifiers use a value
  * @param {string} field path to system and value from field
  * @param {string} required the required system if specified
@@ -107,11 +107,12 @@ let tokenQueryBuilder = function (target, type, field, required, exists_flag = n
     if (target.includes('|')) {
         [system, value] = target.split('|');
 
-        if (required) {
-            system = required;
-        }
     } else {
         value = target;
+    }
+
+    if (required) {
+        system = required;
     }
 
     if (system) {
@@ -326,34 +327,34 @@ let dateQueryBuilder = function (date, type, path) {
             // replace prefix with mongo specific comparators
             prefix = '$' + match[1].replace('ge', 'gte').replace('le', 'lte');
         }
-        if (type === 'date') {
-            //if its just a date, we don't have to worry about time components
-            //add parts of date that are available
-            for (let i = 2; i < 5; i++) {
-                //add up the date parts in a string
-                if (match[`${i}`]) {
-                    str = str + match[`${i}`];
-                    pArr[i - 2] = str + '$';
-                }
-            }
-            if (prefix === '$eq') {
+        // if (type === 'date') {
+        //     //if its just a date, we don't have to worry about time components
+        //     //add parts of date that are available
+        //     for (let i = 2; i < 5; i++) {
+        //         //add up the date parts in a string
+        //         if (match[`${i}`]) {
+        //             str = str + match[`${i}`];
+        //             pArr[i - 2] = str + '$';
+        //         }
+        //     }
+        //     if (prefix === '$eq') {
+        //
+        //         //below we have to check if the search gave more information than what is actually stored
+        //         return {
+        //             // eslint-disable-next-line security/detect-non-literal-regexp
+        //             $regex: new RegExp(
+        //                 '^' + '(?:' + str + ')|(?:' + pArr[0] + ')|(?:' + pArr[1] + ')|(?:' + pArr[2] + ')',
+        //                 'i'
+        //             ),
+        //         };
+        //     } else {
+        //         return {
+        //             [prefix]: str
+        //         };
+        //     }
+        // }
 
-                //below we have to check if the search gave more information than what is actually stored
-                return {
-                    // eslint-disable-next-line security/detect-non-literal-regexp
-                    $regex: new RegExp(
-                        '^' + '(?:' + str + ')|(?:' + pArr[0] + ')|(?:' + pArr[1] + ')|(?:' + pArr[2] + ')',
-                        'i'
-                    ),
-                };
-            } else {
-                return {
-                    [prefix]: str
-                };
-            }
-        }
-
-        if (type === 'dateTime' || type === 'instant' || type === 'period' || type === 'timing') {
+        if (type === 'date' || type === 'dateTime' || type === 'instant' || type === 'period' || type === 'timing') {
             //now we have to worry about hours, minutes, seconds, and TIMEZONES
             if (prefix === '$eq') {
                 if (match[5]) {

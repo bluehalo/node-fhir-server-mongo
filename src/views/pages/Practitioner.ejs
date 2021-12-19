@@ -115,7 +115,7 @@
         </div>
         <%}%>
 
-        <%- include('../partials/codeableConcept', {codeableConcepts: res.communication, name: "Communication"}); %>
+        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.communication, name: "Communication"}); %>
 
          <%- include('../partials/contactpoint', {contacts: res.telecom, name: "Telecom"}); %>
 

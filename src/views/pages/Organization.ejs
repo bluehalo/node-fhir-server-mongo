@@ -17,7 +17,7 @@
         <h4>Active</h4><%= res.active %>
         <h4>Name</h4><%= res.name %>
 
-        <%- include('../partials/codeableConcept', {codeableConcepts: res.type, name: "Type"}); %>
+        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.type, name: "Type"}); %>
 
          <%- include('../partials/address', {addresses: res.address, name: "Address"}); %>
 

@@ -19,3 +19,5 @@ src/profiles.js
 globalConfig.json
 !/.vscode/launch.json
 .idea/
+!.idea/fileTemplates
+#!/.idea/file.template.settings.xml

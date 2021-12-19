@@ -14,7 +14,7 @@
     <% resources.forEach(function(res){ %>
         <%- include('../partials/resourceHeader', {res: res}); %>
 
-        <%- include('../partials/codeableConcept', {codeableConcepts: res.serviceType, name: "Service Type"}); %>
+        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.serviceType, name: "Service Type"}); %>
 
         <%- include('../partials/reference', {references: [res.schedule], name: "Schedule"}); %>
 

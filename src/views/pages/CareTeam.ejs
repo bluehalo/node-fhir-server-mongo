@@ -18,7 +18,7 @@
 
         <h4>Status</h4><%= res.status %>
 
-        <%- include('../partials/codeableConcept', {codeableConcepts: res.category, name: "Category"}); %>
+        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.category, name: "Category"}); %>
 
         <%- include('../partials/reference', {references: [res.subject], name: "Subject"}); %>
 
