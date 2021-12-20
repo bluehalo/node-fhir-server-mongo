@@ -1,6 +1,6 @@
 from pprint import pprint
 
-from spark_auto_mapper_fhir.generator.fhir_xml_schema_parser import FhirXmlSchemaParser
+from src.graphql.generator.fhir_xml_schema_parser import FhirXmlSchemaParser
 
 
 def test_generator() -> None:

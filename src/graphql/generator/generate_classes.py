@@ -1,3 +1,6 @@
+# This file implements the code generator for generating schema and resolvers for FHIR
+# It reads the FHIR XML schema and generates resolvers in the resolvers folder and schema in the schema folder
+
 import os
 import shutil
 from os import path, listdir

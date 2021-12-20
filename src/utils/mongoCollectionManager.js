@@ -1,3 +1,8 @@
+/**
+ * This file implements a function to get or create a mongo collection.  It uses a mutex to prevent multiple node.js processes
+ *  from trying to do this operation at the same time
+ */
+
 const Mutex = require('async-mutex').Mutex;
 const mutex = new Mutex();
 

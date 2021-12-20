@@ -1,3 +1,7 @@
+/**
+ * This file implements helper functions for AWS
+ */
+
 const AWS = require('aws-sdk');
 const logger = require('@asymmetrik/node-fhir-server-core').loggers.get();
 // const Sentry = require('./sentry');

@@ -1,3 +1,7 @@
+/**
+ * This file implements helper function for sentry error notifications
+ */
+
 const Sentry = require('@sentry/node');
 
 const logger = require('@asymmetrik/node-fhir-server-core').loggers.get();

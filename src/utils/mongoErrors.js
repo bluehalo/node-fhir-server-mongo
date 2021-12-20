@@ -1,3 +1,7 @@
+/**
+ * This file implements a custom error for Mongo errors
+ */
+
 class MongoError extends Error {
     /**
      * Creates an error for mongo

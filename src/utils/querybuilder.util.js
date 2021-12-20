@@ -1,3 +1,8 @@
+/**
+ * This file implements helpers for building mongo queries
+ */
+
+
 const moment = require('moment-timezone');
 /**
  * @name stringQueryBuilder

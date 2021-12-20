@@ -1,3 +1,7 @@
+/**
+ * This file specifies information for FHIR resources shown on the home opage
+ */
+
 const resourceDefinitions = [
     {
         name: 'Patient',

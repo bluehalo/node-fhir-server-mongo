@@ -1,3 +1,7 @@
+/**
+ * This route handler implements the /index route which is used to check current mongo indexes and add new ones
+ */
+
 const asyncHandler = require('../lib/async-handler');
 const mongoClient = require('../lib/mongo');
 const {mongoConfig} = require('../config');

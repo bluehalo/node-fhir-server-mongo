@@ -1,3 +1,7 @@
+/**
+ * This file implements helper function for calling Slack
+ */
+
 const {WebClient} = require('@slack/web-api');
 const env = require('var');
 

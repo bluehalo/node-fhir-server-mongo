@@ -1,3 +1,7 @@
+/**
+ * This file implement helper functions for generate uuids
+ */
+
 const hash = require('object-hash');
 /**
  * Return a random int, used by `utils.getUid()`.

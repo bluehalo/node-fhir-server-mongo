@@ -1,3 +1,7 @@
+/**
+ * This file implements a background long running task to apply indexes to mongo db
+ */
+
 // This runs in a separate process to index so the main thread is not blocked
 // from https://riptutorial.com/node-js/example/21833/processing-long-running-queries-with-node
 

@@ -1,4 +1,7 @@
-// This file implements code to index the mongo database and to list the current indexes
+/**
+ * This file implements code to index the mongo database and to list the current indexes
+ */
+
 const asyncHandler = require('../lib/async-handler');
 const mongoClient = require('../lib/mongo');
 const {mongoConfig} = require('../config');

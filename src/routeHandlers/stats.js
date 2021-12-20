@@ -1,3 +1,7 @@
+/**
+ * This route handler implements the /stats endpoint which shows the collections in mongo and the number of records in each
+ */
+
 const asyncHandler = require('../lib/async-handler');
 const mongoClient = require('../lib/mongo');
 const {mongoConfig} = require('../config');

@@ -1,3 +1,4 @@
+# This file implements classes that parse FHIR XML schema
 import dataclasses
 import logging
 import re

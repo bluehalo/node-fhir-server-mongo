@@ -1,3 +1,5 @@
+# This file has the code generator to reach search-parameters.json and generate searchParameters.js
+
 import json
 import re
 from dataclasses import dataclass

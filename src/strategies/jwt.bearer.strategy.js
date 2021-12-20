@@ -1,3 +1,7 @@
+/**
+ * This file implements the Passport strategy that reads a JWT token and decrypts it using the public key of the OAuth Provider
+ */
+
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 const jwksRsa = require('jwks-rsa');

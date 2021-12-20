@@ -1,3 +1,7 @@
+/**
+ * This file implements custom HTTP errors for the FHIR server
+ */
+
 // const {UserFacingError} = require('./baseErrors');
 const {ServerError} = require('@asymmetrik/node-fhir-server-core');
 const env = require('var');
