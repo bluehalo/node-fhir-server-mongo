@@ -1,3 +1,6 @@
+/**
+ * simple test for the app
+ */
 const supertest = require('supertest');
 
 const { app } = require('./app');

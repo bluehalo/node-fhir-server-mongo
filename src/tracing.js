@@ -1,3 +1,6 @@
+/**
+ * Implements tracing to send metrics to Datadog.
+ */
 // Require dependencies
 const openTelemetry = require('@opentelemetry/sdk-node');
 // noinspection SpellCheckingInspection

@@ -1,3 +1,7 @@
+/**
+ * This file implements adding index hints to mongo db queries
+ */
+
 const {customIndexes} = require('./customIndexes');
 
 /**

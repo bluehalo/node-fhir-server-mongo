@@ -1,6 +1,5 @@
 /**
  * List of custom indexes to add.  (* means these indexes should be applied to all collections)
- * @type {{customIndexes: {"*": [{id_1: string[]}, {"meta.lastUpdated_1": string[]}, {"meta.source_1": string[]}, {"meta.security.system_1_meta.security.code_1": string[]}], PractitionerRole_4_0_0: [{"practitioner.reference_1": string[]}, {"organization.reference_1": string[]}, {"location.reference_1": string[]}]}}}
  */
 module.exports = {
     customIndexes: {

@@ -1,3 +1,7 @@
+/**
+ * This route handler sets the headers for content security policy
+ */
+
 const env = require('var');
 module.exports.handleSecurityPolicy = function (req, res, next) {
     res.setHeader(

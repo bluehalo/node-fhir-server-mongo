@@ -1,3 +1,7 @@
+/**
+ * This middleware sends error messages to a Slack channel
+ */
+
 const env = require('var');
 const {logErrorAndRequestToSlack} = require('../utils/slack.logger');
 

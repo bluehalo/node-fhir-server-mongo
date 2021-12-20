@@ -1,3 +1,6 @@
+/**
+ * Abstract base class for an enrichment provider.  Inherit from this to create a new enrichment provider
+ */
 class EnrichmentProvider {
     /**
      * Whether this Enrichment can enrich the specified resourceType

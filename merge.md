@@ -36,9 +36,9 @@ For each resource in the bundle, the FHIR server checks:
     * resource_version: current version of the resource after this update
 
 ### Implementation in FHIR server
-https://github.com/icanbwell/fhir-server/blob/16990bd500d316300ef36d1a305cd8d255e42935/src/services/base/base.service.js#L1294
+[src/operations/merge/merge.js](src/operations/merge/merge.js)
 
 
 ### unit tests
-https://github.com/icanbwell/fhir-server/blob/16990bd500d316300ef36d1a305cd8d255e42935/src/services/base/base.service.js#L1294
+[src/tests/claims](src/tests/claims)
 

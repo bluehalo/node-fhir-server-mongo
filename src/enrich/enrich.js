@@ -1,3 +1,7 @@
+/**
+ * Implements enrich function that finds any registered enrichment providers for that resource and runs them
+ */
+
 const ExplanationOfBenefitsEnrichmentProvider = require('./providers/explanationOfBenefitsEnrichmentProvider');
 
 /**

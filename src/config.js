@@ -1,3 +1,6 @@
+/**
+ * Configuration for the app
+ */
 const env = require('var');
 const Sentry = require('./middleware/sentry');
 const {profiles} = require('./profiles');

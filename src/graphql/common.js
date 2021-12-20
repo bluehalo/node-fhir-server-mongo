@@ -1,3 +1,7 @@
+/**
+ * Implements helper functions for graphql
+ */
+
 const {searchById} = require('../operations/searchById/searchById');
 const {search} = require('../operations/search/search');
 const async = require('async');

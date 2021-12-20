@@ -1,3 +1,7 @@
+/**
+ * This file implement calling the FHIR validator
+ */
+
 const JSONValidator = require('@asymmetrik/fhir-json-schema-validator');
 const {resolveSchema} = require('@asymmetrik/node-fhir-server-core');
 

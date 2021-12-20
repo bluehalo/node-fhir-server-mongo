@@ -1,3 +1,7 @@
+/**
+ * This route handler implements the /clean route which cleans all data in the FHIR server
+ */
+
 const env = require('var');
 const asyncHandler = require('../lib/async-handler');
 const mongoClient = require('../lib/mongo');

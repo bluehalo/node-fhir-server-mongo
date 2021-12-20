@@ -1,3 +1,7 @@
+/**
+ * This route handler implements the FHIR Smart Configuration
+ */
+
 const env = require('var');
 const https = require('https');
 

@@ -1,3 +1,6 @@
+/**
+ * Main entrypoint that sets up the app
+ */
 const express = require('express');
 const {fhirServerConfig} = require('./config');
 const Prometheus = require('./utils/prometheus.utils');

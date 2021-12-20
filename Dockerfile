@@ -3,15 +3,10 @@ FROM node:16.13-bullseye-slim
 # set our node environment, either development or production
 # defaults to production, compose overrides this to development on build and run
 ARG NODE_ENV=production
-#ENV NODE_ENV $NODE_ENV
 
-# Update everything on the box
+# Update everything on the OS
 RUN apt-get -y update && apt-get -y install curl && apt-get clean
 
-#RUN wget https://github.com/Yelp/dumb-init/releases/download/v1.2.4/dumb-init_1.2.4_amd64.deb
-#RUN dpkg -i dumb-init_*.deb
-
-#RUN groupadd -r node && useradd --no-log-init -r -g node node
 
 # Set the working directory
 RUN mkdir /srv/src && chown node:node /srv/src

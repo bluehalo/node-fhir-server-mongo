@@ -16,7 +16,7 @@ To add a new view template for a resource:
 
 Create a new view template in [src/views/pages](src/views/pages).  Name it with lower case name of the resource.
 
-Update the list in app.js so it knows about the new view template.  (TODO: Should make this dynamic)
+Update the list in [src/utils/resourceDefinitions.js](src/utils/resourceDefinitions.js) so it knows about the new view template.  (TODO: Should make this dynamic)
 
 Create data binding to display the resource how you want to display it
 
