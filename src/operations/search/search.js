@@ -11,7 +11,7 @@ const {buildStu3SearchQuery} = require('./query/stu3');
 const {getResource} = require('../common/getResource');
 const {logRequest, logDebug} = require('../common/logging');
 const {enrich} = require('../../enrich/enrich');
-const {findIndexForFields} = require('../../utils/indexHinter');
+const {findIndexForFields} = require('../../indexes/indexHinter');
 const {isTrue} = require('../../utils/isTrue');
 const {VERSIONS} = require('@asymmetrik/node-fhir-server-core').constants;
 

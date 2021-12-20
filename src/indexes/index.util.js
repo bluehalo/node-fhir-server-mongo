@@ -5,11 +5,11 @@ const {mongoConfig} = require('../config');
 const async = require('async');
 const env = require('var');
 
-const {logMessageToSlack} = require('./slack.logger');
+const {logMessageToSlack} = require('../utils/slack.logger');
 const {customIndexes} = require('./customIndexes');
 
 /**
- * creates an multi key index if it does not exist
+ * creates a multi key index if it does not exist
  * @param {import('mongodb').Db} db
  * @param {string[]} properties_to_index
  * @param {string} collection_name

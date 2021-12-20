@@ -1,7 +1,7 @@
 const Mutex = require('async-mutex').Mutex;
 const mutex = new Mutex();
 
-const {indexCollection} = require('./index.util');
+const {indexCollection} = require('../indexes/index.util');
 const {isTrue} = require('./isTrue');
 const env = require('var');
 
