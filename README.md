@@ -14,6 +14,7 @@ For example:
 5. Added support for checking user/x.x and access/x.x scopes
 6. Provides a WebUI to explore the FHIR data using the web browser
 7. Support GraphQL access to FHIR resources
+8. Added support for all FHIR search parameters
 
 ## Cheat sheet
 [Cheatsheet](cheatsheet.md)
