@@ -1,3 +1,6 @@
+/**
+ * Implements the main function
+ */
 const {createHttpTerminator} = require('http-terminator');
 
 const {app, fhirApp} = require('./app');

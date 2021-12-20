@@ -1,3 +1,6 @@
+/**
+ * This middleware handles graphql requests
+ */
 const {ApolloServer} = require('apollo-server-express');
 const {join} = require('path');
 // const {loadSchemaSync, loadTypedefsSync} = require('@graphql-tools/load');

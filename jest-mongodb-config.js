@@ -1,3 +1,6 @@
+/**
+ * Config used when running unit tests
+ */
 module.exports = {
     mongodbMemoryServerOptions: {
         binary: {

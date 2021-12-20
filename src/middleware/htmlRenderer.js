@@ -1,3 +1,6 @@
+/**
+ * This middleware detects if the request is from a web browser user-agent and returns HTML rendered views
+ */
 const {resourceDefinitions} = require('../utils/resourceDefinitions');
 
 const htmlRenderer = (req, res, next) => {
