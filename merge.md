@@ -35,6 +35,11 @@ For each resource in the bundle, the FHIR server checks:
     * updated: whether this resource was updated
     * resource_version: current version of the resource after this update
 
+### Notes:
+A FHIR resource must be specified in the URL in order for the $merge call to be processed.
+    * ex. https://fhir-sandbox.dev.bwell.zone/4_0_0/Encounter/$merge (in this example, 'Encounter' is the FHIR resource)
+    * The FHIR resource passed in the URL is heterogeneous, although in the example we use 'Encounter' as the FHIR resource, that does not mean we can only pass in Encounters within the FHIR resource bundle.  A user can pass in any valid FHIR resources within the bundle. (sample here: https://www.npoint.io/docs/f7efe4bb5e42355aaa1a).
+  
 ### Implementation in FHIR server
 [src/operations/merge/merge.js](src/operations/merge/merge.js)
 
