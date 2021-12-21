@@ -1,0 +1,39 @@
+{
+  "resourceType": "ValueSet",
+  "id": "2.16.840.1.113762.1.4.1106.45",
+  "meta": {
+    "versionId": "5",
+    "lastUpdated": "2020-10-23T01:00:52.000-04:00",
+    "security": [
+      {
+        "system": "https://www.icanbwell.com/access",
+        "code": "medstar"
+      }
+    ]
+  },
+  "url": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1106.45",
+  "version": "20201023",
+  "name": "BMI > 35",
+  "status": "active",
+  "date": "2020-10-23T01:00:52-04:00",
+  "publisher": "ACEP/AMA-PCPI Steward",
+  "compose": {
+    "include": [
+      {
+        "valueSet": [
+          "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1106.41"
+        ]
+      },
+      {
+        "valueSet": [
+          "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1106.43"
+        ]
+      },
+      {
+        "valueSet": [
+          "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1106.44"
+        ]
+      }
+    ]
+  }
+}

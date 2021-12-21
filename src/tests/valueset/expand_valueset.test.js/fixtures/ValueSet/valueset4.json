@@ -1,0 +1,50 @@
+{
+  "resourceType": "ValueSet",
+  "id": "2.16.840.1.113762.1.4.1106.44",
+  "meta": {
+    "versionId": "5",
+    "lastUpdated": "2020-10-23T01:00:52.000-04:00",
+    "security": [
+      {
+        "system": "https://www.icanbwell.com/access",
+        "code": "medstar"
+      }
+    ]
+  },
+  "url": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1106.44",
+  "version": "20201023",
+  "name": "BMI Obesity",
+  "status": "active",
+  "date": "2020-10-23T01:00:52-04:00",
+  "publisher": "ACEP/AMA-PCPI Steward",
+  "compose": {
+    "include": [
+      {
+        "system": "http://www.nlm.nih.gov/research/umls",
+        "version": "2021AB",
+        "concept": [
+          {
+            "code": "C0028754",
+            "display": "Obesity"
+          },
+          {
+            "code": "C0028756",
+            "display": "Obesity, Morbid"
+          },
+          {
+            "code": "C0269672",
+            "display": "Maternal obesity syndrome"
+          },
+          {
+            "code": "C0424671",
+            "display": "Body mass index 30+ - obesity"
+          },
+          {
+            "code": "C0451819",
+            "display": "Simple obesity"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "resourceType": "ValueSet",
+  "id": "2.16.840.1.113762.1.4.1106.41",
+  "meta": {
+    "versionId": "5",
+    "lastUpdated": "2020-10-23T01:00:52.000-04:00",
+    "security": [
+      {
+        "system": "https://www.icanbwell.com/access",
+        "code": "medstar"
+      }
+    ]
+  },
+  "url": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1106.41",
+  "version": "20201023",
+  "name": "BMI Obesity",
+  "status": "active",
+  "date": "2020-10-23T01:00:52-04:00",
+  "publisher": "ACEP/AMA-PCPI Steward",
+  "compose": {
+    "include": [
+      {
+        "system": "http://hl7.org/fhir/sid/icd-10-cm",
+        "version": "2022",
+        "concept": [
+          {
+            "code": "Z68.35",
+            "display": "Body mass index [BMI] 35.0-35.9, adult"
+          },
+          {
+            "code": "Z68.36",
+            "display": "Body mass index [BMI] 36.0-36.9, adult"
+          },
+          {
+            "code": "Z68.37",
+            "display": "Body mass index [BMI] 37.0-37.9, adult"
+          },
+          {
+            "code": "Z68.38",
+            "display": "Body mass index [BMI] 38.0-38.9, adult"
+          },
+          {
+            "code": "Z68.39",
+            "display": "Body mass index [BMI] 39.0-39.9, adult"
+          },
+          {
+            "code": "Z68.4",
+            "display": "Body mass index [BMI] 40 or greater, adult"
+          },
+          {
+            "code": "Z68.41",
+            "display": "Body mass index [BMI]40.0-44.9, adult"
+          },
+          {
+            "code": "Z68.42",
+            "display": "Body mass index [BMI] 45.0-49.9, adult"
+          },
+          {
+            "code": "Z68.43",
+            "display": "Body mass index [BMI] 50.0-59.9, adult"
+          },
+          {
+            "code": "Z68.44",
+            "display": "Body mass index [BMI] 60.0-69.9, adult"
+          },
+          {
+            "code": "Z68.45",
+            "display": "Body mass index [BMI] 70 or greater, adult"
+          }
+        ]
+      }
+    ]
+  }
+}
