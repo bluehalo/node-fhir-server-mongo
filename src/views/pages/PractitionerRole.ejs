@@ -22,7 +22,7 @@
 
         <%- include('../partials/reference', {references: res.healthcareService, name: "Healthcare Service"}); %>
 
-        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.specialty, name: "Specialty"}); %>
+        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.specialty, name: "Specialty", searchParameter: 'specialty'}); %>
 
         <%- include('../partials/json', {res: res}); %>
     <%})%>

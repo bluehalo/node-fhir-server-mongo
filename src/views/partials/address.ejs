@@ -21,9 +21,9 @@
           <td><%= address.use %></td>
           <td><%= address.type %></td>
           <td><%= address.line %></td>
-          <td><%= address.city %></td>
-          <td><%= address.state %></td>
-          <td><%= address.postalCode %></td>
+          <td><a href="/4_0_0/<%= resourceType %>?address-city=<%= address.city %>"><%= address.city %></a></td>
+          <td><a href="/4_0_0/<%= resourceType %>?address-state=<%= address.state %>"><%= address.state %></a></td>
+          <td><a href="/4_0_0/<%= resourceType %>?address-postalcode=<%= address.postalCode %>"><%= address.postalCode %></a></td>
         </tr>
     <%}%>
     <%})%>

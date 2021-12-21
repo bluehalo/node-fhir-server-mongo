@@ -101,7 +101,12 @@
 
         <div><h4>Gender</h4><%= res.gender %></div>
 
-        <div><h4>BirthDate</h4><%= res.birthDate %></div>
+        <% if (res.birthDate) {%>
+        <div>
+            <h4>BirthDate</h4>
+            <a title="Search for <%= res.birthDate %>" href="/4_0_0/<%= res.resourceType %>?birthdate=<%= res.birthDate %>"><%= res.birthDate %></a>
+        </div>
+        <%}%>
 
         <% if (res.generalPractitioner) { %>
         <div>
@@ -112,9 +117,9 @@
         </div>
         <%}%>
 
-         <%- include('../partials/contactpoint', {contacts: res.telecom, name: "Telecom"}); %>
+         <%- include('../partials/contactpoint', {resourceType: res.resourceType, contacts: res.telecom, name: "Telecom"}); %>
 
-         <%- include('../partials/address', {addresses: res.address, name: "Address"}); %>
+         <%- include('../partials/address', {resourceType: res.resourceType, addresses: res.address, name: "Address"}); %>
 
         <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Account', property:'patient'}], id:res.id, name: "Account"}); %>
 

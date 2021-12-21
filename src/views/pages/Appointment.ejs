@@ -18,7 +18,9 @@
         <h4>Start</h4><%= res.start %>
         <h4>Created</h4><%= res.created %>
 
-        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.serviceType, name: "Service Type"}); %>
+        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.serviceCategory, name: "Service Category", searchParameter: "service-category"}); %>
+
+        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.serviceType, name: "Service Type", searchParameter: "service-type"}); %>
 
         <%- include('../partials/participant', {resourceType: res.resourceType, participants: res.participant, name: "Participants"}); %>
 

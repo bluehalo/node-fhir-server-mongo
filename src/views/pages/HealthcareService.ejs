@@ -16,15 +16,15 @@
 
         <%- include('../partials/reference', {references: [res.providedBy], name: "Provided By"}); %>
 
-        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.type, name: "Type"}); %>
+        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.type, name: "Type", searchParameter: 'service-type'}); %>
 
-        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.specialty, name: "Specialty"}); %>
+        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.specialty, name: "Specialty", searchParameter: 'specialty'}); %>
 
         <%- include('../partials/reference', {references: res.location, name: "Location"}); %>
 
-        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.characteristic, name: "Characteristic"}); %>
+        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.characteristic, name: "Characteristic", searchParameter: 'characteristic'}); %>
 
-        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.communication, name: "Communication"}); %>
+        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.communication, name: "Communication", searchParameter: ''}); %>
 
         <%- include('../partials/reverse_reference', {reverseReferences: [{target:'PractitionerRole', property:'healthcareService'}], id:res.id, name: "Practitioner Role"}); %>
 

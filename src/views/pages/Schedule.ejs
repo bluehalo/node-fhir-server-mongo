@@ -16,7 +16,7 @@
 
         <h4>Active</h4><%= res.active %>
 
-        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.serviceType, name: "Service Type"}); %>
+        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.serviceType, name: "Service Type", searchParameter: 'service-type'}); %>
 
         <%- include('../partials/reference', {references: res.actor, name: "Actor"}); %>
 

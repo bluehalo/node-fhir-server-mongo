@@ -18,7 +18,7 @@
         <tr>
           <td><%= contact.id %></td>
           <td><%= contact.system %></td>
-          <td><%= contact.value %></td>
+          <td><% if (contact.system === "email") {%> <a href="/4_0_0/<%= resourceType %>?email=<%= contact.value %>"><%= contact.value %></a><% } else if (contact.system === "phone") {%> <a href="/4_0_0/<%= resourceType %>?phone=<%= contact.value %>"><%= contact.value %></a><%} else {%><%= contact.value %><%}%></td>
           <td><%= contact.use %></td>
           <td><%= contact.rank %></td>
           <td><%= contact.period %></td>

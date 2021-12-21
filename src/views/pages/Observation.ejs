@@ -16,8 +16,8 @@
 
         <div><h4>Status</h4><%= res.status %></div>
 
-        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.category, name: "Category"}); %>
-        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: [res.code], name: "Code"}); %>
+        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.category, name: "Category", searchParameter: 'category'}); %>
+        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: [res.code], name: "Code", searchParameter: 'code'}); %>
 
        <%- include('../partials/reference', {references: [res.subject], name: "Subject"}); %>
 
@@ -28,9 +28,9 @@
 
         <%- include('../partials/reference', {references: res.performer, name: "Performer"}); %>
 
-        <%- include('../partials/codeableConceptWithValue', {resourceType: res.resourceType, codeableConceptsWithValue: res.component, codePropertyName: "code", name: "Code"}); %>
+        <%- include('../partials/codeableConceptWithValue', {resourceType: res.resourceType, codeableConceptsWithValue: res.component, codePropertyName: "code", name: "Code", searchParameter: 'component-code'}); %>
 
-        <%- include('../partials/codeableConceptWithValue', {resourceType: res.resourceType, codeableConceptsWithValue: res.valueCodeableConcept, codePropertyName: "code", name: "Value"}); %>
+        <%- include('../partials/codeableConceptWithValue', {resourceType: res.resourceType, codeableConceptsWithValue: res.valueCodeableConcept, codePropertyName: "code", name: "Value", searchParameter: 'value-concept'}); %>
 
         <div>
             <h4>Value</h4>
