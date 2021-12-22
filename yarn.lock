@@ -9529,7 +9529,7 @@
   "resolved" "https://registry.npmjs.org/p-reduce/-/p-reduce-1.0.0.tgz"
   "version" "1.0.0"
 
-"p-retry@^4.0.0":
+"p-retry@^4.0.0", "p-retry@^4.6.1":
   "integrity" "sha512-e2xXGNhZOZ0lfgR9kL34iGlU8N/KO0xZnQxVEwdeOvpqNDQfdnxIYizvWtK8RglUa3bGqI8g0R/BdfzLMxRkiA=="
   "resolved" "https://registry.npmjs.org/p-retry/-/p-retry-4.6.1.tgz"
   "version" "4.6.1"

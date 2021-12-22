@@ -24,6 +24,8 @@ const async = require('async');
 const {check_fhir_mismatch} = require('../common/check_fhir_mismatch');
 const {logError} = require('../common/logging');
 const {getOrCreateCollection} = require('../../utils/mongoCollectionManager');
+const pRetry = require('p-retry');
+const {logMessageToSlack} = require('../../utils/slack.logger');
 
 /**
  * does a FHIR Merge
@@ -652,15 +654,18 @@ module.exports.merge = async (args, user, scope, body, path, resource_name, coll
      * @return {Promise<{operationOutcome: ?OperationOutcome, issue: {severity: string, diagnostics: string, code: string, expression: [string], details: {text: string}}, created: boolean, id: String, updated: boolean}>}
      */
     async function merge_resource_with_retry(resource_to_merge) {
-        let triesLeft = 2;
-
-        do {
-            try {
-                return await merge_resource(resource_to_merge);
-            } catch (e) {
-                triesLeft = triesLeft - 1;
+        return pRetry(
+            async () =>
+                await merge_resource(resource_to_merge),
+            {
+                retries: 5,
+                onFailedAttempt: async error => {
+                    let msg = `Merge ${resource_name}/${resource_to_merge.id} Retry Number: ${error.attemptNumber}: ${error.message}`;
+                    logError(user, msg);
+                    await logMessageToSlack(msg);
+                }
             }
-        } while (triesLeft >= 0);
+        );
     }
 
     // if the incoming request is a bundle then unwrap the bundle
