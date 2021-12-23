@@ -121,7 +121,7 @@
 
         <%- include('../partials/reverse_reference', {reverseReferences: [{target:'PractitionerRole', property:'practitioner'}], id:res.id, name: "Practitioner Role"}); %>
 
-        <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Schedule', property:'practitioner'}], id:res.id, name: "Schedule"}); %>
+        <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Schedule', property:'actor'}], id:res.id, name: "Schedule (also check schedules on PractitionerRole)"}); %>
 
         <%- include('../partials/json', {res: res}); %>
     <%})%>

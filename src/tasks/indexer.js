@@ -25,12 +25,18 @@ process.on('message', async (params) => {
             console.log(JSON.stringify(collection_stats));
             console.log('===== Done Indexing in separate process ======');
             await logMessageToSlack(JSON.stringify(collection_stats));
-        } else if (message === 'Delete Index') {
+        } else if (message === 'Rebuild Index') {
             console.log('==== Starting deleting indexes in separate process ====');
             await logMessageToSlack('Starting deleting indexes in separate process');
             await deleteIndexesInAllCollections();
             await logMessageToSlack('Finished deleting index in separate process');
             console.log('===== Finished deleting index in separate process ======');
+            await logMessageToSlack('Starting indexing in separate process');
+            const collection_stats = await indexAllCollections();
+            await logMessageToSlack('Finished indexing in separate process');
+            console.log(JSON.stringify(collection_stats));
+            console.log('===== Done Indexing in separate process ======');
+            await logMessageToSlack(JSON.stringify(collection_stats));
         }
     } catch (e) {
         console.log('===== ERROR Indexing in separate process ======', e);

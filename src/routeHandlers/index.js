@@ -39,16 +39,16 @@ module.exports.handleIndex = async (req, res) => {
             };
             taskProcessor.send(params);
             message = 'Started indexing in separate process.  Check logs or Slack for output.';
-        } else if (operation === 'delete') {
+        } else if (operation === 'rebuild') {
             // await deleteIndexesInAllCollections();
             //create new instance of node for running separate task in another thread
             const taskProcessor = childProcess.fork('./src/tasks/indexer.js');
             //send some params to our separate task
             const params = {
-                message: 'Delete Index'
+                message: 'Rebuild Index'
             };
             taskProcessor.send(params);
-            message = 'Started deleting indexes in separate process.  Check logs or Slack for output.';
+            message = 'Started rebuilding indexes in separate process.  Check logs or Slack for output.';
         } else {
             collection_stats = await getIndexesInAllCollections();
             message = 'Listing current indexes.  Use /index/run if you want to run index creation';
