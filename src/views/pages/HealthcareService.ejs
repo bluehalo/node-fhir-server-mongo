@@ -26,7 +26,7 @@
 
         <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.communication, name: "Communication", searchParameter: ''}); %>
 
-        <%- include('../partials/reverse_reference', {reverseReferences: [{target:'PractitionerRole', property:'healthcareService'}], id:res.id, name: "Practitioner Role"}); %>
+        <%- include('../partials/reverse_reference', {reverseReferences: [{target:'PractitionerRole', property:'actor'}], id:res.id, name: "Practitioner Role"}); %>
 
         <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Schedule', property:'healthcareService'}], id:res.id, name: "Schedule"}); %>
 
