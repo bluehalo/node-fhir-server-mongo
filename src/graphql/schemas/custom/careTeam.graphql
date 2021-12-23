@@ -5,7 +5,7 @@ in the coordination and delivery of care for a patient.
 """
 input CareTeam_Input {
   """Type of resource"""
-  resourceType: CareTeam_Enum_input!
+  resourceType: CareTeam_Enum_Input!
 
   """
   The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
@@ -127,7 +127,7 @@ input CareTeamparticipant_Input {
   period: Period_Input
 }
 
-enum CareTeam_Enum_input {
+enum CareTeam_Enum_Input {
   CareTeam
 }
 
