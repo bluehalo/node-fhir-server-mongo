@@ -3,7 +3,7 @@
 <h2><i class="bi bi-card-heading"></i>&nbsp;<%= res.resourceType %>/<%= res.id %></h2>
 <a title="Direct link to Resource" href="/4_0_0/<%= res.resourceType %>/<%= res.id %>"><%= res.resourceType %>/<%= res.id %></a>
 
-<%- include('../partials/identifier', {identifiers: res.identifier, name: "Identifier"}); %>
+<%- include('../partials/identifier', {resourceType: res.resourceType, identifiers: res.identifier, name: "Identifier"}); %>
 
 <%- include('../partials/meta', {meta: res.meta, name: "Meta"}); %>
 

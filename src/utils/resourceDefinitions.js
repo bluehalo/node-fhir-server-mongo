@@ -108,6 +108,16 @@ const resourceDefinitions = [
         description: 'A slot of time on a schedule that may be available for booking appointments.',
         url: 'https://www.hl7.org/fhir/slot.html#Slot'
     },
+    {
+        name: 'ValueSet',
+        description: 'A ValueSet resource instance specifies a set of codes drawn from one or more code systems, intended for use in a particular context. Value sets link between CodeSystem definitions and their use in coded elements.',
+        url: 'http://hl7.org/fhir/valueset.html'
+    },
+    {
+        name: 'Library',
+        description: 'The Library resource is a general-purpose container for knowledge asset definitions. It can be used to describe and expose existing knowledge assets such as logic libraries and information model descriptions, as well as to describe a collection of knowledge assets.',
+        url: 'https://www.hl7.org/fhir/library.html'
+    },
 ];
 
 module.exports = {

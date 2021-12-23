@@ -20,7 +20,7 @@ module.exports = {
                 ]
             },
             {
-                'meta.security.system_1_meta.security.code_1': [
+                'security.system_code_1': [
                     'meta.security.system',
                     'meta.security.code'
                 ]

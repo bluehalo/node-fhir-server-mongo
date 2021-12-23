@@ -142,6 +142,16 @@ async function getIndexesInCollection(collection_name, db) {
 }
 
 /**
+ * Deletes the current indexes on the specified collection
+ * @param {string} collection_name
+ * @param {import('mongodb').Db} db
+ * @return {Promise<{indexes: *, name}>}
+ */
+async function deleteIndexesInCollection(collection_name, db) {
+    await db.collection(collection_name).dropIndexes();
+}
+
+/**
  * Gets indexes on all the collections
  * @return {Promise<*>}
  */
@@ -181,8 +191,48 @@ async function getIndexesInAllCollections() {
     return collection_stats;
 }
 
+/**
+ * Delete indexes on all the collections
+ * @return {Promise<*>}
+ */
+async function deleteIndexesInAllCollections() {
+    console.log('starting deleteIndexesInAllCollections');
+    // eslint-disable-next-line no-unused-vars
+    let [mongoError, client] = await asyncHandler(
+        mongoClient(mongoConfig.connection, mongoConfig.options)
+    );
+
+    if (mongoError) {
+        console.error(mongoError.message);
+        console.error(mongoConfig.connection);
+        await client.close();
+        throw new Error(mongoError.message);
+    }
+    //create client by providing database name
+    /**
+     * @type {import('mongodb').Db}
+     */
+    const db = client.db(mongoConfig.db_name);
+    const collection_names = [];
+
+    await db.listCollections().forEach(collection => {
+        if (collection.name.indexOf('system.') === -1) {
+            collection_names.push(collection.name);
+        }
+    });
+
+    for await (const collection_name of collection_names) {
+        console.log('Deleting all indexes in ' + collection_name);
+        await deleteIndexesInCollection(collection_name, db);
+    }
+
+    await client.close();
+    console.log('finished deleteIndexesInAllCollections');
+}
+
 module.exports = {
     indexAllCollections,
     indexCollection,
-    getIndexesInAllCollections
+    getIndexesInAllCollections,
+    deleteIndexesInAllCollections
 };

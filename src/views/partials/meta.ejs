@@ -1,7 +1,9 @@
 <% if (meta) { %>
 <div>
     <h4>Meta</h4>
+    <% if (meta.lastUpdated) { %>
     <div><b>Last Updated:</b><%= meta.lastUpdated %> <a title="Get <%= res.resourceType %> resources on this date" href="/4_0_0/<%= res.resourceType %>?_lastUpdated=<%= new Date(meta.lastUpdated).toISOString().substring(0, 10) %>">[On This Date]</a>&nbsp;<a title="Get <%= res.resourceType %> resources before this date" href="/4_0_0/<%= res.resourceType %>?_lastUpdated=lt<%= new Date(meta.lastUpdated).toISOString().split('.')[0]+'Z' %>">[Before This]</a>&nbsp;<a title="Get <%= res.resourceType %> resources after this date" href="/4_0_0/<%= res.resourceType %>?_lastUpdated=gt<%= new Date(meta.lastUpdated).toISOString().split('.')[0]+'Z' %>">[After This]</a></div>
+    <%}%>
     <div><b>Version:</b> <%= meta.versionId %>&nbsp;<a title="Show history for this resource" href="/4_0_0/<%= res.resourceType %>/<%= res.id %>/_history">[History]</a> </div>
     <div><b>Source:</b> <a title="Filter <%= res.resourceType %> by <%= meta.source %>" href="/4_0_0/<%= res.resourceType %>?source=<%= meta.source %>"><%= meta.source %></a></div>
     <h5>Security</h5>

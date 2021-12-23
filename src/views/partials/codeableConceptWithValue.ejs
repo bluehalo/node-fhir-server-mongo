@@ -17,8 +17,13 @@
         <% if (coding) { %>
         <tr>
           <td><%= codeableConceptWithValue[codePropertyName].text %></td>
-          <td><a href="/4_0_0/<%= resourceType %>?code=<%= coding.system %>|"><%= coding.system %></a></td>
-          <td><a href="/4_0_0/<%= resourceType %>?code=<%= coding.system %>|<%= coding.code %>"><%= coding.code %></a></td>
+          <% if (searchParameter) {%>
+          <td><a href="/4_0_0/<%= resourceType %>?<%= searchParameter %>=<%= coding.system %>|"><%= coding.system %></a></td>
+          <td><a href="/4_0_0/<%= resourceType %>?<%= searchParameter %>=<%= coding.system %>|<%= coding.code %>"><%= coding.code %></a></td>
+          <%} else {%>
+          <td><%= coding.system %></td>
+          <td><%= coding.code %></td>
+          <%}%>
           <td>
           <% if (codeableConceptWithValue.valueQuantity) { %>
             <%= codeableConceptWithValue.valueQuantity.value %> <%= codeableConceptWithValue.valueQuantity.unit %>

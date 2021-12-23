@@ -9,10 +9,12 @@ const {buildR4SearchQuery} = require('./query/r4');
 const {buildDstu2SearchQuery} = require('./query/dstu2');
 const {buildStu3SearchQuery} = require('./query/stu3');
 const {getResource} = require('../common/getResource');
-const {logRequest, logDebug} = require('../common/logging');
+const {logRequest, logDebug, logError} = require('../common/logging');
 const {enrich} = require('../../enrich/enrich');
 const {findIndexForFields} = require('../../indexes/indexHinter');
 const {isTrue} = require('../../utils/isTrue');
+const pRetry = require('p-retry');
+const {logMessageToSlack} = require('../../utils/slack.logger');
 const {VERSIONS} = require('@asymmetrik/node-fhir-server-core').constants;
 
 /**
@@ -222,7 +224,19 @@ module.exports.search = async (args, user, scope, resourceName, collection_name,
          * mongo db cursor
          * @type {import('mongodb').Cursor}
          */
-        let cursor = await collection.find(query, options).maxTimeMS(maxMongoTimeMS);
+      let cursor = await pRetry(
+            async () =>
+                await collection.find(query, options).maxTimeMS(maxMongoTimeMS),
+            {
+                retries: 5,
+                onFailedAttempt: async error => {
+                    let msg = `Search ${resourceName}/${JSON.stringify(args)} Retry Number: ${error.attemptNumber}: ${error.message}`;
+                    logError(user, msg);
+                    await logMessageToSlack(msg);
+                }
+            }
+        );
+
         // find columns being queried and match them to an index
         /**
          * which index hint to use (if any)
@@ -392,7 +406,9 @@ module.exports.search = async (args, user, scope, resourceName, collection_name,
         } else {
             return resources;
         }
-    } catch (e) {
+    } catch
+        (e) {
         throw new MongoError(e.message, e, mongoCollectionName, query, options);
     }
-};
+}
+;

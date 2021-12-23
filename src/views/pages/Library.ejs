@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+<body class="container">
+
+<header>
+  <%- include('../partials/header', {resources: resources}); %>
+</header>
+
+<main>
+  <div class="jumbotron">
+
+    <% resources.forEach(function(res){ %>
+        <%- include('../partials/resourceHeader', {res: res}); %>
+
+        <% if (res.content && res.content.length > 0) { %>
+        <p></p>
+        <div class="accordion" id="accordianContent">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseContent" aria-expanded="false" aria-controls="collapseContent">
+                Content
+              </button>
+            </h2>
+            <div id="collapseContent" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordianContent">
+              <div class="accordion-body">
+                <pre>
+                    <code>
+                    <%= new Buffer(res.content[0].data, 'base64').toString('ascii') %>
+                    </code>
+                </pre>
+              </div>
+            </div>
+          </div>
+        </div>
+        <% } %>
+
+        <%- include('../partials/json', {res: res}); %>
+    <%})%>
+  </div>
+</main>
+
+<footer>
+  <%- include('../partials/footer', {url: url}); %>
+</footer>
+
+</body>
+</html>

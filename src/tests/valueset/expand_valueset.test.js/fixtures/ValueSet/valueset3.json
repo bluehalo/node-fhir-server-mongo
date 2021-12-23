@@ -1,0 +1,54 @@
+{
+  "resourceType": "ValueSet",
+  "id": "2.16.840.1.113762.1.4.1106.43",
+  "meta": {
+    "versionId": "10",
+    "lastUpdated": "2020-10-23T01:00:52.000-04:00",
+    "security": [
+      {
+        "system": "https://www.icanbwell.com/access",
+        "code": "medstar"
+      }
+    ]
+  },
+  "url": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1106.43",
+  "version": "20201023",
+  "name": "BMI Obesity",
+  "status": "active",
+  "date": "2020-10-23T01:00:52-04:00",
+  "publisher": "ACEP/AMA-PCPI Steward",
+  "compose": {
+    "include": [
+      {
+        "system": "http://snomed.info/sct",
+        "version": "http://snomed.info/sct/731000124108/version/20210901",
+        "concept": [
+          {
+            "code": "162864005",
+            "display": "Body mass index 30+ - obesity (finding)"
+          },
+          {
+            "code": "238136002",
+            "display": "Morbid obesity (disorder)"
+          },
+          {
+            "code": "408512008",
+            "display": "Body mass index 40+ - severely obese (finding)"
+          },
+          {
+            "code": "414916001",
+            "display": "Obesity (disorder)"
+          },
+          {
+            "code": "415530009",
+            "display": "Simple obesity (disorder)"
+          },
+          {
+            "code": "44772007",
+            "display": "Maternal obesity syndrome (disorder)"
+          }
+        ]
+      }
+    ]
+  }
+}

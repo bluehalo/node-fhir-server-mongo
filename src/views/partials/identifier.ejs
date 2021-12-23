@@ -16,7 +16,7 @@
         <% if (identifier) {%>
         <tr>
           <td><%= identifier.id %></td>
-          <td><%= identifier.value %></td>
+          <td><a title="Search for <%= identifier.value %>" href="/4_0_0/<%= resourceType %>?identifier=<%= identifier.system %>|<%= identifier.value %>"><%= identifier.value %></a></td>
           <td><%= identifier.system %></td>
           <td>
             <% if (identifier.type && identifier.type.coding) { %>

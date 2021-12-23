@@ -115,13 +115,13 @@
         </div>
         <%}%>
 
-        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.communication, name: "Communication"}); %>
+        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.communication, name: "Communication", searchParameter: 'communication'}); %>
 
-         <%- include('../partials/contactpoint', {contacts: res.telecom, name: "Telecom"}); %>
+         <%- include('../partials/contactpoint', {resourceType: res.resourceType, contacts: res.telecom, name: "Telecom"}); %>
 
         <%- include('../partials/reverse_reference', {reverseReferences: [{target:'PractitionerRole', property:'practitioner'}], id:res.id, name: "Practitioner Role"}); %>
 
-        <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Schedule', property:'practitioner'}], id:res.id, name: "Schedule"}); %>
+        <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Schedule', property:'actor'}], id:res.id, name: "Schedule (also check schedules on PractitionerRole)"}); %>
 
         <%- include('../partials/json', {res: res}); %>
     <%})%>

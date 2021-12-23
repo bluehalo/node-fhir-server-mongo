@@ -1,0 +1,155 @@
+{
+  "date": "2020-10-23T01:00:52-04:00",
+  "expansion": {
+    "contains": [
+      {
+        "code": "Z68.35",
+        "display": "Body mass index [BMI] 35.0-35.9, adult",
+        "system": "http://hl7.org/fhir/sid/icd-10-cm",
+        "version": "2022"
+      },
+      {
+        "code": "Z68.36",
+        "display": "Body mass index [BMI] 36.0-36.9, adult",
+        "system": "http://hl7.org/fhir/sid/icd-10-cm",
+        "version": "2022"
+      },
+      {
+        "code": "Z68.37",
+        "display": "Body mass index [BMI] 37.0-37.9, adult",
+        "system": "http://hl7.org/fhir/sid/icd-10-cm",
+        "version": "2022"
+      },
+      {
+        "code": "Z68.38",
+        "display": "Body mass index [BMI] 38.0-38.9, adult",
+        "system": "http://hl7.org/fhir/sid/icd-10-cm",
+        "version": "2022"
+      },
+      {
+        "code": "Z68.39",
+        "display": "Body mass index [BMI] 39.0-39.9, adult",
+        "system": "http://hl7.org/fhir/sid/icd-10-cm",
+        "version": "2022"
+      },
+      {
+        "code": "Z68.4",
+        "display": "Body mass index [BMI] 40 or greater, adult",
+        "system": "http://hl7.org/fhir/sid/icd-10-cm",
+        "version": "2022"
+      },
+      {
+        "code": "Z68.41",
+        "display": "Body mass index [BMI]40.0-44.9, adult",
+        "system": "http://hl7.org/fhir/sid/icd-10-cm",
+        "version": "2022"
+      },
+      {
+        "code": "Z68.42",
+        "display": "Body mass index [BMI] 45.0-49.9, adult",
+        "system": "http://hl7.org/fhir/sid/icd-10-cm",
+        "version": "2022"
+      },
+      {
+        "code": "Z68.43",
+        "display": "Body mass index [BMI] 50.0-59.9, adult",
+        "system": "http://hl7.org/fhir/sid/icd-10-cm",
+        "version": "2022"
+      },
+      {
+        "code": "Z68.44",
+        "display": "Body mass index [BMI] 60.0-69.9, adult",
+        "system": "http://hl7.org/fhir/sid/icd-10-cm",
+        "version": "2022"
+      },
+      {
+        "code": "Z68.45",
+        "display": "Body mass index [BMI] 70 or greater, adult",
+        "system": "http://hl7.org/fhir/sid/icd-10-cm",
+        "version": "2022"
+      },
+      {
+        "code": "162864005",
+        "display": "Body mass index 30+ - obesity (finding)",
+        "system": "http://snomed.info/sct",
+        "version": "http://snomed.info/sct/731000124108/version/20210901"
+      },
+      {
+        "code": "238136002",
+        "display": "Morbid obesity (disorder)",
+        "system": "http://snomed.info/sct",
+        "version": "http://snomed.info/sct/731000124108/version/20210901"
+      },
+      {
+        "code": "408512008",
+        "display": "Body mass index 40+ - severely obese (finding)",
+        "system": "http://snomed.info/sct",
+        "version": "http://snomed.info/sct/731000124108/version/20210901"
+      },
+      {
+        "code": "414916001",
+        "display": "Obesity (disorder)",
+        "system": "http://snomed.info/sct",
+        "version": "http://snomed.info/sct/731000124108/version/20210901"
+      },
+      {
+        "code": "415530009",
+        "display": "Simple obesity (disorder)",
+        "system": "http://snomed.info/sct",
+        "version": "http://snomed.info/sct/731000124108/version/20210901"
+      },
+      {
+        "code": "44772007",
+        "display": "Maternal obesity syndrome (disorder)",
+        "system": "http://snomed.info/sct",
+        "version": "http://snomed.info/sct/731000124108/version/20210901"
+      },
+      {
+        "code": "C0028754",
+        "display": "Obesity",
+        "system": "http://www.nlm.nih.gov/research/umls",
+        "version": "2021AB"
+      },
+      {
+        "code": "C0028756",
+        "display": "Obesity, Morbid",
+        "system": "http://www.nlm.nih.gov/research/umls",
+        "version": "2021AB"
+      },
+      {
+        "code": "C0269672",
+        "display": "Maternal obesity syndrome",
+        "system": "http://www.nlm.nih.gov/research/umls",
+        "version": "2021AB"
+      },
+      {
+        "code": "C0424671",
+        "display": "Body mass index 30+ - obesity",
+        "system": "http://www.nlm.nih.gov/research/umls",
+        "version": "2021AB"
+      },
+      {
+        "code": "C0451819",
+        "display": "Simple obesity",
+        "system": "http://www.nlm.nih.gov/research/umls",
+        "version": "2021AB"
+      }
+    ]
+  },
+  "id": "2.16.840.1.113762.1.4.1106.45",
+  "meta": {
+    "security": [
+      {
+        "code": "medstar",
+        "system": "https://www.icanbwell.com/access"
+      }
+    ],
+    "versionId": "1"
+  },
+  "name": "BMI > 35",
+  "publisher": "ACEP/AMA-PCPI Steward",
+  "resourceType": "ValueSet",
+  "status": "active",
+  "url": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1106.45",
+  "version": "20201023"
+}

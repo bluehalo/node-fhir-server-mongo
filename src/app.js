@@ -105,7 +105,7 @@ app.get('/clean/:collection?', handleClean);
 
 app.get('/stats', handleStats);
 
-app.get('/index/:run?', handleIndex);
+app.get('/index/:op?', handleIndex);
 
 app.get('/.well-known/smart-configuration', handleSmartConfiguration);
 

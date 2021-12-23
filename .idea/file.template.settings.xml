@@ -3,11 +3,12 @@
   <component name="ExportableFileTemplateSettings">
     <default_templates>
       <template name="FhirTest.js" file-name="${NAME}/${NAME.toLowerCase()}.test.js" reformat="true" live-template-enabled="false">
-        <template name="FhirTest.js.child.0.json" file-name="${NAME}/fixtures/expected/expected_${ResourceName}.json" reformat="true" live-template-enabled="false" />
         <template name="FhirTest.js.child.1.json" file-name="${NAME}/fixtures/${ResourceName}/${ResourceName.toLowerCase()}1.json" reformat="true" live-template-enabled="false" />
+        <template name="FhirTest.js.child.0.json" file-name="${NAME}/fixtures/expected/expected_${ResourceName}.json" reformat="true" live-template-enabled="false" />
       </template>
       <template name="FhirTest.js.child.0.json" file-name="${NAME}/fixtures/expected/expected_${ResourceName}.json" reformat="true" live-template-enabled="false" />
       <template name="FhirTest.js.child.1.json" file-name="${NAME}/fixtures/${ResourceName}/${ResourceName.toLowerCase()}1.json" reformat="true" live-template-enabled="false" />
+      <template name="FhirView.ejs" file-name="${NAME}" reformat="true" live-template-enabled="false" />
     </default_templates>
   </component>
 </project>
