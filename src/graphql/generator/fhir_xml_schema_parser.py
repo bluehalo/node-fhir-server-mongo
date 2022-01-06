@@ -1,12 +1,12 @@
-# This file implements classes that parse FHIR XML schema
 import dataclasses
-import logging
 import re
 from pathlib import Path
-from typing import OrderedDict, List, Union, Dict, Optional, Set, Any
+from typing import OrderedDict, Any, List, Union, Dict, Optional, Set
+import logging
 
 # noinspection PyPackageRequirements
 from lxml import objectify
+
 # noinspection PyPackageRequirements
 from lxml.objectify import ObjectifiedElement
 
@@ -137,6 +137,7 @@ class FhirXmlSchemaParser:
     def camel_to_snake(name: str) -> str:
         # name = re.sub("(.)([A-Z][a-z]+)", r"\1_\2", name)
         # return re.sub("([a-z0-9])([A-Z])", r"\1_\2", name).lower()
+        # format for node.js
         return name[0].lower() + name[1:]
 
     @staticmethod
@@ -203,8 +204,6 @@ class FhirXmlSchemaParser:
                     logger.warning(
                         f"WARNING: 2nd pass: {fhir_property.type_} not found in property_type_mapping"
                     )
-                    # assume this is a code
-                    fhir_property.is_code = True
                 else:
                     property_fhir_entity: FhirEntity = property_type_mapping[
                         fhir_property.type_
@@ -249,9 +248,9 @@ class FhirXmlSchemaParser:
         value_sets: List[FhirValueSet] = FhirXmlSchemaParser.get_value_sets()
 
         # and the target types for codeable concepts
-        # FhirXmlSchemaParser.process_types_for_codeable_concepts(
-        #     fhir_entities, value_sets
-        # )
+        FhirXmlSchemaParser.process_types_for_codeable_concepts(
+            fhir_entities, value_sets
+        )
 
         # value_set: FhirValueSet
         # for value_set in value_sets:
@@ -713,7 +712,7 @@ class FhirXmlSchemaParser:
         fhir_properties: List[FhirProperty] = []
         property_: ObjectifiedElement
         for property_ in properties:
-            if hasattr(property_, "ref"):
+            if "ref" in property_.attrib:
                 ref_: str = str(property_.get("ref"))
                 property_name: str = ref_.split(":")[-1]
                 property_type: str = ref_.split(":")[0]
@@ -761,9 +760,9 @@ class FhirXmlSchemaParser:
                         cleaned_type=cleaned_type
                         if cleaned_type not in FhirXmlSchemaParser.cleaned_type_mapping
                         else FhirXmlSchemaParser.cleaned_type_mapping[cleaned_type],
-                        type_snake_case=cleaned_type
+                        type_snake_case=FhirXmlSchemaParser.camel_to_snake(cleaned_type)
                         if cleaned_type not in FhirXmlSchemaParser.cleaned_type_mapping
-                        else cleaned_type,
+                        else FhirXmlSchemaParser.camel_to_snake(cleaned_type),
                         optional=optional,
                         is_list=is_list,
                         documentation=[property_documentation],

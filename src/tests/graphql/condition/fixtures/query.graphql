@@ -1,5 +1,5 @@
 query {
-    condition(patient: "8ba1017f-0aad-1b91-ff9e-416a96e11f0b") {
+    condition(patient: {value: "8ba1017f-0aad-1b91-ff9e-416a96e11f0b"}) {
         id
         onsetDateTime
         code{
@@ -7,8 +7,8 @@ query {
         }
         subject{
             ... on Patient{
-            __typename
-            birthDate
+                __typename
+                birthDate
             }
         }
     }

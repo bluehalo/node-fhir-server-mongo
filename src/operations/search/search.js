@@ -74,12 +74,17 @@ module.exports.search = async (args, user, scope, resourceName, collection_name,
      */
     let columns;
 
-    if (base_version === VERSIONS['3_0_1']) {
-        query = buildStu3SearchQuery(args);
-    } else if (base_version === VERSIONS['1_0_2']) {
-        query = buildDstu2SearchQuery(args);
-    } else {
-        ({query, columns} = buildR4SearchQuery(resourceName, args));
+    // eslint-disable-next-line no-useless-catch
+    try {
+        if (base_version === VERSIONS['3_0_1']) {
+            query = buildStu3SearchQuery(args);
+        } else if (base_version === VERSIONS['1_0_2']) {
+            query = buildDstu2SearchQuery(args);
+        } else {
+            ({query, columns} = buildR4SearchQuery(resourceName, args));
+        }
+    } catch (e) {
+        throw e;
     }
 
     // Grab an instance of our DB and collection

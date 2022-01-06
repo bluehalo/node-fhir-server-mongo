@@ -2,17 +2,18 @@
   {
     "allergyIntolerance": [
       {
-        "id": "0af7ad3f-9f37-1a62-09e4-4ca127531c51",
-        "type": "allergy",
         "category": [
           "environment"
         ],
-        "criticality": "low",
         "code": {
           "text": "Mold (organism)"
-        }
+        },
+        "criticality": "low",
+        "id": "0af7ad3f-9f37-1a62-09e4-4ca127531c51",
+        "type": "allergy"
       }
     ],
+    "birthDate": "2017-01-01",
     "explanationOfBenefit": [
       {
         "id": "WPS-Claim-230916613369",
@@ -36,6 +37,7 @@
   },
   {
     "allergyIntolerance": [],
+    "birthDate": "2017-01-01",
     "explanationOfBenefit": [
       {
         "id": "WPS-Claim-429017018331",

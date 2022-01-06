@@ -5,6 +5,7 @@ query {
             family
             given
         }
+        birthDate
         explanationOfBenefit {
             id
             identifier {

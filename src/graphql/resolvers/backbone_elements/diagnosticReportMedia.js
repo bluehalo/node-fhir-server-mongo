@@ -13,7 +13,6 @@ module.exports = {
                 args,
                 context,
                 info,
-                // eslint-disable-next-line security/detect-non-literal-fs-filename
                 parent.link);
         },
     }

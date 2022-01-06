@@ -3,12 +3,12 @@
 
 import os
 import shutil
-from os import path, listdir
+from os import path
 from pathlib import Path
-from shutil import copyfile
-from typing import Union, List
+from typing import Union, List, Dict, Any
 
 from fhir_xml_schema_parser import FhirXmlSchemaParser
+from search_parameters import search_parameter_queries
 
 
 def my_copytree(
@@ -57,6 +57,11 @@ def main() -> int:
     if os.path.exists(resources_folder):
         shutil.rmtree(resources_folder)
     os.mkdir(resources_folder)
+
+    queries_folder = graphql_schema_dir.joinpath("queries")
+    if os.path.exists(queries_folder):
+        shutil.rmtree(queries_folder)
+    os.mkdir(queries_folder)
 
     resource_resolvers_folder = graphql_resolvers_dir.joinpath("resources")
     if os.path.exists(resource_resolvers_folder):
@@ -139,6 +144,13 @@ def main() -> int:
             #     with open(file_path, "w") as file2:
             #         file2.write(result)
         elif fhir_entity.is_resource:
+            search_parameters_for_all_resources: Dict[str, Dict[str, Any]] = (
+                search_parameter_queries.get("Resource", {}) if fhir_entity.fhir_name != "Resource" else {}
+            )
+            search_parameters_for_current_resource: Dict[str, Dict[str, Any]] = (
+                search_parameter_queries.get(fhir_entity.fhir_name, {})
+            )
+            # write schema
             with open(data_dir.joinpath("template.resource.jinja2"), "r") as file:
                 template_contents = file.read()
                 from jinja2 import Template
@@ -150,6 +162,26 @@ def main() -> int:
                 )
                 result = template.render(
                     fhir_entity=fhir_entity,
+                    search_parameters_for_all_resources=search_parameters_for_all_resources,
+                    search_parameters_for_current_resource=search_parameters_for_current_resource
+                )
+            if not path.exists(file_path):
+                with open(file_path, "w") as file2:
+                    file2.write(result)
+            # write queries
+            with open(data_dir.joinpath("template.resource_queries.jinja2"), "r") as file:
+                template_contents = file.read()
+                from jinja2 import Template
+
+                file_path = queries_folder.joinpath(f"{entity_file_name}.graphql")
+                print(f"Writing query: {entity_file_name} to {file_path}...")
+                template = Template(
+                    template_contents, trim_blocks=True, lstrip_blocks=True
+                )
+                result = template.render(
+                    fhir_entity=fhir_entity,
+                    search_parameters_for_all_resources=search_parameters_for_all_resources,
+                    search_parameters_for_current_resource=search_parameters_for_current_resource
                 )
             if not path.exists(file_path):
                 with open(file_path, "w") as file2:
