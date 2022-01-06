@@ -7,7 +7,7 @@ const mongoClient = require('../lib/mongo');
 const {mongoConfig} = require('../config');
 // eslint-disable-next-line security/detect-child-process
 const childProcess = require('child_process');
-const {getIndexesInAllCollections, deleteIndexesInAllCollections} = require('../indexes/index.util');
+const {getIndexesInAllCollections} = require('../indexes/index.util');
 
 module.exports.handleIndex = async (req, res) => {
     // console.info('Running index');

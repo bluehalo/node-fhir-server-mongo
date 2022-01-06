@@ -83,6 +83,7 @@
     "@opentelemetry/instrumentation-express": "^0.27.0",
     "@opentelemetry/instrumentation-http": "^0.27.0",
     "@opentelemetry/instrumentation-mongodb": "^0.27.0",
+    "@opentelemetry/metrics": "^0.24.0",
     "@opentelemetry/sdk-node": "^0.27.0",
     "@popperjs/core": "^2.11.0",
     "@sentry/node": "^6.16.1",

@@ -26,9 +26,15 @@ const {handleStats} = require('./routeHandlers/stats');
 const {handleSmartConfiguration} = require('./routeHandlers/smartConfiguration');
 const {isTrue} = require('./utils/isTrue');
 
+// const {countAllRequests} = require('./monitoring');
+
 if (isTrue(env.TRACING_ENABLED)) {
     require('./tracing');
 }
+
+const swaggerUi = require('swagger-ui-express');
+// eslint-disable-next-line security/detect-non-literal-require
+const swaggerDocument = require(env.SWAGGER_CONFIG_URL);
 
 const app = express();
 
@@ -46,13 +52,11 @@ app.use(Prometheus.responseCounters);
 Prometheus.injectMetricsRoute(app);
 Prometheus.startCollection();
 
+// app.use(countAllRequests());
+
 // Set EJS as templating engine
 app.set('views', path.join(__dirname, '/views'));
 app.set('view engine', 'ejs');
-
-const swaggerUi = require('swagger-ui-express');
-// eslint-disable-next-line security/detect-non-literal-require
-const swaggerDocument = require(env.SWAGGER_CONFIG_URL);
 
 // const fhirApp = MyFHIRServer.initialize(fhirServerConfig);
 const fhirApp = new MyFHIRServer(fhirServerConfig).configureMiddleware().configureSession().configureHelmet().configurePassport().configureHtmlRenderer().setPublicDirectory().setProfileRoutes().configureSlackErrorHandler().setErrorRoutes();
