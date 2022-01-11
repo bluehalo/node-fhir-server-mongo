@@ -120,20 +120,32 @@ let tokenQueryBuilder = function (target, type, field, required, exists_flag = n
         system = required;
     }
 
+    let queryBuilderElementMatch = {};
     if (system) {
         queryBuilder[`${field}.system`] = system;
+        queryBuilderElementMatch['system'] = system;
     }
+
     if (value) {
         if (value.includes(',')) {
             const values = value.split(',');
             queryBuilder[`${field}.${type}`] = {
                 $in: values
             };
+            queryBuilderElementMatch[`${type}`] = {
+                $in: values
+            };
         } else {
             queryBuilder[`${field}.${type}`] = value;
+            queryBuilderElementMatch[`${type}`] = value;
         }
     }
 
+    if (system && value) {
+        // $elemMatch so we match on BOTH system and value in the same array element
+        queryBuilder = {};
+        queryBuilder[`${field}`] = {$elemMatch: queryBuilderElementMatch};
+    }
     return queryBuilder;
 };
 

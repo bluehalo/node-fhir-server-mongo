@@ -12,6 +12,66 @@
           "type": "Organization"
         }
       ]
+    },
+    {
+      "description": "Practitioner Roles for this Practitioner",
+      "target": [
+        {
+          "type": "PractitionerRole",
+          "params": "practitioner={ref}&_security=https://www.icanbwell.com/access|medstar",
+          "link": [
+            {
+              "path": "organization",
+              "target": [
+                {
+                  "type": "Organization"
+                }
+              ]
+            },
+            {
+              "path": "location[x]",
+              "target": [
+                {
+                  "type": "Location"
+                }
+              ]
+            },
+            {
+              "path": "healthcareService[x]",
+              "target": [
+                {
+                  "type": "HealthcareService"
+                }
+              ]
+            },
+            {
+              "path": "extension.extension:url=plan",
+              "target": [
+                {
+                  "link": [
+                    {
+                      "path": "valueReference",
+                      "target": [
+                        {
+                          "type": "InsurancePlan"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "target": [
+                {
+                  "type": "Schedule",
+                  "params": "actor={ref}"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ]
 }

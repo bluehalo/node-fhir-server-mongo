@@ -1,0 +1,75 @@
+{
+  "resourceType": "PractitionerRole",
+  "id": "bad",
+  "meta": {
+    "source": "http://medstarhealth.org/provider",
+    "security": [
+      {
+        "system": "https://www.icanbwell.com/access",
+        "code": "notmedstar"
+      },
+      {
+        "system": "https://www.icanbwell.com/owner",
+        "code": "medstar"
+      }
+    ]
+  },
+  "extension": [
+    {
+      "id": "new-patients-1",
+      "extension": [
+        {
+          "id": "acceptingpatients",
+          "url": "acceptingPatients",
+          "valueCodeableConcept": {
+            "coding": [
+              {
+                "system": "https://build.fhir.org/ig/HL7/davinci-pdex-plan-net/CodeSystem-AcceptingPatientsCS.html",
+                "code": "existptonly"
+              }
+            ]
+          }
+        },
+        {
+          "id": "agerange",
+          "url": "ageRange",
+          "valueRange": {
+            "low": {
+              "value": 0.0,
+              "unit": "years"
+            },
+            "high": {
+              "unit": "years"
+            }
+          }
+        }
+      ],
+      "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/newpatients"
+    }
+  ],
+  "active": true,
+  "practitioner": {
+    "reference": "Practitioner/1679033641"
+  },
+  "organization": {
+    "reference": "Organization/Medstar-Alias-ABC"
+  },
+  "code": [
+    {
+      "coding": [
+        {
+          "system": "http://terminology.hl7.org/CodeSystem/practitioner-role",
+          "code": "doctor",
+          "display": "Doctor"
+        }
+      ],
+      "text": "Doctor"
+    }
+  ],
+  "specialty": [],
+  "location": [
+    {
+      "reference": "Location/Medstar-Alias-ABC"
+    }
+  ]
+}

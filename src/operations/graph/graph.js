@@ -13,6 +13,7 @@ const globals = require('../../globals');
 const {CLIENT_DB} = require('../../constants');
 const {validateResource} = require('../../utils/validator.util');
 const {BadRequestError} = require('../../utils/httpErrors');
+const {buildR4SearchQuery} = require('../search/query/r4');
 /**
  * Supports $graph
  * @param {Object} args
@@ -103,12 +104,12 @@ module.exports.graph = async (args, user, scope, body, path, host_, resource_nam
      * @param {string} host
      * @param {string | null} filterProperty (Optional) filter the sublist by this property
      * @param {*} filterValue (Optional) match filterProperty to this value
-     * @param {string} reverse_property (Optional) Do a reverse link from child to parent using this property
+     * @param {string} reverse_filter Do a reverse link from child to parent using this property
      * @return {Promise<[{resource: Resource, fullUrl: string}]>}
      */
-    async function get_reverse_related_resources(db, parentCollectionName, relatedResourceCollectionName, base_version, parent, host, filterProperty, filterValue, reverse_property) {
-        if (!(reverse_property)) {
-            throw new Error('reverse_property must be set');
+    async function get_reverse_related_resources(db, parentCollectionName, relatedResourceCollectionName, base_version, parent, host, filterProperty, filterValue, reverse_filter) {
+        if (!(reverse_filter)) {
+            throw new Error('reverse_filter must be set');
         }
         /**
          * @type {import('mongodb').Collection<Document>}
@@ -124,11 +125,13 @@ module.exports.graph = async (args, user, scope, body, path, host_, resource_nam
         let relatedResourcePropertyDocuments;
         // find elements in other collection that link to this object
         /**
+         * converts a query string into an args array
          * @type {import('mongodb').Document}
          */
-        const query = {
-            [reverse_property + '.reference']: parentCollectionName + '/' + parent['id']
-        };
+        function parseQueryStringIntoArgs(queryString){
+            return Object.fromEntries(new URLSearchParams(queryString));
+        }
+        const query = buildR4SearchQuery(relatedResourceCollectionName, parseQueryStringIntoArgs(reverse_filter)).query;
         /**
          * @type {import('mongodb').FindCursor}
          */
@@ -371,7 +374,6 @@ module.exports.graph = async (args, user, scope, body, path, host_, resource_nam
                             /**
                              * @type {string}
                              */
-                            const reverseProperty = target.params.replace('={ref}', '');
                             verifyHasValidScopes(parentEntity.resourceType, 'read', user, scope);
                             entries_for_current_link = entries_for_current_link.concat(
                                 await get_reverse_related_resources(
@@ -383,7 +385,7 @@ module.exports.graph = async (args, user, scope, body, path, host_, resource_nam
                                     host,
                                     null,
                                     null,
-                                    reverseProperty
+                                    target.params.replace('{ref}', parent_entity['id'])
                                 )
                             );
                         }
