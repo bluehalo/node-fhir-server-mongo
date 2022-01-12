@@ -1,5 +1,5 @@
 const {
-    // dateQueryBuilder,
+    dateQueryBuilder,
     referenceQueryBuilder,
     // nameQueryBuilder,
     // stringQueryBuilder,
@@ -229,7 +229,14 @@ module.exports.buildR4SearchQuery = (resourceName, args) => {
                                 queryParameterValue = [queryParameterValue];
                             }
                             for (const dateQueryItem of queryParameterValue) {
-                                and_segments.push({[`${propertyObj.field}`]: dateQueryBuilderNative(dateQueryItem, propertyObj.type, '')});
+                                if (propertyObj.field === 'meta.lastUpdated') {
+                                    // this field stores the date as a native date so we can do faster queries
+                                    and_segments.push({[`${propertyObj.field}`]: dateQueryBuilderNative(
+                                        dateQueryItem, propertyObj.type, '')});
+                                } else {
+                                    and_segments.push({[`${propertyObj.field}`]: dateQueryBuilder(
+                                        dateQueryItem, propertyObj.type, '')});
+                                }
                             }
                             columns.add(`${propertyObj.field}`);
                             break;
