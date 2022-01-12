@@ -481,9 +481,9 @@ module.exports.merge = async (args, user, scope, body, path, resource_name, coll
         logDebug(user, patched_resource_incoming);
         logDebug(user, '------ end patched document --------');
         // Same as update from this point on
-        // const cleaned = JSON.parse(JSON.stringify(patched_resource_incoming));
-        // check_fhir_mismatch(cleaned, patched_incoming_data);
-        const cleaned = patched_resource_incoming;
+        const cleaned = JSON.parse(JSON.stringify(patched_resource_incoming));
+        check_fhir_mismatch(cleaned, patched_incoming_data);
+        // const cleaned = patched_resource_incoming;
         const doc = Object.assign(cleaned, {_id: id});
         if (env.LOG_ALL_MERGES) {
             await sendToS3('logs',
