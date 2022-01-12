@@ -281,7 +281,6 @@ module.exports.merge = async (args, user, scope, body, path, resource_name, coll
         const original_source = resourceToMerge.meta.source;
         resourceToMerge.meta.versionId = foundResource.meta.versionId;
         resourceToMerge.meta.lastUpdated = foundResource.meta.lastUpdated;
-        resourceToMerge.meta._lastUpdated = foundResource.meta._lastUpdated;
         resourceToMerge.meta.source = foundResource.meta.source;
         logDebug(user, '------ incoming document --------');
         logDebug(user, resourceToMerge);
@@ -460,18 +459,16 @@ module.exports.merge = async (args, user, scope, body, path, resource_name, coll
         let patched_resource_incoming = new Resource(patched_incoming_data);
         // update the metadata to increment versionId
         /**
-         * @type {{versionId: string, lastUpdated: string, _lastUpdated: Date, source: string}}
+         * @type {{versionId: string, lastUpdated: Date, source: string}}
          */
         let meta = foundResource.meta;
         meta.versionId = `${parseInt(foundResource.meta.versionId) + 1}`;
-        meta.lastUpdated = moment.utc().format('YYYY-MM-DDTHH:mm:ssZ');
-        meta._lastUpdated = new Date(moment.utc().format('YYYY-MM-DDTHH:mm:ssZ'));
+        meta.lastUpdated = new Date(moment.utc().format('YYYY-MM-DDTHH:mm:ssZ'));
         // set the source from the incoming resource
         meta.source = original_source;
         // These properties are set automatically
         patched_resource_incoming.meta.versionId = meta.versionId;
         patched_resource_incoming.meta.lastUpdated = meta.lastUpdated;
-        patched_resource_incoming.meta._lastUpdated = meta._lastUpdated;
         // If not source is provided then use the source of the previous entity
         if (!(patched_resource_incoming.meta.source)) {
             patched_resource_incoming.meta.source = meta.source;
@@ -526,16 +523,15 @@ module.exports.merge = async (args, user, scope, body, path, resource_name, coll
             let Meta = getMeta(base_version);
             resourceToMerge.meta = new Meta({
                 versionId: '1',
-                lastUpdated: moment.utc().format('YYYY-MM-DDTHH:mm:ssZ'),
-                _lastUpdated: new Date(moment.utc().format('YYYY-MM-DDTHH:mm:ssZ')),
+                lastUpdated: new Date(moment.utc().format('YYYY-MM-DDTHH:mm:ssZ')),
             });
         } else {
             resourceToMerge.meta.versionId = '1';
-            resourceToMerge.meta.lastUpdated = moment.utc().format('YYYY-MM-DDTHH:mm:ssZ');
-            resourceToMerge.meta._lastUpdated = new Date(moment.utc().format('YYYY-MM-DDTHH:mm:ssZ'));
+            resourceToMerge.meta.lastUpdated = new Date(moment.utc().format('YYYY-MM-DDTHH:mm:ssZ'));
         }
 
-        const cleaned = JSON.parse(JSON.stringify(resourceToMerge));
+        // const cleaned = JSON.parse(JSON.stringify(resourceToMerge));
+        const cleaned = resourceToMerge;
         const doc = Object.assign(cleaned, {_id: id});
 
         return await performMergeDbUpdate(resourceToMerge, doc, cleaned);

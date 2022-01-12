@@ -557,12 +557,17 @@ let dateQueryBuilder = function (date, type, path) {
                     return toRet;
                 }
                 return {
-                    // eslint-disable-next-line security/detect-non-literal-regexp
-                    $regex: new RegExp(
-                        '^' + '(?:' + str + ')|(?:' + match[0].replace('+', '\\+') + ')|(?:' + tempFill,
-                        'i'
-                    ),
+                    $gte: new Date(2012, 7, 14),
+                    // $lt: new Date(2024, 7, 14)
                 };
+
+                // return {
+                //     // eslint-disable-next-line security/detect-non-literal-regexp
+                //     $regex: new RegExp(
+                //         '^' + '(?:' + str + ')|(?:' + match[0].replace('+', '\\+') + ')|(?:' + tempFill,
+                //         'i'
+                //     ),
+                // };
             } else {
                 for (let i = 2; i < 10; i++) {
                     if (match[`${i}`]) {
