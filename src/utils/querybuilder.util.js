@@ -557,17 +557,12 @@ let dateQueryBuilder = function (date, type, path) {
                     return toRet;
                 }
                 return {
-                    $gte: new Date(2012, 7, 14),
-                    // $lt: new Date(2024, 7, 14)
+                    // eslint-disable-next-line security/detect-non-literal-regexp
+                    $regex: new RegExp(
+                        '^' + '(?:' + str + ')|(?:' + match[0].replace('+', '\\+') + ')|(?:' + tempFill,
+                        'i'
+                    ),
                 };
-
-                // return {
-                //     // eslint-disable-next-line security/detect-non-literal-regexp
-                //     $regex: new RegExp(
-                //         '^' + '(?:' + str + ')|(?:' + match[0].replace('+', '\\+') + ')|(?:' + tempFill,
-                //         'i'
-                //     ),
-                // };
             } else {
                 for (let i = 2; i < 10; i++) {
                     if (match[`${i}`]) {
@@ -585,6 +580,46 @@ let dateQueryBuilder = function (date, type, path) {
     }
 };
 
+let dateQueryBuilderNative = function (dateSearchParameter, type, path) {
+    const regex = /([a-z]+)(.+)/;
+    const matches = dateSearchParameter.match(regex);
+    const operation = matches[1];
+    const date = new Date(matches[2]);
+    const query = {};
+    // from http://hl7.org/fhir/r4/search.html#date
+    switch (operation) {
+        case 'eq':
+            query['$gte'] = date;
+            break;
+        case 'ne':
+            query['$gte'] = date;
+            break;
+        case 'lt':
+            query['lt'] = date;
+            break;
+        case 'gt':
+            query['$gt'] = date;
+            break;
+        case 'ge':
+            query['$gte'] = date;
+            break;
+        case 'le':
+            query['$lte'] = date;
+            break;
+        case 'sa':
+            query['$lte'] = date;
+            break;
+        case 'eb':
+            query['$lte'] = date;
+            break;
+        case 'ap':
+            query['$lte'] = date;
+            break;
+        default:
+            throw new Error(`${operation} is not supported.`)
+    }
+    return query;
+}
 /**
  * @name compositeQueryBuilder
  * @description from looking at where composites are used, the fields seem to be implicit
@@ -703,4 +738,5 @@ module.exports = {
     quantityQueryBuilder,
     compositeQueryBuilder,
     dateQueryBuilder,
+    dateQueryBuilderNative
 };
