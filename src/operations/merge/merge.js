@@ -21,7 +21,7 @@ const {compare, applyPatch} = require('fast-json-patch');
 const {ForbiddenError, BadRequestError} = require('../../utils/httpErrors');
 const {getMeta} = require('../common/getMeta');
 const async = require('async');
-const {check_fhir_mismatch} = require('../common/check_fhir_mismatch');
+// const {check_fhir_mismatch} = require('../common/check_fhir_mismatch');
 const {logError} = require('../common/logging');
 const {getOrCreateCollection} = require('../../utils/mongoCollectionManager');
 const pRetry = require('p-retry');
@@ -482,7 +482,7 @@ module.exports.merge = async (args, user, scope, body, path, resource_name, coll
         logDebug(user, '------ end patched document --------');
         // Same as update from this point on
         const cleaned = JSON.parse(JSON.stringify(patched_resource_incoming));
-        check_fhir_mismatch(cleaned, patched_incoming_data);
+        // check_fhir_mismatch(cleaned, patched_incoming_data);
         // const cleaned = patched_resource_incoming;
         const doc = Object.assign(cleaned, {_id: id});
         if (env.LOG_ALL_MERGES) {
