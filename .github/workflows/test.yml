@@ -1,9 +1,6 @@
-name: test
+name: Test
 
 on: push
-
-env:
-  DOCKER_COMPOSE_VERSION: 19.03.0
 
 jobs:
   run-tests:
@@ -13,8 +10,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Build the stack
+      - name: Build
         run: docker-compose up -d
 
-      - name: Docker Compose
+      - name: Test
         run: docker-compose run fhir npm test
