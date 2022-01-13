@@ -5,8 +5,8 @@ const {CLIENT_DB} = require('../../constants');
 const {BadRequestError, NotFoundError} = require('../../utils/httpErrors');
 const {validate, applyPatch} = require('fast-json-patch');
 const {getResource} = require('../common/getResource');
-const moment = require("moment-timezone");
-const {removeNull} = require("../../utils/nullRemover");
+const moment = require('moment-timezone');
+const {removeNull} = require('../../utils/nullRemover');
 /**
  * does a FHIR Patch
  * @param {Object} args

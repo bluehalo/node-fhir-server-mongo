@@ -6,6 +6,7 @@ const env = require('var');
 const asyncHandler = require('../lib/async-handler');
 const mongoClient = require('../lib/mongo');
 const {mongoConfig} = require('../config');
+const async = require('async');
 module.exports.handleClean = async (req, res) => {
     // const query_args_array = Object.entries(req.query);
     // return res.status(200).json(req.params);
@@ -47,13 +48,14 @@ module.exports.handleClean = async (req, res) => {
             });
 
             console.info('Collection_names:' + collection_names);
-            res.status(202).json({'status': 'processing request, check the stats endpoint for progress.', 'deleting_from_collections': collection_names});
-            for (const collection_index in collection_names) {
-                const collection_name = collection_names[parseInt(collection_index)];
-                console.log(collection_name);
-                console.log(['Removing: ', await db.collection(collection_name).countDocuments({}), ' documents from ', collection_name].join(''));
-                await db.collection(collection_name).deleteMany({});
-            }
+            res.status(202).json({
+                'status': 'processing request, check the stats endpoint for progress.',
+                'deleting_from_collections': collection_names
+            });
+            await async.mapSeries(
+                collection_names,
+                async collection_name => await db.collection(collection_name).deleteMany({})
+            );
             await client.close();
         }
     } else {

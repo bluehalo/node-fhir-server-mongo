@@ -11,7 +11,7 @@ const {CLIENT_DB} = require('../../constants');
 const {getResource} = require('../common/getResource');
 const {getMeta} = require('../common/getMeta');
 const {getOrCreateCollection} = require('../../utils/mongoCollectionManager');
-const {removeNull} = require("../../utils/nullRemover");
+const {removeNull} = require('../../utils/nullRemover');
 
 /**
  * does a FHIR Create (POST)
