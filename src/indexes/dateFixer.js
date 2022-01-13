@@ -3,6 +3,8 @@ const mongoClient = require('../lib/mongo');
 const {mongoConfig} = require('../config');
 const async = require('async');
 const {logMessageToSlack} = require('../utils/slack.logger');
+const globals = require("../globals");
+const {CLIENT_DB} = require("../constants");
 
 
 const fixLastUpdatedDates = async (collection_name, db) => {
@@ -35,7 +37,7 @@ const fixLastUpdatedDatesInAllCollections = async () => {
         throw new Error(mongoError.message);
     }
     //create client by providing database name
-    const db = client.db(mongoConfig.db_name);
+    const db = globals.get(CLIENT_DB);
     const collection_names = [];
 
     await db.listCollections().forEach(collection => {

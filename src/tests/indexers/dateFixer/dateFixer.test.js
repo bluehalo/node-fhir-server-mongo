@@ -31,7 +31,8 @@ describe('dateFixer Tests', () => {
             let element = await collection.findOne({});
             let result = getSchemaOfMongoDocument(null, element, 0);
             expect(result['meta.lastUpdated']).toStrictEqual('string');
-            await fixLastUpdatedDates(collectionName, db);
+            // await fixLastUpdatedDates(collectionName, db);
+            await fixLastUpdatedDatesInAllCollections();
             element = await collection.findOne({});
             result = getSchemaOfMongoDocument(null, element, 0);
             expect(result['meta.lastUpdated']).toStrictEqual('Date');
