@@ -430,7 +430,7 @@ module.exports.merge = async (args, user, scope, body, path, resource_name, coll
         // const cleaned = JSON.parse(JSON.stringify(resourceToMerge));
         // let Resource = getResource(base_version, resourceToMerge.resourceType);
         // const cleaned = new Resource(resourceToMerge).toJSON();
-        const cleaned = resourceToMerge;
+        const cleaned = removeNull(resourceToMerge);
         const doc = Object.assign(cleaned, {_id: id});
 
         return await performMergeDbUpdate(resourceToMerge, doc, cleaned);
