@@ -13,7 +13,7 @@ const fixLastUpdatedDates = async (collection_name, db) => {
     const collection = db.collection(collection_name);
     await collection.find().forEach(element => {
         element.meta.lastUpdated = new Date(element.meta.lastUpdated);
-        collection.save(element);
+        collection.findOneAndUpdate({id: element.id}, {$set: element}, {upsert: true});
     });
 
     message = `Finished fixing lastUpdatedDate in ${collection_name}`;
@@ -37,7 +37,6 @@ const fixLastUpdatedDatesInAllCollections = async () => {
     //create client by providing database name
     const db = client.db(mongoConfig.db_name);
     const collection_names = [];
-    // const collections = await db.listCollections().toArray();
 
     await db.listCollections().forEach(collection => {
         if (collection.name.indexOf('system.') === -1) {
@@ -55,5 +54,6 @@ const fixLastUpdatedDatesInAllCollections = async () => {
 };
 
 module.exports = {
-    fixLastUpdatedDatesInAllCollections: fixLastUpdatedDatesInAllCollections
+    fixLastUpdatedDatesInAllCollections: fixLastUpdatedDatesInAllCollections,
+    fixLastUpdatedDates: fixLastUpdatedDates
 };
