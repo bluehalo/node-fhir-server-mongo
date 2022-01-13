@@ -56,8 +56,7 @@
           "reference": "Coverage/WPS-6678928210"
         }
       }
-    ],
-    "supportingInfo": []
+    ]
   },
   {
     "resourceType": "ExplanationOfBenefit",
@@ -118,7 +117,6 @@
       }
     },
     "outcome": "Complete",
-    "careTeam": [],
     "insurance": [
       {
         "focal": true,
