@@ -31,10 +31,16 @@ describe('dateFixer Tests', () => {
             let element = await collection.findOne({});
             let result = getSchemaOfMongoDocument(null, element, 0);
             expect(result['meta.lastUpdated']).toStrictEqual('string');
-            // await fixLastUpdatedDates(collectionName, db);
             await fixLastUpdatedDatesInAllCollections();
             element = await collection.findOne({});
             result = getSchemaOfMongoDocument(null, element, 0);
+            // confirm that the type has been changed to Date
+            expect(result['meta.lastUpdated']).toStrictEqual('Date');
+            // now try to run it again to make sure it remains a Date
+            await fixLastUpdatedDatesInAllCollections();
+            element = await collection.findOne({});
+            result = getSchemaOfMongoDocument(null, element, 0);
+            // confirm that the type has been changed to Date
             expect(result['meta.lastUpdated']).toStrictEqual('Date');
         });
     });
