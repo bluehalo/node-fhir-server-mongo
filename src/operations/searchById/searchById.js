@@ -72,7 +72,7 @@ module.exports.searchById = async (args, user, scope, resource_name, collection_
                 resource.resourceType + ' with id ' + id);
         }
         // remove any nulls or empty objects or arrays
-        resource = removeNull(resource.toJSON());
+        resource = removeNull(resource);
 
         // run any enrichment
         resource = (await enrich([resource], resource_name))[0];
