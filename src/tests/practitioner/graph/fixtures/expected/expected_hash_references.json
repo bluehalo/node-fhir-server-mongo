@@ -139,8 +139,7 @@
             "practitioner": {
               "reference": "Practitioner/1679033641"
             },
-            "resourceType": "PractitionerRole",
-            "specialty": []
+            "resourceType": "PractitionerRole"
           }
         ],
         "gender": "unknown",
