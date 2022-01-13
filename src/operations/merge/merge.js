@@ -25,7 +25,7 @@ const {logError} = require('../common/logging');
 const {getOrCreateCollection} = require('../../utils/mongoCollectionManager');
 const pRetry = require('p-retry');
 const {logMessageToSlack} = require('../../utils/slack.logger');
-const {mergeResource} = require('./mergeHelper');
+const {mergeObject} = require('./mergeHelper');
 const {removeNull} = require('./nullRemover');
 
 /**
@@ -312,7 +312,7 @@ module.exports.merge = async (args, user, scope, body, path, resource_name, coll
         /**
          * @type {Object}
          */
-        let resource_merged = mergeResource(data, resourceToMerge);
+        let resource_merged = mergeObject(data, resourceToMerge);
 
         // now create a patch between the document in db and the incoming document
         //  this returns an array of patches
