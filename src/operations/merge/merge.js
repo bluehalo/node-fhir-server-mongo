@@ -312,7 +312,7 @@ module.exports.merge = async (args, user, scope, body, path, resource_name, coll
         /**
          * @type {Object}
          */
-        let resource_merged = mergeObject(data, resourceToMerge);
+        let resource_merged = mergeObject(my_data, resourceToMerge);
 
         // now create a patch between the document in db and the incoming document
         //  this returns an array of patches

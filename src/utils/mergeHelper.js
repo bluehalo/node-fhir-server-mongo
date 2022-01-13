@@ -110,8 +110,8 @@ const mergeObjectOrArray = (oldItem, newItem) => {
     return deepmerge(oldItem, newItem, options);
 };
 
-const mergeObject = (currentResource, newResource) => {
-    return deepmerge(currentResource, newResource, options);
+const mergeObject = (old1, new1) => {
+    return deepmerge(old1, new1, options);
 };
 
 module.exports = {
