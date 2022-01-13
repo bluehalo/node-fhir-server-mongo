@@ -28,7 +28,7 @@ module.exports.handleIndex = async (req, res) => {
         console.log('runIndex: ' + JSON.stringify(req.params));
         console.log('runIndex: ' + operation);
 
-        let message = '';
+        let message;
         let collection_stats = {};
         if (operation === 'run') {
             //create new instance of node for running separate task in another thread
@@ -49,6 +49,16 @@ module.exports.handleIndex = async (req, res) => {
             };
             taskProcessor.send(params);
             message = 'Started rebuilding indexes in separate process.  Check logs or Slack for output.';
+        } else if (operation === 'fixDates') {
+            // await deleteIndexesInAllCollections();
+            //create new instance of node for running separate task in another thread
+            const taskProcessor = childProcess.fork('./src/tasks/indexer.js');
+            //send some params to our separate task
+            const params = {
+                message: 'Fix Dates'
+            };
+            taskProcessor.send(params);
+            message = 'Started fixing dates in separate process.  Check logs or Slack for output.';
         } else {
             collection_stats = await getIndexesInAllCollections();
             message = 'Listing current indexes.  Use /index/run if you want to run index creation';

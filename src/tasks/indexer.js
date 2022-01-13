@@ -7,6 +7,7 @@
 
 const {indexAllCollections, deleteIndexesInAllCollections} = require('../indexes/index.util');
 const {logMessageToSlack} = require('../utils/slack.logger');
+const {fixLastUpdatedDatesInAllCollections} = require('../indexes/dateFixer');
 
 
 // eslint-disable-next-line no-unused-vars
@@ -37,6 +38,14 @@ process.on('message', async (params) => {
             console.log(JSON.stringify(collection_stats));
             console.log('===== Done Indexing in separate process ======');
             await logMessageToSlack(JSON.stringify(collection_stats));
+        } else if (message === 'Fix Dates') {
+            const message1 = 'Starting fixing dates in separate process';
+            await logMessageToSlack(message1);
+            console.log(`===== ${message1} ======`);
+            await fixLastUpdatedDatesInAllCollections();
+            const message2 = 'Finished fixing dates in separate process';
+            await logMessageToSlack(message2);
+            console.log(`===== ${message2} ======`);
         }
     } catch (e) {
         console.log('===== ERROR Indexing in separate process ======', e);
