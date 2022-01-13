@@ -4,7 +4,7 @@ const globals = require('../../../globals');
 const {CLIENT_DB} = require('../../../constants');
 const {getOrCreateCollection} = require('../../../utils/mongoCollectionManager');
 const {getSchemaOfMongoDocument} = require('../../../utils/mongoSchemaHelper');
-const {fixLastUpdatedDatesInAllCollections, fixLastUpdatedDates} = require('../../../indexes/dateFixer');
+const {fixLastUpdatedDatesInAllCollections} = require('../../../indexes/dateFixer');
 
 describe('dateFixer Tests', () => {
     beforeEach(async () => {

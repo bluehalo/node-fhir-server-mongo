@@ -4,9 +4,9 @@ const getSchemaOfMongoDocument = (prefix, obj, indent) => {
         if (typeof obj[`${key}`] !== 'function') { //we don't want to print functions
             const specificDataTypes = [Date, Array]; //specify the specific data types you want to check
             let type = null;
-            for (const i in specificDataTypes) { // looping over [Date,Array]
-                if (obj[`${key}`] instanceof specificDataTypes[i]) { //if the current property is instance of the DataType
-                    type = specificDataTypes[i].name; //get its name
+            for (const specificDataType of specificDataTypes) { // looping over [Date,Array]
+                if (obj[`${key}`] instanceof specificDataType) { //if the current property is instance of the DataType
+                    type = specificDataType.name; //get its name
                     break;
                 }
             }

@@ -13,12 +13,11 @@ const {NotValidatedError, ForbiddenError, BadRequestError} = require('../../util
 const globals = require('../../globals');
 const {CLIENT_DB} = require('../../constants');
 const {getResource} = require('../common/getResource');
-const {compare, applyPatch} = require('fast-json-patch');
+const {compare} = require('fast-json-patch');
 const {getMeta} = require('../common/getMeta');
-const {check_fhir_mismatch} = require('../common/check_fhir_mismatch');
 const {logError} = require('../common/logging');
 const {getOrCreateCollection} = require('../../utils/mongoCollectionManager');
-const {removeNull} = require("../../utils/nullRemover");
+const {removeNull} = require('../../utils/nullRemover');
 /**
  * does a FHIR Update (PUT)
  * @param {Object} args
