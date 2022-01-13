@@ -315,7 +315,7 @@ module.exports.search = async (args, user, scope, resourceName, collection_name,
         }
 
         // remove any nulls or empty objects or arrays
-        resources = resources.map(r => removeNull(r));
+        resources = resources.map(r => removeNull(r.toJSON()));
 
         // run any enrichment
         resources = await enrich(resources, resourceName);
