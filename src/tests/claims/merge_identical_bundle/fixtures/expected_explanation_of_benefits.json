@@ -61,7 +61,6 @@
       }
     },
     "outcome": "Complete",
-    "careTeam": [],
     "supportingInfo": [
       {
         "sequence": 1,
@@ -171,9 +170,6 @@
             }
           ]
         },
-        "productOrService": {},
-        "modifier": [],
-        "servicedPeriod": {},
         "locationCodeableConcept": {
           "coding": [
             {

@@ -1,6 +1,5 @@
 [
   {
-    "careTeam": [],
     "diagnosis": [
       {
         "diagnosisCodeableConcept": {
@@ -210,8 +209,6 @@
             }
           ]
         },
-        "modifier": [],
-        "productOrService": {},
         "quantity": {
           "value": 1
         },
@@ -222,8 +219,7 @@
             }
           ]
         },
-        "sequence": 1,
-        "servicedPeriod": {}
+        "sequence": 1
       },
       {
         "adjudication": [
@@ -345,7 +341,6 @@
             "text": "Procedure Modifier 1"
           }
         ],
-        "productOrService": {},
         "quantity": {
           "value": 1
         },
@@ -356,8 +351,7 @@
             }
           ]
         },
-        "sequence": 2,
-        "servicedPeriod": {}
+        "sequence": 2
       }
     ],
     "meta": {
