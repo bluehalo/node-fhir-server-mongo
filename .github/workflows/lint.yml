@@ -14,7 +14,7 @@ jobs:
         run: docker-compose up -d
 
       - name: Lint
-        run: docker-compose run fhir npm test:lint
+        run: docker-compose run fhir npm run test:lint
 
       - name: Prettier
-        run: docker-compose run fhir npm prettier-check
+        run: docker-compose run fhir npm run prettier-check
