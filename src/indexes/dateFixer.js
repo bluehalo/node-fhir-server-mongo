@@ -28,8 +28,14 @@ const convertFieldToDate = async (collection_name, field, db) => {
          * @type {Object}
          */
         const element = await cursor.next();
-        if (element[`${field}`]) {
-            element[`${field}`] = new Date(element[`${field}`]);
+        let item = element;
+        const paths = field.split('.');
+        for (const path of paths.slice(0, -1)) {
+            item = item[`${path}`];
+        }
+        const propertyName = paths[paths.length - 1];
+        if (item[`${propertyName}`]) {
+            item[`${propertyName}`] = new Date(item[`${propertyName}`]);
             await collection.findOneAndUpdate({id: element.id}, {$set: element}, {upsert: true});
         }
     }
