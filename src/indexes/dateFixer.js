@@ -47,7 +47,7 @@ const fixLastUpdatedDatesInAllCollections = async () => {
     });
 
     // now add indices on id column for every collection
-    await async.map(
+    await async.mapSeries(
         collection_names,
         async collection_name => await fixLastUpdatedDates(collection_name, db)
     );
