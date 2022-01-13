@@ -580,6 +580,51 @@ let dateQueryBuilder = function (date, type, path) {
     }
 };
 
+// noinspection JSUnusedLocalSymbols
+// eslint-disable-next-line no-unused-vars
+let dateQueryBuilderNative = function (dateSearchParameter, type, path) {
+    const regex = /([a-z]+)(.+)/;
+    const matches = dateSearchParameter.match(regex);
+    const operation = matches[1];
+    const date = moment.utc(matches[2]).toDate();
+    const query = {};
+    // from http://hl7.org/fhir/r4/search.html#date
+    switch (operation) {
+        case 'eq':
+            query['$gte'] = moment(date).utc().startOf('day').toDate();
+            query['$lte'] = moment(date).utc().endOf('day').toDate();
+            break;
+        case 'ne':
+            query['$lt'] = moment(date).utc().startOf('day').toDate();
+            query['$gt'] = moment(date).utc().endOf('day').toDate();
+            break;
+        case 'lt':
+            query['$lt'] = date;
+            break;
+        case 'gt':
+            query['$gt'] = date;
+            break;
+        case 'ge':
+            query['$gte'] = date;
+            break;
+        case 'le':
+            query['$lte'] = date;
+            break;
+        case 'sa':
+            query['$lte'] = date;
+            break;
+        case 'eb':
+            query['$lte'] = date;
+            break;
+        case 'ap':
+            query['$lte'] = date;
+            break;
+        default:
+            throw new Error(`${operation} is not supported.`);
+    }
+    return query;
+};
+
 /**
  * @name compositeQueryBuilder
  * @description from looking at where composites are used, the fields seem to be implicit
@@ -698,4 +743,5 @@ module.exports = {
     quantityQueryBuilder,
     compositeQueryBuilder,
     dateQueryBuilder,
+    dateQueryBuilderNative
 };

@@ -1,6 +1,5 @@
 [
   {
-    "careTeam": [],
     "diagnosis": [
       {
         "diagnosisCodeableConcept": {
@@ -210,8 +209,14 @@
             }
           ]
         },
-        "modifier": [],
-        "productOrService": {},
+        "productOrService": {
+          "coding": [
+            {
+              "code": "A",
+              "system": "http://hl7.org/fhir/sid/ex-icd-10-procedures"
+            }
+          ]
+        },
         "quantity": {
           "value": 1
         },
@@ -222,8 +227,7 @@
             }
           ]
         },
-        "sequence": 1,
-        "servicedPeriod": {}
+        "sequence": 1
       },
       {
         "adjudication": [
@@ -345,7 +349,14 @@
             "text": "Procedure Modifier 1"
           }
         ],
-        "productOrService": {},
+        "productOrService": {
+          "coding": [
+            {
+              "code": "A",
+              "system": "http://hl7.org/fhir/sid/ex-icd-10-procedures"
+            }
+          ]
+        },
         "quantity": {
           "value": 1
         },
@@ -356,8 +367,7 @@
             }
           ]
         },
-        "sequence": 2,
-        "servicedPeriod": {}
+        "sequence": 2
       }
     ],
     "meta": {
@@ -438,7 +448,6 @@
     "use": "Claim"
   },
   {
-    "careTeam": [],
     "diagnosis": [
       {
         "diagnosisCodeableConcept": {
@@ -642,8 +651,14 @@
             }
           ]
         },
-        "modifier": [],
-        "productOrService": {},
+        "productOrService": {
+          "coding": [
+            {
+              "code": "A",
+              "system": "http://hl7.org/fhir/sid/ex-icd-10-procedures"
+            }
+          ]
+        },
         "quantity": {
           "value": 1
         },
@@ -654,8 +669,7 @@
             }
           ]
         },
-        "sequence": 2,
-        "servicedPeriod": {}
+        "sequence": 2
       }
     ],
     "meta": {

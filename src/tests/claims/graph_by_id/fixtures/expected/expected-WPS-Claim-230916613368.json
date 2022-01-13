@@ -5,7 +5,6 @@
   "entry": [
     {
       "resource": {
-        "careTeam": [],
         "contained": [
           {
             "active": true,

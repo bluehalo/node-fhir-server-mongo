@@ -239,7 +239,6 @@
           "code": "medstar"
         }
       ]
-
     },
     "outcome": "Complete",
     "patient": {
@@ -521,16 +520,14 @@
       {
         "id": "WPS-Claim-20A078097100-1",
         "sequence": 1,
-        "productOrService": [
-          {
-            "coding": [
-              {
-                "system": "http://hl7.org/fhir/sid/icd-10",
-                "code": "80061"
-              }
-            ]
-          }
-        ],
+        "productOrService": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/sid/icd-10",
+              "code": "80061"
+            }
+          ]
+        },
         "modifier": [],
         "servicedPeriod": {
           "start": "2020-01-07",

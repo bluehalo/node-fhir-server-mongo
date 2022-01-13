@@ -16,16 +16,17 @@ const {CLIENT_DB} = require('../../constants');
 const {getResource} = require('../common/getResource');
 const deepcopy = require('deepcopy');
 const deepEqual = require('fast-deep-equal');
-const deepmerge = require('deepmerge');
 const {compare, applyPatch} = require('fast-json-patch');
 const {ForbiddenError, BadRequestError} = require('../../utils/httpErrors');
 const {getMeta} = require('../common/getMeta');
 const async = require('async');
-const {check_fhir_mismatch} = require('../common/check_fhir_mismatch');
+// const {check_fhir_mismatch} = require('../common/check_fhir_mismatch');
 const {logError} = require('../common/logging');
 const {getOrCreateCollection} = require('../../utils/mongoCollectionManager');
 const pRetry = require('p-retry');
 const {logMessageToSlack} = require('../../utils/slack.logger');
+const {mergeObject} = require('../../utils/mergeHelper');
+const {removeNull} = require('../../utils/nullRemover');
 
 /**
  * does a FHIR Merge
@@ -268,7 +269,7 @@ module.exports.merge = async (args, user, scope, body, path, resource_name, coll
          */
         let foundResource = new Resource(data);
         logDebug(user, '------ found document --------');
-        logDebug(user, data);
+        logDebug(user, JSON.stringify(data));
         logDebug(user, '------ end found document --------');
         // use metadata of existing resource (overwrite any passed in metadata)
         if (!resourceToMerge.meta) {
@@ -283,14 +284,17 @@ module.exports.merge = async (args, user, scope, body, path, resource_name, coll
         resourceToMerge.meta.lastUpdated = foundResource.meta.lastUpdated;
         resourceToMerge.meta.source = foundResource.meta.source;
         logDebug(user, '------ incoming document --------');
-        logDebug(user, resourceToMerge);
+        logDebug(user, JSON.stringify(resourceToMerge));
         logDebug(user, '------ end incoming document --------');
 
         /**
          * @type {Object}
          */
-        const my_data = deepcopy(data);
+        let my_data = deepcopy(data);
         delete my_data['_id']; // remove _id since that is an internal
+        // remove any null properties so deepEqual does not consider objects as different because of that
+        my_data = removeNull(my_data);
+        resourceToMerge = removeNull(resourceToMerge);
 
         // for speed, first check if the incoming resource is exactly the same
         if (deepEqual(my_data, resourceToMerge) === true) {
@@ -304,120 +308,11 @@ module.exports.merge = async (args, user, scope, body, path, resource_name, coll
             };
         }
 
-        let mergeObjectOrArray;
-
-        /**
-         * @type {{customMerge: (function(*): *)}}
-         */
-            // noinspection JSUnusedGlobalSymbols,JSUnusedLocalSymbols
-        const options = {
-                // eslint-disable-next-line no-unused-vars
-                customMerge: (/*key*/) => {
-                    return mergeObjectOrArray;
-                }
-            };
-
-        /**
-         * @param {?Object | Object[]} oldItem
-         * @param {?Object | Object[]} newItem
-         * @return {?Object | Object[]}
-         */
-        mergeObjectOrArray = (oldItem, newItem) => {
-            if (deepEqual(oldItem, newItem)) {
-                return oldItem;
-            }
-            if (Array.isArray(oldItem)) {
-                /**
-                 * @type {? Object[]}
-                 */
-                let result_array = null;
-                // iterate through all the new array and find any items that are not present in old array
-                for (let i = 0; i < newItem.length; i++) {
-                    /**
-                     * @type {Object}
-                     */
-                    let my_item = newItem[`${i}`];
-
-                    if (my_item === null) {
-                        continue;
-                    }
-
-                    // if newItem[i] does not matches any item in oldItem then insert
-                    if (oldItem.every(a => deepEqual(a, my_item) === false)) {
-                        if (typeof my_item === 'object' && 'id' in my_item) {
-                            // find item in oldItem array that matches this one by id
-                            /**
-                             * @type {number}
-                             */
-                            const matchingOldItemIndex = oldItem.findIndex(x => x['id'] === my_item['id']);
-                            if (matchingOldItemIndex > -1) {
-                                // check if id column exists and is the same
-                                //  then recurse down and merge that item
-                                if (result_array === null) {
-                                    result_array = deepcopy(oldItem); // deep copy so we don't change the original object
-                                }
-                                result_array[`${matchingOldItemIndex}`] = deepmerge(oldItem[`${matchingOldItemIndex}`], my_item, options);
-                                continue;
-                            }
-                        }
-                        // insert based on sequence if present
-                        if (typeof my_item === 'object' && 'sequence' in my_item) {
-                            /**
-                             * @type {Object[]}
-                             */
-                            result_array = [];
-                            // go through the list until you find a sequence number that is greater than the new
-                            // item and then insert before it
-                            /**
-                             * @type {number}
-                             */
-                            let index = 0;
-                            /**
-                             * @type {boolean}
-                             */
-                            let insertedItem = false;
-                            while (index < oldItem.length) {
-                                /**
-                                 * @type {Object}
-                                 */
-                                const element = oldItem[`${index}`];
-                                // if item has not already been inserted then insert before the next sequence
-                                if (!insertedItem && (element['sequence'] > my_item['sequence'])) {
-                                    result_array.push(my_item); // add the new item before
-                                    result_array.push(element); // then add the old item
-                                    insertedItem = true;
-                                } else {
-                                    result_array.push(element); // just add the old item
-                                }
-                                index += 1;
-                            }
-                            if (!insertedItem) {
-                                // if no sequence number greater than this was found then add at the end
-                                result_array.push(my_item);
-                            }
-                        } else {
-                            // no sequence property is set on this item so just insert at the end
-                            if (result_array === null) {
-                                result_array = deepcopy(oldItem); // deep copy so we don't change the original object
-                            }
-                            result_array.push(my_item);
-                        }
-                    }
-                }
-                if (result_array !== null) {
-                    return result_array;
-                } else {
-                    return oldItem;
-                }
-            }
-            return deepmerge(oldItem, newItem, options);
-        };
-
         // data seems to get updated below
         /**
          * @type {Object}
          */
-        let resource_merged = deepmerge(data, resourceToMerge, options);
+        let resource_merged = mergeObject(my_data, resourceToMerge);
 
         // now create a patch between the document in db and the incoming document
         //  this returns an array of patches
@@ -428,7 +323,7 @@ module.exports.merge = async (args, user, scope, body, path, resource_name, coll
         // ignore any changes to _id since that's an internal field
         patchContent = patchContent.filter(item => item.path !== '/_id');
         logDebug(user, '------ patches --------');
-        logDebug(user, patchContent);
+        logDebug(user, JSON.stringify(patchContent));
         logDebug(user, '------ end patches --------');
         // see if there are any changes
         if (patchContent.length === 0) {
@@ -459,11 +354,11 @@ module.exports.merge = async (args, user, scope, body, path, resource_name, coll
         let patched_resource_incoming = new Resource(patched_incoming_data);
         // update the metadata to increment versionId
         /**
-         * @type {{versionId: string, lastUpdated: string, source: string}}
+         * @type {{versionId: string, lastUpdated: Date, source: string}}
          */
         let meta = foundResource.meta;
         meta.versionId = `${parseInt(foundResource.meta.versionId) + 1}`;
-        meta.lastUpdated = moment.utc().format('YYYY-MM-DDTHH:mm:ssZ');
+        meta.lastUpdated = new Date(moment.utc().format('YYYY-MM-DDTHH:mm:ssZ'));
         // set the source from the incoming resource
         meta.source = original_source;
         // These properties are set automatically
@@ -478,11 +373,13 @@ module.exports.merge = async (args, user, scope, body, path, resource_name, coll
             patched_resource_incoming.meta.security = meta.security;
         }
         logDebug(user, '------ patched document --------');
-        logDebug(user, patched_resource_incoming);
+        logDebug(user, JSON.stringify(patched_resource_incoming));
         logDebug(user, '------ end patched document --------');
         // Same as update from this point on
-        const cleaned = JSON.parse(JSON.stringify(patched_resource_incoming));
-        check_fhir_mismatch(cleaned, patched_incoming_data);
+        // const cleaned = JSON.parse(JSON.stringify(patched_resource_incoming));
+        // check_fhir_mismatch(cleaned, patched_incoming_data);
+        // const cleaned = patched_resource_incoming;
+        const cleaned = patched_resource_incoming.toJSON();
         const doc = Object.assign(cleaned, {_id: id});
         if (env.LOG_ALL_MERGES) {
             await sendToS3('logs',
@@ -523,14 +420,17 @@ module.exports.merge = async (args, user, scope, body, path, resource_name, coll
             let Meta = getMeta(base_version);
             resourceToMerge.meta = new Meta({
                 versionId: '1',
-                lastUpdated: moment.utc().format('YYYY-MM-DDTHH:mm:ssZ'),
+                lastUpdated: new Date(moment.utc().format('YYYY-MM-DDTHH:mm:ssZ')),
             });
         } else {
             resourceToMerge.meta.versionId = '1';
-            resourceToMerge.meta.lastUpdated = moment.utc().format('YYYY-MM-DDTHH:mm:ssZ');
+            resourceToMerge.meta.lastUpdated = new Date(moment.utc().format('YYYY-MM-DDTHH:mm:ssZ'));
         }
 
-        const cleaned = JSON.parse(JSON.stringify(resourceToMerge));
+        // const cleaned = JSON.parse(JSON.stringify(resourceToMerge));
+        // let Resource = getResource(base_version, resourceToMerge.resourceType);
+        // const cleaned = new Resource(resourceToMerge).toJSON();
+        const cleaned = removeNull(resourceToMerge);
         const doc = Object.assign(cleaned, {_id: id});
 
         return await performMergeDbUpdate(resourceToMerge, doc, cleaned);
@@ -567,7 +467,7 @@ module.exports.merge = async (args, user, scope, body, path, resource_name, coll
             logDebug(user, '-----------------');
             logDebug(user, base_version);
             logDebug(user, '--- body ----');
-            logDebug(user, resource_to_merge);
+            logDebug(user, JSON.stringify(resource_to_merge));
 
             // Grab an instance of our DB and collection
             /**
@@ -587,7 +487,7 @@ module.exports.merge = async (args, user, scope, body, path, resource_name, coll
 
             logDebug('test?', '------- data -------');
             logDebug('test?', `${resource_to_merge.resourceType}_${base_version}`);
-            logDebug('test?', data);
+            logDebug('test?', JSON.stringify(data));
             logDebug('test?', '------- end data -------');
 
             let res;

@@ -7,6 +7,7 @@ const {BadRequestError, ForbiddenError, NotFoundError} = require('../../utils/ht
 const {enrich} = require('../../enrich/enrich');
 const pRetry = require('p-retry');
 const {logMessageToSlack} = require('../../utils/slack.logger');
+const {removeNull} = require('../../utils/nullRemover');
 
 /**
  * does a FHIR Search By Id
@@ -70,6 +71,9 @@ module.exports.searchById = async (args, user, scope, resource_name, collection_
                 'user ' + user + ' with scopes [' + scope + '] has no access to resource ' +
                 resource.resourceType + ' with id ' + id);
         }
+        // remove any nulls or empty objects or arrays
+        resource = removeNull(resource);
+
         // run any enrichment
         resource = (await enrich([resource], resource_name))[0];
         return new Resource(resource);

@@ -11,6 +11,7 @@ const {CLIENT_DB} = require('../../constants');
 const {getResource} = require('../common/getResource');
 const {getMeta} = require('../common/getMeta');
 const {getOrCreateCollection} = require('../../utils/mongoCollectionManager');
+const {removeNull} = require("../../utils/nullRemover");
 
 /**
  * does a FHIR Create (POST)
@@ -106,16 +107,16 @@ module.exports.create = async (args, user, scope, body, path, resource_name, col
         if (!resource_incoming.meta) {
             resource_incoming.meta = new Meta({
                 versionId: '1',
-                lastUpdated: moment.utc().format('YYYY-MM-DDTHH:mm:ssZ'),
+                lastUpdated: new Date(moment.utc().format('YYYY-MM-DDTHH:mm:ssZ')),
             });
         } else {
             resource_incoming.meta['versionId'] = '1';
-            resource_incoming.meta['lastUpdated'] = moment.utc().format('YYYY-MM-DDTHH:mm:ssZ');
+            resource_incoming.meta['lastUpdated'] = new Date(moment.utc().format('YYYY-MM-DDTHH:mm:ssZ'));
         }
 
         // Create the document to be inserted into Mongo
         // noinspection JSUnresolvedFunction
-        let doc = JSON.parse(JSON.stringify(resource.toJSON()));
+        let doc = removeNull(resource.toJSON());
         Object.assign(doc, {id: id});
 
         // Create a clone of the object without the _id parameter before assigning a value to

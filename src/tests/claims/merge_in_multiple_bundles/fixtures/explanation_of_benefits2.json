@@ -10,7 +10,6 @@
           "code": "medstar"
         }
       ]
-
     },
     "identifier": [
       {
@@ -138,16 +137,14 @@
             }
           ]
         },
-        "productOrService": [
-          {
-            "coding": [
-              {
-                "system": "http://hl7.org/fhir/sid/ex-icd-10-procedures",
-                "code": "A"
-              }
-            ]
-          }
-        ],
+        "productOrService": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/sid/ex-icd-10-procedures",
+              "code": "A"
+            }
+          ]
+        },
         "modifier": [],
         "servicedPeriod": {},
         "locationCodeableConcept": {

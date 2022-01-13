@@ -15,6 +15,7 @@ const {findIndexForFields} = require('../../indexes/indexHinter');
 const {isTrue} = require('../../utils/isTrue');
 const pRetry = require('p-retry');
 const {logMessageToSlack} = require('../../utils/slack.logger');
+const {removeNull} = require('../../utils/nullRemover');
 const {VERSIONS} = require('@asymmetrik/node-fhir-server-core').constants;
 
 /**
@@ -312,6 +313,9 @@ module.exports.search = async (args, user, scope, resourceName, collection_name,
                 resources.push(new Resource(element));
             }
         }
+
+        // remove any nulls or empty objects or arrays
+        resources = resources.map(r => removeNull(r.toJSON()));
 
         // run any enrichment
         resources = await enrich(resources, resourceName);
