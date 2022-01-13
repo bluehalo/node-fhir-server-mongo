@@ -268,7 +268,7 @@ module.exports.merge = async (args, user, scope, body, path, resource_name, coll
          */
         let foundResource = new Resource(data);
         logDebug(user, '------ found document --------');
-        logDebug(user, data);
+        logDebug(user, JSON.stringify(data));
         logDebug(user, '------ end found document --------');
         // use metadata of existing resource (overwrite any passed in metadata)
         if (!resourceToMerge.meta) {
@@ -283,7 +283,7 @@ module.exports.merge = async (args, user, scope, body, path, resource_name, coll
         resourceToMerge.meta.lastUpdated = foundResource.meta.lastUpdated;
         resourceToMerge.meta.source = foundResource.meta.source;
         logDebug(user, '------ incoming document --------');
-        logDebug(user, resourceToMerge);
+        logDebug(user, JSON.stringify(resourceToMerge));
         logDebug(user, '------ end incoming document --------');
 
         /**
@@ -428,7 +428,7 @@ module.exports.merge = async (args, user, scope, body, path, resource_name, coll
         // ignore any changes to _id since that's an internal field
         patchContent = patchContent.filter(item => item.path !== '/_id');
         logDebug(user, '------ patches --------');
-        logDebug(user, patchContent);
+        logDebug(user, JSON.stringify(patchContent));
         logDebug(user, '------ end patches --------');
         // see if there are any changes
         if (patchContent.length === 0) {
@@ -478,12 +478,13 @@ module.exports.merge = async (args, user, scope, body, path, resource_name, coll
             patched_resource_incoming.meta.security = meta.security;
         }
         logDebug(user, '------ patched document --------');
-        logDebug(user, patched_resource_incoming);
+        logDebug(user, JSON.stringify(patched_resource_incoming));
         logDebug(user, '------ end patched document --------');
         // Same as update from this point on
-        const cleaned = JSON.parse(JSON.stringify(patched_resource_incoming));
+        // const cleaned = JSON.parse(JSON.stringify(patched_resource_incoming));
         // check_fhir_mismatch(cleaned, patched_incoming_data);
         // const cleaned = patched_resource_incoming;
+        const cleaned = patched_resource_incoming.toJSON();
         const doc = Object.assign(cleaned, {_id: id});
         if (env.LOG_ALL_MERGES) {
             await sendToS3('logs',
@@ -532,6 +533,8 @@ module.exports.merge = async (args, user, scope, body, path, resource_name, coll
         }
 
         // const cleaned = JSON.parse(JSON.stringify(resourceToMerge));
+        // let Resource = getResource(base_version, resourceToMerge.resourceType);
+        // const cleaned = new Resource(resourceToMerge).toJSON();
         const cleaned = resourceToMerge;
         const doc = Object.assign(cleaned, {_id: id});
 
@@ -569,7 +572,7 @@ module.exports.merge = async (args, user, scope, body, path, resource_name, coll
             logDebug(user, '-----------------');
             logDebug(user, base_version);
             logDebug(user, '--- body ----');
-            logDebug(user, resource_to_merge);
+            logDebug(user, JSON.stringify(resource_to_merge));
 
             // Grab an instance of our DB and collection
             /**
@@ -589,7 +592,7 @@ module.exports.merge = async (args, user, scope, body, path, resource_name, coll
 
             logDebug('test?', '------- data -------');
             logDebug('test?', `${resource_to_merge.resourceType}_${base_version}`);
-            logDebug('test?', data);
+            logDebug('test?', JSON.stringify(data));
             logDebug('test?', '------- end data -------');
 
             let res;
