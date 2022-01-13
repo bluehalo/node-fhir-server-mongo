@@ -1,0 +1,33 @@
+[
+  {
+    "sequence": 1,
+    "diagnosisCodeableConcept": {
+      "coding": [
+        {
+          "system": "http://hl7.org/fhir/sid/icd-10",
+          "version": "ICD10",
+          "code": "R0789"
+        }
+      ],
+      "text": "DIAGNOSIS_1"
+    },
+    "type": [
+      {
+        "coding": [
+          {
+            "system": "http://terminology.hl7.org/CodeSystem/ex-diagnosistype",
+            "code": "RetrospectiveDiagnosis"
+          }
+        ]
+      }
+    ],
+    "packageCode": {
+      "coding": [
+        {
+          "system": "http://terminology.hl7.org/CodeSystem/ex-diagnosisrelatedgroup",
+          "version": "MS-DRG"
+        }
+      ]
+    }
+  }
+]

@@ -1,0 +1,79 @@
+[
+  {
+    "id": null,
+    "extension": null,
+    "modifierExtension": null,
+    "_sequence": null,
+    "sequence": 1,
+    "diagnosisCodeableConcept": {
+      "id": null,
+      "extension": null,
+      "coding": [
+        {
+          "id": null,
+          "extension": null,
+          "_system": null,
+          "system": "http://hl7.org/fhir/sid/icd-10",
+          "_version": null,
+          "version": "ICD10",
+          "_code": null,
+          "code": "R0789",
+          "_display": null,
+          "display": null,
+          "_userSelected": null,
+          "userSelected": null
+        }
+      ],
+      "_text": null,
+      "text": "DIAGNOSIS_1"
+    },
+    "diagnosisReference": null,
+    "type": [
+      {
+        "id": null,
+        "extension": null,
+        "coding": [
+          {
+            "id": null,
+            "extension": null,
+            "_system": null,
+            "system": "http://terminology.hl7.org/CodeSystem/ex-diagnosistype",
+            "_version": null,
+            "version": null,
+            "_code": null,
+            "code": "RetrospectiveDiagnosis",
+            "_display": null,
+            "display": null,
+            "_userSelected": null,
+            "userSelected": null
+          }
+        ],
+        "_text": null,
+        "text": null
+      }
+    ],
+    "onAdmission": null,
+    "packageCode": {
+      "id": null,
+      "extension": null,
+      "coding": [
+        {
+          "id": null,
+          "extension": null,
+          "_system": null,
+          "system": "http://terminology.hl7.org/CodeSystem/ex-diagnosisrelatedgroup",
+          "_version": null,
+          "version": "MS-DRG",
+          "_code": null,
+          "code": null,
+          "_display": null,
+          "display": null,
+          "_userSelected": null,
+          "userSelected": null
+        }
+      ],
+      "_text": null,
+      "text": null
+    }
+  }
+]
