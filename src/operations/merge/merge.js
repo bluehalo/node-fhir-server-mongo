@@ -289,8 +289,35 @@ module.exports.merge = async (args, user, scope, body, path, resource_name, coll
         /**
          * @type {Object}
          */
-        const my_data = deepcopy(data);
+        let my_data = deepcopy(data);
         delete my_data['_id']; // remove _id since that is an internal
+        // remove any null properties so deepEqual does not consider objects as different because of that
+        const removeNull = (obj) => {
+            Object.keys(obj).forEach(key => {
+                    // Get this value and its type
+                    const value = obj[key];
+                    const type = typeof value;
+                    if (type === 'object') {
+                        // Recurse...
+                        removeNull(value);
+                        // if (!Object.keys(value).length) {
+                        //     delete obj[key];
+                        // }
+                        if (Array.isArray(value)) {
+                            for (const arrayItem of value) {
+                                removeNull(arrayItem);
+                            }
+                        }
+                    } else if (type === 'undefined') {
+                        // Undefined, remove it
+                        delete obj[key];
+                    }
+                }
+            );
+            return obj;
+        };
+        my_data = removeNull(my_data);
+        resourceToMerge = removeNull(resourceToMerge);
 
         // for speed, first check if the incoming resource is exactly the same
         if (deepEqual(my_data, resourceToMerge) === true) {
@@ -342,7 +369,7 @@ module.exports.merge = async (args, user, scope, body, path, resource_name, coll
                         continue;
                     }
 
-                    // if newItem[i] does not matches any item in oldItem then insert
+                    // if newItem[i] does not match any item in oldItem then insert
                     if (oldItem.every(a => deepEqual(a, my_item) === false)) {
                         if (typeof my_item === 'object' && 'id' in my_item) {
                             // find item in oldItem array that matches this one by id
