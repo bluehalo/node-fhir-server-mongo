@@ -4,14 +4,18 @@ const removeNull = (obj) => {
             const value = obj[key];
             const type = typeof value;
             if (type === 'object') {
-                // Recurse...
-                removeNull(value);
-                // if (!Object.keys(value).length) {
-                //     delete obj[key];
-                // }
-                if (Array.isArray(value)) {
-                    for (const arrayItem of value) {
-                        removeNull(arrayItem);
+                if (value === null) {
+                    delete obj[key];
+                } else {
+                    // Recurse...
+                    removeNull(value);
+                    // if (!Object.keys(value).length) {
+                    //     delete obj[key];
+                    // }
+                    if (Array.isArray(value)) {
+                        for (const arrayItem of value) {
+                            removeNull(arrayItem);
+                        }
                     }
                 }
             } else if (type === 'undefined') {

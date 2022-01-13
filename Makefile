@@ -65,6 +65,16 @@ tests:
 	. ${NVM_DIR}/nvm.sh && nvm use 16.13.0 && \
 	npm test
 
+.PHONY:failed_tests
+failed_tests:
+	. ${NVM_DIR}/nvm.sh && nvm use 16.13.0 && \
+	npm run test:failed
+
+.PHONY:specific_tests
+specific_tests:
+	. ${NVM_DIR}/nvm.sh && nvm use 16.13.0 && \
+	npm run test:specific
+
 .PHONY:tests_integration
 tests_integration:
 	. ${NVM_DIR}/nvm.sh && nvm use 16.13.0 && \
