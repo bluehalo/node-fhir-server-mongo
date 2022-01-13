@@ -25,8 +25,8 @@ const {logError} = require('../common/logging');
 const {getOrCreateCollection} = require('../../utils/mongoCollectionManager');
 const pRetry = require('p-retry');
 const {logMessageToSlack} = require('../../utils/slack.logger');
-const {mergeObject} = require('./mergeHelper');
-const {removeNull} = require('./nullRemover');
+const {mergeObject} = require('../../utils/mergeHelper');
+const {removeNull} = require('../../utils/nullRemover');
 
 /**
  * does a FHIR Merge
