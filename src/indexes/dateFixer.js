@@ -3,27 +3,56 @@ const mongoClient = require('../lib/mongo');
 const {mongoConfig} = require('../config');
 const async = require('async');
 const {logMessageToSlack} = require('../utils/slack.logger');
-const globals = require("../globals");
-const {CLIENT_DB} = require("../constants");
+const globals = require('../globals');
+const {CLIENT_DB} = require('../constants');
+// const {Db} = require('mongodb');
 
 
-const fixLastUpdatedDates = async (collection_name, db) => {
+/**
+ * converts the type of field in collection to Date
+ * @param {string} collection_name
+ * @param {string} field
+ * @param {import('mongodb').Db} db
+ * @return {Promise<void>}
+ */
+const convertFieldToDate = async (collection_name, field, db) => {
     let message = `Fixing lastUpdatedDate in ${collection_name}`;
     console.log(message);
     await logMessageToSlack(message);
 
     const collection = db.collection(collection_name);
-    await collection.find().forEach(element => {
-        element.meta.lastUpdated = new Date(element.meta.lastUpdated);
-        collection.findOneAndUpdate({id: element.id}, {$set: element}, {upsert: true});
-    });
+    let cursor = await collection.find();
+    while (await cursor.hasNext()) {
+        /**
+         * element
+         * @type {Object}
+         */
+        const element = await cursor.next();
+        if (element[`${field}`]) {
+            element[`${field}`] = new Date(element[`${field}`]);
+            await collection.findOneAndUpdate({id: element.id}, {$set: element}, {upsert: true});
+        }
+    }
 
-    message = `Finished fixing lastUpdatedDate in ${collection_name}`;
+    message = `Finished converting ${field} in ${collection_name} to Date type`;
     console.log(message);
     await logMessageToSlack(message);
-
 };
 
+/**
+ * Changes the type of meta.lastUpdated to Date
+ * @param {string} collection_name
+ * @param {import('mongodb').Db} db
+ * @return {Promise<void>}
+ */
+const fixLastUpdatedDates = async (collection_name, db) => {
+    return await convertFieldToDate(collection_name, 'meta.lastUpdated', db);
+};
+
+/**
+ * Converts lastUpdated date to Date in all collections
+ * @return {Promise<void>}
+ */
 const fixLastUpdatedDatesInAllCollections = async () => {
     // eslint-disable-next-line no-unused-vars
     let [mongoError, client] = await asyncHandler(
@@ -37,6 +66,10 @@ const fixLastUpdatedDatesInAllCollections = async () => {
         throw new Error(mongoError.message);
     }
     //create client by providing database name
+    /**
+     * mongo db connection
+     * @type {import('mongodb').Db}
+     */
     const db = globals.get(CLIENT_DB);
     const collection_names = [];
 
