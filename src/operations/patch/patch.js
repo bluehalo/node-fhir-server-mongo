@@ -5,6 +5,8 @@ const {CLIENT_DB} = require('../../constants');
 const {BadRequestError, NotFoundError} = require('../../utils/httpErrors');
 const {validate, applyPatch} = require('fast-json-patch');
 const {getResource} = require('../common/getResource');
+const moment = require("moment-timezone");
+const {removeNull} = require("../../utils/nullRemover");
 /**
  * does a FHIR Patch
  * @param {Object} args
@@ -53,13 +55,14 @@ module.exports.patch = async (args, user, scope, resource_name, collection_name)
         let meta = foundResource.meta;
         // noinspection JSUnresolvedVariable
         meta.versionId = `${parseInt(foundResource.meta.versionId) + 1}`;
+        meta.lastUpdated = new Date(moment.utc().format('YYYY-MM-DDTHH:mm:ssZ'));
         resource.meta = meta;
     } else {
         throw new BadRequestError(new Error('Unable to patch resource. Missing either data or metadata.'));
     }
 
     // Same as update from this point on
-    let cleaned = JSON.parse(JSON.stringify(resource));
+    let cleaned = removeNull(resource.toJSON());
     let doc = Object.assign(cleaned, {_id: id});
 
     // Insert/update our resource record

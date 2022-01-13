@@ -18,6 +18,7 @@ const {getMeta} = require('../common/getMeta');
 const {check_fhir_mismatch} = require('../common/check_fhir_mismatch');
 const {logError} = require('../common/logging');
 const {getOrCreateCollection} = require('../../utils/mongoCollectionManager');
+const {removeNull} = require("../../utils/nullRemover");
 /**
  * does a FHIR Update (PUT)
  * @param {Object} args
@@ -88,7 +89,7 @@ module.exports.update = async (args, user, scope, body, path, resource_name, col
         // Get current record
         // Query our collection for this observation
         // noinspection JSUnresolvedVariable
-        const data = await collection.findOne({id: id.toString()});
+        let data = await collection.findOne({id: id.toString()});
         // create a resource with incoming data
         let Resource = getResource(base_version, resource_name);
 
@@ -116,9 +117,11 @@ module.exports.update = async (args, user, scope, body, path, resource_name, col
             // noinspection JSPrimitiveTypeWrapperUsage
             resource_incoming.meta = foundResource.meta;
             logDebug(user, '------ incoming document --------');
-            logDebug(user, resource_incoming);
+            logDebug(user, JSON.stringify(resource_incoming));
             logDebug(user, '------ end incoming document --------');
 
+            data = removeNull(data);
+            resource_incoming = removeNull(resource_incoming);
             // now create a patch between the document in db and the incoming document
             //  this returns an array of patches
             let patchContent = compare(data, resource_incoming);
@@ -145,24 +148,18 @@ module.exports.update = async (args, user, scope, body, path, resource_name, col
                     id,
                     'update_patch');
             }
-            // now apply the patches to the found resource
-            let patched_incoming_data = applyPatch(data, patchContent).newDocument;
-            let patched_resource_incoming = new Resource(patched_incoming_data);
             // update the metadata to increment versionId
             /**
              * @type {Meta}
              */
             let meta = foundResource.meta;
             meta.versionId = `${parseInt(foundResource.meta.versionId) + 1}`;
-            meta.lastUpdated = moment.utc().format('YYYY-MM-DDTHH:mm:ssZ');
-            patched_resource_incoming.meta = meta;
-            logDebug(user, '------ patched document --------');
-            logDebug(user, patched_resource_incoming);
-            logDebug(user, '------ end patched document --------');
+            meta.lastUpdated = new Date(moment.utc().format('YYYY-MM-DDTHH:mm:ssZ'));
+            resource_incoming.meta = meta;
             // Same as update from this point on
-            cleaned = JSON.parse(JSON.stringify(patched_resource_incoming));
+            cleaned = removeNull(resource_incoming);
             doc = Object.assign(cleaned, {_id: id});
-            check_fhir_mismatch(cleaned, patched_incoming_data);
+            // check_fhir_mismatch(cleaned, patched_incoming_data);
         } else {
             // not found so insert
             logDebug(user, 'update: new resource: ' + resource_incoming);
@@ -179,14 +176,14 @@ module.exports.update = async (args, user, scope, body, path, resource_name, col
                 // noinspection JSPrimitiveTypeWrapperUsage
                 resource_incoming.meta = new Meta({
                     versionId: '1',
-                    lastUpdated: moment.utc().format('YYYY-MM-DDTHH:mm:ssZ'),
+                    lastUpdated: new Date(moment.utc().format('YYYY-MM-DDTHH:mm:ssZ')),
                 });
             } else {
                 resource_incoming.meta['versionId'] = '1';
-                resource_incoming.meta['lastUpdated'] = moment.utc().format('YYYY-MM-DDTHH:mm:ssZ');
+                resource_incoming.meta['lastUpdated'] = new Date(moment.utc().format('YYYY-MM-DDTHH:mm:ssZ'));
             }
 
-            cleaned = JSON.parse(JSON.stringify(resource_incoming));
+            cleaned = removeNull(resource_incoming);
             doc = Object.assign(cleaned, {_id: id});
         }
 
