@@ -489,7 +489,11 @@
         },
         "modifier": [],
         "productOrService": {
-          "coding": null,
+          "coding": [
+            {
+              "code": "foo"
+            }
+          ],
           "text": null
         },
         "quantity": {

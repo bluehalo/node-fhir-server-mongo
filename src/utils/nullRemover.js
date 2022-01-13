@@ -12,7 +12,8 @@ const removeNull = (obj) => {
                 return;
             }
             const type = typeof value;
-            if (type === 'object') {
+            // Date is also of type Object but has no properties
+            if (type === 'object' && !(value instanceof Date)) {
                 // Recurse...
                 removeNull(value);
                 if (!Object.keys(value).length) {

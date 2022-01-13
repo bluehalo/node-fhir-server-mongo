@@ -270,7 +270,14 @@
           }
         ]
       }
-    ]
+    ],
+    "productOrService": {
+      "coding": [
+        {
+          "code": "foo"
+        }
+      ]
+    }
   },
   {
     "resourceType": "ExplanationOfBenefit",
@@ -565,6 +572,13 @@
           }
         ]
       }
-    ]
+    ],
+    "productOrService": {
+      "coding": [
+        {
+          "code": "foo"
+        }
+      ]
+    }
   }
 ]
