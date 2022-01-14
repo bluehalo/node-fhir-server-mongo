@@ -76,7 +76,7 @@ const fixLastUpdatedDatesInAllCollections = async () => {
      * mongo db connection
      * @type {import('mongodb').Db}
      */
-    const db = globals.get(CLIENT_DB);
+    const db = globals.get(CLIENT_DB) || client.db(mongoConfig.db_name);
     const collection_names = [];
 
     await db.listCollections().forEach(collection => {
