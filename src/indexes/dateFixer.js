@@ -36,7 +36,13 @@ const convertFieldToDate = async (collection_name, field, db) => {
         const propertyName = paths[paths.length - 1];
         if (item[`${propertyName}`]) {
             item[`${propertyName}`] = new Date(item[`${propertyName}`]);
-            await collection.findOneAndUpdate({id: element.id}, {$set: element}, {upsert: true});
+            try {
+                await collection.findOneAndUpdate({id: element.id}, {$set: element}, {upsert: true});
+            } catch (e) {
+                message = `ERROR converting ${field} in ${collection_name} to Date type: ${JSON.stringify(e)}`;
+                console.log(message);
+                await logMessageToSlack(message);
+            }
         }
     }
 
