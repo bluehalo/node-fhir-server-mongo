@@ -16,11 +16,13 @@ const {CLIENT_DB} = require('../constants');
  * @return {Promise<void>}
  */
 const convertFieldToDate = async (collection_name, field, db) => {
-    let message = `Fixing lastUpdatedDate in ${collection_name}`;
+    let message = `Fixing ${field} in ${collection_name}`;
     console.log(message);
     await logMessageToSlack(message);
 
     const collection = db.collection(collection_name);
+    const failedIds = [];
+    let convertedIds = 0;
     let cursor = await collection.find();
     while (await cursor.hasNext()) {
         /**
@@ -34,21 +36,26 @@ const convertFieldToDate = async (collection_name, field, db) => {
             item = item[`${path}`];
         }
         const propertyName = paths[paths.length - 1];
-        if (item[`${propertyName}`]) {
+        if (item[`${propertyName}`] && !(item[`${propertyName}`] instanceof Date)) {
             item[`${propertyName}`] = new Date(item[`${propertyName}`]);
             try {
                 await collection.findOneAndUpdate({id: element.id}, {$set: element}, {upsert: true});
+                convertedIds = convertedIds + 1;
             } catch (e) {
-                message = `ERROR converting ${field} in ${collection_name} to Date type: ${JSON.stringify(e)}`;
-                console.log(message);
-                await logMessageToSlack(message);
+                failedIds.push(element.id);
             }
         }
     }
 
-    message = `Finished converting ${field} in ${collection_name} to Date type`;
-    console.log(message);
-    await logMessageToSlack(message);
+    if (failedIds.length > 0) {
+        message = `ERROR converting ${field} in ${collection_name} to Date type for ids: [ ${failedIds.toString()} ]`;
+        console.log(message);
+        await logMessageToSlack(message);
+    } else {
+        message = `Finished converting ${field} in ${collection_name} to Date type.  Converted ${convertedIds} resources`;
+        console.log(message);
+        await logMessageToSlack(message);
+    }
 };
 
 /**
