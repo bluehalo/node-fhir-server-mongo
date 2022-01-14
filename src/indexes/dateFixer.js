@@ -5,6 +5,7 @@ const async = require('async');
 const {logMessageToSlack} = require('../utils/slack.logger');
 const globals = require('../globals');
 const {CLIENT_DB} = require('../constants');
+const moment = require('moment-timezone');
 // const {Db} = require('mongodb');
 
 
@@ -38,7 +39,7 @@ const convertFieldToDate = async (collection_name, field, db) => {
         }
         const propertyName = paths[paths.length - 1];
         if (item[`${propertyName}`] && !(item[`${propertyName}`] instanceof Date)) {
-            item[`${propertyName}`] = new Date(item[`${propertyName}`]);
+            item[`${propertyName}`] = moment(item[`${propertyName}`]).toDate();
             try {
                 await collection.findOneAndUpdate({id: element.id}, {$set: element}, {upsert: true});
                 convertedIds = convertedIds + 1;
