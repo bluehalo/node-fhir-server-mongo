@@ -22,6 +22,7 @@ const convertFieldToDate = async (collection_name, field, db) => {
 
     const collection = db.collection(collection_name);
     const failedIds = [];
+    const failedDates = [];
     let convertedIds = 0;
     let cursor = await collection.find();
     while (await cursor.hasNext()) {
@@ -43,12 +44,13 @@ const convertFieldToDate = async (collection_name, field, db) => {
                 convertedIds = convertedIds + 1;
             } catch (e) {
                 failedIds.push(element.id);
+                failedDates.push(item[`${propertyName}`]);
             }
         }
     }
 
     if (failedIds.length > 0) {
-        message = `ERROR converting ${field} in ${collection_name} to Date type for ids: [ ${failedIds.toString()} ]`;
+        message = `ERROR converting ${field} in ${collection_name} to Date type for ids: [ ${failedIds.toString()} ] and values: [${failedDates.toString()}]`;
         console.log(message);
         await logMessageToSlack(message);
     } else {
