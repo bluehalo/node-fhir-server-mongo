@@ -41,10 +41,10 @@ const convertFieldToDate = async (collection_name, field, db) => {
         if (item[`${propertyName}`] && !(item[`${propertyName}`] instanceof Date)) {
             item[`${propertyName}`] = moment(item[`${propertyName}`]).toDate();
             try {
-                await collection.findOneAndUpdate({id: element.id}, {$set: element}, {upsert: true});
+                await collection.findOneAndUpdate({_id: element._id}, {$set: element}, {upsert: true});
                 convertedIds = convertedIds + 1;
             } catch (e) {
-                failedIds.push(element.id);
+                failedIds.push(element._id);
                 failedDates.push(item[`${propertyName}`]);
             }
         }
