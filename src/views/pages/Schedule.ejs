@@ -26,9 +26,9 @@
 
         <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Location', property:'actor'}], id:res.id, name: "Location"}); %>
 
-        <%- include('../partials/reverse_reference', {reverseeferences: [{target:'Patient', property:'actor'}], id:res.id, name: "Patient"}); %>
+        <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Patient', property:'actor'}], id:res.id, name: "Patient"}); %>
 
-        <%- include('../partials/reverse_reference', {reverseeferences: [{target:'PractitionerRole', property:'actor'}], id:res.id, name: "PractitionerRole"}); %>
+        <%- include('../partials/reverse_reference', {reverseReferences: [{target:'PractitionerRole', property:'actor'}], id:res.id, name: "PractitionerRole"}); %>
 
         <%- include('../partials/json', {res: res}); %>
     <%})%>
