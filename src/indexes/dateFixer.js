@@ -43,6 +43,11 @@ const convertFieldToDate = async (collection_name, field, db) => {
             try {
                 await collection.findOneAndUpdate({_id: element._id}, {$set: element}, {upsert: true});
                 convertedIds = convertedIds + 1;
+                if (convertedIds % 1000 === 0) {
+                    message = `Progress: Converted ${convertedIds} of ${field} in ${collection_name} to Date type`;
+                    console.log(message);
+                    await logMessageToSlack(message);
+                }
             } catch (e) {
                 failedIds.push(element._id);
                 failedDates.push(item[`${propertyName}`]);
