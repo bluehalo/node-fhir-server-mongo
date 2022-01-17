@@ -39,6 +39,7 @@ const swaggerDocument = require(env.SWAGGER_CONFIG_URL);
 const app = express();
 
 const cookieParser = require('cookie-parser');
+const {handleFixDates} = require('./routeHandlers/fixDates');
 
 const httpProtocol = env.ENVIRONMENT === 'local' ? 'http' : 'https';
 
@@ -113,6 +114,8 @@ app.get('/clean/:collection?', handleClean);
 app.get('/stats', handleStats);
 
 app.get('/index/:op?', handleIndex);
+
+app.get('/fixDates/:op?', handleFixDates);
 
 app.get('/.well-known/smart-configuration', handleSmartConfiguration);
 

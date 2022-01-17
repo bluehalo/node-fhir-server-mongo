@@ -81,9 +81,10 @@ const fixLastUpdatedDates = async (collection_name, db) => {
 
 /**
  * Converts lastUpdated date to Date in all collections
+ * @param {string[]} collectionNamesToInclude
  * @return {Promise<void>}
  */
-const fixLastUpdatedDatesInAllCollections = async () => {
+const fixLastUpdatedDatesInAllCollections = async (collectionNamesToInclude) => {
     // eslint-disable-next-line no-unused-vars
     let [mongoError, client] = await asyncHandler(
         mongoClient(mongoConfig.connection, mongoConfig.options)
@@ -111,11 +112,17 @@ const fixLastUpdatedDatesInAllCollections = async () => {
 
     const collectionNamesToSkip = env.FIXDATE_COLLECTIONS_TO_SKIP ? env.FIXDATE_COLLECTIONS_TO_SKIP.split(',') : [];
 
-    // now add indices on id column for every collection
-    await async.mapSeries(
-        collection_names.filter(a => !collectionNamesToSkip.includes(a)),
-        async collection_name => await fixLastUpdatedDates(collection_name, db)
-    );
+    if (collectionNamesToInclude && collectionNamesToInclude.length > 0) {
+        await async.mapSeries(
+            collection_names.filter(a => collectionNamesToInclude.includes(a)),
+            async collection_name => await fixLastUpdatedDates(collection_name, db)
+        );
+    } else {
+        await async.mapSeries(
+            collection_names.filter(a => !collectionNamesToSkip.includes(a)),
+            async collection_name => await fixLastUpdatedDates(collection_name, db)
+        );
+    }
 
     await client.close();
 };
