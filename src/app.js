@@ -85,12 +85,12 @@ app.use(
 app.use(express.static(path.join(__dirname, 'oauth')));
 
 app.get('/authcallback', (req, res) => {
-    res.redirect(`/callback.html?code=${req.query.code}&resourceUrl=${req.query.state}&clientId=${env.AUTH_CODE_FLOW_CLIENT_ID}&redirectUri=${env.HOST_SERVER}/authcallback&tokenUrl=${env.AUTH_CODE_FLOW_URL}/oauth2/token`);
+    res.redirect(`/callback.html?code=${req.query.code}&resourceUrl=${req.query.state}&clientId=${env.AUTH_CODE_FLOW_CLIENT_ID}&redirectUri=${req.protocol}://${req.headers.host}/authcallback&tokenUrl=${env.AUTH_CODE_FLOW_URL}/oauth2/token`);
 });
 
 app.get('/fhir', (req, res) => {
     const resourceUrl = req.query.resource;
-    const redirectUrl = `${env.AUTH_CODE_FLOW_URL}/login?response_type=code&client_id=${env.AUTH_CODE_FLOW_CLIENT_ID}&redirect_uri=${env.HOST_SERVER}/authcallback&state=${resourceUrl}`;
+    const redirectUrl = `${env.AUTH_CODE_FLOW_URL}/login?response_type=code&client_id=${env.AUTH_CODE_FLOW_CLIENT_ID}&redirect_uri=${req.protocol}://${req.headers.host}/authcallback&state=${resourceUrl}`;
     res.redirect(redirectUrl);
 });
 
