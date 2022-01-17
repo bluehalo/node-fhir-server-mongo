@@ -7,7 +7,7 @@ const globals = require('../globals');
 const {CLIENT_DB} = require('../constants');
 const moment = require('moment-timezone');
 // const {Db} = require('mongodb');
-
+const env = require('var');
 
 /**
  * converts the type of field in collection to Date
@@ -109,9 +109,11 @@ const fixLastUpdatedDatesInAllCollections = async () => {
         }
     });
 
+    const collectionNamesToSkip = env.FIXDATE_COLLECTIONS_TO_SKIP ? env.FIXDATE_COLLECTIONS_TO_SKIP.split(',') : [];
+
     // now add indices on id column for every collection
     await async.mapSeries(
-        collection_names,
+        collection_names.filter(a => !collectionNamesToSkip.includes(a)),
         async collection_name => await fixLastUpdatedDates(collection_name, db)
     );
 
