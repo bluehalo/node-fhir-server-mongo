@@ -25,6 +25,7 @@ const convertFieldToDate = async (collection_name, field, db) => {
     const failedIds = [];
     const failedDates = [];
     let convertedIds = 0;
+    let operations = [];
     let cursor = await collection.find();
     while (await cursor.hasNext()) {
         /**
@@ -40,19 +41,21 @@ const convertFieldToDate = async (collection_name, field, db) => {
         const propertyName = paths[paths.length - 1];
         if (item[`${propertyName}`] && !(item[`${propertyName}`] instanceof Date)) {
             item[`${propertyName}`] = moment(item[`${propertyName}`]).toDate();
-            try {
-                await collection.findOneAndUpdate({_id: element._id}, {$set: element}, {upsert: true});
-                convertedIds = convertedIds + 1;
-                if (convertedIds % 1000 === 0) {
-                    message = `Progress: Converted ${convertedIds} of ${field} in ${collection_name} to Date type`;
-                    console.log(message);
-                    await logMessageToSlack(message);
-                }
-            } catch (e) {
-                failedIds.push(element._id);
-                failedDates.push(item[`${propertyName}`]);
+            operations.push({updateOne: {filter: {_id: element._id}, update: {$set: element}, upsert: true}});
+            convertedIds = convertedIds + 1;
+            if (convertedIds % 100 === 0) { // write every 100 items
+                await collection.bulkWrite(operations);
+                operations = [];
+            }
+            if (convertedIds % 1000 === 0) { // show progress every 1000 items
+                message = `Progress: Converted ${convertedIds} of ${field} in ${collection_name} to Date type`;
+                console.log(message);
+                await logMessageToSlack(message);
             }
         }
+    }
+    if (operations.length > 0) { // if any items left to write
+        await collection.bulkWrite(operations);
     }
 
     if (failedIds.length > 0) {
