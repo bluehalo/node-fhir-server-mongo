@@ -129,6 +129,8 @@
 
         <%- include('../partials/reverse_reference', {reverseReferences: [{target:'CareTeam', property:'patient'}], id:res.id, name: "CareTeam"}); %>
 
+        <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Condition', property:'patient'}], id:res.id, name: "Condition"}); %>
+
         <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Coverage', property:'patient'}], id:res.id, name: "Coverage"}); %>
 
         <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Encounter', property:'patient'}], id:res.id, name: "Encounter"}); %>
