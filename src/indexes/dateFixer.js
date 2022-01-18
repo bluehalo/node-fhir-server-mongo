@@ -22,11 +22,14 @@ const convertFieldToDate = async (collection_name, field, db) => {
     await logMessageToSlack(message);
 
     const collection = db.collection(collection_name);
-    const failedIds = [];
-    const failedDates = [];
     let convertedIds = 0;
     let operations = [];
-    let cursor = await collection.find();
+    // get only the needed field from mongo
+    const projection = {};
+    projection[`${field}`] = 1;
+    let options = {};
+    options['projection'] = projection;
+    let cursor = await collection.find({}, options);
     while (await cursor.hasNext()) {
         /**
          * element
@@ -40,8 +43,11 @@ const convertFieldToDate = async (collection_name, field, db) => {
         }
         const propertyName = paths[paths.length - 1];
         if (item[`${propertyName}`] && !(item[`${propertyName}`] instanceof Date)) {
-            item[`${propertyName}`] = moment(item[`${propertyName}`]).toDate();
-            operations.push({updateOne: {filter: {_id: element._id}, update: {$set: element}, upsert: true}});
+            // update only the necessary field in the document
+            const setCommand = {};
+            setCommand[`${field}`] = moment(item[`${propertyName}`]).toDate();
+            // batch up the calls to update
+            operations.push({updateOne: {filter: {_id: element._id}, update: {$set: setCommand}}});
             convertedIds = convertedIds + 1;
             if (convertedIds % 100 === 0) { // write every 100 items
                 await collection.bulkWrite(operations);
@@ -58,15 +64,9 @@ const convertFieldToDate = async (collection_name, field, db) => {
         await collection.bulkWrite(operations);
     }
 
-    if (failedIds.length > 0) {
-        message = `ERROR converting ${field} in ${collection_name} to Date type for ids: [ ${failedIds.toString()} ] and values: [${failedDates.toString()}]`;
-        console.log(message);
-        await logMessageToSlack(message);
-    } else {
-        message = `Finished converting ${field} in ${collection_name} to Date type.  Converted ${convertedIds} resources`;
-        console.log(message);
-        await logMessageToSlack(message);
-    }
+    message = `Finished converting ${field} in ${collection_name} to Date type.  Converted ${convertedIds} resources`;
+    console.log(message);
+    await logMessageToSlack(message);
 };
 
 /**

@@ -46,17 +46,17 @@ module.exports = {
         'AuditEvent_4_0_0': [
             {
                 'helix_auditEvent_index_1': [
-                    'meta.security.system',
-                    'meta.security.code',
+                    'meta.lastUpdated',
                     'id',
-                    'meta.lastUpdated'
+                    'meta.security.system',
+                    'meta.security.code'
                 ],
                 'helix_auditEvent_index_recorded': [
-                    'meta.security.system',
-                    'meta.security.code',
+                    'recorded',
                     'id',
-                    'recorded'
-                ],
+                    'meta.security.system',
+                    'meta.security.code'
+                ]
             }
         ]
     }
