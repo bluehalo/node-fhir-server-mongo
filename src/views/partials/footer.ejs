@@ -1,8 +1,8 @@
 <hr />
 <nav aria-label="Page navigation example">
   <ul class="pagination">
-    <li class="page-item"><a class="page-link" href="#" onclick="goPrevious()">Previous</a></li>
-    <li class="page-item"><a class="page-link" href="#" onclick="goNext()">Next</a></li>
+    <li class="page-item"><a class="page-link" href="#" id="lnkPrevious">Previous</a></li>
+    <li class="page-item"><a class="page-link" href="#" id="lnkNext">Next</a></li>
   </ul>
 </nav>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -12,39 +12,5 @@
     </div>
 </nav>
 <script src="/js/bootstrap.min.js"></script>
-<script>
-    function goNext(){
-        const url = new URL(window.location);
-        const currentPage = url.searchParams.get("_getpagesoffset");
-        if (currentPage){
-            const nextPage = parseInt(currentPage) + 1;
-            url.searchParams.set("_getpagesoffset", nextPage);
-        }
-        else {
-            const nextPage = 1;
-            url.searchParams.set("_getpagesoffset", nextPage);
-        }
-        url.searchParams.set("_count", 10);
-        window.location.assign(url);
-    }
-    function goPrevious(){
-        const url = new URL(window.location);
-        const currentPage = url.searchParams.get("_getpagesoffset");
-        if (currentPage){
-            const nextPage = parseInt(currentPage) - 1;
-            if (nextPage >= 0)
-            {
-                url.searchParams.set("_getpagesoffset", nextPage);
-             }
-             else {
-                return;
-             }
-        }
-        else {
-            const nextPage = 0;
-            url.searchParams.set("_getpagesoffset", nextPage);
-        }
-        url.searchParams.set("_count", 10);
-        window.location.assign(url);
-    }
-</script>
+<script type="text/javascript" src="/js/footernav.js"></script>
+
