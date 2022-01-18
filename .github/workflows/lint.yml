@@ -1,0 +1,20 @@
+name: Lint
+
+on: push
+
+jobs:
+  run-tests:
+    name: Run Linter(s)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build
+        run: docker-compose up -d
+
+      - name: Lint
+        run: docker-compose run fhir npm run test:lint
+
+      - name: Prettier
+        run: docker-compose run fhir npm run prettier-check
