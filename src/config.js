@@ -10,6 +10,8 @@ let mongoConfig = {
   db_name: env.MONGO_DB_NAME,
   options: {
     auto_reconnect: true,
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
   },
 };
 

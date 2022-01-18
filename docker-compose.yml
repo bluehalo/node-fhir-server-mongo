@@ -18,15 +18,14 @@ services:
     ports:
       - '3000:3000'
     volumes:
-      - ./src:/srv/src/src
+      - ./src:/srv/src
     command: yarn nodemon
 
   mongo:
-    image: mongo:3.6.1
+    image: mongo:5.0.5
     ports:
       - '27017'
     volumes:
       - mongo_data:/data/db
-
 volumes:
   mongo_data:
