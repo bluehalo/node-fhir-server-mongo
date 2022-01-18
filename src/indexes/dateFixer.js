@@ -27,7 +27,7 @@ const convertFieldToDate = async (collection_name, field, db) => {
     // get only the needed field from mongo
     const projection = {};
     projection[`${field}`] = 1;
-    let options = {};
+    const options = {};
     options['projection'] = projection;
     let cursor = await collection.find({}, options);
     while (await cursor.hasNext()) {

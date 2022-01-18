@@ -33,6 +33,8 @@ describe('dateFixer Tests', () => {
             expect(result['meta.lastUpdated']).toStrictEqual('string');
             await fixLastUpdatedDatesInAllCollections();
             element = await collection.findOne({});
+            // make sure other elements are not changed
+            expect(element['meta']['versionId']).toStrictEqual('26');
             result = getSchemaOfMongoDocument(null, element, 0);
             // confirm that the type has been changed to Date
             expect(result['meta.lastUpdated']).toStrictEqual('Date');
