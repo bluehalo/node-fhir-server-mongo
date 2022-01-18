@@ -25,6 +25,8 @@ module.exports.handleIndex = async (req, res) => {
         await client.close();
 
         const operation = req.params['op'];
+        const tableName = req.params['table'];
+
         console.log('runIndex: ' + JSON.stringify(req.params));
         console.log('runIndex: ' + operation);
 
@@ -35,7 +37,8 @@ module.exports.handleIndex = async (req, res) => {
             const taskProcessor = childProcess.fork('./src/tasks/indexer.js');
             //send some params to our separate task
             const params = {
-                message: 'Start Index'
+                message: 'Start Index',
+                tableName: tableName
             };
             taskProcessor.send(params);
             message = 'Started indexing in separate process.  Check logs or Slack for output.';
@@ -45,20 +48,11 @@ module.exports.handleIndex = async (req, res) => {
             const taskProcessor = childProcess.fork('./src/tasks/indexer.js');
             //send some params to our separate task
             const params = {
-                message: 'Rebuild Index'
+                message: 'Rebuild Index',
+                table: tableName
             };
             taskProcessor.send(params);
             message = 'Started rebuilding indexes in separate process.  Check logs or Slack for output.';
-        } else if (operation === 'fixDates') {
-            // await deleteIndexesInAllCollections();
-            //create new instance of node for running separate task in another thread
-            const taskProcessor = childProcess.fork('./src/tasks/indexer.js');
-            //send some params to our separate task
-            const params = {
-                message: 'Fix Dates'
-            };
-            taskProcessor.send(params);
-            message = 'Started fixing dates in separate process.  Check logs or Slack for output.';
         } else {
             collection_stats = await getIndexesInAllCollections();
             message = 'Listing current indexes.  Use /index/run if you want to run index creation';

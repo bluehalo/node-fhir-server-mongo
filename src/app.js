@@ -113,7 +113,7 @@ app.get('/clean/:collection?', handleClean);
 
 app.get('/stats', handleStats);
 
-app.get('/index/:op?', handleIndex);
+app.get('/index/:op?/:table?', handleIndex);
 
 app.get('/fixDates/:op?', handleFixDates);
 

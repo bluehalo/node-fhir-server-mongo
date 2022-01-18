@@ -7,7 +7,6 @@
 
 const {indexAllCollections, deleteIndexesInAllCollections} = require('../indexes/index.util');
 const {logMessageToSlack} = require('../utils/slack.logger');
-const {fixLastUpdatedDatesInAllCollections} = require('../indexes/dateFixer');
 
 
 // eslint-disable-next-line no-unused-vars
@@ -15,13 +14,14 @@ process.on('message', async (params) => {
     //send status update to the main app
     console.log('message:' + params);
     const message = params.message;
+    const tableName = params.tableName;
     process.send({status: 'We have started processing your data.'});
 
     try {
         if (message === 'Start Index') {
             console.log('==== Starting indexing in separate process ====');
             await logMessageToSlack('Starting indexing in separate process');
-            const collection_stats = await indexAllCollections();
+            const collection_stats = await indexAllCollections(tableName);
             await logMessageToSlack('Finished indexing in separate process');
             console.log(JSON.stringify(collection_stats));
             console.log('===== Done Indexing in separate process ======');
@@ -29,23 +29,15 @@ process.on('message', async (params) => {
         } else if (message === 'Rebuild Index') {
             console.log('==== Starting deleting indexes in separate process ====');
             await logMessageToSlack('Starting deleting indexes in separate process');
-            await deleteIndexesInAllCollections();
+            await deleteIndexesInAllCollections(tableName);
             await logMessageToSlack('Finished deleting index in separate process');
             console.log('===== Finished deleting index in separate process ======');
             await logMessageToSlack('Starting indexing in separate process');
-            const collection_stats = await indexAllCollections();
+            const collection_stats = await indexAllCollections(tableName);
             await logMessageToSlack('Finished indexing in separate process');
             console.log(JSON.stringify(collection_stats));
             console.log('===== Done Indexing in separate process ======');
             await logMessageToSlack(JSON.stringify(collection_stats));
-        } else if (message === 'Fix Dates') {
-            const message1 = 'Starting fixing dates in separate process';
-            await logMessageToSlack(message1);
-            console.log(`===== ${message1} ======`);
-            await fixLastUpdatedDatesInAllCollections();
-            const message2 = 'Finished fixing dates in separate process';
-            await logMessageToSlack(message2);
-            console.log(`===== ${message2} ======`);
         }
     } catch (e) {
         console.log('===== ERROR Indexing in separate process ======', e);

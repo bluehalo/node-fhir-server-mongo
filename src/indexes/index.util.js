@@ -90,10 +90,11 @@ async function indexCollection(collection_name, db) {
 
 /**
  * Indexes all the collections
+ * @param {string?} tableName
  * @return {Promise<*>}
  */
 // noinspection UnnecessaryLocalVariableJS
-async function indexAllCollections() {
+async function indexAllCollections(tableName) {
     // eslint-disable-next-line no-unused-vars
     let [mongoError, client] = await asyncHandler(
         mongoClient(mongoConfig.connection, mongoConfig.options)
@@ -107,7 +108,7 @@ async function indexAllCollections() {
     }
     //create client by providing database name
     const db = client.db(mongoConfig.db_name);
-    const collection_names = [];
+    let collection_names = [];
     // const collections = await db.listCollections().toArray();
 
     await db.listCollections().forEach(collection => {
@@ -116,6 +117,9 @@ async function indexAllCollections() {
         }
     });
 
+    if (tableName) {
+        collection_names = collection_names.filter(c => c === tableName);
+    }
     // now add indices on id column for every collection
     const collection_stats = await async.map(
         collection_names,
@@ -193,9 +197,10 @@ async function getIndexesInAllCollections() {
 
 /**
  * Delete indexes on all the collections
+ * @param {string?} tableName
  * @return {Promise<*>}
  */
-async function deleteIndexesInAllCollections() {
+async function deleteIndexesInAllCollections(tableName) {
     console.log('starting deleteIndexesInAllCollections');
     // eslint-disable-next-line no-unused-vars
     let [mongoError, client] = await asyncHandler(
@@ -213,7 +218,7 @@ async function deleteIndexesInAllCollections() {
      * @type {import('mongodb').Db}
      */
     const db = client.db(mongoConfig.db_name);
-    const collection_names = [];
+    let collection_names = [];
 
     await db.listCollections().forEach(collection => {
         if (collection.name.indexOf('system.') === -1) {
@@ -221,13 +226,17 @@ async function deleteIndexesInAllCollections() {
         }
     });
 
+    if (tableName) {
+        collection_names = collection_names.filter(c => c === tableName);
+    }
+
     for await (const collection_name of collection_names) {
         console.log('Deleting all indexes in ' + collection_name);
         await deleteIndexesInCollection(collection_name, db);
     }
 
     await client.close();
-    console.log('finished deleteIndexesInAllCollections');
+    console.log('Finished deleteIndexesInAllCollections');
 }
 
 module.exports = {
