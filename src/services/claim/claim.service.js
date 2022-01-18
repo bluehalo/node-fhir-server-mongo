@@ -20,29 +20,12 @@ module.exports.searchById = (args) =>
     logger.info('Claim >>> search');
 
     // Common search params
-    let {
-      base_version,
-      _content,
-      _format,
-      _id,
-      _lastUpdated,
-      _profile,
-      _query,
-      _security,
-      _tag,
-    } = args;
+    let { base_version, _content, _format, _id, _lastUpdated, _profile, _query, _security, _tag } =
+      args;
 
     // Search Result params
-    let {
-      _INCLUDE,
-      _REVINCLUDE,
-      _SORT,
-      _COUNT,
-      _SUMMARY,
-      _ELEMENTS,
-      _CONTAINED,
-      _CONTAINEDTYPED,
-    } = args;
+    let { _INCLUDE, _REVINCLUDE, _SORT, _COUNT, _SUMMARY, _ELEMENTS, _CONTAINED, _CONTAINEDTYPED } =
+      args;
 
     // Resource Specific params
     let care_team = args['care-team'];
@@ -180,29 +163,12 @@ module.exports.history = (args, context) =>
     logger.info('Claim >>> history');
 
     // Common search params
-    let {
-      base_version,
-      _content,
-      _format,
-      _id,
-      _lastUpdated,
-      _profile,
-      _query,
-      _security,
-      _tag,
-    } = args;
+    let { base_version, _content, _format, _id, _lastUpdated, _profile, _query, _security, _tag } =
+      args;
 
     // Search Result params
-    let {
-      _INCLUDE,
-      _REVINCLUDE,
-      _SORT,
-      _COUNT,
-      _SUMMARY,
-      _ELEMENTS,
-      _CONTAINED,
-      _CONTAINEDTYPED,
-    } = args;
+    let { _INCLUDE, _REVINCLUDE, _SORT, _COUNT, _SUMMARY, _ELEMENTS, _CONTAINED, _CONTAINEDTYPED } =
+      args;
 
     // Resource Specific params
     let care_team = args['care-team'];
@@ -237,29 +203,12 @@ module.exports.historyById = (args, context) =>
     logger.info('Claim >>> historyById');
 
     // Common search params
-    let {
-      base_version,
-      _content,
-      _format,
-      _id,
-      _lastUpdated,
-      _profile,
-      _query,
-      _security,
-      _tag,
-    } = args;
+    let { base_version, _content, _format, _id, _lastUpdated, _profile, _query, _security, _tag } =
+      args;
 
     // Search Result params
-    let {
-      _INCLUDE,
-      _REVINCLUDE,
-      _SORT,
-      _COUNT,
-      _SUMMARY,
-      _ELEMENTS,
-      _CONTAINED,
-      _CONTAINEDTYPED,
-    } = args;
+    let { _INCLUDE, _REVINCLUDE, _SORT, _COUNT, _SUMMARY, _ELEMENTS, _CONTAINED, _CONTAINEDTYPED } =
+      args;
 
     // Resource Specific params
     let care_team = args['care-team'];

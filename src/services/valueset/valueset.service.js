@@ -19,29 +19,12 @@ module.exports.searchById = (args) =>
     logger.info('ValueSet >>> search');
 
     // Common search params
-    let {
-      base_version,
-      _content,
-      _format,
-      _id,
-      _lastUpdated,
-      _profile,
-      _query,
-      _security,
-      _tag,
-    } = args;
+    let { base_version, _content, _format, _id, _lastUpdated, _profile, _query, _security, _tag } =
+      args;
 
     // Search Result params
-    let {
-      _INCLUDE,
-      _REVINCLUDE,
-      _SORT,
-      _COUNT,
-      _SUMMARY,
-      _ELEMENTS,
-      _CONTAINED,
-      _CONTAINEDTYPED,
-    } = args;
+    let { _INCLUDE, _REVINCLUDE, _SORT, _COUNT, _SUMMARY, _ELEMENTS, _CONTAINED, _CONTAINEDTYPED } =
+      args;
 
     // Resource Specific params
     let date = args['date'];
@@ -178,29 +161,12 @@ module.exports.history = (args, context) =>
     logger.info('ValueSet >>> history');
 
     // Common search params
-    let {
-      base_version,
-      _content,
-      _format,
-      _id,
-      _lastUpdated,
-      _profile,
-      _query,
-      _security,
-      _tag,
-    } = args;
+    let { base_version, _content, _format, _id, _lastUpdated, _profile, _query, _security, _tag } =
+      args;
 
     // Search Result params
-    let {
-      _INCLUDE,
-      _REVINCLUDE,
-      _SORT,
-      _COUNT,
-      _SUMMARY,
-      _ELEMENTS,
-      _CONTAINED,
-      _CONTAINEDTYPED,
-    } = args;
+    let { _INCLUDE, _REVINCLUDE, _SORT, _COUNT, _SUMMARY, _ELEMENTS, _CONTAINED, _CONTAINEDTYPED } =
+      args;
 
     // Resource Specific params
     let date = args['date'];
@@ -234,29 +200,12 @@ module.exports.historyById = (args, context) =>
     logger.info('ValueSet >>> historyById');
 
     // Common search params
-    let {
-      base_version,
-      _content,
-      _format,
-      _id,
-      _lastUpdated,
-      _profile,
-      _query,
-      _security,
-      _tag,
-    } = args;
+    let { base_version, _content, _format, _id, _lastUpdated, _profile, _query, _security, _tag } =
+      args;
 
     // Search Result params
-    let {
-      _INCLUDE,
-      _REVINCLUDE,
-      _SORT,
-      _COUNT,
-      _SUMMARY,
-      _ELEMENTS,
-      _CONTAINED,
-      _CONTAINEDTYPED,
-    } = args;
+    let { _INCLUDE, _REVINCLUDE, _SORT, _COUNT, _SUMMARY, _ELEMENTS, _CONTAINED, _CONTAINEDTYPED } =
+      args;
 
     // Resource Specific params
     let date = args['date'];

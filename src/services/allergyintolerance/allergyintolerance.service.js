@@ -29,16 +29,8 @@ let buildStu3SearchQuery = (args) => {
   let { _content, _format, _id, _lastUpdated, _profile, _query, _security, _tag } = args;
 
   // Search Result params
-  let {
-    _INCLUDE,
-    _REVINCLUDE,
-    _SORT,
-    _COUNT,
-    _SUMMARY,
-    _ELEMENTS,
-    _CONTAINED,
-    _CONTAINEDTYPED,
-  } = args;
+  let { _INCLUDE, _REVINCLUDE, _SORT, _COUNT, _SUMMARY, _ELEMENTS, _CONTAINED, _CONTAINEDTYPED } =
+    args;
 
   // AllergyIntolerance search params
   let asserter = args['asserter'];

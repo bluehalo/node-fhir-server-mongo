@@ -19,29 +19,12 @@ module.exports.searchById = (args) =>
     logger.info('Condition >>> search');
 
     // Common search params
-    let {
-      base_version,
-      _content,
-      _format,
-      _id,
-      _lastUpdated,
-      _profile,
-      _query,
-      _security,
-      _tag,
-    } = args;
+    let { base_version, _content, _format, _id, _lastUpdated, _profile, _query, _security, _tag } =
+      args;
 
     // Search Result params
-    let {
-      _INCLUDE,
-      _REVINCLUDE,
-      _SORT,
-      _COUNT,
-      _SUMMARY,
-      _ELEMENTS,
-      _CONTAINED,
-      _CONTAINEDTYPED,
-    } = args;
+    let { _INCLUDE, _REVINCLUDE, _SORT, _COUNT, _SUMMARY, _ELEMENTS, _CONTAINED, _CONTAINEDTYPED } =
+      args;
 
     // Resource Specific params
     let abatement_age = args['abatement-age'];
@@ -189,29 +172,12 @@ module.exports.history = (args, context) =>
     logger.info('Condition >>> history');
 
     // Common search params
-    let {
-      base_version,
-      _content,
-      _format,
-      _id,
-      _lastUpdated,
-      _profile,
-      _query,
-      _security,
-      _tag,
-    } = args;
+    let { base_version, _content, _format, _id, _lastUpdated, _profile, _query, _security, _tag } =
+      args;
 
     // Search Result params
-    let {
-      _INCLUDE,
-      _REVINCLUDE,
-      _SORT,
-      _COUNT,
-      _SUMMARY,
-      _ELEMENTS,
-      _CONTAINED,
-      _CONTAINEDTYPED,
-    } = args;
+    let { _INCLUDE, _REVINCLUDE, _SORT, _COUNT, _SUMMARY, _ELEMENTS, _CONTAINED, _CONTAINEDTYPED } =
+      args;
 
     // Resource Specific params
     let abatement_age = args['abatement-age'];
@@ -256,29 +222,12 @@ module.exports.historyById = (args, context) =>
     logger.info('Condition >>> historyById');
 
     // Common search params
-    let {
-      base_version,
-      _content,
-      _format,
-      _id,
-      _lastUpdated,
-      _profile,
-      _query,
-      _security,
-      _tag,
-    } = args;
+    let { base_version, _content, _format, _id, _lastUpdated, _profile, _query, _security, _tag } =
+      args;
 
     // Search Result params
-    let {
-      _INCLUDE,
-      _REVINCLUDE,
-      _SORT,
-      _COUNT,
-      _SUMMARY,
-      _ELEMENTS,
-      _CONTAINED,
-      _CONTAINEDTYPED,
-    } = args;
+    let { _INCLUDE, _REVINCLUDE, _SORT, _COUNT, _SUMMARY, _ELEMENTS, _CONTAINED, _CONTAINEDTYPED } =
+      args;
 
     // Resource Specific params
     let abatement_age = args['abatement-age'];

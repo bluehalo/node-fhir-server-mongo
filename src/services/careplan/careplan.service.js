@@ -19,29 +19,12 @@ module.exports.searchById = (args) =>
     logger.info('CarePlan >>> search');
 
     // Common search params
-    let {
-      base_version,
-      _content,
-      _format,
-      _id,
-      _lastUpdated,
-      _profile,
-      _query,
-      _security,
-      _tag,
-    } = args;
+    let { base_version, _content, _format, _id, _lastUpdated, _profile, _query, _security, _tag } =
+      args;
 
     // Search Result params
-    let {
-      _INCLUDE,
-      _REVINCLUDE,
-      _SORT,
-      _COUNT,
-      _SUMMARY,
-      _ELEMENTS,
-      _CONTAINED,
-      _CONTAINEDTYPED,
-    } = args;
+    let { _INCLUDE, _REVINCLUDE, _SORT, _COUNT, _SUMMARY, _ELEMENTS, _CONTAINED, _CONTAINEDTYPED } =
+      args;
 
     // Resource Specific params
     let activity_code = args['activity-code'];
@@ -186,29 +169,12 @@ module.exports.history = (args, context) =>
     logger.info('CarePlan >>> history');
 
     // Common search params
-    let {
-      base_version,
-      _content,
-      _format,
-      _id,
-      _lastUpdated,
-      _profile,
-      _query,
-      _security,
-      _tag,
-    } = args;
+    let { base_version, _content, _format, _id, _lastUpdated, _profile, _query, _security, _tag } =
+      args;
 
     // Search Result params
-    let {
-      _INCLUDE,
-      _REVINCLUDE,
-      _SORT,
-      _COUNT,
-      _SUMMARY,
-      _ELEMENTS,
-      _CONTAINED,
-      _CONTAINEDTYPED,
-    } = args;
+    let { _INCLUDE, _REVINCLUDE, _SORT, _COUNT, _SUMMARY, _ELEMENTS, _CONTAINED, _CONTAINEDTYPED } =
+      args;
 
     // Resource Specific params
     let activity_code = args['activity-code'];
@@ -250,29 +216,12 @@ module.exports.historyById = (args, context) =>
     logger.info('CarePlan >>> historyById');
 
     // Common search params
-    let {
-      base_version,
-      _content,
-      _format,
-      _id,
-      _lastUpdated,
-      _profile,
-      _query,
-      _security,
-      _tag,
-    } = args;
+    let { base_version, _content, _format, _id, _lastUpdated, _profile, _query, _security, _tag } =
+      args;
 
     // Search Result params
-    let {
-      _INCLUDE,
-      _REVINCLUDE,
-      _SORT,
-      _COUNT,
-      _SUMMARY,
-      _ELEMENTS,
-      _CONTAINED,
-      _CONTAINEDTYPED,
-    } = args;
+    let { _INCLUDE, _REVINCLUDE, _SORT, _COUNT, _SUMMARY, _ELEMENTS, _CONTAINED, _CONTAINEDTYPED } =
+      args;
 
     // Resource Specific params
     let activity_code = args['activity-code'];
