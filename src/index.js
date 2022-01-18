@@ -1,4 +1,5 @@
 const FHIRServer = require('@asymmetrik/node-fhir-server-core');
+const logger = require('@asymmetrik/node-fhir-server-core').loggers.get();
 const asyncHandler = require('./lib/async-handler');
 const mongoClient = require('./lib/mongo');
 const globals = require('./globals');
@@ -25,9 +26,7 @@ let main = async function () {
 
   // Start our FHIR server
   let server = FHIRServer.initialize(fhirServerConfig);
-  server.listen(fhirServerConfig.server.port, () =>
-    server.logger.verbose('Server is up and running!')
-  );
+  server.listen(fhirServerConfig.server.port, () => logger.verbose('Server is up and running!'));
 };
 
 main();
