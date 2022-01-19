@@ -255,15 +255,15 @@ let buildDstu2SearchQuery = (args) => {
   let ors = [];
 
   if (address) {
-    let orsAddress = addressQueryBuilder(address);
-    for (let i = 0; i < orsAddress.length; i++) {
-      ors.push(orsAddress[i]);
+    let orsAddresses = addressQueryBuilder(address);
+    for (let orsAddress in orsAddresses) {
+      ors.push(orsAddress);
     }
   }
   if (name) {
-    let orsName = nameQueryBuilder(name);
-    for (let i = 0; i < orsName.length; i++) {
-      ors.push(orsName[i]);
+    let orsNames = nameQueryBuilder(name);
+    for (let orsName in orsNames) {
+      ors.push(orsName);
     }
   }
   if (ors.length !== 0) {
