@@ -211,18 +211,16 @@ module.exports.search = async (args, user, scope, resourceName, collection_name,
             }
         }
 
-        if (!(args['_elements'])) {
-            // for consistency in results while paging, always sort by id
-            // https://docs.mongodb.com/manual/reference/method/cursor.sort/#sort-cursor-consistent-sorting
-            const defaultSortId = env.DEFAULT_SORT_ID || 'id';
-            columns.add(defaultSortId);
-            if (!('sort' in options)) {
-                options['sort'] = {};
-            }
-            // add id to end if not present in sort
-            if (!(`${defaultSortId}` in options['sort'])) {
-                options['sort'][`${defaultSortId}`] = 1;
-            }
+        // for consistency in results while paging, always sort by id
+        // https://docs.mongodb.com/manual/reference/method/cursor.sort/#sort-cursor-consistent-sorting
+        const defaultSortId = env.DEFAULT_SORT_ID || 'id';
+        columns.add(defaultSortId);
+        if (!('sort' in options)) {
+            options['sort'] = {};
+        }
+        // add id to end if not present in sort
+        if (!(`${defaultSortId}` in options['sort'])) {
+            options['sort'][`${defaultSortId}`] = 1;
         }
 
         // Now run the query to get a cursor we will enumerate next
@@ -230,7 +228,7 @@ module.exports.search = async (args, user, scope, resourceName, collection_name,
          * mongo db cursor
          * @type {import('mongodb').Cursor}
          */
-      let cursor = await pRetry(
+        let cursor = await pRetry(
             async () =>
                 await collection.find(query, options).maxTimeMS(maxMongoTimeMS),
             {
