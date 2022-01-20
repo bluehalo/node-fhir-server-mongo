@@ -198,6 +198,11 @@ module.exports.everything = async (args, {req}, resource_name, collection_name) 
 // eslint-disable-next-line no-unused-vars
 module.exports.remove = async (args, {req}, resource_name, collection_name) => {
     /**
+     * combined args
+     * @type {string[]}
+     */
+    const combined_args = get_all_args(req, args);
+    /**
      * @type {string}
      */
     const user = req.user;
@@ -205,7 +210,7 @@ module.exports.remove = async (args, {req}, resource_name, collection_name) => {
      * @type {string}
      */
     const scope = req.authInfo && req.authInfo.scope;
-    return remove(args, user, scope, resource_name, collection_name);
+    return remove(combined_args, user, scope, resource_name, collection_name);
 };
 
 /**

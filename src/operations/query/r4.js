@@ -6,11 +6,11 @@ const {
     // addressQueryBuilder,
     tokenQueryBuilder,
     dateQueryBuilderNative
-} = require('../../../utils/querybuilder.util');
-const {isTrue} = require('../../../utils/isTrue');
+} = require('../../utils/querybuilder.util');
+const {isTrue} = require('../../utils/isTrue');
 
 const {fhirFilterTypes} = require('./customQueries');
-const {searchParameterQueries} = require('../../../searchParameters/searchParameters');
+const {searchParameterQueries} = require('../../searchParameters/searchParameters');
 
 // /**
 //  * @type {import('winston').logger}

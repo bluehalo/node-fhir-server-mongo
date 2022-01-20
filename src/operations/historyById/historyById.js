@@ -1,7 +1,7 @@
 const {logRequest, logError} = require('../common/logging');
 const {verifyHasValidScopes, isAccessToResourceAllowedBySecurityTags} = require('../security/scopes');
-const {buildStu3SearchQuery} = require('../search/query/stu3');
-const {buildDstu2SearchQuery} = require('../search/query/dstu2');
+const {buildStu3SearchQuery} = require('../query/stu3');
+const {buildDstu2SearchQuery} = require('../query/dstu2');
 const globals = require('../../globals');
 const {CLIENT_DB} = require('../../constants');
 const {getResource} = require('../common/getResource');

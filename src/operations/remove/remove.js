@@ -1,24 +1,76 @@
 const {logRequest, logDebug, logError} = require('../common/logging');
-const {verifyHasValidScopes} = require('../security/scopes');
+const {verifyHasValidScopes, getAccessCodesFromScopes} = require('../security/scopes');
 const globals = require('../../globals');
 const {CLIENT_DB} = require('../../constants');
-const {NotAllowedError} = require('../../utils/httpErrors');
+const {NotAllowedError, ForbiddenError} = require('../../utils/httpErrors');
+const env = require('var');
+const {buildStu3SearchQuery} = require('../query/stu3');
+const {buildDstu2SearchQuery} = require('../query/dstu2');
+const {buildR4SearchQuery} = require('../query/r4');
+const {VERSIONS} = require('@asymmetrik/node-fhir-server-core').constants;
 /**
  * does a FHIR Remove (DELETE)
  * @param {Object} args
  * @param {string} user
  * @param {string} scope
- * @param {string} resource_name
+ * @param {string} resourceName
  * @param {string} collection_name
  */
 // eslint-disable-next-line no-unused-vars
-module.exports.remove = async (args, user, scope, resource_name, collection_name) => {
-    logRequest(user, `${resource_name} >>> remove`);
-    verifyHasValidScopes(resource_name, 'write', user, scope);
+module.exports.remove = async (args, user, scope, resourceName, collection_name) => {
+    logRequest(user, `${resourceName} >>> remove`);
 
-    let {base_version, id} = args;
+    // add any access codes from scopes
+    const accessCodes = getAccessCodesFromScopes('read', user, scope);
+    if (env.AUTH_ENABLED === '1') {
+        // fail if there are no access codes
+        if (accessCodes.length === 0) {
+            let errorMessage = 'user ' + user + ' with scopes [' + scope + '] has no access scopes';
+            throw new ForbiddenError(errorMessage);
+        }
+        // see if we have the * access code
+        else if (accessCodes.includes('*')) {
+            // no security check since user has full access to everything
+        } else {
+            /**
+             * @type {string}
+             */
+            for (const accessCode of accessCodes) {
+                if (args['_security']) {
+                    args['_security'] = args['_security'] + ',' + accessCode;
+                } else {
+                    args['_security'] = 'https://www.icanbwell.com/access|' + accessCode;
+                }
+            }
+        }
+    }
+    verifyHasValidScopes(resourceName, 'write', user, scope);
 
-    logDebug(user, `Deleting id=${id}`);
+    let {base_version} = args;
+    /**
+     * @type {import('mongodb').Document}
+     */
+    let query = {};
+
+    /**
+     * @type {Set}
+     */
+    let columns;
+
+    // eslint-disable-next-line no-useless-catch
+    try {
+        if (base_version === VERSIONS['3_0_1']) {
+            query = buildStu3SearchQuery(args);
+        } else if (base_version === VERSIONS['1_0_2']) {
+            query = buildDstu2SearchQuery(args);
+        } else {
+            ({query, columns} = buildR4SearchQuery(resourceName, args));
+        }
+    } catch (e) {
+        throw e;
+    }
+
+    logDebug(user, `Deleting ${JSON.stringify(query)}`);
 
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
@@ -26,18 +78,11 @@ module.exports.remove = async (args, user, scope, resource_name, collection_name
     // Delete our resource record
     let res;
     try {
-        res = await collection.deleteOne({id: id});
+        res = await collection.deleteMany(query);
     } catch (e) {
-        logError(user, `Error with ${resource_name}.remove`);
+        logError(user, `Error with ${resourceName}.remove`);
         throw new NotAllowedError(e.message);
     }
-    // delete history as well.  You can chose to save history.  Up to you
-    let history_collection = db.collection(`${collection_name}_${base_version}_History`);
-    try {
-        await history_collection.deleteMany({id: id});
-    } catch (e) {
-        logError(user, `Error with ${resource_name}.remove`);
-        throw new NotAllowedError(e.message);
-    }
+
     return {deleted: res.result && res.result.n};
 };

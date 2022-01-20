@@ -13,7 +13,7 @@ const globals = require('../../globals');
 const {CLIENT_DB} = require('../../constants');
 const {validateResource} = require('../../utils/validator.util');
 const {BadRequestError} = require('../../utils/httpErrors');
-const {buildR4SearchQuery} = require('../search/query/r4');
+const {buildR4SearchQuery} = require('../query/r4');
 /**
  * Supports $graph
  * @param {Object} args
