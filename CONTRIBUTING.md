@@ -91,7 +91,7 @@ Indexes are defined here and you can add new ones:
 
 Indexes are automatically created when a new resource type is added to the server (if the `CREATE_INDEX_ON_COLLECTION_CREATION` environment variable is set).
 
-If you add a new index to an existing collection then you can run indexing by going to `/index/run` url endpoint.
+If you add a new index to an existing collection then you can run indexing by going to `/index/run` url endpoint.  To drop and create indexes use the `/index/rebuild` endpoint.
 
 
 ## Index hinting
