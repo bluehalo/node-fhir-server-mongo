@@ -15,6 +15,7 @@ process.on('message', async (params) => {
     console.log('message:' + params);
     const message = params.message;
     const tableNamesCsv = params.tableNamesCsv;
+    const batchSize = params.batchSize;
     process.send({status: 'We have started processing your data.'});
 
     try {
@@ -22,7 +23,7 @@ process.on('message', async (params) => {
             const message1 = `Starting fixing dates in separate process for ${tableNamesCsv}`;
             await logMessageToSlack(message1);
             console.log(`===== ${message1} ======`);
-            await fixLastUpdatedDatesInAllCollections(tableNamesCsv ? tableNamesCsv.split(',') : []);
+            await fixLastUpdatedDatesInAllCollections(tableNamesCsv ? tableNamesCsv.split(',') : [], batchSize);
             const message2 = 'Finished fixing dates in separate process';
             await logMessageToSlack(message2);
             console.log(`===== ${message2} ======`);

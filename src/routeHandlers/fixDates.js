@@ -4,9 +4,11 @@
 
 // eslint-disable-next-line security/detect-child-process
 const childProcess = require('child_process');
+const env = require('var');
 
 module.exports.handleFixDates = async (req, res) => {
-    const tableNamesCsv = req.params['op'];
+    const tableNamesCsv = req.params['table'];
+    const batchSize = req.params['batchSize'] ? parseInt(req.params['batchSize']) : (env.FIXDATE_BATCH_SIZE || 100);
     console.log('fixDates: ' + JSON.stringify(req.params));
     console.log('fixDates: ' + tableNamesCsv);
 
@@ -17,7 +19,8 @@ module.exports.handleFixDates = async (req, res) => {
     //send some params to our separate task
     const params = {
         message: 'Fix Dates',
-        tableNamesCsv: tableNamesCsv
+        tableNamesCsv: tableNamesCsv,
+        batchSize: batchSize
     };
     taskProcessor.send(params);
     message = 'Started fixing dates in separate process.  Check logs or Slack for output.';

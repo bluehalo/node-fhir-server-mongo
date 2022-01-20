@@ -8,28 +8,36 @@ const {CLIENT_DB} = require('../constants');
 const moment = require('moment-timezone');
 // const {Db} = require('mongodb');
 const env = require('var');
+const {isTrue} = require('../utils/isTrue');
 
 /**
  * converts the type of field in collection to Date
  * @param {string} collection_name
  * @param {string} field
  * @param {import('mongodb').Db} db
+ * @param {int} batchSize
  * @return {Promise<void>}
  */
-const convertFieldToDate = async (collection_name, field, db) => {
+const convertFieldToDate = async (collection_name, field, db, batchSize) => {
     let message = `Fixing ${field} in ${collection_name}`;
     console.log(message);
     await logMessageToSlack(message);
 
     const collection = db.collection(collection_name);
     let convertedIds = 0;
+    const progressBatchSize = env.FIXDATE_PROGRESS_BATCH_SIZE || 1000;
+
     let operations = [];
     // get only the needed field from mongo
     const projection = {};
     projection[`${field}`] = 1;
     const options = {};
     options['projection'] = projection;
-    let cursor = await collection.find({}, options);
+    const query = {};
+    if (!(env.FIXDATE_FILTER_TO_STRINGS) || isTrue(env.FIXDATE_FILTER_TO_STRINGS)) {
+        query[`${field}`] = {$type: 'string'}; // only rows that are string
+    }
+    let cursor = await collection.find(query, options);
     while (await cursor.hasNext()) {
         /**
          * element
@@ -49,11 +57,11 @@ const convertFieldToDate = async (collection_name, field, db) => {
             // batch up the calls to update
             operations.push({updateOne: {filter: {_id: element._id}, update: {$set: setCommand}}});
             convertedIds = convertedIds + 1;
-            if (convertedIds % 100 === 0) { // write every 100 items
+            if (convertedIds % batchSize === 0) { // write every 100 items
                 await collection.bulkWrite(operations);
                 operations = [];
             }
-            if (convertedIds % 1000 === 0) { // show progress every 1000 items
+            if (convertedIds % progressBatchSize === 0) { // show progress every 1000 items
                 message = `Progress: Converted ${convertedIds} of ${field} in ${collection_name} to Date type`;
                 console.log(message);
                 await logMessageToSlack(message);
@@ -73,18 +81,20 @@ const convertFieldToDate = async (collection_name, field, db) => {
  * Changes the type of meta.lastUpdated to Date
  * @param {string} collection_name
  * @param {import('mongodb').Db} db
+ * @param {int} batchSize
  * @return {Promise<void>}
  */
-const fixLastUpdatedDates = async (collection_name, db) => {
-    return await convertFieldToDate(collection_name, 'meta.lastUpdated', db);
+const fixLastUpdatedDates = async (collection_name, db, batchSize) => {
+    return await convertFieldToDate(collection_name, 'meta.lastUpdated', db, batchSize);
 };
 
 /**
  * Converts lastUpdated date to Date in all collections
  * @param {string[]} collectionNamesToInclude
+ * @param {int} batchSize
  * @return {Promise<void>}
  */
-const fixLastUpdatedDatesInAllCollections = async (collectionNamesToInclude) => {
+const fixLastUpdatedDatesInAllCollections = async (collectionNamesToInclude, batchSize) => {
     // eslint-disable-next-line no-unused-vars
     let [mongoError, client] = await asyncHandler(
         mongoClient(mongoConfig.connection, mongoConfig.options)
@@ -115,12 +125,12 @@ const fixLastUpdatedDatesInAllCollections = async (collectionNamesToInclude) => 
     if (collectionNamesToInclude && collectionNamesToInclude.length > 0) {
         await async.mapSeries(
             collection_names.filter(a => collectionNamesToInclude.includes(a)),
-            async collection_name => await fixLastUpdatedDates(collection_name, db)
+            async collection_name => await fixLastUpdatedDates(collection_name, db, batchSize)
         );
     } else {
         await async.mapSeries(
             collection_names.filter(a => !collectionNamesToSkip.includes(a)),
-            async collection_name => await fixLastUpdatedDates(collection_name, db)
+            async collection_name => await fixLastUpdatedDates(collection_name, db, batchSize)
         );
     }
 

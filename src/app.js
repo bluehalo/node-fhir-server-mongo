@@ -115,7 +115,7 @@ app.get('/stats', handleStats);
 
 app.get('/index/:op?/:table?', handleIndex);
 
-app.get('/fixDates/:op?', handleFixDates);
+app.get('/fixDates/:table?/:batchSize?', handleFixDates);
 
 app.get('/.well-known/smart-configuration', handleSmartConfiguration);
 
