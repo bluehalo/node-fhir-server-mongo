@@ -125,6 +125,28 @@ curl --location --request POST 'https://fhir.dev.bwell.zone/graphql' \
 --data-raw '{"query":"query {\n  practitionerRole {\n    id\n    practitioner {\n      name {\n        family\n        given\n      }\n    }\n    organization {\n      name\n    }\n    healthcareService {\n      name\n    }\n    location {\n      name\n    }\n  }\n}","variables":{}}'
 ```
 
+### Querying union types
+Querying union types require the following syntax (https://www.apollographql.com/docs/apollo-server/schema/unions-interfaces/#querying-a-union):
+```
+provider {
+            __typename
+            ... on Organization {
+                id
+                identifier {
+                    system
+                    value
+                }
+            }
+            ... on Practitioner {
+                id
+                name {
+                    family
+                    given
+                }
+            }
+        }
+ ```
+        
 ### GraphQL Server Implementation
 We use the apollo-server-express framework to implement the GraphQL middleware.  This is implemented in 
 https://github.com/icanbwell/fhir-server/blob/master/src/middleware/graphqlServer.js
