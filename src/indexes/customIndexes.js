@@ -26,6 +26,13 @@ module.exports = {
                 ]
             }
         ],
+        'ExplanationOfBenefit_4_0_0': [
+            {
+                'patient.reference_1': [
+                    'patient.reference'
+                ],
+            }
+        ],
         'PractitionerRole_4_0_0': [
             {
                 'practitioner.reference_1': [
