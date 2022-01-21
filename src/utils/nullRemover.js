@@ -4,6 +4,9 @@
  * @return {Object}
  */
 const removeNull = (obj) => {
+    if (!obj) {
+        return obj;
+    }
     Object.keys(obj).forEach(key => {
             // Get this value and its type
             const value = obj[`${key}`];
