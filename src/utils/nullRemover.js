@@ -4,7 +4,7 @@
  * @return {Object}
  */
 const removeNull = (obj) => {
-    if (!obj) {
+    if (!obj || (typeof obj !== 'object')) {
         return obj;
     }
     Object.keys(obj).forEach(key => {
