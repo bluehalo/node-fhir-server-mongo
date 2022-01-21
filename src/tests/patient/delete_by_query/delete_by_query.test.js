@@ -65,9 +65,19 @@ describe('Practitioner Delete Tests', () => {
             console.log('------- end response 3 ------------');
 
             resp = await request
-                .delete('/4_0_0/Patient/0/?_source=http://medstarhealth.org/providerBad')
+                .delete('/4_0_0/Patient/0/?_security=https://www.icanbwell.com/owner|medstar2')
                 .set(getHeaders())
                 .expect(204);
+
+            resp = await request
+                .get('/4_0_0/Patient')
+                .set(getHeaders())
+                .expect(200);
+
+            expect(resp.body.length).toBe(1);
+            console.log('------- response 3 ------------');
+            console.log(JSON.stringify(resp.body, null, 2));
+            console.log('------- end response 3 ------------');
 
             resp = await request
                 .get('/4_0_0/Patient/00100000000')

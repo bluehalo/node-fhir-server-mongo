@@ -1,4 +1,4 @@
-const {logRequest, logDebug, logError} = require('../common/logging');
+const {logRequest, logError} = require('../common/logging');
 const {verifyHasValidScopes, getAccessCodesFromScopes} = require('../security/scopes');
 const globals = require('../../globals');
 const {CLIENT_DB} = require('../../constants');
@@ -19,6 +19,10 @@ const {VERSIONS} = require('@asymmetrik/node-fhir-server-core').constants;
 // eslint-disable-next-line no-unused-vars
 module.exports.remove = async (args, user, scope, resourceName, collection_name) => {
     logRequest(user, `${resourceName} >>> remove`);
+
+    if (args['id'] === '0') {
+        delete args['id'];
+    }
 
     // add any access codes from scopes
     const accessCodes = getAccessCodesFromScopes('read', user, scope);
@@ -52,11 +56,6 @@ module.exports.remove = async (args, user, scope, resourceName, collection_name)
      */
     let query = {};
 
-    /**
-     * @type {Set}
-     */
-    let columns;
-
     // eslint-disable-next-line no-useless-catch
     try {
         if (base_version === VERSIONS['3_0_1']) {
@@ -64,13 +63,18 @@ module.exports.remove = async (args, user, scope, resourceName, collection_name)
         } else if (base_version === VERSIONS['1_0_2']) {
             query = buildDstu2SearchQuery(args);
         } else {
-            ({query, columns} = buildR4SearchQuery(resourceName, args));
+            ({query} = buildR4SearchQuery(resourceName, args));
         }
     } catch (e) {
         throw e;
     }
 
-    logDebug(user, `Deleting ${JSON.stringify(query)}`);
+    logRequest(user, `Deleting ${JSON.stringify(query)}`);
+
+    if (Object.keys(query).length === 0) {
+        // don't delete everything
+        return {deleted: 0};
+    }
 
     // Grab an instance of our DB and collection
     let db = globals.get(CLIENT_DB);
@@ -84,5 +88,5 @@ module.exports.remove = async (args, user, scope, resourceName, collection_name)
         throw new NotAllowedError(e.message);
     }
 
-    return {deleted: res.result && res.result.n};
+    return {deleted: res.deletedCount};
 };
