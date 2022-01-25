@@ -1,0 +1,18 @@
+{
+  "resourceType": "GraphDefinition",
+  "id": "o",
+  "name": "provider_everything",
+  "status": "active",
+  "start": "Practitioner",
+  "link": [
+    {
+      "description": "Practitioner Roles for this Practitioner",
+      "target": [
+        {
+          "type": "PractitionerRole",
+          "params": "practitioner={ref}"
+        }
+      ]
+    }
+  ]
+}

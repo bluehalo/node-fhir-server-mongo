@@ -23,18 +23,24 @@ const parseScopes = (scope) => {
 const verifyHasValidScopes = (name, action, user, scope) => {
     if (env.AUTH_ENABLED === '1') {
         // http://www.hl7.org/fhir/smart-app-launch/scopes-and-launch-context/index.html
-        /**
-         * @type {string[]}
-         */
-        let scopes = parseScopes(scope);
-        let {error, success} = scopeChecker(name, action, scopes);
+        if (scope) {
+            /**
+             * @type {string[]}
+             */
+            let scopes = parseScopes(scope);
+            let {error, success} = scopeChecker(name, action, scopes);
 
-        if (success) {
-            return;
+            if (success) {
+                return;
+            }
+            let errorMessage = 'user ' + user + ' with scopes [' + scopes + '] failed access check to [' + name + '.' + action + ']';
+            console.info(errorMessage);
+            throw new ForbiddenError(error.message + ': ' + errorMessage);
+        } else {
+            let errorMessage = 'user ' + user + ' with no scopes failed access check to [' + name + '.' + action + ']';
+            console.info(errorMessage);
+            throw new ForbiddenError(errorMessage);
         }
-        let errorMessage = 'user ' + user + ' with scopes [' + scopes + '] failed access check to [' + name + '.' + action + ']';
-        console.info(errorMessage);
-        throw new ForbiddenError(error.message + ': ' + errorMessage);
     }
 };
 

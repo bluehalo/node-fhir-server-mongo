@@ -1,0 +1,61 @@
+{
+  "resourceType": "GraphDefinition",
+  "id": "o",
+  "name": "provider_everything",
+  "status": "active",
+  "start": "Practitioner",
+  "link": [
+    {
+      "description": "Practitioner Roles for this Practitioner",
+      "target": [
+        {
+          "type": "PractitionerRole",
+          "params": "practitioner={ref}",
+          "link": [
+            {
+              "path": "organization",
+              "target": [
+                {
+                  "type": "Organization"
+                }
+              ]
+            },
+            {
+              "path": "location[x]",
+              "target": [
+                {
+                  "type": "Location"
+                }
+              ]
+            },
+            {
+              "path": "healthcareService[x]",
+              "target": [
+                {
+                  "type": "HealthcareService"
+                }
+              ]
+            },
+            {
+              "path": "extension.extension:url=plan",
+              "target": [
+                {
+                  "link": [
+                    {
+                      "path": "valueReference",
+                      "target": [
+                        {
+                          "type": "InsurancePlan"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

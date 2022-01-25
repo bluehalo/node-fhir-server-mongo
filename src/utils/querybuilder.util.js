@@ -178,7 +178,12 @@ let referenceQueryBuilder = function (target, field, exists_flag) {
     // target = type/id
     else if (target.includes('/')) {
         let [type, id] = target.split('/');
-        queryBuilder[`${field}`] = `${type}/${id}`;
+        if (id.includes(',')) {
+            const idList = id.split(',');
+            queryBuilder[`${field}`] = {$in: idList.map(i => `${type}/${i}`)};
+        } else {
+            queryBuilder[`${field}`] = `${type}/${id}`;
+        }
     }
     // target = id The type may be there so we need to check the end of the field for the id
     else {

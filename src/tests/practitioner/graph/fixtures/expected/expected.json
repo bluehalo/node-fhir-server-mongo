@@ -41,32 +41,6 @@
             ]
           },
           {
-            "id": "123456",
-            "meta": {
-              "security": [
-                {
-                  "code": "medstar",
-                  "system": "https://www.icanbwell.com/access"
-                }
-              ],
-              "versionId": "1"
-            },
-            "name": "MedStar Medical Group",
-            "resourceType": "Organization",
-            "type": [
-              {
-                "coding": [
-                  {
-                    "code": "prov",
-                    "display": "Healthcare Provider",
-                    "system": "http://terminology.hl7.org/CodeSystem/organization-type"
-                  }
-                ],
-                "text": "Healthcare Organization"
-              }
-            ]
-          },
-          {
             "active": true,
             "code": [
               {

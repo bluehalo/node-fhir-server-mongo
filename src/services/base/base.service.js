@@ -44,7 +44,7 @@ module.exports.search = async (args, {req}, resource_name, collection_name) => {
      * @type {string}
      */
     const scope = req.authInfo && req.authInfo.scope;
-    return search(combined_args, user, scope, resource_name, collection_name, req.originalUrl);
+    return search(combined_args, user, scope, resource_name, collection_name, req.protocol, req.originalUrl);
 };
 
 /**
@@ -185,7 +185,7 @@ module.exports.everything = async (args, {req}, resource_name, collection_name) 
      * @type {string}
      */
     const host = req.headers.host;
-    return everything(combined_args, user, scope, path, host, resource_name, collection_name);
+    return everything(combined_args, user, scope, path, req.protocol, host, resource_name, collection_name);
 };
 
 /**
@@ -348,7 +348,7 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
      */
     const host = req.headers.host;
 
-    return graph(combined_args, user, scope, body, path, host, resource_name, collection_name);
+    return graph(combined_args, user, scope, body, path, req.protocol, host, resource_name, collection_name);
 };
 
 /**

@@ -1,0 +1,26 @@
+{
+  "resourceType": "GraphDefinition",
+  "id": "o",
+  "name": "provider_everything",
+  "status": "active",
+  "start": "PractitionerRole",
+  "link": [
+    {
+      "path": "extension.extension:url=plan",
+      "target": [
+        {
+          "link": [
+            {
+              "path": "valueReference",
+              "target": [
+                {
+                  "type": "InsurancePlan"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
