@@ -19,7 +19,17 @@ module.exports = {
     },
     PatientGeneralPractitioner: {
         __resolveType(obj, context, info) {
-            return resolveType(obj, context, info);
+            if (Array.isArray(obj)) {
+                if (obj.length > 0) {
+                    // apollo does not seem to allow returning lists
+                    // return obj.map(o => resolveType(o, context, info));
+                    return resolveType(obj[0], context, info);
+                } else {
+                    return null;
+                }
+            } else {
+                return resolveType(obj, context, info);
+            }
         },
     },
     Patient: {

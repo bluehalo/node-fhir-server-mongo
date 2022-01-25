@@ -81,7 +81,7 @@ module.exports.findResourcesByReference = async (parent, args, context, info, re
     if (!(references)) {
         return null;
     }
-    return async.map(references, async reference => {
+    return async.flatMap(references, async reference => {
         /**
          * @type {string}
          */

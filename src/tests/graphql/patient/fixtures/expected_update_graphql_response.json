@@ -1,14 +1,18 @@
 {
-    "data": {
-      "updateGeneralPractitioner": {
-        "id": "WPS-5458231534",
-        "generalPractitioner": [
-          {
-            "__typename": "Practitioner",
-            "id": "f005",
-            "name": "Anne"
-          } 
-        ]
-      }
+  "data": {
+    "updateGeneralPractitioner": {
+      "generalPractitioner": [
+        {
+          "__typename": "Practitioner",
+          "id": "f005",
+          "name": [
+            {
+              "family": "Anne"
+            }
+          ]
+        }
+      ],
+      "id": "WPS-5458231534"
     }
+  }
 }
