@@ -288,27 +288,31 @@ module.exports.buildR4SearchQuery = (resourceName, args) => {
                         case fhirFilterTypes.reference:
                             if (propertyObj.target.length === 1) { // handle simple case without an OR to keep it simple
                                 const target = propertyObj.target[0];
-                                and_segments.push(
-                                    referenceQueryBuilder(
-                                        queryParameterValue.includes('/')
-                                            ? queryParameterValue : (`${target}/` + queryParameterValue),
-                                        `${propertyObj.field}.reference`,
-                                        null
-                                    )
-                                );
-                            } else { // handle multiple targets
-                                and_segments.push(
-                                    {
-                                        $or: propertyObj.target.map(
-                                            target => referenceQueryBuilder(
+                                if (propertyObj.fields && Array.isArray(propertyObj.fields)) {
+                                    and_segments.push({
+                                        $or: propertyObj.fields.map(field =>
+                                            referenceQueryBuilder(
                                                 queryParameterValue.includes('/')
                                                     ? queryParameterValue : (`${target}/` + queryParameterValue),
-                                                `${propertyObj.field}.reference`,
-                                                null
-                                            )
-                                        )
-                                    }
-                                );
+                                                `${field}.reference`, null))
+                                    });
+                                } else {
+                                    and_segments.push(
+                                        referenceQueryBuilder(
+                                            queryParameterValue.includes('/')
+                                                ? queryParameterValue : (`${target}/` + queryParameterValue),
+                                            `${propertyObj.field}.reference`, null)
+                                    );
+                                }
+                            } else { // handle multiple targets
+                                and_segments.push({
+                                    $or: propertyObj.target.map(
+                                        target => referenceQueryBuilder(
+                                            queryParameterValue.includes('/')
+                                                ? queryParameterValue : (`${target}/` + queryParameterValue),
+                                            `${propertyObj.field}.reference`, null)
+                                    )
+                                });
                             }
                             columns.add(`${propertyObj.field}.reference`);
                             break;
