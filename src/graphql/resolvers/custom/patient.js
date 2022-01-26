@@ -87,7 +87,7 @@ module.exports = {
         if (practitioners.length === 0) {
           throw new Error(`Practitioner not found ${args.practitionerId}`);
         }
-        patientToChange.generalPractitioner = {reference: `Practitioner/${practitioners[0].id}`};
+        patientToChange.generalPractitioner = [{reference: `Practitioner/${practitioners[0].id}`}];
         const result = await merge(
           { ...args, base_version: '4_0_0' },
           context.user,

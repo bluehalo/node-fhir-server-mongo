@@ -152,7 +152,7 @@ describe('GraphQL Patient Tests', () => {
         });
     });
     describe('GraphQL Update General Practitioner', () => {
-        test.skip('GraphQL Update General Practitioner for Patient', async () => {
+        test('GraphQL Update General Practitioner for Patient', async () => {
             jest.useFakeTimers('legacy');
             // noinspection JSUnusedLocalSymbols
             const graphqlQueryText = updatePractitionerQuery.replace(/\\n/g, '');
