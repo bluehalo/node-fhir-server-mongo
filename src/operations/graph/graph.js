@@ -26,7 +26,10 @@ const env = require('var');
  * @return {Promise<{entry: {resource: Resource, fullUrl: string}[], id: string, resourceType: string}|{entry: *[], id: string, resourceType: string}>}
  */
 module.exports.graph = async (args, user, scope, body, path, protocol, host_, resource_name, collection_name) => {
-    if (isTrue(env.USE_OLD_GRAPH) && !isTrue(args['_useNewGraph'])) {
+    if (
+        isTrue(args['_useOldGraph'])
+        || (isTrue(env.USE_OLD_GRAPH) && !isTrue(args['_useNewGraph']))
+    ) {
         return oldGraph(args, user, scope, body, path, host_, resource_name, collection_name);
     }
 

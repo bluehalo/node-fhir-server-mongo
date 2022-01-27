@@ -214,7 +214,7 @@ function isPropertyAReference(entities, property, filterProperty, filterValue) {
          * @type {*[]}
          */
         const propertiesForEntity = getPropertiesForEntity(entity, property, filterProperty, filterValue);
-        if (propertiesForEntity.some(p => p['reference'])) { // if it has a 'reference' property then it is a reference
+        if (propertiesForEntity.filter(p => p !== undefined).some(p => p['reference'])) { // if it has a 'reference' property then it is a reference
             return true; // we assume that if one entity has it then all entities can since they are of same type
         }
     }
@@ -422,7 +422,9 @@ async function get_reverse_related_resources(
         }
         // now match to parent entity, so we can put under correct contained property
         const matchingParentEntities = parentEntities.filter(
-            p => `${p.resource.resourceType}/${p.resource.id}` === relatedResourcePropertyCurrent[`${fieldForSearchParameter}`]['reference']
+            p => relatedResourcePropertyCurrent[`${fieldForSearchParameter}`]
+                && `${p.resource.resourceType}/${p.resource.id}`
+                === relatedResourcePropertyCurrent[`${fieldForSearchParameter}`]['reference']
         );
         for (const matchingParentEntity of matchingParentEntities) {
             matchingParentEntity.containedEntries.push(
