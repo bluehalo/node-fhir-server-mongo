@@ -10,16 +10,21 @@ const {getResource} = require('../operations/common/getResource');
 const {getUuid} = require('./uid.util');
 const {logDebug} = require('../operations/common/logging');
 const {removeNull} = require('./nullRemover');
+const {isTrue} = require('./isTrue');
 
 /**
  * logs an entry for audit
  * @param {string} user
+ * @param {string} scope
  * @param {string} resourceType
  * @param {string} base_version
  * @param {string} operation
  * @param {string[]} ids
  */
-async function logAuditEntry(user, base_version, resourceType, operation, ids) {
+async function logAuditEntry(user, scope, base_version, resourceType, operation, ids) {
+    if (isTrue(env.DISABLE_AUDIT_LOGGING)) {
+        return;
+    }
     // noinspection JSValidateTypes
     /**
      * mongo db connection
@@ -69,6 +74,7 @@ async function logAuditEntry(user, base_version, resourceType, operation, ids) {
                 who: {
                     reference: `Person/${user}`
                 },
+                altId: scope,
                 requestor: true
             }
         ],

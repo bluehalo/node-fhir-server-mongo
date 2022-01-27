@@ -27,6 +27,7 @@ const pRetry = require('p-retry');
 const {logMessageToSlack} = require('../../utils/slack.logger');
 const {mergeObject} = require('../../utils/mergeHelper');
 const {removeNull} = require('../../utils/nullRemover');
+const {logAuditEntry} = require('../../utils/auditLogger');
 
 /**
  * does a FHIR Merge
@@ -611,13 +612,24 @@ module.exports.merge = async (args, user, scope, body, path, resource_name, coll
             async.map(non_duplicate_id_resources, async x => await merge_resource_with_retry(x)), // run in parallel
             async.mapSeries(duplicate_id_resources, async x => await merge_resource_with_retry(x)) // run in series
         ]);
+        /**
+         * @type {FlatArray<unknown[], 1>[]}
+         */
         const returnVal = result.flat(1);
+        if (returnVal && returnVal.length > 0) {
+            // log access to audit logs
+            await logAuditEntry(user, scope, base_version, resource_name, 'update', returnVal.map(r => r['id']));
+        }
+
         logDebug(user, '--- Merge array result ----');
         logDebug(user, JSON.stringify(returnVal));
         logDebug(user, '-----------------');
         return returnVal;
     } else {
         const returnVal = await merge_resource_with_retry(resources_incoming);
+        if (returnVal) {
+            await logAuditEntry(user, scope, base_version, resource_name, 'update', [returnVal['id']]);
+        }
         logDebug(user, '--- Merge result ----');
         logDebug(user, JSON.stringify(returnVal));
         logDebug(user, '-----------------');

@@ -322,7 +322,7 @@ module.exports.search = async (args, user, scope, resourceName, collection_name,
 
         if (resources.length > 0) {
             // log access to audit logs
-            await logAuditEntry(user, base_version, resourceName, 'read', resources.map(r => r['id']));
+            await logAuditEntry(user, scope, base_version, resourceName, 'read', resources.map(r => r['id']));
         }
 
         // if env.RETURN_BUNDLE is set then return as a Bundle

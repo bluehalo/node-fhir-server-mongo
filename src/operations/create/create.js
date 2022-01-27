@@ -121,7 +121,7 @@ module.exports.create = async (args, user, scope, body, path, resource_name, col
         Object.assign(doc, {id: id});
 
         // log access to audit logs
-        await logAuditEntry(user, base_version, resource_name, 'create', [resource['id']]);
+        await logAuditEntry(user, scope, base_version, resource_name, 'create', [resource['id']]);
 
         // Create a clone of the object without the _id parameter before assigning a value to
         // the _id parameter in the original document
