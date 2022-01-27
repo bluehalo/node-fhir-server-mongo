@@ -16,6 +16,7 @@ const {isTrue} = require('../../utils/isTrue');
 const pRetry = require('p-retry');
 const {logMessageToSlack} = require('../../utils/slack.logger');
 const {removeNull} = require('../../utils/nullRemover');
+const {logAuditEntry} = require('../../utils/auditLogger');
 const {VERSIONS} = require('@asymmetrik/node-fhir-server-core').constants;
 
 /**
@@ -318,6 +319,11 @@ module.exports.search = async (args, user, scope, resourceName, collection_name,
 
         // run any enrichment
         resources = await enrich(resources, resourceName);
+
+        if (resources.length > 0) {
+            // log access to audit logs
+            await logAuditEntry(user, base_version, resourceName, 'read', resources.map(r => r['id']));
+        }
 
         // if env.RETURN_BUNDLE is set then return as a Bundle
         if (env.RETURN_BUNDLE || args['_bundle']) {

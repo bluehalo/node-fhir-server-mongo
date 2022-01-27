@@ -8,6 +8,7 @@ const {enrich} = require('../../enrich/enrich');
 const pRetry = require('p-retry');
 const {logMessageToSlack} = require('../../utils/slack.logger');
 const {removeNull} = require('../../utils/nullRemover');
+const {logAuditEntry} = require('../../utils/auditLogger');
 
 /**
  * does a FHIR Search By Id
@@ -65,6 +66,7 @@ module.exports.searchById = async (args, user, scope, resource_name, collection_
         throw new BadRequestError(e);
     }
 
+
     if (resource) {
         if (!(isAccessToResourceAllowedBySecurityTags(resource, user, scope))) {
             throw new ForbiddenError(
@@ -76,6 +78,8 @@ module.exports.searchById = async (args, user, scope, resource_name, collection_
 
         // run any enrichment
         resource = (await enrich([resource], resource_name))[0];
+        // log access to audit logs
+        await logAuditEntry(user, base_version, resource_name, 'read', [resource['id']]);
         return new Resource(resource);
     } else {
         throw new NotFoundError(`Not Found: ${resource_name}.searchById: ${id.toString()}`);

@@ -12,6 +12,7 @@ const {getResource} = require('../common/getResource');
 const {getMeta} = require('../common/getMeta');
 const {getOrCreateCollection} = require('../../utils/mongoCollectionManager');
 const {removeNull} = require('../../utils/nullRemover');
+const {logAuditEntry} = require('../../utils/auditLogger');
 
 /**
  * does a FHIR Create (POST)
@@ -118,6 +119,9 @@ module.exports.create = async (args, user, scope, body, path, resource_name, col
         // noinspection JSUnresolvedFunction
         let doc = removeNull(resource.toJSON());
         Object.assign(doc, {id: id});
+
+        // log access to audit logs
+        await logAuditEntry(user, base_version, resource_name, 'create', [resource['id']]);
 
         // Create a clone of the object without the _id parameter before assigning a value to
         // the _id parameter in the original document
