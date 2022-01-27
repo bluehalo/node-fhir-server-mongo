@@ -44,6 +44,11 @@ const resourceDefinitions = [
         url: 'https://www.hl7.org/fhir/person.html'
     },
     {
+        name: 'Condition',
+        description: 'A clinical condition, problem, diagnosis, or other event, situation, issue, or clinical concept that has risen to a level of concern.',
+        url: 'https://www.hl7.org/fhir/condition.html'
+    },
+    {
         name: 'Observation',
         description: 'Measurements and simple assertions made about a patient, device or other subject.',
         url: 'https://www.hl7.org/fhir/observation.html'
