@@ -73,6 +73,11 @@ const verify = (jwt_payload, done) => {
          */
         const groups = jwt_payload[env.AUTH_CUSTOM_GROUP] ? jwt_payload[env.AUTH_CUSTOM_GROUP] : '';
 
+        // /**
+        //  * @type {string}
+        //  */
+        // const username = jwt_payload.username ? jwt_payload.username : jwt_payload[env.AUTH_CUSTOM_USERNAME];
+
         if (groups.length > 0) {
             scope = scope + ' ' + groups.join(' ');
         }

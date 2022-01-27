@@ -39,6 +39,10 @@ module.exports.search = async (args, user, scope, resourceName, collection_name,
     logRequest(user, JSON.stringify(args));
     logRequest(user, '--------');
 
+    /**
+     * @type {string[]}
+     */
+    let securityTags = [];
     // add any access codes from scopes
     const accessCodes = getAccessCodesFromScopes('read', user, scope);
     if (env.AUTH_ENABLED === '1') {
@@ -51,16 +55,7 @@ module.exports.search = async (args, user, scope, resourceName, collection_name,
         else if (accessCodes.includes('*')) {
             // no security check since user has full access to everything
         } else {
-            /**
-             * @type {string}
-             */
-            for (const accessCode of accessCodes) {
-                if (args['_security']) {
-                    args['_security'] = args['_security'] + ',' + accessCode;
-                } else {
-                    args['_security'] = 'https://www.icanbwell.com/access|' + accessCode;
-                }
-            }
+            securityTags = accessCodes;
         }
     }
     /**
@@ -88,6 +83,26 @@ module.exports.search = async (args, user, scope, resourceName, collection_name,
         }
     } catch (e) {
         throw e;
+    }
+
+    // add in $and statements for security tags
+    if (securityTags && securityTags.length > 0) {
+        // add as a separate $and statement
+        if (query.$and === undefined) {
+            query.$and = [];
+        }
+        query.$and.push(
+            {
+                'meta.security': {
+                    '$elemMatch': {
+                        'system': 'https://www.icanbwell.com/access',
+                        'code': {
+                            '$in': securityTags
+                        }
+                    }
+                }
+            }
+        );
     }
 
     // Grab an instance of our DB and collection

@@ -100,7 +100,7 @@ describe('search_by_security_tag', () => {
             console.log('------- end response sort ------------');
             // clear out the lastUpdated column since that changes
             let body = resp.body;
-            expect(body.length).toBe(3);
+            expect(body.length).toBe(2);
             body.forEach(element => {
                 delete element['meta']['lastUpdated'];
             });
@@ -111,6 +111,18 @@ describe('search_by_security_tag', () => {
             });
             // expected[0]['meta'] = { 'versionId': '2' };
             expect(body).toStrictEqual(expected);
+
+            // make sure we can't access another security tag
+            resp = await request
+                .get('/4_0_0/Practitioner?_security=https://www.icanbwell.com/access|l_and_f')
+                .set(getHeaders(scope))
+                .expect(200);
+
+            console.log('------- response Practitioner sorted ------------');
+            console.log(JSON.stringify(resp.body, null, 2));
+            console.log('------- end response sort ------------');
+            expect(resp.body.length).toBe(0);
+
         });
         test('search without scopes fails', async () => {
             let resp = await request
