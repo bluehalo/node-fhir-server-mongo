@@ -57,8 +57,6 @@ const getExternalJwks = async () => {
  * @return {*}
  */
 const verify = (jwt_payload, done) => {
-    // console.log('Verify user:', jwt_payload);
-
     if (jwt_payload) {
         /**
          * @type {string}
@@ -69,7 +67,7 @@ const verify = (jwt_payload, done) => {
          */
         let scope = jwt_payload.scope ? jwt_payload.scope : jwt_payload[env.AUTH_CUSTOM_SCOPE];
         /**
-         * @type {string}
+         * @type {string[]}
          */
         const groups = jwt_payload[env.AUTH_CUSTOM_GROUP] ? jwt_payload[env.AUTH_CUSTOM_GROUP] : '';
 
@@ -88,7 +86,7 @@ const verify = (jwt_payload, done) => {
             scope = scope + ' ' + groups.join(' ');
         }
 
-        logRequest('', 'Verified client_id: ' + client_id + ' scope: ' + scope);
+        logRequest(username, 'Verified client_id: ' + client_id + ' username=' + username + ' scope: ' + scope);
 
         const context = {};
         if (username) {

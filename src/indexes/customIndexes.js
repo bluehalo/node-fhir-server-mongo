@@ -78,12 +78,21 @@ module.exports = {
                     'meta.security.system',
                     'meta.security.code'
                 ],
+                'helix_auditEvent_index_type': [
+                    'meta.lastUpdated',
+                    'type.system',
+                    'type.code'
+                ],
                 'helix_auditEvent_index_who': [
                     'meta.lastUpdated',
+                    'type.system',
+                    'type.code',
                     'agent.who.reference'
                 ],
                 'helix_auditEvent_index_entity': [
                     'meta.lastUpdated',
+                    'type.system',
+                    'type.code',
                     'entity.what.reference'
                 ]
             }

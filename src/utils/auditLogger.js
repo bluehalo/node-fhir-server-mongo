@@ -57,6 +57,7 @@ async function logAuditEntry(requestInfo, base_version, resourceType, operation,
     // Get current record
     let Resource = getResource(base_version, 'AuditEvent');
 
+    const maxNumberOfIds = env.AUDIT_MAX_NUMBER_OF_IDS ? parseInt(env.AUDIT_MAX_NUMBER_OF_IDS) : 50;
     const document = {
         meta: new Meta({
             versionId: '1',
@@ -93,7 +94,7 @@ async function logAuditEntry(requestInfo, base_version, resourceType, operation,
             }
         ],
         action: operationCodeMapping[`${operation}`],
-        entity: ids.map(id => {
+        entity: ids.slice(0, maxNumberOfIds).map(id => {
             return {
                 what: {
                     reference: `${resourceType}/${id}`
