@@ -18,17 +18,19 @@ const {getMeta} = require('../common/getMeta');
 const {logError} = require('../common/logging');
 const {getOrCreateCollection} = require('../../utils/mongoCollectionManager');
 const {removeNull} = require('../../utils/nullRemover');
+const {logAuditEntry} = require('../../utils/auditLogger');
 /**
  * does a FHIR Update (PUT)
+ * @param {import('../../utils/requestInfo').RequestInfo} requestInfo
  * @param {Object} args
- * @param {string} user
- * @param {string} scope
- * @param {Object} body
- * @param {string} path
  * @param {string} resource_name
  * @param {string} collection_name
  */
-module.exports.update = async (args, user, scope, body, path, resource_name, collection_name) => {
+module.exports.update = async (requestInfo, args, resource_name, collection_name) => {
+    const user = requestInfo.user;
+    const scope = requestInfo.scope;
+    const path = requestInfo.path;
+    const body = requestInfo.body;
     logRequest(user, `'${resource_name} >>> update`);
 
     verifyHasValidScopes(resource_name, 'write', user, scope);
@@ -198,6 +200,9 @@ module.exports.update = async (args, user, scope, body, path, resource_name, col
 
         // Insert our resource record to history but don't assign _id
         await history_collection.insertOne(history_resource);
+
+        // log access to audit logs
+        await logAuditEntry(requestInfo, base_version, resource_name, 'update', args, [resource_incoming['id']]);
 
         return {
             id: id,

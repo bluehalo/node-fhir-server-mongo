@@ -9,14 +9,16 @@ const moment = require('moment-timezone');
 const {removeNull} = require('../../utils/nullRemover');
 /**
  * does a FHIR Patch
+ * @param {import('../../utils/requestInfo').RequestInfo} requestInfo
  * @param {Object} args
- * @param {string} user
- * @param {string} scope
  * @param {string} resource_name
  * @param {string} collection_name
  */
 // eslint-disable-next-line no-unused-vars
-module.exports.patch = async (args, user, scope, resource_name, collection_name) => {
+module.exports.patch = async (requestInfo, args, resource_name, collection_name) => {
+    const user = requestInfo.user;
+    const scope = requestInfo.scope;
+
     logRequest(user, 'Patient >>> patch');
     verifyHasValidScopes(resource_name, 'write', user, scope);
 

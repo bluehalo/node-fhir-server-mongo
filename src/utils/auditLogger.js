@@ -8,20 +8,19 @@ const moment = require('moment-timezone');
 const {getMeta} = require('../operations/common/getMeta');
 const {getResource} = require('../operations/common/getResource');
 const {getUuid} = require('./uid.util');
-const {logDebug} = require('../operations/common/logging');
 const {removeNull} = require('./nullRemover');
 const {isTrue} = require('./isTrue');
 
 /**
  * logs an entry for audit
- * @param {string} user
- * @param {string} scope
+ * @param {import('./requestInfo').RequestInfo} requestInfo
  * @param {string} resourceType
  * @param {string} base_version
  * @param {string} operation
+ * @param {Object} args
  * @param {string[]} ids
  */
-async function logAuditEntry(user, scope, base_version, resourceType, operation, ids) {
+async function logAuditEntry(requestInfo, base_version, resourceType, operation, args, ids) {
     if (isTrue(env.DISABLE_AUDIT_LOGGING)) {
         return;
     }
@@ -31,7 +30,7 @@ async function logAuditEntry(user, scope, base_version, resourceType, operation,
      * @type {import('mongodb').Db}
      */
     let db = globals.get(CLIENT_DB);
-    const collection_name = env.INTERNAL_AUDIT_TABLE || 'InternalAuditEvent';
+    const collection_name = env.INTERNAL_AUDIT_TABLE || 'AuditEvent';
     /**
      * @type {string}
      */
@@ -62,6 +61,16 @@ async function logAuditEntry(user, scope, base_version, resourceType, operation,
         meta: new Meta({
             versionId: '1',
             lastUpdated: new Date(moment.utc().format('YYYY-MM-DDTHH:mm:ssZ')),
+            security: [
+                {
+                    'system': 'https://www.icanbwell.com/owner',
+                    'code': 'bwell'
+                },
+                {
+                    'system': 'https://www.icanbwell.com/access',
+                    'code': 'bwell'
+                }
+            ]
         }),
         recorded: new Date(moment.utc().format('YYYY-MM-DDTHH:mm:ssZ')),
         type: {
@@ -72,10 +81,15 @@ async function logAuditEntry(user, scope, base_version, resourceType, operation,
         agent: [
             {
                 who: {
-                    reference: `Person/${user}`
+                    reference: `Person/${requestInfo.user}`
                 },
-                altId: scope,
-                requestor: true
+                altId: requestInfo.scope,
+                requestor: true,
+                name: requestInfo.user,
+                network: {
+                    address: requestInfo.remoteIPAddress,
+                    type: 2
+                }
             }
         ],
         action: operationCodeMapping[`${operation}`],
@@ -83,14 +97,19 @@ async function logAuditEntry(user, scope, base_version, resourceType, operation,
             return {
                 what: {
                     reference: `${resourceType}/${id}`
-                }
+                },
+                detail: Object.entries(args).filter(([_, value]) => typeof value === 'string').map(([key, value], _) => {
+                    return {
+                        type: key,
+                        valueString: value
+                    };
+                })
             };
         })
     };
     let resource = new Resource(document);
 
     let id = getUuid(resource);
-    logDebug(user, `id: ${id}`);
 
     let doc = removeNull(resource.toJSON());
     Object.assign(doc, {id: id});

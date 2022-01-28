@@ -12,15 +12,16 @@ const {logAuditEntry} = require('../../utils/auditLogger');
 
 /**
  * does a FHIR Search By Id
+ * @param {import('../../utils/requestInfo').RequestInfo} requestInfo
  * @param {Object} args
- * @param {string} user
- * @param {string} scope
  * @param {string} resource_name
  * @param {string} collection_name
  * @return {Resource}
  */
 // eslint-disable-next-line no-unused-vars
-module.exports.searchById = async (args, user, scope, resource_name, collection_name) => {
+module.exports.searchById = async (requestInfo, args, resource_name, collection_name) => {
+    const user = requestInfo.user;
+    const scope = requestInfo.scope;
     logRequest(user, `${resource_name} >>> searchById`);
     logDebug(user, JSON.stringify(args));
 
@@ -46,7 +47,7 @@ module.exports.searchById = async (args, user, scope, resource_name, collection_
     let Resource = getResource(base_version, resource_name);
 
     /**
-     * @type {Resource}
+     * @type {Promise<Resource> | *}
      */
     let resource;
     try {
@@ -79,7 +80,7 @@ module.exports.searchById = async (args, user, scope, resource_name, collection_
         // run any enrichment
         resource = (await enrich([resource], resource_name))[0];
         // log access to audit logs
-        await logAuditEntry(user, scope, base_version, resource_name, 'read', [resource['id']]);
+        await logAuditEntry(requestInfo, base_version, resource_name, 'read', args, [resource['id']]);
         return new Resource(resource);
     } else {
         throw new NotFoundError(`Not Found: ${resource_name}.searchById: ${id.toString()}`);

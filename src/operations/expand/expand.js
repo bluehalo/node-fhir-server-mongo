@@ -8,15 +8,17 @@ const {enrich} = require('../../enrich/enrich');
 const {getExpandedValueSet} = require('../../utils/valueSet.util');
 /**
  * does a FHIR Search By Id
+ * @param {import('../../utils/requestInfo').RequestInfo} requestInfo
  * @param {Object} args
- * @param {string} user
- * @param {string} scope
  * @param {string} resource_name
  * @param {string} collection_name
  * @return {Resource}
  */
 // eslint-disable-next-line no-unused-vars
-module.exports.expand = async (args, user, scope, resource_name, collection_name) => {
+module.exports.expand = async (requestInfo, args, resource_name, collection_name) => {
+    const user = requestInfo.user;
+    const scope = requestInfo.scope;
+
     logRequest(user, `${resource_name} >>> expand`);
     logDebug(user, JSON.stringify(args));
 

@@ -28,7 +28,6 @@
     "fix_lint": "eslint --fix \"src/**/*.js\""
   },
   "pre-commit": [
-    "test"
   ],
   "jest": {
     "verbose": false,

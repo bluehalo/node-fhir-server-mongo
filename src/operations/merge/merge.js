@@ -29,18 +29,20 @@ const {mergeObject} = require('../../utils/mergeHelper');
 const {removeNull} = require('../../utils/nullRemover');
 const {logAuditEntry} = require('../../utils/auditLogger');
 
+// noinspection JSValidateTypes
 /**
  * does a FHIR Merge
+ * @param {import('../../utils/requestInfo').RequestInfo} requestInfo
  * @param {Object} args
- * @param {string} user
- * @param {string} scope
- * @param {Object[]} body
- * @param {string} path
  * @param {string} resource_name
  * @param {string} collection_name
  * @return {Resource | Resource[]}
  */
-module.exports.merge = async (args, user, scope, body, path, resource_name, collection_name) => {
+module.exports.merge = async (requestInfo, args, resource_name, collection_name) => {
+    const user = requestInfo.user;
+    const scope = requestInfo.scope;
+    const path = requestInfo.path;
+    const body = requestInfo.body;
     /**
      * @type {string}
      */
@@ -276,7 +278,7 @@ module.exports.merge = async (args, user, scope, body, path, resource_name, coll
         if (!resourceToMerge.meta) {
             resourceToMerge.meta = {};
         }
-        // compare without checking source so we don't create a new version just because of a difference in source
+        // compare without checking source, so we don't create a new version just because of a difference in source
         /**
          * @type {string}
          */
@@ -588,7 +590,7 @@ module.exports.merge = async (args, user, scope, body, path, resource_name, coll
             '===================='
         );
         // find items without duplicates and run them in parallel
-        // but items with duplicate ids should run in serial so we can merge them properly (otherwise the first item
+        // but items with duplicate ids should run in serial, so we can merge them properly (otherwise the first item
         //  may not finish adding to the db before the next item tries to merge
         // https://stackoverflow.com/questions/53212020/get-list-of-duplicate-objects-in-an-array-of-objects
         // create a lookup_by_id for duplicate ids
@@ -617,8 +619,14 @@ module.exports.merge = async (args, user, scope, body, path, resource_name, coll
          */
         const returnVal = result.flat(1);
         if (returnVal && returnVal.length > 0) {
-            // log access to audit logs
-            await logAuditEntry(user, scope, base_version, resource_name, 'update', returnVal.map(r => r['id']));
+            const createdItems = returnVal.filter(r => r['created'] === true);
+            const updatedItems = returnVal.filter(r => r['updated'] === true);
+            if (createdItems && createdItems.length > 0) {
+                await logAuditEntry(requestInfo, base_version, resource_name, 'create', args, createdItems.map(r => r['id']));
+            }
+            if (updatedItems && updatedItems.length > 0) {
+                await logAuditEntry(requestInfo, base_version, resource_name, 'update', args, updatedItems.map(r => r['id']));
+            }
         }
 
         logDebug(user, '--- Merge array result ----');
@@ -628,7 +636,12 @@ module.exports.merge = async (args, user, scope, body, path, resource_name, coll
     } else {
         const returnVal = await merge_resource_with_retry(resources_incoming);
         if (returnVal) {
-            await logAuditEntry(user, scope, base_version, resource_name, 'update', [returnVal['id']]);
+            if (returnVal['created'] === true) {
+                await logAuditEntry(requestInfo, base_version, resource_name, 'create', args, [returnVal['id']]);
+            }
+            if (returnVal['updated'] === true) {
+                await logAuditEntry(requestInfo, base_version, resource_name, 'update', args, [returnVal['id']]);
+            }
         }
         logDebug(user, '--- Merge result ----');
         logDebug(user, JSON.stringify(returnVal));

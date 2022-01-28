@@ -91,6 +91,7 @@ module.exports.commonAfterEach = async () => {
 const getToken = module.exports.getToken = (scope) => {
     return createToken(privateKey, '123', {
         sub: 'john',
+        username: 'imran',
         client_id: 'my_client_id',
         scope: scope
     });

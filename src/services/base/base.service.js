@@ -13,6 +13,7 @@ const {patch} = require('../../operations/patch/patch');
 const {validate} = require('../../operations/validate/validate');
 const {graph} = require('../../operations/graph/graph');
 const {get_all_args} = require('../../operations/common/get_all_args');
+const {RequestInfo} = require('../../utils/requestInfo');
 
 
 // This is needed for JSON.stringify() can handle regex
@@ -21,6 +22,19 @@ const {get_all_args} = require('../../operations/common/get_all_args');
 Object.defineProperty(RegExp.prototype, 'toJSON', {
     value: RegExp.prototype.toString
 });
+
+function getRequestInfo(req) {
+    return new RequestInfo(
+        req.authInfo.context.username || req.authInfo.context.subject || req.user,
+        req.authInfo && req.authInfo.scope,
+        req.headers['x-forwarded-for'] || req.connection.remoteAddress,
+        req.protocol,
+        req.originalUrl,
+        req.path,
+        req.host,
+        req.body
+    );
+}
 
 /**
  * does a FHIR Search
@@ -36,15 +50,9 @@ module.exports.search = async (args, {req}, resource_name, collection_name) => {
      * @type {string[]}
      */
     const combined_args = get_all_args(req, args);
-    /**
-     * @type {string}
-     */
-    const user = req.user;
-    /**
-     * @type {string}
-     */
-    const scope = req.authInfo && req.authInfo.scope;
-    return search(combined_args, user, scope, resource_name, collection_name, req.protocol, req.originalUrl);
+    return search(
+        getRequestInfo(req),
+        combined_args, resource_name, collection_name);
 };
 
 /**
@@ -56,15 +64,9 @@ module.exports.search = async (args, {req}, resource_name, collection_name) => {
  */
 // eslint-disable-next-line no-unused-vars
 module.exports.searchById = async (args, {req}, resource_name, collection_name) => {
-    /**
-     * @type {string}
-     */
-    const user = req.user;
-    /**
-     * @type {string}
-     */
-    const scope = req.authInfo && req.authInfo.scope;
-    return searchById(args, user, scope, resource_name, collection_name);
+    return searchById(
+        getRequestInfo(req),
+        args, resource_name, collection_name);
 };
 
 /**
@@ -83,18 +85,11 @@ module.exports.create = async (args, {req}, resource_name, collection_name) => {
     /**
      * @type {string}
      */
-    const user = req.user;
-    /**
-     * @type {string}
-     */
-    const scope = req.authInfo && req.authInfo.scope;
-    const body = req.body;
-    /**
-     * @type {string}
-     */
     const path = req.path;
 
-    return create(combined_args, user, scope, body, path, resource_name, collection_name);
+    return create(
+        getRequestInfo(req),
+        combined_args, path, resource_name, collection_name);
 };
 
 /**
@@ -110,20 +105,10 @@ module.exports.update = async (args, {req}, resource_name, collection_name) => {
      * @type {string[]}
      */
     const combined_args = get_all_args(req, args);
-    /**
-     * @type {string}
-     */
-    const user = req.user;
-    /**
-     * @type {string}
-     */
-    const scope = req.authInfo && req.authInfo.scope;
-    const body = req.body;
-    /**
-     * @type {string}
-     */
-    const path = req.path;
-    return update(combined_args, user, scope, body, path, resource_name, collection_name);
+
+    return update(
+        getRequestInfo(req),
+        combined_args, resource_name, collection_name);
 };
 
 /**
@@ -140,20 +125,10 @@ module.exports.merge = async (args, {req}, resource_name, collection_name) => {
      * @type {string[]}
      */
     const combined_args = get_all_args(req, args);
-    /**
-     * @type {string}
-     */
-    const user = req.user;
-    /**
-     * @type {string}
-     */
-    const scope = req.authInfo && req.authInfo.scope;
-    const body = req.body;
-    /**
-     * @type {string}
-     */
-    const path = req.path;
-    return merge(combined_args, user, scope, body, path, resource_name, collection_name);
+
+    return merge(
+        getRequestInfo(req),
+        combined_args, resource_name, collection_name);
 };
 
 /**
@@ -169,23 +144,10 @@ module.exports.everything = async (args, {req}, resource_name, collection_name) 
      * @type {string[]}
      */
     const combined_args = get_all_args(req, args);
-    /**
-     * @type {string}
-     */
-    const user = req.user;
-    /**
-     * @type {string}
-     */
-    const scope = req.authInfo && req.authInfo.scope;
-    /**
-     * @type {string}
-     */
-    const path = req.path;
-    /**
-     * @type {string}
-     */
-    const host = req.headers.host;
-    return everything(combined_args, user, scope, path, req.protocol, host, resource_name, collection_name);
+
+    return everything(
+        getRequestInfo(req),
+        combined_args, resource_name, collection_name);
 };
 
 /**
@@ -202,15 +164,10 @@ module.exports.remove = async (args, {req}, resource_name, collection_name) => {
      * @type {string[]}
      */
     const combined_args = get_all_args(req, args);
-    /**
-     * @type {string}
-     */
-    const user = req.user;
-    /**
-     * @type {string}
-     */
-    const scope = req.authInfo && req.authInfo.scope;
-    return remove(combined_args, user, scope, resource_name, collection_name);
+
+    return remove(
+        getRequestInfo(req),
+        combined_args, resource_name, collection_name);
 };
 
 /**
@@ -222,15 +179,9 @@ module.exports.remove = async (args, {req}, resource_name, collection_name) => {
  */
 // eslint-disable-next-line no-unused-vars
 module.exports.searchByVersionId = async (args, {req}, resource_name, collection_name) => {
-    /**
-     * @type {string}
-     */
-    const user = req.user;
-    /**
-     * @type {string}
-     */
-    const scope = req.authInfo && req.authInfo.scope;
-    return searchByVersionId(args, user, scope, resource_name, collection_name);
+    return searchByVersionId(
+        getRequestInfo(req),
+        args, resource_name, collection_name);
 };
 
 /**
@@ -242,15 +193,9 @@ module.exports.searchByVersionId = async (args, {req}, resource_name, collection
  */
 // eslint-disable-next-line no-unused-vars
 module.exports.history = async (args, {req}, resource_name, collection_name) => {
-    /**
-     * @type {string}
-     */
-    const user = req.user;
-    /**
-     * @type {string}
-     */
-    const scope = req.authInfo && req.authInfo.scope;
-    return history(args, user, scope, resource_name, collection_name);
+    return history(
+        getRequestInfo(req),
+        args, resource_name, collection_name);
 };
 
 /**
@@ -262,15 +207,9 @@ module.exports.history = async (args, {req}, resource_name, collection_name) => 
  */
 // eslint-disable-next-line no-unused-vars
 module.exports.historyById = async (args, {req}, resource_name, collection_name) => {
-    /**
-     * @type {string}
-     */
-    const user = req.user;
-    /**
-     * @type {string}
-     */
-    const scope = req.authInfo && req.authInfo.scope;
-    return historyById(args, user, scope, resource_name, collection_name);
+    return historyById(
+        getRequestInfo(req),
+        args, resource_name, collection_name);
 };
 
 /**
@@ -282,15 +221,9 @@ module.exports.historyById = async (args, {req}, resource_name, collection_name)
  */
 // eslint-disable-next-line no-unused-vars
 module.exports.patch = async (args, {req}, resource_name, collection_name) => {
-    /**
-     * @type {string}
-     */
-    const user = req.user;
-    /**
-     * @type {string}
-     */
-    const scope = req.authInfo && req.authInfo.scope;
-    return patch(args, user, scope, resource_name, collection_name);
+    return patch(
+        getRequestInfo(req),
+        args, resource_name, collection_name);
 };
 
 /**
@@ -300,20 +233,9 @@ module.exports.patch = async (args, {req}, resource_name, collection_name) => {
  * @param {string} resource_name
  */
 module.exports.validate = async (args, {req}, resource_name) => {
-    /**
-     * @type {string}
-     */
-    const user = req.user;
-    /**
-     * @type {string}
-     */
-    const scope = req.authInfo && req.authInfo.scope;
-    const body = req.body;
-    /**
-     * @type {string}
-     */
-    const path = req.path;
-    return validate(args, user, scope, body, path, resource_name);
+    return validate(
+        getRequestInfo(req),
+        args, resource_name);
 };
 
 /**
@@ -330,25 +252,10 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
      * @type {string[]}
      */
     const combined_args = get_all_args(req, args);
-    /**
-     * @type {string}
-     */
-    const user = req.user;
-    /**
-     * @type {string}
-     */
-    const scope = req.authInfo && req.authInfo.scope;
-    const body = req.body;
-    /**
-     * @type {string}
-     */
-    const path = req.path;
-    /**
-     * @type {string}
-     */
-    const host = req.headers.host;
 
-    return graph(combined_args, user, scope, body, path, req.protocol, host, resource_name, collection_name);
+    return graph(
+        getRequestInfo(req),
+        combined_args, resource_name, collection_name);
 };
 
 /**
@@ -360,13 +267,7 @@ module.exports.graph = async (args, {req}, resource_name, collection_name) => {
  */
 // eslint-disable-next-line no-unused-vars
 module.exports.expand = async (args, {req}, resource_name, collection_name) => {
-    /**
-     * @type {string}
-     */
-    const user = req.user;
-    /**
-     * @type {string}
-     */
-    const scope = req.authInfo && req.authInfo.scope;
-    return expand(args, user, scope, resource_name, collection_name);
+    return expand(
+        getRequestInfo(req),
+        args, resource_name, collection_name);
 };

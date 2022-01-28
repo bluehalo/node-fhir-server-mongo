@@ -3,14 +3,15 @@ const {validateResource} = require('../../utils/validator.util');
 const {doesResourceHaveAccessTags} = require('../security/scopes');
 /**
  * does a FHIR Validate
+ * @param {import('../../utils/requestInfo').RequestInfo} requestInfo
  * @param {Object} args
- * @param {string} user
- * @param {string} scope
- * @param {Object} body
- * @param {string} path
  * @param {string} resource_name
  */
-module.exports.validate = async (args, user, scope, body, path, resource_name) => {
+module.exports.validate = async (requestInfo, args, resource_name) => {
+    const user = requestInfo.user;
+    const path = requestInfo.path;
+    const body = requestInfo.body;
+
     logRequest(user, `${resource_name} >>> validate`);
 
     // no auth check needed to call validate

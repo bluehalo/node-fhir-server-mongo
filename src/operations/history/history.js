@@ -10,14 +10,16 @@ const {VERSIONS} = require('@asymmetrik/node-fhir-server-core').constants;
 
 /**
  * does a FHIR History
+ * @param {import('../../utils/requestInfo').RequestInfo} requestInfo
  * @param {Object} args
- * @param {string} user
- * @param {string} scope
  * @param {string} resource_name
  * @param {string} collection_name
  */
 // eslint-disable-next-line no-unused-vars
-module.exports.history = async (args, user, scope, resource_name, collection_name) => {
+module.exports.history = async (requestInfo, args, resource_name, collection_name) => {
+    const user = requestInfo.user;
+    const scope = requestInfo.scope;
+
     logRequest(user, `${resource_name} >>> history`);
     verifyHasValidScopes(resource_name, 'read', user, scope);
 

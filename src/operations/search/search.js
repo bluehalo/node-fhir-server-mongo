@@ -21,16 +21,16 @@ const {VERSIONS} = require('@asymmetrik/node-fhir-server-core').constants;
 
 /**
  * does a FHIR Search
+ * @param {import('../../utils/requestInfo').RequestInfo} requestInfo
  * @param {Object} args
- * @param {string} user
- * @param {string} scope
  * @param {string} resourceName
  * @param {string} collection_name
- * @param {string} protocol
- * @param {?string} url
  * @return {Resource[] | {entry:{resource: Resource}[]}} array of resources
  */
-module.exports.search = async (args, user, scope, resourceName, collection_name, protocol, url) => {
+module.exports.search = async (requestInfo, args, resourceName, collection_name) => {
+    const user = requestInfo.user;
+    const scope = requestInfo.scope;
+    const url = requestInfo.originalUrl;
     logRequest(user, resourceName + ' >>> search' + ' scope:' + scope);
     // logRequest('user: ' + req.user);
     // logRequest('scope: ' + req.authInfo.scope);
@@ -106,6 +106,7 @@ module.exports.search = async (args, user, scope, resourceName, collection_name,
     }
 
     // Grab an instance of our DB and collection
+    // noinspection JSValidateTypes
     /**
      * mongo db connection
      * @type {import('mongodb').Db}
@@ -243,7 +244,7 @@ module.exports.search = async (args, user, scope, resourceName, collection_name,
         // Now run the query to get a cursor we will enumerate next
         /**
          * mongo db cursor
-         * @type {import('mongodb').Cursor}
+         * @type {Promise<Cursor<unknown>> | *}
          */
         let cursor = await pRetry(
             async () =>
@@ -337,7 +338,7 @@ module.exports.search = async (args, user, scope, resourceName, collection_name,
 
         if (resources.length > 0) {
             // log access to audit logs
-            await logAuditEntry(user, scope, base_version, resourceName, 'read', resources.map(r => r['id']));
+            await logAuditEntry(requestInfo, base_version, resourceName, 'read', args, resources.map(r => r['id']));
         }
 
         // if env.RETURN_BUNDLE is set then return as a Bundle

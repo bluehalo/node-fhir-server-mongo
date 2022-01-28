@@ -6,6 +6,7 @@ const {searchById} = require('../operations/searchById/searchById');
 const {search} = require('../operations/search/search');
 const async = require('async');
 const {logWarn} = require('../operations/common/logging');
+const {getRequestInfo} = require('./requestInfoHelper');
 /**
  * This functions takes a FHIR Bundle and returns the resources in it
  * @param {{entry:{resource: Resource}[]}} bundle
@@ -54,9 +55,8 @@ module.exports.findResourceByReference = async (parent, args, context, info, ref
     const idOfReference = reference.reference.split('/')[1];
     try {
         return await searchById(
+            getRequestInfo(context),
             {base_version: '4_0_0', id: idOfReference},
-            context.user,
-            context.scope,
             typeOfReference,
             typeOfReference
         );
@@ -93,13 +93,12 @@ module.exports.findResourcesByReference = async (parent, args, context, info, re
         try {
             return module.exports.unBundle(
                 await search(
+                    getRequestInfo(context),
                     {
                         base_version: '4_0_0',
                         id: idOfReference,
                         _bundle: '1',
                     },
-                    context.user,
-                    context.scope,
                     typeOfReference,
                     typeOfReference
                 )
@@ -127,13 +126,12 @@ module.exports.findResourcesByReference = async (parent, args, context, info, re
 module.exports.getResources = async (parent, args, context, info, resourceType) => {
     return module.exports.unBundle(
         await search(
+            getRequestInfo(context),
             {
                 base_version: '4_0_0',
                 _bundle: '1',
                 ...args
             },
-            context.user,
-            context.scope,
             resourceType,
             resourceType
         )

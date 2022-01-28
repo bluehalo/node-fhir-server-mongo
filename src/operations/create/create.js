@@ -16,15 +16,17 @@ const {logAuditEntry} = require('../../utils/auditLogger');
 
 /**
  * does a FHIR Create (POST)
+ * @param {import('../../utils/requestInfo').RequestInfo} requestInfo
  * @param {Object} args
- * @param {string} user
- * @param {string} scope
- * @param {Object} body
  * @param {string} path
  * @param {string} resource_name
  * @param {string} collection_name
  */
-module.exports.create = async (args, user, scope, body, path, resource_name, collection_name) => {
+module.exports.create = async (requestInfo, args, path, resource_name, collection_name) => {
+    const user = requestInfo.user;
+    const scope = requestInfo.scope;
+    const body = requestInfo.body;
+
     logRequest(user, `${resource_name} >>> create`);
 
     verifyHasValidScopes(resource_name, 'write', user, scope);
@@ -112,6 +114,7 @@ module.exports.create = async (args, user, scope, body, path, resource_name, col
             });
         } else {
             resource_incoming.meta['versionId'] = '1';
+            // noinspection JSValidateTypes
             resource_incoming.meta['lastUpdated'] = new Date(moment.utc().format('YYYY-MM-DDTHH:mm:ssZ'));
         }
 
@@ -121,7 +124,7 @@ module.exports.create = async (args, user, scope, body, path, resource_name, col
         Object.assign(doc, {id: id});
 
         // log access to audit logs
-        await logAuditEntry(user, scope, base_version, resource_name, 'create', [resource['id']]);
+        await logAuditEntry(requestInfo, base_version, resource_name, 'create', args, [resource['id']]);
 
         // Create a clone of the object without the _id parameter before assigning a value to
         // the _id parameter in the original document
