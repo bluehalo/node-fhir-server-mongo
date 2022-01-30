@@ -1,0 +1,20 @@
+<% if(meta && meta.tag) { %>
+    <hr/>
+    <h4>Bundle Meta</h4>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">System</th>
+            <th scope="col">Code/Display</th>
+        </tr>
+        </thead>
+        <% meta.tag.forEach(function(tag){ %>
+            <tr>
+                <td><%= tag.system %></td>
+                <td><%= tag.code || tag.display %></td>
+            </tr>
+        <% }) %>
+        <tbody>
+        </tbody>
+    </table>
+<% } %>

@@ -463,6 +463,9 @@
       {
         "display": "[\"recorded\",\"meta.lastUpdated\",\"meta.security.system\",\"meta.security.code\",\"id\"]",
         "system": "https://www.icanbwell.com/queryFields"
+      },
+      {
+        "system": "https://www.icanbwell.com/queryTime"
       }
     ]
   },

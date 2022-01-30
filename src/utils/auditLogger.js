@@ -94,17 +94,18 @@ async function logAuditEntry(requestInfo, base_version, resourceType, operation,
             }
         ],
         action: operationCodeMapping[`${operation}`],
-        entity: ids.slice(0, maxNumberOfIds).map(id => {
+        entity: ids.slice(0, maxNumberOfIds).map((id, index) => {
             return {
                 what: {
                     reference: `${resourceType}/${id}`
                 },
-                detail: Object.entries(args).filter(([_, value]) => typeof value === 'string').map(([key, value], _) => {
-                    return {
-                        type: key,
-                        valueString: value
-                    };
-                })
+                detail: index === 0
+                    ? Object.entries(args).filter(([_, value]) => typeof value === 'string').map(([key, value], _) => {
+                        return {
+                            type: key,
+                            valueString: value
+                        };
+                    }) : null
             };
         })
     };

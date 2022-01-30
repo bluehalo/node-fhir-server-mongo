@@ -13,7 +13,7 @@ const htmlRenderer = (req, res, next) => {
     if (parts && parts.length > 2 && !parts.includes('raw=1') && parts[1] === '4_0_0') {
         const resourceName = parts[2];
         if (req.accepts('text/html') && req.method === 'GET' && req.useragent && req.useragent.isDesktop) {
-            // override the json function so we can intercept the data being sent the client
+            // override the json function, so we can intercept the data being sent the client
             let oldJson = res.json;
             res.json = (data) => {
                 // const myReq = req;
@@ -24,11 +24,16 @@ const htmlRenderer = (req, res, next) => {
                 if (parsedData.total) {
                     total = parsedData.total;
                 }
+                let meta = null;
+                if (parsedData.meta) {
+                    meta = parsedData.meta;
+                }
                 if (parsedData.entry) {
                     parsedData = parsedData.entry.map((entry) => entry.resource);
                 } else if (!Array.isArray(parsedData)) {
                     parsedData = [parsedData];
                 }
+
                 res.json = oldJson; // set function back to avoid the 'double-send'
                 // return res.json(data); // just call as normal with data
                 res.set('Content-Type', 'text/html');
@@ -43,6 +48,7 @@ const htmlRenderer = (req, res, next) => {
                 const resourceDefinition = resourceDefinitions.find(r => r.name === resourceName);
 
                 const options = {
+                    meta: meta,
                     resources: parsedData,
                     url: req.url,
                     idpUrl: env.AUTH_CODE_FLOW_URL,

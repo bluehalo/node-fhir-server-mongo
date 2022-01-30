@@ -28,6 +28,7 @@ const {VERSIONS} = require('@asymmetrik/node-fhir-server-core').constants;
  * @return {Resource[] | {entry:{resource: Resource}[]}} array of resources
  */
 module.exports.search = async (requestInfo, args, resourceName, collection_name) => {
+    const startTime = Date.now();
     const user = requestInfo.user;
     const scope = requestInfo.scope;
     const url = requestInfo.originalUrl;
@@ -341,6 +342,8 @@ module.exports.search = async (requestInfo, args, resourceName, collection_name)
             await logAuditEntry(requestInfo, base_version, resourceName, 'read', args, resources.map(r => r['id']));
         }
 
+        const stopTime = Date.now();
+
         // if env.RETURN_BUNDLE is set then return as a Bundle
         if (env.RETURN_BUNDLE || args['_bundle']) {
             /**
@@ -425,6 +428,10 @@ module.exports.search = async (requestInfo, args, resourceName, collection_name)
                     {
                         system: 'https://www.icanbwell.com/queryFields',
                         display: columns ? JSON.stringify(Array.from(columns)) : null
+                    },
+                    {
+                        system: 'https://www.icanbwell.com/queryTime',
+                        display: `${(stopTime - startTime) / 1000}`
                     }
                 ];
                 bundle['meta'] = {

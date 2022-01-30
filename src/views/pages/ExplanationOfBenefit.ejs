@@ -127,7 +127,7 @@
                     <% if (item.servicedDate) { %>
                         <%= item.servicedDate %>
                     <%} else if (item.servicedPeriod) {%>
-                        <% if (item.servicedPeriod.start != item.servicedPeriod.end) {%>
+                        <% if (item.servicedPeriod.start !== item.servicedPeriod.end) {%>
                             <%= item.servicedPeriod.start %> - <%= item.servicedPeriod.end %>
                         <% } else { %>
                             <%= item.servicedPeriod.start %>
@@ -480,7 +480,8 @@
 </main>
 
 <footer>
-  <%- include('../partials/footer', {url: url}); %>
+    <%- include('../partials/bundleMeta', {meta: meta}); %>
+    <%- include('../partials/footer', {url: url}); %>
 </footer>
 
 </body>

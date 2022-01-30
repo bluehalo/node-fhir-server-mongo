@@ -451,7 +451,6 @@
         "system": "https://www.icanbwell.com/queryIndexHint"
       },
       {
-        "display": "{\"meta.security.system\":\"https://www.icanbwell.com/access\",\"meta.security.code\":\"fake\",\"$and\":[{\"meta.lastUpdated\":{\"$gt\":\"2021-06-01T07:00:00+00:00\"}},{\"meta.lastUpdated\":{\"$lt\":\"2031-10-26T07:00:00+00:00\"}}]}",
         "system": "https://www.icanbwell.com/query"
       },
       {
@@ -465,6 +464,9 @@
       {
         "display": "[\"meta.lastUpdated\",\"meta.security.system\",\"meta.security.code\",\"id\"]",
         "system": "https://www.icanbwell.com/queryFields"
+      },
+      {
+        "system": "https://www.icanbwell.com/queryTime"
       }
     ]
   },

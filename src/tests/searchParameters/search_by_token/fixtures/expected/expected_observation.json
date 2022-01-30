@@ -55,16 +55,6 @@
       }
     }
   ],
-  "link": [
-    {
-      "relation": "self",
-      "url": "/4_0_0/Observation/?token=http://www.icanbwell.com/cql/library%7CBMI001&_setIndexHint=1&_debug=1&_bundle=1"
-    },
-    {
-      "relation": "next",
-      "url": "/4_0_0/Observation/?token=http%3A%2F%2Fwww.icanbwell.com%2Fcql%2Flibrary%7CBMI001&_setIndexHint=1&_debug=1&_bundle=1&id%3Aabove=2354-InAgeCohort"
-    }
-  ],
   "meta": {
     "tag": [
       {
@@ -84,6 +74,9 @@
       {
         "display": "[\"code.coding.system\",\"code.coding.code\",\"id\"]",
         "system": "https://www.icanbwell.com/queryFields"
+      },
+      {
+        "system": "https://www.icanbwell.com/queryTime"
       }
     ]
   },

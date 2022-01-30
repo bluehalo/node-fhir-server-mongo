@@ -57,6 +57,9 @@ describe('AuditEventRecordedTests', () => {
                 if (tag['system'] === 'https://www.icanbwell.com/query') {
                     delete tag['display'];
                 }
+                if (tag['system'] === 'https://www.icanbwell.com/queryTime') {
+                    delete tag['display'];
+                }
             });
             body.entry.forEach(element => {
                 delete element['resource']['meta']['lastUpdated'];
@@ -64,6 +67,9 @@ describe('AuditEventRecordedTests', () => {
             let expected = expectedAuditEventResource;
             expected.meta.tag.forEach(tag => {
                 if (tag['system'] === 'https://www.icanbwell.com/query') {
+                    delete tag['display'];
+                }
+                if (tag['system'] === 'https://www.icanbwell.com/queryTime') {
                     delete tag['display'];
                 }
             });

@@ -1,35 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <%- include('../partials/head'); %>
+    <%- include('../partials/head'); %>
 </head>
 <body class="container">
 
 <header>
-  <%- include('../partials/header', {resources: resources}); %>
+    <%- include('../partials/header', {resources: resources}); %>
 </header>
 
 <main>
-  <div class="jumbotron">
-    <% resources.forEach(function(res){ %>
-        <%- include('../partials/resourceHeader', {res: res}); %>
+    <div class="jumbotron">
+        <% resources.forEach(function(res){ %>
+            <%- include('../partials/resourceHeader', {res: res}); %>
 
-        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.serviceCategory, name: "Service Category", searchParameter: 'service-category'}); %>
+            <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.serviceCategory, name: "Service Category", searchParameter: 'service-category'}); %>
 
-        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.serviceType, name: "Service Type", searchParameter: 'service-type'}); %>
+            <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.serviceType, name: "Service Type", searchParameter: 'service-type'}); %>
 
-        <%- include('../partials/reference', {references: [res.schedule], name: "Schedule"}); %>
+            <%- include('../partials/reference', {references: [res.schedule], name: "Schedule"}); %>
 
-        <h4>Start</h4><%= res.start %>
-        <h4>End</h4><%= res.end %>
+            <h4>Start</h4><%= res.start %>
+            <h4>End</h4><%= res.end %>
 
-        <%- include('../partials/json', {res: res}); %>
-    <%})%>
-  </div>
+            <%- include('../partials/json', {res: res}); %>
+        <% }) %>
+    </div>
 </main>
 
 <footer>
-  <%- include('../partials/footer', {url: url}); %>
+    <%- include('../partials/bundleMeta', {meta: meta}); %>
+    <%- include('../partials/footer', {url: url}); %>
 </footer>
 
 </body>

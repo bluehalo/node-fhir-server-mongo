@@ -1,50 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <%- include('../partials/head'); %>
+    <%- include('../partials/head'); %>
 </head>
 <body class="container">
 
 <header>
-  <%- include('../partials/header', {resources: resources}); %>
+    <%- include('../partials/header', {resources: resources}); %>
 </header>
 
 <main>
-  <div class="jumbotron">
-    <% resources.forEach(function(res){ %>
-        <%- include('../partials/resourceHeader', {res: res}); %>
+    <div class="jumbotron">
+        <% resources.forEach(function(res){ %>
+            <%- include('../partials/resourceHeader', {res: res}); %>
 
-        <div><h4>Status</h4><%= res.status %></div>
+            <div><h4>Status</h4><%= res.status %></div>
 
-        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: [res.clinicalStatus], name: "Clinical Status", searchParameter: 'clinical-status'}); %>
+            <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: [res.clinicalStatus], name: "Clinical Status", searchParameter: 'clinical-status'}); %>
 
-        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: [res.verificationStatus], name: "Verification Status", searchParameter: 'verification-status'}); %>
+            <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: [res.verificationStatus], name: "Verification Status", searchParameter: 'verification-status'}); %>
 
-        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.category, name: "Category", searchParameter: 'category'}); %>
+            <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.category, name: "Category", searchParameter: 'category'}); %>
 
-        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: [res.severity], name: "Severity", searchParameter: 'severity'}); %>
+            <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: [res.severity], name: "Severity", searchParameter: 'severity'}); %>
 
-        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: [res.code], name: "Code", searchParameter: 'code'}); %>
+            <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: [res.code], name: "Code", searchParameter: 'code'}); %>
 
-        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.bodySite, name: "Body Site", searchParameter: 'body-site'}); %>
+            <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.bodySite, name: "Body Site", searchParameter: 'body-site'}); %>
 
-       <%- include('../partials/reference', {references: [res.subject], name: "Subject"}); %>
+            <%- include('../partials/reference', {references: [res.subject], name: "Subject"}); %>
 
-        <%- include('../partials/reference', {references: [res.encounter], name: "Encounter"}); %>
+            <%- include('../partials/reference', {references: [res.encounter], name: "Encounter"}); %>
 
-        <h4>Onset Date Time</h4><%= res.onsetDateTime %>
+            <h4>Onset Date Time</h4><%= res.onsetDateTime %>
 
-        <h4>Recorded Date</h4><%= res.recordedDate %>
+            <h4>Recorded Date</h4><%= res.recordedDate %>
 
-        <%- include('../partials/reference', {references: [res.recorder], name: "Recorder"}); %>
+            <%- include('../partials/reference', {references: [res.recorder], name: "Recorder"}); %>
 
-        <%- include('../partials/json', {res: res}); %>
-    <%})%>
-  </div>
+            <%- include('../partials/json', {res: res}); %>
+        <% }) %>
+    </div>
 </main>
 
 <footer>
-  <%- include('../partials/footer', {url: url}); %>
+    <%- include('../partials/bundleMeta', {meta: meta}); %>
+    <%- include('../partials/footer', {url: url}); %>
 </footer>
 
 </body>

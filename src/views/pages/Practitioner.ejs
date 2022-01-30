@@ -1,100 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <%- include('../partials/head'); %>
+    <%- include('../partials/head'); %>
 </head>
 <body class="container">
 
 <header>
-  <%- include('../partials/header', {resources: resources}); %>
+    <%- include('../partials/header', {resources: resources}); %>
 
 </header>
 
 <main>
-  <div>
-      <nav class="navbar navbar-light bg-light">
-        <div class="container-fluid">
-        <form class="row g-3">
-          <div class="col-auto">
-            <label for="inputName" class="visually-hidden">Name</label>
-            <input type="text" class="form-control" id="inputName" placeholder="Name">
-          </div>
-          <div class="col-auto">
-            <label for="inputNpi" class="visually-hidden">NPI</label>
-            <input type="text" class="form-control" id="inputNpi" placeholder="NPI">
-          </div>
-          <div class="col-auto">
-            <label for="inputSource" class="visually-hidden">Source</label>
-            <input type="text" class="form-control" id="inputSource" placeholder="Source">
-          </div>
-          <div class="col-auto">
-            <label for="inputLastUpdatedGreaterThan" class="visually-hidden">Updated After</label>
-            <input type="text" class="form-control" id="inputLastUpdatedGreaterThan" placeholder="Updated After">
-          </div>
-          <div class="col-auto">
-            <label for="inputLastUpdatedLessThan" class="visually-hidden">Updated Before</label>
-            <input type="text" class="form-control" id="inputLastUpdatedLessThan" placeholder="Updated Before">
-          </div>
-          <div class="col-auto">
-            <button type="button" class="btn btn-primary mb-3" id="search">
-            <i class="bi bi-search"></i>
-            Search</button>
-          </div>
-        </form>
-        </div>
-    </nav>
-    <script type="text/javascript" src="/js/practitionerfhirsearch.js"></script>
+    <div>
+        <nav class="navbar navbar-light bg-light">
+            <div class="container-fluid">
+                <form class="row g-3">
+                    <div class="col-auto">
+                        <label for="inputName" class="visually-hidden">Name</label>
+                        <input type="text" class="form-control" id="inputName" placeholder="Name">
+                    </div>
+                    <div class="col-auto">
+                        <label for="inputNpi" class="visually-hidden">NPI</label>
+                        <input type="text" class="form-control" id="inputNpi" placeholder="NPI">
+                    </div>
+                    <div class="col-auto">
+                        <label for="inputSource" class="visually-hidden">Source</label>
+                        <input type="text" class="form-control" id="inputSource" placeholder="Source">
+                    </div>
+                    <div class="col-auto">
+                        <label for="inputLastUpdatedGreaterThan" class="visually-hidden">Updated After</label>
+                        <input type="text" class="form-control" id="inputLastUpdatedGreaterThan"
+                               placeholder="Updated After">
+                    </div>
+                    <div class="col-auto">
+                        <label for="inputLastUpdatedLessThan" class="visually-hidden">Updated Before</label>
+                        <input type="text" class="form-control" id="inputLastUpdatedLessThan"
+                               placeholder="Updated Before">
+                    </div>
+                    <div class="col-auto">
+                        <button type="button" class="btn btn-primary mb-3" id="search">
+                            <i class="bi bi-search"></i>
+                            Search
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </nav>
+        <script type="text/javascript" src="/js/practitionerfhirsearch.js"></script>
 
-    <% resources.forEach(function(res){ %>
-        <%- include('../partials/resourceHeader', {res: res}); %>
+        <% resources.forEach(function(res){ %>
+            <%- include('../partials/resourceHeader', {res: res}); %>
 
-        <%- include('../partials/humanNames', {names: res.name, resourceType: res.resourceType}); %>
+            <%- include('../partials/humanNames', {names: res.name, resourceType: res.resourceType}); %>
 
-        <div><h4>Gender</h4><%= res.gender %></div>
+            <div><h4>Gender</h4><%= res.gender %></div>
 
-        <% if (res.qualification) { %>
-        <div>
-            <h4>Qualifications</h4>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th scope="col">Code</th>
-                  <th scope="col">Display</th>
-                  <th scope="col">System</th>
-                </tr>
-              </thead>
-              <tbody>
-            <% res.qualification.forEach(function(qualification){ %>
-                <% if (qualification.code && qualification.code.coding) { %>
-                    <% qualification.code.coding.forEach(function(coding){ %>
-                <tr>
-                  <td><%= coding.code %></td>
-                  <td><%= coding.display %></td>
-                  <td><%= coding.system %></td>
-                </tr>
-                    <%})%>
-                <%}%>
-            <%})%>
-              </tbody>
-            </table>
-        </div>
-        <%}%>
+            <% if (res.qualification) { %>
+                <div>
+                    <h4>Qualifications</h4>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Code</th>
+                            <th scope="col">Display</th>
+                            <th scope="col">System</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <% res.qualification.forEach(function(qualification){ %>
+                            <% if (qualification.code && qualification.code.coding) { %>
+                                <% qualification.code.coding.forEach(function(coding){ %>
+                                    <tr>
+                                        <td><%= coding.code %></td>
+                                        <td><%= coding.display %></td>
+                                        <td><%= coding.system %></td>
+                                    </tr>
+                                <% }) %>
+                            <% } %>
+                        <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+            <% } %>
 
-        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.communication, name: "Communication", searchParameter: 'communication'}); %>
+            <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.communication, name: "Communication", searchParameter: 'communication'}); %>
 
-         <%- include('../partials/contactpoint', {resourceType: res.resourceType, contacts: res.telecom, name: "Telecom"}); %>
+            <%- include('../partials/contactpoint', {resourceType: res.resourceType, contacts: res.telecom, name: "Telecom"}); %>
 
-        <%- include('../partials/reverse_reference', {reverseReferences: [{target:'PractitionerRole', property:'practitioner'}], id:res.id, name: "Practitioner Role"}); %>
+            <%- include('../partials/reverse_reference', {reverseReferences: [{target:'PractitionerRole', property:'practitioner'}], id:res.id, name: "Practitioner Role"}); %>
 
-        <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Schedule', property:'actor'}], id:res.id, name: "Schedule (also check schedules on PractitionerRole)"}); %>
+            <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Schedule', property:'actor'}], id:res.id, name: "Schedule (also check schedules on PractitionerRole)"}); %>
 
-        <%- include('../partials/json', {res: res}); %>
-    <%})%>
-  </div>
+            <%- include('../partials/json', {res: res}); %>
+        <% }) %>
+    </div>
 </main>
 
 <footer>
-  <%- include('../partials/footer', {url: url}); %>
+    <%- include('../partials/bundleMeta', {meta: meta}); %>
+    <%- include('../partials/footer', {url: url}); %>
 </footer>
 
 </body>

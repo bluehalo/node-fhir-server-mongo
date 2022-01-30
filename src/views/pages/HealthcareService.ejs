@@ -1,42 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <%- include('../partials/head'); %>
+    <%- include('../partials/head'); %>
 </head>
 <body class="container">
 
 <header>
-  <%- include('../partials/header', {resources: resources}); %>
+    <%- include('../partials/header', {resources: resources}); %>
 </header>
 
 <main>
-  <div class="jumbotron">
-    <% resources.forEach(function(res){ %>
-        <%- include('../partials/resourceHeader', {res: res}); %>
+    <div class="jumbotron">
+        <% resources.forEach(function(res){ %>
+            <%- include('../partials/resourceHeader', {res: res}); %>
 
-        <%- include('../partials/reference', {references: [res.providedBy], name: "Provided By"}); %>
+            <%- include('../partials/reference', {references: [res.providedBy], name: "Provided By"}); %>
 
-        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.type, name: "Type", searchParameter: 'service-type'}); %>
+            <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.type, name: "Type", searchParameter: 'service-type'}); %>
 
-        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.specialty, name: "Specialty", searchParameter: 'specialty'}); %>
+            <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.specialty, name: "Specialty", searchParameter: 'specialty'}); %>
 
-        <%- include('../partials/reference', {references: res.location, name: "Location"}); %>
+            <%- include('../partials/reference', {references: res.location, name: "Location"}); %>
 
-        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.characteristic, name: "Characteristic", searchParameter: 'characteristic'}); %>
+            <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.characteristic, name: "Characteristic", searchParameter: 'characteristic'}); %>
 
-        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.communication, name: "Communication", searchParameter: ''}); %>
+            <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.communication, name: "Communication", searchParameter: ''}); %>
 
-        <%- include('../partials/reverse_reference', {reverseReferences: [{target:'PractitionerRole', property:'actor'}], id:res.id, name: "Practitioner Role"}); %>
+            <%- include('../partials/reverse_reference', {reverseReferences: [{target:'PractitionerRole', property:'actor'}], id:res.id, name: "Practitioner Role"}); %>
 
-        <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Schedule', property:'healthcareService'}], id:res.id, name: "Schedule"}); %>
+            <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Schedule', property:'healthcareService'}], id:res.id, name: "Schedule"}); %>
 
-        <%- include('../partials/json', {res: res}); %>
-    <%})%>
-  </div>
+            <%- include('../partials/json', {res: res}); %>
+        <% }) %>
+    </div>
 </main>
 
 <footer>
-  <%- include('../partials/footer', {url: url}); %>
+    <%- include('../partials/bundleMeta', {meta: meta}); %>
+    <%- include('../partials/footer', {url: url}); %>
 </footer>
 
 </body>

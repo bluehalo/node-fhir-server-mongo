@@ -1,42 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <%- include('../partials/head'); %>
+    <%- include('../partials/head'); %>
 </head>
 <body class="container">
 
 <header>
-  <%- include('../partials/header', {resources: resources}); %>
+    <%- include('../partials/header', {resources: resources}); %>
 </header>
 
 <main>
-  <div class="jumbotron">
-    <% resources.forEach(function(res){ %>
-        <%- include('../partials/resourceHeader', {res: res}); %>
+    <div class="jumbotron">
+        <% resources.forEach(function(res){ %>
+            <%- include('../partials/resourceHeader', {res: res}); %>
 
-        <h4>Active</h4><%= res.active %>
+            <h4>Active</h4><%= res.active %>
 
-        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.serviceType, name: "Service Type", searchParameter: 'service-type'}); %>
+            <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.serviceType, name: "Service Type", searchParameter: 'service-type'}); %>
 
-        <%- include('../partials/reference', {references: res.actor, name: "Actor"}); %>
+            <%- include('../partials/reference', {references: res.actor, name: "Actor"}); %>
 
-        <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Slot', property:'schedule'}], id:res.id, name: "Slot"}); %>
+            <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Slot', property:'schedule'}], id:res.id, name: "Slot"}); %>
 
-        <%- include('../partials/reverse_reference', {reverseReferences: [{target:'HealthcareService', property:'actor'}], id:res.id, name: "HealthcareService"}); %>
+            <%- include('../partials/reverse_reference', {reverseReferences: [{target:'HealthcareService', property:'actor'}], id:res.id, name: "HealthcareService"}); %>
 
-        <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Location', property:'actor'}], id:res.id, name: "Location"}); %>
+            <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Location', property:'actor'}], id:res.id, name: "Location"}); %>
 
-        <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Patient', property:'actor'}], id:res.id, name: "Patient"}); %>
+            <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Patient', property:'actor'}], id:res.id, name: "Patient"}); %>
 
-        <%- include('../partials/reverse_reference', {reverseReferences: [{target:'PractitionerRole', property:'actor'}], id:res.id, name: "PractitionerRole"}); %>
+            <%- include('../partials/reverse_reference', {reverseReferences: [{target:'PractitionerRole', property:'actor'}], id:res.id, name: "PractitionerRole"}); %>
 
-        <%- include('../partials/json', {res: res}); %>
-    <%})%>
-  </div>
+            <%- include('../partials/json', {res: res}); %>
+        <% }) %>
+    </div>
 </main>
 
 <footer>
-  <%- include('../partials/footer', {url: url}); %>
+    <%- include('../partials/bundleMeta', {meta: meta}); %>
+    <%- include('../partials/footer', {url: url}); %>
 </footer>
 
 </body>

@@ -1,95 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <%- include('../partials/head'); %>
+    <%- include('../partials/head'); %>
 </head>
 <body class="container">
 
 <header>
-  <%- include('../partials/header', {resources: resources}); %>
+    <%- include('../partials/header', {resources: resources}); %>
 </header>
 
 <main>
-  <div class="jumbotron">
-    <% resources.forEach(function(res){ %>
-        <%- include('../partials/resourceHeader', {res: res}); %>
+    <div class="jumbotron">
+        <% resources.forEach(function(res){ %>
+            <%- include('../partials/resourceHeader', {res: res}); %>
 
-        <table class="table">
-            <thead>
+            <table class="table">
+                <thead>
                 <th scope="col">Field</th>
                 <th scope="col">Value</th>
-            </thead>
-            <tbody>
-            <tr>
-                <td>Name</td>
-                <td><%= res.name %></td>
-            </tr>
-            <tr>
-                <td>url</td>
-                <td><a href="<%= res.url %>"><%= res.url %></a></td>
-            </tr>
-            <tr>
-                <td>version</td>
-                <td><%= res.version %></td>
-            </tr>
-            <tr>
-                <td>status</td>
-                <td><%= res.status %></td>
-            </tr>
-            <tr>
-                <td>date</td>
-                <td><%= res.date %></td>
-            </tr>
-            <tr>
-                <td>publisher</td>
-                <td><%= res.publisher %></td>
-            </tr>
-            </tbody>
-        </table>
-
-        <% if (res.expansion && res.expansion.contains) { %>
-        <h4>Contains</h4>
-        <table class="table">
-            <thead>
-                <th scope="col">system</th>
-                <th scope="col">code</th>
-                <th scope="col">display</th>
-            </thead>
-            <tbody>
-                <% res.expansion.contains.forEach(function(contains){ %>
+                </thead>
+                <tbody>
                 <tr>
-                    <td><%= contains.system %></td>
-                    <td><%= contains.code %></td>
-                    <td><%= contains.display %></td>
+                    <td>Name</td>
+                    <td><%= res.name %></td>
                 </tr>
-                <% }); %>
-            </tbody>
-        </table>
-        <% } %>
-
-        <% if (res.compose && res.compose.include) { %>
-        <h4>Include</h4>
-        <table class="table">
-            <thead>
-                <th scope="col">valueSet</th>
-            </thead>
-            <tbody>
-                <% res.compose.include.forEach(function(include){ %>
                 <tr>
-                    <td><%= include.valueSet %></td>
+                    <td>url</td>
+                    <td><a href="<%= res.url %>"><%= res.url %></a></td>
                 </tr>
-                <% }); %>
-            </tbody>
-        </table>
-        <% } %>
+                <tr>
+                    <td>version</td>
+                    <td><%= res.version %></td>
+                </tr>
+                <tr>
+                    <td>status</td>
+                    <td><%= res.status %></td>
+                </tr>
+                <tr>
+                    <td>date</td>
+                    <td><%= res.date %></td>
+                </tr>
+                <tr>
+                    <td>publisher</td>
+                    <td><%= res.publisher %></td>
+                </tr>
+                </tbody>
+            </table>
 
-        <%- include('../partials/json', {res: res}); %>
-    <%})%>
-  </div>
+            <% if (res.expansion && res.expansion.contains) { %>
+                <h4>Contains</h4>
+                <table class="table">
+                    <thead>
+                    <th scope="col">system</th>
+                    <th scope="col">code</th>
+                    <th scope="col">display</th>
+                    </thead>
+                    <tbody>
+                    <% res.expansion.contains.forEach(function(contains){ %>
+                        <tr>
+                            <td><%= contains.system %></td>
+                            <td><%= contains.code %></td>
+                            <td><%= contains.display %></td>
+                        </tr>
+                    <% }); %>
+                    </tbody>
+                </table>
+            <% } %>
+
+            <% if (res.compose && res.compose.include) { %>
+                <h4>Include</h4>
+                <table class="table">
+                    <thead>
+                    <th scope="col">valueSet</th>
+                    </thead>
+                    <tbody>
+                    <% res.compose.include.forEach(function(include){ %>
+                        <tr>
+                            <td><%= include.valueSet %></td>
+                        </tr>
+                    <% }); %>
+                    </tbody>
+                </table>
+            <% } %>
+
+            <%- include('../partials/json', {res: res}); %>
+        <% }) %>
+    </div>
 </main>
 
 <footer>
-  <%- include('../partials/footer', {url: url}); %>
+    <%- include('../partials/bundleMeta', {meta: meta}); %>
+    <%- include('../partials/footer', {url: url}); %>
 </footer>
 
 </body>

@@ -1,112 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <%- include('../partials/head'); %>
+    <%- include('../partials/head'); %>
 </head>
 <body class="container">
 
 <header>
-  <%- include('../partials/header', {resources: resources}); %>
+    <%- include('../partials/header', {resources: resources}); %>
 </header>
 
 <main>
-  <div class="jumbotron">
-    <% resources.forEach(function(res){ %>
-        <%- include('../partials/resourceHeader', {res: res}); %>
+    <div class="jumbotron">
+        <% resources.forEach(function(res){ %>
+            <%- include('../partials/resourceHeader', {res: res}); %>
 
-        <div><h4>Status</h4><%= res.status %></div>
+            <div><h4>Status</h4><%= res.status %></div>
 
-        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.category, name: "Category", searchParameter: 'category'}); %>
-        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: [res.code], name: "Code", searchParameter: 'code'}); %>
+            <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.category, name: "Category", searchParameter: 'category'}); %>
+            <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: [res.code], name: "Code", searchParameter: 'code'}); %>
 
-       <%- include('../partials/reference', {references: [res.subject], name: "Subject"}); %>
+            <%- include('../partials/reference', {references: [res.subject], name: "Subject"}); %>
 
-        <%- include('../partials/reference', {references: [res.encounter], name: "Encounter"}); %>
+            <%- include('../partials/reference', {references: [res.encounter], name: "Encounter"}); %>
 
-        <h4>Effective</h4><%= res.effectiveDateTime %>
-        <h4>Issued</h4><%= res.issued %>
+            <h4>Effective</h4><%= res.effectiveDateTime %>
+            <h4>Issued</h4><%= res.issued %>
 
-        <%- include('../partials/reference', {references: res.performer, name: "Performer"}); %>
+            <%- include('../partials/reference', {references: res.performer, name: "Performer"}); %>
 
-        <%- include('../partials/codeableConceptWithValue', {resourceType: res.resourceType, codeableConceptsWithValue: res.component, codePropertyName: "code", name: "Code", searchParameter: 'component-code'}); %>
+            <%- include('../partials/codeableConceptWithValue', {resourceType: res.resourceType, codeableConceptsWithValue: res.component, codePropertyName: "code", name: "Code", searchParameter: 'component-code'}); %>
 
-        <%- include('../partials/codeableConceptWithValue', {resourceType: res.resourceType, codeableConceptsWithValue: res.valueCodeableConcept, codePropertyName: "code", name: "Value", searchParameter: 'value-concept'}); %>
+            <%- include('../partials/codeableConceptWithValue', {resourceType: res.resourceType, codeableConceptsWithValue: res.valueCodeableConcept, codePropertyName: "code", name: "Value", searchParameter: 'value-concept'}); %>
 
-        <div>
-            <h4>Value</h4>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th scope="col">Type</th>
-                  <th scope="col">Value</th>
-                </tr>
-              </thead>
-              <tbody>
-              <% if (res.valueString != null) {%>
-                <tr>
-                  <td>valueString</td>
-                  <td><%= res.valueString %></td>
-                </tr>
-              <%}%>
-              <% if (res.valueBoolean != null) {%>
-                <tr>
-                  <td>valueBoolean</td>
-                  <td><%= res.valueBoolean %></td>
-                </tr>
-              <%}%>
-              <% if (res.valueInteger != null) {%>
-                <tr>
-                  <td>valueInteger</td>
-                  <td><%= res.valueInteger %></td>
-                </tr>
-              <%}%>
-              <% if (res.valueQuantity != null && res.valueQuantity.value) {%>
-                <tr>
-                  <td>valueQuantity</td>
-                  <td><%= res.valueQuantity.value %> <%= res.valueQuantity.unit %></td>
-                </tr>
-              <%}%>
-              <% if (res.valueRange != null) {%>
-                <tr>
-                  <td>valueRange</td>
-                  <td><%= res.valueRange.low.value %> to <%= res.valueRange.high.value %></td>
-                </tr>
-              <%}%>
-              <% if (res.valueRatio != null && res.valueRatio.numerator && res.valueRatio.numerator.value && res.valueRatio.denominator && res.valueRatio.denominator.value) {%>
-                <tr>
-                  <td>valueRatio</td>
-                  <td><%= res.valueRatio.numerator.value %> / <%= res.valueRatio.denominator.value %></td>
-                </tr>
-              <%}%>
-              <% if (res.valueTime != null) {%>
-                <tr>
-                  <td>valueTime</td>
-                  <td><%= res.valueTime %></td>
-                </tr>
-              <%}%>
-              <% if (res.valueDateTime != null) {%>
-                <tr>
-                  <td>valueDateTime</td>
-                  <td><%= res.valueDateTime %></td>
-                </tr>
-              <%}%>
-              <% if (res.valuePeriod != null) {%>
-                <tr>
-                  <td>valuePeriod</td>
-                  <td><%= res.valuePeriod.start %> to <%= res.valuePeriod.end %></td>
-                </tr>
-              <%}%>
-              </tbody>
-            </table>
-        </div>
+            <div>
+                <h4>Value</h4>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Type</th>
+                        <th scope="col">Value</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <% if (res.valueString != null) { %>
+                        <tr>
+                            <td>valueString</td>
+                            <td><%= res.valueString %></td>
+                        </tr>
+                    <% } %>
+                    <% if (res.valueBoolean != null) { %>
+                        <tr>
+                            <td>valueBoolean</td>
+                            <td><%= res.valueBoolean %></td>
+                        </tr>
+                    <% } %>
+                    <% if (res.valueInteger != null) { %>
+                        <tr>
+                            <td>valueInteger</td>
+                            <td><%= res.valueInteger %></td>
+                        </tr>
+                    <% } %>
+                    <% if (res.valueQuantity != null && res.valueQuantity.value) { %>
+                        <tr>
+                            <td>valueQuantity</td>
+                            <td><%= res.valueQuantity.value %> <%= res.valueQuantity.unit %></td>
+                        </tr>
+                    <% } %>
+                    <% if (res.valueRange != null) { %>
+                        <tr>
+                            <td>valueRange</td>
+                            <td><%= res.valueRange.low.value %> to <%= res.valueRange.high.value %></td>
+                        </tr>
+                    <% } %>
+                    <% if (res.valueRatio != null && res.valueRatio.numerator && res.valueRatio.numerator.value && res.valueRatio.denominator && res.valueRatio.denominator.value) { %>
+                        <tr>
+                            <td>valueRatio</td>
+                            <td><%= res.valueRatio.numerator.value %> / <%= res.valueRatio.denominator.value %></td>
+                        </tr>
+                    <% } %>
+                    <% if (res.valueTime != null) { %>
+                        <tr>
+                            <td>valueTime</td>
+                            <td><%= res.valueTime %></td>
+                        </tr>
+                    <% } %>
+                    <% if (res.valueDateTime != null) { %>
+                        <tr>
+                            <td>valueDateTime</td>
+                            <td><%= res.valueDateTime %></td>
+                        </tr>
+                    <% } %>
+                    <% if (res.valuePeriod != null) { %>
+                        <tr>
+                            <td>valuePeriod</td>
+                            <td><%= res.valuePeriod.start %> to <%= res.valuePeriod.end %></td>
+                        </tr>
+                    <% } %>
+                    </tbody>
+                </table>
+            </div>
 
-        <%- include('../partials/json', {res: res}); %>
-    <%})%>
-  </div>
+            <%- include('../partials/json', {res: res}); %>
+        <% }) %>
+    </div>
 </main>
 
 <footer>
-  <%- include('../partials/footer', {url: url}); %>
+    <%- include('../partials/bundleMeta', {meta: meta}); %>
+    <%- include('../partials/footer', {url: url}); %>
 </footer>
 
 </body>

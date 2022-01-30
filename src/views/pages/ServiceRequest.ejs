@@ -1,42 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <%- include('../partials/head'); %>
+    <%- include('../partials/head'); %>
 </head>
 <body class="container">
 
 <header>
-  <%- include('../partials/header', {resources: resources}); %>
+    <%- include('../partials/header', {resources: resources}); %>
 </header>
 
 <main>
-  <div class="jumbotron">
-    <% resources.forEach(function(res){ %>
-        <%- include('../partials/resourceHeader', {res: res}); %>
+    <div class="jumbotron">
+        <% resources.forEach(function(res){ %>
+            <%- include('../partials/resourceHeader', {res: res}); %>
 
-        <h4>Status</h4><%= res.active %>
-        <h4>Intent</h4><%= res.intent %>
+            <h4>Status</h4><%= res.active %>
+            <h4>Intent</h4><%= res.intent %>
 
-        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: [res.code], name: "Code", searchParameter: 'code'}); %>
+            <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: [res.code], name: "Code", searchParameter: 'code'}); %>
 
-        <%- include('../partials/reference', {references: [res.subject], name: "Subject"}); %>
+            <%- include('../partials/reference', {references: [res.subject], name: "Subject"}); %>
 
-        <%- include('../partials/period', {periods: [res.occurrencePeriod], name: "Occurrence Period"}); %>
+            <%- include('../partials/period', {periods: [res.occurrencePeriod], name: "Occurrence Period"}); %>
 
-        <% if (res.note) {%>
-            <h4>Note</h4>
-            <% res.note.forEach(function(note){%>
-                <p><%= note.text %></p>
-            <%})%>
-        <%}%>
+            <% if (res.note) { %>
+                <h4>Note</h4>
+                <% res.note.forEach(function(note){ %>
+                    <p><%= note.text %></p>
+                <% }) %>
+            <% } %>
 
-        <%- include('../partials/json', {res: res}); %>
-    <%})%>
-  </div>
+            <%- include('../partials/json', {res: res}); %>
+        <% }) %>
+    </div>
 </main>
 
 <footer>
-  <%- include('../partials/footer', {url: url}); %>
+    <%- include('../partials/bundleMeta', {meta: meta}); %>
+    <%- include('../partials/footer', {url: url}); %>
 </footer>
 
 </body>

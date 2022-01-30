@@ -54,20 +54,26 @@ describe('AuditEventReturnIdTests', () => {
             expect(body['entry'].length).toBe(2);
             delete body['timestamp'];
             body.meta.tag.forEach(tag => {
-                if (tag['system'] === 'https://www.icanbwell.com/query')
-                {
+                if (tag['system'] === 'https://www.icanbwell.com/query') {
                     delete tag['display'];
                 }
+                if (tag['system'] === 'https://www.icanbwell.com/queryTime') {
+                    delete tag['display'];
+                }
+
             });
             body.entry.forEach(element => {
                 delete element['resource']['meta']['lastUpdated'];
             });
             let expected = expectedAuditEventResource;
             expected.meta.tag.forEach(tag => {
-                if (tag['system'] === 'https://www.icanbwell.com/query')
-                {
+                if (tag['system'] === 'https://www.icanbwell.com/query') {
                     delete tag['display'];
                 }
+                if (tag['system'] === 'https://www.icanbwell.com/queryTime') {
+                    delete tag['display'];
+                }
+
             });
             expected.entry.forEach(element => {
                 delete element['resource']['meta']['lastUpdated'];

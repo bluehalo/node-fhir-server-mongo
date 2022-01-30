@@ -1,118 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <%- include('../partials/head'); %>
+    <%- include('../partials/head'); %>
 </head>
 <body class="container">
 
 <header>
-  <%- include('../partials/header', {resources: resources}); %>
+    <%- include('../partials/header', {resources: resources}); %>
 </header>
 
 <main>
 
-  <div class="jumbotron">
-      <nav class="navbar navbar-light bg-light">
-        <div class="container-fluid">
-        <form class="row g-3">
-          <div class="col-auto">
-            <label for="inputName" class="visually-hidden">Name</label>
-            <input type="text" class="form-control" id="inputName" placeholder="Name">
-          </div>
-          <div class="col-auto">
-            <label for="inputFamily" class="visually-hidden">Family</label>
-            <input type="text" class="form-control" id="inputFamily" placeholder="Family">
-          </div>
-          <div class="col-auto">
-            <label for="inputSource" class="visually-hidden">Source</label>
-            <input type="text" class="form-control" id="inputSource" placeholder="Source">
-          </div>
-          <div class="col-auto">
-            <label for="inputIdentifierSystem" class="visually-hidden">Identifier System</label>
-            <input type="text" class="form-control" id="inputIdentifierSystem" placeholder="Identifier System">
-          </div>
-          <div class="col-auto">
-            <label for="inputIdentifierValue" class="visually-hidden">Identifier Value</label>
-            <input type="text" class="form-control" id="inputIdentifierValue" placeholder="Identifier Value">
-          </div>
-          <div class="col-auto">
-            <label for="inputLastUpdatedGreaterThan" class="visually-hidden">Updated After</label>
-            <input type="text" class="form-control" id="inputLastUpdatedGreaterThan" placeholder="Updated After">
-          </div>
-          <div class="col-auto">
-            <label for="inputLastUpdatedLessThan" class="visually-hidden">Updated Before</label>
-            <input type="text" class="form-control" id="inputLastUpdatedLessThan" placeholder="Updated Before">
-          </div>
-          <div class="col-auto">
-            <button type="button" class="btn btn-primary mb-3" id="search">
-            <i class="bi bi-search"></i>
-            Search</button>
-          </div>
-        </form>
-        </div>
-    </nav>
-    <script type="text/javascript" src="/js/patientfhirsearch.js"></script>
+    <div class="jumbotron">
+        <nav class="navbar navbar-light bg-light">
+            <div class="container-fluid">
+                <form class="row g-3">
+                    <div class="col-auto">
+                        <label for="inputName" class="visually-hidden">Name</label>
+                        <input type="text" class="form-control" id="inputName" placeholder="Name">
+                    </div>
+                    <div class="col-auto">
+                        <label for="inputFamily" class="visually-hidden">Family</label>
+                        <input type="text" class="form-control" id="inputFamily" placeholder="Family">
+                    </div>
+                    <div class="col-auto">
+                        <label for="inputSource" class="visually-hidden">Source</label>
+                        <input type="text" class="form-control" id="inputSource" placeholder="Source">
+                    </div>
+                    <div class="col-auto">
+                        <label for="inputIdentifierSystem" class="visually-hidden">Identifier System</label>
+                        <input type="text" class="form-control" id="inputIdentifierSystem"
+                               placeholder="Identifier System">
+                    </div>
+                    <div class="col-auto">
+                        <label for="inputIdentifierValue" class="visually-hidden">Identifier Value</label>
+                        <input type="text" class="form-control" id="inputIdentifierValue"
+                               placeholder="Identifier Value">
+                    </div>
+                    <div class="col-auto">
+                        <label for="inputLastUpdatedGreaterThan" class="visually-hidden">Updated After</label>
+                        <input type="text" class="form-control" id="inputLastUpdatedGreaterThan"
+                               placeholder="Updated After">
+                    </div>
+                    <div class="col-auto">
+                        <label for="inputLastUpdatedLessThan" class="visually-hidden">Updated Before</label>
+                        <input type="text" class="form-control" id="inputLastUpdatedLessThan"
+                               placeholder="Updated Before">
+                    </div>
+                    <div class="col-auto">
+                        <button type="button" class="btn btn-primary mb-3" id="search">
+                            <i class="bi bi-search"></i>
+                            Search
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </nav>
+        <script type="text/javascript" src="/js/patientfhirsearch.js"></script>
 
-    <% resources.forEach(function(res){ %>
-        <%- include('../partials/resourceHeader', {res: res}); %>
+        <% resources.forEach(function(res){ %>
+            <%- include('../partials/resourceHeader', {res: res}); %>
 
-        <%- include('../partials/humanNames', {names: res.name, resourceType: res.resourceType}); %>
+            <%- include('../partials/humanNames', {names: res.name, resourceType: res.resourceType}); %>
 
-        <div><h4>Gender</h4><%= res.gender %></div>
+            <div><h4>Gender</h4><%= res.gender %></div>
 
-        <% if (res.birthDate) {%>
-        <div>
-            <h4>BirthDate</h4>
-            <a title="Search for <%= res.birthDate %>" href="/4_0_0/<%= res.resourceType %>?birthdate=<%= res.birthDate %>"><%= res.birthDate %></a>
-        </div>
-        <%}%>
+            <% if (res.birthDate) { %>
+                <div>
+                    <h4>BirthDate</h4>
+                    <a title="Search for <%= res.birthDate %>"
+                       href="/4_0_0/<%= res.resourceType %>?birthdate=<%= res.birthDate %>"><%= res.birthDate %></a>
+                </div>
+            <% } %>
 
-        <% if (res.generalPractitioner) { %>
-        <div>
-            <h4>General Practitioners</h4>
-            <% res.generalPractitioner.forEach(function(generalPractitioner){ %>
-                <div><a href="/4_0_0/<%= generalPractitioner.reference %>"><%= generalPractitioner.display %></a></div>
-            <%})%>
-        </div>
-        <%}%>
+            <% if (res.generalPractitioner) { %>
+                <div>
+                    <h4>General Practitioners</h4>
+                    <% res.generalPractitioner.forEach(function(generalPractitioner){ %>
+                        <div>
+                            <a href="/4_0_0/<%= generalPractitioner.reference %>"><%= generalPractitioner.display %></a>
+                        </div>
+                    <% }) %>
+                </div>
+            <% } %>
 
-         <%- include('../partials/contactpoint', {resourceType: res.resourceType, contacts: res.telecom, name: "Telecom"}); %>
+            <%- include('../partials/contactpoint', {resourceType: res.resourceType, contacts: res.telecom, name: "Telecom"}); %>
 
-         <%- include('../partials/address', {resourceType: res.resourceType, addresses: res.address, name: "Address"}); %>
+            <%- include('../partials/address', {resourceType: res.resourceType, addresses: res.address, name: "Address"}); %>
 
-        <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Account', property:'patient'}], id:res.id, name: "Account"}); %>
+            <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Account', property:'patient'}], id:res.id, name: "Account"}); %>
 
-        <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Appointment', property:'patient'}], id:res.id, name: "Appointment"}); %>
+            <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Appointment', property:'patient'}], id:res.id, name: "Appointment"}); %>
 
-        <%- include('../partials/reverse_reference', {reverseReferences: [{target:'AuditEvent', property:'patient'}], id:res.id, name: "AuditEvent"}); %>
+            <%- include('../partials/reverse_reference', {reverseReferences: [{target:'AuditEvent', property:'patient'}], id:res.id, name: "AuditEvent"}); %>
 
-        <%- include('../partials/reverse_reference', {reverseReferences: [{target:'CareTeam', property:'patient'}], id:res.id, name: "CareTeam"}); %>
+            <%- include('../partials/reverse_reference', {reverseReferences: [{target:'CareTeam', property:'patient'}], id:res.id, name: "CareTeam"}); %>
 
-        <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Condition', property:'patient'}], id:res.id, name: "Condition"}); %>
+            <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Condition', property:'patient'}], id:res.id, name: "Condition"}); %>
 
-        <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Coverage', property:'patient'}], id:res.id, name: "Coverage"}); %>
+            <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Coverage', property:'patient'}], id:res.id, name: "Coverage"}); %>
 
-        <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Encounter', property:'patient'}], id:res.id, name: "Encounter"}); %>
+            <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Encounter', property:'patient'}], id:res.id, name: "Encounter"}); %>
 
-        <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Observation', property:'patient'}], id:res.id, name: "Observation"}); %>
+            <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Observation', property:'patient'}], id:res.id, name: "Observation"}); %>
 
-        <%- include('../partials/reverse_reference', {reverseReferences: [{target:'ExplanationOfBenefit', property:'patient'}], id:res.id, name: "ExplanationOfBenefit"}); %>
+            <%- include('../partials/reverse_reference', {reverseReferences: [{target:'ExplanationOfBenefit', property:'patient'}], id:res.id, name: "ExplanationOfBenefit"}); %>
 
-        <%- include('../partials/reverse_reference', {reverseReferences: [{target:'MeasureReport', property:'patient'}], id:res.id, name: "MeasureReport"}); %>
+            <%- include('../partials/reverse_reference', {reverseReferences: [{target:'MeasureReport', property:'patient'}], id:res.id, name: "MeasureReport"}); %>
 
-        <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Person', property:'patient'}], id:res.id, name: "Person"}); %>
+            <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Person', property:'patient'}], id:res.id, name: "Person"}); %>
 
-        <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Schedule', property:'patient'}], id:res.id, name: "Schedule"}); %>
+            <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Schedule', property:'patient'}], id:res.id, name: "Schedule"}); %>
 
-        <%- include('../partials/reverse_reference', {reverseReferences: [{target:'ServiceRequest', property:'patient'}], id:res.id, name: "ServiceRequest"}); %>
+            <%- include('../partials/reverse_reference', {reverseReferences: [{target:'ServiceRequest', property:'patient'}], id:res.id, name: "ServiceRequest"}); %>
 
-         <%- include('../partials/json', {res: res}); %>
-    <%})%>
-  </div>
+            <%- include('../partials/json', {res: res}); %>
+        <% }) %>
+    </div>
 </main>
 
 <footer>
-  <%- include('../partials/footer', {url: url}); %>
+    <%- include('../partials/bundleMeta', {meta: meta}); %>
+    <%- include('../partials/footer', {url: url}); %>
 </footer>
 
 </body>
