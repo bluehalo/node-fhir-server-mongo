@@ -243,13 +243,26 @@ module.exports.search = async (requestInfo, args, resourceName, collection_name)
         }
 
         // Now run the query to get a cursor we will enumerate next
+        let cursorQuery = collection.find(query, options).maxTimeMS(maxMongoTimeMS);
+
+        /**
+         * @type {int | null}
+         */
+        let cursorBatchSize = null;
+        // set batch size if specified
+        if (env.MONGO_BATCH_SIZE || args['_cursorBatchSize']) {
+            cursorBatchSize = args['_cursorBatchSize'] ? parseInt(args['_cursorBatchSize']) : parseInt(env.MONGO_BATCH_SIZE);
+            if (cursorBatchSize > 0) {
+                cursorQuery = cursorQuery.batchSize(cursorBatchSize);
+            }
+        }
         /**
          * mongo db cursor
          * @type {Promise<Cursor<unknown>> | *}
          */
         let cursor = await pRetry(
             async () =>
-                await collection.find(query, options).maxTimeMS(maxMongoTimeMS),
+                await cursorQuery,
             {
                 retries: 5,
                 onFailedAttempt: async error => {
@@ -434,6 +447,14 @@ module.exports.search = async (requestInfo, args, resourceName, collection_name)
                         display: `${(stopTime - startTime) / 1000}`
                     }
                 ];
+                if (cursorBatchSize !== null && cursorBatchSize > 0) {
+                    tag.push(
+                        {
+                            system: 'https://www.icanbwell.com/queryCursorBatchSize',
+                            display: `${cursorBatchSize}`
+                        }
+                    );
+                }
                 bundle['meta'] = {
                     tag: tag
                 };
