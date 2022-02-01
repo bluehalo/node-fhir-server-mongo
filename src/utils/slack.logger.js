@@ -33,7 +33,7 @@ async function logErrorToSlack(err) {
 
 
 function getRemoteAddress(req) {
-    return req['x-real-ip'] || req.ip || req._remoteAddress || req.connection && req.connection.remoteAddress || undefined;
+    return req.headers['X-Forwarded-For'] || req['x-real-ip'] || req.ip || req._remoteAddress || req.connection && req.connection.remoteAddress || undefined;
 }
 
 function createCodeBlock(title, code) {

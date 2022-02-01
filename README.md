@@ -22,6 +22,9 @@ For example:
 ## Security
 [Security](security.md)
 
+## Optimizing Performance
+[Performance](performance.md)
+
 ## FHIR GraphDefinition Support (We recommend using graphql below whenever possible instead)
 [Graph](graph.md)
 
