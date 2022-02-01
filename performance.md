@@ -20,7 +20,7 @@ indexes on large tables can result in slow performance and timeouts
 
 ## FHIR client sdk
 Dealing with the intricacies of downloading large amounts of data over REST APIs can be hard.  
-Implementing a proper async and parallel implementation can also be challenging.
+Implementing a proper async and parallel pattern can also be challenging.
 
 We provide an open source client Python SDK for FHIR that implements all the patterns below and more.  
 If you are developing in Python we highly recommend using this SDK since it will, most likely, give you the best 
