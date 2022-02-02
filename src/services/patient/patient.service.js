@@ -67,15 +67,15 @@ let buildStu3SearchQuery = (args) => {
   let ors = [];
 
   if (address) {
-    let orsAddress = addressQueryBuilder(address);
-    for (let i = 0; i < orsAddress.length; i++) {
-      ors.push(orsAddress[i]);
+    let orsAddresses = addressQueryBuilder(address);
+    for (let orsAddress in orsAddresses) {
+      ors.push(orsAddress);
     }
   }
   if (name) {
-    let orsName = nameQueryBuilder(name);
-    for (let i = 0; i < orsName.length; i++) {
-      ors.push(orsName[i]);
+    let orsNames = nameQueryBuilder(name);
+    for (let orsName in orsNames) {
+      ors.push(orsName);
     }
   }
   if (ors.length !== 0) {
@@ -255,15 +255,15 @@ let buildDstu2SearchQuery = (args) => {
   let ors = [];
 
   if (address) {
-    let orsAddress = addressQueryBuilder(address);
-    for (let i = 0; i < orsAddress.length; i++) {
-      ors.push(orsAddress[i]);
+    let orsAddresses = addressQueryBuilder(address);
+    for (let orsAddress in orsAddresses) {
+      ors.push(orsAddress);
     }
   }
   if (name) {
-    let orsName = nameQueryBuilder(name);
-    for (let i = 0; i < orsName.length; i++) {
-      ors.push(orsName[i]);
+    let orsNames = nameQueryBuilder(name);
+    for (let orsName in orsNames) {
+      ors.push(orsName);
     }
   }
   if (ors.length !== 0) {
@@ -417,10 +417,15 @@ module.exports.search = (args) =>
     let { base_version } = args;
     let query = {};
 
-    if (base_version === VERSIONS['3_0_1']) {
-      query = buildStu3SearchQuery(args);
-    } else if (base_version === VERSIONS['1_0_2']) {
-      query = buildDstu2SearchQuery(args);
+    switch (base_version) {
+      case VERSIONS['1_0_2']:
+        query = buildDstu2SearchQuery(args);
+        break;
+      case VERSIONS['3_0_1']:
+      case VERSIONS['4_0_0']:
+      case VERSIONS['4_0_1']:
+        query = buildStu3SearchQuery(args);
+        break;
     }
 
     // Grab an instance of our DB and collection
@@ -673,10 +678,15 @@ module.exports.history = (args, context) =>
 
     let query = {};
 
-    if (base_version === VERSIONS['3_0_1']) {
-      query = buildStu3SearchQuery(args);
-    } else if (base_version === VERSIONS['1_0_2']) {
-      query = buildDstu2SearchQuery(args);
+    switch (base_version) {
+      case VERSIONS['1_0_2']:
+        query = buildDstu2SearchQuery(args);
+        break;
+      case VERSIONS['3_0_1']:
+      case VERSIONS['4_0_0']:
+      case VERSIONS['4_0_1']:
+        query = buildStu3SearchQuery(args);
+        break;
     }
 
     // Grab an instance of our DB and collection
@@ -708,10 +718,15 @@ module.exports.historyById = (args, context) =>
     let { base_version, id } = args;
     let query = {};
 
-    if (base_version === VERSIONS['3_0_1']) {
-      query = buildStu3SearchQuery(args);
-    } else if (base_version === VERSIONS['1_0_2']) {
-      query = buildDstu2SearchQuery(args);
+    switch (base_version) {
+      case VERSIONS['1_0_2']:
+        query = buildDstu2SearchQuery(args);
+        break;
+      case VERSIONS['3_0_1']:
+      case VERSIONS['4_0_0']:
+      case VERSIONS['4_0_1']:
+        query = buildStu3SearchQuery(args);
+        break;
     }
 
     query.id = `${id}`;
