@@ -25,7 +25,9 @@ Object.defineProperty(RegExp.prototype, 'toJSON', {
 
 function getRequestInfo(req) {
     return new RequestInfo(
-        req.authInfo.context.username || req.authInfo.context.subject || req.user,
+        (req.authInfo && req.authInfo.context && req.authInfo.context.username)
+        || (req.authInfo && req.authInfo.context && req.authInfo.context.subject)
+        || req.user,
         req.authInfo && req.authInfo.scope,
         req.headers['X-Forwarded-For'] || req.connection.remoteAddress,
         req.protocol,
