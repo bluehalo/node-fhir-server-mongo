@@ -181,6 +181,115 @@
     },
     {
       "resource": {
+        "address": {
+          "city": "BALTIMORE",
+          "line": [
+            "33RD STREET PROFESSIONAL BLDG,G",
+            "200 EAST 33RD STREET"
+          ],
+          "postalCode": "21218",
+          "state": "MD"
+        },
+        "id": "UF3-UADM",
+        "identifier": [
+          {
+            "system": "MedstarHealth.org",
+            "type": {
+              "coding": [
+                {
+                  "code": "FI",
+                  "display": "Facility ID",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                }
+              ],
+              "text": "Facility ID"
+            },
+            "value": "UF3"
+          },
+          {
+            "system": "MedstarHealth.org",
+            "type": {
+              "coding": [
+                {
+                  "code": "XX",
+                  "display": "Organization Identifier",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                }
+              ],
+              "text": "Organization Identifier"
+            },
+            "value": "3437"
+          }
+        ],
+        "meta": {
+          "security": [
+            {
+              "code": "medstar",
+              "system": "https://www.icanbwell.com/access"
+            }
+          ]
+        },
+        "name": "UMH 33RD ST PROF BLDG 3RD FL",
+        "position": {
+          "latitude": 39.32792,
+          "longitude": -76.61668
+        },
+        "resourceType": "Location",
+        "status": "active"
+      }
+    },
+    {
+      "resource": {
+        "eligibility": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "code": "185387006",
+                  "display": "New Patient",
+                  "system": "http://snomed.info/sct"
+                }
+              ]
+            }
+          },
+          {
+            "code": {
+              "coding": [
+                {
+                  "code": "448337001",
+                  "display": "Telehealth Visit",
+                  "system": "http://snomed.info/sct"
+                }
+              ]
+            }
+          },
+          {
+            "code": {
+              "coding": [
+                {
+                  "code": "0 - 100",
+                  "display": "0 - 100",
+                  "system": "MedstarHealth.org"
+                }
+              ]
+            },
+            "comment": "Age Group Seen"
+          }
+        ],
+        "id": "1679033641-UF3-UADM",
+        "meta": {
+          "security": [
+            {
+              "code": "medstar",
+              "system": "https://www.icanbwell.com/access"
+            }
+          ]
+        },
+        "resourceType": "HealthcareService"
+      }
+    },
+    {
+      "resource": {
         "extension": [
           {
             "extension": [
@@ -369,6 +478,119 @@
               }
             ],
             "text": "Provider's Primary Specialty Group"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "eligibility": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "code": "No Limit",
+                  "display": "No Limit",
+                  "system": "MedstarHealth.org"
+                }
+              ]
+            },
+            "comment": "Minimum patient age"
+          },
+          {
+            "code": {
+              "coding": [
+                {
+                  "code": "No Limit",
+                  "display": "No Limit",
+                  "system": "MedstarHealth.org"
+                }
+              ]
+            },
+            "comment": "Maximum patient age"
+          },
+          {
+            "code": {
+              "coding": [
+                {
+                  "code": "Y",
+                  "display": "Y",
+                  "system": "MedstarHealth.org"
+                }
+              ]
+            },
+            "comment": "Accepts Workers Compensation Patients"
+          },
+          {
+            "code": {
+              "coding": [
+                {
+                  "code": "Y",
+                  "display": "Y",
+                  "system": "MedstarHealth.org"
+                }
+              ]
+            },
+            "comment": "Accepts Auto Accident Patients"
+          },
+          {
+            "code": {
+              "coding": [
+                {
+                  "code": "Y",
+                  "display": "Y",
+                  "system": "MedstarHealth.org"
+                }
+              ]
+            },
+            "comment": "Video Visit available"
+          }
+        ],
+        "id": "MAX-MALX",
+        "identifier": [
+          {
+            "system": "MedstarHealth.org",
+            "use": "usual",
+            "value": "MAX-MALX"
+          }
+        ],
+        "meta": {
+          "security": [
+            {
+              "code": "medstar",
+              "system": "https://www.icanbwell.com/access"
+            }
+          ]
+        },
+        "name": "Primary Care",
+        "providedBy": {
+          "identifier": {
+            "system": "MedstarHealth.Org",
+            "value": "MAX"
+          },
+          "type": "Organization"
+        },
+        "resourceType": "HealthcareService",
+        "specialty": [
+          {
+            "coding": [
+              {
+                "code": "Family Medicine",
+                "display": "Family Medicine",
+                "system": "MedstarHealth.org"
+              }
+            ],
+            "text": "Primary Specialty"
+          },
+          {
+            "coding": [
+              {
+                "code": "Family Medicine",
+                "display": "Family Medicine",
+                "system": "MedstarHealth.org"
+              }
+            ],
+            "text": "Primary Specialty Group"
           }
         ]
       }

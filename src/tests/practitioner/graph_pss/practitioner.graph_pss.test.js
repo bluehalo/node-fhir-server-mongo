@@ -3,10 +3,13 @@ const supertest = require('supertest');
 
 const {app} = require('../../../app');
 // practice
+const groupResource = require('./fixtures/practitioner/group.json');
+const insurancePlanResource = require('./fixtures/practitioner/insurancePlan.json');
+const locationResource = require('./fixtures/practitioner/location.json');
+const organizationResource = require('./fixtures/practitioner/organization.json');
 const practitionerResource = require('./fixtures/practitioner/practitioner.json');
 const practitionerRoleResource = require('./fixtures/practitioner/practitionerRole.json');
-const practitionerRoleDifferentSecurityTagResource = require('./fixtures/practitioner/practitionerRoleDifferentSecurityTag.json');
-const organizationResource = require('./fixtures/practitioner/organization.json');
+const scheduleResource = require('./fixtures/practitioner/schedule.json');
 
 // graph
 const graphDefinitionResource = require('./fixtures/graph/my_graph.json');
@@ -17,9 +20,8 @@ const expectedHashReferencesResource = require('./fixtures/expected/expected_has
 
 const request = supertest(app);
 const {commonBeforeEach, commonAfterEach, getHeaders} = require('../../common');
-const {findDuplicateResources} = require('../../../utils/list.util');
 
-describe('Practitioner Graph Contained Tests', () => {
+describe('Practitioner Graph PSS Contained Tests', () => {
     beforeEach(async () => {
         await commonBeforeEach();
     });
@@ -28,8 +30,8 @@ describe('Practitioner Graph Contained Tests', () => {
         await commonAfterEach();
     });
 
-    describe('Graph Contained Tests', () => {
-        test('Graph contained works properly', async () => {
+    describe('Graph Contained PSS Tests', () => {
+        test('Graph contained PSS works properly', async () => {
             let resp = await request
                 .get('/4_0_0/Practitioner')
                 .set(getHeaders())
@@ -40,14 +42,46 @@ describe('Practitioner Graph Contained Tests', () => {
             console.log('------- end response 1 ------------');
 
             resp = await request
-                .post('/4_0_0/Practitioner/1679033641/$merge')
+                .post('/4_0_0/Group/1/$merge')
+                .send(groupResource)
+                .set(getHeaders())
+                .expect(200);
+            console.log('------- response groupResource ------------');
+            console.log(JSON.stringify(resp.body, null, 2));
+            console.log('------- end response  ------------');
+            expect(resp.body['created']).toBe(true);
+
+            resp = await request
+                .post('/4_0_0/InsurancePlan/1/$merge')
+                .send(insurancePlanResource)
+                .set(getHeaders())
+                .expect(200);
+            console.log('------- response insurancePlanResource ------------');
+            console.log(JSON.stringify(resp.body, null, 2));
+            console.log('------- end response  ------------');
+            expect(resp.body[0]['created']).toBe(true);
+            expect(resp.body[1]['created']).toBe(true);
+
+            resp = await request
+                .post('/4_0_0/Location/1/$merge')
+                .send(locationResource)
+                .set(getHeaders())
+                .expect(200);
+            console.log('------- response locationResource ------------');
+            console.log(JSON.stringify(resp.body, null, 2));
+            console.log('------- end response  ------------');
+            expect(resp.body['created']).toBe(true);
+
+            resp = await request
+                .post('/4_0_0/Practitioner/1003059437/$merge')
                 .send(practitionerResource)
                 .set(getHeaders())
                 .expect(200);
             console.log('------- response practitionerResource ------------');
             console.log(JSON.stringify(resp.body, null, 2));
             console.log('------- end response  ------------');
-            expect(resp.body['created']).toBe(true);
+            expect(resp.body[0]['created']).toBe(true);
+            expect(resp.body[1]['created']).toBe(true);
 
             resp = await request
                 .post('/4_0_0/PractitionerRole/1/$merge')
@@ -57,14 +91,15 @@ describe('Practitioner Graph Contained Tests', () => {
             console.log('------- response practitionerResource ------------');
             console.log(JSON.stringify(resp.body, null, 2));
             console.log('------- end response  ------------');
-            expect(resp.body['created']).toBe(true);
+            expect(resp.body[0]['created']).toBe(true);
+            expect(resp.body[1]['created']).toBe(true);
 
             resp = await request
-                .post('/4_0_0/PractitionerRole/1/$merge')
-                .send(practitionerRoleDifferentSecurityTagResource)
+                .post('/4_0_0/Schedule/1/$merge')
+                .send(scheduleResource)
                 .set(getHeaders())
                 .expect(200);
-            console.log('------- response practitionerResource ------------');
+            console.log('------- response scheduleResource ------------');
             console.log(JSON.stringify(resp.body, null, 2));
             console.log('------- end response  ------------');
             expect(resp.body['created']).toBe(true);
@@ -81,14 +116,13 @@ describe('Practitioner Graph Contained Tests', () => {
             expect(resp.body['created']).toBe(true);
 
             resp = await request
-                .post('/4_0_0/Practitioner/$graph?id=1679033641&contained=true')
+                .post('/4_0_0/Practitioner/$graph?id=1003059437&contained=true')
                 .send(graphDefinitionResource)
-                .set(getHeaders())
-                .expect(200);
-
-            console.log('------- response Practitioner 1679033641 $graph ------------');
+                .set(getHeaders());
+            console.log('------- response Practitioner 1003059437 $graph ------------');
             console.log(JSON.stringify(resp.body, null, 2));
             console.log('------- end response  ------------');
+            expect(resp.statusCode).toStrictEqual(200);
             let body = resp.body;
             delete body['timestamp'];
             body.entry.forEach(element => {
@@ -121,12 +155,12 @@ describe('Practitioner Graph Contained Tests', () => {
             expect(body).toStrictEqual(expected);
 
             resp = await request
-                .post('/4_0_0/Practitioner/$graph?id=1679033641&contained=true&_hash_references=true')
+                .post('/4_0_0/Practitioner/$graph?id=1003059437&contained=true&_hash_references=true')
                 .send(graphDefinitionResource)
                 .set(getHeaders())
                 .expect(200);
 
-            console.log('------- response Practitioner 1679033641 $graph ------------');
+            console.log('------- response Practitioner 1003059437 $graph hashed_references ------------');
             console.log(JSON.stringify(resp.body, null, 2));
             console.log('------- end response  ------------');
             body = resp.body;
@@ -157,15 +191,6 @@ describe('Practitioner Graph Contained Tests', () => {
                     });
                 }
             });
-            console.log('----- Received resources ----');
-            console.log(`${body.entry.map(e => e.resource).map(a => `${a.resourceType}/${a.id}`)}`);
-            console.log('----- End of Received resources ----');
-            // verify there are no duplicate ids
-            const duplicates = findDuplicateResources(
-                body.entry.map(e => e.resource)
-            );
-            expect(duplicates.map(a => `${a.resourceType}/${a.id}`)).toStrictEqual([]);
-
             expect(body).toStrictEqual(expected);
         });
     });

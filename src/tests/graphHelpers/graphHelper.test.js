@@ -7,6 +7,7 @@ const graphSimpleForwardDefinition = require('./fixtures/graphSimpleForward.json
 const graphDefinition = require('./fixtures/graph.json');
 const graphWithExtensionDefinition = require('./fixtures/graphWithExtension.json');
 const graphSimpleWithExtensionDefinition = require('./fixtures/graphSimpleWithExtension.json');
+const {RequestInfo} = require('../../utils/requestInfo');
 
 describe('graphHelper Tests', () => {
     const base_version = '4_0_0';
@@ -24,20 +25,27 @@ describe('graphHelper Tests', () => {
         await commonAfterEach();
     });
 
+    const requestInfo = new RequestInfo(
+        'user',
+        'user/*.read access/*.*',
+        null,
+        'https',
+        null,
+        null,
+        'host',
+        null
+    );
+
     describe('graphHelper Tests', () => {
         test('graphHelper single Practitioner works', async () => {
             let db = globals.get(CLIENT_DB);
             let collection_name = 'Practitioner';
             const result = await processGraph(
+                requestInfo,
                 db,
                 collection_name,
                 base_version,
                 collection_name,
-                ['*'],
-                'user',
-                'user/*.read access/*.*',
-                'https',
-                'host',
                 ['1'],
                 graphSimpleReverseDefinition,
                 false,
@@ -67,15 +75,11 @@ describe('graphHelper Tests', () => {
 
             await collection.insertOne({_id: '2', id: '2', resourceType: 'Practitioner'});
             const result = await processGraph(
+                requestInfo,
                 db,
                 collection_name,
                 base_version,
                 collection_name,
-                ['*'],
-                'user',
-                'user/*.read access/*.*',
-                'https',
-                'host',
                 ['1', '2'],
                 graphSimpleReverseDefinition,
                 false,
@@ -115,15 +119,11 @@ describe('graphHelper Tests', () => {
 
             let collection_name = 'Practitioner';
             const result = await processGraph(
+                requestInfo,
                 db,
                 collection_name,
                 base_version,
                 collection_name,
-                ['*'],
-                'user',
-                'user/*.read access/*.*',
-                'https',
-                'host',
                 ['1'],
                 graphSimpleReverseDefinition,
                 false,
@@ -166,15 +166,11 @@ describe('graphHelper Tests', () => {
 
             let collection_name = 'Practitioner';
             const result = await processGraph(
+                requestInfo,
                 db,
                 collection_name,
                 base_version,
                 collection_name,
-                ['*'],
-                'user',
-                'user/*.read access/*.*',
-                'https',
-                'host',
                 ['1'],
                 graphDefinition,
                 false,
@@ -217,15 +213,11 @@ describe('graphHelper Tests', () => {
 
             let collection_name = 'Practitioner';
             const result = await processGraph(
+                requestInfo,
                 db,
                 collection_name,
                 base_version,
                 collection_name,
-                ['*'],
-                'user',
-                'user/*.read access/*.*',
-                'https',
-                'host',
                 ['1'],
                 graphSimpleReverseDefinition,
                 true,
@@ -267,15 +259,11 @@ describe('graphHelper Tests', () => {
 
             let collection_name = 'Practitioner';
             const result = await processGraph(
+                requestInfo,
                 db,
                 collection_name,
                 base_version,
                 collection_name,
-                ['*'],
-                'user',
-                'user/*.read access/*.*',
-                'https',
-                'host',
                 ['1'],
                 graphDefinition,
                 true,
@@ -334,15 +322,11 @@ describe('graphHelper Tests', () => {
 
             let collection_name = 'PractitionerRole';
             const result = await processGraph(
+                requestInfo,
                 db,
                 collection_name,
                 base_version,
                 collection_name,
-                ['*'],
-                'user',
-                'user/*.read access/*.*',
-                'https',
-                'host',
                 ['10'],
                 graphSimpleForwardDefinition,
                 false,
@@ -388,15 +372,11 @@ describe('graphHelper Tests', () => {
 
             let collection_name = 'Practitioner';
             const result = await processGraph(
+                requestInfo,
                 db,
                 collection_name,
                 base_version,
                 collection_name,
-                ['*'],
-                'user',
-                'user/*.read access/*.*',
-                'https',
-                'host',
                 ['1'],
                 graphSimpleReverseDefinition,
                 true,
@@ -455,15 +435,11 @@ describe('graphHelper Tests', () => {
 
             let collection_name = 'Practitioner';
             const result = await processGraph(
+                requestInfo,
                 db,
                 collection_name,
                 base_version,
                 collection_name,
-                ['*'],
-                'user',
-                'user/*.read access/*.*',
-                'https',
-                'host',
                 ['1'],
                 graphDefinition,
                 false,
@@ -553,15 +529,11 @@ describe('graphHelper Tests', () => {
 
             let collection_name = 'Practitioner';
             const result = await processGraph(
+                requestInfo,
                 db,
                 collection_name,
                 base_version,
                 collection_name,
-                ['*'],
-                'user',
-                'user/*.read access/*.*',
-                'https',
-                'host',
                 ['1', '2'],
                 graphDefinition,
                 false,
@@ -678,15 +650,11 @@ describe('graphHelper Tests', () => {
 
             let collection_name = 'Practitioner';
             const result = await processGraph(
+                requestInfo,
                 db,
                 collection_name,
                 base_version,
                 collection_name,
-                ['*'],
-                'user',
-                'user/*.read access/*.*',
-                'https',
-                'host',
                 ['1', '2'],
                 graphDefinition,
                 true,
@@ -806,15 +774,11 @@ describe('graphHelper Tests', () => {
 
             let collection_name = 'PractitionerRole';
             const result = await processGraph(
+                requestInfo,
                 db,
                 collection_name,
                 base_version,
                 collection_name,
-                ['*'],
-                'user',
-                'user/*.read access/*.*',
-                'https',
-                'host',
                 ['10'],
                 graphSimpleWithExtensionDefinition,
                 false,
@@ -973,15 +937,11 @@ describe('graphHelper Tests', () => {
 
             let collection_name = 'Practitioner';
             const result = await processGraph(
+                requestInfo,
                 db,
                 collection_name,
                 base_version,
                 collection_name,
-                ['*'],
-                'user',
-                'user/*.read access/*.*',
-                'https',
-                'host',
                 ['1', '2'],
                 graphWithExtensionDefinition,
                 false,
@@ -1192,15 +1152,11 @@ describe('graphHelper Tests', () => {
             );
             let collection_name = 'Practitioner';
             const result = await processGraph(
+                requestInfo,
                 db,
                 collection_name,
                 base_version,
                 collection_name,
-                ['*'],
-                'user',
-                'user/*.read access/*.*',
-                'https',
-                'host',
                 ['1', '2'],
                 graphWithExtensionDefinition,
                 true,

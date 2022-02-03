@@ -1,0 +1,195 @@
+{
+  "resourceType": "Location",
+  "id": "myhealthsystem-Alias-GP6-GGIM",
+  "meta": {
+    "versionId": "13",
+    "lastUpdated": "2022-01-19T15:55:23.000Z",
+    "source": "http://myhealthsystemhealth.org/provider_appointment_type",
+    "security": [
+      {
+        "system": "https://www.icanbwell.com/access",
+        "code": "myhealthsystem"
+      },
+      {
+        "system": "https://www.icanbwell.com/owner",
+        "code": "myhealthsystem"
+      }
+    ]
+  },
+  "identifier": [
+    {
+      "type": {
+        "coding": [
+          {
+            "system": "http://myhealthsystemhealth.org",
+            "code": "alias"
+          }
+        ],
+        "text": "Facility ID"
+      },
+      "system": "http://myhealthsystemhealth.org",
+      "value": "GP6-GGIM"
+    },
+    {
+      "type": {
+        "coding": [
+          {
+            "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+            "code": "FI"
+          }
+        ],
+        "text": "Facility Identifier"
+      },
+      "system": "http://myhealthsystemhealth.org",
+      "value": "GP6"
+    },
+    {
+      "type": {
+        "coding": [
+          {
+            "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+            "code": "XX"
+          }
+        ],
+        "text": "Organization Identifier"
+      },
+      "system": "http://myhealthsystemhealth.org",
+      "value": "1043"
+    },
+    {
+      "type": {
+        "coding": [
+          {
+            "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+            "code": "DeptMnem"
+          }
+        ],
+        "text": "Scheduling Department Mnem"
+      },
+      "system": "http://myhealthsystemhealth.org",
+      "value": "GGIM"
+    },
+    {
+      "type": {
+        "coding": [
+          {
+            "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+            "code": "DeptNo"
+          }
+        ],
+        "text": "Scheduling Department Number"
+      },
+      "system": "http://myhealthsystemhealth.org",
+      "value": "1126"
+    }
+  ],
+  "status": "active",
+  "name": "myhealthsystem Internal Medicine at Georgetown University Hospital",
+  "mode": "instance",
+  "type": [
+    {
+      "coding": [
+        {
+          "system": "http://myhealthsystemhealth.org",
+          "code": "Primary Care and Student Health",
+          "display": "Primary Care and Student Health"
+        }
+      ],
+      "text": "practice speciality"
+    }
+  ],
+  "telecom": [
+    {
+      "id": "amp-central-scheduling-phone",
+      "system": "phone",
+      "value": "(999) 999-9999",
+      "use": "work",
+      "rank": 1
+    },
+    {
+      "id": "amp-office-phone",
+      "system": "phone",
+      "value": "(999) 999-9999",
+      "use": "work",
+      "rank": 2
+    },
+    {
+      "id": "amp-office-fax",
+      "system": "fax",
+      "value": "(999) 999-9999",
+      "use": "work",
+      "rank": 3
+    }
+  ],
+  "address": {
+    "line": [
+      "1 Street"
+    ],
+    "city": "Washington",
+    "state": "DC",
+    "postalCode": "20007"
+  },
+  "physicalType": {
+    "coding": [
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+        "code": "bu"
+      }
+    ]
+  },
+  "position": {
+    "longitude": -77.07526,
+    "latitude": 38.908993
+  },
+  "managingOrganization": {
+    "reference": "Organization/myhealthsystem-Alias-GP6-GGIM"
+  },
+  "hoursOfOperation": [
+    {
+      "id": "mon-hours",
+      "daysOfWeek": [
+        "mon"
+      ],
+      "openingTime": "08:00:00",
+      "closingTime": "17:00:00"
+    },
+    {
+      "id": "tue-hours",
+      "daysOfWeek": [
+        "tue"
+      ],
+      "openingTime": "08:00:00",
+      "closingTime": "17:00:00"
+    },
+    {
+      "id": "wed-hours",
+      "daysOfWeek": [
+        "wed"
+      ],
+      "openingTime": "08:00:00",
+      "closingTime": "17:00:00"
+    },
+    {
+      "id": "thu-hours",
+      "daysOfWeek": [
+        "thu"
+      ],
+      "openingTime": "08:00:00",
+      "closingTime": "17:00:00"
+    },
+    {
+      "id": "fri-hours",
+      "daysOfWeek": [
+        "fri"
+      ],
+      "openingTime": "08:00:00",
+      "closingTime": "17:00:00"
+    },
+    {
+      "id": "sun-hours",
+      "daysOfWeek": [
+        "sun"
+      ]
+    }
+  ]
+}

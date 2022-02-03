@@ -1,0 +1,109 @@
+{
+  "resourceType": "Organization",
+  "id": "myhealthsystem-Alias-GP6-GGIM",
+  "meta": {
+    "versionId": "5",
+    "lastUpdated": "2022-01-19T15:58:12.000Z",
+    "source": "http://myhealthsystemhealth.org/provider",
+    "security": [
+      {
+        "system": "https://www.icanbwell.com/access",
+        "code": "myhealthsystem"
+      },
+      {
+        "system": "https://www.icanbwell.com/owner",
+        "code": "myhealthsystem"
+      }
+    ]
+  },
+  "extension": [
+    {
+      "extension": [
+        {
+          "url": "https://raw.githubusercontent.com/imranq2/SparkAutoMapper.FHIR/main/StructureDefinition/longitude",
+          "valueDecimal": -77.07526
+        },
+        {
+          "url": "https://raw.githubusercontent.com/imranq2/SparkAutoMapper.FHIR/main/StructureDefinition/latitude",
+          "valueDecimal": 38.908993
+        }
+      ],
+      "url": "https://raw.githubusercontent.com/imranq2/SparkAutoMapper.FHIR/main/StructureDefinition/position"
+    }
+  ],
+  "identifier": [
+    {
+      "use": "usual",
+      "system": "http://myhealthsystemhealth.org",
+      "value": "GP6-GGIM"
+    }
+  ],
+  "active": true,
+  "type": [
+    {
+      "coding": [
+        {
+          "system": "http://terminology.hl7.org/CodeSystem/organization-type",
+          "code": "prov",
+          "display": "Healthcare Provider"
+        }
+      ],
+      "text": "Healthcare Organization"
+    }
+  ],
+  "name": "myhealthsystem Internal Medicine at Georgetown University Hospital",
+  "alias": [
+    "myhealthsystem Internal Medicine at Georgetown Univ Hospital"
+  ],
+  "telecom": [
+    {
+      "id": "amp-office-phone",
+      "system": "phone",
+      "value": "(999) 999-9999",
+      "use": "work",
+      "rank": 1
+    },
+    {
+      "id": "amp-office-tax",
+      "system": "fax",
+      "value": "(999) 999-9999",
+      "use": "work",
+      "rank": 2
+    }
+  ],
+  "address": [
+    {
+      "line": [
+        "1 Street # 6"
+      ],
+      "city": "Washington",
+      "state": "DC",
+      "postalCode": "20007"
+    }
+  ],
+  "partOf": {
+    "reference": "Organization/myhealthsystem-83544006",
+    "display": "myhealthsystem Internal Medicine at Georgetown Univ Hospital"
+  },
+  "contact": [
+    {
+      "purpose": {
+        "coding": [
+          {
+            "system": "http://myhealthsystemhealth.org",
+            "code": "Central Scheduling"
+          }
+        ]
+      },
+      "telecom": [
+        {
+          "id": "amp-central-scheduling-phone",
+          "system": "phone",
+          "value": "(999) 999-9999",
+          "use": "work",
+          "rank": 1
+        }
+      ]
+    }
+  ]
+}

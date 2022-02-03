@@ -33,7 +33,7 @@ function getRequestInfo(req) {
         req.protocol,
         req.originalUrl,
         req.path,
-        req.host,
+        req.hostname,
         req.body
     );
 }

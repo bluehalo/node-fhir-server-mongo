@@ -1,7 +1,6 @@
 const {logRequest, logDebug, logError} = require('../common/logging');
 const {
-    verifyHasValidScopes,
-    getAccessCodesFromScopes
+    verifyHasValidScopes
 } = require('../security/scopes');
 const {isTrue} = require('../../utils/isTrue');
 const globals = require('../../globals');
@@ -25,7 +24,6 @@ module.exports.graph = async (requestInfo, args, resource_name, collection_name)
     const scope = requestInfo.scope;
     const path = requestInfo.path;
     const host = requestInfo.host;
-    const protocol = requestInfo.protocol;
     const body = requestInfo.body;
 
     if (
@@ -37,8 +35,6 @@ module.exports.graph = async (requestInfo, args, resource_name, collection_name)
 
     logRequest(user, `${resource_name} >>> graph`);
     verifyHasValidScopes(resource_name, 'read', user, scope);
-
-    const accessCodes = getAccessCodesFromScopes('read', user, scope);
 
     try {
         /**
@@ -75,15 +71,11 @@ module.exports.graph = async (requestInfo, args, resource_name, collection_name)
          * @type {{entry: {resource: Resource, fullUrl: string}[], id: string, resourceType: string}|{entry: *[], id: string, resourceType: string}}
          */
         const result = await processGraph(
+            requestInfo,
             db,
             collection_name,
             base_version,
             resource_name,
-            accessCodes,
-            user,
-            scope,
-            protocol,
-            host,
             id,
             graphDefinitionRaw,
             contained,

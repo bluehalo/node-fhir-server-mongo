@@ -1,0 +1,531 @@
+{
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "1003059437",
+        "meta": {
+          "versionId": "12",
+          "lastUpdated": "2022-01-19T16:27:17.000Z",
+          "source": "http://myhealthsystemhealth.org/provider",
+          "security": [
+            {
+              "system": "https://www.icanbwell.com/access",
+              "code": "myhealthsystem"
+            },
+            {
+              "system": "https://www.icanbwell.com/owner",
+              "code": "myhealthsystem"
+            }
+          ]
+        },
+        "identifier": [
+          {
+            "use": "usual",
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "code": "PRN"
+                }
+              ]
+            },
+            "system": "http://myhealthsystemhealth.org",
+            "value": "112440"
+          },
+          {
+            "use": "official",
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "code": "NPI"
+                }
+              ]
+            },
+            "system": "http://hl7.org/fhir/sid/us-npi",
+            "value": "1003059437"
+          },
+          {
+            "use": "official",
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "code": "TAX"
+                }
+              ]
+            },
+            "system": "http://hl7.org/fhir/sid/us-tin",
+            "value": "11-1111111"
+          },
+          {
+            "id": "myhealthsystem-gecb_provider_number",
+            "extension": [
+              {
+                "id": "myhealthsystem-client",
+                "url": "https://www.icanbwell.com/client",
+                "valueCode": "myhealthsystem"
+              }
+            ],
+            "use": "usual",
+            "type": {
+              "coding": [
+                {
+                  "id": "id-type",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "code": "PRN"
+                }
+              ]
+            },
+            "system": "http://myhealthsystemhealth.org",
+            "value": "112440"
+          },
+          {
+            "id": "npi",
+            "extension": [
+              {
+                "id": "myhealthsystem-client",
+                "url": "https://www.icanbwell.com/client",
+                "valueCode": "myhealthsystem"
+              }
+            ],
+            "use": "official",
+            "type": {
+              "coding": [
+                {
+                  "id": "npi-type",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "code": "NPI"
+                },
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "code": "NPI"
+                }
+              ]
+            },
+            "system": "http://hl7.org/fhir/sid/us-npi",
+            "value": "1003059437"
+          },
+          {
+            "id": "tin",
+            "extension": [
+              {
+                "id": "myhealthsystem-client",
+                "url": "https://www.icanbwell.com/client",
+                "valueCode": "myhealthsystem"
+              }
+            ],
+            "use": "official",
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "code": "TAX"
+                }
+              ]
+            },
+            "system": "http://hl7.org/fhir/sid/us-tin",
+            "value": "11-1111111"
+          }
+        ],
+        "active": true,
+        "name": [
+          {
+            "use": "usual",
+            "text": "FNAME LNAME MD",
+            "family": "LNAME",
+            "given": [
+              "FNAME"
+            ]
+          },
+          {
+            "id": "myhealthsystem-name",
+            "extension": [
+              {
+                "id": "myhealthsystem-client",
+                "url": "https://www.icanbwell.com/client",
+                "valueCode": "myhealthsystem"
+              }
+            ],
+            "use": "usual",
+            "text": "FNAME LNAME MD",
+            "family": "LNAME",
+            "given": [
+              "FNAME"
+            ]
+          }
+        ],
+        "telecom": [
+          {
+            "system": "email",
+            "value": "email@email.com",
+            "use": "work"
+          },
+          {
+            "id": "myhealthsystem-email",
+            "extension": [
+              {
+                "id": "myhealthsystem-client",
+                "url": "https://www.icanbwell.com/client",
+                "valueCode": "myhealthsystem"
+              }
+            ],
+            "system": "email",
+            "value": "email@email.com",
+            "use": "work"
+          }
+        ],
+        "gender": "female",
+        "photo": [
+          {
+            "contentType": "image/jpg",
+            "url": "https://ct1.myhealthsystemhealth.org/content/uploads/2016/08/LNAME-Fname_WELLER-150x150.jpg",
+            "title": "Practitioner headshot: Fname Lname - 1003059437"
+          },
+          {
+            "id": "myhealthsystem-headshot",
+            "extension": [
+              {
+                "id": "myhealthsystem-client",
+                "url": "https://www.icanbwell.com/client",
+                "valueCode": "myhealthsystem"
+              }
+            ],
+            "contentType": "image/jpg",
+            "url": "https://ct1.myhealthsystemhealth.org/content/uploads/2016/08/LNAME-Fname_WELLER-150x150.jpg",
+            "title": "Practitioner headshot: Fname Lname - 1003059437"
+          }
+        ],
+        "qualification": [
+          {
+            "id": "amp-0",
+            "extension": [
+              {
+                "id": "myhealthsystem-client",
+                "url": "https://www.icanbwell.com/client",
+                "valueCode": "myhealthsystem"
+              }
+            ],
+            "code": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/ValueSet/v2-2.7-0360",
+                  "code": "MD"
+                },
+                {
+                  "id": "qual-code",
+                  "system": "http://terminology.hl7.org/ValueSet/v2-2.7-0360",
+                  "code": "MD"
+                }
+              ]
+            },
+            "period": {
+              "id": "qual-period",
+              "start": "2009-01-01T00:00:00.000Z",
+              "end": "2022-04-01T00:00:00.000Z"
+            },
+            "issuer": {
+              "reference": "Organization/New-York-University-School-of-Medicine",
+              "display": "New York University School of Medicine"
+            }
+          }
+        ],
+        "communication": [
+          {
+            "coding": [
+              {
+                "system": "urn:ietf:bcp:47",
+                "code": "en",
+                "display": "English"
+              }
+            ]
+          },
+          {
+            "id": "myhealthsystemEnglish",
+            "extension": [
+              {
+                "id": "myhealthsystem-client",
+                "url": "https://www.icanbwell.com/client",
+                "valueCode": "myhealthsystem"
+              }
+            ],
+            "coding": [
+              {
+                "id": "comm-code",
+                "system": "urn:ietf:bcp:47",
+                "code": "en",
+                "display": "English"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "bad",
+        "meta": {
+          "versionId": "12",
+          "lastUpdated": "2022-01-19T16:27:17.000Z",
+          "source": "http://myhealthsystemhealth.org/provider",
+          "security": [
+            {
+              "system": "https://www.icanbwell.com/access",
+              "code": "anotherhealthsystem"
+            },
+            {
+              "system": "https://www.icanbwell.com/owner",
+              "code": "anotherhealthsystem"
+            }
+          ]
+        },
+        "identifier": [
+          {
+            "use": "usual",
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "code": "PRN"
+                }
+              ]
+            },
+            "system": "http://myhealthsystemhealth.org",
+            "value": "112440"
+          },
+          {
+            "use": "official",
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "code": "NPI"
+                }
+              ]
+            },
+            "system": "http://hl7.org/fhir/sid/us-npi",
+            "value": "1003059437"
+          },
+          {
+            "use": "official",
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "code": "TAX"
+                }
+              ]
+            },
+            "system": "http://hl7.org/fhir/sid/us-tin",
+            "value": "11-1111111"
+          },
+          {
+            "id": "myhealthsystem-gecb_provider_number",
+            "extension": [
+              {
+                "id": "myhealthsystem-client",
+                "url": "https://www.icanbwell.com/client",
+                "valueCode": "myhealthsystem"
+              }
+            ],
+            "use": "usual",
+            "type": {
+              "coding": [
+                {
+                  "id": "id-type",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "code": "PRN"
+                }
+              ]
+            },
+            "system": "http://myhealthsystemhealth.org",
+            "value": "112440"
+          },
+          {
+            "id": "npi",
+            "extension": [
+              {
+                "id": "myhealthsystem-client",
+                "url": "https://www.icanbwell.com/client",
+                "valueCode": "myhealthsystem"
+              }
+            ],
+            "use": "official",
+            "type": {
+              "coding": [
+                {
+                  "id": "npi-type",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "code": "NPI"
+                },
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "code": "NPI"
+                }
+              ]
+            },
+            "system": "http://hl7.org/fhir/sid/us-npi",
+            "value": "1003059437"
+          },
+          {
+            "id": "tin",
+            "extension": [
+              {
+                "id": "myhealthsystem-client",
+                "url": "https://www.icanbwell.com/client",
+                "valueCode": "myhealthsystem"
+              }
+            ],
+            "use": "official",
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "code": "TAX"
+                }
+              ]
+            },
+            "system": "http://hl7.org/fhir/sid/us-tin",
+            "value": "11-1111111"
+          }
+        ],
+        "active": true,
+        "name": [
+          {
+            "use": "usual",
+            "text": "FNAME LNAME MD",
+            "family": "LNAME",
+            "given": [
+              "FNAME"
+            ]
+          },
+          {
+            "id": "myhealthsystem-name",
+            "extension": [
+              {
+                "id": "myhealthsystem-client",
+                "url": "https://www.icanbwell.com/client",
+                "valueCode": "myhealthsystem"
+              }
+            ],
+            "use": "usual",
+            "text": "FNAME LNAME MD",
+            "family": "LNAME",
+            "given": [
+              "FNAME"
+            ]
+          }
+        ],
+        "telecom": [
+          {
+            "system": "email",
+            "value": "email@email.com",
+            "use": "work"
+          },
+          {
+            "id": "myhealthsystem-email",
+            "extension": [
+              {
+                "id": "myhealthsystem-client",
+                "url": "https://www.icanbwell.com/client",
+                "valueCode": "myhealthsystem"
+              }
+            ],
+            "system": "email",
+            "value": "email@email.com",
+            "use": "work"
+          }
+        ],
+        "gender": "female",
+        "photo": [
+          {
+            "contentType": "image/jpg",
+            "url": "https://ct1.myhealthsystemhealth.org/content/uploads/2016/08/LNAME-Fname_WELLER-150x150.jpg",
+            "title": "Practitioner headshot: Fname Lname - 1003059437"
+          },
+          {
+            "id": "myhealthsystem-headshot",
+            "extension": [
+              {
+                "id": "myhealthsystem-client",
+                "url": "https://www.icanbwell.com/client",
+                "valueCode": "myhealthsystem"
+              }
+            ],
+            "contentType": "image/jpg",
+            "url": "https://ct1.myhealthsystemhealth.org/content/uploads/2016/08/LNAME-Fname_WELLER-150x150.jpg",
+            "title": "Practitioner headshot: Fname Lname - 1003059437"
+          }
+        ],
+        "qualification": [
+          {
+            "id": "amp-0",
+            "extension": [
+              {
+                "id": "myhealthsystem-client",
+                "url": "https://www.icanbwell.com/client",
+                "valueCode": "myhealthsystem"
+              }
+            ],
+            "code": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/ValueSet/v2-2.7-0360",
+                  "code": "MD"
+                },
+                {
+                  "id": "qual-code",
+                  "system": "http://terminology.hl7.org/ValueSet/v2-2.7-0360",
+                  "code": "MD"
+                }
+              ]
+            },
+            "period": {
+              "id": "qual-period",
+              "start": "2009-01-01T00:00:00.000Z",
+              "end": "2022-04-01T00:00:00.000Z"
+            },
+            "issuer": {
+              "reference": "Organization/New-York-University-School-of-Medicine",
+              "display": "New York University School of Medicine"
+            }
+          }
+        ],
+        "communication": [
+          {
+            "coding": [
+              {
+                "system": "urn:ietf:bcp:47",
+                "code": "en",
+                "display": "English"
+              }
+            ]
+          },
+          {
+            "id": "myhealthsystemEnglish",
+            "extension": [
+              {
+                "id": "myhealthsystem-client",
+                "url": "https://www.icanbwell.com/client",
+                "valueCode": "myhealthsystem"
+              }
+            ],
+            "coding": [
+              {
+                "id": "comm-code",
+                "system": "urn:ietf:bcp:47",
+                "code": "en",
+                "display": "English"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "id": "bundle-example",
+  "resourceType": "Bundle",
+  "type": "collection"
+}

@@ -1,0 +1,68 @@
+{
+  "resourceType": "Schedule",
+  "id": "1003059437-GP6-GGIM",
+  "meta": {
+    "versionId": "1",
+    "lastUpdated": "2022-01-13T21:15:24.000Z",
+    "source": "http://myhealthsystemhealth.org/provider",
+    "security": [
+      {
+        "system": "https://www.icanbwell.com/access",
+        "code": "myhealthsystem"
+      },
+      {
+        "system": "https://www.icanbwell.com/owner",
+        "code": "myhealthsystem"
+      }
+    ]
+  },
+  "extension": [
+    {
+      "id": "providersearch-IDHP",
+      "extension": [
+        {
+          "id": "forsystem",
+          "url": "forSystem",
+          "valueUri": "http://myhealthsystemhealth.org/IDHP"
+        },
+        {
+          "id": "searchable",
+          "url": "searchCharacteristic",
+          "valueCodeableConcept": {
+            "id": "1",
+            "coding": [
+              {
+                "id": "1",
+                "system": "https://raw.githubusercontent.com/imranq2/SparkAutoMapper.FHIR/main/ValueSet/search_characteristic",
+                "code": "searchable"
+              }
+            ],
+            "text": "Provider is searchable"
+          }
+        },
+        {
+          "id": "bookable",
+          "url": "searchCharacteristic",
+          "valueCodeableConcept": {
+            "id": "1",
+            "coding": [
+              {
+                "id": "1",
+                "system": "https://raw.githubusercontent.com/imranq2/SparkAutoMapper.FHIR/main/ValueSet/search_characteristic",
+                "code": "not-bookable"
+              }
+            ],
+            "text": "Provider is not online bookable"
+          }
+        }
+      ],
+      "url": "https://raw.githubusercontent.com/imranq2/SparkAutoMapper.FHIR/main/StructureDefinition/provider_search"
+    }
+  ],
+  "active": true,
+  "actor": [
+    {
+      "reference": "PractitionerRole/1003059437-GP6-GGIM"
+    }
+  ]
+}

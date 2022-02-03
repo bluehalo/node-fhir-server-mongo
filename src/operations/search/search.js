@@ -1,10 +1,9 @@
-const {ForbiddenError} = require('../../utils/httpErrors');
 const globals = require('../../globals');
 const {CLIENT_DB} = require('../../constants');
 const env = require('var');
 const moment = require('moment-timezone');
 const {MongoError} = require('../../utils/mongoErrors');
-const {verifyHasValidScopes, getAccessCodesFromScopes} = require('../security/scopes');
+const {verifyHasValidScopes} = require('../security/scopes');
 const {buildR4SearchQuery} = require('../query/r4');
 const {buildDstu2SearchQuery} = require('../query/dstu2');
 const {buildStu3SearchQuery} = require('../query/stu3');
@@ -17,6 +16,7 @@ const pRetry = require('p-retry');
 const {logMessageToSlack} = require('../../utils/slack.logger');
 const {removeNull} = require('../../utils/nullRemover');
 const {logAuditEntry} = require('../../utils/auditLogger');
+const {getSecurityTagsFromScope, getQueryWithSecurityTags} = require('../common/getSecurityTags');
 const {VERSIONS} = require('@asymmetrik/node-fhir-server-core').constants;
 
 /**
@@ -39,26 +39,10 @@ module.exports.search = async (requestInfo, args, resourceName, collection_name)
     logRequest(user, '---- args ----');
     logRequest(user, JSON.stringify(args));
     logRequest(user, '--------');
-
     /**
      * @type {string[]}
      */
-    let securityTags = [];
-    // add any access codes from scopes
-    const accessCodes = getAccessCodesFromScopes('read', user, scope);
-    if (env.AUTH_ENABLED === '1') {
-        // fail if there are no access codes
-        if (accessCodes.length === 0) {
-            let errorMessage = 'user ' + user + ' with scopes [' + scope + '] has no access scopes';
-            throw new ForbiddenError(errorMessage);
-        }
-        // see if we have the * access code
-        else if (accessCodes.includes('*')) {
-            // no security check since user has full access to everything
-        } else {
-            securityTags = accessCodes;
-        }
-    }
+    let securityTags = getSecurityTagsFromScope(user, scope);
     /**
      * @type {string}
      */
@@ -85,26 +69,7 @@ module.exports.search = async (requestInfo, args, resourceName, collection_name)
     } catch (e) {
         throw e;
     }
-
-    // add in $and statements for security tags
-    if (securityTags && securityTags.length > 0) {
-        // add as a separate $and statement
-        if (query.$and === undefined) {
-            query.$and = [];
-        }
-        query.$and.push(
-            {
-                'meta.security': {
-                    '$elemMatch': {
-                        'system': 'https://www.icanbwell.com/access',
-                        'code': {
-                            '$in': securityTags
-                        }
-                    }
-                }
-            }
-        );
-    }
+    query = getQueryWithSecurityTags(securityTags, query);
 
     // Grab an instance of our DB and collection
     // noinspection JSValidateTypes

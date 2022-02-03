@@ -4,7 +4,11 @@
 const {getResource} = require('../common/getResource');
 const {buildR4SearchQuery} = require('../query/r4');
 const assert = require('assert');
-const {verifyHasValidScopes, doesResourceHaveAnyAccessCodeFromThisList} = require('../security/scopes');
+const {
+    verifyHasValidScopes,
+    doesResourceHaveAnyAccessCodeFromThisList,
+    getAccessCodesFromScopes
+} = require('../security/scopes');
 const env = require('var');
 const pRetry = require('p-retry');
 const {logError} = require('../common/logging');
@@ -12,6 +16,7 @@ const {logMessageToSlack} = require('../../utils/slack.logger');
 const moment = require('moment-timezone');
 const {removeNull} = require('../../utils/nullRemover');
 const {getFieldNameForSearchParameter} = require('../../searchParameters/searchParameterHelpers');
+const {getSecurityTagsFromScope, getQueryWithSecurityTags} = require('../common/getSecurityTags');
 
 
 /**
@@ -97,6 +102,9 @@ class NonResourceEntityAndContained extends EntityAndContainedBase {
     }
 }
 
+/**
+ * This class has request related parameters
+ */
 class GraphParameters {
     /**
      * @param {string} base_version
@@ -144,7 +152,6 @@ function getFullUrlForResource(graphParameters, parentEntity) {
     return `${graphParameters.protocol}://${graphParameters.host}/${graphParameters.base_version}/${parentEntity.resourceType}/${parentEntity.id}`;
 }
 
-
 /**
  * returns property values
  * @param {EntityAndContainedBase} entity
@@ -179,22 +186,13 @@ function getPropertiesForEntity(entity, property, filterProperty, filterValue) {
 }
 
 /**
- * returns first property value
- * @param {EntityAndContainedBase} entity
- * @param {string} property
- * @param {string?} filterProperty
- * @param {string?} filterValue
- * @returns {*[]}
+ * retrieves references from the provided property.
+ * Always returns an array of references whether the property value is an array or just an object
+ * @param {Object || Object[]} propertyValue
+ * @return {string[]}
  */
-function getFirstPropertyForEntity(entity, property, filterProperty, filterValue) {
-    /**
-     * @type {*[]}
-     */
-    const properties = getPropertiesForEntity(entity, property, filterProperty, filterValue);
-    if (properties && properties.length > 0) {
-        return properties[0];
-    }
-    return [];
+function getReferencesFromPropertyValue(propertyValue) {
+    return Array.isArray(propertyValue) ? propertyValue.map(a => a['reference']) : [propertyValue['reference']];
 }
 
 /**
@@ -214,13 +212,16 @@ function isPropertyAReference(entities, property, filterProperty, filterValue) {
          * @type {*[]}
          */
         const propertiesForEntity = getPropertiesForEntity(entity, property, filterProperty, filterValue);
-        if (propertiesForEntity.filter(p => p !== undefined).some(p => p['reference'])) { // if it has a 'reference' property then it is a reference
+        const references = propertiesForEntity
+            .flatMap(r => getReferencesFromPropertyValue(r))
+            .filter(r => r !== undefined);
+
+        if (references && references.length > 0) { // if it has a 'reference' property then it is a reference
             return true; // we assume that if one entity has it then all entities can since they are of same type
         }
     }
     return false;
 }
-
 
 /**
  * Gets related resources and adds them to containedEntries in parentEntities
@@ -249,10 +250,12 @@ async function get_related_resources(db, graphParameters, collectionName,
 
     // get values of this property from all the entities
     const relatedReferences = parentEntities.flatMap(p =>
-        getPropertiesForEntity(p, property));
+        getPropertiesForEntity(p, property)
+            .flatMap(r => getReferencesFromPropertyValue(r))
+            .filter(r => r !== undefined)
+    );
     // select just the ids from those reference properties
-    let relatedReferenceIds = relatedReferences.filter(
-        r => r['reference']).map(r => r.reference.replace(collectionName + '/', ''));
+    let relatedReferenceIds = relatedReferences.filter(r => r.includes('/')).map(r => r.split('/')[1]);
     if (relatedReferenceIds.length === 0) {
         return; // nothing to do
     }
@@ -263,7 +266,14 @@ async function get_related_resources(db, graphParameters, collectionName,
     // also exclude _id so if there is a covering index the query can be satisfied from the covering index
     projection['_id'] = 0;
     options['projection'] = projection;
-    const query = {
+    /**
+     * @type {string[]}
+     */
+    let securityTags = getSecurityTagsFromScope(graphParameters.user, graphParameters.scope);
+    /**
+     * @type {Object}
+     */
+    let query = {
         'id': {
             $in: relatedReferenceIds
         }
@@ -271,6 +281,7 @@ async function get_related_resources(db, graphParameters, collectionName,
     if (filterProperty) {
         query[`${filterProperty}`] = filterValue;
     }
+    query = getQueryWithSecurityTags(securityTags, query);
     /**
      * @type {number}
      */
@@ -309,12 +320,20 @@ async function get_related_resources(db, graphParameters, collectionName,
         // find matching parent and add to containedEntries
         const matchingParentEntities = parentEntities.filter(
             p => (
-                getFirstPropertyForEntity(p, property) &&
-                getFirstPropertyForEntity(p, property)['reference'] === `${relatedResource.resourceType}/${relatedResource.id}`
+                getPropertiesForEntity(p, property)
+                    .flatMap(r => getReferencesFromPropertyValue(r))
+                    .filter(r => r !== undefined)
+                    .includes(`${relatedResource.resourceType}/${relatedResource.id}`)
             )
         );
 
-        assert(matchingParentEntities.length > 0); // we should always find at least one match
+        if (matchingParentEntities.length === 0) {
+            throw new Error(
+                `No match found for child entity ${relatedResource.resourceType}/${relatedResource.id}`
+                + ` in parent entities ${parentEntities.map(p => p.resource.resourceType)[0]}`
+                + ` ${parentEntities.map(p => p.resource.id).toString()} using property ${property}`
+            );
+        }
 
         // add it to each one since there can be multiple resources that point to the same related resource
         for (const matchingParentEntity of matchingParentEntities) {
@@ -372,7 +391,13 @@ async function get_reverse_related_resources(
      */
     const args = parseQueryStringIntoArgs(reverseFilterWithParentIds);
     const searchParameterName = Object.keys(args)[0];
-    const query = buildR4SearchQuery(relatedResourceCollectionName, args).query;
+    let query = buildR4SearchQuery(relatedResourceCollectionName, args).query;
+
+    /**
+     * @type {string[]}
+     */
+    let securityTags = getSecurityTagsFromScope(graphParameters.user, graphParameters.scope);
+    query = getQueryWithSecurityTags(securityTags, query);
 
     const options = {};
     const projection = {};
@@ -410,6 +435,10 @@ async function get_reverse_related_resources(
      */
     const fieldForSearchParameter = getFieldNameForSearchParameter(relatedResourceCollectionName, searchParameterName);
 
+    if (!fieldForSearchParameter) {
+        throw new Error(`${searchParameterName} is not a valid search parameter for resource ${relatedResourceCollectionName}`);
+    }
+
     while (await cursor.hasNext()) {
         /**
          * @type {Resource}
@@ -420,22 +449,39 @@ async function get_reverse_related_resources(
                 continue;
             }
         }
-        // now match to parent entity, so we can put under correct contained property
-        const matchingParentEntities = parentEntities.filter(
-            p => relatedResourcePropertyCurrent[`${fieldForSearchParameter}`]
-                && `${p.resource.resourceType}/${p.resource.id}`
-                === relatedResourcePropertyCurrent[`${fieldForSearchParameter}`]['reference']
+        // create the entry
+        const resourceEntityAndContained = new ResourceEntityAndContained(
+            relatedResourcePropertyCurrent.id,
+            relatedResourcePropertyCurrent.resourceType,
+            getFullUrlForResource(graphParameters, relatedResourcePropertyCurrent),
+            true,
+            removeNull(new RelatedResource(relatedResourcePropertyCurrent).toJSON()),
+            []
         );
+        // now match to parent entity, so we can put under correct contained property
+        const properties = getPropertiesForEntity(resourceEntityAndContained, fieldForSearchParameter);
+        // the reference property can be a single item or an array.
+        /**
+         * @type {string[]}
+         */
+        const references = properties
+            .flatMap(r => getReferencesFromPropertyValue(r))
+            .filter(r => r !== undefined);
+        const matchingParentEntities = parentEntities.filter(
+            p => references.includes(`${p.resource.resourceType}/${p.resource.id}`)
+        );
+
+        if (matchingParentEntities.length === 0) {
+            throw new Error(
+                `No match found for parent entities ${parentEntities.map(p => p.resource.resourceType)[0]}`
+                + ` ${parentEntities.map(p => p.resource.id).toString()} using property ${fieldForSearchParameter}`
+                + ` in child entity ${relatedResourcePropertyCurrent.resourceType}/${relatedResourcePropertyCurrent.id}`
+            );
+        }
+
         for (const matchingParentEntity of matchingParentEntities) {
             matchingParentEntity.containedEntries.push(
-                new ResourceEntityAndContained(
-                    relatedResourcePropertyCurrent.id,
-                    relatedResourcePropertyCurrent.resourceType,
-                    getFullUrlForResource(graphParameters, relatedResourcePropertyCurrent),
-                    true,
-                    removeNull(new RelatedResource(relatedResourcePropertyCurrent).toJSON()),
-                    []
-                )
+                resourceEntityAndContained
             );
         }
     }
@@ -761,11 +807,17 @@ async function processMultipleIds(db, graphParameters, collection_name,
      * @type {[{resource: Resource, fullUrl: string}]}
      */
     let entries = [];
-    const query = {
+    let query = {
         'id': {
             $in: idList
         }
     };
+    /**
+     * @type {string[]}
+     */
+    let securityTags = getSecurityTagsFromScope(graphParameters.user, graphParameters.scope);
+    query = getQueryWithSecurityTags(securityTags, query);
+
     const options = {};
     const projection = {};
     // also exclude _id so if there is a covering index the query can be satisfied from the covering index
@@ -879,26 +931,22 @@ async function processMultipleIds(db, graphParameters, collection_name,
 
 /**
  * process GraphDefinition and returns a bundle with all the related resources
+ * @param {import('../../utils/requestInfo').RequestInfo} requestInfo
  * @param {import('mongodb').Db} db
  * @param {string} collection_name
  * @param {string} base_version
  * @param {string} resource_name
- * @param {string[]} accessCodes
- * @param {string} user
- * @param {string} scope
- * @param {string} protocol
- * @param {string} host
  * @param {string | string[]} id (accepts a single id or a list of ids)
  * @param {*} graphDefinitionJson (a GraphDefinition resource)
  * @param {boolean} contained
  * @param {boolean} hash_references
  * @return {Promise<{entry: [{resource: Resource, fullUrl: string}], id: string, resourceType: string}|{entry: *[], id: string, resourceType: string}>}
  */
-async function processGraph(db, collection_name, base_version, resource_name,
-                            accessCodes, user, scope,
-                            protocol,
-                            host, id,
-                            graphDefinitionJson, contained, hash_references) {
+async function processGraph(
+    requestInfo,
+    db, collection_name, base_version, resource_name,
+    id,
+    graphDefinitionJson, contained, hash_references) {
     /**
      * @type {function(?Object): Resource}
      */
@@ -912,12 +960,16 @@ async function processGraph(db, collection_name, base_version, resource_name,
         id = [id];
     }
 
+    const graphParameters = new GraphParameters(base_version, requestInfo.protocol, requestInfo.host,
+        requestInfo.user, requestInfo.scope,
+        getAccessCodesFromScopes('read', requestInfo.user, requestInfo.scope)
+    );
     /**
      * @type {[{resource: Resource, fullUrl: string}]}
      */
     const entries = await processMultipleIds(
         db,
-        new GraphParameters(base_version, protocol, host, user, scope, accessCodes),
+        graphParameters,
         collection_name, resource_name, graphDefinition, contained, hash_references, id);
 
     // remove duplicate resources
@@ -928,7 +980,7 @@ async function processGraph(db, collection_name, base_version, resource_name,
         (a, b) => a.resource.resourceType === b.resource.resourceType && a.resource.id === b.resource.id);
     uniqueEntries = uniqueEntries.filter(
         e => doesResourceHaveAnyAccessCodeFromThisList(
-            accessCodes, user, scope, e.resource
+            graphParameters.accessCodes, graphParameters.user, graphParameters.scope, e.resource
         )
     );
     // create a bundle

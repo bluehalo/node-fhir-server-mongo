@@ -28,6 +28,7 @@ const {logMessageToSlack} = require('../../utils/slack.logger');
 const {mergeObject} = require('../../utils/mergeHelper');
 const {removeNull} = require('../../utils/nullRemover');
 const {logAuditEntry} = require('../../utils/auditLogger');
+const {findDuplicateResources, findUniqueResources} = require('../../utils/list.util');
 
 // noinspection JSValidateTypes
 /**
@@ -592,23 +593,14 @@ module.exports.merge = async (requestInfo, args, resource_name, collection_name)
         // find items without duplicates and run them in parallel
         // but items with duplicate ids should run in serial, so we can merge them properly (otherwise the first item
         //  may not finish adding to the db before the next item tries to merge
-        // https://stackoverflow.com/questions/53212020/get-list-of-duplicate-objects-in-an-array-of-objects
-        // create a lookup_by_id for duplicate ids
-        /**
-         * @type {Object}
-         */
-        const lookup_by_id = resources_incoming.reduce((a, e) => {
-            a[e.id] = ++a[e.id] || 0;
-            return a;
-        }, {});
         /**
          * @type {Object[]}
          */
-        const duplicate_id_resources = resources_incoming.filter(e => lookup_by_id[e.id]);
+        const duplicate_id_resources = findDuplicateResources(resources_incoming);
         /**
          * @type {Object[]}
          */
-        const non_duplicate_id_resources = resources_incoming.filter(e => !lookup_by_id[e.id]);
+        const non_duplicate_id_resources = findUniqueResources(resources_incoming);
 
         const result = await Promise.all([
             async.map(non_duplicate_id_resources, async x => await merge_resource_with_retry(x)), // run in parallel
