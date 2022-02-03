@@ -14,7 +14,7 @@ let getMeta = (base_version) => {
   return resolveSchema(base_version, 'Meta');
 };
 
-module.exports.searchById = (args) =>
+module.exports.search = (args) =>
   new Promise((resolve, reject) => {
     logger.info('Condition >>> search');
 
