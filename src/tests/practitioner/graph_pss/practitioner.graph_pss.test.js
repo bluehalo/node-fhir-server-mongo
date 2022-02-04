@@ -10,6 +10,7 @@ const organizationResource = require('./fixtures/practitioner/organization.json'
 const practitionerResource = require('./fixtures/practitioner/practitioner.json');
 const practitionerRoleResource = require('./fixtures/practitioner/practitionerRole.json');
 const scheduleResource = require('./fixtures/practitioner/schedule.json');
+const healthcareServiceResource = require('./fixtures/practitioner/healthcareService.json');
 
 // graph
 const graphDefinitionResource = require('./fixtures/graph/my_graph.json');
@@ -109,8 +110,17 @@ describe('Practitioner Graph PSS Contained Tests', () => {
                 .send(organizationResource)
                 .set(getHeaders())
                 .expect(200);
-
             console.log('------- response organizationResource ------------');
+            console.log(JSON.stringify(resp.body, null, 2));
+            console.log('------- end response  ------------');
+            expect(resp.body['created']).toBe(true);
+
+            resp = await request
+                .post('/4_0_0/HealthcareService/123456/$merge')
+                .send(healthcareServiceResource)
+                .set(getHeaders())
+                .expect(200);
+            console.log('------- response healthcareServiceResource ------------');
             console.log(JSON.stringify(resp.body, null, 2));
             console.log('------- end response  ------------');
             expect(resp.body['created']).toBe(true);

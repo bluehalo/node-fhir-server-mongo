@@ -233,9 +233,9 @@ function isPropertyAReference(entities, property, filterProperty, filterValue) {
  * @param {string | null} filterProperty (Optional) filter the sublist by this property
  * @param {*} filterValue (Optional) match filterProperty to this value
  */
-async function get_related_resources(db, graphParameters, collectionName,
-                                     parentEntities, property,
-                                     filterProperty, filterValue) {
+async function get_forward_references(db, graphParameters, collectionName,
+                                      parentEntities, property,
+                                      filterProperty, filterValue) {
     if (!parentEntities || parentEntities.length === 0) {
         return; // nothing to do
     }
@@ -255,7 +255,10 @@ async function get_related_resources(db, graphParameters, collectionName,
             .filter(r => r !== undefined)
     );
     // select just the ids from those reference properties
-    let relatedReferenceIds = relatedReferences.filter(r => r.includes('/')).map(r => r.split('/')[1]);
+    let relatedReferenceIds = relatedReferences
+        .filter(r => r.includes('/'))
+        .filter(r => r.split('/')[0] === collectionName) // resourceType matches the one we're looking for
+        .map(r => r.split('/')[1]);
     if (relatedReferenceIds.length === 0) {
         return; // nothing to do
     }
@@ -296,7 +299,8 @@ async function get_related_resources(db, graphParameters, collectionName,
         {
             retries: 5,
             onFailedAttempt: async error => {
-                let msg = `get_related_resources ${collectionName} ${JSON.stringify(relatedReferenceIds)} Retry Number: ${error.attemptNumber}: ${error.message}`;
+                let msg = `get_related_resources ${collectionName} `
+                    + `${JSON.stringify(relatedReferenceIds)} Retry Number: ${error.attemptNumber}: ${error.message}`;
                 logError(graphParameters.user, msg);
                 await logMessageToSlack(msg);
             }
@@ -329,9 +333,10 @@ async function get_related_resources(db, graphParameters, collectionName,
 
         if (matchingParentEntities.length === 0) {
             throw new Error(
-                `No match found for child entity ${relatedResource.resourceType}/${relatedResource.id}`
-                + ` in parent entities ${parentEntities.map(p => p.resource.resourceType)[0]}`
-                + ` ${parentEntities.map(p => p.resource.id).toString()} using property ${property}`
+                `Forward Reference: No match found for child entity ${relatedResource.resourceType}/${relatedResource.id}`
+                + ' in parent entities'
+                + ` ${parentEntities.map(p => `${p.resource.resourceType}/${p.resource.id}`).toString()}`
+                + ` using property ${property}`
             );
         }
 
@@ -363,7 +368,7 @@ function parseQueryStringIntoArgs(queryString) {
  * @param {*} filterValue (Optional) match filterProperty to this value
  * @param {string} reverse_filter Do a reverse link from child to parent using this property
  */
-async function get_reverse_related_resources(
+async function get_reverse_references(
     db,
     graphParameters, parentCollectionName,
     relatedResourceCollectionName, parentEntities,
@@ -473,8 +478,9 @@ async function get_reverse_related_resources(
 
         if (matchingParentEntities.length === 0) {
             throw new Error(
-                `No match found for parent entities ${parentEntities.map(p => p.resource.resourceType)[0]}`
-                + ` ${parentEntities.map(p => p.resource.id).toString()} using property ${fieldForSearchParameter}`
+                'Reverse Reference: No match found for parent entities'
+                + ` ${parentEntities.map(p => `${p.resource.resourceType}/${p.resource.id}`).toString()}`
+                + ` using property ${fieldForSearchParameter}`
                 + ` in child entity ${relatedResourcePropertyCurrent.resourceType}/${relatedResourcePropertyCurrent.id}`
             );
         }
@@ -613,7 +619,7 @@ async function processOneGraphLink(db, graphParameters, link,
             // if this is a reference then get related resources
             if (isPropertyAReference(parentEntities, property, filterProperty, filterValue)) {
                 verifyHasValidScopes(resourceType, 'read', graphParameters.user, graphParameters.scope);
-                await get_related_resources(
+                await get_forward_references(
                     db,
                     graphParameters,
                     resourceType,
@@ -651,7 +657,7 @@ async function processOneGraphLink(db, graphParameters, link,
                  * @type {string}
                  */
                 verifyHasValidScopes(resourceType, 'read', graphParameters.user, graphParameters.scope);
-                await get_reverse_related_resources(
+                await get_reverse_references(
                     db,
                     graphParameters,
                     resourceType,
