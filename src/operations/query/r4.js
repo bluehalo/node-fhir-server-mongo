@@ -231,11 +231,15 @@ module.exports.buildR4SearchQuery = (resourceName, args) => {
                             for (const dateQueryItem of queryParameterValue) {
                                 if (propertyObj.field === 'meta.lastUpdated') {
                                     // this field stores the date as a native date so we can do faster queries
-                                    and_segments.push({[`${propertyObj.field}`]: dateQueryBuilderNative(
-                                        dateQueryItem, propertyObj.type, '')});
+                                    and_segments.push({
+                                        [`${propertyObj.field}`]: dateQueryBuilderNative(
+                                            dateQueryItem, propertyObj.type, '')
+                                    });
                                 } else {
-                                    and_segments.push({[`${propertyObj.field}`]: dateQueryBuilder(
-                                        dateQueryItem, propertyObj.type, '')});
+                                    and_segments.push({
+                                        [`${propertyObj.field}`]: dateQueryBuilder(
+                                            dateQueryItem, propertyObj.type, '')
+                                    });
                                 }
                             }
                             columns.add(`${propertyObj.field}`);
@@ -305,14 +309,23 @@ module.exports.buildR4SearchQuery = (resourceName, args) => {
                                     );
                                 }
                             } else { // handle multiple targets
-                                and_segments.push({
-                                    $or: propertyObj.target.map(
-                                        target => referenceQueryBuilder(
-                                            queryParameterValue.includes('/')
-                                                ? queryParameterValue : (`${target}/` + queryParameterValue),
+                                // if resourceType is specified then search for only those resources
+                                if (queryParameterValue.includes('/')) {
+                                    and_segments.push(
+                                        referenceQueryBuilder(
+                                            queryParameterValue,
                                             `${propertyObj.field}.reference`, null)
-                                    )
-                                });
+                                    );
+                                } else { // else search for these ids in all the target resources
+                                    and_segments.push({
+                                        $or: propertyObj.target.map(
+                                            target => referenceQueryBuilder(
+                                                queryParameterValue.includes('/')
+                                                    ? queryParameterValue : (`${target}/` + queryParameterValue),
+                                                `${propertyObj.field}.reference`, null)
+                                        )
+                                    });
+                                }
                             }
                             columns.add(`${propertyObj.field}.reference`);
                             break;

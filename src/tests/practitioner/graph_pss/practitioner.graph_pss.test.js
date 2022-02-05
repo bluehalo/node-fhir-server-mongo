@@ -114,6 +114,7 @@ describe('Practitioner Graph PSS Contained Tests', () => {
             console.log(JSON.stringify(resp.body, null, 2));
             console.log('------- end response  ------------');
             expect(resp.body['created']).toBe(true);
+            expect(resp.body['created']).toBe(true);
 
             resp = await request
                 .post('/4_0_0/HealthcareService/123456/$merge')
@@ -123,7 +124,8 @@ describe('Practitioner Graph PSS Contained Tests', () => {
             console.log('------- response healthcareServiceResource ------------');
             console.log(JSON.stringify(resp.body, null, 2));
             console.log('------- end response  ------------');
-            expect(resp.body['created']).toBe(true);
+            expect(resp.body[0]['created']).toBe(true);
+            expect(resp.body[1]['created']).toBe(true);
 
             resp = await request
                 .post('/4_0_0/Practitioner/$graph?id=1003059437&contained=true')

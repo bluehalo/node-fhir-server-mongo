@@ -81,6 +81,11 @@
                 "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/newpatients"
               }
             ],
+            "healthcareService": [
+              {
+                "reference": "HealthcareService/1043289440-MCS-MCPS"
+              }
+            ],
             "id": "1003059437-GP6-GGIM",
             "location": [
               {
@@ -426,6 +431,52 @@
             ]
           },
           {
+            "id": "1043289440-MCS-MCPS",
+            "identifier": [
+              {
+                "system": "http://medstarhealth.org",
+                "use": "usual",
+                "value": "1043289440-MCS-MCPS"
+              }
+            ],
+            "location": [
+              {
+                "reference": "Location/myhealthsystem-Alias-GP6-GGIM"
+              }
+            ],
+            "meta": {
+              "security": [
+                {
+                  "code": "medstar",
+                  "system": "https://www.icanbwell.com/access"
+                },
+                {
+                  "code": "medstar",
+                  "system": "https://www.icanbwell.com/owner"
+                }
+              ],
+              "source": "http://medstarhealth.org/provider_appointment_type",
+              "versionId": "1"
+            },
+            "name": "PrimaryCare",
+            "resourceType": "HealthcareService",
+            "type": [
+              {
+                "coding": [
+                  {
+                    "display": "PrimaryCare",
+                    "system": "http://terminology.hl7.org/CodeSystem/service-category"
+                  },
+                  {
+                    "code": "PrimaryCare",
+                    "display": "PrimaryCare",
+                    "system": "http://medstarhealth.org/protocol"
+                  }
+                ]
+              }
+            ]
+          },
+          {
             "active": true,
             "actor": [
               {
@@ -491,6 +542,449 @@
               "versionId": "1"
             },
             "resourceType": "Schedule"
+          },
+          {
+            "active": true,
+            "code": [
+              {
+                "coding": [
+                  {
+                    "code": "doctor",
+                    "display": "Doctor",
+                    "system": "http://terminology.hl7.org/CodeSystem/practitioner-role"
+                  }
+                ],
+                "text": "Doctor"
+              }
+            ],
+            "extension": [
+              {
+                "extension": [
+                  {
+                    "id": "acceptingpatients",
+                    "url": "acceptingPatients",
+                    "valueCodeableConcept": {
+                      "coding": [
+                        {
+                          "code": "newpt",
+                          "system": "https://build.fhir.org/ig/HL7/davinci-pdex-plan-net/CodeSystem-AcceptingPatientsCS.html"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "id": "agerange",
+                    "url": "ageRange",
+                    "valueRange": {
+                      "high": {
+                        "unit": "years",
+                        "value": 100
+                      },
+                      "low": {
+                        "unit": "years",
+                        "value": 18
+                      }
+                    }
+                  }
+                ],
+                "id": "new-patients-1",
+                "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/newpatients"
+              }
+            ],
+            "healthcareService": [
+              {
+                "reference": "HealthcareService/1043289440-MCS-MVVM"
+              }
+            ],
+            "id": "1003059437-GP6-MVVM",
+            "location": [
+              {
+                "reference": "Location/myhealthsystem-Alias-GP6-GGIM"
+              }
+            ],
+            "meta": {
+              "security": [
+                {
+                  "code": "myhealthsystem",
+                  "system": "https://www.icanbwell.com/access"
+                },
+                {
+                  "code": "myhealthsystem",
+                  "system": "https://www.icanbwell.com/owner"
+                }
+              ],
+              "source": "http://myhealthsystemhealth.org/provider",
+              "versionId": "1"
+            },
+            "organization": {
+              "reference": "Organization/myhealthsystem-Alias-GP6-GGIM"
+            },
+            "practitioner": {
+              "reference": "Practitioner/1003059437"
+            },
+            "resourceType": "PractitionerRole",
+            "specialty": [
+              {
+                "coding": [
+                  {
+                    "code": "261QP2300X",
+                    "display": "Primary Care",
+                    "id": "specialty-pcp",
+                    "system": "http://nucc.org/provider-taxonomy"
+                  }
+                ],
+                "id": "myhealthsystem-pcp",
+                "text": "Primary Care Flag"
+              }
+            ]
+          },
+          {
+            "active": true,
+            "address": [
+              {
+                "city": "Washington",
+                "line": [
+                  "1 Street # 6"
+                ],
+                "postalCode": "20007",
+                "state": "DC"
+              }
+            ],
+            "alias": [
+              "myhealthsystem Internal Medicine at Georgetown Univ Hospital"
+            ],
+            "contact": [
+              {
+                "purpose": {
+                  "coding": [
+                    {
+                      "code": "Central Scheduling",
+                      "system": "http://myhealthsystemhealth.org"
+                    }
+                  ]
+                },
+                "telecom": [
+                  {
+                    "id": "amp-central-scheduling-phone",
+                    "rank": 1,
+                    "system": "phone",
+                    "use": "work",
+                    "value": "(999) 999-9999"
+                  }
+                ]
+              }
+            ],
+            "extension": [
+              {
+                "extension": [
+                  {
+                    "url": "https://raw.githubusercontent.com/imranq2/SparkAutoMapper.FHIR/main/StructureDefinition/longitude",
+                    "valueDecimal": -77.07526
+                  },
+                  {
+                    "url": "https://raw.githubusercontent.com/imranq2/SparkAutoMapper.FHIR/main/StructureDefinition/latitude",
+                    "valueDecimal": 38.908993
+                  }
+                ],
+                "url": "https://raw.githubusercontent.com/imranq2/SparkAutoMapper.FHIR/main/StructureDefinition/position"
+              }
+            ],
+            "id": "myhealthsystem-Alias-GP6-GGIM",
+            "identifier": [
+              {
+                "system": "http://myhealthsystemhealth.org",
+                "use": "usual",
+                "value": "GP6-GGIM"
+              }
+            ],
+            "meta": {
+              "security": [
+                {
+                  "code": "myhealthsystem",
+                  "system": "https://www.icanbwell.com/access"
+                },
+                {
+                  "code": "myhealthsystem",
+                  "system": "https://www.icanbwell.com/owner"
+                }
+              ],
+              "source": "http://myhealthsystemhealth.org/provider",
+              "versionId": "1"
+            },
+            "name": "myhealthsystem Internal Medicine at Georgetown University Hospital",
+            "partOf": {
+              "display": "myhealthsystem Internal Medicine at Georgetown Univ Hospital",
+              "reference": "Organization/myhealthsystem-83544006"
+            },
+            "resourceType": "Organization",
+            "telecom": [
+              {
+                "id": "amp-office-phone",
+                "rank": 1,
+                "system": "phone",
+                "use": "work",
+                "value": "(999) 999-9999"
+              },
+              {
+                "id": "amp-office-tax",
+                "rank": 2,
+                "system": "fax",
+                "use": "work",
+                "value": "(999) 999-9999"
+              }
+            ],
+            "type": [
+              {
+                "coding": [
+                  {
+                    "code": "prov",
+                    "display": "Healthcare Provider",
+                    "system": "http://terminology.hl7.org/CodeSystem/organization-type"
+                  }
+                ],
+                "text": "Healthcare Organization"
+              }
+            ]
+          },
+          {
+            "address": {
+              "city": "Washington",
+              "line": [
+                "1 Street"
+              ],
+              "postalCode": "20007",
+              "state": "DC"
+            },
+            "hoursOfOperation": [
+              {
+                "closingTime": "17:00:00",
+                "daysOfWeek": [
+                  "mon"
+                ],
+                "id": "mon-hours",
+                "openingTime": "08:00:00"
+              },
+              {
+                "closingTime": "17:00:00",
+                "daysOfWeek": [
+                  "tue"
+                ],
+                "id": "tue-hours",
+                "openingTime": "08:00:00"
+              },
+              {
+                "closingTime": "17:00:00",
+                "daysOfWeek": [
+                  "wed"
+                ],
+                "id": "wed-hours",
+                "openingTime": "08:00:00"
+              },
+              {
+                "closingTime": "17:00:00",
+                "daysOfWeek": [
+                  "thu"
+                ],
+                "id": "thu-hours",
+                "openingTime": "08:00:00"
+              },
+              {
+                "closingTime": "17:00:00",
+                "daysOfWeek": [
+                  "fri"
+                ],
+                "id": "fri-hours",
+                "openingTime": "08:00:00"
+              },
+              {
+                "daysOfWeek": [
+                  "sun"
+                ],
+                "id": "sun-hours"
+              }
+            ],
+            "id": "myhealthsystem-Alias-GP6-GGIM",
+            "identifier": [
+              {
+                "system": "http://myhealthsystemhealth.org",
+                "type": {
+                  "coding": [
+                    {
+                      "code": "alias",
+                      "system": "http://myhealthsystemhealth.org"
+                    }
+                  ],
+                  "text": "Facility ID"
+                },
+                "value": "GP6-GGIM"
+              },
+              {
+                "system": "http://myhealthsystemhealth.org",
+                "type": {
+                  "coding": [
+                    {
+                      "code": "FI",
+                      "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                    }
+                  ],
+                  "text": "Facility Identifier"
+                },
+                "value": "GP6"
+              },
+              {
+                "system": "http://myhealthsystemhealth.org",
+                "type": {
+                  "coding": [
+                    {
+                      "code": "XX",
+                      "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                    }
+                  ],
+                  "text": "Organization Identifier"
+                },
+                "value": "1043"
+              },
+              {
+                "system": "http://myhealthsystemhealth.org",
+                "type": {
+                  "coding": [
+                    {
+                      "code": "DeptMnem",
+                      "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                    }
+                  ],
+                  "text": "Scheduling Department Mnem"
+                },
+                "value": "GGIM"
+              },
+              {
+                "system": "http://myhealthsystemhealth.org",
+                "type": {
+                  "coding": [
+                    {
+                      "code": "DeptNo",
+                      "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                    }
+                  ],
+                  "text": "Scheduling Department Number"
+                },
+                "value": "1126"
+              }
+            ],
+            "managingOrganization": {
+              "reference": "Organization/myhealthsystem-Alias-GP6-GGIM"
+            },
+            "meta": {
+              "security": [
+                {
+                  "code": "myhealthsystem",
+                  "system": "https://www.icanbwell.com/access"
+                },
+                {
+                  "code": "myhealthsystem",
+                  "system": "https://www.icanbwell.com/owner"
+                }
+              ],
+              "source": "http://myhealthsystemhealth.org/provider_appointment_type",
+              "versionId": "1"
+            },
+            "mode": "instance",
+            "name": "myhealthsystem Internal Medicine at Georgetown University Hospital",
+            "physicalType": {
+              "coding": [
+                {
+                  "code": "bu",
+                  "system": "http://terminology.hl7.org/CodeSystem/location-physical-type"
+                }
+              ]
+            },
+            "position": {
+              "latitude": 38.908993,
+              "longitude": -77.07526
+            },
+            "resourceType": "Location",
+            "status": "active",
+            "telecom": [
+              {
+                "id": "amp-central-scheduling-phone",
+                "rank": 1,
+                "system": "phone",
+                "use": "work",
+                "value": "(999) 999-9999"
+              },
+              {
+                "id": "amp-office-phone",
+                "rank": 2,
+                "system": "phone",
+                "use": "work",
+                "value": "(999) 999-9999"
+              },
+              {
+                "id": "amp-office-fax",
+                "rank": 3,
+                "system": "fax",
+                "use": "work",
+                "value": "(999) 999-9999"
+              }
+            ],
+            "type": [
+              {
+                "coding": [
+                  {
+                    "code": "Primary Care and Student Health",
+                    "display": "Primary Care and Student Health",
+                    "system": "http://myhealthsystemhealth.org"
+                  }
+                ],
+                "text": "practice speciality"
+              }
+            ]
+          },
+          {
+            "id": "1043289440-MCS-MVVM",
+            "identifier": [
+              {
+                "system": "http://medstarhealth.org",
+                "use": "usual",
+                "value": "1043289440-MCS-MCPS"
+              }
+            ],
+            "location": [
+              {
+                "reference": "Location/myhealthsystem-Alias-GP6-GGIM"
+              }
+            ],
+            "meta": {
+              "security": [
+                {
+                  "code": "medstar",
+                  "system": "https://www.icanbwell.com/access"
+                },
+                {
+                  "code": "medstar",
+                  "system": "https://www.icanbwell.com/owner"
+                }
+              ],
+              "source": "http://medstarhealth.org/provider_appointment_type",
+              "versionId": "1"
+            },
+            "name": "PrimaryCare",
+            "resourceType": "HealthcareService",
+            "type": [
+              {
+                "coding": [
+                  {
+                    "display": "PrimaryCare",
+                    "system": "http://terminology.hl7.org/CodeSystem/service-category"
+                  },
+                  {
+                    "code": "PrimaryCare",
+                    "display": "PrimaryCare",
+                    "system": "http://medstarhealth.org/protocol"
+                  }
+                ]
+              }
+            ]
           },
           {
             "active": true,

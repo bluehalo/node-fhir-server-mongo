@@ -381,7 +381,10 @@ async function get_reverse_references(
     if (parentIdList.length === 0) {
         return;
     }
-    const reverseFilterWithParentIds = reverse_filter.replace('{ref}', parentIdList.toString());
+    const reverseFilterWithParentIds = reverse_filter.replace(
+        '{ref}',
+        `${parentCollectionName}/${parentIdList.toString()}`
+    );
     /**
      * @type {import('mongodb').Collection<Document>}
      */
@@ -582,10 +585,13 @@ function getFilterFromPropertyPath(property) {
  * processes a single graph link
  * @param {import('mongodb').Db} db
  * @param {GraphParameters} graphParameters
+ * @param {string | null} parentResourceType
  * @param {{path: string, params: string, target: {type: string}[]}} link
  * @param {[EntityAndContainedBase]} parentEntities
  */
-async function processOneGraphLink(db, graphParameters, link,
+async function processOneGraphLink(db, graphParameters,
+                                   parentResourceType,
+                                   link,
                                    parentEntities) {
 
     /**
@@ -657,10 +663,17 @@ async function processOneGraphLink(db, graphParameters, link,
                  * @type {string}
                  */
                 verifyHasValidScopes(resourceType, 'read', graphParameters.user, graphParameters.scope);
+                if (!parentResourceType) {
+                    throw new Error(
+                        'processOneGraphLink: No parent resource found for reverse references for parent entities:'
+                        + ` ${parentEntities.map(p => `${p.resource.resourceType}/${p.resource.id}`).toString()}`
+                        + ` using target.params: ${target.params}`
+                    );
+                }
                 await get_reverse_references(
                     db,
                     graphParameters,
-                    resourceType,
+                    parentResourceType,
                     resourceType,
                     parentEntities,
                     null,
@@ -686,6 +699,7 @@ async function processOneGraphLink(db, graphParameters, link,
                     await processOneGraphLink(
                         db,
                         graphParameters,
+                        childEntries[0].resource ? childEntries[0].resource.resourceType : null, // assume childEntries are all of the same type
                         childLink,
                         childEntries
                     );
@@ -699,11 +713,14 @@ async function processOneGraphLink(db, graphParameters, link,
  * processes a list of graph links
  * @param {import('mongodb').Db} db
  * @param {GraphParameters} graphParameters
+ * @param {string} parentResourceType
  * @param {[Resource]} parentEntities
  * @param {[{path:string, params: string,target:[{type: string}]}]} linkItems
  * @return {Promise<[ResourceEntityAndContained]>}
  */
-async function processGraphLinks(db, graphParameters, parentEntities, linkItems) {
+async function processGraphLinks(db, graphParameters,
+                                 parentResourceType,
+                                 parentEntities, linkItems) {
     /**
      * @type {[ResourceEntityAndContained]}
      */
@@ -719,7 +736,7 @@ async function processGraphLinks(db, graphParameters, parentEntities, linkItems)
         /**
          * @type {ResourceEntityAndContained[]}
          */
-        await processOneGraphLink(db, graphParameters, link, resultEntities);
+        await processOneGraphLink(db, graphParameters, parentResourceType, link, resultEntities);
     }
     return resultEntities;
 }
@@ -790,7 +807,7 @@ const removeDuplicatesWithLambda = (array, fnCompare) => {
  * @param {import('mongodb').Db} db
  * @param {GraphParameters} graphParameters
  * @param {string} collection_name
- * @param {string} resource_name
+ * @param {string} resourceType
  * @param {Resource} graphDefinition
  * @param {boolean} contained
  * @param {boolean} hash_references
@@ -798,7 +815,7 @@ const removeDuplicatesWithLambda = (array, fnCompare) => {
  * @return {Promise<{resource: Resource, fullUrl: string}[]>}
  */
 async function processMultipleIds(db, graphParameters, collection_name,
-                                  resource_name, graphDefinition,
+                                  resourceType, graphDefinition,
                                   contained, hash_references,
                                   idList) {
     /**
@@ -808,7 +825,7 @@ async function processMultipleIds(db, graphParameters, collection_name,
     /**
      * @type {function(?Object): Resource}
      */
-    const StartResource = getResource(graphParameters.base_version, resource_name);
+    const StartResource = getResource(graphParameters.base_version, resourceType);
     /**
      * @type {[{resource: Resource, fullUrl: string}]}
      */
@@ -845,7 +862,7 @@ async function processMultipleIds(db, graphParameters, collection_name,
         {
             retries: 5,
             onFailedAttempt: async error => {
-                let msg = `Search ${resource_name}/$graph/${JSON.stringify(idList)} Retry Number: ${error.attemptNumber}: ${error.message}`;
+                let msg = `Search ${resourceType}/$graph/${JSON.stringify(idList)} Retry Number: ${error.attemptNumber}: ${error.message}`;
                 logError(graphParameters.user, msg);
                 await logMessageToSlack(msg);
             }
@@ -887,6 +904,7 @@ async function processMultipleIds(db, graphParameters, collection_name,
      * @type {[ResourceEntityAndContained]}
      */
     const allRelatedEntries = await processGraphLinks(db, graphParameters,
+        resourceType,
         topLevelBundleEntries.map(e => e.resource), linkItems);
 
     for (const topLevelBundleEntry of topLevelBundleEntries) {
