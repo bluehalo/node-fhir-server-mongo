@@ -1,0 +1,15 @@
+[
+  {
+    "education": null,
+    "extension": null,
+    "id": "unitypoint-e.uenWRddtomnQhn6HK1MXzGLF8HAIHYiGjRkMjvOMNE3",
+    "lotNumber": null,
+    "note": null,
+    "occurrenceDateTime": "2021-10-01T00:00:00.000Z",
+    "protocolApplied": null,
+    "site": null,
+    "vaccineCode": {
+      "text": "Influenza (FLUAD) aIIV4 PREFILLED SYRINGE"
+    }
+  }
+]
