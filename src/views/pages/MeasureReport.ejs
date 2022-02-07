@@ -1,67 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <%- include('../partials/head'); %>
-</head>
-<body class="container">
+  <head>
+    <%- include('../partials/head'); %>
+  </head>
+  <body class="container-fluid p-0">
+    <header><%- include('../partials/header', {resources: resources}); %></header>
 
-<header>
-  <%- include('../partials/header', {resources: resources}); %>
-</header>
+    <main class="d-flex align-items-start">
+      <%- include('../partials/searchForm'); %>
+      <div class="search-results">
+        <% resources.forEach(function(res){ %>
+        <div class="resource-item p-3">
+          <!-- prettier-ignore -->
+          <%- include('../partials/resourceHeader', {res: res}); %>
+          <h4>Status</h4>
+          <%= res.status %>
+          <h4>Type</h4>
+          <%= res.type %>
+          <h4>Measure</h4>
+          <%= res.measure %>
 
-<main>
-  <div class="jumbotron">
-    <% resources.forEach(function(res){ %>
-        <%- include('../partials/resourceHeader', {res: res}); %>
-        <h4>Status</h4><%= res.status %>
-        <h4>Type</h4><%= res.type %>
-        <h4>Measure</h4><%= res.measure %>
+          <!-- prettier-ignore -->
+          <%- include('../partials/reference', {references: [res.subject], name: "Subject"}); %>
+          <%- include('../partials/period', {periods: [res.period], name: "Period"}); %>
 
-        <%- include('../partials/reference', {references: [res.subject], name: "Subject"}); %>
-
-        <%- include('../partials/period', {periods: [res.period], name: "Period"}); %>
-
-        <% if (res.group){%>
-            <h4>Group</h4>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th scope="col">Population</th>
-                  <th scope="col">Measure Score</th>
-                </tr>
-              </thead>
-              <tbody>
-            <% res.group.forEach(function(group){%>
+          <% if (res.group){%>
+          <h4>Group</h4>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Population</th>
+                <th scope="col">Measure Score</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- prettier-ignore -->
+              <% res.group.forEach(function(group){%>
                 <% group.population.forEach(function(population){%>
-                <tr>
-                    <td>
-                    <% if (population.code && population.code.coding){%>
+              <tr>
+                <td>
+                  <!-- prettier-ignore -->
+                  <% if (population.code && population.code.coding){%>
                     <% population.code.coding.forEach(function(coding){%>
-                        <%= coding.code %> = <%= population.count %>
+                      <%= coding.code %> = <%= population.count %>
                     <%})%>
-                    <%}%>
-                    </td>
-                    <td>
-                        <% if (group.measureScore){%>
-                            <%= group.measureScore.value %>
-                        <%}%>
-                    </td>
-                </tr>
-                <%})%>
-            <%})%>
-              </tbody>
-            </table>
-        <%}%>
+                  <%}%>
+                </td>
+                <td><% if (group.measureScore){%> <%= group.measureScore.value %> <%}%></td>
+              </tr>
+              <!-- prettier-ignore -->
+              <%})%>
+              <%})%>
+            </tbody>
+          </table>
+          <%}%>
+          <!-- prettier-ignore -->
+          <%- include('../partials/json', {res: res}); %>
+        </div>
+        <%})%>
+      </div>
+    </main>
 
-        <%- include('../partials/json', {res: res}); %>
-    <%})%>
-  </div>
-</main>
-
-<footer>
-    <%- include('../partials/bundleMeta', {meta: meta}); %>
-    <%- include('../partials/footer', {url: url}); %>
-</footer>
-
-</body>
+    <%- include('../partials/footer', {url: url, meta: meta}); %>
+  </body>
 </html>

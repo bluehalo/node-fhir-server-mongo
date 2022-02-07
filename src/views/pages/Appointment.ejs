@@ -1,38 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <%- include('../partials/head'); %>
-</head>
-<body class="container">
+  <head>
+    <%- include('../partials/head'); %>
+  </head>
+  <body class="container-fluid p-0">
+    <header><%- include('../partials/header', {resources: resources}); %></header>
 
-<header>
-  <%- include('../partials/header', {resources: resources}); %>
-</header>
+    <main class="d-flex align-items-start">
+      <%- include('../partials/searchForm'); %>
+      <div class="search-results">
+        <% resources.forEach(function(res){ %>
+        <div class="resource-item p-3">
+          <!-- prettier-ignore -->
+          <%- include('../partials/resourceHeader', {res: res}); %>
 
-<main>
-  <div class="jumbotron">
-    <% resources.forEach(function(res){ %>
-        <%- include('../partials/resourceHeader', {res: res}); %>
+          <h4>Status</h4>
+          <%= res.status %>
+          <h4>Start</h4>
+          <%= res.start %>
+          <h4>Created</h4>
+          <%= res.created %>
 
-        <h4>Status</h4><%= res.status %>
-        <h4>Start</h4><%= res.start %>
-        <h4>Created</h4><%= res.created %>
+          <!-- prettier-ignore -->
+          <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.serviceCategory, name: "Service Category", searchParameter: "service-category"}); %>
+          <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.serviceType, name: "Service Type", searchParameter: "service-type"}); %>
+          <%- include('../partials/participant', {resourceType: res.resourceType, participants: res.participant, name: "Participants"}); %>
+          <%- include('../partials/json', {res: res}); %>
+        </div>
+        <%})%>
+      </div>
+    </main>
 
-        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.serviceCategory, name: "Service Category", searchParameter: "service-category"}); %>
-
-        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.serviceType, name: "Service Type", searchParameter: "service-type"}); %>
-
-        <%- include('../partials/participant', {resourceType: res.resourceType, participants: res.participant, name: "Participants"}); %>
-
-        <%- include('../partials/json', {res: res}); %>
-    <%})%>
-  </div>
-</main>
-
-<footer>
-    <%- include('../partials/bundleMeta', {meta: meta}); %>
-    <%- include('../partials/footer', {url: url}); %>
-</footer>
-
-</body>
+    <%- include('../partials/footer', {url: url, meta: meta}); %>
+  </body>
 </html>

@@ -1,41 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <%- include('../partials/head'); %>
-</head>
-<body class="container">
+  <head>
+    <%- include('../partials/head'); %>
+  </head>
+  <body class="container-fluid p-0">
+    <header><%- include('../partials/header', {resources: resources}); %></header>
 
-<header>
-  <%- include('../partials/header', {resources: resources}); %>
-</header>
+    <main class="d-flex align-items-start">
+      <%- include('../partials/searchForm'); %>
+      <div class="search-results">
+        <% resources.forEach(function(res){ %>
+        <div class="resource-item p-3">
+          <!-- prettier-ignore -->
+          <%- include('../partials/resourceHeader', {res: res}); %>
 
-<main>
-  <div class="jumbotron">
-    <% resources.forEach(function(res){ %>
-        <%- include('../partials/resourceHeader', {res: res}); %>
+          <h4>Status</h4>
+          <%= res.status %>
+          <!-- prettier-ignore -->
+          <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: [res.type], name: "Type", searchParameter:'type'}); %>
+          <%- include('../partials/reference', {references: [res.subscriber], name: "Subscriber"}); %>
+          <%- include('../partials/reference', {references: [res.beneficiary], name: "Beneficiary"}); %>
+          <%- include('../partials/reference', {references: res.payor, name: "Payor"}); %>
+          <%- include('../partials/period', {periods: [res.period], name: "Period"}); %>
+          <%- include('../partials/codeableConceptWithValue', {resourceType: res.resourceType, codeableConceptsWithValue: res.class, codePropertyName: "type", name: "Class", searchParameter:'class-type'}); %>
+          <%- include('../partials/reference', {references: res.contract, name: "Contract"}); %>
+          <%- include('../partials/json', {res: res}); %>
+        </div>
+        <%})%>
+      </div>
+    </main>
 
-        <h4>Status</h4><%= res.status %>
-        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: [res.type], name: "Type", searchParameter:'type'}); %>
-
-        <%- include('../partials/reference', {references: [res.subscriber], name: "Subscriber"}); %>
-        <%- include('../partials/reference', {references: [res.beneficiary], name: "Beneficiary"}); %>
-        <%- include('../partials/reference', {references: res.payor, name: "Payor"}); %>
-
-        <%- include('../partials/period', {periods: [res.period], name: "Period"}); %>
-
-        <%- include('../partials/codeableConceptWithValue', {resourceType: res.resourceType, codeableConceptsWithValue: res.class, codePropertyName: "type", name: "Class", searchParameter:'class-type'}); %>
-
-        <%- include('../partials/reference', {references: res.contract, name: "Contract"}); %>
-
-        <%- include('../partials/json', {res: res}); %>
-    <%})%>
-  </div>
-</main>
-
-<footer>
-    <%- include('../partials/bundleMeta', {meta: meta}); %>
-    <%- include('../partials/footer', {url: url}); %>
-</footer>
-
-</body>
+    <%- include('../partials/footer', {url: url, meta: meta}); %>
+  </body>
 </html>
