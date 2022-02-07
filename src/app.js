@@ -26,8 +26,6 @@ const { handleStats } = require('./routeHandlers/stats');
 const { handleSmartConfiguration } = require('./routeHandlers/smartConfiguration');
 const { isTrue } = require('./utils/isTrue');
 
-// const {countAllRequests} = require('./monitoring');
-
 if (isTrue(env.TRACING_ENABLED)) {
   require('./tracing');
 }
@@ -55,8 +53,6 @@ app.use(Prometheus.requestCounters);
 app.use(Prometheus.responseCounters);
 Prometheus.injectMetricsRoute(app);
 Prometheus.startCollection();
-
-// app.use(countAllRequests());
 
 // Set EJS as templating engine
 app.set('views', path.join(__dirname, '/views'));
@@ -149,17 +145,14 @@ app.use('/fonts', express.static(path.join(__dirname, '../node_modules/fontaweso
 // noinspection JSCheckFunctionSignatures
 passport.use('graphqlStrategy', strategy);
 
-// app.use(passport.initialize());
-
 if (isTrue(env.ENABLE_GRAPHQL)) {
   graphql().then((x) => {
     // eslint-disable-next-line new-cap
     const router = express.Router();
     router.use(passport.initialize({}));
     router.use(passport.authenticate('graphqlStrategy', { session: false }, null));
-
     router.use(x);
-    // app.use('/graphql', x);
+
     app.use(cors(fhirServerConfig.server.corsOptions));
     app.use('/graphql', router);
     app.use(fhirApp.app);
