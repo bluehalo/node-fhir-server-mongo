@@ -7,46 +7,69 @@ function getParamsFromReq(req) {
   return searchParams ? Object.fromEntries(searchParams.entries()) : {};
 }
 
-const getFormData = (req, resourceName) => {
-  const params = getParamsFromReq(req);
+function getIdentifierField(params) {
   const identifierParts = params.identifier ? params.identifier.split('|') : [];
+  let identArray = [];
+  if (identifierParts) {
+    identArray.push({
+      label: 'Identifier System',
+      name: 'identifier_system',
+      value: identifierParts[0] ? identifierParts[0] : '',
+    });
+    identArray.push({
+      label: 'Identifier Value',
+      name: 'identifier_value',
+      value: identifierParts[1] ? identifierParts[1] : '',
+    });
+  }
+  return identArray;
+}
 
-  const givenNameField = {
+function givenNameField(params) {
+  return {
     label: 'Given (Name)',
     name: 'given',
     value: params.given ? params.given : '',
   };
-  const familyNameField = {
+}
+
+function familyNameField(params) {
+  return {
     label: 'Family (Name)',
     name: 'family',
     value: params.family ? params.family : '',
   };
+}
+
+function getPatientForm(params) {
+  const patientArray = [];
+  patientArray.push(givenNameField(params));
+  patientArray.push(familyNameField(params));
+  patientArray.concat(getIdentifierField(params));
+}
+
+function getPractitionerForm(params) {
+  const practitionerArray = [];
+  practitionerArray.push(givenNameField(params));
+  practitionerArray.push(familyNameField(params));
+  practitionerArray.push({
+    label: 'NPI',
+    name: 'npi',
+    value: params.identifier ? params.identifier.replace(identifierUrl, '') : '',
+  });
+}
+
+const getFormData = (req, resourceName) => {
+  const params = getParamsFromReq(req);
 
   let formData = [];
 
   switch (resourceName) {
     case 'Patient':
-      formData.push(givenNameField);
-      formData.push(familyNameField);
-      formData.push({
-        label: 'Identifier System',
-        name: 'identifier_system',
-        value: identifierParts[0] ? identifierParts[0] : '',
-      });
-      formData.push({
-        label: 'Identifier Value',
-        name: 'identifier_value',
-        value: identifierParts[1] ? identifierParts[1] : '',
-      });
+      formData.concat(getPatientForm(params));
       break;
     case 'Practitioner':
-      formData.push(givenNameField);
-      formData.push(familyNameField);
-      formData.push({
-        label: 'NPI',
-        name: 'npi',
-        value: params.identifier ? params.identifier.replace(identifierUrl, '') : '',
-      });
+      formData.concat(getPractitionerForm(params));
       break;
   }
 
