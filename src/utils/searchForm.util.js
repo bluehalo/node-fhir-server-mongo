@@ -42,10 +42,11 @@ function familyNameField(params) {
 }
 
 function getPatientForm(params) {
-  const patientArray = [];
+  let patientArray = [];
   patientArray.push(givenNameField(params));
   patientArray.push(familyNameField(params));
-  patientArray.concat(getIdentifierField(params));
+  patientArray = patientArray.concat(getIdentifierField(params));
+  return patientArray;
 }
 
 function getPractitionerForm(params) {
@@ -57,6 +58,7 @@ function getPractitionerForm(params) {
     name: 'npi',
     value: params.identifier ? params.identifier.replace(identifierUrl, '') : '',
   });
+  return practitionerArray;
 }
 
 const getFormData = (req, resourceName) => {
@@ -66,10 +68,10 @@ const getFormData = (req, resourceName) => {
 
   switch (resourceName) {
     case 'Patient':
-      formData.concat(getPatientForm(params));
+      formData = formData.concat(getPatientForm(params));
       break;
     case 'Practitioner':
-      formData.concat(getPractitionerForm(params));
+      formData = formData.concat(getPractitionerForm(params));
       break;
   }
 
