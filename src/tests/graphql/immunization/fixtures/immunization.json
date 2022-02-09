@@ -1,0 +1,107 @@
+{
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "Immunization",
+        "id": "unitypoint-e.uenWRddtomnQhn6HK1MXzGLF8HAIHYiGjRkMjvOMNE3",
+        "meta": {
+          "versionId": "1",
+          "lastUpdated": "2022-02-01T19:58:39.000Z",
+          "source": "https://epicfhir.unitypoint.org/NonProdFHIR/api/FHIR/R4/metadata",
+          "security": [
+            {
+              "system": "https://www.icanbwell.com/owner",
+              "code": "unitypointuat"
+            },
+            {
+              "system": "https://www.icanbwell.com/access",
+              "code": "unitypointuat"
+            },
+            {
+              "system": "https://www.icanbwell.com/vendor",
+              "code": "unitypointuat"
+            }
+          ]
+        },
+        "identifier": [
+          {
+            "use": "usual",
+            "system": "urn:oid:1.2.840.114350.1.13.283.3.7.2.768076",
+            "value": "33773193"
+          }
+        ],
+        "status": "completed",
+        "vaccineCode": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/sid/cvx",
+              "code": "205"
+            }
+          ],
+          "text": "Influenza (FLUAD) aIIV4 PREFILLED SYRINGE"
+        },
+        "patient": {
+          "reference": "Patient/unitypoint-evW5FfLpFzNjyITIoWZa8JmfDI3ZSubvceVKU5895EoM3",
+          "display": "Bwell, Testusersix \"TESTUSER6\""
+        },
+        "encounter": {
+          "reference": "Encounter/unitypoint-e2N9EYqT3Cjdac8DrGLJdlA3"
+        },
+        "occurrenceDateTime": "2021-10-01T00:00:00.000Z",
+        "primarySource": false
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Immunization",
+        "id": "bad",
+        "meta": {
+          "versionId": "1",
+          "lastUpdated": "2022-02-01T19:58:39.000Z",
+          "source": "https://epicfhir.unitypoint.org/NonProdFHIR/api/FHIR/R4/metadata",
+          "security": [
+            {
+              "system": "https://www.icanbwell.com/owner",
+              "code": "unitypointuat"
+            },
+            {
+              "system": "https://www.icanbwell.com/access",
+              "code": "unitypointuat"
+            },
+            {
+              "system": "https://www.icanbwell.com/vendor",
+              "code": "unitypointuat"
+            }
+          ]
+        },
+        "identifier": [
+          {
+            "use": "usual",
+            "system": "urn:oid:1.2.840.114350.1.13.283.3.7.2.768076",
+            "value": "33773193"
+          }
+        ],
+        "status": "completed",
+        "vaccineCode": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/sid/cvx",
+              "code": "205"
+            }
+          ],
+          "text": "Influenza (FLUAD) aIIV4 PREFILLED SYRINGE"
+        },
+        "patient": {
+          "reference": "Patient/unitypoint-evW5FfLpFzNjyITIoWZa8JmfDI3ZSubvceVKU5895EoM3",
+          "display": "Bwell, Testusersix \"TESTUSER6\""
+        },
+        "encounter": {
+          "reference": "Encounter/unitypoint-e2N9EYqT3Cjdac8DrGLJdlA3"
+        },
+        "occurrenceDateTime": "2020-12-01T00:00:00.000Z",
+        "primarySource": false
+      }
+    }
+  ],
+  "resourceType": "Bundle"
+}

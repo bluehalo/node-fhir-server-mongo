@@ -684,7 +684,17 @@ async function processOneGraphLink(db, graphParameters,
             }
         }
 
+        // filter childEntries to find entries of same type as parentResource
+        childEntries = childEntries.filter(c =>
+            (!target.type && !c.resource) // either there is no target type so choose non-resources
+            || (target.type && c.resource && c.resource.resourceType === target.type) // or there is a target type so match to it
+        );
         if (childEntries && childEntries.length > 0) {
+            /**
+             * @type {string|null}
+             */
+            const childResourceType = target.type;
+
             // Now recurse down and process the link
             /**
              * @type {[{path:string, params: string,target:[{type: string}]}]}
@@ -699,7 +709,7 @@ async function processOneGraphLink(db, graphParameters,
                     await processOneGraphLink(
                         db,
                         graphParameters,
-                        childEntries[0].resource ? childEntries[0].resource.resourceType : null, // assume childEntries are all of the same type
+                        childResourceType,
                         childLink,
                         childEntries
                     );

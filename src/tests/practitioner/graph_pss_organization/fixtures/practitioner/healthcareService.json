@@ -1,0 +1,110 @@
+{
+  "resourceType": "HealthcareService",
+  "id": "Medstar-Alias-MPF-MPCR",
+  "meta": {
+    "versionId": "32",
+    "lastUpdated": "2022-02-07T15:59:18.000Z",
+    "source": "http://medstarhealth.org/practice",
+    "security": [
+      {
+        "system": "https://www.icanbwell.com/access",
+        "code": "medstar"
+      },
+      {
+        "system": "https://www.icanbwell.com/owner",
+        "code": "medstar"
+      }
+    ]
+  },
+  "extension": [
+    {
+      "id": "agerange",
+      "url": "agerange",
+      "valueRange": {
+        "low": {
+          "value": 0,
+          "unit": "years"
+        },
+        "high": {
+          "value": 120,
+          "unit": "years"
+        }
+      }
+    },
+    {
+      "id": "new-patients-1",
+      "extension": [
+        {
+          "id": "agerange",
+          "url": "agerange",
+          "valueRange": {
+            "low": {
+              "value": 0,
+              "unit": "years"
+            },
+            "high": {
+              "value": 120,
+              "unit": "years"
+            }
+          }
+        },
+        {
+          "id": "acceptPatients",
+          "url": "acceptPatients",
+          "valueCodeableConcept": {
+            "coding": [
+              {
+                "system": "https://build.fhir.org/ig/HL7/davinci-pdex-plan-net/CodeSystem-AcceptingPatientsCS.html",
+                "code": "Accepting"
+              },
+              {
+                "system": "https://build.fhir.org/ig/HL7/davinci-pdex-plan-net/CodeSystem-AcceptingPatientsCS.html",
+                "code": "newpt"
+              }
+            ],
+            "text": "acceptingPatients"
+          }
+        }
+      ],
+      "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/newpatients"
+    }
+  ],
+  "identifier": [
+    {
+      "use": "usual",
+      "system": "http://medstarhealth.org",
+      "value": "MPF-MPCR"
+    }
+  ],
+  "active": false,
+  "providedBy": {
+    "reference": "Organization/Medstar-Alias-MPF-MPCR"
+  },
+  "type": [
+    {
+      "coding": [
+        {
+          "system": "http://terminology.hl7.org/CodeSystem/service-type",
+          "code": "556",
+          "display": "Urgent Care"
+        }
+      ]
+    }
+  ],
+  "specialty": [
+    {
+      "coding": [
+        {
+          "system": "http://nucc.org/provider-taxonomy",
+          "code": "261QU0200X",
+          "display": "Urgent Care"
+        }
+      ]
+    }
+  ],
+  "location": [
+    {
+      "reference": "Location/Medstar-Alias-MPF-MPCR"
+    }
+  ]
+}

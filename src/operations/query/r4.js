@@ -229,7 +229,16 @@ module.exports.buildR4SearchQuery = (resourceName, args) => {
                                 queryParameterValue = [queryParameterValue];
                             }
                             for (const dateQueryItem of queryParameterValue) {
-                                if (propertyObj.field === 'meta.lastUpdated') {
+                                if (propertyObj.fields) {
+                                    and_segments.push({
+                                        $or: propertyObj.fields.map(f => {
+                                            return {
+                                                [`${f}`]: dateQueryBuilder(
+                                                    dateQueryItem, propertyObj.type, '')
+                                            };
+                                        })
+                                    });
+                                } else if (propertyObj.field === 'meta.lastUpdated') {
                                     // this field stores the date as a native date so we can do faster queries
                                     and_segments.push({
                                         [`${propertyObj.field}`]: dateQueryBuilderNative(

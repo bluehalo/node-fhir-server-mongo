@@ -1,0 +1,599 @@
+{
+  "resourceType": "Bundle",
+  "id": "bundle-example",
+  "type": "collection",
+  "timestamp": "2022-02-07T06:27:34.3434Z",
+  "entry": [
+    {
+      "fullUrl": "https://fhir.icanbwell.com/4_0_0/Organization/Medstar-Alias-MPF-MPCR",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "Medstar-Alias-MPF-MPCR",
+        "meta": {
+          "versionId": "1",
+          "lastUpdated": "2022-02-07T12:03:23.000Z",
+          "source": "http://medstarhealth.org/practice",
+          "security": [
+            {
+              "system": "https://www.icanbwell.com/access",
+              "code": "medstar"
+            },
+            {
+              "system": "https://www.icanbwell.com/owner",
+              "code": "medstar"
+            }
+          ]
+        },
+        "contained": [
+          {
+            "resourceType": "Location",
+            "id": "Medstar-Alias-MPF-MPCR",
+            "meta": {
+              "versionId": "1",
+              "lastUpdated": "2022-02-07T12:12:27.000Z",
+              "source": "http://medstarhealth.org/provider_appointment_type",
+              "security": [
+                {
+                  "system": "https://www.icanbwell.com/access",
+                  "code": "medstar"
+                },
+                {
+                  "system": "https://www.icanbwell.com/owner",
+                  "code": "medstar"
+                }
+              ]
+            },
+            "extension": [
+              {
+                "url": "http://medstarhealth.org/parking",
+                "valueString": "Free Parking Available! Free parking is available behind the building in our dedicated parking deck, located on Harvey Street.   To access the parking deck  From the North  toward the Inner Harbor  1. Turn left onto Boyle Street 2. Turn left onto Harvey Street 3. Turn left to enter the parking deck From the South  toward I-95 South  1. Turn right onto Boyle Street 2. Turn left onto Harvey Street 3. Turn left to enter the parking deck  Once you have parked in the parking deck, enter the building through the door marked  MedStar Health.  That door leads directly into MedStar Health Urgent Care at Federal Hill."
+              }
+            ],
+            "identifier": [
+              {
+                "type": {
+                  "coding": [
+                    {
+                      "system": "http://medstarhealth.org",
+                      "code": "alias"
+                    }
+                  ],
+                  "text": "Facility ID"
+                },
+                "system": "http://medstarhealth.org",
+                "value": "MPF-MPCR"
+              },
+              {
+                "type": {
+                  "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                      "code": "FI"
+                    }
+                  ],
+                  "text": "Facility Identifier"
+                },
+                "system": "http://medstarhealth.org",
+                "value": "MPF"
+              },
+              {
+                "type": {
+                  "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                      "code": "XX"
+                    }
+                  ],
+                  "text": "Organization Identifier"
+                },
+                "system": "http://medstarhealth.org",
+                "value": "5098"
+              },
+              {
+                "type": {
+                  "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                      "code": "DepartmentName"
+                    }
+                  ],
+                  "text": "Scheduling Department Name"
+                },
+                "system": "http://medstarhealth.org",
+                "value": "PROMPTCARE"
+              },
+              {
+                "type": {
+                  "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                      "code": "DeptMnem"
+                    }
+                  ],
+                  "text": "Scheduling Department Mnem"
+                },
+                "system": "http://medstarhealth.org",
+                "value": "MPCR"
+              },
+              {
+                "type": {
+                  "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                      "code": "DeptNo"
+                    }
+                  ],
+                  "text": "Scheduling Department Number"
+                },
+                "system": "http://medstarhealth.org",
+                "value": "6000"
+              }
+            ],
+            "status": "active",
+            "name": "PromptCare Federal Hill",
+            "description": "We're Proud To Offer These Services  - Illness care  flu, allergies, bronchitis, infections, pneumonia, strep throat, pink eye, sinus infection treatment, cold symptom treatment, UTI treatment  urinary tract infection , yeast infection treatment, and more  - Injury care  stitches, concussion evaluations, sprains, lacerations, broken bones, minor burn treatment and more  - Sports physicals - STD testing - Pre-surgery physicals - Flu shots  seasonal availability, check with insurance provider for coverage . If 65 years of age or older, please contact your primary care physician for the higher dose vaccine. - X-ray and basic on-site laboratory  strep, mono, influenza, urine testing, pregnancy  - On-site multispecialty care center - Learn more about MedStar Health at Federal Hill",
+            "mode": "instance",
+            "type": [
+              {
+                "coding": [
+                  {
+                    "system": "http://medstarhealth.org",
+                    "code": "Urgent Care",
+                    "display": "Urgent Care"
+                  }
+                ],
+                "text": "practice speciality"
+              }
+            ],
+            "telecom": [
+              {
+                "id": "amp-office-phone",
+                "system": "phone",
+                "value": "(855) 910-3278",
+                "use": "work",
+                "rank": 2
+              },
+              {
+                "id": "amp-office-fax",
+                "system": "fax",
+                "value": "(410) 230-7821",
+                "use": "work",
+                "rank": 3
+              }
+            ],
+            "address": {
+              "line": [
+                "1420 Key Hwy"
+              ],
+              "city": "Baltimore",
+              "state": "MD",
+              "postalCode": "21230-5546"
+            },
+            "physicalType": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+                  "code": "bu"
+                }
+              ]
+            },
+            "position": {
+              "longitude": -76.60114,
+              "latitude": 39.272858
+            },
+            "managingOrganization": {
+              "reference": "Organization/Medstar-Alias-MPF-MPCR"
+            },
+            "hoursOfOperation": [
+              {
+                "id": "mon-hours",
+                "daysOfWeek": [
+                  "mon"
+                ],
+                "openingTime": "08:00:00",
+                "closingTime": "20:00:00"
+              },
+              {
+                "id": "tue-hours",
+                "daysOfWeek": [
+                  "tue"
+                ],
+                "openingTime": "08:00:00",
+                "closingTime": "20:00:00"
+              },
+              {
+                "id": "wed-hours",
+                "daysOfWeek": [
+                  "wed"
+                ],
+                "openingTime": "08:00:00",
+                "closingTime": "20:00:00"
+              },
+              {
+                "id": "thu-hours",
+                "daysOfWeek": [
+                  "thu"
+                ],
+                "openingTime": "08:00:00",
+                "closingTime": "20:00:00"
+              },
+              {
+                "id": "fri-hours",
+                "daysOfWeek": [
+                  "fri"
+                ],
+                "openingTime": "08:00:00",
+                "closingTime": "20:00:00"
+              },
+              {
+                "id": "sat-hours",
+                "daysOfWeek": [
+                  "sat"
+                ],
+                "openingTime": "08:00:00",
+                "closingTime": "20:00:00"
+              },
+              {
+                "id": "sun-hours",
+                "daysOfWeek": [
+                  "sun"
+                ],
+                "openingTime": "08:00:00",
+                "closingTime": "20:00:00"
+              }
+            ]
+          },
+          {
+            "resourceType": "HealthcareService",
+            "id": "Medstar-Alias-MPF-MPCR",
+            "meta": {
+              "versionId": "1",
+              "lastUpdated": "2022-02-07T15:59:18.000Z",
+              "source": "http://medstarhealth.org/practice",
+              "security": [
+                {
+                  "system": "https://www.icanbwell.com/access",
+                  "code": "medstar"
+                },
+                {
+                  "system": "https://www.icanbwell.com/owner",
+                  "code": "medstar"
+                }
+              ]
+            },
+            "extension": [
+              {
+                "id": "agerange",
+                "url": "agerange",
+                "valueRange": {
+                  "low": {
+                    "value": 0,
+                    "unit": "years"
+                  },
+                  "high": {
+                    "value": 120,
+                    "unit": "years"
+                  }
+                }
+              },
+              {
+                "id": "new-patients-1",
+                "extension": [
+                  {
+                    "id": "agerange",
+                    "url": "agerange",
+                    "valueRange": {
+                      "low": {
+                        "value": 0,
+                        "unit": "years"
+                      },
+                      "high": {
+                        "value": 120,
+                        "unit": "years"
+                      }
+                    }
+                  },
+                  {
+                    "id": "acceptPatients",
+                    "url": "acceptPatients",
+                    "valueCodeableConcept": {
+                      "coding": [
+                        {
+                          "system": "https://build.fhir.org/ig/HL7/davinci-pdex-plan-net/CodeSystem-AcceptingPatientsCS.html",
+                          "code": "Accepting"
+                        },
+                        {
+                          "system": "https://build.fhir.org/ig/HL7/davinci-pdex-plan-net/CodeSystem-AcceptingPatientsCS.html",
+                          "code": "newpt"
+                        }
+                      ],
+                      "text": "acceptingPatients"
+                    }
+                  }
+                ],
+                "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/newpatients"
+              }
+            ],
+            "identifier": [
+              {
+                "use": "usual",
+                "system": "http://medstarhealth.org",
+                "value": "MPF-MPCR"
+              }
+            ],
+            "active": false,
+            "providedBy": {
+              "reference": "Organization/Medstar-Alias-MPF-MPCR"
+            },
+            "type": [
+              {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/service-type",
+                    "code": "556",
+                    "display": "Urgent Care"
+                  }
+                ]
+              }
+            ],
+            "specialty": [
+              {
+                "coding": [
+                  {
+                    "system": "http://nucc.org/provider-taxonomy",
+                    "code": "261QU0200X",
+                    "display": "Urgent Care"
+                  }
+                ]
+              }
+            ],
+            "location": [
+              {
+                "reference": "Location/Medstar-Alias-MPF-MPCR"
+              }
+            ]
+          },
+          {
+            "resourceType": "Schedule",
+            "id": "Medstar-Alias-MPF-MPCR",
+            "meta": {
+              "versionId": "1",
+              "lastUpdated": "2022-02-07T18:26:58.000Z",
+              "source": "http://medstarhealth.org/practice",
+              "security": [
+                {
+                  "system": "https://www.icanbwell.com/owner",
+                  "code": "medstar"
+                },
+                {
+                  "system": "https://www.icanbwell.com/access",
+                  "code": "medstar"
+                },
+                {
+                  "system": "https://www.icanbwell.com/access",
+                  "code": "asymmetrik"
+                },
+                {
+                  "system": "https://www.icanbwell.com/vendor",
+                  "code": "asymmetrik"
+                }
+              ]
+            },
+            "extension": [
+              {
+                "id": "providersearch-IDHP",
+                "extension": [
+                  {
+                    "id": "forsystem",
+                    "url": "forSystem",
+                    "valueUri": "http://medstarhealth.org/IDHP"
+                  },
+                  {
+                    "id": "searchable",
+                    "url": "searchCharacteristic",
+                    "valueCodeableConcept": {
+                      "id": "1",
+                      "coding": [
+                        {
+                          "id": "1",
+                          "system": "https://raw.githubusercontent.com/imranq2/SparkAutoMapper.FHIR/main/ValueSet/search_characteristic",
+                          "code": "searchable"
+                        }
+                      ],
+                      "text": "Provider is searchable"
+                    }
+                  },
+                  {
+                    "id": "bookable",
+                    "url": "searchCharacteristic",
+                    "valueCodeableConcept": {
+                      "id": "1",
+                      "coding": [
+                        {
+                          "id": "1",
+                          "system": "https://raw.githubusercontent.com/imranq2/SparkAutoMapper.FHIR/main/ValueSet/search_characteristic",
+                          "code": "bookable"
+                        }
+                      ],
+                      "text": "Provider is online bookable"
+                    }
+                  }
+                ],
+                "url": "https://raw.githubusercontent.com/imranq2/SparkAutoMapper.FHIR/main/StructureDefinition/provider_search"
+              }
+            ],
+            "identifier": [
+              {
+                "type": {
+                  "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                      "code": "solv_queue_id_1",
+                      "display": "Federal Hill - Medical Assistant Only Visit"
+                    }
+                  ],
+                  "text": "Solv queue id for Federal Hill - Medical Assistant Only Visit: A477w0"
+                },
+                "system": "http://medstarhealth.org",
+                "value": "A477w0"
+              },
+              {
+                "type": {
+                  "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                      "code": "solv_queue_id_2",
+                      "display": "Federal Hill - Physical"
+                    }
+                  ],
+                  "text": "Solv queue id for Federal Hill - Physical: ABb1JA"
+                },
+                "system": "http://medstarhealth.org",
+                "value": "ABb1JA"
+              },
+              {
+                "type": {
+                  "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                      "code": "solv_queue_id_3",
+                      "display": "Federal Hill - Urgent Care"
+                    }
+                  ],
+                  "text": "Solv queue id for Federal Hill - Urgent Care: 0e11Y0"
+                },
+                "system": "http://medstarhealth.org",
+                "value": "0e11Y0"
+              }
+            ],
+            "active": true,
+            "serviceType": [
+              {
+                "coding": [
+                  {
+                    "system": "http://medstarhealth.org/appointment_types",
+                    "display": "Federal Hill - Medical Assistant Only Visit"
+                  }
+                ],
+                "text": "Medstar Appointment Type: Federal Hill - Medical Assistant Only Visit"
+              },
+              {
+                "coding": [
+                  {
+                    "system": "http://medstarhealth.org/appointment_types",
+                    "display": "Federal Hill - Physical"
+                  }
+                ],
+                "text": "Medstar Appointment Type: Federal Hill - Physical"
+              },
+              {
+                "coding": [
+                  {
+                    "system": "http://medstarhealth.org/appointment_types",
+                    "display": "Federal Hill - Urgent Care"
+                  }
+                ],
+                "text": "Medstar Appointment Type: Federal Hill - Urgent Care"
+              },
+              {
+                "coding": [
+                  {
+                    "system": "http://medstarhealth.org/protocol"
+                  }
+                ],
+                "text": "Medstar Protocol Departments"
+              }
+            ],
+            "actor": [
+              {
+                "reference": "HealthcareService/Medstar-Alias-MPF-MPCR"
+              }
+            ]
+          }
+        ],
+        "extension": [
+          {
+            "extension": [
+              {
+                "url": "https://raw.githubusercontent.com/imranq2/SparkAutoMapper.FHIR/main/StructureDefinition/longitude",
+                "valueDecimal": -76.60114
+              },
+              {
+                "url": "https://raw.githubusercontent.com/imranq2/SparkAutoMapper.FHIR/main/StructureDefinition/latitude",
+                "valueDecimal": 39.272858
+              }
+            ],
+            "url": "https://raw.githubusercontent.com/imranq2/SparkAutoMapper.FHIR/main/StructureDefinition/position"
+          }
+        ],
+        "identifier": [
+          {
+            "use": "usual",
+            "system": "http://medstarhealth.org",
+            "value": "MPF-MPCR"
+          }
+        ],
+        "active": true,
+        "type": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/organization-type",
+                "code": "prov",
+                "display": "Healthcare Provider"
+              }
+            ],
+            "text": "Healthcare Organization"
+          }
+        ],
+        "name": "MedStar Health Urgent Care in Federal Hill",
+        "alias": [
+          "MedStar Urgent Care at Federal Hill",
+          "MedStar Urgent Care in Federal Hill"
+        ],
+        "telecom": [
+          {
+            "id": "amp-office-phone",
+            "system": "phone",
+            "value": "(855) 910-3278",
+            "use": "work",
+            "rank": 1
+          },
+          {
+            "id": "amp-office-tax",
+            "system": "fax",
+            "value": "(410) 230-7821",
+            "use": "work",
+            "rank": 2
+          }
+        ],
+        "address": [
+          {
+            "line": [
+              "1420 Key Hwy Ste 200"
+            ],
+            "city": "Baltimore",
+            "state": "MD",
+            "postalCode": "21230-5548"
+          }
+        ],
+        "partOf": {
+          "reference": "Organization/Medstar--1169180118",
+          "display": "MedStar Health Urgent Care at Federal Hill"
+        },
+        "contact": [
+          {
+            "purpose": {
+              "coding": [
+                {
+                  "system": "http://medstarhealth.org",
+                  "code": "Central Scheduling"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+query {
+    immunization(
+        _count: 100
+        date:{value:{greaterThan:"2021-01-01"}}
+    ) {
+        id
+        vaccineCode {
+            text
+        }
+        occurrenceDateTime
+        lotNumber
+        site {
+            text
+        }
+        note {
+            id
+            text
+        }
+        education {
+            documentType
+            reference
+        }
+        extension {
+            url
+            valueBoolean
+        }
+        protocolApplied {
+            targetDisease {
+                text
+            }
+        }
+    }
+}

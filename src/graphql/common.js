@@ -124,6 +124,8 @@ module.exports.findResourcesByReference = async (parent, args, context, info, re
  */
 // eslint-disable-next-line no-unused-vars
 module.exports.getResources = async (parent, args, context, info, resourceType) => {
+    // https://www.apollographql.com/blog/graphql/filtering/how-to-search-and-filter-results-with-graphql/
+    // TODO: iterate over the keys in args.  handle all the search parameters in src/graphql/schemas/inputs
     return module.exports.unBundle(
         await search(
             getRequestInfo(context),

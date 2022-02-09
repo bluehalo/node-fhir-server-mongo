@@ -1,0 +1,62 @@
+{
+  "resourceType": "GraphDefinition",
+  "id": "o",
+  "name": "organization_everything",
+  "status": "active",
+  "start": "Organization",
+  "link": [
+    {
+      "target": [
+        {
+          "type": "Location",
+          "params": "organization={ref}"
+        }
+      ]
+    },
+    {
+      "target": [
+        {
+          "type": "HealthcareService",
+          "params": "organization={ref}",
+          "link": [
+            {
+              "target": [
+                {
+                  "type": "Schedule",
+                  "params": "actor={ref}"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "target": [
+        {
+          "type": "OrganizationAffiliation",
+          "params": "participating-organization={ref}",
+          "link": [
+            {
+              "path": "extension.extension:url=plan",
+              "target": [
+                {
+                  "link": [
+                    {
+                      "path": "valueReference",
+                      "target": [
+                        {
+                          "type": "InsurancePlan"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
