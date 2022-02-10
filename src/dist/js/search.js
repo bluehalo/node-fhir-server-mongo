@@ -11,6 +11,19 @@ const datepicker = new Datepicker(elem, {
   clearBtn: true,
 });
 
+function getSearchParams(resourceName) {
+  fetch('/json/search-parameters.json')
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      const found = data.entry.filter((entry) => {
+        return entry.resource.base.includes(resourceName) && entry.resource.type === 'string';
+      });
+      console.log(found);
+    });
+}
+
 const clearInputs = document.querySelectorAll('.clear-input');
 for (const input of clearInputs) {
   input.addEventListener('click', clearInput);
@@ -40,7 +53,8 @@ function clearInput(e) {
 
 function resetSubmit() {
   const formAction = formElement.getAttribute('action');
-  window.location.assign(formAction);
+  getSearchParams('Patient');
+  // window.location.assign(formAction);
 }
 
 function searchSubmit(e) {
