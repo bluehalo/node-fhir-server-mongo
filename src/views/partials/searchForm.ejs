@@ -1,0 +1,52 @@
+<form class="search-form" action="/4_0_0/<%= resourceName %>" id="searchForm">
+  <% for (var i = 0; i < formData.length; i++) { %>
+  <div class="form-group form-group-clear">
+    <label for="<%= formData[i].name %>" class="visually-hidden"><%= formData[i].label %></label>
+    <input
+      id="<%= formData[i].name %>"
+      type="text"
+      class="form-control clear-allowed"
+      name="<%= formData[i].name %>"
+      value="<%= formData[i].value %>"
+      placeholder="<%= formData[i].label %>"
+      autocomplete="off"
+    />
+    <span class="fa fa-times clear-input"></span>
+  </div>
+  <% } %>
+
+  <div class="form-group">
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="before_after" id="before" value="le" <%=
+      lastUpdatedBefore ? 'checked' : '' %> />
+      <label class="form-check-label" for="before">Last Updated Before</label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="before_after" id="after" value="ge" <%=
+      !lastUpdatedBefore ? 'checked' : '' %> />
+      <label class="form-check-label" for="after">Last Updated After</label>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="last" class="visually-hidden">Last Updated</label>
+    <input
+      id="_lastUpdated"
+      class="form-control"
+      name="_lastUpdated"
+      value="<%= lastUpdated %>"
+      placeholder="YYYY-MM-DD"
+      autocomplete="off"
+    />
+  </div>
+
+  <div class="form-group">
+    <button type="button" id="resetFormButton" class="btn btn-light mb-3">Reset</button>
+    <button type="submit" class="btn btn-primary mb-3">
+      <i class="fa fa-search"></i>
+      Search
+    </button>
+  </div>
+</form>
+<script src="/js/datepicker-full.min.js"></script>
+<script type="text/javascript" src="/js/search.js"></script>

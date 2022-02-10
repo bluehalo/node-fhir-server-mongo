@@ -1,44 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <%- include('../partials/head'); %>
-</head>
-<body class="container">
+  </head>
+  <body class="container-fluid p-0">
+    <header><%- include('../partials/header', {resources: resources}); %></header>
 
-<header>
-    <%- include('../partials/header', {resources: resources}); %>
-</header>
-
-<main>
-    <div class="jumbotron">
+    <main class="d-flex align-items-start">
+      <%- include('../partials/searchForm'); %>
+      <div class="search-results">
         <% resources.forEach(function(res){ %>
-            <%- include('../partials/resourceHeader', {res: res}); %>
+        <div class="resource-item p-3">
+          <!-- prettier-ignore -->
+          <%- include('../partials/resourceHeader', {res: res}); %>
 
-            <h4>Status</h4><%= res.active %>
-            <h4>Intent</h4><%= res.intent %>
+          <h4>Status</h4>
+          <%= res.active %>
+          <h4>Intent</h4>
+          <%= res.intent %>
 
-            <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: [res.code], name: "Code", searchParameter: 'code'}); %>
+          <!-- prettier-ignore -->
+          <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: [res.code], name: "Code", searchParameter: 'code'}); %>
+          <%- include('../partials/reference', {references: [res.subject], name: "Subject"}); %>
+          <%- include('../partials/period', {periods: [res.occurrencePeriod], name: "Occurrence Period"}); %>
 
-            <%- include('../partials/reference', {references: [res.subject], name: "Subject"}); %>
+        <% if (res.note) {%>
+          <h4>Note</h4>
+          <% res.note.forEach(function(note){%>
+          <p><%= note.text %></p>
+          <!-- prettier-ignore -->
+          <%})%>
+          <%}%>
+          <%- include('../partials/json', {res: res}); %>
+        </div>
+        <%})%>
+      </div>
+    </main>
 
-            <%- include('../partials/period', {periods: [res.occurrencePeriod], name: "Occurrence Period"}); %>
-
-            <% if (res.note) { %>
-                <h4>Note</h4>
-                <% res.note.forEach(function(note){ %>
-                    <p><%= note.text %></p>
-                <% }) %>
-            <% } %>
-
-            <%- include('../partials/json', {res: res}); %>
-        <% }) %>
-    </div>
-</main>
-
-<footer>
-    <%- include('../partials/bundleMeta', {meta: meta}); %>
-    <%- include('../partials/footer', {url: url}); %>
-</footer>
-
-</body>
+    <%- include('../partials/footer', {url: url, meta: meta}); %>
+  </body>
 </html>

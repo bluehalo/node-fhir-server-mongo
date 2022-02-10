@@ -1,16 +1,15 @@
-<hr />
-<nav aria-label="Page navigation example">
-  <ul class="pagination">
+<footer class="px-3 pt-2 d-flex border-top">
+  <ul class="pagination flex-grow-1">
+    <% if(locals.url) { %>
     <li class="page-item"><a class="page-link" href="#" id="lnkPrevious">Previous</a></li>
     <li class="page-item"><a class="page-link" href="#" id="lnkNext">Next</a></li>
+    <% } %>
   </ul>
-</nav>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-        <a href="<%= url %>"><%= url %></a>
-        <p class="">&copy; Copyright 2021 b.well Connected Health</p>
-    </div>
-</nav>
-<script src="/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="/js/footernav.js"></script>
+  <div class="small text-end pt-2">
+    <!-- prettier-ignore -->
+    <%- include('../partials/bundleMeta', {meta: meta}); %>
+    &copy; Copyright <%= currentYear %> b.well Connected Health
+  </div>
+</footer>
 
+<script type="text/javascript" src="/js/footernav.js"></script>

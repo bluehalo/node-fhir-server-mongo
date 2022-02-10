@@ -1,12 +1,11 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-        <a href="/" title="Go to Home Page"><img src="/images/helix.png" height="64px" /></a>
-        <a class="navbar-brand"><h2>Helix FHIR Server (<%= environment %>)</h2></a>
-        <form class="d-flex">
-          <button id="btnLogout" class="btn btn-success">
-          <i class="bi bi-arrow-bar-right"></i>
-          Logout</button>
-        </form>
-    </div>
+<nav class="navbar px-3 pt-2">
+    <a href="/" title="Go to Home Page" class="px-3"><img src="/images/helix.png" height="64px" /></a>
+    <a class="navbar-brand text-dark flex-grow-1"><h2>Helix FHIR Server <% if (locals.environment) { %> (<%= environment %>)<% } %></h2></a>
+    <% if (locals.environment) { %>
+      <button id="btnLogout" class="btn btn-success">
+        <i class="fa fa-sign-out"></i>
+        Logout
+      </button>
+      <script type="text/javascript" src="/js/authhandler.js"></script>
+    <% } %>
 </nav>
-<script type="text/javascript" src="/js/authhandler.js"></script>

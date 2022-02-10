@@ -1,63 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <%- include('../partials/head'); %>
-</head>
-<body class="container">
+  <head>
+    <%- include('../partials/head'); %>
+  </head>
+  <body class="container-fluid p-0">
+    <header><%- include('../partials/header', {resources: resources}); %></header>
 
-<header>
-  <%- include('../partials/header', {resources: resources}); %>
-</header>
+    <main class="d-flex align-items-start">
+      <%- include('../partials/searchForm'); %>
+      <div class="search-results">
+        <% resources.forEach(function(res){ %>
+        <div class="resource-item p-3">
+          <!-- prettier-ignore -->
+          <%- include('../partials/resourceHeader', {res: res}); %>
+          <%- include('../partials/humanNames', {names: res.name, resourceType: res.resourceType}); %>
 
-<main>
-  <div class="jumbotron">
-    <% resources.forEach(function(res){ %>
-        <%- include('../partials/resourceHeader', {res: res}); %>
+          <h4>Gender</h4>
+          <%= res.gender %>
+          <h4>Active</h4>
+          <%= res.active %> <%- include('../partials/contactpoint', {resourceType: res.resourceType,
+          contacts: res.telecom, name: "Telecom"}); %>
 
-        <%- include('../partials/humanNames', {names: res.name, resourceType: res.resourceType}); %>
+          <h4>BirthDate</h4>
+          <%= res.birthDate %>
 
-        <h4>Gender</h4><%= res.gender %>
-        <h4>Active</h4><%= res.active %>
-
-         <%- include('../partials/contactpoint', {resourceType: res.resourceType, contacts: res.telecom, name: "Telecom"}); %>
-
-         <h4>BirthDate</h4><%= res.birthDate %>
-
-         <%- include('../partials/address', {resourceType: res.resourceType, addresses: res.address, name: "Address"}); %>
-
-        <%- include('../partials/reference', {references: [res.managingOrganization], name: "Managing Organization"}); %>
-
-        <%  if (res.link) {%>
-            <h4>Link</h4>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th scope="col">Link</th>
-                  <th scope="col">Assurance</th>
-                </tr>
-              </thead>
-              <tbody>
-            <% res.link.forEach(function(link){%>
+          <!-- prettier-ignore -->
+          <%- include('../partials/address', {resourceType: res.resourceType, addresses: res.address, name: "Address"}); %>
+          <%- include('../partials/reference', {references: [res.managingOrganization], name: "Managing Organization"}); %>
+          <%  if (res.link) {%>
+          <h4>Link</h4>
+          <table class="table">
+            <thead>
               <tr>
-                <td><a href="/4_0_0/<%= link.target.reference %>"><% if (link.target.display) { %><%= link.target.display %><% } else {%><%= link.target.reference %><% } %></a></td>
-                <td><%= link.assurance %> </td>
+                <th scope="col">Link</th>
+                <th scope="col">Assurance</th>
               </tr>
-            <%})%>
+            </thead>
+            <tbody>
+              <% res.link.forEach(function(link){%>
+              <tr>
+                <td>
+                  <a href="/4_0_0/<%= link.target.reference %>"
+                    ><% if (link.target.display) { %><%= link.target.display %><% } else {%><%=
+                    link.target.reference %><% } %></a
+                  >
+                </td>
+                <td><%= link.assurance %></td>
+              </tr>
+              <%})%>
             </tbody>
-            </table>
-        <%}%>
+          </table>
+          <%}%>
+          <!-- prettier-ignore -->
+          <%- include('../partials/reverse_reference', {reverseReferences: [{target:'AuditEvent', property:'agent'}], id:res.id, name: "Audit Event"}); %>
+          <%- include('../partials/json', {res: res}); %>
+        </div>
+        <%})%>
+      </div>
+    </main>
 
-        <%- include('../partials/reverse_reference', {reverseReferences: [{target:'AuditEvent', property:'agent'}], id:res.id, name: "Audit Event"}); %>
-
-        <%- include('../partials/json', {res: res}); %>
-    <%})%>
-  </div>
-</main>
-
-<footer>
-    <%- include('../partials/bundleMeta', {meta: meta}); %>
-    <%- include('../partials/footer', {url: url}); %>
-</footer>
-
-</body>
+    <%- include('../partials/footer', {url: url, meta: meta}); %>
+  </body>
 </html>

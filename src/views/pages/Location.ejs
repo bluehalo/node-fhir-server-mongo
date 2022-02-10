@@ -1,79 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <%- include('../partials/head'); %>
-</head>
-<body class="container">
+  <head>
+    <%- include('../partials/head'); %>
+  </head>
+  <body class="container-fluid p-0">
+    <header><%- include('../partials/header', {resources: resources}); %></header>
 
-<header>
-  <%- include('../partials/header', {resources: resources}); %>
-</header>
+    <main class="d-flex align-items-start">
+      <%- include('../partials/searchForm'); %>
+      <div class="search-results">
+        <% resources.forEach(function(res){ %>
+        <div class="resource-item p-3">
+          <!-- prettier-ignore -->
+          <%- include('../partials/resourceHeader', {res: res}); %>
 
-<main>
-  <div class="jumbotron">
-    <% resources.forEach(function(res){ %>
-        <%- include('../partials/resourceHeader', {res: res}); %>
-
-        <h4>Status</h4><%= res.status %>
-        <h4>Name</h4><%= res.name %>
-        <h4>Mode</h4><%= res.mode %>
-
-        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.type, name: "Type", searchParameter: 'type'}); %>
-
-         <%- include('../partials/contactpoint', {resourceType: res.resourceType, contacts: res.telecom, name: "Telecom"}); %>
-
-         <%- include('../partials/address', {resourceType: res.resourceType, addresses: [res.address], name: "Address"}); %>
-
-        <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: [res.physicalType], name: "Physical Type", searchParameter: ''}); %>
-
-        <%- include('../partials/position', {positions: [res.position], name: "Position"}); %>
-
-        <%- include('../partials/reference', {references: [res.managingOrganization], name: "Managing Organization"}); %>
+          <h4>Status</h4>
+          <%= res.status %>
+          <h4>Name</h4>
+          <%= res.name %>
+          <h4>Mode</h4>
+          <%= res.mode %>
+          <!-- prettier-ignore -->
+          <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.type, name: "Type", searchParameter: 'type'}); %>
+          <%- include('../partials/contactpoint', {resourceType: res.resourceType, contacts: res.telecom, name: "Telecom"}); %>
+          <%- include('../partials/address', {resourceType: res.resourceType, addresses: [res.address], name: "Address"}); %>
+          <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: [res.physicalType], name: "Physical Type", searchParameter: ''}); %>
+          <%- include('../partials/position', {positions: [res.position], name: "Position"}); %>
+          <%- include('../partials/reference', {references: [res.managingOrganization], name: "Managing Organization"}); %>
 
         <% if (res.hoursOfOperation) {%>
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">Days Of Week</th>
-              <th scope="col">Opening Time</th>
-              <th scope="col">Closing Time</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% res.hoursOfOperation.forEach(function(hoursOfOperation){%>
-            <tr>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Days Of Week</th>
+                <th scope="col">Opening Time</th>
+                <th scope="col">Closing Time</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% res.hoursOfOperation.forEach(function(hoursOfOperation){%>
+              <tr>
                 <td>
-                <% if (hoursOfOperation.daysOfWeek) {%>
-                <% hoursOfOperation.daysOfWeek.forEach(function(daysOfWeek){%>
-                    <%= daysOfWeek %>
-                <%})%>
-                <%}%>
+                  <% if (hoursOfOperation.daysOfWeek) {%> <%
+                  hoursOfOperation.daysOfWeek.forEach(function(daysOfWeek){%> <%= daysOfWeek %>
+                  <%})%> <%}%>
                 </td>
                 <td><%= hoursOfOperation.openingTime %></td>
                 <td><%= hoursOfOperation.closingTime %></td>
-            </tr>
-            <%})%>
-          </tbody>
-        </table>
-        <%}%>
+              </tr>
+              <%})%>
+            </tbody>
+          </table>
+          <%}%>
+          <!-- prettier-ignore -->
+          <%- include('../partials/reverse_reference', {reverseReferences: [{target:'PractitionerRole', property:'location'}], id:res.id, name: "PractitionerRole"}); %>
+          <%- include('../partials/reverse_reference', {reverseReferences: [{target:'HealthcareService', property:'location'}], id:res.id, name: "HealthcareService"}); %>
+          <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Organization', property:'location'}], id:res.id, name: "Organization"}); %>
+          <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Schedule', property:'location'}], id:res.id, name: "Schedule"}); %>
+          <%- include('../partials/json', {res: res}); %>
+        </div>
+        <%})%>
+      </div>
+    </main>
 
-        <%- include('../partials/reverse_reference', {reverseReferences: [{target:'PractitionerRole', property:'location'}], id:res.id, name: "PractitionerRole"}); %>
-
-        <%- include('../partials/reverse_reference', {reverseReferences: [{target:'HealthcareService', property:'location'}], id:res.id, name: "HealthcareService"}); %>
-
-        <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Organization', property:'location'}], id:res.id, name: "Organization"}); %>
-
-        <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Schedule', property:'location'}], id:res.id, name: "Schedule"}); %>
-
-        <%- include('../partials/json', {res: res}); %>
-    <%})%>
-  </div>
-</main>
-
-<footer>
-    <%- include('../partials/bundleMeta', {meta: meta}); %>
-    <%- include('../partials/footer', {url: url}); %>
-</footer>
-
-</body>
+    <%- include('../partials/footer', {url: url, meta: meta}); %>
+  </body>
 </html>
