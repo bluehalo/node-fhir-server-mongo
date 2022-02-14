@@ -129,3 +129,8 @@ graphql:
 .PHONY:searchParameters
 searchParameters:
 	python3 src/searchParameters/generate_search_parameters.py
+
+.PHONY:audit_fix
+audit_fix:
+	. ${NVM_DIR}/nvm.sh && nvm use 16.13.0 && \
+	npm audit fix
