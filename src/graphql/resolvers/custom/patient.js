@@ -1,6 +1,20 @@
 const {getResources} = require('../../common');
+const {remove} = require('../../../operations/remove/remove');
 const {merge} = require('../../../operations/merge/merge');
 const {getRequestInfo} = require('../../requestInfoHelper');
+
+function removeAllGeneralPractitioner(arr, value) {
+  var i = 0;
+  while (i < arr.length) {
+    // eslint-disable-next-line security/detect-object-injection
+    if (arr[i].reference.indexOf(value, value.length - arr[i].reference.length) !== -1) {
+      arr.splice(i, 1);
+    } else {
+      ++i;
+    }
+  }
+  return arr;
+}
 
 module.exports = {
     Patient: {
@@ -61,6 +75,7 @@ module.exports = {
         updateGeneralPractitioner:
         // eslint-disable-next-line no-unused-vars
             async (parent, args, context, info) => {
+                const deletePractitioner = args.remove;
                 const patients = await getResources(
                     parent,
                     {
@@ -75,20 +90,35 @@ module.exports = {
                     throw new Error(`Patient not found ${args.patientId}`);
                 }
                 const patientToChange = patients[0];
-                const practitioners = await getResources(
-                    parent,
-                    {
-                        ...args,
-                        id: args.practitionerId,
-                    },
-                    context,
-                    info,
-                    'Practitioner'
-                );
-                if (practitioners.length === 0) {
-                    throw new Error(`Practitioner not found ${args.practitionerId}`);
+                if (deletePractitioner && patientToChange.generalPractitioner === null
+                    || patientToChange.generalPractitioner.length === 0){
+                        return patientToChange;
+                } else if (deletePractitioner) {
+                    patientToChange.generalPractitioner = removeAllGeneralPractitioner(patientToChange.generalPractitioner, args.practitionerId);
+                    const requestInfo = getRequestInfo(context);
+                    await remove(
+                        requestInfo,
+                        {...args, base_version: '4_0_0',
+                        id: args.patientId},
+                        'Patient',
+                        'Patient'
+                    );
+                } else {
+                    const practitioners = await getResources(
+                        parent,
+                        {
+                            ...args,
+                            id: args.practitionerId,
+                        },
+                        context,
+                        info,
+                        'Practitioner'
+                    );
+                    if (practitioners.length === 0) {
+                        throw new Error(`Practitioner not found ${args.practitionerId}`);
+                    }
+                    patientToChange.generalPractitioner = [{reference: `Practitioner/${practitioners[0].id}`}];
                 }
-                patientToChange.generalPractitioner = [{reference: `Practitioner/${practitioners[0].id}`}];
                 /**
                  * @type {import('../../../utils/requestInfo').RequestInfo}
                  */
