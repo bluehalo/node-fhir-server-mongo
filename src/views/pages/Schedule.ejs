@@ -9,7 +9,7 @@
     <main class="d-flex align-items-start">
       <%- include('../partials/searchForm'); %>
       <div class="search-results">
-        <% resources.forEach(function(res){ %>
+        <% resources.forEach(function(res, index){ %>
         <div class="resource-item p-3">
           <%- include('../partials/resourceHeader', {res: res}); %>
           <h4>Active</h4>
@@ -22,7 +22,7 @@
           <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Location', property:'actor'}], id:res.id, name: "Location"}); %>
           <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Patient', property:'actor'}], id:res.id, name: "Patient"}); %>
           <%- include('../partials/reverse_reference', {reverseReferences: [{target:'PractitionerRole', property:'actor'}], id:res.id, name: "PractitionerRole"}); %>
-          <%- include('../partials/json', {res: res}); %>
+          <%- include('../partials/json', {res: res, index: index}); %>
         </div>
         <%})%>
       </div>

@@ -9,7 +9,7 @@
     <main class="d-flex align-items-start">
       <%- include('../partials/searchForm'); %>
       <div class="search-results">
-        <% resources.forEach(function(res){ %>
+        <% resources.forEach(function(res, index){ %>
         <div class="resource-item p-3">
           <!-- prettier-ignore -->
           <%- include('../partials/resourceHeader', {res: res}); %>
@@ -21,7 +21,7 @@
           <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.communication, name: "Communication", searchParameter: ''}); %>
           <%- include('../partials/reverse_reference', {reverseReferences: [{target:'PractitionerRole', property:'actor'}], id:res.id, name: "Practitioner Role"}); %>
           <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Schedule', property:'healthcareService'}], id:res.id, name: "Schedule"}); %>
-          <%- include('../partials/json', {res: res}); %>
+          <%- include('../partials/json', {res: res, index: index}); %>
         </div>
         <%})%>
       </div>

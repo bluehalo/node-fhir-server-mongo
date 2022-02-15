@@ -9,7 +9,7 @@
     <main class="d-flex align-items-start">
       <%- include('../partials/searchForm'); %>
       <div class="search-results">
-        <% resources.forEach(function(res){ %>
+        <% resources.forEach(function(res, index){ %>
         <div class="resource-item p-3">
           <!-- prettier-ignore -->
           <%- include('../partials/resourceHeader', {res: res}); %>
@@ -24,7 +24,7 @@
           <%- include('../partials/period', {periods: [res.period], name: "Period"}); %>
           <%- include('../partials/codeableConceptWithValue', {resourceType: res.resourceType, codeableConceptsWithValue: res.class, codePropertyName: "type", name: "Class", searchParameter:'class-type'}); %>
           <%- include('../partials/reference', {references: res.contract, name: "Contract"}); %>
-          <%- include('../partials/json', {res: res}); %>
+          <%- include('../partials/json', {res: res, index: index}); %>
         </div>
         <%})%>
       </div>

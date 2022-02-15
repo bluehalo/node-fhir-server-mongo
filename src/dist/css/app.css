@@ -117,3 +117,7 @@ a.fa {
 .showInputClearLink {
   display: block;
 }
+
+.accordion-collapse {
+  max-width: calc(100vw - var(--left-nav-offset) - 6rem);
+}
