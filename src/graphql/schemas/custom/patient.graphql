@@ -10,5 +10,5 @@ extend type Patient {
 }
 
 type Mutation {
-    updateGeneralPractitioner(patientId: String, practitionerId: String): Patient
+    updateGeneralPractitioner(patientId: String, practitionerId: String, remove: Boolean): Patient
 }
