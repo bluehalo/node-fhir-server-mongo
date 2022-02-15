@@ -2,7 +2,7 @@
  * This middleware detects if the request is from a web browser user-agent and returns HTML rendered views
  */
 const { resourceDefinitions } = require('../utils/resourceDefinitions');
-const { searchFormData, lastUpdated, lastUpdatedBefore } = require('../utils/searchForm.util');
+const { searchFormData, lastUpdateStart, lastUpdateEnd } = require('../utils/searchForm.util');
 
 const htmlRenderer = (req, res, next) => {
   const parts = req.url.split(/[/?,&]+/);
@@ -52,8 +52,8 @@ const htmlRenderer = (req, res, next) => {
           formData: searchFormData(req, resourceName),
           resourceName: resourceName,
           currentYear: new Date().getFullYear(),
-          lastUpdated: lastUpdated(req),
-          lastUpdatedBefore: lastUpdatedBefore(req),
+          lastUpdateStart: lastUpdateStart(req, 'ge'),
+          lastUpdateEnd: lastUpdateEnd(req, 'le'),
         };
 
         if (resourceDefinition) {

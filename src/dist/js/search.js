@@ -4,11 +4,12 @@ const resetButtonElement = document
   .getElementById('resetFormButton')
   .addEventListener('click', resetSubmit);
 
-const elem = document.getElementById('_lastUpdated');
-const datepicker = new Datepicker(elem, {
+const dateRangeElement = document.getElementById('_lastUpdateRange');
+const datepicker = new DateRangePicker(dateRangeElement, {
   autohide: true,
   format: 'yyyy-mm-dd',
   clearBtn: true,
+  allowOneSidedRange: true,
 });
 
 const clearInputs = document.querySelectorAll('.clear-input');
@@ -49,6 +50,7 @@ function searchSubmit(e) {
   }
   const formAction = e.target.getAttribute('action');
   const formData = new FormData(e.target);
+  let params = new URLSearchParams();
   const data = {};
   formData.forEach((value, key) => {
     if (value !== '' && value !== null) {
@@ -56,25 +58,23 @@ function searchSubmit(e) {
     }
   });
   if (data.identifier_system && data.identifier_value) {
-    data.identifier = data.identifier_system + '|' + data.identifier_value;
+    params.append('identifier', data.identifier_system + '|' + data.identifier_value);
   }
   delete data.identifier_system;
   delete data.identifier_value;
 
-  if (data._lastUpdated) {
-    data._lastUpdated = data.before_after + data._lastUpdated;
+  if (data.lastUpdateStart) {
+    params.append('_lastUpdated', 'ge' + data.lastUpdateStart);
+    delete data.lastUpdateStart;
   }
-  delete data.before_after;
-
-  window.location.assign(formAction + '?' + jsonToQueryString(data));
-}
-
-function jsonToQueryString(jsonObj) {
-  var queryString = [];
-  for (var x in jsonObj) {
-    if (jsonObj.hasOwnProperty(x)) {
-      queryString.push(encodeURIComponent(x) + '=' + encodeURIComponent(jsonObj[x]));
-    }
+  if (data.lastUpdateEnd) {
+    params.append('_lastUpdated', 'le' + data.lastUpdateEnd);
+    delete data.lastUpdateEnd;
   }
-  return queryString.join('&');
+
+  Object.keys(data).forEach((key) => {
+    params.append(key, data[key]);
+  });
+
+  window.location.assign(formAction + '?' + params.toString());
 }
