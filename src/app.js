@@ -142,6 +142,7 @@ app.use(
 app.use('/css', express.static(path.join(__dirname, '../node_modules/bootstrap/dist/css')));
 app.use('/css', express.static(path.join(__dirname, '../node_modules/fontawesome-4.7/css')));
 app.use('/fonts', express.static(path.join(__dirname, '../node_modules/fontawesome-4.7/fonts')));
+app.use('/js', express.static(path.join(__dirname, '../node_modules/bootstrap/dist/js')));
 
 // noinspection JSCheckFunctionSignatures
 passport.use('graphqlStrategy', strategy);

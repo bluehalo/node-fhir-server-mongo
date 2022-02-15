@@ -96,6 +96,15 @@ module.exports = {
                     'entity.what.reference'
                 ]
             }
+        ],
+        'Observation_4_0_0': [
+            {
+                'helix_observation_effective_1': [
+                    'effectiveDateTime',
+                    'id',
+                    'subject.reference'
+                ]
+            }
         ]
     }
 };

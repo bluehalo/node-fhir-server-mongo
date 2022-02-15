@@ -1,10 +1,9 @@
 const identifierUrl = 'http://hl7.org/fhir/sid/us-npi|';
 
-function getParamsFromReq(req) {
-  const queryStart = req.originalUrl.indexOf('?');
-  const searchParams =
-    queryStart > -1 ? new URLSearchParams(req.originalUrl.substring(queryStart + 1)) : '';
-  return searchParams ? Object.fromEntries(searchParams.entries()) : {};
+function getSearchParams(req) {
+  const fakeBaseUrl = 'http://test.com'; // This is only used to form a full url
+  const searchQuery = new URL(fakeBaseUrl + req.originalUrl).search;
+  return new URLSearchParams(searchQuery);
 }
 
 function getIdentifierField(params) {
@@ -62,8 +61,8 @@ function getPractitionerForm(params) {
 }
 
 const getFormData = (req, resourceName) => {
-  const params = getParamsFromReq(req);
-
+  const searchParams = getSearchParams(req);
+  const params = searchParams ? Object.fromEntries(searchParams.entries()) : {};
   let formData = [];
 
   switch (resourceName) {
@@ -80,18 +79,19 @@ const getFormData = (req, resourceName) => {
   return formData;
 };
 
-const getLastUpdated = function (req) {
-  const params = getParamsFromReq(req);
-  return params._lastUpdated ? params._lastUpdated.replace('le', '').replace('ge', '') : '';
-};
-
-const isBefore = function (req) {
-  const params = getParamsFromReq(req);
-  return !params._lastUpdated || params._lastUpdated.includes('le', 0);
+const getLastUpdate = function (req, prefix) {
+  const searchParams = getSearchParams(req);
+  let dateString = '';
+  searchParams.forEach((value, key) => {
+    if (key === '_lastUpdated' && value.includes(prefix, 0)) {
+      dateString = value.replace(prefix, '');
+    }
+  });
+  return dateString;
 };
 
 module.exports = {
   searchFormData: getFormData,
-  lastUpdated: getLastUpdated,
-  lastUpdatedBefore: isBefore,
+  lastUpdateStart: getLastUpdate,
+  lastUpdateEnd: getLastUpdate,
 };

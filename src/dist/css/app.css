@@ -1,5 +1,5 @@
 :root {
-  --left-nav-offset: 340px;
+  --left-nav-offset: 19rem;
 }
 
 footer {
@@ -10,7 +10,7 @@ footer {
 
 .search-form .form-group {
   margin: 0.5rem 1rem;
-  width: 15rem;
+  width: var(--left-nav-offset);
 }
 
 .search-form {
@@ -60,7 +60,7 @@ h2 {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  width: calc(100vw - var(--left-nav-offset));
+  width: calc(100vw - var(--left-nav-offset) - 6rem);
 }
 
 a[name] {
@@ -116,4 +116,8 @@ a.fa {
 
 .showInputClearLink {
   display: block;
+}
+
+.accordion-collapse {
+  max-width: calc(100vw - var(--left-nav-offset) - 6rem);
 }

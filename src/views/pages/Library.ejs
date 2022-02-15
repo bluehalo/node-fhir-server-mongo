@@ -9,14 +9,14 @@
     <main class="d-flex align-items-start">
       <%- include('../partials/searchForm'); %>
       <div class="search-results">
-        <% resources.forEach(function(res){ %>
+        <% resources.forEach(function(res, index){ %>
         <div class="resource-item p-3">
           <!-- prettier-ignore -->
           <%- include('../partials/resourceHeader', {res: res}); %>
 
         <% if (res.content && res.content.length > 0) { %>
           <p></p>
-          <div class="accordion" id="accordianContent">
+          <div class="accordion" id="accordianContent<%= index %>">
             <div class="accordion-item">
               <h2 class="accordion-header" id="headingOne">
                 <button
@@ -34,7 +34,7 @@
                 id="collapseContent"
                 class="accordion-collapse collapse"
                 aria-labelledby="headingOne"
-                data-bs-parent="#accordianContent"
+                data-bs-parent="#accordianContent<%= index %>"
               >
                 <div class="accordion-body">
                   <pre>
@@ -46,7 +46,7 @@
               </div>
             </div>
           </div>
-          <% } %> <%- include('../partials/json', {res: res}); %>
+          <% } %> <%- include('../partials/json', {res: res, index: index}); %>
         </div>
         <%})%>
       </div>

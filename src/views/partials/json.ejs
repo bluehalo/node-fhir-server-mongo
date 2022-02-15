@@ -1,14 +1,26 @@
-<p></p>
-<div class="accordion" id="accordionExample">
+<div class="accordion mt-3" id="jsonAccordion<%= index %>">
   <div class="accordion-item">
     <h2 class="accordion-header" id="headingOne">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+      <button
+        class="accordion-button collapsed"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#jsonCollapse<%= index %>"
+        aria-expanded="false"
+        aria-controls="jsonCollapse<%= index %>"
+      >
         Raw Json
       </button>
     </h2>
-    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+    <div
+      id="jsonCollapse<%= index %>"
+      class="accordion-collapse collapse"
+      aria-labelledby="headingOne"
+      data-bs-parent="#jsonAccordion<%= index %>"
+    >
       <div class="accordion-body">
-        <h4>Raw Json</h4> (Use raw=1 on url if you want JUST the raw json)
+        <h4>Raw Json</h4>
+        (Use raw=1 on url if you want JUST the raw json)
         <pre>
             <code>
             <%- JSON.stringify(res, null, 4) %>
