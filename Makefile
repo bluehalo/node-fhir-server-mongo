@@ -1,3 +1,5 @@
+NODE_VERSION=16.14.0
+
 .PHONY:build
 build:
 	docker buildx build --platform=linux/amd64 -t imranq2/node-fhir-server-mongo:local .
@@ -47,7 +49,7 @@ init:
 	brew install kompose
 	#brew install nvm
 	curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.37.2/install.sh | zsh
-	nvm install 16.13
+	nvm install ${NODE_VERSION}
 	make update
 
 #   We use gitpkg to expose the subfolder as a package here.
@@ -60,43 +62,43 @@ init:
 
 .PHONY:update
 update:
-	. ${NVM_DIR}/nvm.sh && nvm use 16.13.0 && \
+	. ${NVM_DIR}/nvm.sh && nvm use ${NODE_VERSION} && \
 	yarn install --no-optional && \
 	npm i --package-lock-only
 
 .PHONY:tests
 tests:
-	. ${NVM_DIR}/nvm.sh && nvm use 16.13.0 && \
+	. ${NVM_DIR}/nvm.sh && nvm use ${NODE_VERSION} && \
 	npm test
 
 .PHONY:failed_tests
 failed_tests:
-	. ${NVM_DIR}/nvm.sh && nvm use 16.13.0 && \
+	. ${NVM_DIR}/nvm.sh && nvm use ${NODE_VERSION} && \
 	npm run test:failed
 
 .PHONY:specific_tests
 specific_tests:
-	. ${NVM_DIR}/nvm.sh && nvm use 16.13.0 && \
+	. ${NVM_DIR}/nvm.sh && nvm use ${NODE_VERSION} && \
 	npm run test:specific
 
 .PHONY:tests_integration
 tests_integration:
-	. ${NVM_DIR}/nvm.sh && nvm use 16.13.0 && \
+	. ${NVM_DIR}/nvm.sh && nvm use ${NODE_VERSION} && \
 	npm run test:integration
 
 .PHONY:tests_everything
 tests_everything:
-	. ${NVM_DIR}/nvm.sh && nvm use 16.13.0 && \
+	. ${NVM_DIR}/nvm.sh && nvm use ${NODE_VERSION} && \
 	npm run test:everything
 
 .PHONY:tests_graphql
 tests_graphql:
-	. ${NVM_DIR}/nvm.sh && nvm use 16.13.0 && \
+	. ${NVM_DIR}/nvm.sh && nvm use ${NODE_VERSION} && \
 	npm run test:graphql
 
 .PHONY:lint
 lint:
-	. ${NVM_DIR}/nvm.sh && nvm use 16.13.0 && \
+	. ${NVM_DIR}/nvm.sh && nvm use ${NODE_VERSION} && \
 	npm run test:lint && \
 	npm run test:ejslint
 
@@ -132,5 +134,5 @@ searchParameters:
 
 .PHONY:audit_fix
 audit_fix:
-	. ${NVM_DIR}/nvm.sh && nvm use 16.13.0 && \
+	. ${NVM_DIR}/nvm.sh && nvm use ${NODE_VERSION} && \
 	npm audit fix

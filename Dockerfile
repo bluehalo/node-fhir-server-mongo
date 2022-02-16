@@ -1,4 +1,4 @@
-FROM node:16.13-bullseye-slim as build
+FROM node:16.14-bullseye-slim as build
 # set our node environment, either development or production
 # defaults to production, compose overrides this to development on build and run
 ARG NODE_ENV=production
@@ -17,7 +17,7 @@ RUN if [ "$NODE_ENV" = "development" ] ; then echo 'building development' && cd 
 RUN curl https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem --output /srv/src/rds-combined-ca-bundle.pem
 
 
-FROM node:16.13-bullseye-slim
+FROM node:16.14-bullseye-slim
 # set our node environment, either development or production
 # defaults to production, compose overrides this to development on build and run
 ARG NODE_ENV=production
