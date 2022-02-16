@@ -5,14 +5,16 @@ const {getRequestInfo} = require('../../requestInfoHelper');
 
 function removeAllGeneralPractitioner(arr, value) {
   var i = 0;
-  while (i < arr.length) {
-    // eslint-disable-next-line security/detect-object-injection
-    if (arr[i].reference.indexOf(value, value.length - arr[i].reference.length) !== -1) {
-      arr.splice(i, 1);
-    } else {
-      ++i;
+  if (arr && value){
+    while (i < arr.length) {
+        // eslint-disable-next-line security/detect-object-injection
+        if (arr[i].reference.indexOf(value, value.length - arr[i].reference.length) !== -1) {
+            arr.splice(i, 1);
+        } else {
+            ++i;
+        }
     }
-  }
+    }
   return arr;
 }
 
@@ -86,12 +88,11 @@ module.exports = {
                     info,
                     'Patient'
                 );
-                if (patients.length === 0) {
+                if (patients && patients.length === 0) {
                     throw new Error(`Patient not found ${args.patientId}`);
                 }
                 const patientToChange = patients[0];
-                if (deletePractitioner && patientToChange.generalPractitioner === null
-                    || patientToChange.generalPractitioner.length === 0){
+                if (deletePractitioner && patientToChange.generalPractitioner === null){
                         return patientToChange;
                 } else if (deletePractitioner) {
                     patientToChange.generalPractitioner = removeAllGeneralPractitioner(patientToChange.generalPractitioner, args.practitionerId);
@@ -114,7 +115,7 @@ module.exports = {
                         info,
                         'Practitioner'
                     );
-                    if (practitioners.length === 0) {
+                    if (practitioners && practitioners.length === 0) {
                         throw new Error(`Practitioner not found ${args.practitionerId}`);
                     }
                     patientToChange.generalPractitioner = [{reference: `Practitioner/${practitioners[0].id}`}];
