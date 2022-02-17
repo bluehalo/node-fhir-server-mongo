@@ -1,6 +1,7 @@
 {
   "data": {
     "updateGeneralPractitioner": {
+      "id": "WPS-5458231534",
       "generalPractitioner": [
         {
           "__typename": "Practitioner",
@@ -12,7 +13,7 @@
           ]
         }
       ],
-      "id": "WPS-5458231534"
+      
     }
   }
 }
