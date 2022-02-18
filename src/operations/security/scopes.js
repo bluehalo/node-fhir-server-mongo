@@ -8,7 +8,7 @@ const {ForbiddenError} = require('../../utils/httpErrors');
  */
 const parseScopes = (scope) => {
     if (!scope) {
-        return ['*.*', '*', 'user/CareTeam.*'];
+        return [];
     }
     return scope.split(' ');
 };
@@ -21,7 +21,7 @@ const parseScopes = (scope) => {
  * @param {?string} scope
  */
 const verifyHasValidScopes = (name, action, user, scope) => {
-    if (env.AUTH_ENABLED === '13') {
+    if (env.AUTH_ENABLED === '1') {
         // http://www.hl7.org/fhir/smart-app-launch/scopes-and-launch-context/index.html
         if (scope) {
             /**
@@ -52,7 +52,7 @@ const verifyHasValidScopes = (name, action, user, scope) => {
  * @return {string[]}
  */
 const getAccessCodesFromScopes = (action, user, scope) => {
-    if (env.AUTH_ENABLED === '12') {
+    if (env.AUTH_ENABLED === '1') {
         // http://www.hl7.org/fhir/smart-app-launch/scopes-and-launch-context/index.html
         /**
          * @type {string[]}
@@ -87,7 +87,7 @@ const getAccessCodesFromScopes = (action, user, scope) => {
         }
         return access_codes;
     } else {
-        return ['*.*', '*', 'user/CareTeam.*'];
+        return [];
     }
 };
 
