@@ -18,6 +18,7 @@ const expectedHashReferencesResource = require('./fixtures/expected/expected_has
 const request = supertest(app);
 const {commonBeforeEach, commonAfterEach, getHeaders} = require('../../common');
 const {findDuplicateResources} = require('../../../utils/list.util');
+const {assertCompareBundles} = require('../../fhirAsserts');
 
 describe('Practitioner Graph Contained Tests', () => {
     beforeEach(async () => {
@@ -90,35 +91,8 @@ describe('Practitioner Graph Contained Tests', () => {
             console.log(JSON.stringify(resp.body, null, 2));
             console.log('------- end response  ------------');
             let body = resp.body;
-            delete body['timestamp'];
-            body.entry.forEach(element => {
-                delete element['fullUrl'];
-                delete element['resource']['meta']['lastUpdated'];
-                if (element['resource']['contained']) {
-                    element['resource']['contained'].forEach(containedElement => {
-                        delete containedElement['meta']['lastUpdated'];
-                    });
-                }
-            });
-
             let expected = expectedResource;
-            delete expected['timestamp'];
-            expected.entry.forEach(element => {
-                delete element['fullUrl'];
-                if ('meta' in element['resource']) {
-                    delete element['resource']['meta']['lastUpdated'];
-                }
-                element['resource']['meta']['versionId'] = '1';
-                if ('$schema' in element) {
-                    delete element['$schema'];
-                }
-                if (element['resource']['contained']) {
-                    element['resource']['contained'].forEach(containedElement => {
-                        delete containedElement['meta']['lastUpdated'];
-                    });
-                }
-            });
-            expect(body).toStrictEqual(expected);
+            assertCompareBundles(body, expected);
 
             resp = await request
                 .post('/4_0_0/Practitioner/$graph?id=1679033641&contained=true&_hash_references=true')
@@ -130,33 +104,7 @@ describe('Practitioner Graph Contained Tests', () => {
             console.log(JSON.stringify(resp.body, null, 2));
             console.log('------- end response  ------------');
             body = resp.body;
-            delete body['timestamp'];
-            body.entry.forEach(element => {
-                delete element['fullUrl'];
-                delete element['resource']['meta']['lastUpdated'];
-                if (element['resource']['contained']) {
-                    element['resource']['contained'].forEach(containedElement => {
-                        delete containedElement['meta']['lastUpdated'];
-                    });
-                }
-            });
             expected = expectedHashReferencesResource;
-            delete expected['timestamp'];
-            expected.entry.forEach(element => {
-                delete element['fullUrl'];
-                if ('meta' in element['resource']) {
-                    delete element['resource']['meta']['lastUpdated'];
-                }
-                element['resource']['meta']['versionId'] = '1';
-                if ('$schema' in element) {
-                    delete element['$schema'];
-                }
-                if (element['resource']['contained']) {
-                    element['resource']['contained'].forEach(containedElement => {
-                        delete containedElement['meta']['lastUpdated'];
-                    });
-                }
-            });
             console.log('----- Received resources ----');
             console.log(`${body.entry.map(e => e.resource).map(a => `${a.resourceType}/${a.id}`)}`);
             console.log('----- End of Received resources ----');
@@ -166,7 +114,7 @@ describe('Practitioner Graph Contained Tests', () => {
             );
             expect(duplicates.map(a => `${a.resourceType}/${a.id}`)).toStrictEqual([]);
 
-            expect(body).toStrictEqual(expected);
+            assertCompareBundles(body, expected);
         });
     });
 });
