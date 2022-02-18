@@ -3,12 +3,18 @@ const {remove} = require('../../../operations/remove/remove');
 const {merge} = require('../../../operations/merge/merge');
 const {getRequestInfo} = require('../../requestInfoHelper');
 
-function removeAllGeneralPractitioner(arr, value) {
+/**
+    method to match general practtioners to a id and remove from the provided list
+    @param {array} arr the list of practitioners to inspect
+    @param {string} id the id to remove from the list
+    @returns {array} the collection of ids after processing
+ */
+function removeAllGeneralPractitioner(arr, id) {
   var i = 0;
-  if (arr && value){
+  if (arr && id){
     while (i < arr.length) {
         // eslint-disable-next-line security/detect-object-injection
-        if (arr[i].reference.indexOf(value, value.length - arr[i].reference.length) !== -1) {
+        if (arr[i].reference.indexOf(id, id.length - arr[i].reference.length) !== -1) {
             arr.splice(i, 1);
         } else {
             ++i;
@@ -92,7 +98,7 @@ module.exports = {
                     throw new Error(`Patient not found ${args.patientId}`);
                 }
                 const patientToChange = patients[0];
-                if (deletePractitioner && patientToChange.generalPractitioner === null){
+                if (deletePractitioner && patientToChange.generalPractitioner == null){
                         return patientToChange;
                 } else if (deletePractitioner) {
                     patientToChange.generalPractitioner = removeAllGeneralPractitioner(patientToChange.generalPractitioner, args.practitionerId);

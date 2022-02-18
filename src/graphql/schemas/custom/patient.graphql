@@ -9,6 +9,23 @@ extend type Patient {
     condition: [Condition]
 }
 
+"""
+    updateGeneralPractitioner
+        mutation to update or remove a general practition for a patient
+"""
 type Mutation {
-    updateGeneralPractitioner(patientId: String, practitionerId: String, remove: Boolean): Patient
+    updateGeneralPractitioner(
+        """
+        patientId String the target for the general practitioner to be updated
+        """
+        patientId: String, 
+        """
+        practitionerId String the targeted practitioner id for the patient
+        """
+        practitionerId: String, 
+         """
+        remove 
+        optional Boolean parameter to mark the request to remove the practitioner id as the patients general practitioner
+        """
+        remove: Boolean): Patient
 }
