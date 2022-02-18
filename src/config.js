@@ -6,7 +6,7 @@ const Sentry = require('./middleware/sentry');
 const {profiles} = require('./profiles');
 // const {MongoClientOptions} = require('mongodb');
 
-let mongoUrl = env.MONGO_URL || `mongodb://${env.MONGO_HOSTNAME}:${env.MONGO_PORT}`;
+let mongoUrl = env.MONGO_URL || `mongodb://${env.MONGO_HOSTNAME}:27017`;
 if (env.MONGO_USERNAME !== undefined) {
     mongoUrl = mongoUrl.replace('mongodb://', `mongodb://${env.MONGO_USERNAME}:${env.MONGO_PASSWORD}@`);
 }

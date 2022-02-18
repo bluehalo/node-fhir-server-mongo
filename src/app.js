@@ -151,7 +151,7 @@ if (isTrue(env.ENABLE_GRAPHQL)) {
     // eslint-disable-next-line new-cap
     const router = express.Router();
     router.use(passport.initialize({}));
-    router.use(passport.authenticate('graphqlStrategy', { session: false }, null));
+    // router.use(passport.authenticate('graphqlStrategy', { session: false }, null));
     router.use(x);
 
     app.use(cors(fhirServerConfig.server.corsOptions));
