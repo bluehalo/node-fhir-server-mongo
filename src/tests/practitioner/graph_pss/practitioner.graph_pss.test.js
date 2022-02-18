@@ -167,8 +167,8 @@ describe('Practitioner Graph PSS Contained Tests', () => {
                     element['resource']['contained'].sort((a, b) => a.id - b.id);
                 }
             });
-            console.log('body:', body);
-            console.log('expected:', expected);
+            console.log('body:', JSON.stringify(body));
+            console.log('expected:', JSON.stringify(expected));
             expect(body).toStrictEqual(expected);
 
             resp = await request
