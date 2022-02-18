@@ -149,6 +149,7 @@ describe('Practitioner Graph PSS Contained Tests', () => {
 
             let expected = expectedResource;
             delete expected['timestamp'];
+            expected.entry.sort((a, b) => a.id - b.id);
             expected.entry.forEach(element => {
                 delete element['fullUrl'];
                 if ('meta' in element['resource']) {
@@ -162,8 +163,12 @@ describe('Practitioner Graph PSS Contained Tests', () => {
                     element['resource']['contained'].forEach(containedElement => {
                         delete containedElement['meta']['lastUpdated'];
                     });
+                    // sort the list
+                    element['resource']['contained'].sort((a, b) => a.id - b.id);
                 }
             });
+            console.log('body:', JSON.stringify(body));
+            console.log('expected:', JSON.stringify(expected));
             expect(body).toStrictEqual(expected);
 
             resp = await request
@@ -188,6 +193,7 @@ describe('Practitioner Graph PSS Contained Tests', () => {
             });
             expected = expectedHashReferencesResource;
             delete expected['timestamp'];
+            expected.entry.sort((a, b) => a.id - b.id);
             expected.entry.forEach(element => {
                 delete element['fullUrl'];
                 if ('meta' in element['resource']) {
@@ -201,6 +207,8 @@ describe('Practitioner Graph PSS Contained Tests', () => {
                     element['resource']['contained'].forEach(containedElement => {
                         delete containedElement['meta']['lastUpdated'];
                     });
+                    // sort the list
+                    element['resource']['contained'].sort((a, b) => a.id - b.id);
                 }
             });
             expect(body).toStrictEqual(expected);
