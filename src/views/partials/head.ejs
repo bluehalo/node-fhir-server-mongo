@@ -4,7 +4,9 @@
 <meta http-equiv="Expires" content="0" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<title>Helix FHIR Server<% if (locals.environment) { %> (<%= environment %>)<% } %></title>
+<title>
+  Helix FHIR Server | <% if (locals.resourceDefinition) { %> <%= resourceDefinition.name %><% } %>
+</title>
 
 <link rel="stylesheet" href="/css/bootstrap.min.css" />
 <link rel="stylesheet" href="/css/font-awesome.min.css" />

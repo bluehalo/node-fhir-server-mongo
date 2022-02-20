@@ -1,5 +1,9 @@
 const formElement = document.getElementById('searchForm');
 formElement.addEventListener('submit', searchSubmit);
+
+const advSearchFormElement = document.getElementById('advSearchForm');
+advSearchFormElement.addEventListener('submit', searchSubmit);
+
 const resetButtonElement = document
   .getElementById('resetFormButton')
   .addEventListener('click', resetSubmit);
@@ -12,18 +16,8 @@ const datepicker = new DateRangePicker(dateRangeElement, {
   allowOneSidedRange: true,
 });
 
-function getSearchParams(resourceName) {
-  fetch('/json/search-parameters.json')
-    .then((response) => {
-      return response.json();
-    })
-    .then((data) => {
-      const found = data.entry.filter((entry) => {
-        return entry.resource.base.includes(resourceName) && entry.resource.type === 'string';
-      });
-      console.log(found);
-    });
-}
+const advSearchModalButton = document.getElementById('advSearchModalButton');
+advSearchModalButton.addEventListener('click', searchSubmit);
 
 const clearInputs = document.querySelectorAll('.clear-input');
 for (const input of clearInputs) {
@@ -54,16 +48,20 @@ function clearInput(e) {
 
 function resetSubmit() {
   const formAction = formElement.getAttribute('action');
-  getSearchParams('Patient');
-  // window.location.assign(formAction);
+  window.location.assign(formAction);
 }
 
 function searchSubmit(e) {
   if (e) {
     e.preventDefault();
   }
-  const formAction = e.target.getAttribute('action');
-  const formData = new FormData(e.target);
+  const formAction = formElement.getAttribute('action');
+  const formData = new FormData(formElement);
+  const advFormData = new FormData(advSearchFormElement);
+  advFormData.forEach((value, key) => {
+    formData.append(key, value);
+  });
+
   let params = new URLSearchParams();
   const data = {};
   formData.forEach((value, key) => {
@@ -71,6 +69,7 @@ function searchSubmit(e) {
       data[key] = value;
     }
   });
+
   if (data.identifier_system && data.identifier_value) {
     params.append('identifier', data.identifier_system + '|' + data.identifier_value);
   }

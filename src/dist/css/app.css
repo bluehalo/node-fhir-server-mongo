@@ -9,14 +9,14 @@ footer {
 }
 
 .search-form .form-group {
-  margin: 0.5rem 1rem;
+  margin: 0.5rem 0;
   width: var(--left-nav-offset);
 }
 
 .search-form {
   padding-top: 0.5rem;
   position: sticky;
-  top: 122px;
+  top: 54px;
   z-index: 4;
 }
 
@@ -114,10 +114,34 @@ a.fa {
   position: relative;
 }
 
+.form-group-clear.col-auto .clear-input {
+  right: 0.7rem;
+  padding: 0.3rem 0.8rem;
+}
+
 .showInputClearLink {
   display: block;
 }
 
 .accordion-collapse {
   max-width: calc(100vw - var(--left-nav-offset) - 6rem);
+}
+
+.helix-logo {
+  background-image: url(../../images/helix.png);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: inline-block;
+  height: 35px;
+}
+
+#advSearchButton {
+  position: absolute;
+  right: 1rem;
+  top: 1.2rem;
+}
+
+main {
+  min-height: calc(100vh - 102px);
 }

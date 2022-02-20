@@ -1,37 +1,66 @@
-<%- include('../partials/nav'); %>
-<div class="d-flex px-3 border-bottom">
-  <% if (locals.resourceDefinition) {%>
-  <h3 class="flex-grow-1">
-    <%= resourceDefinition.name %><a
-      href="<%= resourceDefinition.url %>"
-      target="_blank"
-      title="<%= resourceDefinition.description %>"
-      class="fa fa-external-link resource-link"
-    ></a>
-  </h3>
-  <% if (resources.length > 0) { %>
-  <div class="dropdown dropdown-hover">
-    <button
-      type="button"
-      class="btn btn-link dropdown-toggle text-dark text-decoration-none"
-      id="dropdownMenuLink"
-      data-toggle="dropdown"
-      aria-haspopup="true"
-      aria-expanded="false"
-    >
-      <!-- prettier-ignore -->
-      <% if (total > 0) { %>
+<header>
+  <nav class="navbar px-3 pt-2">
+    <a href="/" title="Go to Home Page" class="px-3 helix-logo"></a>
+    <h5 class="flex-grow-1 px-3 mb-0">Helix FHIR Server</h5>
+    <% if (resources.length > 0) { %>
+    <div class="dropdown dropdown-hover">
+      <button
+        type="button"
+        class="btn btn-link dropdown-toggle text-dark text-decoration-none"
+        id="dropdownMenuLink"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        <!-- prettier-ignore -->
+        <% if (total > 0) { %>
         Resources (<%= resources.length %> out of <%= total %> total)
       <% } else { %>
         Resources (<%= resources.length %>)
       <%}%>
-    </button>
+      </button>
 
-    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-      <% resources.forEach(function(res){ %>
-      <a href="#<%= res.id %>" class="dropdown-item"><%= res.id %></a>
-      <%})%>
+      <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+        <% resources.forEach(function(res){ %>
+        <a href="#<%= res.id %>" class="dropdown-item"><%= res.id %></a>
+        <%})%>
+      </div>
+    </div>
+    <% } %>
+
+    <button
+      type="button"
+      id="appInfo"
+      class="btn btn-light fa fa-info mx-2"
+      title="Information"
+      data-bs-toggle="modal"
+      data-bs-target="#appInfoModal"
+    ></button>
+
+    <button id="btnLogout" class="btn btn-success btn-sm">
+      <i class="fa fa-sign-out"></i>
+      Logout
+    </button>
+  </nav>
+</header>
+<div class="modal fade" id="appInfoModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header py-2">
+        <h5 class="modal-title">Information</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <% if(locals.environment) { %>
+        <h5>Server</h5>
+        <%= locals.environment %><% } %>
+        <!-- prettier-ignore -->
+        <%- include('../partials/bundleMeta', {meta: meta}); %>
+      </div>
+      <div class="modal-footer py-1">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
     </div>
   </div>
-  <%}%> <%}%>
 </div>
+<script type="text/javascript" src="/js/authhandler.js"></script>
