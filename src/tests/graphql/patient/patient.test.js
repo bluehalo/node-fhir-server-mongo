@@ -231,8 +231,7 @@ describe('GraphQL Patient Tests', () => {
                 console.log(body.errors);
                 expect(body.errors).toBeUndefined();
             }
-            let expected = expectedUpdateGraphQlResponse;
-            expect(body).toStrictEqual(expected);
+            expect(body).toStrictEqual(expectedUpdateGraphQlResponse);
         });
     });
 });

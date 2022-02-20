@@ -1,4 +1,5 @@
 const {getResources} = require('../../common');
+const {getUuid} = require('../../../utils/uid.util' );
 const {merge} = require('../../../operations/merge/merge');
 const {getRequestInfo} = require('../../requestInfoHelper');
 
@@ -61,6 +62,9 @@ module.exports = {
                 const patientToChange = patients[0];
                 // create care team
                 const careTeam = mapCareTeam(args.team);
+                if (!careTeam.id){
+                    careTeam.id = getUuid(careTeam);
+                }
                 /**
                  * @type {import('../../../utils/requestInfo').RequestInfo}
                  */

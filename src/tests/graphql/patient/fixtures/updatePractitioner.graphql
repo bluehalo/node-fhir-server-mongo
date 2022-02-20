@@ -1,5 +1,5 @@
 mutation {
-  updateGeneralPractitioner(patientId: "WPS-5458231534", practitionerId:"f005"){
+  updateGeneralPractitioner(patientId: "WPS-5458231534", practitionerId:"f005" remove: false){
     id
     generalPractitioner {
       __typename

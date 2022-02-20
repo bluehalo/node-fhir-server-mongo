@@ -12,6 +12,7 @@ function assertCompareBundles(body, expected) {
     // clear out the lastUpdated column since that changes
     // expect(body['entry'].length).toBe(2);
     delete body['timestamp'];
+    delete expected['timestamp'];
     delete body['link'];
     if (body.meta && body.meta.tag) {
         body.meta.tag.forEach(tag => {
@@ -45,6 +46,44 @@ function assertCompareBundles(body, expected) {
         }
         delete element['resource']['$schema'];
     });
+
+    // now sort the two lists so the comparison is agnostic to order
+    body.entry = body.entry.sort((a, b) => `${a.resourceType}/${a.id}`.localeCompare(`${b.resourceType}/${b.id}`));
+    expected.entry = expected.entry.sort((a, b) => `${a.resourceType}/${a.id}`.localeCompare(`${b.resourceType}/${b.id}`));
+
+    body.entry.forEach(element => {
+        delete element['fullUrl'];
+        delete element['resource']['meta']['lastUpdated'];
+        if (element['resource']['contained']) {
+            element['resource']['contained'].forEach(containedElement => {
+                delete containedElement['meta']['lastUpdated'];
+            });
+            // sort the list
+            element['resource']['contained'] = element['resource']['contained'].sort(
+                (a, b) => `${a.resourceType}/${a.id}`.localeCompare(`${b.resourceType}/${b.id}`)
+            );
+        }
+    });
+    expected.entry.forEach(element => {
+        delete element['fullUrl'];
+        if ('meta' in element['resource']) {
+            delete element['resource']['meta']['lastUpdated'];
+        }
+        element['resource']['meta']['versionId'] = '1';
+        if ('$schema' in element) {
+            delete element['$schema'];
+        }
+        if (element['resource']['contained']) {
+            element['resource']['contained'].forEach(containedElement => {
+                delete containedElement['meta']['lastUpdated'];
+            });
+            // sort the list
+            element['resource']['contained'] = element['resource']['contained'].sort(
+                (a, b) => `${a.resourceType}/${a.id}`.localeCompare(`${b.resourceType}/${b.id}`)
+            );
+        }
+    });
+
     expect(body).toStrictEqual(expected);
 }
 
