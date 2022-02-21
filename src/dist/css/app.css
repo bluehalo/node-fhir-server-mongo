@@ -1,10 +1,12 @@
 :root {
   --left-nav-offset: 19rem;
+  --header-footer-height: 51px;
 }
 
 footer {
   background: var(--bs-gray-200);
   bottom: 0px;
+  min-height: var(--header-footer-height);
   position: sticky;
 }
 
@@ -83,13 +85,17 @@ a.fa {
   border-top: none;
 }
 
-.sticky-table-head th {
-  background: #fff;
-  position: sticky;
-  top: 80px;
+.sticky-table {
+  margin-top: -3px;
 }
 
-.sticky-table-head th:after {
+.sticky-table th {
+  background: #fff;
+  position: sticky;
+  top: var(--header-footer-height);
+}
+
+.sticky-table th:after {
   content: ' ';
   height: 2px;
   background: #000;
@@ -143,5 +149,5 @@ a.fa {
 }
 
 main {
-  min-height: calc(100vh - 102px);
+  min-height: calc(100vh - (var(--header-footer-height) * 2));
 }

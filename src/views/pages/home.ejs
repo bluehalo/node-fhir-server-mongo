@@ -6,8 +6,8 @@
   <body class="container-fluid p-0">
     <%- include('../partials/header', {resources: resources}); %>
     <div class="container-fluid">
-      <table class="table">
-        <thead class="sticky-table-head">
+      <table class="table sticky-table">
+        <thead>
           <tr>
             <th scope="col">Resource</th>
             <th scope="col">Description</th>
@@ -30,7 +30,6 @@
           <%})%>
         </tbody>
       </table>
-      Swagger API Documentation: <a href="/api-docs/">/api-docs</a>
     </div>
     <!-- prettier-ignore -->
     <%- include('../partials/footer', {url: locals.url ? url : '', currentYear: locals.currentYear, meta: locals.meta ? meta : {}}); %>

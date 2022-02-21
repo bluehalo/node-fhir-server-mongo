@@ -2,7 +2,7 @@
   <nav class="navbar px-3 pt-2">
     <a href="/" title="Go to Home Page" class="px-3 helix-logo"></a>
     <h5 class="flex-grow-1 px-3 mb-0">Helix FHIR Server</h5>
-    <% if (resources.length > 0) { %>
+    <% if (locals.environment && resources.length > 0) { %>
     <div class="dropdown dropdown-hover">
       <button
         type="button"
@@ -13,7 +13,7 @@
         aria-expanded="false"
       >
         <!-- prettier-ignore -->
-        <% if (total > 0) { %>
+        <% if (typeof(total) != "undefined" && total > 0) { %>
         Resources (<%= resources.length %> out of <%= total %> total)
       <% } else { %>
         Resources (<%= resources.length %>)
@@ -27,22 +27,24 @@
       </div>
     </div>
     <% } %>
-
     <button
       type="button"
       id="appInfo"
-      class="btn btn-light fa fa-info mx-2"
+      class="btn btn-light fa fa-info ms-2"
       title="Information"
       data-bs-toggle="modal"
       data-bs-target="#appInfoModal"
     ></button>
 
-    <button id="btnLogout" class="btn btn-success btn-sm">
+    <% if (locals.environment) { %>
+    <button id="btnLogout" class="btn btn-success btn-sm ms-2">
       <i class="fa fa-sign-out"></i>
       Logout
     </button>
+    <% } %>
   </nav>
 </header>
+
 <div class="modal fade" id="appInfoModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -55,7 +57,12 @@
         <h5>Server</h5>
         <%= locals.environment %><% } %>
         <!-- prettier-ignore -->
+        <% if(typeof(meta) != "undefined"){ %>
         <%- include('../partials/bundleMeta', {meta: meta}); %>
+        <hr />
+        <% } %>
+        <!-- prettier-ignore -->
+        Swagger API Documentation: <a href="/api-docs/">/api-docs</a>
       </div>
       <div class="modal-footer py-1">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
