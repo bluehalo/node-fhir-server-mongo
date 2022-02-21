@@ -130,7 +130,6 @@ app.use('/favicon.ico', express.static(path.join(__dirname, 'images/favicon.ico'
 
 app.use('/css', express.static(path.join(__dirname, 'dist/css')));
 app.use('/js', express.static(path.join(__dirname, 'dist/js')));
-app.use('/json', express.static(path.join(__dirname, 'graphql/generator/json/definitions.json')));
 app.use(
   '/js',
   express.static(path.join(__dirname, '../node_modules/vanillajs-datepicker/dist/js'))
