@@ -4,9 +4,8 @@ formElement.addEventListener('submit', searchSubmit);
 const advSearchFormElement = document.getElementById('advSearchForm');
 advSearchFormElement.addEventListener('submit', searchSubmit);
 
-const resetButtonElement = document
-  .getElementById('resetFormButton')
-  .addEventListener('click', resetSubmit);
+const resetButtonElement = document.getElementById('resetFormButton');
+resetButtonElement.addEventListener('click', resetSubmit);
 
 const dateRangeElement = document.getElementById('_lastUpdateRange');
 const datepicker = new DateRangePicker(dateRangeElement, {
