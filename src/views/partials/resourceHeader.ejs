@@ -1,11 +1,10 @@
 <a name="<%= res.id %>"></a>
-<h2><i class="fa fa-file-text-o"></i>&nbsp;<%= res.resourceType %>/<%= res.id %></h2>
-<a title="Direct link to Resource" href="/4_0_0/<%= res.resourceType %>/<%= res.id %>"><%= res.resourceType %>/<%= res.id %></a>
-
+<h3><i class="fa fa-file-text-o"></i>&nbsp;<%= res.resourceType %>/<%= res.id %></h3>
+<a title="Direct link to Resource" href="/4_0_0/<%= res.resourceType %>/<%= res.id %>"
+  ><%= res.resourceType %>/<%= res.id %></a
+>
+<!-- prettier-ignore -->
 <%- include('../partials/identifier', {resourceType: res.resourceType, identifiers: res.identifier, name: "Identifier"}); %>
-
 <%- include('../partials/meta', {meta: res.meta, name: "Meta"}); %>
-
 <%- include('../partials/extension', {extensions: res.extension}); %>
-
 <%- include('../partials/extension', {extensions: res.modifierExtension}); %>

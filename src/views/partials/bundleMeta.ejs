@@ -1,35 +1,18 @@
 <% if(meta && meta.tag) { %>
-<div class="btn-group dropdown-hover dropup">
-  <button
-    class="btn btn-link btn-sm p-0"
-    type="button"
-    id="bundleMetaDropdown"
-    data-toggle="dropdown"
-    aria-haspopup="true"
-    aria-expanded="false"
-  >
-    Bundle Meta
-  </button>
-  &nbsp; |
-  <div
-    class="dropdown-menu dropdown-menu-right p-3 dropup-menu"
-    aria-labelledby="bundleMetaDropdown"
-  >
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">System</th>
-          <th scope="col">Code/Display</th>
-        </tr>
-      </thead>
-      <% meta.tag.forEach(function(tag){ %>
-      <tr>
-        <td><%= tag.system %></td>
-        <td><%= tag.code || tag.display %></td>
-      </tr>
-      <% }) %>
-      <tbody></tbody>
-    </table>
-  </div>
-</div>
+<h5 class="mt-4">Bundle Meta</h5>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">System</th>
+      <th scope="col">Code/Display</th>
+    </tr>
+  </thead>
+  <% meta.tag.forEach(function(tag){ %>
+  <tr>
+    <td><%= tag.system %></td>
+    <td><%= tag.code || tag.display %></td>
+  </tr>
+  <% }) %>
+  <tbody></tbody>
+</table>
 <% } %>

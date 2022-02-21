@@ -1,8 +1,11 @@
 const formElement = document.getElementById('searchForm');
 formElement.addEventListener('submit', searchSubmit);
-const resetButtonElement = document
-  .getElementById('resetFormButton')
-  .addEventListener('click', resetSubmit);
+
+const advSearchFormElement = document.getElementById('advSearchForm');
+advSearchFormElement.addEventListener('submit', searchSubmit);
+
+const resetButtonElement = document.getElementById('resetFormButton');
+resetButtonElement.addEventListener('click', resetSubmit);
 
 const dateRangeElement = document.getElementById('_lastUpdateRange');
 const datepicker = new DateRangePicker(dateRangeElement, {
@@ -11,6 +14,9 @@ const datepicker = new DateRangePicker(dateRangeElement, {
   clearBtn: true,
   allowOneSidedRange: true,
 });
+
+const advSearchModalButton = document.getElementById('advSearchModalButton');
+advSearchModalButton.addEventListener('click', searchSubmit);
 
 const clearInputs = document.querySelectorAll('.clear-input');
 for (const input of clearInputs) {
@@ -48,8 +54,13 @@ function searchSubmit(e) {
   if (e) {
     e.preventDefault();
   }
-  const formAction = e.target.getAttribute('action');
-  const formData = new FormData(e.target);
+  const formAction = formElement.getAttribute('action');
+  const formData = new FormData(formElement);
+  const advFormData = new FormData(advSearchFormElement);
+  advFormData.forEach((value, key) => {
+    formData.append(key, value);
+  });
+
   let params = new URLSearchParams();
   const data = {};
   formData.forEach((value, key) => {
@@ -57,6 +68,7 @@ function searchSubmit(e) {
       data[key] = value;
     }
   });
+
   if (data.identifier_system && data.identifier_value) {
     params.append('identifier', data.identifier_system + '|' + data.identifier_value);
   }

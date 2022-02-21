@@ -1,4 +1,5 @@
 const identifierUrl = 'http://hl7.org/fhir/sid/us-npi|';
+const advSearchJson = require('../graphql/generator/json/definitions.json/search-parameters.json');
 
 function getSearchParams(req) {
   const fakeBaseUrl = 'http://test.com'; // This is only used to form a full url
@@ -79,6 +80,32 @@ const getFormData = (req, resourceName) => {
   return formData;
 };
 
+const getAdvSearchFormData = (req, resourceName) => {
+  const basicFormData = getFormData(req, resourceName);
+  const searchParams = getSearchParams(req);
+  const params = searchParams ? Object.fromEntries(searchParams.entries()) : {};
+  let advFormData = [];
+  const resourceFields = advSearchJson.entry.filter((entry) => {
+    return entry.resource.base.includes(resourceName) && entry.resource.type === 'string';
+  });
+
+  resourceFields.forEach((advParam) => {
+    const foundBasic = basicFormData.find((formData) => formData.name === advParam.resource.name);
+    if (foundBasic) {
+      return;
+    }
+    advFormData.push({
+      label: advParam.resource.name
+        .split('-')
+        .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
+        .join(' '),
+      name: advParam.resource.name,
+      value: params[advParam.resource.name] ? params[advParam.resource.name] : '',
+    });
+  });
+  return advFormData;
+};
+
 const getLastUpdate = function (req, prefix) {
   const searchParams = getSearchParams(req);
   let dateString = '';
@@ -91,6 +118,7 @@ const getLastUpdate = function (req, prefix) {
 };
 
 module.exports = {
+  advSearchFormData: getAdvSearchFormData,
   searchFormData: getFormData,
   lastUpdateStart: getLastUpdate,
   lastUpdateEnd: getLastUpdate,

@@ -1,15 +1,11 @@
-<footer class="px-3 pt-2 d-flex border-top">
-  <ul class="pagination flex-grow-1">
+<footer class="px-3 p-1 d-flex border-top">
+  <ul class="pagination flex-grow-1 mb-1">
     <% if(locals.url) { %>
     <li class="page-item"><a class="page-link" href="#" id="lnkPrevious">Previous</a></li>
     <li class="page-item"><a class="page-link" href="#" id="lnkNext">Next</a></li>
     <% } %>
   </ul>
-  <div class="small text-end pt-2">
-    <!-- prettier-ignore -->
-    <%- include('../partials/bundleMeta', {meta: meta}); %>
-    &copy; Copyright <%= currentYear %> b.well Connected Health
-  </div>
+  <div class="small text-end pt-2">&copy; Copyright <%= currentYear %> b.well Connected Health</div>
 </footer>
 
 <script type="text/javascript" src="/js/footernav.js"></script>
