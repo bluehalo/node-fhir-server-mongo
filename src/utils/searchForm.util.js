@@ -91,16 +91,17 @@ const getAdvSearchFormData = (req, resourceName) => {
 
   resourceFields.forEach((advParam) => {
     const foundBasic = basicFormData.find((formData) => formData.name === advParam.resource.name);
-    if (!foundBasic) {
-      advFormData.push({
-        label: advParam.resource.name
-          .split('-')
-          .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
-          .join(' '),
-        name: advParam.resource.name,
-        value: params[advParam.resource.name] ? params[advParam.resource.name] : '',
-      });
+    if (foundBasic) {
+      return;
     }
+    advFormData.push({
+      label: advParam.resource.name
+        .split('-')
+        .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
+        .join(' '),
+      name: advParam.resource.name,
+      value: params[advParam.resource.name] ? params[advParam.resource.name] : '',
+    });
   });
   return advFormData;
 };
