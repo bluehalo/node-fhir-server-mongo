@@ -57,7 +57,7 @@
         <h5>Server</h5>
         <%= locals.environment %><% } %>
         <!-- prettier-ignore -->
-        <% if(typeof(meta) != "undefined"){ %>
+        <% if(typeof(meta) !== "undefined"){ %>
         <%- include('../partials/bundleMeta', {meta: meta}); %>
         <hr />
         <% } %>
