@@ -104,6 +104,10 @@ app.get('/fhir', (req, res) => {
 app.get('/health', (req, res) => res.json({ status: 'ok' }));
 app.get('/version', handleVersion);
 app.get('/logout', handleLogout);
+app.get('/logout_action', (req, res) => {
+  const logoutUrl = `${env.AUTH_CODE_FLOW_URL}/logout?client_id=${env.AUTH_CODE_FLOW_CLIENT_ID}&logout_uri=${env.HOST_SERVER}/logout`;
+  res.redirect(logoutUrl);
+});
 
 app.get('/', (req, res) => {
   const home_options = {
@@ -132,11 +136,11 @@ app.use('/css', express.static(path.join(__dirname, 'dist/css')));
 app.use('/js', express.static(path.join(__dirname, 'dist/js')));
 app.use(
   '/js',
-  express.static(path.join(__dirname, '../node_modules/vanillajs-datepicker/dist/js'))
+  express.static(path.join(__dirname, './../node_modules/vanillajs-datepicker/dist/js'))
 );
 app.use(
   '/css',
-  express.static(path.join(__dirname, '../node_modules/vanillajs-datepicker/dist/css'))
+  express.static(path.join(__dirname, './../node_modules/vanillajs-datepicker/dist/css'))
 );
 app.use('/css', express.static(path.join(__dirname, '../node_modules/bootstrap/dist/css')));
 app.use('/css', express.static(path.join(__dirname, '../node_modules/fontawesome-4.7/css')));

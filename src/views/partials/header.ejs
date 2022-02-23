@@ -37,16 +37,16 @@
     ></button>
 
     <% if (locals.environment) { %>
-    <button id="btnLogout" class="btn btn-success btn-sm ms-2">
+    <a id="btnLogout" class="btn btn-success btn-sm ms-2" href="/logout_action">
       <i class="fa fa-sign-out"></i>
       Logout
-    </button>
+    </a>
     <% } %>
   </nav>
 </header>
 
 <div class="modal fade" id="appInfoModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog <% if(typeof(meta) !== "undefined"){ %>modal-xl<% } %>">
     <div class="modal-content">
       <div class="modal-header py-2">
         <h5 class="modal-title">Information</h5>
@@ -70,4 +70,3 @@
     </div>
   </div>
 </div>
-<script type="text/javascript" src="/js/authhandler.js"></script>
