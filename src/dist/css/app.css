@@ -52,17 +52,14 @@ header {
   z-index: 5;
 }
 
-td {
+main td {
   max-width: 15rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  word-wrap: break-word;
 }
 
 h2 {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  width: calc(100vw - var(--left-nav-offset) - 6rem);
+  width: calc(100vw - var(--left-nav-offset) - 7rem);
+  word-wrap: break-word;
 }
 
 a[name] {
