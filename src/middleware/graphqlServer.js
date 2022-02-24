@@ -32,7 +32,9 @@ const graphql = async () => {
                         settings: {
                             'request.credentials': 'same-origin',
                             'schema.polling.enable': false, // enables automatic schema polling
-                        }
+                        },
+                        cdnUrl: 'https://cdn.jsdelivr.net/npm',
+                        faviconUrl: '',
                     }
                 ),
                 // ApolloServerPluginLandingPageDisabled()
