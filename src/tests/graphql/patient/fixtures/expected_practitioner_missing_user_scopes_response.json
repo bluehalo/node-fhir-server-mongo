@@ -1,0 +1,35 @@
+{
+  "data": {
+    "updateGeneralPractitioner": null
+  },
+  "errors": [
+    {
+      "extensions": {
+        "code": "INTERNAL_SERVER_ERROR",
+        "exception": {
+          "issue": [
+            {
+              "code": "forbidden",
+              "details": {
+                "text": "None of the provided scopes matched an allowed scope.: user imran with scopes [user/Patient.read,user/Practitioner.read,access/medstar.*] failed access check to [Patient.write]"
+              },
+              "severity": "error"
+            }
+          ],
+          "message": "None of the provided scopes matched an allowed scope.: user imran with scopes [user/Patient.read,user/Practitioner.read,access/medstar.*] failed access check to [Patient.write]",
+          "statusCode": 403
+        }
+      },
+      "locations": [
+        {
+          "column": 3,
+          "line": 2
+        }
+      ],
+      "message": "None of the provided scopes matched an allowed scope.: user imran with scopes [user/Patient.read,user/Practitioner.read,access/medstar.*] failed access check to [Patient.write]",
+      "path": [
+        "updateGeneralPractitioner"
+      ]
+    }
+  ]
+}
