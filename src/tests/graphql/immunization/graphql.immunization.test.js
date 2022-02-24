@@ -21,7 +21,7 @@ const {
     getGraphQLHeaders
 } = require('../../common');
 
-describe('GraphQL ExplanationOfBenefit Tests', () => {
+describe('GraphQL Immunization Tests', () => {
     beforeEach(async () => {
         await commonBeforeEach();
     });
@@ -30,8 +30,8 @@ describe('GraphQL ExplanationOfBenefit Tests', () => {
         await commonAfterEach();
     });
 
-    describe('GraphQL ExplanationOfBenefit', () => {
-        test('GraphQL ExplanationOfBenefit properly', async () => {
+    describe('GraphQL Immunization', () => {
+        test('GraphQL Immunization properly', async () => {
             // noinspection JSUnusedLocalSymbols
             const graphqlQueryText = explanationOfBenefitQuery.replace(/\\n/g, '');
             let resp = await request

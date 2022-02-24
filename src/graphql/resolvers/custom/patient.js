@@ -98,7 +98,7 @@ module.exports = {
                     throw new Error(`Patient not found ${args.patientId}`);
                 }
                 const patientToChange = patients[0];
-                if (deletePractitioner && patientToChange.generalPractitioner == null){
+                if (deletePractitioner && patientToChange.generalPractitioner === null){
                         return patientToChange;
                 } else if (deletePractitioner) {
                     patientToChange.generalPractitioner = removeAllGeneralPractitioner(patientToChange.generalPractitioner, args.practitionerId);

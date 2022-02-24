@@ -1,36 +1,38 @@
 {
   "entry": [
     {
-    "resourceType": "Patient",
-    "id": "WPS-0559166162",
-    "meta": {
-      "source": "http://medstarhealth.org/provider",
-      "security": [
-        {
-          "system": "https://www.icanbwell.com/access",
-          "code": "medstar"
+      "resource": {
+        "resourceType": "Patient",
+        "id": "WPS-0559166162",
+        "meta": {
+          "source": "http://medstarhealth.org/provider",
+          "security": [
+            {
+              "system": "https://www.icanbwell.com/access",
+              "code": "medstar"
+            },
+            {
+              "system": "https://www.icanbwell.com/owner",
+              "code": "medstar"
+            }
+          ]
         },
-        {
-          "system": "https://www.icanbwell.com/owner",
-          "code": "medstar"
-        }
-      ]
-    },
-    "birthDate": "2017-01-01",
-    "gender": "female",
-    "name": [
-      {
-        "use": "usual",
-        "text": "t",
-        "family": "PATIENT1",
-        "given": [
-          "SHYLA"
-        ],
-        "prefix": [],
-        "suffix": []
+        "birthDate": "2017-01-01",
+        "gender": "female",
+        "name": [
+          {
+            "use": "usual",
+            "text": "t",
+            "family": "PATIENT1",
+            "given": [
+              "SHYLA"
+            ],
+            "prefix": [],
+            "suffix": []
+          }
+        ]
       }
-    ]
-  }
+    }
   ],
   "resourceType": "Bundle"
 }

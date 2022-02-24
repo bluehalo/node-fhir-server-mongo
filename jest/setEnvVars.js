@@ -10,3 +10,4 @@ process.env.AUTH_CUSTOM_SCOPE = 'customscope';
 process.env.AUTH_CUSTOM_CLIENT_ID = 'custom_client_id';
 process.env.SET_INDEX_HINTS = '1';
 process.env.CREATE_INDEX_ON_COLLECTION_CREATION = '1';
+process.env.USE_TWO_STEP_SEARCH_OPTIMIZATION = '1';

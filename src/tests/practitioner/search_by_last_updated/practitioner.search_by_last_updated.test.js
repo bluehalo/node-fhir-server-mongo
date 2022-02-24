@@ -64,7 +64,7 @@ describe('PractitionerReturnIdTests', () => {
                                 return cb(err, resp);
                             }),
                     (results, cb) => request
-                        .get('/4_0_0/Practitioner?_lastUpdated=eq' + today_text)
+                        .get('/4_0_0/Practitioner?_lastUpdated=eq' + today_text + '&_useTwoStepOptimization=1')
                                 .set(getHeaders())
                         .expect(200, cb)
                         .expect((resp) => {

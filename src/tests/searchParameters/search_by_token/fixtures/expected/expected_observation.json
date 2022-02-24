@@ -58,9 +58,6 @@
   "meta": {
     "tag": [
       {
-        "system": "https://www.icanbwell.com/queryIndexHint"
-      },
-      {
         "system": "https://www.icanbwell.com/query"
       },
       {
@@ -68,7 +65,7 @@
         "system": "https://www.icanbwell.com/queryCollection"
       },
       {
-        "display": "{\"limit\":10,\"sort\":{\"id\":1}}",
+        "display": "[{\"limit\":10,\"sort\":{\"id\":1},\"projection\":{\"_id\":0,\"id\":1}},{}]",
         "system": "https://www.icanbwell.com/queryOptions"
       },
       {
@@ -77,6 +74,10 @@
       },
       {
         "system": "https://www.icanbwell.com/queryTime"
+      },
+      {
+        "display": "{'useTwoStepSearchOptimization':true}",
+        "system": "https://www.icanbwell.com/queryOptimization"
       }
     ]
   },
