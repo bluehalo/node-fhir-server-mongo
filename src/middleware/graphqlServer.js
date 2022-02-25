@@ -12,6 +12,7 @@ const {
     ApolloServerPluginLandingPageGraphQLPlayground,
     // ApolloServerPluginLandingPageDisabled
 } = require('apollo-server-core');
+const {getRequestInfo} = require("../graphql/requestInfoHelper");
 
 
 
@@ -42,9 +43,7 @@ const graphql = async () => {
                 // ApolloServerPluginLandingPageDisabled()
             ],
             context: async ({req, res}) => {
-                return {
-                    req,
-                    res,
+                const requestInfo = {
                     user: (req.authInfo && req.authInfo.context && req.authInfo.context.username)
                         || (req.authInfo && req.authInfo.context && req.authInfo.context.subject)
                         || req.user,
@@ -55,7 +54,12 @@ const graphql = async () => {
                     path: req.path,
                     host: req.hostname,
                     body: req.body,
-                    dataApi: new FhirDataSource()
+                };
+                return {
+                    req,
+                    res,
+                    ...requestInfo,
+                    dataApi: new FhirDataSource(getRequestInfo(requestInfo))
                 };
             }
         });

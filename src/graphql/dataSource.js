@@ -4,19 +4,78 @@ const {getRequestInfo} = require('./requestInfoHelper');
 const {searchById} = require('../operations/searchById/searchById');
 const {logWarn} = require('../operations/common/logging');
 const async = require('async');
+const DataLoader = require('dataloader');
 
-// const DataLoader = require('dataloader');
+/**
+ * https://stackoverflow.com/questions/14446511/most-efficient-method-to-groupby-on-an-array-of-objects
+ * @param {*[]} sourceArray
+ * @param key
+ * @return {*}
+ */
+const groupBy = function (sourceArray, key) {
+    return sourceArray.reduce(function (rv, x) {
+        (rv[x[key]] = rv[x[key]] || []).push(x);
+        return rv;
+    }, {});
+};
+
+class ResourceWithId {
+    constructor(resourceType, id) {
+        this.resourceType = resourceType;
+        this.id = id;
+    }
+}
 
 class FhirDataSource extends DataSource {
-    constructor() {
+    constructor(requestInfo) {
         super();
-        // this.dataLoader = new DataLoader(keys => myBatchGetUsers(keys));
+        this.requestInfo = requestInfo;
+        this.dataLoader = new DataLoader(
+            async (keys) => await this.myBatchGetUsers(keys, requestInfo)
+        );
         this.meta = [];
     }
 
     initialize(config) {
-
         return super.initialize(config);
+    }
+
+    /**
+     * batch
+     * @param {ResourceWithId[]} keys
+     * @param requestInfo
+     * @return {Promise<Resource[]|{entry: {resource: Resource}[]}>}
+     */
+    async myBatchGetUsers(keys, requestInfo) {
+        // separate by resourceType
+        /**
+         * Each field in the object is the key
+         * @type {Object}
+         */
+        const groupKeysByResourceType = groupBy(keys, 'resourceType');
+        /**
+         * @type {*|Promise<unknown>}
+         */
+        const results = await async.flatMap(Object.entries(groupKeysByResourceType), async groupKeysByResourceTypeKey => {
+            /**
+             * @type {ResourceWithId}
+             */
+            const [resourceType, resources] = groupKeysByResourceTypeKey;
+            const idOfReference = resources.map(r => r.id);
+            return await search(
+                getRequestInfo(context),
+                {
+                    base_version: '4_0_0',
+                    id: idOfReference,
+                    _bundle: '1',
+                    _debug: '1'
+                },
+                resourceType,
+                resourceType
+            );
+        });
+
+        return results;
     }
 
     /**
@@ -76,11 +135,17 @@ class FhirDataSource extends DataSource {
          */
         const idOfReference = reference.reference.split('/')[1];
         try {
-            return await searchById(
-                getRequestInfo(context),
-                {base_version: '4_0_0', id: idOfReference},
-                typeOfReference,
-                typeOfReference
+            // return await searchById(
+            //     getRequestInfo(context),
+            //     {base_version: '4_0_0', id: idOfReference},
+            //     typeOfReference,
+            //     typeOfReference
+            // );
+            return await this.dataLoader.load(
+                new ResourceWithId(
+                    typeOfReference,
+                    idOfReference
+                )
             );
         } catch (e) {
             if (e.name === 'NotFound') {
@@ -114,18 +179,26 @@ class FhirDataSource extends DataSource {
             const idOfReference = reference.reference.split('/')[1];
             try {
                 return this.unBundle(
-                    await search(
-                        getRequestInfo(context),
-                        {
-                            base_version: '4_0_0',
-                            id: idOfReference,
-                            _bundle: '1',
-                            _debug: '1'
-                        },
-                        typeOfReference,
-                        typeOfReference
+                    await this.dataLoader.load(
+                        new ResourceWithId(
+                            typeOfReference,
+                            idOfReference
+                        )
                     )
                 );
+                // return this.unBundle(
+                //     await search(
+                //         getRequestInfo(context),
+                //         {
+                //             base_version: '4_0_0',
+                //             id: idOfReference,
+                //             _bundle: '1',
+                //             _debug: '1'
+                //         },
+                //         typeOfReference,
+                //         typeOfReference
+                //     )
+                // );
             } catch (e) {
                 if (e.name === 'NotFound') {
                     logWarn(context.user, `findResourcesByReference: Resource ${typeOfReference}/${idOfReference} not found for parent:${parent.resourceType}/${parent.id}`);
