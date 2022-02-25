@@ -6,11 +6,13 @@ const {join} = require('path');
 const resolvers = require('../graphql/resolvers');
 const {loadFilesSync} = require('@graphql-tools/load-files');
 const {mergeTypeDefs} = require('@graphql-tools/merge');
+const {HelixDataSource} = require('../graphql/dataSource');
 
 const {
     ApolloServerPluginLandingPageGraphQLPlayground,
     // ApolloServerPluginLandingPageDisabled
 } = require('apollo-server-core');
+
 
 
 const graphql = async () => {
@@ -52,7 +54,8 @@ const graphql = async () => {
                     originalUrl: req.originalUrl,
                     path: req.path,
                     host: req.hostname,
-                    body: req.body
+                    body: req.body,
+                    dataApi: new HelixDataSource()
                 };
             }
         });

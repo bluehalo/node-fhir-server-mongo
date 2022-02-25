@@ -8,7 +8,7 @@ module.exports = {
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         patient: async (parent, args, context, info) => {
-            return await getResources(
+            return await context.dataApi.getResources(
                 parent,
                 args,
                 context,
