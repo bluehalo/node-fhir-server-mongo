@@ -6,7 +6,7 @@ const {join} = require('path');
 const resolvers = require('../graphql/resolvers');
 const {loadFilesSync} = require('@graphql-tools/load-files');
 const {mergeTypeDefs} = require('@graphql-tools/merge');
-const {HelixDataSource} = require('../graphql/dataSource');
+const {FhirDataSource} = require('../graphql/dataSource');
 
 const {
     ApolloServerPluginLandingPageGraphQLPlayground,
@@ -55,7 +55,7 @@ const graphql = async () => {
                     path: req.path,
                     host: req.hostname,
                     body: req.body,
-                    dataApi: new HelixDataSource()
+                    dataApi: new FhirDataSource()
                 };
             }
         });

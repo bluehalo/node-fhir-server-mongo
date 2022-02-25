@@ -5,7 +5,7 @@ const {searchById} = require('../operations/searchById/searchById');
 const {logWarn} = require('../operations/common/logging');
 const async = require('async');
 
-class HelixDataSource extends DataSource {
+class FhirDataSource extends DataSource {
     initialize(config) {
         return super.initialize(config);
     }
@@ -142,5 +142,5 @@ class HelixDataSource extends DataSource {
 }
 
 module.exports = {
-    HelixDataSource: HelixDataSource
+    FhirDataSource: FhirDataSource
 };
