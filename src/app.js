@@ -159,7 +159,9 @@ if (isTrue(env.ENABLE_GRAPHQL)) {
     router.use(x);
 
     app.use(cors(fhirServerConfig.server.corsOptions));
+    app.use('/graphqlv1', router);
     app.use('/graphql', router);
+    app.use('/graphqlv2', router);
     app.use(fhirApp.app);
   });
 } else {
