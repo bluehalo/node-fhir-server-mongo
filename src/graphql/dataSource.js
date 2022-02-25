@@ -29,10 +29,17 @@ class FhirDataSource extends DataSource {
     // noinspection JSUnusedLocalSymbols
     // eslint-disable-next-line no-unused-vars
     resolveType(obj, context, info) {
-        if (obj) {
+        if (Array.isArray(obj)) {
+            if (obj.length > 0) {
+                // apollo does not seem to allow returning lists
+                // return obj.map(o => resolveType(o, context, info));
+                return obj[0].resourceType;
+            } else {
+                return null;
+            }
+        } else {
             return obj.resourceType;
         }
-        return null; // GraphQLError is thrown
     }
 
     /**
