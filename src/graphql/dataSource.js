@@ -51,7 +51,38 @@ class FhirDataSource extends DataSource {
     }
 
     /**
+     * This functions takes a FHIR Bundle and returns the resources in it
+     * @param {{entry:{resource: Resource}[]}} bundle
+     * @return {Resource[]}
+     */
+    unBundle(bundle) {
+        if (bundle.meta) {
+            this.meta.push(bundle.meta);
+        }
+        return bundle.entry.map(e => e.resource);
+    }
+
+    /**
+     * This functions takes a FHIR Bundle and returns the resources in it
+     * @param {{Resource}[]} resources
+     * @param {ResourceWithId[]} keys
+     * @return {Resource[]}
+     */
+    async reorderResources(resources, keys) {
+        // now order them the same way
+        const resultsOrdered = [];
+        for (const {resourceType, id} of keys) {
+            const items = resources.filter(r => r.resourceType === resourceType && r.id === id);
+            resultsOrdered.push(
+                items.length > 0 ? items[0] : null
+            );
+        }
+        return resultsOrdered;
+    }
+
+    /**
      * batch
+     * https://github.com/graphql/dataloader#batching
      * @param {ResourceWithId[]} keys
      * @param requestInfo
      * @return {Promise<Resource[]|{entry: {resource: Resource}[]}>}
@@ -66,38 +97,31 @@ class FhirDataSource extends DataSource {
         /**
          * @type {*|Promise<unknown>}
          */
-        const results = await async.flatMap(Object.entries(groupKeysByResourceType), async groupKeysByResourceTypeKey => {
-            /**
-             * @type {ResourceWithId}
-             */
-            const [resourceType, resources] = groupKeysByResourceTypeKey;
-            const idOfReference = resources.map(r => r.id).join(',');
-            return search(
-                requestInfo,
-                {
-                    base_version: '4_0_0',
-                    id: idOfReference,
-                    _bundle: '1',
-                    _debug: '1'
-                },
-                resourceType,
-                resourceType
-            );
-        });
+        const results = this.reorderResources(
+            await async.flatMap(Object.entries(groupKeysByResourceType), async groupKeysByResourceTypeKey => {
+                /**
+                 * @type {ResourceWithId}
+                 */
+                const [resourceType, resources] = groupKeysByResourceTypeKey;
+                const idOfReference = resources.map(r => r.id).join(',');
+                return this.unBundle(
+                    await search(
+                        requestInfo,
+                        {
+                            base_version: '4_0_0',
+                            id: idOfReference,
+                            _bundle: '1',
+                            _debug: '1'
+                        },
+                        resourceType,
+                        resourceType
+                    )
+                );
+            }),
+            keys
+        );
 
         return results;
-    }
-
-    /**
-     * This functions takes a FHIR Bundle and returns the resources in it
-     * @param {{entry:{resource: Resource}[]}} bundle
-     * @return {Resource[]}
-     */
-    unBundle(bundle) {
-        if (bundle.meta) {
-            this.meta.push(bundle.meta);
-        }
-        return bundle.entry.map(e => e.resource);
     }
 
     /**

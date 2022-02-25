@@ -12,7 +12,7 @@ const {
     ApolloServerPluginLandingPageGraphQLPlayground,
     // ApolloServerPluginLandingPageDisabled
 } = require('apollo-server-core');
-const {getRequestInfo} = require("../graphql/requestInfoHelper");
+const {getRequestInfo} = require('../graphql/requestInfoHelper');
 
 
 
