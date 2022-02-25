@@ -1,4 +1,3 @@
-const {getResources} = require('../../common');
 const {getUuid} = require('../../../utils/uid.util' );
 const {merge} = require('../../../operations/merge/merge');
 const {getRequestInfo} = require('../../requestInfoHelper');
@@ -46,7 +45,7 @@ module.exports = {
         updatePreferredProviders:
         // eslint-disable-next-line no-unused-vars
             async (parent, args, context, info) => {
-                const patients = await getResources(
+                const patients = await context.dataApi.getResources(
                     parent,
                     {
                         ...args,

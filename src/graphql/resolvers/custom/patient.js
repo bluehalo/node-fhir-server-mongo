@@ -1,4 +1,3 @@
-const {getResources} = require('../../common');
 const {remove} = require('../../../operations/remove/remove');
 const {merge} = require('../../../operations/merge/merge');
 const {getRequestInfo} = require('../../requestInfoHelper');
@@ -28,7 +27,7 @@ module.exports = {
     Patient: {
         // eslint-disable-next-line no-unused-vars
         explanationOfBenefit: async (parent, args, context, info) => {
-            return await getResources(
+            return await context.dataApi.getResources(
                 parent,
                 {
                     ...args,
@@ -41,7 +40,7 @@ module.exports = {
         },
         // eslint-disable-next-line no-unused-vars
         allergyIntolerance: async (parent, args, context, info) => {
-            return await getResources(
+            return await context.dataApi.getResources(
                 parent,
                 {
                     ...args,
@@ -54,7 +53,7 @@ module.exports = {
         },
         // eslint-disable-next-line no-unused-vars
         condition: async (parent, args, context, info) => {
-            return await getResources(
+            return await context.dataApi.getResources(
                 parent,
                 {
                     ...args,
@@ -67,7 +66,7 @@ module.exports = {
         },
         // eslint-disable-next-line no-unused-vars
         carePlan: async (parent, args, context, info) => {
-            return await getResources(
+            return await context.dataApi.getResources(
                 parent,
                 {
                     ...args,
@@ -84,7 +83,7 @@ module.exports = {
         // eslint-disable-next-line no-unused-vars
             async (parent, args, context, info) => {
                 const deletePractitioner = args.remove;
-                const patients = await getResources(
+                const patients = await context.dataApi.getResources(
                     parent,
                     {
                         ...args,
@@ -111,7 +110,7 @@ module.exports = {
                         'Patient'
                     );
                 } else {
-                    const practitioners = await getResources(
+                    const practitioners = await context.dataApi.getResources(
                         parent,
                         {
                             ...args,
