@@ -15,12 +15,12 @@
 
           <!-- prettier-ignore -->
           <% if (res.type) { %>
-            <%- include('../partials/coding', {codings: [res.type], name: "Type"}); %>
+            <%- include('../partials/coding', {resourceType: res.resourceType, codings: [res.type], name: "Type", searchParameter: 'type'}); %>
           <%}%>
 
           <!-- prettier-ignore -->
           <% if (res.subtype) { %>
-            <%- include('../partials/coding', {codings: res.subtype, name: "SubType"}); %>
+            <%- include('../partials/coding', {resourceType: res.resourceType, codings: res.subtype, name: "SubType", searchParameter: 'subtype'}); %>
           <%}%>
 
           <h4>Recorded</h4>
