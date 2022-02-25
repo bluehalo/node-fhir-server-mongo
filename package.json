@@ -99,6 +99,7 @@
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
+    "dataloader": "^2.0.0",
     "deepcopy": "^2.1.0",
     "deepmerge": "^4.2.2",
     "docusaurus": "^1.14.7",

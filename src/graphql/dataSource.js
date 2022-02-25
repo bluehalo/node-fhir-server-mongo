@@ -5,8 +5,17 @@ const {searchById} = require('../operations/searchById/searchById');
 const {logWarn} = require('../operations/common/logging');
 const async = require('async');
 
+// const DataLoader = require('dataloader');
+
 class FhirDataSource extends DataSource {
+    constructor() {
+        super();
+        // this.dataLoader = new DataLoader(keys => myBatchGetUsers(keys));
+        this.meta = [];
+    }
+
     initialize(config) {
+
         return super.initialize(config);
     }
 
@@ -16,6 +25,9 @@ class FhirDataSource extends DataSource {
      * @return {Resource[]}
      */
     unBundle(bundle) {
+        if (bundle.meta) {
+            this.meta.push(bundle.meta);
+        }
         return bundle.entry.map(e => e.resource);
     }
 
@@ -108,6 +120,7 @@ class FhirDataSource extends DataSource {
                             base_version: '4_0_0',
                             id: idOfReference,
                             _bundle: '1',
+                            _debug: '1'
                         },
                         typeOfReference,
                         typeOfReference
@@ -117,8 +130,7 @@ class FhirDataSource extends DataSource {
                 if (e.name === 'NotFound') {
                     logWarn(context.user, `findResourcesByReference: Resource ${typeOfReference}/${idOfReference} not found for parent:${parent.resourceType}/${parent.id}`);
                     return null;
-                }
-                else {
+                } else {
                     throw e;
                 }
             }
@@ -142,7 +154,8 @@ class FhirDataSource extends DataSource {
                 {
                     base_version: '4_0_0',
                     _bundle: '1',
-                    ...args
+                    ...args,
+                    _debug: '1'
                 },
                 resourceType,
                 resourceType
