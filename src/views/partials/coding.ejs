@@ -1,25 +1,34 @@
 <% if (codings) { %>
-<div>
-    <h4><%= name %></h4>
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">System</th>
-          <th scope="col">Code</th>
-          <th scope="col">Display</th>
-        </tr>
-      </thead>
-      <tbody>
-    <% codings.forEach(function(coding){ %>
-        <% if (coding) {%>
-        <tr>
-          <td><%= coding.system %></td>
-          <td><%= coding.code %></td>
-          <td><%= coding.display %></td>
-        </tr>
-        <%}%>
-    <%})%>
-      </tbody>
-    </table>
-</div>
-<%}%>
+    <div>
+        <h4><%= name %></h4>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">System</th>
+                <th scope="col">Code</th>
+                <th scope="col">Display</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% codings.forEach(function(coding){ %>
+                <% if (coding) { %>
+                    <tr>
+                        <% if (searchParameter) { %>
+                            <td>
+                                <a href="/4_0_0/<%= resourceType %>?<%= searchParameter %>=<%= coding.system %>|"><%= coding.system %></a>
+                            </td>
+                            <td>
+                                <a href="/4_0_0/<%= resourceType %>?<%= searchParameter %>=<%= coding.system %>|<%= coding.code %>"><%= coding.code %></a>
+                            </td>
+                        <% } else { %>
+                            <td><%= coding.system %></td>
+                            <td><%= coding.code %></td>
+                        <% } %>
+                        <td><%= coding.display %></td>
+                    </tr>
+                <% } %>
+            <% }) %>
+            </tbody>
+        </table>
+    </div>
+<% } %>

@@ -17,7 +17,7 @@
           <h4>Status</h4>
           <%= res.status %>
           <!-- prettier-ignore -->
-          <%- include('../partials/coding', {codings: [res.class], name: "Class"}); %>
+          <%- include('../partials/coding', {resourceType: res.resourceType, codings: [res.class], name: "Class", searchParameter: 'class'}); %>
           <%- include('../partials/codeableConcept', {resourceType: res.resourceType, codeableConcepts: res.type, name: "Type", searchParameter:'type'}); %>
           <%- include('../partials/reference', {references: [res.subject], name: "Subject"}); %>
           <%- include('../partials/period', {periods: [res.period], name: "Period"}); %>
