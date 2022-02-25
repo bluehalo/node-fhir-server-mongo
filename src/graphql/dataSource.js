@@ -52,7 +52,7 @@ class FhirDataSource extends DataSource {
 
     /**
      * This functions takes a FHIR Bundle and returns the resources in it
-     * @param {{entry:{resource: Resource}[]}} bundle
+     * @param {Resource[]|{entry: {resource: Resource}[]}} bundle
      * @return {Resource[]}
      */
     unBundle(bundle) {
@@ -94,6 +94,7 @@ class FhirDataSource extends DataSource {
          * @type {Object}
          */
         const groupKeysByResourceType = groupBy(keys, 'resourceType');
+        // noinspection UnnecessaryLocalVariableJS
         /**
          * @type {*|Promise<unknown>}
          */
@@ -169,12 +170,6 @@ class FhirDataSource extends DataSource {
          */
         const idOfReference = reference.reference.split('/')[1];
         try {
-            // return await searchById(
-            //     getRequestInfo(context),
-            //     {base_version: '4_0_0', id: idOfReference},
-            //     typeOfReference,
-            //     typeOfReference
-            // );
             return await this.dataLoader.load(
                 new ResourceWithId(
                     typeOfReference,
@@ -212,27 +207,12 @@ class FhirDataSource extends DataSource {
              */
             const idOfReference = reference.reference.split('/')[1];
             try {
-                return this.unBundle(
-                    await this.dataLoader.load(
-                        new ResourceWithId(
-                            typeOfReference,
-                            idOfReference
-                        )
+                return await this.dataLoader.load(
+                    new ResourceWithId(
+                        typeOfReference,
+                        idOfReference
                     )
                 );
-                // return this.unBundle(
-                //     await search(
-                //         getRequestInfo(context),
-                //         {
-                //             base_version: '4_0_0',
-                //             id: idOfReference,
-                //             _bundle: '1',
-                //             _debug: '1'
-                //         },
-                //         typeOfReference,
-                //         typeOfReference
-                //     )
-                // );
             } catch (e) {
                 if (e.name === 'NotFound') {
                     logWarn(context.user, `findResourcesByReference: Resource ${typeOfReference}/${idOfReference} not found for parent:${parent.resourceType}/${parent.id}`);
