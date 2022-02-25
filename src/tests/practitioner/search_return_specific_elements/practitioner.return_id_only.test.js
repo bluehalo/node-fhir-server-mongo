@@ -10,8 +10,6 @@ const expectedPractitionerResource = require('./fixtures/expected/expected_pract
 const expectedPractitionerResourceBundle = require('./fixtures/expected/expected_practitioner_bundle.json');
 const expectedPractitionerNoUserScopesBundle = require('./fixtures/expected/expected_practitioner_no_user_scopes.json');
 
-const async = require('async');
-
 const request = supertest(app);
 const {commonBeforeEach, commonAfterEach, getHeaders} = require('../../common');
 
