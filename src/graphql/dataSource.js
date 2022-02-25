@@ -1,7 +1,6 @@
 const {DataSource} = require('apollo-datasource');
 const {search} = require('../operations/search/search');
 const {getRequestInfo} = require('./requestInfoHelper');
-const {searchById} = require('../operations/searchById/searchById');
 const {logWarn} = require('../operations/common/logging');
 const async = require('async');
 const DataLoader = require('dataloader');
@@ -12,11 +11,22 @@ const DataLoader = require('dataloader');
  * @param key
  * @return {*}
  */
-const groupBy = function (sourceArray, key) {
-    return sourceArray.reduce(function (rv, x) {
-        (rv[x[key]] = rv[x[key]] || []).push(x);
-        return rv;
-    }, {});
+const groupBy = function (sourceArray, key) { // `sourceArray` is an array of objects, `key` is the key (or property accessor) to group by
+    // reduce runs this anonymous function on each element of `sourceArray` (the `item` parameter,
+    // returning the `storage` parameter at the end
+    return sourceArray.reduce(function (storage, item) {
+        // get the first instance of the key by which we're grouping
+        const group = item[key];
+
+        // set `storage` for this instance of group to the outer scope (if not empty) or initialize it
+        storage[group] = storage[group] || [];
+
+        // add this item to its group within `storage`
+        storage[group].push(item);
+
+        // return the updated storage to the reduce function, which will then loop through the next
+        return storage;
+    }, {}); // {} is the initial value of the storage
 };
 
 class ResourceWithId {
@@ -61,9 +71,9 @@ class FhirDataSource extends DataSource {
              * @type {ResourceWithId}
              */
             const [resourceType, resources] = groupKeysByResourceTypeKey;
-            const idOfReference = resources.map(r => r.id);
-            return await search(
-                getRequestInfo(context),
+            const idOfReference = resources.map(r => r.id).join(',');
+            return search(
+                requestInfo,
                 {
                     base_version: '4_0_0',
                     id: idOfReference,
