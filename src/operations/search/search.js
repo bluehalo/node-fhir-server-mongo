@@ -56,7 +56,7 @@ function handleElementsQuery(args, columns, resourceName, options) {
         // also exclude _id so if there is a covering index the query can be satisfied from the covering index
         projection['_id'] = 0;
         // always add meta column so we can do security checks
-        projection['meta'] = 1;
+        projection['meta.security'] = 1;
         options['projection'] = projection;
     }
 
