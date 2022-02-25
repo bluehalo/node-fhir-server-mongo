@@ -101,7 +101,7 @@ class FhirDataSource extends DataSource {
              */
             const idOfReference = reference.reference.split('/')[1];
             try {
-                return module.exports.unBundle(
+                return this.unBundle(
                     await search(
                         getRequestInfo(context),
                         {
@@ -117,6 +117,9 @@ class FhirDataSource extends DataSource {
                 if (e.name === 'NotFound') {
                     logWarn(context.user, `findResourcesByReference: Resource ${typeOfReference}/${idOfReference} not found for parent:${parent.resourceType}/${parent.id}`);
                     return null;
+                }
+                else {
+                    throw e;
                 }
             }
         });
