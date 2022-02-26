@@ -329,6 +329,7 @@ def main() -> int:
             print(f"{resource_name}: {fhir_entity.type_} is not supported")
         # print(result)
 
+    print("------ Finished generating classes ------")
     return 0
 
 
