@@ -17,7 +17,7 @@ const {getRequestInfo} = require('../graphql/v1/requestInfoHelper');
 
 
 const graphql = async () => {
-    const typesArray = loadFilesSync(join(__dirname, '../graphql/schemas/'), {recursive: true});
+    const typesArray = loadFilesSync(join(__dirname, '../graphql/v1/schemas/'), {recursive: true});
     const typeDefs = mergeTypeDefs(typesArray);
     // create the Apollo graphql middleware
     const server = new ApolloServer(
@@ -64,7 +64,7 @@ const graphql = async () => {
             }
         });
 
-    // apollo requires us to start the sever first
+    // apollo requires us to start the server first
     await server.start();
 
     return server.getMiddleware({path: '/'});

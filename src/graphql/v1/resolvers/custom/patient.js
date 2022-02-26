@@ -1,9 +1,9 @@
-const {remove} = require('../../../operations/remove/remove');
-const {merge} = require('../../../operations/merge/merge');
+const {remove} = require('../../../../operations/remove/remove');
+const {merge} = require('../../../../operations/merge/merge');
 const {getRequestInfo} = require('../../requestInfoHelper');
 
 /**
-    method to match general practitioners to a id and remove from the provided list
+    method to match general practitioners to an id and remove from the provided list
     @param {array} arr the list of practitioners to inspect
     @param {string} id the id to remove from the list
     @returns {array} the collection of ids after processing

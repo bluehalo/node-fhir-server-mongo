@@ -1,5 +1,5 @@
-const {getUuid} = require('../../../utils/uid.util' );
-const {merge} = require('../../../operations/merge/merge');
+const {getUuid} = require('../../../../utils/uid.util' );
+const {merge} = require('../../../../operations/merge/merge');
 const {getRequestInfo} = require('../../requestInfoHelper');
 
 function mapParticipants(members) {
