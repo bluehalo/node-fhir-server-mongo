@@ -22,6 +22,7 @@ const {
     getHeaders,
     getGraphQLHeaders
 } = require('../../common');
+const {assertCompareBundles} = require("../../fhirAsserts");
 
 describe('GraphQL ExplanationOfBenefit Tests', () => {
     beforeEach(async () => {
@@ -117,18 +118,7 @@ describe('GraphQL ExplanationOfBenefit Tests', () => {
                 console.log(body.errors);
                 expect(body.errors).toBeUndefined();
             }
-            expect(body.data.explanationOfBenefit.entry.length).toBe(2);
-            let expected = expectedGraphQLResponse;
-            expected.entry.forEach(entry => {
-                const element = entry.resource;
-                if ('meta' in element) {
-                    delete element['meta']['lastUpdated'];
-                }
-                if ('$schema' in element) {
-                    delete element['$schema'];
-                }
-            });
-            expect(body.data.explanationOfBenefit).toStrictEqual(expected);
+            assertCompareBundles(body.data.explanationOfBenefit, expectedGraphQLResponse);
         });
     });
 });

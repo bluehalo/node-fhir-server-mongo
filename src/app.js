@@ -154,35 +154,56 @@ passport.use('graphqlStrategy', strategy);
 if (isTrue(env.ENABLE_GRAPHQL)) {
     app.use(cors(fhirServerConfig.server.corsOptions));
     const useGraphQLv2 = isTrue(env.USE_GRAPHQL_v2);
-    graphql()
-        .then((graphqlMiddleware) => {
-            // eslint-disable-next-line new-cap
-            const router = express.Router();
-            router.use(passport.initialize({}));
-            router.use(passport.authenticate('graphqlStrategy', {session: false}, null));
-            router.use(graphqlMiddleware);
-            app.use('/graphqlv2', router);
+    if (useGraphQLv2) {
+        graphql()
+            .then((graphqlMiddleware) => {
+                // eslint-disable-next-line new-cap
+                const router = express.Router();
+                router.use(passport.initialize({}));
+                router.use(passport.authenticate('graphqlStrategy', {session: false}, null));
+                router.use(graphqlMiddleware);
+                app.use('/graphqlv2', router);
 
-            if (useGraphQLv2) {
                 app.use('/graphql', router);
-            }
-        })
-        .then((_) => graphqlv1())
-        .then((graphqlMiddlewareV1) => {
-            // eslint-disable-next-line new-cap
-            const router1 = express.Router();
-            router1.use(passport.initialize({}));
-            router1.use(passport.authenticate('graphqlStrategy', {session: false}, null));
-            router1.use(graphqlMiddlewareV1);
+            })
+            .then((_) => graphqlv1())
+            .then((graphqlMiddlewareV1) => {
+                // eslint-disable-next-line new-cap
+                const router1 = express.Router();
+                router1.use(passport.initialize({}));
+                router1.use(passport.authenticate('graphqlStrategy', {session: false}, null));
+                router1.use(graphqlMiddlewareV1);
 
-            app.use('/graphqlv1', router1);
-            if (!useGraphQLv2) {
+                app.use('/graphqlv1', router1);
+            })
+            .then((_) => {
+                app.use(fhirApp.app);
+            });
+    } else {
+        graphql()
+            .then((graphqlMiddleware) => {
+                // eslint-disable-next-line new-cap
+                const router = express.Router();
+                router.use(passport.initialize({}));
+                router.use(passport.authenticate('graphqlStrategy', {session: false}, null));
+                router.use(graphqlMiddleware);
+                app.use('/graphqlv2', router);
+            })
+            .then((_) => graphqlv1())
+            .then((graphqlMiddlewareV1) => {
+                // eslint-disable-next-line new-cap
+                const router1 = express.Router();
+                router1.use(passport.initialize({}));
+                router1.use(passport.authenticate('graphqlStrategy', {session: false}, null));
+                router1.use(graphqlMiddlewareV1);
+
+                app.use('/graphqlv1', router1);
                 app.use('/graphql', router1);
-            }
-        })
-        .then((_) => {
-            app.use(fhirApp.app);
-        });
+            })
+            .then((_) => {
+                app.use(fhirApp.app);
+            });
+    }
 } else {
     app.use(fhirApp.app);
 }

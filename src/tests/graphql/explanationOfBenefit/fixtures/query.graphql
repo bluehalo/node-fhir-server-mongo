@@ -6,6 +6,13 @@ query {
         _sort: ["id"],
         _count: 2
     ) {
+        meta {
+            tag {
+                system
+                code
+                display
+            }
+        }
         entry {
             resource {
                 id

@@ -595,5 +595,44 @@
         "use": "Claim"
       }
     }
-  ]
+  ],
+  "meta": {
+    "tag": [
+      {
+        "code": null,
+        "display": "[{\"$and\":[{\"id\":{\"$in\":[\"WPS-Claim-230916613369\",\"WPS-Claim-429017018331\"]}}]},{\"id\":{\"$in\":[\"WPS-Claim-230916613369\",\"WPS-Claim-429017018331\"]}}]",
+        "system": "https://www.icanbwell.com/query"
+      },
+      {
+        "code": "ExplanationOfBenefit_4_0_0",
+        "display": null,
+        "system": "https://www.icanbwell.com/queryCollection"
+      },
+      {
+        "code": null,
+        "display": "[{\"sort\":{\"id\":1},\"limit\":2,\"projection\":{\"_id\":0,\"id\":1}},{}]",
+        "system": "https://www.icanbwell.com/queryOptions"
+      },
+      {
+        "code": null,
+        "display": "[\"id\"]",
+        "system": "https://www.icanbwell.com/queryFields"
+      },
+      {
+        "code": null,
+        "display": "0.018",
+        "system": "https://www.icanbwell.com/queryTime"
+      },
+      {
+        "code": null,
+        "display": "{'useTwoStepSearchOptimization':true}",
+        "system": "https://www.icanbwell.com/queryOptimization"
+      },
+      {
+        "code": "id_1",
+        "display": null,
+        "system": "https://www.icanbwell.com/queryIndexHint"
+      }
+    ]
+  }
 }
