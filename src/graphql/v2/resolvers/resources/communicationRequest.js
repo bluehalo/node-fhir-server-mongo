@@ -6,7 +6,7 @@ module.exports = {
         // noinspection JSUnusedLocalSymbols
         // eslint-disable-next-line no-unused-vars
         communicationRequest: async (parent, args, context, info) => {
-            return await context.dataApi.getResources(
+            return await context.dataApi.getResourcesBundle(
                 parent,
                 args,
                 context,

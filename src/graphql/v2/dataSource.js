@@ -249,6 +249,30 @@ class FhirDataSource extends DataSource {
             )
         );
     }
+
+    /**
+     * Finds resources with args
+     * @param parent
+     * @param args
+     * @param context
+     * @param info
+     * @param {string} resourceType
+     * @return {Promise<Resource[]>}
+     */
+    async getResourcesBundle(parent, args, context, info, resourceType) {
+        // https://www.apollographql.com/blog/graphql/filtering/how-to-search-and-filter-results-with-graphql/
+        return search(
+            getRequestInfo(context),
+            {
+                base_version: '4_0_0',
+                _bundle: '1',
+                ...args,
+                _debug: '1'
+            },
+            resourceType,
+            resourceType
+        );
+    }
 }
 
 module.exports = {

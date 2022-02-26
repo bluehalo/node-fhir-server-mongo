@@ -160,9 +160,11 @@ if (isTrue(env.ENABLE_GRAPHQL)) {
             router.use(passport.initialize({}));
             router.use(passport.authenticate('graphqlStrategy', {session: false}, null));
             router.use(graphqlMiddleware);
-
-            app.use('/graphql', router);
             app.use('/graphqlv2', router);
+
+            if (isTrue(env.USE_GRAPHQL_v2)) {
+                app.use('/graphql', router);
+            }
         })
         .then((_) => graphqlv1())
         .then((graphqlMiddlewareV1) => {
@@ -173,6 +175,9 @@ if (isTrue(env.ENABLE_GRAPHQL)) {
             router1.use(graphqlMiddlewareV1);
 
             app.use('/graphqlv1', router1);
+            if (!isTrue(env.USE_GRAPHQL_v2)) {
+                app.use('/graphql', router1);
+            }
         })
         .then((_) => {
             app.use(fhirApp.app);

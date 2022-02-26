@@ -3,21 +3,21 @@
  */
 const {ApolloServer} = require('apollo-server-express');
 const {join} = require('path');
-const resolvers = require('../graphql/v1/resolvers');
+const resolvers = require('../graphql/v2/resolvers');
 const {loadFilesSync} = require('@graphql-tools/load-files');
 const {mergeTypeDefs} = require('@graphql-tools/merge');
-const {FhirDataSource} = require('../graphql/v1/dataSource');
+const {FhirDataSource} = require('../graphql/v2/dataSource');
 
 const {
     ApolloServerPluginLandingPageGraphQLPlayground,
     // ApolloServerPluginLandingPageDisabled
 } = require('apollo-server-core');
-const {getRequestInfo} = require('../graphql/v1/requestInfoHelper');
+const {getRequestInfo} = require('../graphql/v2/requestInfoHelper');
 
 
 
 const graphql = async () => {
-    const typesArray = loadFilesSync(join(__dirname, '../graphql/v1/schemas/'), {recursive: true});
+    const typesArray = loadFilesSync(join(__dirname, '../graphql/v2/schemas/'), {recursive: true});
     const typeDefs = mergeTypeDefs(typesArray);
     // create the Apollo graphql middleware
     const server = new ApolloServer(
