@@ -153,6 +153,7 @@ passport.use('graphqlStrategy', strategy);
 
 if (isTrue(env.ENABLE_GRAPHQL)) {
     app.use(cors(fhirServerConfig.server.corsOptions));
+    const useGraphQLv2 = isTrue(env.USE_GRAPHQL_v2);
     graphql()
         .then((graphqlMiddleware) => {
             // eslint-disable-next-line new-cap
@@ -162,7 +163,7 @@ if (isTrue(env.ENABLE_GRAPHQL)) {
             router.use(graphqlMiddleware);
             app.use('/graphqlv2', router);
 
-            if (isTrue(env.USE_GRAPHQL_v2)) {
+            if (useGraphQLv2) {
                 app.use('/graphql', router);
             }
         })
@@ -175,7 +176,7 @@ if (isTrue(env.ENABLE_GRAPHQL)) {
             router1.use(graphqlMiddlewareV1);
 
             app.use('/graphqlv1', router1);
-            if (!isTrue(env.USE_GRAPHQL_v2)) {
+            if (!useGraphQLv2) {
                 app.use('/graphql', router1);
             }
         })
