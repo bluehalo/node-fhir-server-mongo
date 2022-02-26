@@ -22,7 +22,7 @@ const {
     getHeaders,
     getGraphQLHeaders
 } = require('../../common');
-const {assertCompareBundles} = require("../../fhirAsserts");
+const {assertCompareBundles} = require('../../fhirAsserts');
 
 describe('GraphQL ExplanationOfBenefit Tests', () => {
     beforeEach(async () => {
