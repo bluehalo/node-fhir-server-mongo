@@ -104,8 +104,7 @@ describe('GraphQL Patient Update Care Team Tests', () => {
         console.log(body.errors);
         expect(body.errors).toBeUndefined();
       }
-      let expected = expectedGraphQlResponse;
-      expect(body).toStrictEqual(expected);
+      expect(body).toStrictEqual(expectedGraphQlResponse);
       resp = await request.get('/4_0_0/CareTeam/').set(getHeaders()).expect(200);
 
       console.log('------- response careTeam ------------');

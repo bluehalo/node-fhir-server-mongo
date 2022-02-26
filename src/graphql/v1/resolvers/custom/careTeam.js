@@ -1,4 +1,5 @@
-const {getUuid} = require('../../../../utils/uid.util' );
+const {getResources} = require('../../common');
+const {getUuid} = require('../../../../utils/uid.util');
 const {merge} = require('../../../../operations/merge/merge');
 const {getRequestInfo} = require('../../requestInfoHelper');
 
@@ -45,7 +46,7 @@ module.exports = {
         updatePreferredProviders:
         // eslint-disable-next-line no-unused-vars
             async (parent, args, context, info) => {
-                const patients = await context.dataApi.getResources(
+                const patients = await getResources(
                     parent,
                     {
                         ...args,
@@ -61,11 +62,11 @@ module.exports = {
                 const patientToChange = patients[0];
                 // create care team
                 const careTeam = mapCareTeam(args.team);
-                if (!careTeam.id){
+                if (!careTeam.id) {
                     careTeam.id = getUuid(careTeam);
                 }
                 /**
-                 * @type {import('../../../utils/requestInfo').RequestInfo}
+                 * @type {import('../../../../utils/requestInfo').RequestInfo}
                  */
                 const requestInfo = getRequestInfo(context);
                 requestInfo.body = [careTeam];

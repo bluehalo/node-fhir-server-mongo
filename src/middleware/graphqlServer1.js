@@ -6,17 +6,14 @@ const {join} = require('path');
 const resolvers = require('../graphql/v1/resolvers');
 const {loadFilesSync} = require('@graphql-tools/load-files');
 const {mergeTypeDefs} = require('@graphql-tools/merge');
-const {FhirDataSource} = require('../graphql/v1/dataSource');
 
 const {
     ApolloServerPluginLandingPageGraphQLPlayground,
     // ApolloServerPluginLandingPageDisabled
 } = require('apollo-server-core');
-const {getRequestInfo} = require('../graphql/v1/requestInfoHelper');
 
 
-
-const graphqlv1 = async () => {
+const graphql = async () => {
     const typesArray = loadFilesSync(join(__dirname, '../graphql/v1/schemas/'), {recursive: true});
     const typeDefs = mergeTypeDefs(typesArray);
     // create the Apollo graphql middleware
@@ -43,7 +40,9 @@ const graphqlv1 = async () => {
                 // ApolloServerPluginLandingPageDisabled()
             ],
             context: async ({req, res}) => {
-                const requestInfo = {
+                return {
+                    req,
+                    res,
                     user: (req.authInfo && req.authInfo.context && req.authInfo.context.username)
                         || (req.authInfo && req.authInfo.context && req.authInfo.context.subject)
                         || req.user,
@@ -53,21 +52,15 @@ const graphqlv1 = async () => {
                     originalUrl: req.originalUrl,
                     path: req.path,
                     host: req.hostname,
-                    body: req.body,
-                };
-                return {
-                    req,
-                    res,
-                    ...requestInfo,
-                    dataApi: new FhirDataSource(getRequestInfo(requestInfo))
+                    body: req.body
                 };
             }
         });
 
-    // apollo requires us to start the server first
+    // apollo requires us to start the sever first
     await server.start();
 
     return server.getMiddleware({path: '/'});
 };
 
-module.exports.graphqlv1 = graphqlv1;
+module.exports.graphqlv1 = graphql;

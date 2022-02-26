@@ -2,10 +2,10 @@
  * Implements helper functions for graphql
  */
 
-const {searchById} = require('../operations/searchById/searchById');
-const {search} = require('../operations/search/search');
+const {searchById} = require('../../operations/searchById/searchById');
+const {search} = require('../../operations/search/search');
 const async = require('async');
-const {logWarn} = require('../operations/common/logging');
+const {logWarn} = require('../../operations/common/logging');
 const {getRequestInfo} = require('./requestInfoHelper');
 /**
  * This functions takes a FHIR Bundle and returns the resources in it
