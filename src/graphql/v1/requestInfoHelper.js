@@ -1,4 +1,4 @@
-const {RequestInfo} = require('../utils/requestInfo');
+const {RequestInfo} = require('../../utils/requestInfo');
 /**
  * @param context
  * @returns {RequestInfo}

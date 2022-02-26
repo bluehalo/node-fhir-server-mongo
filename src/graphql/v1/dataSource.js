@@ -1,7 +1,7 @@
 const {DataSource} = require('apollo-datasource');
-const {search} = require('../operations/search/search');
+const {search} = require('../../operations/search/search');
 const {getRequestInfo} = require('./requestInfoHelper');
-const {logWarn} = require('../operations/common/logging');
+const {logWarn} = require('../../operations/common/logging');
 const async = require('async');
 const DataLoader = require('dataloader');
 
@@ -16,13 +16,13 @@ const groupBy = function (sourceArray, key) { // `sourceArray` is an array of ob
     // returning the `storage` parameter at the end
     return sourceArray.reduce(function (storage, item) {
         // get the first instance of the key by which we're grouping
-        const group = item[key];
+        const group = item[`${key}`];
 
         // set `storage` for this instance of group to the outer scope (if not empty) or initialize it
-        storage[group] = storage[group] || [];
+        storage[`${group}`] = storage[`${group}`] || [];
 
         // add this item to its group within `storage`
-        storage[group].push(item);
+        storage[`${group}`].push(item);
 
         // return the updated storage to the reduce function, which will then loop through the next
         return storage;
