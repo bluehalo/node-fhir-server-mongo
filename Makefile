@@ -124,7 +124,7 @@ run-pre-commit: setup-pre-commit
 
 .PHONY:graphql
 graphql:
-	python3 src/graphql/generator/generate_classes.py && \
+	python3 src/graphql/v1/generator/generate_classes.py && \
 	graphql-schema-linter src/**/*.graphql
 
 
