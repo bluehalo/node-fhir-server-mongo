@@ -85,3 +85,17 @@ type {{fhir_entity.cleaned_name}} {
         {{ '' }}
 {% endfor %}
 }
+
+type {{fhir_entity.cleaned_name}}BundleEntry {
+    resource: {{fhir_entity.cleaned_name}}
+}
+
+type {{fhir_entity.cleaned_name}}Bundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [{{fhir_entity.cleaned_name}}BundleEntry]
+}

@@ -170,3 +170,17 @@ type RequestGroup {
     """
     action: [RequestGroupAction]        
 }
+
+type RequestGroupBundleEntry {
+    resource: RequestGroup
+}
+
+type RequestGroupBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [RequestGroupBundleEntry]
+}

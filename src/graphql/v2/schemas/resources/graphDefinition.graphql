@@ -175,3 +175,17 @@ type GraphDefinition {
     """
     link: [GraphDefinitionLink]        
 }
+
+type GraphDefinitionBundleEntry {
+    resource: GraphDefinition
+}
+
+type GraphDefinitionBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [GraphDefinitionBundleEntry]
+}

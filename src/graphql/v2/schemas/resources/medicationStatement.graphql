@@ -202,3 +202,17 @@ type MedicationStatement {
     """
     dosage: [Dosage]        
 }
+
+type MedicationStatementBundleEntry {
+    resource: MedicationStatement
+}
+
+type MedicationStatementBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [MedicationStatementBundleEntry]
+}

@@ -213,3 +213,17 @@ type Encounter {
     """
     partOf: Encounter        
 }
+
+type EncounterBundleEntry {
+    resource: Encounter
+}
+
+type EncounterBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [EncounterBundleEntry]
+}

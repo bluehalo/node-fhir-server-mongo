@@ -102,3 +102,17 @@ type SubstanceReferenceInformation {
     """
     target: [SubstanceReferenceInformationTarget]        
 }
+
+type SubstanceReferenceInformationBundleEntry {
+    resource: SubstanceReferenceInformation
+}
+
+type SubstanceReferenceInformationBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [SubstanceReferenceInformationBundleEntry]
+}

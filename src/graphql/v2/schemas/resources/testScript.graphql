@@ -225,3 +225,17 @@ type TestScript {
     """
     teardown: TestScriptTeardown        
 }
+
+type TestScriptBundleEntry {
+    resource: TestScript
+}
+
+type TestScriptBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [TestScriptBundleEntry]
+}

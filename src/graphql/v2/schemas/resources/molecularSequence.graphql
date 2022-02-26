@@ -164,3 +164,17 @@ type MolecularSequence {
     """
     structureVariant: [MolecularSequenceStructureVariant]        
 }
+
+type MolecularSequenceBundleEntry {
+    resource: MolecularSequence
+}
+
+type MolecularSequenceBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [MolecularSequenceBundleEntry]
+}

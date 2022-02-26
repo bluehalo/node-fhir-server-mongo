@@ -148,3 +148,17 @@ type DeviceMetric {
     """
     calibration: [DeviceMetricCalibration]        
 }
+
+type DeviceMetricBundleEntry {
+    resource: DeviceMetric
+}
+
+type DeviceMetricBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [DeviceMetricBundleEntry]
+}

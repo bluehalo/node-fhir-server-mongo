@@ -108,3 +108,17 @@ type Basic {
     """
     author: BasicAuthor        
 }
+
+type BasicBundleEntry {
+    resource: Basic
+}
+
+type BasicBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [BasicBundleEntry]
+}

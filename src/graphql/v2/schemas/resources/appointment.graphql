@@ -219,3 +219,17 @@ type Appointment {
     """
     requestedPeriod: [Period]        
 }
+
+type AppointmentBundleEntry {
+    resource: Appointment
+}
+
+type AppointmentBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [AppointmentBundleEntry]
+}

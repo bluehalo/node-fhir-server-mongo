@@ -190,3 +190,17 @@ type DiagnosticReport {
     """
     presentedForm: [Attachment]        
 }
+
+type DiagnosticReportBundleEntry {
+    resource: DiagnosticReport
+}
+
+type DiagnosticReportBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [DiagnosticReportBundleEntry]
+}

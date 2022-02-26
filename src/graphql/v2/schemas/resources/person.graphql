@@ -128,3 +128,17 @@ type Person {
     """
     link: [PersonLink]        
 }
+
+type PersonBundleEntry {
+    resource: Person
+}
+
+type PersonBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [PersonBundleEntry]
+}

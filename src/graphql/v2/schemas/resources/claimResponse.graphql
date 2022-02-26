@@ -218,3 +218,17 @@ type ClaimResponse {
     """
     error: [ClaimResponseError]        
 }
+
+type ClaimResponseBundleEntry {
+    resource: ClaimResponse
+}
+
+type ClaimResponseBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [ClaimResponseBundleEntry]
+}

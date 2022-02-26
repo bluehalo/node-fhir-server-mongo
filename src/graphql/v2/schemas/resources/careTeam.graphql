@@ -147,3 +147,17 @@ type CareTeam {
     """
     note: [Annotation]        
 }
+
+type CareTeamBundleEntry {
+    resource: CareTeam
+}
+
+type CareTeamBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [CareTeamBundleEntry]
+}

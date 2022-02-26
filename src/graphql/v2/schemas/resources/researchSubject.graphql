@@ -116,3 +116,17 @@ type ResearchSubject {
     """
     consent: Consent        
 }
+
+type ResearchSubjectBundleEntry {
+    resource: ResearchSubject
+}
+
+type ResearchSubjectBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [ResearchSubjectBundleEntry]
+}

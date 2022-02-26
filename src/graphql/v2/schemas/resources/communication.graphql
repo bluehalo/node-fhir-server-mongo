@@ -199,3 +199,17 @@ type Communication {
     """
     note: [Annotation]        
 }
+
+type CommunicationBundleEntry {
+    resource: Communication
+}
+
+type CommunicationBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [CommunicationBundleEntry]
+}

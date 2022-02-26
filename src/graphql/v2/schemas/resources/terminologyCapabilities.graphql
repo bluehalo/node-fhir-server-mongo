@@ -232,3 +232,17 @@ type TerminologyCapabilities {
     """
     closure: TerminologyCapabilitiesClosure        
 }
+
+type TerminologyCapabilitiesBundleEntry {
+    resource: TerminologyCapabilities
+}
+
+type TerminologyCapabilitiesBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [TerminologyCapabilitiesBundleEntry]
+}

@@ -283,3 +283,17 @@ type Contract {
     """
     legallyBindingReference: ContractLegallyBindingReference        
 }
+
+type ContractBundleEntry {
+    resource: Contract
+}
+
+type ContractBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [ContractBundleEntry]
+}

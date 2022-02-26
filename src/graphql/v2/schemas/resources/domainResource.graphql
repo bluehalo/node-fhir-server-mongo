@@ -77,3 +77,17 @@ type DomainResource {
     """
     modifierExtension: [Extension]        
 }
+
+type DomainResourceBundleEntry {
+    resource: DomainResource
+}
+
+type DomainResourceBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [DomainResourceBundleEntry]
+}

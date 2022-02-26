@@ -197,3 +197,17 @@ type ValueSet {
     """
     expansion: ValueSetExpansion        
 }
+
+type ValueSetBundleEntry {
+    resource: ValueSet
+}
+
+type ValueSetBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [ValueSetBundleEntry]
+}

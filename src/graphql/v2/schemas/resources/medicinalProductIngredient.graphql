@@ -109,3 +109,17 @@ type MedicinalProductIngredient {
     """
     substance: MedicinalProductIngredientSubstance        
 }
+
+type MedicinalProductIngredientBundleEntry {
+    resource: MedicinalProductIngredient
+}
+
+type MedicinalProductIngredientBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [MedicinalProductIngredientBundleEntry]
+}

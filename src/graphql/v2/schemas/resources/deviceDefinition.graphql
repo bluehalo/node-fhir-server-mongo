@@ -197,3 +197,17 @@ type DeviceDefinition {
     """
     material: [DeviceDefinitionMaterial]        
 }
+
+type DeviceDefinitionBundleEntry {
+    resource: DeviceDefinition
+}
+
+type DeviceDefinitionBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [DeviceDefinitionBundleEntry]
+}

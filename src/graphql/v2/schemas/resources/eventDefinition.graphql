@@ -251,3 +251,17 @@ type EventDefinition {
     """
     trigger: [TriggerDefinition]!        
 }
+
+type EventDefinitionBundleEntry {
+    resource: EventDefinition
+}
+
+type EventDefinitionBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [EventDefinitionBundleEntry]
+}

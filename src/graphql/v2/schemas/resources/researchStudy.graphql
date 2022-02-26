@@ -209,3 +209,17 @@ type ResearchStudy {
     """
     objective: [ResearchStudyObjective]        
 }
+
+type ResearchStudyBundleEntry {
+    resource: ResearchStudy
+}
+
+type ResearchStudyBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [ResearchStudyBundleEntry]
+}

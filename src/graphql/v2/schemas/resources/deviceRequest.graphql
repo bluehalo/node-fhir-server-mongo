@@ -212,3 +212,17 @@ type DeviceRequest {
     """
     relevantHistory: [Provenance]        
 }
+
+type DeviceRequestBundleEntry {
+    resource: DeviceRequest
+}
+
+type DeviceRequestBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [DeviceRequestBundleEntry]
+}

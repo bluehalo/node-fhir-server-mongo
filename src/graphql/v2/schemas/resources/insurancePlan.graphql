@@ -148,3 +148,17 @@ type InsurancePlan {
     """
     plan: [InsurancePlanPlan]        
 }
+
+type InsurancePlanBundleEntry {
+    resource: InsurancePlan
+}
+
+type InsurancePlanBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [InsurancePlanBundleEntry]
+}

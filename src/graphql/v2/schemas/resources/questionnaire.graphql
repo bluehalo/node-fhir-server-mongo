@@ -216,3 +216,17 @@ type Questionnaire {
     """
     item: [QuestionnaireItem]        
 }
+
+type QuestionnaireBundleEntry {
+    resource: Questionnaire
+}
+
+type QuestionnaireBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [QuestionnaireBundleEntry]
+}

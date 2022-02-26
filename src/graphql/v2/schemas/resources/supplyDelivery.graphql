@@ -143,3 +143,17 @@ type SupplyDelivery {
     """
     receiver: [SupplyDeliveryReceiver]        
 }
+
+type SupplyDeliveryBundleEntry {
+    resource: SupplyDelivery
+}
+
+type SupplyDeliveryBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [SupplyDeliveryBundleEntry]
+}

@@ -158,3 +158,17 @@ type MedicinalProductAuthorization {
     """
     procedure: MedicinalProductAuthorizationProcedure        
 }
+
+type MedicinalProductAuthorizationBundleEntry {
+    resource: MedicinalProductAuthorization
+}
+
+type MedicinalProductAuthorizationBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [MedicinalProductAuthorizationBundleEntry]
+}

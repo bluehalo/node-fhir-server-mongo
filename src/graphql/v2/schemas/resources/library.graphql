@@ -270,3 +270,17 @@ type Library {
     """
     content: [Attachment]        
 }
+
+type LibraryBundleEntry {
+    resource: Library
+}
+
+type LibraryBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [LibraryBundleEntry]
+}

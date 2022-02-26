@@ -111,3 +111,17 @@ type SubstanceNucleicAcid {
     """
     subunit: [SubstanceNucleicAcidSubunit]        
 }
+
+type SubstanceNucleicAcidBundleEntry {
+    resource: SubstanceNucleicAcid
+}
+
+type SubstanceNucleicAcidBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [SubstanceNucleicAcidBundleEntry]
+}

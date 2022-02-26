@@ -43,3 +43,17 @@ type Parameters {
     """
     parameter: [ParametersParameter]        
 }
+
+type ParametersBundleEntry {
+    resource: Parameters
+}
+
+type ParametersBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [ParametersBundleEntry]
+}

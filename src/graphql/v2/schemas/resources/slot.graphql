@@ -135,3 +135,17 @@ type Slot {
     """
     comment: String        
 }
+
+type SlotBundleEntry {
+    resource: Slot
+}
+
+type SlotBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [SlotBundleEntry]
+}

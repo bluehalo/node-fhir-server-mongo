@@ -183,3 +183,17 @@ type NutritionOrder {
     """
     note: [Annotation]        
 }
+
+type NutritionOrderBundleEntry {
+    resource: NutritionOrder
+}
+
+type NutritionOrderBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [NutritionOrderBundleEntry]
+}

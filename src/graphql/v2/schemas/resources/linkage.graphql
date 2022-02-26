@@ -101,3 +101,17 @@ type Linkage {
     """
     item: [LinkageItem]!        
 }
+
+type LinkageBundleEntry {
+    resource: Linkage
+}
+
+type LinkageBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [LinkageBundleEntry]
+}

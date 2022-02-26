@@ -160,3 +160,17 @@ type CoverageEligibilityResponse {
     """
     error: [CoverageEligibilityResponseError]        
 }
+
+type CoverageEligibilityResponseBundleEntry {
+    resource: CoverageEligibilityResponse
+}
+
+type CoverageEligibilityResponseBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [CoverageEligibilityResponseBundleEntry]
+}

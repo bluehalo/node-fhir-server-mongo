@@ -113,3 +113,17 @@ type MedicinalProductManufactured {
     """
     otherCharacteristics: [CodeableConcept]        
 }
+
+type MedicinalProductManufacturedBundleEntry {
+    resource: MedicinalProductManufactured
+}
+
+type MedicinalProductManufacturedBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [MedicinalProductManufacturedBundleEntry]
+}

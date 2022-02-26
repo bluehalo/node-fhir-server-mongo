@@ -201,3 +201,17 @@ type Condition {
     """
     note: [Annotation]        
 }
+
+type ConditionBundleEntry {
+    resource: Condition
+}
+
+type ConditionBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [ConditionBundleEntry]
+}

@@ -126,3 +126,17 @@ type Medication {
     """
     batch: MedicationBatch        
 }
+
+type MedicationBundleEntry {
+    resource: Medication
+}
+
+type MedicationBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [MedicationBundleEntry]
+}

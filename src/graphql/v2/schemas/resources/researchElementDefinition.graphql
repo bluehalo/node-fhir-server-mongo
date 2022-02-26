@@ -279,3 +279,17 @@ type ResearchElementDefinition {
     """
     characteristic: [ResearchElementDefinitionCharacteristic]!        
 }
+
+type ResearchElementDefinitionBundleEntry {
+    resource: ResearchElementDefinition
+}
+
+type ResearchElementDefinitionBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [ResearchElementDefinitionBundleEntry]
+}

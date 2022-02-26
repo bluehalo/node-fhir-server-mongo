@@ -188,3 +188,17 @@ type AdverseEvent {
     """
     study: [ResearchStudy]        
 }
+
+type AdverseEventBundleEntry {
+    resource: AdverseEvent
+}
+
+type AdverseEventBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [AdverseEventBundleEntry]
+}

@@ -105,3 +105,17 @@ type SpecimenDefinition {
     """
     typeTested: [SpecimenDefinitionTypeTested]        
 }
+
+type SpecimenDefinitionBundleEntry {
+    resource: SpecimenDefinition
+}
+
+type SpecimenDefinitionBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [SpecimenDefinitionBundleEntry]
+}

@@ -383,3 +383,17 @@ type ActivityDefinition {
     """
     dynamicValue: [ActivityDefinitionDynamicValue]        
 }
+
+type ActivityDefinitionBundleEntry {
+    resource: ActivityDefinition
+}
+
+type ActivityDefinitionBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [ActivityDefinitionBundleEntry]
+}

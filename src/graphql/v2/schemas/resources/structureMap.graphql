@@ -193,3 +193,17 @@ type StructureMap {
     """
     group: [StructureMapGroup]!        
 }
+
+type StructureMapBundleEntry {
+    resource: StructureMap
+}
+
+type StructureMapBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [StructureMapBundleEntry]
+}

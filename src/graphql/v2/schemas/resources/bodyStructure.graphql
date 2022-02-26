@@ -118,3 +118,17 @@ type BodyStructure {
     """
     patient: Patient!        
 }
+
+type BodyStructureBundleEntry {
+    resource: BodyStructure
+}
+
+type BodyStructureBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [BodyStructureBundleEntry]
+}

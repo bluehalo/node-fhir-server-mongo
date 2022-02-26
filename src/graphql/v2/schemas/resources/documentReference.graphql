@@ -176,3 +176,17 @@ type DocumentReference {
     """
     context: DocumentReferenceContext        
 }
+
+type DocumentReferenceBundleEntry {
+    resource: DocumentReference
+}
+
+type DocumentReferenceBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [DocumentReferenceBundleEntry]
+}

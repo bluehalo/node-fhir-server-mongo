@@ -119,3 +119,17 @@ type VisionPrescription {
     """
     lensSpecification: [VisionPrescriptionLensSpecification]!        
 }
+
+type VisionPrescriptionBundleEntry {
+    resource: VisionPrescription
+}
+
+type VisionPrescriptionBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [VisionPrescriptionBundleEntry]
+}

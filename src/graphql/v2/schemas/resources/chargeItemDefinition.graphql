@@ -231,3 +231,17 @@ type ChargeItemDefinition {
     """
     propertyGroup: [ChargeItemDefinitionPropertyGroup]        
 }
+
+type ChargeItemDefinitionBundleEntry {
+    resource: ChargeItemDefinition
+}
+
+type ChargeItemDefinitionBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [ChargeItemDefinitionBundleEntry]
+}

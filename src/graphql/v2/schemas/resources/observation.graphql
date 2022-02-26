@@ -285,3 +285,17 @@ type Observation {
     """
     component: [ObservationComponent]        
 }
+
+type ObservationBundleEntry {
+    resource: Observation
+}
+
+type ObservationBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [ObservationBundleEntry]
+}

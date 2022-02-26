@@ -125,3 +125,17 @@ type AppointmentResponse {
     """
     comment: String        
 }
+
+type AppointmentResponseBundleEntry {
+    resource: AppointmentResponse
+}
+
+type AppointmentResponseBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [AppointmentResponseBundleEntry]
+}

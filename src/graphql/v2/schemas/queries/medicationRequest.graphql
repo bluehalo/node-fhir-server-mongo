@@ -151,5 +151,5 @@ extend type Query {
         page number to retrieve
         """
         _getpagesoffset: Int
-    ): [MedicationRequest]
+    ): MedicationRequestBundle
 }

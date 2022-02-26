@@ -61,3 +61,17 @@ type Binary {
     """
     data: base64Binary        
 }
+
+type BinaryBundleEntry {
+    resource: Binary
+}
+
+type BinaryBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [BinaryBundleEntry]
+}

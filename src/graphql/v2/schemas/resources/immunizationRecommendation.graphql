@@ -103,3 +103,17 @@ type ImmunizationRecommendation {
     """
     recommendation: [ImmunizationRecommendationRecommendation]!        
 }
+
+type ImmunizationRecommendationBundleEntry {
+    resource: ImmunizationRecommendation
+}
+
+type ImmunizationRecommendationBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [ImmunizationRecommendationBundleEntry]
+}

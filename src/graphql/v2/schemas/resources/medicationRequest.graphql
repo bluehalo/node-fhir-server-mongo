@@ -276,3 +276,17 @@ type MedicationRequest {
     """
     eventHistory: [Provenance]        
 }
+
+type MedicationRequestBundleEntry {
+    resource: MedicationRequest
+}
+
+type MedicationRequestBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [MedicationRequestBundleEntry]
+}

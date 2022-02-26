@@ -271,3 +271,17 @@ type EffectEvidenceSynthesis {
     """
     certainty: [EffectEvidenceSynthesisCertainty]        
 }
+
+type EffectEvidenceSynthesisBundleEntry {
+    resource: EffectEvidenceSynthesis
+}
+
+type EffectEvidenceSynthesisBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [EffectEvidenceSynthesisBundleEntry]
+}

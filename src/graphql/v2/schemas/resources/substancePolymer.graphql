@@ -105,3 +105,17 @@ type SubstancePolymer {
     """
     repeat: [SubstancePolymerRepeat]        
 }
+
+type SubstancePolymerBundleEntry {
+    resource: SubstancePolymer
+}
+
+type SubstancePolymerBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [SubstancePolymerBundleEntry]
+}

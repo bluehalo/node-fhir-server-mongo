@@ -250,3 +250,17 @@ type Procedure {
     """
     usedCode: [CodeableConcept]        
 }
+
+type ProcedureBundleEntry {
+    resource: Procedure
+}
+
+type ProcedureBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [ProcedureBundleEntry]
+}

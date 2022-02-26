@@ -167,3 +167,17 @@ type SubstanceSpecification {
     """
     sourceMaterial: SubstanceSourceMaterial        
 }
+
+type SubstanceSpecificationBundleEntry {
+    resource: SubstanceSpecification
+}
+
+type SubstanceSpecificationBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [SubstanceSpecificationBundleEntry]
+}

@@ -177,3 +177,17 @@ type MedicinalProduct {
     """
     specialDesignation: [MedicinalProductSpecialDesignation]        
 }
+
+type MedicinalProductBundleEntry {
+    resource: MedicinalProduct
+}
+
+type MedicinalProductBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [MedicinalProductBundleEntry]
+}

@@ -199,3 +199,17 @@ type Media {
     """
     note: [Annotation]        
 }
+
+type MediaBundleEntry {
+    resource: Media
+}
+
+type MediaBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [MediaBundleEntry]
+}

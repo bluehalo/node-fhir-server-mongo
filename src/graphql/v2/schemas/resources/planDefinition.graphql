@@ -274,3 +274,17 @@ type PlanDefinition {
     """
     action: [PlanDefinitionAction]        
 }
+
+type PlanDefinitionBundleEntry {
+    resource: PlanDefinition
+}
+
+type PlanDefinitionBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [PlanDefinitionBundleEntry]
+}

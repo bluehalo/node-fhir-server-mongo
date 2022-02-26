@@ -162,3 +162,17 @@ type CoverageEligibilityRequest {
     """
     item: [CoverageEligibilityRequestItem]        
 }
+
+type CoverageEligibilityRequestBundleEntry {
+    resource: CoverageEligibilityRequest
+}
+
+type CoverageEligibilityRequestBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [CoverageEligibilityRequestBundleEntry]
+}

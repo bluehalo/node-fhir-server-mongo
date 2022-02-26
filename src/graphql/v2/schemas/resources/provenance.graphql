@@ -146,3 +146,17 @@ type Provenance {
     """
     signature: [Signature]        
 }
+
+type ProvenanceBundleEntry {
+    resource: Provenance
+}
+
+type ProvenanceBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [ProvenanceBundleEntry]
+}

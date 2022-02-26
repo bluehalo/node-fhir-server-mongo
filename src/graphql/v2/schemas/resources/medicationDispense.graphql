@@ -217,3 +217,17 @@ type MedicationDispense {
     """
     eventHistory: [Provenance]        
 }
+
+type MedicationDispenseBundleEntry {
+    resource: MedicationDispense
+}
+
+type MedicationDispenseBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [MedicationDispenseBundleEntry]
+}

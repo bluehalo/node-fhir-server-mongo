@@ -129,3 +129,17 @@ type Flag {
     """
     author: FlagAuthor        
 }
+
+type FlagBundleEntry {
+    resource: Flag
+}
+
+type FlagBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [FlagBundleEntry]
+}

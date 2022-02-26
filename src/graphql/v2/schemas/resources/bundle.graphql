@@ -76,3 +76,17 @@ type Bundle {
     """
     signature: Signature        
 }
+
+type BundleBundleEntry {
+    resource: Bundle
+}
+
+type BundleBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [BundleBundleEntry]
+}

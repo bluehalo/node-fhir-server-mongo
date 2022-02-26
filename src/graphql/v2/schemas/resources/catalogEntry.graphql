@@ -151,3 +151,17 @@ type CatalogEntry {
     """
     relatedEntry: [CatalogEntryRelatedEntry]        
 }
+
+type CatalogEntryBundleEntry {
+    resource: CatalogEntry
+}
+
+type CatalogEntryBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [CatalogEntryBundleEntry]
+}

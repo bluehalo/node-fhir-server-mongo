@@ -172,3 +172,17 @@ type SupplyRequest {
     """
     deliverTo: SupplyRequestDeliverTo        
 }
+
+type SupplyRequestBundleEntry {
+    resource: SupplyRequest
+}
+
+type SupplyRequestBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [SupplyRequestBundleEntry]
+}

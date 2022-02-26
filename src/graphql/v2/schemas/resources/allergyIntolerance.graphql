@@ -193,3 +193,17 @@ type AllergyIntolerance {
     """
     reaction: [AllergyIntoleranceReaction]        
 }
+
+type AllergyIntoleranceBundleEntry {
+    resource: AllergyIntolerance
+}
+
+type AllergyIntoleranceBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [AllergyIntoleranceBundleEntry]
+}

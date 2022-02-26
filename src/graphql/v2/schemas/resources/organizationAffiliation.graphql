@@ -137,3 +137,17 @@ type OrganizationAffiliation {
     """
     endpoint: [Endpoint]        
 }
+
+type OrganizationAffiliationBundleEntry {
+    resource: OrganizationAffiliation
+}
+
+type OrganizationAffiliationBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [OrganizationAffiliationBundleEntry]
+}

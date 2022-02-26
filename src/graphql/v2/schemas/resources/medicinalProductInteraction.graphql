@@ -115,3 +115,17 @@ type MedicinalProductInteraction {
     """
     management: CodeableConcept        
 }
+
+type MedicinalProductInteractionBundleEntry {
+    resource: MedicinalProductInteraction
+}
+
+type MedicinalProductInteractionBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [MedicinalProductInteractionBundleEntry]
+}

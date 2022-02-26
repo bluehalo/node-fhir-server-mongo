@@ -202,3 +202,17 @@ type CarePlan {
     """
     note: [Annotation]        
 }
+
+type CarePlanBundleEntry {
+    resource: CarePlan
+}
+
+type CarePlanBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [CarePlanBundleEntry]
+}

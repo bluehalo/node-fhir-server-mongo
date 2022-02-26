@@ -136,3 +136,17 @@ type PaymentNotice {
     """
     paymentStatus: CodeableConcept        
 }
+
+type PaymentNoticeBundleEntry {
+    resource: PaymentNotice
+}
+
+type PaymentNoticeBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [PaymentNoticeBundleEntry]
+}

@@ -170,3 +170,17 @@ type Composition {
     """
     section: [CompositionSection]        
 }
+
+type CompositionBundleEntry {
+    resource: Composition
+}
+
+type CompositionBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [CompositionBundleEntry]
+}

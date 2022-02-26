@@ -196,3 +196,17 @@ type ImagingStudy {
     """
     series: [ImagingStudySeries]        
 }
+
+type ImagingStudyBundleEntry {
+    resource: ImagingStudy
+}
+
+type ImagingStudyBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [ImagingStudyBundleEntry]
+}

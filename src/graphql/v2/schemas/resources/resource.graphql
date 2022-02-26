@@ -35,3 +35,17 @@ type Resource {
     """
     language: code        
 }
+
+type ResourceBundleEntry {
+    resource: Resource
+}
+
+type ResourceBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [ResourceBundleEntry]
+}

@@ -134,3 +134,17 @@ type AuditEvent {
     """
     entity: [AuditEventEntity]        
 }
+
+type AuditEventBundleEntry {
+    resource: AuditEvent
+}
+
+type AuditEventBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [AuditEventBundleEntry]
+}

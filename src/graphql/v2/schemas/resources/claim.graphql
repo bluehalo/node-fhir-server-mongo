@@ -226,3 +226,17 @@ type Claim {
     """
     total: Money        
 }
+
+type ClaimBundleEntry {
+    resource: Claim
+}
+
+type ClaimBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [ClaimBundleEntry]
+}

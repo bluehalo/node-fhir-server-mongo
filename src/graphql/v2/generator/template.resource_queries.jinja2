@@ -98,5 +98,5 @@ extend type Query {
         page number to retrieve
         """
         _getpagesoffset: Int
-    ): [{{ fhir_entity.cleaned_name }}]
+    ): {{fhir_entity.cleaned_name}}Bundle
 }

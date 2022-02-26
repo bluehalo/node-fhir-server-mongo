@@ -151,3 +151,17 @@ type PaymentReconciliation {
     """
     processNote: [PaymentReconciliationProcessNote]        
 }
+
+type PaymentReconciliationBundleEntry {
+    resource: PaymentReconciliation
+}
+
+type PaymentReconciliationBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [PaymentReconciliationBundleEntry]
+}

@@ -119,3 +119,17 @@ type SubstanceProtein {
     """
     subunit: [SubstanceProteinSubunit]        
 }
+
+type SubstanceProteinBundleEntry {
+    resource: SubstanceProtein
+}
+
+type SubstanceProteinBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [SubstanceProteinBundleEntry]
+}

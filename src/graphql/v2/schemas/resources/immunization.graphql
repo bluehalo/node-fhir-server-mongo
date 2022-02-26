@@ -221,3 +221,17 @@ type Immunization {
     """
     protocolApplied: [ImmunizationProtocolApplied]        
 }
+
+type ImmunizationBundleEntry {
+    resource: Immunization
+}
+
+type ImmunizationBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [ImmunizationBundleEntry]
+}

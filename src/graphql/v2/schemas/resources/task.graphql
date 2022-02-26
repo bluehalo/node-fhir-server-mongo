@@ -235,3 +235,17 @@ type Task {
     """
     output: [TaskOutput]        
 }
+
+type TaskBundleEntry {
+    resource: Task
+}
+
+type TaskBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [TaskBundleEntry]
+}

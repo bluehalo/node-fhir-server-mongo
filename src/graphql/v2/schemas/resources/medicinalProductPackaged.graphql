@@ -122,3 +122,17 @@ type MedicinalProductPackaged {
     """
     packageItem: [MedicinalProductPackagedPackageItem]!        
 }
+
+type MedicinalProductPackagedBundleEntry {
+    resource: MedicinalProductPackaged
+}
+
+type MedicinalProductPackagedBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [MedicinalProductPackagedBundleEntry]
+}

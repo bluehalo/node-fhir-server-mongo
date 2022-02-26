@@ -130,3 +130,17 @@ type Schedule {
     """
     comment: String        
 }
+
+type ScheduleBundleEntry {
+    resource: Schedule
+}
+
+type ScheduleBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [ScheduleBundleEntry]
+}

@@ -165,3 +165,17 @@ type RiskAssessment {
     """
     note: [Annotation]        
 }
+
+type RiskAssessmentBundleEntry {
+    resource: RiskAssessment
+}
+
+type RiskAssessmentBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [RiskAssessmentBundleEntry]
+}

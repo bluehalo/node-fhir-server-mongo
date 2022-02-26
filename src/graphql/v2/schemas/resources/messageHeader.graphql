@@ -152,3 +152,17 @@ type MessageHeader {
     """
     definition: canonical        
 }
+
+type MessageHeaderBundleEntry {
+    resource: MessageHeader
+}
+
+type MessageHeaderBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [MessageHeaderBundleEntry]
+}

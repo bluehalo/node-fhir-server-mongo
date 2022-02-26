@@ -166,3 +166,17 @@ type CompartmentDefinition {
     """
     resource: [CompartmentDefinitionResource]        
 }
+
+type CompartmentDefinitionBundleEntry {
+    resource: CompartmentDefinition
+}
+
+type CompartmentDefinitionBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [CompartmentDefinitionBundleEntry]
+}

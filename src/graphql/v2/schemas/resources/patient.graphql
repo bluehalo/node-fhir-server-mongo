@@ -177,3 +177,17 @@ type Patient {
     """
     link: [PatientLink]        
 }
+
+type PatientBundleEntry {
+    resource: Patient
+}
+
+type PatientBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [PatientBundleEntry]
+}

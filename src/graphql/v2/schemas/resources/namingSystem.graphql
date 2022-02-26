@@ -157,3 +157,17 @@ type NamingSystem {
     """
     uniqueId: [NamingSystemUniqueId]!        
 }
+
+type NamingSystemBundleEntry {
+    resource: NamingSystem
+}
+
+type NamingSystemBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [NamingSystemBundleEntry]
+}

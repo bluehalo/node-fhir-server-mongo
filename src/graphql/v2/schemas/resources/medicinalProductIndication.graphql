@@ -122,3 +122,17 @@ type MedicinalProductIndication {
     """
     population: [Population]        
 }
+
+type MedicinalProductIndicationBundleEntry {
+    resource: MedicinalProductIndication
+}
+
+type MedicinalProductIndicationBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [MedicinalProductIndicationBundleEntry]
+}

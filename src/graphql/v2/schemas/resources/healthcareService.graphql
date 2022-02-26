@@ -203,3 +203,17 @@ type HealthcareService {
     """
     endpoint: [Endpoint]        
 }
+
+type HealthcareServiceBundleEntry {
+    resource: HealthcareService
+}
+
+type HealthcareServiceBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [HealthcareServiceBundleEntry]
+}

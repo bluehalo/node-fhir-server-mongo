@@ -147,3 +147,17 @@ type VerificationResult {
     """
     validator: [VerificationResultValidator]        
 }
+
+type VerificationResultBundleEntry {
+    resource: VerificationResult
+}
+
+type VerificationResultBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [VerificationResultBundleEntry]
+}

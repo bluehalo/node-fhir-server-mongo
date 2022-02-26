@@ -136,3 +136,17 @@ type Group {
     """
     member: [GroupMember]        
 }
+
+type GroupBundleEntry {
+    resource: Group
+}
+
+type GroupBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [GroupBundleEntry]
+}

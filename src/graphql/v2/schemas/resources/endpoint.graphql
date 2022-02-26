@@ -140,3 +140,17 @@ type Endpoint {
     """
     header: [String]        
 }
+
+type EndpointBundleEntry {
+    resource: Endpoint
+}
+
+type EndpointBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [EndpointBundleEntry]
+}

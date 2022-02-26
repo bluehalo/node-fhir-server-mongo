@@ -84,3 +84,17 @@ type OperationOutcome {
     """
     issue: [OperationOutcomeIssue]!        
 }
+
+type OperationOutcomeBundleEntry {
+    resource: OperationOutcome
+}
+
+type OperationOutcomeBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [OperationOutcomeBundleEntry]
+}

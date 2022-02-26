@@ -168,3 +168,17 @@ type Location {
     """
     endpoint: [Endpoint]        
 }
+
+type LocationBundleEntry {
+    resource: Location
+}
+
+type LocationBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [LocationBundleEntry]
+}

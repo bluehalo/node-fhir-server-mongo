@@ -194,3 +194,17 @@ type MedicationAdministration {
     """
     eventHistory: [Provenance]        
 }
+
+type MedicationAdministrationBundleEntry {
+    resource: MedicationAdministration
+}
+
+type MedicationAdministrationBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [MedicationAdministrationBundleEntry]
+}

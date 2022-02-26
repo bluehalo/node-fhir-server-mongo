@@ -140,3 +140,17 @@ type TestReport {
     """
     teardown: TestReportTeardown        
 }
+
+type TestReportBundleEntry {
+    resource: TestReport
+}
+
+type TestReportBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [TestReportBundleEntry]
+}

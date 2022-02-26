@@ -156,3 +156,17 @@ type Consent {
     """
     provision: ConsentProvision        
 }
+
+type ConsentBundleEntry {
+    resource: Consent
+}
+
+type ConsentBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [ConsentBundleEntry]
+}

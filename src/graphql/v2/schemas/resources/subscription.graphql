@@ -118,3 +118,17 @@ type Subscription {
     """
     channel: SubscriptionChannel!        
 }
+
+type SubscriptionBundleEntry {
+    resource: Subscription
+}
+
+type SubscriptionBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [SubscriptionBundleEntry]
+}

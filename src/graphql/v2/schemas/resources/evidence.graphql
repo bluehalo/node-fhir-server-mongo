@@ -247,3 +247,17 @@ type Evidence {
     """
     outcome: [EvidenceVariable]        
 }
+
+type EvidenceBundleEntry {
+    resource: Evidence
+}
+
+type EvidenceBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [EvidenceBundleEntry]
+}

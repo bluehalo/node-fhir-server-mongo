@@ -172,3 +172,17 @@ type Coverage {
     """
     contract: [Contract]        
 }
+
+type CoverageBundleEntry {
+    resource: Coverage
+}
+
+type CoverageBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [CoverageBundleEntry]
+}

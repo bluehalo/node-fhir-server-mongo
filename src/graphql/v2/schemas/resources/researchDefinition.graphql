@@ -286,3 +286,17 @@ type ResearchDefinition {
     """
     outcome: ResearchElementDefinition        
 }
+
+type ResearchDefinitionBundleEntry {
+    resource: ResearchDefinition
+}
+
+type ResearchDefinitionBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [ResearchDefinitionBundleEntry]
+}

@@ -244,3 +244,17 @@ type EvidenceVariable {
     """
     characteristic: [EvidenceVariableCharacteristic]!        
 }
+
+type EvidenceVariableBundleEntry {
+    resource: EvidenceVariable
+}
+
+type EvidenceVariableBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [EvidenceVariableBundleEntry]
+}

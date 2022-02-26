@@ -199,3 +199,17 @@ type MedicationKnowledge {
     """
     kinetics: [MedicationKnowledgeKinetics]        
 }
+
+type MedicationKnowledgeBundleEntry {
+    resource: MedicationKnowledge
+}
+
+type MedicationKnowledgeBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [MedicationKnowledgeBundleEntry]
+}

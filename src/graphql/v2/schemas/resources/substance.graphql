@@ -113,3 +113,17 @@ type Substance {
     """
     ingredient: [SubstanceIngredient]        
 }
+
+type SubstanceBundleEntry {
+    resource: Substance
+}
+
+type SubstanceBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [SubstanceBundleEntry]
+}

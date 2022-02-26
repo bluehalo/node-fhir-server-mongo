@@ -145,3 +145,17 @@ type ObservationDefinition {
     """
     criticalCodedValueSet: ValueSet        
 }
+
+type ObservationDefinitionBundleEntry {
+    resource: ObservationDefinition
+}
+
+type ObservationDefinitionBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [ObservationDefinitionBundleEntry]
+}

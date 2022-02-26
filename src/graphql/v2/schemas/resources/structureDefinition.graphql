@@ -250,3 +250,17 @@ type StructureDefinition {
     """
     differential: StructureDefinitionDifferential        
 }
+
+type StructureDefinitionBundleEntry {
+    resource: StructureDefinition
+}
+
+type StructureDefinitionBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [StructureDefinitionBundleEntry]
+}

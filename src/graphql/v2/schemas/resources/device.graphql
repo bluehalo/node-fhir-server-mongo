@@ -211,3 +211,17 @@ type Device {
     """
     parent: Device        
 }
+
+type DeviceBundleEntry {
+    resource: Device
+}
+
+type DeviceBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [DeviceBundleEntry]
+}

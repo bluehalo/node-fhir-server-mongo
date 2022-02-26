@@ -147,3 +147,17 @@ type List {
     """
     emptyReason: CodeableConcept        
 }
+
+type ListBundleEntry {
+    resource: List
+}
+
+type ListBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [ListBundleEntry]
+}

@@ -210,3 +210,17 @@ type FamilyMemberHistory {
     """
     condition: [FamilyMemberHistoryCondition]        
 }
+
+type FamilyMemberHistoryBundleEntry {
+    resource: FamilyMemberHistory
+}
+
+type FamilyMemberHistoryBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [FamilyMemberHistoryBundleEntry]
+}

@@ -171,3 +171,17 @@ type SubstanceSourceMaterial {
     """
     partDescription: [SubstanceSourceMaterialPartDescription]        
 }
+
+type SubstanceSourceMaterialBundleEntry {
+    resource: SubstanceSourceMaterial
+}
+
+type SubstanceSourceMaterialBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [SubstanceSourceMaterialBundleEntry]
+}

@@ -304,3 +304,17 @@ type ExplanationOfBenefit {
     """
     benefitBalance: [ExplanationOfBenefitBenefitBalance]        
 }
+
+type ExplanationOfBenefitBundleEntry {
+    resource: ExplanationOfBenefit
+}
+
+type ExplanationOfBenefitBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [ExplanationOfBenefitBundleEntry]
+}

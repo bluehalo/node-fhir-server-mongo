@@ -140,3 +140,17 @@ type RelatedPerson {
     """
     communication: [RelatedPersonCommunication]        
 }
+
+type RelatedPersonBundleEntry {
+    resource: RelatedPerson
+}
+
+type RelatedPersonBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [RelatedPersonBundleEntry]
+}

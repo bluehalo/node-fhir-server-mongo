@@ -143,3 +143,17 @@ type Account {
     """
     partOf: Account        
 }
+
+type AccountBundleEntry {
+    resource: Account
+}
+
+type AccountBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [AccountBundleEntry]
+}

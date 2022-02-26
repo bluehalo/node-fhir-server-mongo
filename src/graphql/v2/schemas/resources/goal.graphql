@@ -169,3 +169,17 @@ type Goal {
     """
     outcomeReference: [Observation]        
 }
+
+type GoalBundleEntry {
+    resource: Goal
+}
+
+type GoalBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [GoalBundleEntry]
+}

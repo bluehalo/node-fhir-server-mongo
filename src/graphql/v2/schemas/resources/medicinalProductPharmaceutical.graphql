@@ -112,3 +112,17 @@ type MedicinalProductPharmaceutical {
     """
     routeOfAdministration: [MedicinalProductPharmaceuticalRouteOfAdministration]!        
 }
+
+type MedicinalProductPharmaceuticalBundleEntry {
+    resource: MedicinalProductPharmaceutical
+}
+
+type MedicinalProductPharmaceuticalBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [MedicinalProductPharmaceuticalBundleEntry]
+}

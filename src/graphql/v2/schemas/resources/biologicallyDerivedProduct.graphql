@@ -139,3 +139,17 @@ type BiologicallyDerivedProduct {
     """
     storage: [BiologicallyDerivedProductStorage]        
 }
+
+type BiologicallyDerivedProductBundleEntry {
+    resource: BiologicallyDerivedProduct
+}
+
+type BiologicallyDerivedProductBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [BiologicallyDerivedProductBundleEntry]
+}

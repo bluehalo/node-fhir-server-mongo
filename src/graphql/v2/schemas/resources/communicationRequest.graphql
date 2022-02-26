@@ -199,3 +199,17 @@ type CommunicationRequest {
     """
     note: [Annotation]        
 }
+
+type CommunicationRequestBundleEntry {
+    resource: CommunicationRequest
+}
+
+type CommunicationRequestBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [CommunicationRequestBundleEntry]
+}

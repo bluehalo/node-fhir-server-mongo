@@ -103,3 +103,17 @@ type MedicinalProductUndesirableEffect {
     """
     population: [Population]        
 }
+
+type MedicinalProductUndesirableEffectBundleEntry {
+    resource: MedicinalProductUndesirableEffect
+}
+
+type MedicinalProductUndesirableEffectBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [MedicinalProductUndesirableEffectBundleEntry]
+}

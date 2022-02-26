@@ -111,3 +111,17 @@ type EnrollmentRequest {
     """
     coverage: Coverage        
 }
+
+type EnrollmentRequestBundleEntry {
+    resource: EnrollmentRequest
+}
+
+type EnrollmentRequestBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [EnrollmentRequestBundleEntry]
+}

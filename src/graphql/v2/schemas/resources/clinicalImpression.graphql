@@ -195,3 +195,17 @@ type ClinicalImpression {
     """
     note: [Annotation]        
 }
+
+type ClinicalImpressionBundleEntry {
+    resource: ClinicalImpression
+}
+
+type ClinicalImpressionBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [ClinicalImpressionBundleEntry]
+}

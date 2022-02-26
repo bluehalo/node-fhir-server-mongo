@@ -211,3 +211,17 @@ type ImplementationGuide {
     """
     manifest: ImplementationGuideManifest        
 }
+
+type ImplementationGuideBundleEntry {
+    resource: ImplementationGuide
+}
+
+type ImplementationGuideBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [ImplementationGuideBundleEntry]
+}

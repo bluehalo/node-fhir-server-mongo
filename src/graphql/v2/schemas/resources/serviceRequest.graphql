@@ -285,3 +285,17 @@ type ServiceRequest {
     """
     relevantHistory: [Provenance]        
 }
+
+type ServiceRequestBundleEntry {
+    resource: ServiceRequest
+}
+
+type ServiceRequestBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [ServiceRequestBundleEntry]
+}

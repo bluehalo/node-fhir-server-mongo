@@ -246,3 +246,17 @@ type CapabilityStatement {
     """
     document: [CapabilityStatementDocument]        
 }
+
+type CapabilityStatementBundleEntry {
+    resource: CapabilityStatement
+}
+
+type CapabilityStatementBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [CapabilityStatementBundleEntry]
+}

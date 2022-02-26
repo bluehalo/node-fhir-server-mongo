@@ -231,3 +231,17 @@ type SearchParameter {
     """
     component: [SearchParameterComponent]        
 }
+
+type SearchParameterBundleEntry {
+    resource: SearchParameter
+}
+
+type SearchParameterBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [SearchParameterBundleEntry]
+}

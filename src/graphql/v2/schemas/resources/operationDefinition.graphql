@@ -231,3 +231,17 @@ type OperationDefinition {
     """
     overload: [OperationDefinitionOverload]        
 }
+
+type OperationDefinitionBundleEntry {
+    resource: OperationDefinition
+}
+
+type OperationDefinitionBundle {
+    id: String
+    meta: Meta
+    identifier: [Identifier]
+    type: code
+    timestamp: instant
+    total: Int
+    entry: [OperationDefinitionBundleEntry]
+}
