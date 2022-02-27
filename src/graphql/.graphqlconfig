@@ -1,0 +1,22 @@
+{
+  "name": "GraphQL Schemas with Shared Types",
+  "projects": {
+    "v1": {
+      "includes": ["v1/**"]
+    },
+    "v2": {
+      "includes": ["v2/**"]
+    }
+  },
+  "extensions": {
+    "endpoints": {
+      "Default GraphQL Endpoint": {
+        "url": "http://localhost:3000/graphql",
+        "headers": {
+          "user-agent": "JS GraphQL"
+        },
+        "introspect": false
+      }
+    }
+  }
+}

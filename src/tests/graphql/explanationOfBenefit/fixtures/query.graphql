@@ -6,178 +6,189 @@ query {
         _sort: ["id"],
         _count: 2
     ) {
-        id
-        identifier {
-            system
-            type {
-                coding {
-                    code
-                    display
-                    system
-                }
-                text
-            }
-            value
-        }
         meta {
-            source
-            versionId
-            security {
-                system
-                code
-            }
             tag {
                 system
                 code
+                display
             }
         }
-        careTeam {
-            sequence
-            provider {
-                __typename
-            }
-        }
-        diagnosis {
-            sequence
-            diagnosisCodeableConcept {
-                coding {
-                    system
-                    code
-                    version
-                }
-                text
-            }
-            packageCode {
-                coding {
-                    system
-                    version
-                }
-            }
-            type {
-                coding {
-                    code
-                    system
-                }
-            }
-        }
-        insurance {
-            focal
-            coverage {
-                id
-            }
-        }
-        insurer {
-            id
-        }
-        item {
-            adjudication {
-                amount {
-                    value
-                }
-                category {
-                    coding {
-                        code
-                        display
-                        system
-                    }
-                }
-            }
-            id
-            locationCodeableConcept {
-                coding {
-                    code
-                    system
-                }
-            }
-            modifier {
-                coding {
-                    system
-                    code
-                }
-                text
-            }
-            productOrService {
-                coding {
-                    system
-                    code
-                }
-                text
-            }
-            quantity {
-                system
-                code
-                value
-            }
-            revenue {
-                coding {
-                    system
-                    code
-                }
-            }
-            servicedPeriod {
-                start
-                end
-            }
-        }
-        outcome
-        payee {
-            type {
-                coding {
-                    system
-                    code
-                }
-            }
-            party {
-                __typename
-            }
-        }
-        procedure {
-            sequence
-            procedureCodeableConcept {
-                coding {
-                    system
-                    code
-                }
-            }
-        }
-        provider {
-            __typename
-            ... on Organization {
+        entry {
+            resource {
                 id
                 identifier {
                     system
+                    type {
+                        coding {
+                            code
+                            display
+                            system
+                        }
+                        text
+                    }
                     value
                 }
-            }
-            ... on Practitioner {
-                id
-                name {
-                    family
-                    given
+                meta {
+                    source
+                    versionId
+                    security {
+                        system
+                        code
+                    }
+                    tag {
+                        system
+                        code
+                    }
+                }
+                careTeam {
+                    sequence
+                    provider {
+                        __typename
+                    }
+                }
+                diagnosis {
+                    sequence
+                    diagnosisCodeableConcept {
+                        coding {
+                            system
+                            code
+                            version
+                        }
+                        text
+                    }
+                    packageCode {
+                        coding {
+                            system
+                            version
+                        }
+                    }
+                    type {
+                        coding {
+                            code
+                            system
+                        }
+                    }
+                }
+                insurance {
+                    focal
+                    coverage {
+                        id
+                    }
+                }
+                insurer {
+                    id
+                }
+                item {
+                    adjudication {
+                        amount {
+                            value
+                        }
+                        category {
+                            coding {
+                                code
+                                display
+                                system
+                            }
+                        }
+                    }
+                    id
+                    locationCodeableConcept {
+                        coding {
+                            code
+                            system
+                        }
+                    }
+                    modifier {
+                        coding {
+                            system
+                            code
+                        }
+                        text
+                    }
+                    productOrService {
+                        coding {
+                            system
+                            code
+                        }
+                        text
+                    }
+                    quantity {
+                        system
+                        code
+                        value
+                    }
+                    revenue {
+                        coding {
+                            system
+                            code
+                        }
+                    }
+                    servicedPeriod {
+                        start
+                        end
+                    }
+                }
+                outcome
+                payee {
+                    type {
+                        coding {
+                            system
+                            code
+                        }
+                    }
+                    party {
+                        __typename
+                    }
+                }
+                procedure {
+                    sequence
+                    procedureCodeableConcept {
+                        coding {
+                            system
+                            code
+                        }
+                    }
+                }
+                provider {
+                    __typename
+                    ... on Organization {
+                        id
+                        identifier {
+                            system
+                            value
+                        }
+                    }
+                    ... on Practitioner {
+                        id
+                        name {
+                            family
+                            given
+                        }
+                    }
+                }
+                resourceType
+                status
+                supportingInfo {
+                    sequence
+                    category {
+                        coding {
+                            system
+                            code
+                        }
+                    }
+                }
+                type {
+                    coding {
+                        system
+                        code
+                    }
+                    text
+                }
+                use
+                patient {
+                    id
                 }
             }
-        }
-        resourceType
-        status
-        supportingInfo {
-            sequence
-            category {
-                coding {
-                    system
-                    code
-                }
-            }
-        }
-        type {
-            coding {
-                system
-                code
-            }
-            text
-        }
-        use
-        patient {
-            id
         }
     }
 }

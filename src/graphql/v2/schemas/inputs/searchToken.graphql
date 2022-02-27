@@ -1,0 +1,11 @@
+input SearchTokenValue {
+    code: String
+    value: String
+    system: String
+}
+input SearchToken {
+    searchType: String = "token"
+    value: SearchTokenValue
+    values: [SearchTokenValue]
+    missing: Boolean
+}

@@ -1,0 +1,136 @@
+
+"""
+The Care Team includes all the people and organizations who plan to participate
+in the coordination and delivery of care for a patient.
+"""
+input CareTeam_Input {
+  """Type of resource"""
+  resourceType: CareTeam_Enum_Input!
+
+  """
+  The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
+  """
+  id: id
+
+  """
+  A reference to a set of rules that were followed when the resource was
+  constructed, and which must be understood when processing the content. Often,
+  this is a reference to an implementation guide that defines the special rules
+  along with other profiles etc.
+  """
+  implicitRules: uri
+
+  """The base language in which the resource is written."""
+  language: code
+
+  """
+  A human-readable narrative that contains a summary of the resource and can be
+  used to represent the content of the resource to a human. The narrative need
+  not encode all the structured data, but is required to contain sufficient
+  detail to make it 'clinically safe' for a human to just read the narrative.
+  Resource definitions may define what content should be represented in the
+  narrative to ensure clinical safety.
+  """
+  text: Narrative_Input
+
+  """
+  These resources do not have an independent existence apart from the resource
+  that contains them - they cannot be identified independently, and nor can they
+  have their own independent transaction scope.
+  """
+  contained: [String]
+
+  """
+  Business identifiers assigned to this care team by the performer or other
+  systems which remain constant as the resource is updated and propagates from
+  server to server.
+  """
+  identifier: [Identifier_Input]
+
+  """Indicates the current state of the care team."""
+  status: code
+
+  """
+  Identifies what kind of team.  This is to support differentiation between
+  multiple co-existing teams, such as care plan team, episode of care team,
+  longitudinal care team.
+  """
+  category: [CodeableConcept_Input]
+
+  """
+  A label for human use intended to distinguish like teams.  E.g. the 'red' vs. 'green' trauma teams.
+  """
+  name: String
+
+  """
+  Identifies the patient or group whose intended care is handled by the team.
+  """
+  subject: String
+
+  """
+  The Encounter during which this CareTeam was created or to which the creation of this record is tightly associated.
+  """
+  encounter: String
+
+  """
+  Indicates when the team did (or is intended to) come into effect and end.
+  """
+  period: Period_Input
+
+  """
+  Identifies all people and organizations who are expected to be involved in the care team.
+  """
+  participant: [CareTeamparticipant_Input]
+
+  """Describes why the care team exists."""
+  reasonCode: [CodeableConcept_Input]
+
+  """Condition(s) that this care team addresses."""
+  reasonReference: [String]
+
+  """The organization responsible for the care team."""
+  managingOrganization: [String]
+
+  """
+  A central contact detail for the care team (that applies to all members).
+  """
+  telecom: [ContactPoint_Input]
+
+  """Comments made about the CareTeam."""
+  note: [Annotation_Input]
+}
+
+input CareTeamparticipant_Input {
+  """
+  Unique id for the element within a resource (for internal references). This
+  may be any string value that does not contain spaces.
+  """
+  id: String
+
+  """
+  Indicates specific responsibility of an individual within the care team, such
+  as 'Primary care physician', 'Trained social worker counselor', 'Caregiver', etc.
+  """
+  role: [CodeableConcept_Input]
+
+  """
+  The specific person or organization who is participating/expected to participate in the care team.
+  """
+  member: String
+
+  """The organization of the practitioner."""
+  onBehalfOf: String
+
+  """
+  Indicates when the specific member or organization did (or is intended to) come into effect and end.
+  """
+  period: Period_Input
+}
+
+enum CareTeam_Enum_Input {
+  CareTeam
+}
+
+type Mutation {
+    updatePreferredProviders(patientId: String, team: CareTeam_Input): Patient
+}

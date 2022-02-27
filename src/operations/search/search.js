@@ -406,7 +406,7 @@ function createBundle(url, resources, base_version, total_count, args, originalQ
  * @param {Object} args
  * @param {string} resourceName
  * @param {string} collection_name
- * @return {Resource[] | {entry:{resource: Resource}[]}} array of resources
+ * @return {Resource[] | {entry:{resource: Resource}[]}} array of resources or a bundle
  */
 module.exports.search = async (requestInfo, args, resourceName, collection_name) => {
     if (isTrue(env.OLD_SEARCH) || isTrue(args['_useOldSearch'])) {
