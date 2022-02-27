@@ -6,7 +6,6 @@ const async = require('async');
 const DataLoader = require('dataloader');
 const {groupByLambda} = require('../../utils/list.util');
 
-
 /**
  * This class stores the tuple of resourceType and id to uniquely identify a resource
  */
@@ -63,12 +62,12 @@ class ResourceWithId {
  */
 class FhirDataSource extends DataSource {
     /**
-     * @param {RequestInfo} requestInfo
+     * @param {import('../../utils/requestInfo').RequestInfo} requestInfo
      */
     constructor(requestInfo) {
         super();
         /**
-         * @type {RequestInfo}
+         * @type {import('../../utils/requestInfo').RequestInfo}}
          */
         this.requestInfo = requestInfo;
         /**
@@ -132,7 +131,7 @@ class FhirDataSource extends DataSource {
      * gets resources for the passed in keys
      * https://github.com/graphql/dataloader#batching
      * @param {string[]} keys
-     * @param requestInfo
+     * @param {import('../../utils/requestInfo').RequestInfo} requestInfo
      * @return {Promise<Resource[]|{entry: {resource: Resource}[]}>}
      */
     async getResourcesInBatch(keys, requestInfo) {
