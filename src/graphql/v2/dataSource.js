@@ -4,27 +4,62 @@ const {getRequestInfo} = require('./requestInfoHelper');
 const {logWarn} = require('../../operations/common/logging');
 const async = require('async');
 const DataLoader = require('dataloader');
-const {groupBy} = require('../../utils/list.util');
+const {groupByLambda} = require('../../utils/list.util');
 
 
 /**
  * This class stores the tuple of resourceType and id to uniquely identify a resource
  */
 class ResourceWithId {
-    constructor(resourceType, id) {
+    /**
+     * returns key for resourceType and id combination
+     * @param {string} resourceType
+     * @param {string} id
+     * @return {string}
+     */
+    static getReferenceKey(resourceType, id) {
+        return `${resourceType}/${id}`;
+    }
+
+    /**
+     * gets resourceType and id from reference
+     * @param {string} reference
+     * @return {null|{id: string, resourceType: string}}
+     */
+    static getResourceTypeAndIdFromReference(reference) {
         /**
-         * @type {string}
+         * @type {string[]}
          */
-        this.resourceType = resourceType;
-        /**
-         * @type {string}
-         */
-        this.id = id;
+        const references = reference.split('/');
+        if (references.length !== 2) {
+            return null;
+        }
+        return {resourceType: references[0], id: references[1]};
+    }
+
+    /**
+     * gets resourceType reference
+     * @param {string} reference
+     * @return {null|string}
+     */
+    static getResourceTypeFromReference(reference) {
+        const reference1 = this.getResourceTypeAndIdFromReference(reference);
+        return reference1.resourceType;
+    }
+
+    /**
+     * gets resourceType id
+     * @param {string} reference
+     * @return {null|string}
+     */
+    static getIdFromReference(reference) {
+        const reference1 = this.getResourceTypeAndIdFromReference(reference);
+        return reference1.id;
     }
 }
 
 /**
- * This class implements the DataSource pattern so it is called by our GraphQL resolvers to load the data
+ * This class implements the DataSource pattern, so it is called by our GraphQL resolvers to load the data
  */
 class FhirDataSource extends DataSource {
     /**
@@ -65,13 +100,26 @@ class FhirDataSource extends DataSource {
      * This function orders the resources by key so DataLoader can find the right results
      * https://github.com/graphql/dataloader#batching
      * @param {{Resource}[]} resources
-     * @param {ResourceWithId[]} keys
+     * @param {string[]} keys
      * @return {Resource[]}
      */
     async reorderResources(resources, keys) {
         // now order them the same way
+        /**
+         * @type {Resource[]}
+         */
         const resultsOrdered = [];
-        for (const {resourceType, id} of keys) {
+        for (const /** @type {string} */ key of keys) {
+            const {
+                /** @type {string} */
+                resourceType,
+                /** @type {string} */
+                id
+            } = ResourceWithId.getResourceTypeAndIdFromReference(key);
+            /**
+             * resources with this resourceType and id
+             * @type {{Resource}[]}
+             */
             const items = resources.filter(r => r.resourceType === resourceType && r.id === id);
             resultsOrdered.push(
                 items.length > 0 ? items[0] : null
@@ -83,7 +131,7 @@ class FhirDataSource extends DataSource {
     /**
      * gets resources for the passed in keys
      * https://github.com/graphql/dataloader#batching
-     * @param {ResourceWithId[]} keys
+     * @param {string[]} keys
      * @param requestInfo
      * @return {Promise<Resource[]|{entry: {resource: Resource}[]}>}
      */
@@ -93,7 +141,10 @@ class FhirDataSource extends DataSource {
          * Each field in the object is the key
          * @type {Object}
          */
-        const groupKeysByResourceType = groupBy(keys, 'resourceType');
+        const groupKeysByResourceType = groupByLambda(
+            keys,
+            key => ResourceWithId.getResourceTypeFromReference(key)
+        );
         // noinspection UnnecessaryLocalVariableJS
         /**
          * @type {Resource[]}
@@ -102,17 +153,24 @@ class FhirDataSource extends DataSource {
             // run the loads in parallel by resourceType
             await async.flatMap(Object.entries(groupKeysByResourceType), async groupKeysByResourceTypeKey => {
                 // resourceType is a string and resources is a list of resources of that resourceType
-                const [resourceType, resources] = groupKeysByResourceTypeKey;
+                const [
+                    /** @type {string} **/
+                    resourceType,
+                    /** @type {string[]} **/
+                    references
+                ] = groupKeysByResourceTypeKey;
                 /**
-                 * @type {String}
+                 * @type {string[]}
                  */
-                const idOfReference = resources.map(r => r.id).join(',');
+                const idsOfReference = references
+                    .map(r => ResourceWithId.getIdFromReference(r))
+                    .filter(r => r !== null);
                 return this.unBundle(
                     await search(
                         requestInfo,
                         {
                             base_version: '4_0_0',
-                            id: idOfReference,
+                            id: idsOfReference,
                             _bundle: '1',
                             _debug: '1'
                         },
@@ -162,33 +220,26 @@ class FhirDataSource extends DataSource {
         if (!(reference)) {
             return null;
         }
-        /**
-         * @type {string[]}
-         */
-        const references = reference.reference.split('/');
-        if (references.length !== 2) {
-            return null;
-        }
-        /**
-         * first part of the reference is the resourceType
-         * @type {string}
-         */
-        const typeOfReference = references[0];
-        /**
-         * second part is the id of the resource
-         * @type {string}
-         */
-        const idOfReference = references[1];
+        const {
+            /** @type {string} **/
+            resourceType,
+            /** @type {string} **/
+            id
+        } = ResourceWithId.getResourceTypeAndIdFromReference(reference.reference);
         try {
             return await this.dataLoader.load(
-                new ResourceWithId(
-                    typeOfReference,
-                    idOfReference
+                ResourceWithId.getReferenceKey(
+                    resourceType,
+                    id
                 )
             );
         } catch (e) {
             if (e.name === 'NotFound') {
-                logWarn(context.user, `findResourceByReference: Resource ${typeOfReference}/${idOfReference} not found for parent:${parent.resourceType}/${parent.id} `);
+                logWarn(
+                    context.user,
+                    `findResourceByReference: Resource ${resourceType}/${id} not found`
+                    + ` for parent:${parent.resourceType}/${parent.id} `
+                );
                 return null;
             } else {
                 throw e;
