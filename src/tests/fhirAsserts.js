@@ -16,9 +16,6 @@ function assertCompareBundles(body, expected) {
     delete body['link'];
     if (body.meta && body.meta.tag) {
         body.meta.tag.forEach(tag => {
-            if (tag['system'] === 'https://www.icanbwell.com/query') {
-                delete tag['display'];
-            }
             if (tag['system'] === 'https://www.icanbwell.com/queryTime') {
                 delete tag['display'];
             }
@@ -31,9 +28,6 @@ function assertCompareBundles(body, expected) {
 
     if (expected.meta && expected.meta.tag) {
         expected.meta.tag.forEach(tag => {
-            if (tag['system'] === 'https://www.icanbwell.com/query') {
-                delete tag['display'];
-            }
             if (tag['system'] === 'https://www.icanbwell.com/queryTime') {
                 delete tag['display'];
             }

@@ -76,7 +76,10 @@ class FhirDataSource extends DataSource {
         this.dataLoader = new DataLoader(
             async (keys) => await this.getResourcesInBatch(keys, requestInfo)
         );
-        this.meta = [];
+        /**
+         * @type {Meta[]}
+         */
+        this.metaList = [];
     }
 
     initialize(config) {
@@ -90,7 +93,7 @@ class FhirDataSource extends DataSource {
      */
     unBundle(bundle) {
         if (bundle.meta) {
-            this.meta.push(bundle.meta);
+            this.metaList.push(bundle.meta);
         }
         return bundle.entry.map(e => e.resource);
     }
@@ -105,7 +108,7 @@ class FhirDataSource extends DataSource {
     async reorderResources(resources, keys) {
         // now order them the same way
         /**
-         * @type {Resource[]}
+         * @type {?Resource[]}
          */
         const resultsOrdered = [];
         for (const /** @type {string} */ key of keys) {
@@ -303,7 +306,7 @@ class FhirDataSource extends DataSource {
      */
     async getResourcesBundle(parent, args, context, info, resourceType) {
         // https://www.apollographql.com/blog/graphql/filtering/how-to-search-and-filter-results-with-graphql/
-        return search(
+        const bundle = await search(
             getRequestInfo(context),
             {
                 base_version: '4_0_0',
@@ -314,6 +317,55 @@ class FhirDataSource extends DataSource {
             resourceType,
             resourceType
         );
+        if (bundle.meta) {
+            this.metaList.push(bundle.meta);
+        }
+        return bundle;
+    }
+
+    /**
+     * combined the meta tags of all the queries and returns as one
+     * @return {null|Meta}
+     */
+    getBundleMeta() {
+        if (this.metaList.length === 0) {
+            return null;
+        }
+        // noinspection JSValidateTypes
+        /**
+         * @type {Meta}
+         */
+        const combinedMeta = {
+            tag: []
+        };
+        // get list of properties from first meta
+        for (const /** @type {Meta} **/ meta of this.metaList) {
+            for (const /** @type {system: string, display: string, code: string} **/ metaTag of meta.tag) {
+                const foundCombinedMetaTag = combinedMeta.tag.find(tag => tag.system === metaTag.system);
+                if (!foundCombinedMetaTag) {
+                    combinedMeta.tag.push(metaTag);
+                } else {
+                    // concatenate code and/or display
+                    if (metaTag.display && foundCombinedMetaTag.display) {
+                        foundCombinedMetaTag.display = foundCombinedMetaTag.display + ',' + metaTag.display;
+                    }
+                    if (metaTag.code && foundCombinedMetaTag.code) {
+                        foundCombinedMetaTag.code = foundCombinedMetaTag.code + ',' + metaTag.code;
+                    }
+                }
+            }
+        }
+
+        // wrap all tag codes and display in [] to make it valid json
+        for (const /** @type {system: string, display: string, code: string} **/ combinedMetaTag of combinedMeta.tag) {
+            if (combinedMetaTag.display) {
+                combinedMetaTag.display = '[' + combinedMetaTag.display + ']';
+            }
+            if (combinedMetaTag.code) {
+                combinedMetaTag.code = '[' + combinedMetaTag.code + ']';
+            }
+        }
+        return combinedMeta;
     }
 }
 
