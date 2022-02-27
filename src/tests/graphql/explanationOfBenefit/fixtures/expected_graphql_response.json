@@ -621,10 +621,6 @@
         {
           "display": "[{'useTwoStepSearchOptimization':true},{'useTwoStepSearchOptimization':false},{'useTwoStepSearchOptimization':false},{'useTwoStepSearchOptimization':false}]",
           "system": "https://www.icanbwell.com/queryOptimization"
-        },
-        {
-          "code": "[id_1,id_1,id_1,id_1]",
-          "system": "https://www.icanbwell.com/queryIndexHint"
         }
       ]
     }
