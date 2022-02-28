@@ -43,6 +43,7 @@ function clearInput(e) {
   const clearClickElement = e.target;
   clearClickElement.offsetParent.querySelector('input').value = '';
   clearClickElement.classList.remove('showInputClearLink');
+  searchSubmit();
 }
 
 function resetSubmit() {
