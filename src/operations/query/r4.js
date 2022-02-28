@@ -392,13 +392,13 @@ module.exports.buildR4SearchQuery = (resourceName, args) => {
         } else if (args[`${queryParameter}:above`]) {
           // handle check for above the passed in  value
           and_segments.push({
-            [`${propertyObj.field}`]: { $gte: args[`${queryParameter}:above`] },
+            [`${propertyObj.field}`]: { $gt: args[`${queryParameter}:above`] },
           });
           columns.add(`${propertyObj.field}`);
         } else if (args[`${queryParameter}:below`]) {
           // handle check for below the passed in value
           and_segments.push({
-            [`${propertyObj.field}`]: { $lte: args[`${queryParameter}:below`] },
+            [`${propertyObj.field}`]: { $lt: args[`${queryParameter}:below`] },
           });
           columns.add(`${propertyObj.field}`);
         }
