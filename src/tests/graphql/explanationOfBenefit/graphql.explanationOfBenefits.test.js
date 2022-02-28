@@ -118,7 +118,7 @@ describe('GraphQL ExplanationOfBenefit Tests', () => {
                 console.log(body.errors);
                 expect(body.errors).toBeUndefined();
             }
-            assertCompareBundles(body.data.explanationOfBenefit, expectedGraphQLResponse[0]);
+            assertCompareBundles(body.data.explanationOfBenefit, expectedGraphQLResponse[0], true);
         });
     });
 });
