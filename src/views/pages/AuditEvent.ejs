@@ -9,6 +9,8 @@
     <main class="d-flex align-items-start">
       <%- include('../partials/searchForm'); %>
       <div class="search-results">
+        <!-- prettier-ignore -->
+        <%- include('../partials/noResults', {results: resources.length}); %>
         <% resources.forEach(function(res, index){ %>
         <div class="resource-item p-3">
           <%- include('../partials/resourceHeader', {res: res}); %>

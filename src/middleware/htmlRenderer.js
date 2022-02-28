@@ -58,8 +58,8 @@ const htmlRenderer = (req, res, next) => {
           advSearchFormData: advSearchFormData(req, resourceName),
           resourceName: resourceName,
           currentYear: new Date().getFullYear(),
-          lastUpdateStart: lastUpdateStart(req, 'ge'),
-          lastUpdateEnd: lastUpdateEnd(req, 'le'),
+          lastUpdateStart: lastUpdateStart(req, 'above'),
+          lastUpdateEnd: lastUpdateEnd(req, 'below'),
         };
 
         if (resourceDefinition) {

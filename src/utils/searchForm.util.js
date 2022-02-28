@@ -7,6 +7,23 @@ function getSearchParams(req) {
   return new URLSearchParams(searchQuery);
 }
 
+function handleModifierKey(key) {
+  const modifierIndex = key.indexOf(':');
+  return modifierIndex > 0 ? key.substring(0, modifierIndex) : key;
+}
+
+function getModifierParams(req) {
+  const searchParams = new URLSearchParams(getSearchParams(req));
+  const paramEntries = searchParams ? Object.fromEntries(searchParams.entries()) : {};
+
+  return Object.assign(
+    {},
+    ...Object.keys(paramEntries).map((key) => ({
+      [handleModifierKey(key)]: paramEntries[key],
+    }))
+  );
+}
+
 function getIdentifierField(params) {
   const identifierParts = params.identifier ? params.identifier.split('|') : [];
   let identArray = [];
@@ -62,8 +79,7 @@ function getPractitionerForm(params) {
 }
 
 const getFormData = (req, resourceName) => {
-  const searchParams = getSearchParams(req);
-  const params = searchParams ? Object.fromEntries(searchParams.entries()) : {};
+  const params = getModifierParams(req);
   let formData = [];
 
   switch (resourceName) {
@@ -75,15 +91,14 @@ const getFormData = (req, resourceName) => {
       break;
   }
 
-  formData.push({ label: 'Source', name: 'source', value: params.source ? params.source : '' });
+  formData.push({ label: 'Source', name: '_source', value: params._source ? params._source : '' });
 
   return formData;
 };
 
 const getAdvSearchFormData = (req, resourceName) => {
   const basicFormData = getFormData(req, resourceName);
-  const searchParams = getSearchParams(req);
-  const params = searchParams ? Object.fromEntries(searchParams.entries()) : {};
+  const params = getModifierParams(req);
   let advFormData = [];
   const resourceFields = advSearchJson.entry.filter((entry) => {
     return entry.resource.base.includes(resourceName) && entry.resource.type === 'string';
@@ -106,12 +121,12 @@ const getAdvSearchFormData = (req, resourceName) => {
   return advFormData;
 };
 
-const getLastUpdate = function (req, prefix) {
+const getLastUpdate = function (req, modifier) {
   const searchParams = getSearchParams(req);
   let dateString = '';
   searchParams.forEach((value, key) => {
-    if (key === '_lastUpdated' && value.includes(prefix, 0)) {
-      dateString = value.replace(prefix, '');
+    if (key.includes('_lastUpdated') && key.includes(modifier)) {
+      dateString = value;
     }
   });
   return dateString;

@@ -23,8 +23,23 @@ footer {
 }
 
 .search-results {
+  flex-grow: 1;
   min-height: calc(100vh - 185px);
   padding-right: 2rem;
+}
+.no-results-icon {
+  color: var(--bs-gray-300);
+  display: block;
+  flex-grow: 1;
+  font-size: 5rem;
+  margin-bottom: 1rem;
+  margin-top: 4rem;
+  text-align: center;
+}
+.no-results {
+  color: var(--bs-gray-500);
+  flex-grow: 1;
+  text-align: center;
 }
 
 .resource-link {
@@ -110,7 +125,7 @@ a.fa {
   padding: 0.5rem 0.8rem;
   position: absolute;
   right: 0px;
-  top: 0px;
+  bottom: 0px;
 }
 
 .form-group-clear {
