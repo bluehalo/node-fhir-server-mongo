@@ -76,16 +76,16 @@ function searchSubmit(e) {
   delete data.identifier_value;
 
   if (data.lastUpdateStart) {
-    params.append('_lastUpdated', 'ge' + data.lastUpdateStart);
+    params.append('_lastUpdated:above', data.lastUpdateStart);
     delete data.lastUpdateStart;
   }
   if (data.lastUpdateEnd) {
-    params.append('_lastUpdated', 'le' + data.lastUpdateEnd);
+    params.append('_lastUpdated:below', data.lastUpdateEnd);
     delete data.lastUpdateEnd;
   }
 
   Object.keys(data).forEach((key) => {
-    params.append(key, data[key]);
+    params.append(key + ':contains', data[key]);
   });
 
   window.location.assign(formAction + '?' + params.toString());

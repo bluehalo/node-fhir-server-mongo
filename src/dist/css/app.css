@@ -110,7 +110,7 @@ a.fa {
   padding: 0.5rem 0.8rem;
   position: absolute;
   right: 0px;
-  top: 0px;
+  bottom: 0px;
 }
 
 .form-group-clear {

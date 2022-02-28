@@ -23,7 +23,7 @@
     ></a>
   </h5>
   <div class="form-group">
-    <label for="last" class="">Last Updated</label>
+    <label for="last"><small>Last Updated</small></label>
     <div class="input-group mb-3" id="_lastUpdateRange">
       <input
         type="text"
@@ -57,6 +57,7 @@
       value="<%= formData[i].value %>"
       placeholder="<%= formData[i].label %>"
       autocomplete="off"
+      title="<%= formData[i].label %>"
     />
     <span
       class="fa fa-times clear-input <%= formData[i].value !== '' ? 'showInputClearLink' : '' %>"
