@@ -42,21 +42,21 @@ describe('ObservationReturnIdTests', () => {
             // ACT & ASSERT
             // search by token system and code and make sure we get the right observation back
             resp = await request
-                .get('/4_0_0/Observation/?code=http://www.icanbwell.com/cql/library|BMI001&_setIndexHint=1&_debug=1&_bundle=1')
+                .get('/4_0_0/Observation/?code=http://www.icanbwell.com/cql/library|BMI001&_setIndexHint=1&_bundle=1')
                 .set(getHeaders())
                 .expect(200);
             assertCompareBundles(resp.body, expectedObservationResources);
 
             // search by just token code and make sure we get the right observation back
             resp = await request
-                .get('/4_0_0/Observation/?code=BMI001&_setIndexHint=1&_debug=1&_bundle=1')
+                .get('/4_0_0/Observation/?code=BMI001&_setIndexHint=1&_bundle=1')
                 .set(getHeaders())
                 .expect(200);
             assertCompareBundles(resp.body, expectedObservationResources);
 
             // search by just token system and make sure we get the right observation back
             resp = await request
-                .get('/4_0_0/Observation/?code=http://www.icanbwell.com/cql/libraryVersion|&_setIndexHint=1&_debug=1&_bundle=1')
+                .get('/4_0_0/Observation/?code=http://www.icanbwell.com/cql/libraryVersion|&_bundle=1')
                 .set(getHeaders())
                 .expect(200);
             assertCompareBundles(resp.body, expectedObservationResources);

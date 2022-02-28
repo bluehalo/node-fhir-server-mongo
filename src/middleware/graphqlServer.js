@@ -13,6 +13,7 @@ const {
     // ApolloServerPluginLandingPageDisabled
 } = require('apollo-server-core');
 const {getRequestInfo} = require('../graphql/v2/requestInfoHelper');
+const {getMyApolloServerPlugin} = require('./graphqlServerPlugin');
 
 
 
@@ -40,6 +41,7 @@ const graphql = async () => {
                         faviconUrl: '',
                     }
                 ),
+                getMyApolloServerPlugin()
                 // ApolloServerPluginLandingPageDisabled()
             ],
             context: async ({req, res}) => {
