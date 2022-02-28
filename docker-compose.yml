@@ -39,6 +39,7 @@ services:
 #      SLACK_CHANNEL: "#helix_pipeline_notifications_dev"
 #      HASH_REFERENCE: 1
       RETURN_BUNDLE: "1"
+      USE_TWO_STEP_SEARCH_OPTIMIZATION: "1"
     ports:
       - '3000:3000'
     volumes:

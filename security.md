@@ -113,6 +113,39 @@ The FHIR server looks for scopes that start with “access/”.  These are in th
 
 A user can have multiple access scopes and they will have permission to resources that match EITHER access code.
 
+##### 4.2.1 Security tags in FHIR data
+Every resource in the FHIR server is tagged with security tags:
+1. owner: which entity owns this resource.
+2. access: which entities can access this resource
+3. vendor: which entity sent this resource
+
+
+Here's an example meta field of a resource:
+```json
+"meta": {
+      "source": "https://www.myealth.com/membership",
+      "security": [
+        {
+          "system": "https://www.icanbwell.com/owner",
+          "code": "myhealth"
+        },
+        {
+          "system": "https://www.icanbwell.com/access",
+          "code": "myhealth"
+        },
+        {
+          "system": "https://www.icanbwell.com/access",
+          "code": "yourhealth"
+        },
+        {
+          "system": "https://www.icanbwell.com/vendor",
+          "code": "datasender"
+        }
+      ]
+    }
+```
+
+
 #### 4.3 Access
 Note that the final access for a user is a combination of both of the above methods. 
 

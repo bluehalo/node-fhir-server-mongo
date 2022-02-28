@@ -54,9 +54,6 @@ describe('AuditEventRecordedTests', () => {
             expect(body['entry'].length).toBe(2);
             delete body['timestamp'];
             body.meta.tag.forEach(tag => {
-                if (tag['system'] === 'https://www.icanbwell.com/query') {
-                    delete tag['display'];
-                }
                 if (tag['system'] === 'https://www.icanbwell.com/queryTime') {
                     delete tag['display'];
                 }
@@ -66,9 +63,6 @@ describe('AuditEventRecordedTests', () => {
             });
             let expected = expectedAuditEventResource;
             expected.meta.tag.forEach(tag => {
-                if (tag['system'] === 'https://www.icanbwell.com/query') {
-                    delete tag['display'];
-                }
                 if (tag['system'] === 'https://www.icanbwell.com/queryTime') {
                     delete tag['display'];
                 }

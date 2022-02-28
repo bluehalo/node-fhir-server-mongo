@@ -1,0 +1,45 @@
+input SearchNumberValue {
+    """
+    the value for the parameter in the resource is equal to the provided value
+    """
+    equals: number
+    """
+    the value for the parameter in the resource is not equal to the provided value
+    """
+    notEquals: number
+    """
+    the value for the parameter in the resource is greater than the provided value
+    """
+    greaterThan: number
+    """
+    the value for the parameter in the resource is greater or equal to the provided value
+    """
+    greaterThanOrEqualTo: number
+    """
+    the value for the parameter in the resource is less than the provided value
+    """
+    lessThan: number
+    """
+    the value for the parameter in the resource is less or equal to the provided value
+    """
+    lessThanOrEqualTo: number
+    """
+    the value for the parameter in the resource starts after the provided value
+    """
+    startsAfter: number
+    """
+    the value for the parameter in the resource ends before the provided value
+    """
+    endsBefore: number
+    """
+    the value for the parameter in the resource is approximately the same to the provided value.
+    Note that the recommended value for the approximation is 10% of the stated value (or for a date, 10% of the gap between now and the date), but systems may choose other values where appropriate
+    """
+    approximately: number
+}
+input SearchNumber {
+    searchType: String = "number"
+    value: SearchNumberValue
+    values: [SearchNumberValue]
+    missing: Boolean
+}

@@ -4,6 +4,7 @@
  * @property {string} versionId - an ID.
  * @property {string} lastUpdated
  * @property {string} source
+ * @property {{system: string, code: string, display: string}[]} tag
  */
 
 /**

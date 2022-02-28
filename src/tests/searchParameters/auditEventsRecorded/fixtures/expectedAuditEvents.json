@@ -447,9 +447,7 @@
   "meta": {
     "tag": [
       {
-        "system": "https://www.icanbwell.com/queryIndexHint"
-      },
-      {
+        "display": "[{\"$and\":[{\"recorded\":{\"$gt\":\"2021-06-01T00:00:00+00:00\"}},{\"meta.lastUpdated\":{\"$gt\":\"2021-06-01T00:00:00.000Z\"}},{\"meta.lastUpdated\":{\"$lt\":\"2031-10-26T00:00:00.000Z\"}},{\"meta.security\":{\"$elemMatch\":{\"system\":\"https://www.icanbwell.com/access\",\"code\":\"fake\"}}}]},{\"id\":{\"$in\":[\"MixP-0001r5i3yr8g2cuj\",\"MixP-0001wx03abn1tez5\"]}}]",
         "system": "https://www.icanbwell.com/query"
       },
       {
@@ -457,7 +455,7 @@
         "system": "https://www.icanbwell.com/queryCollection"
       },
       {
-        "display": "{\"skip\":0,\"limit\":10,\"sort\":{\"id\":1}}",
+        "display": "[{\"skip\":0,\"limit\":10,\"sort\":{\"id\":1},\"projection\":{\"_id\":0,\"id\":1}},{}]",
         "system": "https://www.icanbwell.com/queryOptions"
       },
       {
@@ -466,6 +464,10 @@
       },
       {
         "system": "https://www.icanbwell.com/queryTime"
+      },
+      {
+        "display": "{'useTwoStepSearchOptimization':true}",
+        "system": "https://www.icanbwell.com/queryOptimization"
       }
     ]
   },

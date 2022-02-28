@@ -1,0 +1,6 @@
+input SearchReference {
+    searchType: String = "reference"
+    value: String
+    target: String
+    missing: Boolean
+}

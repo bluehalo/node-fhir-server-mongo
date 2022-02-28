@@ -574,7 +574,7 @@ let dateQueryBuilder = function (date, type, path) {
                         str = str + match[`${i}`];
                     }
                 }
-                const moment_dt = moment(str);
+                const moment_dt = moment.utc(str);
                 // convert to format that mongo uses to store
                 const datetime_utc = moment_dt.utc().format('YYYY-MM-DDTHH:mm:ssZ');
                 return {

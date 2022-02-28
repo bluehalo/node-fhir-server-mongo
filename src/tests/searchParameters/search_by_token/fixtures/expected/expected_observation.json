@@ -55,31 +55,6 @@
       }
     }
   ],
-  "meta": {
-    "tag": [
-      {
-        "system": "https://www.icanbwell.com/queryIndexHint"
-      },
-      {
-        "system": "https://www.icanbwell.com/query"
-      },
-      {
-        "code": "Observation_4_0_0",
-        "system": "https://www.icanbwell.com/queryCollection"
-      },
-      {
-        "display": "{\"limit\":10,\"sort\":{\"id\":1}}",
-        "system": "https://www.icanbwell.com/queryOptions"
-      },
-      {
-        "display": "[\"code.coding.system\",\"code.coding.code\",\"id\"]",
-        "system": "https://www.icanbwell.com/queryFields"
-      },
-      {
-        "system": "https://www.icanbwell.com/queryTime"
-      }
-    ]
-  },
   "resourceType": "Bundle",
   "total": 0,
   "type": "searchset"

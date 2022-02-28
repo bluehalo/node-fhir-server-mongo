@@ -122,10 +122,15 @@ setup-pre-commit:
 run-pre-commit: setup-pre-commit
 	./.git/hooks/pre-commit
 
+.PHONY:graphqlv1
+graphqlv1:
+	python3 src/graphql/v1/generator/generate_classes.py && \
+	graphql-schema-linter src/graphql/v1/**/*.graphql
+
 .PHONY:graphql
 graphql:
-	python3 src/graphql/generator/generate_classes.py && \
-	graphql-schema-linter src/**/*.graphql
+	python3 src/graphql/v2/generator/generate_classes.py && \
+	graphql-schema-linter src/graphql/v2/**/*.graphql
 
 
 .PHONY:searchParameters

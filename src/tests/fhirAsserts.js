@@ -1,3 +1,7 @@
+/**
+ * confirms that object was created
+ * @param {Object} body
+ */
 function assertMergeIsSuccessful(body) {
     console.log('------- response from adding observation2Resource ------------');
     console.log(JSON.stringify(body, null, 2));
@@ -5,7 +9,13 @@ function assertMergeIsSuccessful(body) {
     expect(body['created']).toBe(true);
 }
 
-function assertCompareBundles(body, expected) {
+/**
+ * compares two bundles
+ * @param {Object} body
+ * @param {Object} expected
+ * @param {Boolean} ignoreMetaTags
+ */
+function assertCompareBundles(body, expected, ignoreMetaTags = false) {
     console.log('------- response  sorted ------------');
     console.log(JSON.stringify(body, null, 2));
     console.log('------- end response sort ------------');
@@ -15,10 +25,10 @@ function assertCompareBundles(body, expected) {
     delete expected['timestamp'];
     delete body['link'];
     if (body.meta && body.meta.tag) {
+        if (ignoreMetaTags) {
+            body.meta.tag = [];
+        }
         body.meta.tag.forEach(tag => {
-            if (tag['system'] === 'https://www.icanbwell.com/query') {
-                delete tag['display'];
-            }
             if (tag['system'] === 'https://www.icanbwell.com/queryTime') {
                 delete tag['display'];
             }
@@ -30,10 +40,10 @@ function assertCompareBundles(body, expected) {
     delete expected['link'];
 
     if (expected.meta && expected.meta.tag) {
+        if (ignoreMetaTags) {
+            expected.meta.tag = [];
+        }
         expected.meta.tag.forEach(tag => {
-            if (tag['system'] === 'https://www.icanbwell.com/query') {
-                delete tag['display'];
-            }
             if (tag['system'] === 'https://www.icanbwell.com/queryTime') {
                 delete tag['display'];
             }
