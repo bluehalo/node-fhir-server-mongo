@@ -104,6 +104,13 @@ module.exports = {
                     'id',
                     'subject.reference'
                 ]
+            },
+            {
+                'helix_observation_effective_2': [
+                    'subject.reference',
+                    'effectiveDateTime',
+                    'id',
+                ]
             }
         ]
     }
