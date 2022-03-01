@@ -126,6 +126,14 @@ module.exports.getHeaders = (scope) => {
     };
 };
 
+module.exports.getHeadersFormUrlEncoded = (scope) => {
+    return {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/fhir+json',
+        'Authorization': `Bearer ${scope ? getToken(scope) : getFullAccessToken()}`
+    };
+};
+
 module.exports.getGraphQLHeaders = (scope) => {
     return {
         'Content-Type': 'application/json; charset=utf-8',

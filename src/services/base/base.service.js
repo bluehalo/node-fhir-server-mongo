@@ -51,7 +51,10 @@ module.exports.search = async (args, {req}, resource_name, collection_name) => {
      * combined args
      * @type {string[]}
      */
-    const combined_args = get_all_args(req, args);
+    let combined_args = get_all_args(req, args);
+    if (req.body && Object.keys(req.body).length > 0) {
+        combined_args = Object.assign({}, args, req.body);
+    }
     return search(
         getRequestInfo(req),
         combined_args, resource_name, collection_name);
