@@ -14,7 +14,11 @@
       >
         <!-- prettier-ignore -->
         <% if (typeof(total) !== "undefined" && total > 0) { %>
-        Resources (<%= resources.length %> out of <%= total %> total)
+        <%
+        let highCount =  (limit * pageIndex) + limit;
+        highCount = highCount < total ? highCount : total;        
+        %>
+        Resources (<%= (limit * pageIndex) + 1 %> to <%= highCount %> out of <%= total %> total)
       <% } else { %>
         Resources (<%= resources.length %>)
       <%}%>
