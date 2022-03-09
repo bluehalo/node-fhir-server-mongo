@@ -132,7 +132,8 @@ class MyJwtStrategy extends JwtStrategy {
             req.useragent &&
             req.useragent.isDesktop &&
             isTrue(env.REDIRECT_TO_LOGIN) &&
-            (req.method === 'GET' || (req.method === 'POST' && resourceUrl.contains('_search')))
+            (req.method === 'GET' ||
+                (req.method === 'POST' && resourceUrl && resourceUrl.includes('_search')))
         ) {
             const httpProtocol = env.ENVIRONMENT === 'local' ? 'http' : 'https';
             const redirectUrl = `${env.AUTH_CODE_FLOW_URL}/login?response_type=code&client_id=${env.AUTH_CODE_FLOW_CLIENT_ID}&redirect_uri=${httpProtocol}://${req.headers.host}/authcallback&state=${resourceUrl}`;

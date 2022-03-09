@@ -1,6 +1,6 @@
 <footer class="px-3 p-1 d-flex border-top">
     <ul class="pagination flex-grow-1 mb-1">
-        <% if(hasPrev || hasNext) { %>
+        <% if(typeof(hasPrev) !== "undefined" && (hasPrev || hasNext)) { %>
         <li class="page-item<%= !hasPrev ? ' disabled' : '' %>">
             <button type="button" class="page-link" id="lnkPrevious">Previous</button>
         </li>
