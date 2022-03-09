@@ -453,6 +453,11 @@ module.exports.merge = async (requestInfo, args, resource_name, collection_name)
          */
         let id = resource_to_merge.id;
 
+        if (resource_to_merge.meta && resource_to_merge.meta.lastUpdated && typeof resource_to_merge.meta.lastUpdated !== 'string')
+        {
+            resource_to_merge.meta.lastUpdated = new Date(resource_to_merge.meta.lastUpdated).toISOString();
+        }
+
         if (env.LOG_ALL_SAVES) {
             await sendToS3('logs',
                 resource_to_merge.resourceType,
