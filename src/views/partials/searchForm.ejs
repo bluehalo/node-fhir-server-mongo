@@ -90,8 +90,8 @@
         name="_getpagesoffset"
         value="<%= pageIndex %>"
     />
-    <input type="hidden" class="search-pagination" name="_count" value="10" />
-    <input type="hidden" class="search-pagination" name="_total" value="accurate" />
+    <input type="hidden" class="search-pagination" name="_count" value="<%= limit %>" />
+    <input type="hidden" class="search-pagination" name="_total" value="estimate" />
 </form>
 
 <div class="modal fade" id="advSearchModal" tabindex="-1" aria-hidden="true">
