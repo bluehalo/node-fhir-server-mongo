@@ -6,10 +6,10 @@ const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 const jwksRsa = require('jwks-rsa');
 const env = require('var');
-const {logRequest, logDebug} = require('../operations/common/logging');
-const {isTrue} = require('../utils/isTrue');
+const { logRequest, logDebug } = require('../operations/common/logging');
+const { isTrue } = require('../utils/isTrue');
 const async = require('async');
-const {request} = require('../utils/request');
+const { request } = require('../utils/request');
 
 /**
  * Retrieve jwks for URL
@@ -39,7 +39,10 @@ const getExternalJwks = async () => {
         /**
          * @type {import('jwks-rsa').JSONWebKey[][]}
          */
-        const keysArray = await async.map(extJwksUrls, async extJwksUrl => await getExternalJwksByUrl(extJwksUrl.trim()));
+        const keysArray = await async.map(
+            extJwksUrls,
+            async (extJwksUrl) => await getExternalJwksByUrl(extJwksUrl.trim())
+        );
         /**
          * @type {import('jwks-rsa').JSONWebKey[]}
          */
@@ -61,7 +64,9 @@ const verify = (jwt_payload, done) => {
         /**
          * @type {string}
          */
-        const client_id = jwt_payload.client_id ? jwt_payload.client_id : jwt_payload[env.AUTH_CUSTOM_CLIENT_ID];
+        const client_id = jwt_payload.client_id
+            ? jwt_payload.client_id
+            : jwt_payload[env.AUTH_CUSTOM_CLIENT_ID];
         /**
          * @type {string}
          */
@@ -74,19 +79,25 @@ const verify = (jwt_payload, done) => {
         /**
          * @type {string}
          */
-        const username = jwt_payload.username ? jwt_payload.username : jwt_payload[env.AUTH_CUSTOM_USERNAME];
+        const username = jwt_payload.username
+            ? jwt_payload.username
+            : jwt_payload[env.AUTH_CUSTOM_USERNAME];
 
         /**
          * @type {string}
          */
-        const subject = jwt_payload.subject ? jwt_payload.subject : jwt_payload[env.AUTH_CUSTOM_SUBJECT];
-
+        const subject = jwt_payload.subject
+            ? jwt_payload.subject
+            : jwt_payload[env.AUTH_CUSTOM_SUBJECT];
 
         if (groups.length > 0) {
             scope = scope + ' ' + groups.join(' ');
         }
 
-        logRequest(username, 'Verified client_id: ' + client_id + ' username=' + username + ' scope: ' + scope);
+        logRequest(
+            username,
+            'Verified client_id: ' + client_id + ' username=' + username + ' scope: ' + scope
+        );
 
         const context = {};
         if (username) {
@@ -96,12 +107,11 @@ const verify = (jwt_payload, done) => {
             context['subject'] = subject;
         }
 
-        return done(null, client_id, {scope, context});
+        return done(null, client_id, { scope, context });
     }
 
     return done(null, false);
 };
-
 
 /* we use this to override the JwtStrategy and redirect to login
     instead of just failing and returning a 401
@@ -113,12 +123,18 @@ class MyJwtStrategy extends JwtStrategy {
 
     authenticate(req, options) {
         const self = this;
-
         const token = self._jwtFromRequest(req);
+        const resourceUrl = req.originalUrl;
 
-        if (!token && req.accepts('text/html') && req.useragent && req.useragent.isDesktop && isTrue(env.REDIRECT_TO_LOGIN) && req.method === 'GET') {
-            const resourceUrl = req.originalUrl;
-
+        if (
+            !token &&
+            req.accepts('text/html') &&
+            req.useragent &&
+            req.useragent.isDesktop &&
+            isTrue(env.REDIRECT_TO_LOGIN) &&
+            (req.method === 'GET' ||
+                (req.method === 'POST' && resourceUrl && resourceUrl.includes('_search')))
+        ) {
             const httpProtocol = env.ENVIRONMENT === 'local' ? 'http' : 'https';
             const redirectUrl = `${env.AUTH_CODE_FLOW_URL}/login?response_type=code&client_id=${env.AUTH_CODE_FLOW_CLIENT_ID}&redirect_uri=${httpProtocol}://${req.headers.host}/authcallback&state=${resourceUrl}`;
             logDebug('', 'Redirecting to ' + redirectUrl);
@@ -130,7 +146,7 @@ class MyJwtStrategy extends JwtStrategy {
 }
 
 /* This function is called to extract the token from the jwt cookie
-*/
+ */
 const cookieExtractor = function (req) {
     /**
      * @type {string|null}
@@ -155,7 +171,8 @@ const cookieExtractor = function (req) {
  *
  * Requires ENV variables for introspecting the token
  */
-module.exports.strategy = new MyJwtStrategy({
+module.exports.strategy = new MyJwtStrategy(
+    {
         // Dynamically provide a signing key based on the kid in the header and the signing keys provided by the JWKS endpoint.
         secretOrKeyProvider: jwksRsa.passportJwtSecret({
             cache: true,
@@ -174,18 +191,19 @@ module.exports.strategy = new MyJwtStrategy({
                     return cb(new Error('No Signing Key found!'));
                 }
                 return cb(err);
-            }
+            },
         }),
         /* specify a list of extractors and it will use the first one that returns the token */
         jwtFromRequest: ExtractJwt.fromExtractors([
             ExtractJwt.fromAuthHeaderAsBearerToken(),
             cookieExtractor,
-            ExtractJwt.fromUrlQueryParameter('token')
+            ExtractJwt.fromUrlQueryParameter('token'),
         ]),
 
         // Validate the audience and the issuer.
         // audience: 'urn:my-resource-server',
         // issuer: env.AUTH_ISSUER,
-        algorithms: ['RS256']
+        algorithms: ['RS256'],
     },
-    verify);
+    verify
+);
