@@ -1,4 +1,4 @@
-const {getUuid} = require('../../../../utils/uid.util' );
+const {getUuid} = require('../../../../utils/uid.util');
 const {merge} = require('../../../../operations/merge/merge');
 const {getRequestInfo} = require('../../requestInfoHelper');
 
@@ -16,14 +16,26 @@ function mapParticipants(members) {
     return result;
 }
 
+function mapManagingOrganization(organizations) {
+    const result = [];
+    organizations.forEach((org) => {
+        result.push({
+            reference: org
+        });
+    });
+
+    return result;
+}
+
+
+
 function mapCareTeam(team) {
-    return {
+    const careTeamMap = {
         resourceType: 'CareTeam',
         id: team.id,
         implicitRules: team.implicitRules,
         language: team.language,
         text: team.text,
-        contained: [{reference: team.contained}],
         identifier: team.identifier,
         status: team.code,
         category: team.category,
@@ -34,10 +46,19 @@ function mapCareTeam(team) {
         participant: mapParticipants(team.participant),
         reasonCode: team.reasonCode,
         reasonReference: team.reasonReference,
-        managingOrganization: {reference: team.managingOrganization},
         telecom: team.telecom,
         note: team.note,
     };
+
+    if (team.contained) {
+        careTeamMap.contained = [team.contained];
+    }
+
+    if (team.managingOrganization) {
+        careTeamMap.managingOrganization = mapManagingOrganization(team.managingOrganization);
+    }
+
+    return careTeamMap;
 }
 
 module.exports = {
@@ -61,7 +82,7 @@ module.exports = {
                 const patientToChange = patients[0];
                 // create care team
                 const careTeam = mapCareTeam(args.team);
-                if (!careTeam.id){
+                if (!careTeam.id) {
                     careTeam.id = getUuid(careTeam);
                 }
                 /**
