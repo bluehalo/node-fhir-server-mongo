@@ -98,6 +98,9 @@ input CareTeam_Input {
 
   """Comments made about the CareTeam."""
   note: [Annotation_Input]
+
+  """Meta security tags for access."""
+  meta: Meta_Input
 }
 
 input CareTeamparticipant_Input {

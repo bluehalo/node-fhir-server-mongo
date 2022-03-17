@@ -192,3 +192,12 @@ input Annotation_Input {
   """The text of the annotation in markdown format."""
   text: String!
 }
+
+"""
+Base MetaDefinition for Meta Type: Meta tag with Security property to determine
+access/authorization for users.
+"""
+input Meta_Input {
+  """A reference to access tags."""
+  security: [Coding_Input]
+}
