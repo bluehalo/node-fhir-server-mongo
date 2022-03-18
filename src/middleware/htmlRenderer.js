@@ -21,6 +21,7 @@ const htmlRenderer = (req, res, next) => {
         if (
             (req.accepts('text/html') && !req.headers.accept.includes('application/fhir+json')) // if the request is for HTML
             && (req.method === 'GET' || req.method === 'POST') // and this is a GET or a POST
+            && (req.useragent && req.useragent.isDesktop) // Postman sends */* so we need this to avoid sending html to Postman
         ) {
             // override the json function, so we can intercept the data being sent the client
             let oldJson = res.json;

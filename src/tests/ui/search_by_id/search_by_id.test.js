@@ -7,7 +7,7 @@ const patient1Resource = require('./fixtures/patient/patient1.json');
 const request = supertest(app);
 const {commonBeforeEach, commonAfterEach, getHeaders, getHtmlHeaders} = require('../../common');
 
-describe('PractitionerReturnIdTests', () => {
+describe('Patient UI Tests', () => {
     beforeEach(async () => {
         await commonBeforeEach();
     });
