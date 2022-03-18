@@ -19,7 +19,7 @@ const htmlRenderer = (req, res, next) => {
         const resourceName = parts[2];
         // If the request is from a browser for HTML then return HTML page instead of json
         if (
-            (req.accepts('text/html') && !req.accepts('application/fhir+json')) // if the request is for HTML
+            (req.accepts('text/html') && !req.headers.accept.includes('application/fhir+json')) // if the request is for HTML
             && (req.method === 'GET' || req.method === 'POST') // and this is a GET or a POST
         ) {
             // override the json function, so we can intercept the data being sent the client
