@@ -1,7 +1,7 @@
 /**
  * This middleware detects if the request is from a web browser user-agent and returns HTML rendered views
  */
-const { resourceDefinitions } = require('../utils/resourceDefinitions');
+const {resourceDefinitions} = require('../utils/resourceDefinitions');
 const {
     searchFormData,
     advSearchFormData,
@@ -17,11 +17,12 @@ const htmlRenderer = (req, res, next) => {
     const parts = req.url.split(/[/?,&]+/);
     if (parts && parts.length > 2 && !parts.includes('raw=1') && parts[1] === '4_0_0') {
         const resourceName = parts[2];
+        // If the request is from a browser for HTML then return HTML page instead of json
         if (
-            (req.accepts('text/html') && req.method === 'POST') ||
-            (req.method === 'GET' && req.useragent && req.useragent.isDesktop)
+            (req.accepts('text/html') && !req.accepts('application/fhir+json')) // if the request is for HTML
+            && (req.method === 'GET' || req.method === 'POST') // and this is a GET or a POST
         ) {
-            // override the json function so we can intercept the data being sent the client
+            // override the json function, so we can intercept the data being sent the client
             let oldJson = res.json;
             res.json = (data) => {
                 let parsedData = JSON.parse(JSON.stringify(data));
