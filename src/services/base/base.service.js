@@ -14,6 +14,7 @@ const {validate} = require('../../operations/validate/validate');
 const {graph} = require('../../operations/graph/graph');
 const {get_all_args} = require('../../operations/common/get_all_args');
 const {RequestInfo} = require('../../utils/requestInfo');
+const {logDebug} = require('../../operations/common/logging');
 
 
 // This is needed for JSON.stringify() can handle regex
@@ -24,6 +25,8 @@ Object.defineProperty(RegExp.prototype, 'toJSON', {
 });
 
 function getRequestInfo(req) {
+    logDebug(req.user, req.originalUrl);
+
     return new RequestInfo(
         (req.authInfo && req.authInfo.context && req.authInfo.context.username)
         || (req.authInfo && req.authInfo.context && req.authInfo.context.subject)
