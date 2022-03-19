@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <title>Patient</title>
     <%- include('../partials/head'); %>
   </head>
   <body class="container-fluid p-0">
@@ -49,14 +50,15 @@
           <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Appointment', property:'patient'}], id:res.id, name: "Appointment"}); %>
           <%- include('../partials/reverse_reference', {reverseReferences: [{target:'AuditEvent', property:'patient'}], id:res.id, name: "AuditEvent"}); %>
           <%- include('../partials/reverse_reference', {reverseReferences: [{target:'CareTeam', property:'patient'}], id:res.id, name: "CareTeam"}); %>
-          <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Condition', property:'patient'}], id:res.id, name: "Condition"}); %>
+          <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Condition', property:'subject'}], id:res.id, name: "Condition"}); %>
+          <%- include('../partials/reverse_reference', {reverseReferences: [{target:'ChargeItem', property:'patient'}], id:res.id, name: "ChargeItem"}); %>
           <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Coverage', property:'patient'}], id:res.id, name: "Coverage"}); %>
           <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Encounter', property:'patient'}], id:res.id, name: "Encounter"}); %>
           <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Observation', property:'patient'}], id:res.id, name: "Observation"}); %>
           <%- include('../partials/reverse_reference', {reverseReferences: [{target:'ExplanationOfBenefit', property:'patient'}], id:res.id, name: "ExplanationOfBenefit"}); %>
           <%- include('../partials/reverse_reference', {reverseReferences: [{target:'MeasureReport', property:'patient'}], id:res.id, name: "MeasureReport"}); %>
           <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Person', property:'patient'}], id:res.id, name: "Person"}); %>
-          <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Schedule', property:'patient'}], id:res.id, name: "Schedule"}); %>
+          <%- include('../partials/reverse_reference', {reverseReferences: [{target:'Schedule', property:'actor'}], id:res.id, name: "Schedule"}); %>
           <%- include('../partials/reverse_reference', {reverseReferences: [{target:'ServiceRequest', property:'patient'}], id:res.id, name: "ServiceRequest"}); %>
           <%- include('../partials/json', {res: res, index: index}); %>
         </div>

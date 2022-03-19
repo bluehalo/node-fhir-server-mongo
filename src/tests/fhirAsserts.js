@@ -34,6 +34,8 @@ function assertCompareBundles(body, expected, ignoreMetaTags = false) {
             }
         });
     }
+    expect(body.entry).not.toBeNull();
+    expect(body.entry).not.toBeUndefined();
     body.entry.forEach(element => {
         delete element['resource']['meta']['lastUpdated'];
     });

@@ -69,14 +69,20 @@ const getValueSetConcepts = async (collection1, resource1) => {
     /**
      * @type {{system, code, display, version: string}[]}
      */
-    let valueSets = [];
+    let expandedValueSets = [];
     if (resource1.compose && resource1.compose.include) {
         // noinspection UnnecessaryLocalVariableJS
-        valueSets = await async.flatMap(resource1.compose.include,
+        expandedValueSets = await async.flatMap(resource1.compose.include,
             async include => await getInclude(collection1, include)
         );
     }
-    return valueSets;
+
+    // append expanded value sets to existing value sets
+    /**
+     * @type {{system, code, display, version: string}[]}
+     */
+    const existingValueSets = (resource1.expansion && resource1.expansion.contains) ? resource1.expansion.contains : [];
+    return existingValueSets.concat(expandedValueSets);
 };
 
 /**
@@ -91,7 +97,9 @@ const getExpandedValueSet = async (collection1, resource1) => {
      */
     let concepts = await getValueSetConcepts(collection1, resource1);
     resource1['expansion'] = {
-        contains: concepts
+        contains: concepts,
+        'offset': 0,
+        'total': concepts.length
     };
     // remove compose
     delete resource1['compose'];

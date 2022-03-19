@@ -1,0 +1,65 @@
+{
+  "resourceType": "ValueSet",
+  "id": "2.16.840.1.113762.1.4.1235.31",
+  "meta": {
+    "versionId": "2",
+    "lastUpdated": "2022-03-02T02:49:24.000Z",
+    "source": "https://icanbwell.com",
+    "security": [
+      {
+        "system": "https://www.icanbwell.com/access",
+        "code": "bwell"
+      },
+      {
+        "system": "https://www.icanbwell.com/owner",
+        "code": "bwell"
+      }
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h3>Value Set Contents</h3><p>This value set contains 3 concepts</p><p>All codes from system <code>http://www.nlm.nih.gov/research/umls/hcpcs</code></p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td></tr><tr><td style=\"white-space:nowrap\"><a name=\"http---www.nlm.nih.gov-research-umls-hcpcs-G0402\"> </a>G0402</td><td>Initial preventive physical examination; face-to-face visit, services limited to new beneficiary during the first 12 months of medicare enrollment</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"http---www.nlm.nih.gov-research-umls-hcpcs-G0438\"> </a>G0438</td><td>Annual wellness visit; includes a personalized prevention plan of service (pps), initial visit</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"http---www.nlm.nih.gov-research-umls-hcpcs-G0439\"> </a>G0439</td><td>Annual wellness visit, includes a personalized prevention plan of service (pps), subsequent visit</td></tr></table></div>"
+  },
+  "url": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1235.31",
+  "version": "Draft",
+  "name": "AWV Annual Wellness Visit",
+  "status": "draft",
+  "date": "2022-02-10T13:11:43-05:00",
+  "publisher": "B.well Connected Health Steward",
+  "expansion": {
+    "identifier": "urn:uuid:88fc09b7-93fc-401b-aadb-4f379b4238ca",
+    "timestamp": "2022-02-13T16:23:43-05:00",
+    "total": 3,
+    "offset": 0,
+    "parameter": [
+      {
+        "name": "count",
+        "valueInteger": 1000
+      },
+      {
+        "name": "offset",
+        "valueInteger": 0
+      }
+    ],
+    "contains": [
+      {
+        "system": "https://epicfhir.unitypoint.org/NonProdFHIR",
+        "version": "2022",
+        "code": "G0402",
+        "display": "Initial preventive physical examination; face-to-face visit, services limited to new beneficiary during the first 12 months of medicare enrollment"
+      },
+      {
+        "system": "https://epicfhir.unitypoint.org/NonProdFHIR",
+        "version": "2022",
+        "code": "G0438",
+        "display": "Annual wellness visit; includes a personalized prevention plan of service (pps), initial visit"
+      },
+      {
+        "system": "https://epicfhir.unitypoint.org/NonProdFHIR",
+        "version": "2022",
+        "code": "G0439",
+        "display": "Annual wellness visit, includes a personalized prevention plan of service (pps), subsequent visit"
+      }
+    ]
+  }
+}

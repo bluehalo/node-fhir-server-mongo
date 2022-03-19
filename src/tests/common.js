@@ -172,3 +172,23 @@ module.exports.getHtmlHeaders = (scope) => {
     };
 };
 
+/**
+ * wraps a single resource into a bundle
+ * @param {Object} resource
+ * @return {{entry: [{resource: Object}], resourceType: string}}
+ */
+module.exports.wrapResourceInBundle = (resource) => {
+    if (resource.resourceType === 'Bundle') {
+        return resource; // already a bundle
+    }
+    return {
+        'resourceType': 'Bundle',
+        'total': 0,
+        'type': 'searchset',
+        'entry': [
+            {
+                'resource': resource
+            }
+        ]
+    };
+};

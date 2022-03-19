@@ -14,7 +14,7 @@ const request = supertest(app);
 const {commonBeforeEach, commonAfterEach, getHeaders} = require('../../common');
 const {assertMergeIsSuccessful} = require('../../fhirAsserts');
 
-describe('ValueSet Tests', () => {
+describe('ValueSet Multiple Tests', () => {
     beforeEach(async () => {
         await commonBeforeEach();
     });

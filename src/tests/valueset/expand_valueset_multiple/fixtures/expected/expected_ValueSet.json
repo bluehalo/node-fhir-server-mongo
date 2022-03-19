@@ -134,7 +134,9 @@
         "system": "http://www.nlm.nih.gov/research/umls",
         "version": "2021AB"
       }
-    ]
+    ],
+    "offset": 0,
+    "total": 22
   },
   "id": "2.16.840.1.113762.1.4.1106.45",
   "meta": {
