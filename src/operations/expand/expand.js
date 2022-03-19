@@ -19,6 +19,7 @@ module.exports.expand = async (requestInfo, args, resource_name, collection_name
     const user = requestInfo.user;
     const scope = requestInfo.scope;
 
+    logRequest(user, `${requestInfo.originalUrl}`);
     logRequest(user, `${resource_name} >>> expand`);
     logDebug(user, JSON.stringify(args));
 
@@ -50,7 +51,7 @@ module.exports.expand = async (requestInfo, args, resource_name, collection_name
     try {
         resource = await collection.findOne({id: id.toString()});
     } catch (e) {
-        logError(`Error with ${resource_name}.searchById: `, e);
+        logError(`Error with ${resource_name}.expand: `, e);
         throw new BadRequestError(e);
     }
 
@@ -66,7 +67,10 @@ module.exports.expand = async (requestInfo, args, resource_name, collection_name
 
         // run any enrichment
         resource = (await enrich([resource], resource_name))[0];
-        return new Resource(resource);
+
+        const result = new Resource(resource);
+        logRequest(user, `Returning ${resource_name}.expand: ${JSON.stringify(result)}`);
+        return result;
     } else {
         throw new NotFoundError(`Not Found: ${resource_name}.searchById: ${id.toString()}`);
     }
