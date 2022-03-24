@@ -74,7 +74,7 @@ We recommend doing 10 parallel requests.  Too few will not give you a lot of ben
 ### Recommended Pattern for AuditEvent
 There are, of course, a lot of events in the system.  As a result, you can use an even more optimized access pattern:
 1. Define the date range you're interested in e.g., you want events that were created or updated between 1/20/2022 and 1/30/2022.
-2. Iterate over this range, so you pull ids for records one day at a time.  
+2. Iterate over this range, so you pull ids for records one day at a time.  When you get the first page of data use the last id received and pass that as `id:above` parameter in the next call.  This will allow you to leverage the index and will be much faster.
 The events are indexed on lastUpdated date so this will be faster than running a query on all the events.
 3. Then follow the above pattern for common resources but include a filter to limit the events to one day at a time.
 
