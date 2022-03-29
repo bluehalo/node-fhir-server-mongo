@@ -49,10 +49,11 @@ const getQueryWithSecurityTags = (securityTags, query) => {
                 }
             }
         };
+
         // if there is already an $and statement then just add to it
         if (query.$and) {
             query.$and.push(
-                securityTagQuery
+                [securityTagQuery]
             );
             return query;
         } else {
@@ -66,8 +67,33 @@ const getQueryWithSecurityTags = (securityTags, query) => {
     }
     return query;
 };
+const getQueryWithPatientFilter = (patients, query) => {
+    const patientsQuery = {
+        'patient': {
+            '$in': patients
+        }
+    }
+    if (query.$and) {
+        query.$and.push(
+          patientsQuery
+        );
+        return query;
+    } else {
+        return {
+            $and: [
+                query,
+                patientsQuery
+            ]
+        };
+    }
+}
+const getPatientsFromUser = (user) => {
+    // todo
+}
 
 module.exports = {
     getSecurityTagsFromScope: getSecurityTagsFromScope,
-    getQueryWithSecurityTags: getQueryWithSecurityTags
+    getQueryWithSecurityTags: getQueryWithSecurityTags,
+    getQueryWithPatientFilter:  getQueryWithPatientFilter,
+    getPatientsFromUser: getPatientsFromUser
 };

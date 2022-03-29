@@ -1,0 +1,34 @@
+{
+  "resourceType": "AllergyIntolerance",
+  "id": "12345",
+  "meta": {
+    "security": [
+      {
+        "system": "https://www.icanbwell.com/access",
+        "code": "unitypointuat"
+      }
+    ]
+  },
+  "code": {
+    "text": "Aspirin"
+  },
+  "patient": {
+    "reference": "Patient/unitypoint-123456789"
+  },
+  "recorder": {
+    "reference": "Patient/unitypoint-123456789"
+  },
+  "asserter": {
+    "reference": "Patient/unitypoint-123456789"
+  },
+  "reaction": [
+    {
+      "manifestation": [
+        {
+          "text": "Rash (itching/hives)"
+        }
+      ],
+      "severity": "moderate"
+    }
+  ]
+}

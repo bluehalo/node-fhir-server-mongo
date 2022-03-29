@@ -1,0 +1,203 @@
+{
+  "resourceType": "Patient",
+  "id": "unitypoint-123456789",
+  "meta": {
+    "versionId": "1",
+    "lastUpdated": "2022-02-01T20:26:14.000Z",
+    "source": "https://epicfhir.unitypoint.org/NonProdFHIR/api/FHIR/R4/metadata",
+    "security": [
+      {
+        "system": "https://www.icanbwell.com/owner",
+        "code": "unitypointuat"
+      },
+      {
+        "system": "https://www.icanbwell.com/access",
+        "code": "unitypointuat"
+      },
+      {
+        "system": "https://www.icanbwell.com/vendor",
+        "code": "unitypointuat"
+      }
+    ]
+  },
+  "extension": [
+    {
+      "extension": [
+        {
+          "url": "text",
+          "valueString": "Other Race"
+        }
+      ],
+      "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race"
+    },
+    {
+      "extension": [
+        {
+          "url": "ombCategory"
+        },
+        {
+          "url": "text",
+          "valueString": "Not Hispanic or Latino"
+        }
+      ],
+      "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity"
+    },
+    {
+      "url": "http://open.epic.com/FHIR/StructureDefinition/extension/legal-sex"
+    }
+  ],
+  "identifier": [
+    {
+      "use": "usual",
+      "type": {
+        "text": "FHIR STU3"
+      },
+      "system": "http://open.epic.com/FHIR/StructureDefinition/patient-fhir-id",
+      "value": "unitypoint-123456789"
+    },
+    {
+      "use": "usual",
+      "system": "https://open.epic.com/FHIR/StructureDefinition/PayerMemberId",
+      "value": "445858878"
+    }
+  ],
+  "active": true,
+  "name": [
+    {
+      "use": "old",
+      "text": "BWELL,TESTUSER7",
+      "family": "Bwell",
+      "given": [
+        "Testuser7"
+      ]
+    },
+    {
+      "use": "official",
+      "text": "Testuserseven Bwell",
+      "family": "Bwell",
+      "given": [
+        "Testuserseven"
+      ]
+    },
+    {
+      "use": "usual",
+      "text": "Testuserseven Bwell \"TESTUSER7\"",
+      "family": "Bwell",
+      "given": [
+        "TESTUSER7"
+      ]
+    }
+  ],
+  "telecom": [
+    {
+      "system": "phone",
+      "value": "515-555-8888",
+      "use": "home"
+    },
+    {
+      "system": "phone",
+      "value": "515-555-8888",
+      "use": "mobile"
+    },
+    {
+      "system": "email",
+      "value": "jeffrey.swim@unitypoint.org"
+    }
+  ],
+  "gender": "male",
+  "birthDate": "2008-01-04",
+  "deceasedBoolean": false,
+  "address": [
+    {
+      "use": "old",
+      "line": [
+        "1234 Main St NW"
+      ],
+      "city": "NEW VIRGINIA",
+      "district": "WARREN",
+      "state": "IA",
+      "postalCode": "50210",
+      "country": "USA"
+    },
+    {
+      "use": "home",
+      "line": [
+        "1234 Main St NW"
+      ],
+      "city": "NEW VIRGINIA",
+      "district": "WARREN",
+      "state": "IA",
+      "postalCode": "50210",
+      "country": "USA"
+    }
+  ],
+  "maritalStatus": {
+    "text": "Single"
+  },
+  "contact": [
+    {
+      "relationship": [
+        {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/v2-0131",
+              "code": "C",
+              "display": "Emergency Contact"
+            }
+          ]
+        }
+      ],
+      "name": {
+        "use": "usual",
+        "text": "Testuserseven Bwell \"TESTUSER7\"",
+        "family": "Bwell",
+        "given": [
+          "TESTUSER7"
+        ]
+      },
+      "telecom": [
+        {
+          "system": "phone",
+          "value": "515-555-8888",
+          "use": "temp"
+        }
+      ],
+      "address": {
+        "use": "home",
+        "line": [
+          "1234 Main St NW"
+        ],
+        "city": "NEW VIRGINIA",
+        "district": "WARREN",
+        "state": "IA",
+        "postalCode": "50210",
+        "country": "USA"
+      }
+    }
+  ],
+  "communication": [
+    {
+      "language": {
+        "coding": [
+          {
+            "system": "urn:ietf:bcp:47",
+            "code": "en",
+            "display": "English"
+          }
+        ],
+        "text": "English"
+      },
+      "preferred": true
+    }
+  ],
+  "generalPractitioner": [
+    {
+      "reference": "Practitioner/eeh9le9st6JCYe00j3kBM8Q3",
+      "display": "Dr. S Honsey"
+    }
+  ],
+  "managingOrganization": {
+    "reference": "Organization/e4956MRMZEcQEg.U6PsIIeA3",
+    "display": "UnityPoint Health"
+  }
+}
