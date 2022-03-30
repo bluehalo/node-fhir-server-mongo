@@ -64,6 +64,10 @@ const verify = (jwt_payload, done) => {
         /**
          * @type {string}
          */
+        let isUser = false
+        if (jwt_payload[env.AUTH_CUSTOM_CLIENT_ID]) {
+            isUser = true
+        }
         const client_id = jwt_payload.client_id
             ? jwt_payload.client_id
             : jwt_payload[env.AUTH_CUSTOM_CLIENT_ID];
@@ -107,7 +111,7 @@ const verify = (jwt_payload, done) => {
             context['subject'] = subject;
         }
 
-        return done(null, client_id, { scope, context });
+        return done(null, {id: client_id, isUser }, { scope, context });
     }
 
     return done(null, false);

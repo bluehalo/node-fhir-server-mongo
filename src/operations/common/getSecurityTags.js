@@ -67,11 +67,12 @@ const getQueryWithSecurityTags = (securityTags, query) => {
     }
     return query;
 };
-const getQueryWithPatientFilter = (patients, query) => {
-    const patientsQuery = {
-        'patient': {
-            '$in': patients
-        }
+const getQueryWithPatientFilter = (patients, query, resource) => {
+    const inQuery = {
+        '$in': patients
+    }
+    const patientsQuery =  {
+        [resource === 'Patient' ? 'id': 'patient']: inQuery
     }
     if (query.$and) {
         query.$and.push(
@@ -89,6 +90,7 @@ const getQueryWithPatientFilter = (patients, query) => {
 }
 const getPatientsFromUser = (user) => {
     // todo
+    return ['unitypoint-123456789', 'bluebutton-123456789']
 }
 
 module.exports = {

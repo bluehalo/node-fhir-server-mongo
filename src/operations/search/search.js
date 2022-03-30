@@ -5,7 +5,8 @@ const moment = require('moment-timezone');
 const { MongoError } = require('../../utils/mongoErrors');
 const {
     verifyHasValidScopes,
-    isAccessToResourceAllowedBySecurityTags, getAccessCodesFromScopes,
+    isAccessToResourceAllowedBySecurityTags,
+    getAccessCodesFromScopes,
 } = require('../security/scopes');
 const { buildR4SearchQuery } = require('../query/r4');
 const { buildDstu2SearchQuery } = require('../query/dstu2');
@@ -19,12 +20,17 @@ const pRetry = require('p-retry');
 const { logMessageToSlack } = require('../../utils/slack.logger');
 const { removeNull } = require('../../utils/nullRemover');
 const { logAuditEntry } = require('../../utils/auditLogger');
-const { getSecurityTagsFromScope, getQueryWithSecurityTags, getQueryWithPatientFilter} = require('../common/getSecurityTags');
+const {
+    getSecurityTagsFromScope,
+    getQueryWithSecurityTags,
+    getQueryWithPatientFilter,
+    getPatientsFromUser,
+} = require('../common/getSecurityTags');
 const deepcopy = require('deepcopy');
 const { searchOld } = require('./searchOld');
 const { VERSIONS } = require('@asymmetrik/node-fhir-server-core').constants;
 const { limit } = require('../../utils/searchForm.util');
-const {ForbiddenError} = require("../../utils/httpErrors");
+const { ForbiddenError } = require('../../utils/httpErrors');
 
 /**
  * Handle when the caller pass in _elements: https://www.hl7.org/fhir/search.html#elements
@@ -444,7 +450,7 @@ module.exports.search = async (requestInfo, args, resourceName, collection_name)
     /**
      * @type {string | null}
      */
-    const user = requestInfo.user;
+    const user = requestInfo.user.id;
     /**
      * @type {string | null}
      */
@@ -464,7 +470,6 @@ module.exports.search = async (requestInfo, args, resourceName, collection_name)
      * @type {string[]}
      */
     let securityTags = getSecurityTagsFromScope(user, scope);
-    let patients = getPatientsFromUser(user);
     /**
      * @type {string}
      */
@@ -492,7 +497,7 @@ module.exports.search = async (requestInfo, args, resourceName, collection_name)
         throw e;
     }
     query = getQueryWithSecurityTags(securityTags, query);
-    query = getQueryWithPatientFilter(patients, query)
+
     // Grab an instance of our DB and collection
     // noinspection JSValidateTypes
     /**
@@ -513,6 +518,11 @@ module.exports.search = async (requestInfo, args, resourceName, collection_name)
      * @type {function(?Object): Resource}
      */
     let Resource = getResource(base_version, resourceName);
+
+    if (env.ENABLE_PATIENT_FILTERING && requestInfo.user.isUser) {
+        let patients = getPatientsFromUser(user);
+        query = getQueryWithPatientFilter(patients, query, resourceName);
+    }
 
     logDebug(user, '---- query ----');
     logDebug(user, JSON.stringify(query));
