@@ -1,6 +1,6 @@
-const {getAccessCodesFromScopes} = require('../security/scopes');
+const { getAccessCodesFromScopes } = require('../security/scopes');
 const env = require('var');
-const {ForbiddenError} = require('../../utils/httpErrors');
+const { ForbiddenError } = require('../../utils/httpErrors');
 
 /**
  * returns security tags to filter by based on the scope
@@ -41,27 +41,22 @@ const getQueryWithSecurityTags = (securityTags, query) => {
     if (securityTags && securityTags.length > 0) {
         const securityTagQuery = {
             'meta.security': {
-                '$elemMatch': {
-                    'system': 'https://www.icanbwell.com/access',
-                    'code': {
-                        '$in': securityTags
-                    }
-                }
-            }
+                $elemMatch: {
+                    system: 'https://www.icanbwell.com/access',
+                    code: {
+                        $in: securityTags,
+                    },
+                },
+            },
         };
 
         // if there is already an $and statement then just add to it
         if (query.$and) {
-            query.$and.push(
-                [securityTagQuery]
-            );
+            query.$and.push([securityTagQuery]);
             return query;
         } else {
             return {
-                $and: [
-                    query,
-                    securityTagQuery
-                ]
+                $and: [query, securityTagQuery],
             };
         }
     }
@@ -69,33 +64,28 @@ const getQueryWithSecurityTags = (securityTags, query) => {
 };
 const getQueryWithPatientFilter = (patients, query, resource) => {
     const inQuery = {
-        '$in': patients
-    }
-    const patientsQuery =  {
-        [resource === 'Patient' ? 'id': 'patient']: inQuery
-    }
-    if (query.$and) {
-        query.$and.push(
-          patientsQuery
-        );
+        $in: patients,
+    };
+    const patientsQuery = {
+        [resource === 'Patient' ? 'id' : 'patient']: inQuery,
+    };
+    if (query && query.$and) {
+        query.$and.push(patientsQuery);
         return query;
     } else {
         return {
-            $and: [
-                query,
-                patientsQuery
-            ]
+            $and: [query, patientsQuery],
         };
     }
-}
-const getPatientsFromUser = (user) => {
+};
+const getPatientsFromUser = () => {
     // todo
-    return ['unitypoint-123456789', 'bluebutton-123456789']
-}
+    return ['unitypoint-123456789', 'bluebutton-123456789'];
+};
 
 module.exports = {
     getSecurityTagsFromScope: getSecurityTagsFromScope,
     getQueryWithSecurityTags: getQueryWithSecurityTags,
-    getQueryWithPatientFilter:  getQueryWithPatientFilter,
-    getPatientsFromUser: getPatientsFromUser
+    getQueryWithPatientFilter: getQueryWithPatientFilter,
+    getPatientsFromUser: getPatientsFromUser,
 };

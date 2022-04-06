@@ -1,1 +1,8 @@
-{"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_"}],"uuid":"05c0d0544b064e78bef852efc3f876a3","collectionName":"AuditEvent_4_0_0","type":"collection"}
+{
+    "indexes": [
+        { "v": { "$numberInt": "2" }, "key": { "_id": { "$numberInt": "1" } }, "name": "_id_" }
+    ],
+    "uuid": "de8d31bc0478467296ad3e3a16dbb382",
+    "collectionName": "AuditEvent_4_0_0",
+    "type": "collection"
+}

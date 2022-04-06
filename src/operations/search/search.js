@@ -3,16 +3,12 @@ const { CLIENT_DB } = require('../../constants');
 const env = require('var');
 const moment = require('moment-timezone');
 const { MongoError } = require('../../utils/mongoErrors');
-const {
-    verifyHasValidScopes,
-    isAccessToResourceAllowedBySecurityTags,
-    getAccessCodesFromScopes,
-} = require('../security/scopes');
+const { isAccessToResourceAllowedBySecurityTags } = require('../security/scopes');
 const { buildR4SearchQuery } = require('../query/r4');
 const { buildDstu2SearchQuery } = require('../query/dstu2');
 const { buildStu3SearchQuery } = require('../query/stu3');
 const { getResource } = require('../common/getResource');
-const { logRequest, logDebug, logError } = require('../common/logging');
+const { logDebug, logError } = require('../common/logging');
 const { enrich } = require('../../enrich/enrich');
 const { findIndexForFields } = require('../../indexes/indexHinter');
 const { isTrue } = require('../../utils/isTrue');
@@ -20,17 +16,17 @@ const pRetry = require('p-retry');
 const { logMessageToSlack } = require('../../utils/slack.logger');
 const { removeNull } = require('../../utils/nullRemover');
 const { logAuditEntry } = require('../../utils/auditLogger');
-const {
-    getSecurityTagsFromScope,
-    getQueryWithSecurityTags,
-    getQueryWithPatientFilter,
-    getPatientsFromUser,
-} = require('../common/getSecurityTags');
 const deepcopy = require('deepcopy');
 const { searchOld } = require('./searchOld');
+const { filter } = require('../filter/filter');
 const { VERSIONS } = require('@asymmetrik/node-fhir-server-core').constants;
 const { limit } = require('../../utils/searchForm.util');
-const { ForbiddenError } = require('../../utils/httpErrors');
+const { getRequestInfo } = require('../../graphql/v2/requestInfoHelper');
+const {
+    getQueryWithPatientFilter,
+    getSecurityTagsFromScope,
+    getQueryWithSecurityTags,
+} = require('../common/getSecurityTags');
 
 /**
  * Handle when the caller pass in _elements: https://www.hl7.org/fhir/search.html#elements
@@ -450,7 +446,7 @@ module.exports.search = async (requestInfo, args, resourceName, collection_name)
     /**
      * @type {string | null}
      */
-    const user = requestInfo.user.id;
+    const user = requestInfo.user;
     /**
      * @type {string | null}
      */
@@ -458,18 +454,6 @@ module.exports.search = async (requestInfo, args, resourceName, collection_name)
     /**
      * @type {string | null}
      */
-    const url = requestInfo.originalUrl;
-    logRequest(user, resourceName + ' >>> search' + ' scope:' + scope);
-    // logRequest('user: ' + req.user);
-    // logRequest('scope: ' + req.authInfo.scope);
-    verifyHasValidScopes(resourceName, 'read', user, scope);
-    logRequest(user, '---- args ----');
-    logRequest(user, JSON.stringify(args));
-    logRequest(user, '--------');
-    /**
-     * @type {string[]}
-     */
-    let securityTags = getSecurityTagsFromScope(user, scope);
     /**
      * @type {string}
      */
@@ -496,7 +480,27 @@ module.exports.search = async (requestInfo, args, resourceName, collection_name)
     } catch (e) {
         throw e;
     }
+
+    /**
+     * @type {string[]}
+     */
+    let securityTags = getSecurityTagsFromScope(user, scope);
+
+    /**
+     * @type {import('mongodb').Document}
+     */
     query = getQueryWithSecurityTags(securityTags, query);
+
+    let patients = await filter(
+        getRequestInfo(requestInfo),
+        { ...args },
+        resourceName,
+        collection_name
+    );
+
+    if (patients.length > 0) {
+        query = getQueryWithPatientFilter(patients, query, resourceName);
+    }
 
     // Grab an instance of our DB and collection
     // noinspection JSValidateTypes
@@ -518,11 +522,6 @@ module.exports.search = async (requestInfo, args, resourceName, collection_name)
      * @type {function(?Object): Resource}
      */
     let Resource = getResource(base_version, resourceName);
-
-    if (env.ENABLE_PATIENT_FILTERING && requestInfo.user.isUser) {
-        let patients = getPatientsFromUser(user);
-        query = getQueryWithPatientFilter(patients, query, resourceName);
-    }
 
     logDebug(user, '---- query ----');
     logDebug(user, JSON.stringify(query));
@@ -583,7 +582,7 @@ module.exports.search = async (requestInfo, args, resourceName, collection_name)
          * @type {Object|Object[]}
          */
         let originalOptions = deepcopy(options);
-
+        const url = requestInfo.originalUrl;
         /**
          * whether to use the two-step optimization
          * In the two-step optimization we request the ids first and then request the documents for those ids
