@@ -3,12 +3,15 @@ const { CLIENT_DB } = require('../../constants');
 const env = require('var');
 const moment = require('moment-timezone');
 const { MongoError } = require('../../utils/mongoErrors');
-const { isAccessToResourceAllowedBySecurityTags } = require('../security/scopes');
+const {
+    isAccessToResourceAllowedBySecurityTags,
+    verifyHasValidScopes,
+} = require('../security/scopes');
 const { buildR4SearchQuery } = require('../query/r4');
 const { buildDstu2SearchQuery } = require('../query/dstu2');
 const { buildStu3SearchQuery } = require('../query/stu3');
 const { getResource } = require('../common/getResource');
-const { logDebug, logError } = require('../common/logging');
+const { logDebug, logError, logRequest } = require('../common/logging');
 const { enrich } = require('../../enrich/enrich');
 const { findIndexForFields } = require('../../indexes/indexHinter');
 const { isTrue } = require('../../utils/isTrue');
@@ -436,6 +439,7 @@ function createBundle(
  * @return {Resource[] | {entry:{resource: Resource}[]}} array of resources or a bundle
  */
 module.exports.search = async (requestInfo, args, resourceName, collection_name) => {
+    console.log(requestInfo);
     if (isTrue(env.OLD_SEARCH) || isTrue(args['_useOldSearch'])) {
         return searchOld(requestInfo, args, resourceName, collection_name);
     }
@@ -454,6 +458,17 @@ module.exports.search = async (requestInfo, args, resourceName, collection_name)
     /**
      * @type {string | null}
      */
+    logRequest(user, resourceName + ' >>> search' + ' scope:' + scope);
+    // logRequest('user: ' + req.user);
+    // logRequest('scope: ' + req.authInfo.scope);
+    verifyHasValidScopes(resourceName, 'read', user, scope);
+    logRequest(user, '---- args ----');
+    logRequest(user, JSON.stringify(args));
+    logRequest(user, '--------');
+    /**
+     * @type {string[]}
+     */
+    let securityTags = getSecurityTagsFromScope(user, scope);
     /**
      * @type {string}
      */
@@ -480,15 +495,6 @@ module.exports.search = async (requestInfo, args, resourceName, collection_name)
     } catch (e) {
         throw e;
     }
-
-    /**
-     * @type {string[]}
-     */
-    let securityTags = getSecurityTagsFromScope(user, scope);
-
-    /**
-     * @type {import('mongodb').Document}
-     */
     query = getQueryWithSecurityTags(securityTags, query);
 
     let patients = await filter(

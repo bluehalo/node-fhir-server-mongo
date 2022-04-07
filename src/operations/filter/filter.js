@@ -8,7 +8,7 @@ module.exports.filter = async (requestInfo, args, resourceName) => {
     /**
      * @type {string | null}
      */
-    const user = requestInfo.user.id;
+    const user = requestInfo.user;
     /**
      * @type {string | null}
      */
@@ -22,14 +22,28 @@ module.exports.filter = async (requestInfo, args, resourceName) => {
     logRequest(user, JSON.stringify(args));
     logRequest(user, '--------');
 
+    const filteredResources = [
+        'CarePlan',
+        'Encounter',
+        'Observation',
+        'Patient',
+        'AllergyIntolerance',
+        'MedicationRequest',
+        'MedicationStatement',
+        'Immunization',
+        'ExplanationOfBenefit',
+        'Procedure',
+        'Condition',
+    ];
     let patients = [];
     // if (env.ENABLE_PATIENT_FILTERING && requestInfo.user.isUser) {
-    if (env.ENABLE_PATIENT_FILTERING) {
+    let personId = requestInfo['custom:bwell_fhir_id'];
+    if (env.ENABLE_PATIENT_FILTERING && personId && filteredResources.includes(resourceName)) {
         // let patients = getPatientsFromUser(user);
         // requestInfo['custom:bwell_fhir_id'] = 'bwell-123456789';
         let person = await searchById(
             getRequestInfo(requestInfo),
-            { ...args, id: 'bwell-123456789' },
+            { ...args, id: personId },
             'Person',
             'Person'
         );
