@@ -16,10 +16,10 @@
   "scripts": {
     "start": "node src/index.js",
     "nodemon": "cross-env NODE_ENV=development; node scripts/nodemon;",
-    "test": "npm run test:lint;",
+    "test": "yarn run test:lint",
     "test:lint": "eslint \"src/**/*.js\"",
     "test:jest": "jest --forceExit",
-    "snyk-protect": "snyk protect",
+    "snyk-protect": "snyk-protect",
     "prepare": "yarn run snyk-protect",
     "prettier-check": "prettier --check \"**/*.{js,mjs,cjs,jsx,json,ts,tsx,md,mdx,css,html,yml,yaml,scss,less,graphql,graphqls,gql}\"",
     "prettier-fix": "prettier --write \"**/*.{js,mjs,cjs,jsx,json,ts,tsx,md,mdx,css,html,yml,yaml,scss,less,graphql,graphqls,gql}\""
@@ -38,20 +38,21 @@
     ]
   },
   "dependencies": {
-    "@asymmetrik/node-fhir-server-core": "^2.2.4",
-    "fast-json-patch": "^3.1.0",
-    "moment-timezone": "^0.5.34",
+    "@asymmetrik/node-fhir-server-core": "^2.2.5",
+    "@snyk/protect": "^1.1096.0",
+    "fast-json-patch": "^3.1.1",
+    "moment-timezone": "^0.5.40",
     "mongo": "^0.1.0",
-    "object-hash": "^2.2.0",
-    "snyk": "^1.996.0",
+    "object-hash": "^3.0.0",
+    "snyk": "^1.1096.0",
     "var": "^0.4.0"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
-    "eslint": "^8.7.0",
-    "jest": "^27.4.7",
-    "nodemon": "^2.0.15",
-    "prettier": "^2.5.1"
+    "eslint": "^8.33.0",
+    "jest": "^29.4.1",
+    "nodemon": "^2.0.20",
+    "prettier": "^2.8.3"
   },
   "private": false,
   "snyk": true
