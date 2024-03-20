@@ -1,4 +1,4 @@
-const { VERSIONS } = require('@asymmetrik/node-fhir-server-core').constants;
+const { VERSIONS } = require('@bluehalo/node-fhir-server-core').constants;
 const env = require('var');
 
 /**
@@ -25,7 +25,7 @@ let whitelist = whitelist_env && whitelist_env.length === 1 ? whitelist_env[0] :
 
 /**
  * @name fhirServerConfig
- * @summary @asymmetrik/node-fhir-server-core configurations.
+ * @summary @bluehalo/node-fhir-server-core configurations.
  */
 let fhirServerConfig = {
   auth: {
