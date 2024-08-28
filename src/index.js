@@ -1,5 +1,5 @@
-const FHIRServer = require('@asymmetrik/node-fhir-server-core');
-const logger = require('@asymmetrik/node-fhir-server-core').loggers.get();
+const FHIRServer = require('@bluehalo/node-fhir-server-core');
+const logger = require('@bluehalo/node-fhir-server-core').loggers.get();
 const asyncHandler = require('./lib/async-handler');
 const mongoClient = require('./lib/mongo');
 const globals = require('./globals');
