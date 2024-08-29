@@ -1,11 +1,11 @@
-# Asymmetrik FHIR API Server + Mongo Example
+# BlueHalo FHIR API Server + Mongo Example
 
-[![Build Status](https://travis-ci.org/Asymmetrik/node-fhir-server-mongo.svg?branch=master)](https://travis-ci.org/Asymmetrik/node-fhir-server-mongo)
-[![Known Vulnerabilities](https://snyk.io/test/github/asymmetrik/node-fhir-server-mongo/badge.svg?targetFile=package.json)](https://snyk.io/test/github/asymmetrik/node-fhir-server-mongo?targetFile=package.json)
+[![Build Status](https://travis-ci.org/BlueHalo/node-fhir-server-mongo.svg?branch=master)](https://travis-ci.org/BlueHalo/node-fhir-server-mongo)
+[![Known Vulnerabilities](https://snyk.io/test/github/bluehalo/node-fhir-server-mongo/badge.svg?targetFile=package.json)](https://snyk.io/test/github/bluehalo/node-fhir-server-mongo?targetFile=package.json)
 
 ## Intro
 
-This project is an example project built on `@asymmetrik/node-fhir-server-core` and has a MongoDB back end storing sample data. It's built with the ability to run in docker or node.js. To get started developing in Docker, see [Getting Started with Docker](#getting-started-with-docker). To get started developing with Node.js and Mongo, see [Getting Started with Node](#getting-started-with-node). You can serve multiple versions of FHIR with just one server. By default, R4 (4_0_0) is enabled but DSTU2 (1.0.2) and STU3 (3.0.1) are also supported. You can choose to support all versions or just one version by editing the config.
+This project is an example project built on `@bluehalo/node-fhir-server-core` and has a MongoDB back end storing sample data. It's built with the ability to run in docker or node.js. To get started developing in Docker, see [Getting Started with Docker](#getting-started-with-docker). To get started developing with Node.js and Mongo, see [Getting Started with Node](#getting-started-with-node). You can serve multiple versions of FHIR with just one server. By default, R4 (4_0_0) is enabled but DSTU2 (1.0.2) and STU3 (3.0.1) are also supported. You can choose to support all versions or just one version by editing the config.
 
 ## Getting Started with Docker
 
@@ -234,8 +234,8 @@ Cache-Control: no-cache
 
 ### Determine which resources you want to support
 
-In this example, only the Patient and Organization resource is filled out. You will need to fill in the other services for the resources you would like to support. The routes will only be available for the resource you enabled. You can view the available resources over at [`@asymmetrik/node-fhir-server-core`](https://github.com/Asymmetrik/node-fhir-server-core#profiles).
+In this example, only the Patient and Organization resource is filled out. You will need to fill in the other services for the resources you would like to support. The routes will only be available for the resource you enabled. You can view the available resources over at [`@bluehalo/node-fhir-server-core`](https://github.com/BlueHalo/node-fhir-server-core#profiles).
 
 ## License
 
-`@asymmetrik/fhir-server-mongo` is [MIT licensed](./LICENSE).
+`@bluehalo/fhir-server-mongo` is [MIT licensed](./LICENSE).

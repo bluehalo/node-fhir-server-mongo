@@ -1,9 +1,9 @@
 {
-  "name": "@asymmetrik/node-fhir-server-mongo",
+  "name": "@bluehalo/node-fhir-server-mongo",
   "version": "2.0.0",
-  "description": "FHIR Facade Server implementing @asymmetrik/node-fhir-server-core",
+  "description": "FHIR Facade Server implementing @bluehalo/node-fhir-server-core",
   "main": "src/index.js",
-  "repository": "https://github.com/Asymmetrik/node-fhir-server-mongo.git",
+  "repository": "https://github.com/BlueHalo/node-fhir-server-mongo.git",
   "contributors": [
     "Robert Winterbottom <rwinterbottom@asymmetrik.com>",
     "Jon Lee <jlee@asymmetrik.com>",
@@ -38,7 +38,7 @@
     ]
   },
   "dependencies": {
-    "@asymmetrik/node-fhir-server-core": "^2.2.5",
+    "@bluehalo/node-fhir-server-core": "^2.2.5",
     "@snyk/protect": "^1.1096.0",
     "fast-json-patch": "^3.1.1",
     "moment-timezone": "^0.5.40",
