@@ -7,8 +7,16 @@ jobs:
     name: Run Tests
     runs-on: ubuntu-latest
 
+    container:
+      image: docker:latest
+      options: --privileged
+
     steps:
       - uses: actions/checkout@v2
+
+      - name: Set up Docker Compose
+        run: |
+          apk add --no-cache docker-compose
 
       - name: Build
         run: docker-compose up -d
