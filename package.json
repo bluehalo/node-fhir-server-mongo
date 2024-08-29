@@ -3,7 +3,7 @@
   "version": "2.1.0",
   "description": "FHIR Facade Server implementing @bluehalo/node-fhir-server-core",
   "main": "src/index.js",
-  "repository": "https://github.com/bluehalo/node-fhir-server-mongo.git",
+  "repository": "https://github.com/BlueHalo/node-fhir-server-mongo.git",
   "contributors": [
     "Robert Winterbottom <rwinterbottom@asymmetrik.com>",
     "Jon Lee <jlee@asymmetrik.com>",

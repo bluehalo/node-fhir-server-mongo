@@ -1,6 +1,6 @@
 # Bluehalo FHIR API Server + Mongo Example
 
-[![Build Status](https://travis-ci.org/bluehalo/node-fhir-server-mongo.svg?branch=master)](https://travis-ci.org/bluehalo/node-fhir-server-mongo)
+[![Build Status](https://travis-ci.org/BlueHalo/node-fhir-server-mongo.svg?branch=master)](https://travis-ci.org/BlueHalo/node-fhir-server-mongo)
 [![Known Vulnerabilities](https://snyk.io/test/github/bluehalo/node-fhir-server-mongo/badge.svg?targetFile=package.json)](https://snyk.io/test/github/bluehalo/node-fhir-server-mongo?targetFile=package.json)
 
 ## Intro
@@ -234,7 +234,7 @@ Cache-Control: no-cache
 
 ### Determine which resources you want to support
 
-In this example, only the Patient and Organization resource is filled out. You will need to fill in the other services for the resources you would like to support. The routes will only be available for the resource you enabled. You can view the available resources over at [`@bluehalo/node-fhir-server-core`](https://github.com/bluehalo/node-fhir-server-core#profiles).
+In this example, only the Patient and Organization resource is filled out. You will need to fill in the other services for the resources you would like to support. The routes will only be available for the resource you enabled. You can view the available resources over at [`@bluehalo/node-fhir-server-core`](https://github.com/BlueHalo/node-fhir-server-core#profiles).
 
 ## License
 

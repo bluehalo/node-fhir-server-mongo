@@ -1,10 +1,10 @@
 /*eslint no-unused-vars: "warn"*/
 
-const { VERSIONS } = require('@asymmetrik/node-fhir-server-core').constants;
-const { resolveSchema } = require('@asymmetrik/node-fhir-server-core');
-const FHIRServer = require('@asymmetrik/node-fhir-server-core');
+const { VERSIONS } = require('@bluehalo/node-fhir-server-core').constants;
+const { resolveSchema } = require('@bluehalo/node-fhir-server-core');
+const FHIRServer = require('@bluehalo/node-fhir-server-core');
 const { ObjectID } = require('mongodb');
-const logger = require('@asymmetrik/node-fhir-server-core').loggers.get();
+const logger = require('@bluehalo/node-fhir-server-core').loggers.get();
 
 let getMedication = (base_version) => {
   return resolveSchema(base_version, 'Medication');
