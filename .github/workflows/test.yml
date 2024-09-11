@@ -19,7 +19,7 @@ jobs:
           apk add --no-cache docker-compose
 
       - name: Build
-        run: docker-compose up -d
+        run: docker compose up -d
 
       - name: Test
-        run: docker-compose run fhir npm test
+        run: docker compose run fhir npm test
