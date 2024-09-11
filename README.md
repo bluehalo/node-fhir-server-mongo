@@ -1,7 +1,6 @@
 # BlueHalo FHIR API Server + Mongo Example
 
 [![Build Status](https://travis-ci.org/BlueHalo/node-fhir-server-mongo.svg?branch=master)](https://travis-ci.org/BlueHalo/node-fhir-server-mongo)
-[![Known Vulnerabilities](https://snyk.io/test/github/bluehalo/node-fhir-server-mongo/badge.svg?targetFile=package.json)](https://snyk.io/test/github/bluehalo/node-fhir-server-mongo?targetFile=package.json)
 
 ## Intro
 
