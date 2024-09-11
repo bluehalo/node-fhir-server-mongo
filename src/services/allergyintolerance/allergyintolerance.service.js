@@ -6,6 +6,7 @@ const { COLLECTION, CLIENT_DB } = require('../../constants');
 const moment = require('moment-timezone');
 const globals = require('../../globals');
 
+const { handleError } =require('../../lib/mongo');
 const { getUuid } = require('../../utils/uid.util');
 
 const logger = require('@bluehalo/node-fhir-server-core').loggers.get();
@@ -208,7 +209,7 @@ module.exports.search = (args) =>
         });
       }).catch(err => {
         logger.error('Error with AllergyIntolerance.search: ', err);
-        return reject(err);
+        return reject(handleError(error=err));
     });
   });
 
@@ -231,7 +232,7 @@ module.exports.searchById = (args) =>
         resolve();
       }).catch(err => {
         logger.error('Error with AllergyIntolerance.searchById: ', err);
-        return reject(err);
+        return reject(handleError(error=err));
     });
   });
 
@@ -284,11 +285,11 @@ module.exports.create = (args, { req }) =>
             return resolve({ id: doc.id, resource_version: doc.meta.versionId });
         }).catch(err2 => {
           logger.error('Error with AllergyIntoleranceHistory.create: ', err2);
-          return reject(err2);
+          return reject(handleError(error=err2));
       });
     }).catch(err => {
       logger.error('Error with AllergyIntolerance.create: ', err);
-      return reject(err);
+      return reject(handleError(error=err));
     });
   });
 
@@ -345,15 +346,15 @@ module.exports.update = (args, { req }) =>
             });
           }).catch(err3 => {
             logger.error('Error with AllergyIntoleranceHistory.create: ', err3);
-            return reject(err3);
+            return reject(handleError(error=err3));
           });
       }).catch(err2 => {
         logger.error('Error with AllergyIntolerance.update: ', err2);
-        return reject(err2);
+        return reject(handleError(error=err2));
       });
     }).catch(err =>{
       logger.error('Error with AllergyIntolerance.searchById: ', err);
-      return reject(err);
+      return reject(handleError(error=err));
     });
   });
 
@@ -376,25 +377,19 @@ module.exports.remove = (args) =>
         return resolve({ deleted: _.result && _.result.n });
       }).catch(err2 => {
         logger.error('Error with AllergyIntolerance.remove');
-        return reject({
-          // Must be 405 (Method Not Allowed) or 409 (Conflict)
-          // 405 if you do not want to allow the delete
-          // 409 if you can't delete because of referential
-          // integrity or some other reason
-          code: 409,
-          message: err2.message,
-        });
-      });
-    }).catch(err => {
-      logger.error('Error with AllergyIntolerance.remove');
-      return reject({
         // Must be 405 (Method Not Allowed) or 409 (Conflict)
         // 405 if you do not want to allow the delete
         // 409 if you can't delete because of referential
         // integrity or some other reason
-        code: 409,
-        message: err.message,
+        return reject(handleError(code=490, message= err2.message));
       });
+    }).catch(err => {
+      logger.error('Error with AllergyIntolerance.remove');
+      // Must be 405 (Method Not Allowed) or 409 (Conflict)
+      // 405 if you do not want to allow the delete
+      // 409 if you can't delete because of referential
+      // integrity or some other reason
+      return reject(handleError(code=490, message= err.message));
     });
   });
 
@@ -422,7 +417,7 @@ module.exports.searchByVersionId = (args) =>
         resolve();
       }).catch(err => {
       logger.error('Error with AllergyIntolerance.searchByVersionId: ', err);
-      return reject(err);
+      return reject(handleError(err));
     });
   });
 
@@ -459,7 +454,7 @@ module.exports.history = (args) =>
       });
     }).catch(err => {
       logger.error('Error with AllergyIntolerance.history: ', err);
-      return reject(err);
+      return reject(handleError(err));
     });
   });
 
@@ -496,6 +491,6 @@ module.exports.historyById = (args) =>
       });
     }).catch(err => {
       logger.error('Error with AllergyIntolerance.historyById: ', err);
-      return reject(err);
+      return reject(handleError(err));
     });
   });
