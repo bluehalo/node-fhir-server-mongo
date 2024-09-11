@@ -1,4 +1,4 @@
-const { randomBytes} = require('node:crypto');
+const { randomBytes } = require('node:crypto');
 
 /**
  * Generates a UUID that matches with FHIR UUID data type https://build.fhir.org/datatypes.html#uuid
@@ -21,12 +21,12 @@ let getUuid = function () {
     bytes.toString('hex').slice(8, 12), // 4 characters for the second part
     bytes.toString('hex').slice(12, 16), // 4 characters for the third part
     bytes.toString('hex').slice(16, 20), // 4 characters for the fourth part
-    bytes.toString('hex').slice(20, 32) // 12 characters for the fifth part
+    bytes.toString('hex').slice(20, 32), // 12 characters for the fifth part
   ].join('-');
 
   return `${uuid}`;
 };
 
 module.exports = {
-  getUuid
+  getUuid,
 };
