@@ -17,7 +17,7 @@
     "start": "node src/index.js",
     "nodemon": "cross-env NODE_ENV=development; node scripts/nodemon;",
     "test": "yarn run test:lint",
-    "test:lint": "eslint \"src/**/*.js\"",
+    "test:lint": "ls -a && eslint \"**/src/**/*.js\"",
     "test:jest": "jest --forceExit",
     "prettier-check": "prettier --check \"**/*.{js,mjs,cjs,jsx,json,ts,tsx,md,mdx,css,html,yml,yaml,scss,less,graphql,graphqls,gql}\"",
     "prettier-fix": "prettier --write \"**/*.{js,mjs,cjs,jsx,json,ts,tsx,md,mdx,css,html,yml,yaml,scss,less,graphql,graphqls,gql}\""
