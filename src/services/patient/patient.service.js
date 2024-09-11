@@ -7,8 +7,8 @@ const moment = require('moment-timezone');
 const globals = require('../../globals');
 const jsonpatch = require('fast-json-patch');
 
+const { handleError } =require('../../lib/mongo');
 const { getUuid } = require('../../utils/uid.util');
-
 const logger = require('@bluehalo/node-fhir-server-core').loggers.get();
 
 const {
@@ -444,7 +444,7 @@ module.exports.search = (args) =>
       });
     }).catch(err => {
       logger.error('Error with Patient.search: ', err);
-      return reject(err);
+      return reject(handleError(error=err));
     });
   });
 
@@ -466,7 +466,7 @@ module.exports.searchById = (args) =>
       resolve();
     }).catch(err => {
       logger.error('Error with Patient.searchById: ', err);
-      return reject(err);
+      return reject(handleError(error=err));
     });
   });
 
@@ -517,11 +517,11 @@ module.exports.create = (args, { req }) =>
             return resolve({ id: doc.id, resource_version: doc.meta.versionId });
         }).catch(err2 => {
           logger.error('Error with PatientHistory.create: ', err2);
-          return reject(err2);
+          return reject(handleError(error=err2));
         });
     }).catch(err => {
       logger.error('Error with Patient.create: ', err);
-      return reject(err);
+      return reject(handleError(error=err));
     });
   });
 
@@ -576,15 +576,15 @@ module.exports.update = (args, { req }) =>
             })
           }).catch(err3 =>{
             logger.error('Error with PatientHistory.create: ', err3);
-            return reject(err3);
+            return reject(handleError(error=err3));
           });
       }).catch(err2 =>{
           logger.error('Error with Patient.update: ', err2);
-          return reject(err2);
+          return reject(handleError(error=err2));
       });
     }).catch(err =>{
         logger.error('Error with Patient.searchById: ', err);
-        return reject(err);
+        return reject(handleError(error=err));
     });
   });
 
@@ -605,25 +605,19 @@ module.exports.remove = (args, context) =>
         return resolve({ deleted: _.result && _.result.n });
       }).catch(err2=>{
         logger.error('Error with Patient.remove');
-        return reject({
-          // Must be 405 (Method Not Allowed) or 409 (Conflict)
-          // 405 if you do not want to allow the delete
-          // 409 if you can't delete because of referential
-          // integrity or some other reason
-          code: 409,
-          message: err2.message,
-        });
-      });
-    }).catch(err => {
-      logger.error('Error with Patient.remove');
-      return reject({
         // Must be 405 (Method Not Allowed) or 409 (Conflict)
         // 405 if you do not want to allow the delete
         // 409 if you can't delete because of referential
         // integrity or some other reason
-        code: 409,
-        message: err.message,
+        return reject(handleError(error=err2, code=409));
       });
+    }).catch(err => {
+      logger.error('Error with Patient.remove');
+      // Must be 405 (Method Not Allowed) or 409 (Conflict)
+      // 405 if you do not want to allow the delete
+      // 409 if you can't delete because of referential
+      // integrity or some other reason
+      return reject(handleError(error=err, code=409));
     });
   });
 
@@ -647,7 +641,7 @@ module.exports.searchByVersionId = (args, context) =>
         resolve();
       }).catch(err => {
         logger.error('Error with Patient.searchByVersionId: ', err);
-        return reject(err);
+        return reject(handleError(error=err));
     });
   });
 
@@ -687,7 +681,7 @@ module.exports.history = (args, context) =>
       });
     }).catch(err => {
       logger.error('Error with Patient.history: ', err);
-      return reject(err);
+      return reject(handleError(error=err));
     });
   });
 
@@ -726,7 +720,7 @@ module.exports.historyById = (args, context) =>
         resolve(patients);
       }).catch(err => {
         logger.error('Error with Patient.historyById: ', err);
-        return reject(err);
+        return reject(handleError(error=err));
       });
     });
   });
@@ -748,7 +742,7 @@ module.exports.patch = (args, context) =>
       let errors = jsonpatch.validate(patchContent, data);
       if (errors && Object.keys(errors).length > 0) {
         logger.error('Error with patch contents');
-        return reject(errors);
+        return reject(handleError(error=errors));
       }
       // Make the changes indicated in the patch
       let resource = jsonpatch.applyPatch(data, patchContent).newDocument;
@@ -762,7 +756,7 @@ module.exports.patch = (args, context) =>
         meta.versionId = `${parseInt(foundPatient.meta.versionId) + 1}`;
         patient.meta = meta;
       } else {
-        return reject('Unable to patch resource. Missing either data or metadata.');
+        return reject(handleError(message='Unable to patch resource. Missing either data or metadata.'));
       }
 
       // Same as update from this point on
@@ -785,14 +779,14 @@ module.exports.patch = (args, context) =>
             });
           }).catch(err3 =>{
             logger.error('Error with PatientHistory.create: ', err3);
-            return reject(err3);
+            return reject(handleError(error=err3));
           });
       }).catch(err2 => {
         logger.error('Error with Patient.update: ', err2);
-        return reject(err2);
+        return reject(handleError(error=err2));
       });
     }).catch(err => {
       logger.error('Error with Patient.searchById: ', err);
-      return reject(err);
+      return reject(handleError(error=err));
     });
   });
