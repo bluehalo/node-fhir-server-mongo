@@ -11,10 +11,10 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Build
-        run: docker-compose up -d
+        run: docker compose up -d
 
       - name: Lint
-        run: docker-compose run fhir npm run test:lint
+        run: docker compose run fhir npm run test:lint
 
       - name: Prettier
-        run: docker-compose run fhir npm run prettier-check
+        run: docker compose run fhir npm run prettier-check
