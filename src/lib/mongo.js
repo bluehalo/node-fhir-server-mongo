@@ -37,7 +37,7 @@ let handleError = (error = null, code = 400, message = null) => {
     } else if (error.name === 'MongoServerSelectionError') {
       message = 'Database server selection error.';
     } else {
-      message = `An unexpected database error occurred.`;
+      message = 'An unexpected database error occurred.';
     }
 
     // Log the detailed error for internal debugging
