@@ -197,19 +197,18 @@ module.exports.search = (args) =>
     let AllergyIntolerance = getAllergyIntolerance(base_version);
 
     // Query our collection for this observation
-    collection.find(query, (err, data) => {
-      if (err) {
+    collection.find(query)
+      .then(data => {
+        // AllergyIntolerance is a allergy_intolerance cursor, pull documents out before resolving
+        data.toArray().then((allergyintolerances) => {
+          allergyintolerances.forEach(function (element, i, returnArray) {
+            returnArray[i] = new AllergyIntolerance(element);
+          });
+          resolve(allergyintolerances);
+        });
+      }).catch(err => {
         logger.error('Error with AllergyIntolerance.search: ', err);
         return reject(err);
-      }
-
-      // AllergyIntolerance is a allergy_intolerance cursor, pull documents out before resolving
-      data.toArray().then((allergyintolerances) => {
-        allergyintolerances.forEach(function (element, i, returnArray) {
-          returnArray[i] = new AllergyIntolerance(element);
-        });
-        resolve(allergyintolerances);
-      });
     });
   });
 
@@ -224,15 +223,15 @@ module.exports.searchById = (args) =>
     let db = globals.get(CLIENT_DB);
     let collection = db.collection(`${COLLECTION.ALLERGYINTOLERANCE}_${base_version}`);
     // Query our collection for this observation
-    collection.findOne({ id: id.toString() }, (err, allergyintolerance) => {
-      if (err) {
+    collection.findOne({ id: id.toString() })
+      .then(allergyintolerance => {
+        if (allergyintolerance) {
+          resolve(new AllergyIntolerance(allergyintolerance));
+        }
+        resolve();
+      }).catch(err => {
         logger.error('Error with AllergyIntolerance.searchById: ', err);
         return reject(err);
-      }
-      if (allergyintolerance) {
-        resolve(new AllergyIntolerance(allergyintolerance));
-      }
-      resolve();
     });
   });
 
@@ -272,25 +271,24 @@ module.exports.create = (args, { req }) =>
     Object.assign(doc, { _id: id });
 
     // Insert our allergyIntolerance record
-    collection.insertOne(doc, (err) => {
-      if (err) {
-        logger.error('Error with AllergyIntolerance.create: ', err);
-        return reject(err);
-      }
+    collection.updateOne({ id: id }, {$set: doc},{ upsert: true })
+      .then(() => {
+        // Save the resource to history
+        let history_collection = db.collection(
+          `${COLLECTION.ALLERGYINTOLERANCE}_${base_version}_History`
+        );
 
-      // Save the resource to history
-      let history_collection = db.collection(
-        `${COLLECTION.ALLERGYINTOLERANCE}_${base_version}_History`
-      );
-
-      // Insert our allergyIntolerance record to history but don't assign _id
-      return history_collection.insertOne(history_doc, (err2) => {
-        if (err2) {
+        // Insert our allergyIntolerance record to history but don't assign _id
+        return history_collection.updateOne({ id: id }, {$set: history_collection},{ upsert: true })
+          .then(() => {
+            return resolve({ id: doc.id, resource_version: doc.meta.versionId });
+        }).catch(err2 => {
           logger.error('Error with AllergyIntoleranceHistory.create: ', err2);
           return reject(err2);
-        }
-        return resolve({ id: doc.id, resource_version: doc.meta.versionId });
       });
+    }).catch(err => {
+      logger.error('Error with AllergyIntolerance.create: ', err);
+      return reject(err);
     });
   });
 
@@ -308,12 +306,7 @@ module.exports.update = (args, { req }) =>
 
     // Get current record
     // Query our collection for this observation
-    collection.findOne({ id: id.toString() }, (err, data) => {
-      if (err) {
-        logger.error('Error with AllergyIntolerance.searchById: ', err);
-        return reject(err);
-      }
-
+    collection.findOne({ id: id.toString() }).then(data => {
       let AllergyIntolerance = getAllergyIntolerance(base_version);
       let allergyIntolerance = new AllergyIntolerance(resource);
 
@@ -334,12 +327,7 @@ module.exports.update = (args, { req }) =>
       let doc = Object.assign(cleaned, { _id: id });
 
       // Insert/update our allergyIntolerance record
-      collection.findOneAndUpdate({ id: id }, { $set: doc }, { upsert: true }, (err2, res) => {
-        if (err2) {
-          logger.error('Error with AllergyIntolerance.update: ', err2);
-          return reject(err2);
-        }
-
+      collection.findOneAndUpdate({ id: id }, { $set: doc }, { upsert: true }).then(res => {
         // save to history
         let history_collection = db.collection(
           `${COLLECTION.ALLERGYINTOLERANCE}_${base_version}_History`
@@ -348,19 +336,24 @@ module.exports.update = (args, { req }) =>
         let history_allergyIntolerance = Object.assign(cleaned, { id: id });
 
         // Insert our allergyIntolerance record to history but don't assign _id
-        return history_collection.insertOne(history_allergyIntolerance, (err3) => {
-          if (err3) {
+        return history_collection.updateOne({ id: id }, {$set: history_allergyIntolerance},{ upsert: true })
+          .then(() => {
+            return resolve({
+              id: id,
+              created: res.lastErrorObject && !res.lastErrorObject.updatedExisting,
+              resource_version: doc.meta.versionId,
+            });
+          }).catch(err3 => {
             logger.error('Error with AllergyIntoleranceHistory.create: ', err3);
             return reject(err3);
-          }
-
-          return resolve({
-            id: id,
-            created: res.lastErrorObject && !res.lastErrorObject.updatedExisting,
-            resource_version: doc.meta.versionId,
           });
-        });
+      }).catch(err2 => {
+        logger.error('Error with AllergyIntolerance.update: ', err2);
+        return reject(err2);
       });
+    }).catch(err =>{
+      logger.error('Error with AllergyIntolerance.searchById: ', err);
+      return reject(err);
     });
   });
 
@@ -374,8 +367,14 @@ module.exports.remove = (args) =>
     let db = globals.get(CLIENT_DB);
     let collection = db.collection(`${COLLECTION.ALLERGYINTOLERANCE}_${base_version}`);
     // Delete our allergyintolerance record
-    collection.deleteOne({ id: id }, (err, _) => {
-      if (err) {
+    collection.deleteOne({ id: id }).then(() => {
+      // delete history as well.  You can chose to save history.  Up to you
+      let history_collection = db.collection(
+        `${COLLECTION.ALLERGYINTOLERANCE}_${base_version}_History`
+      );
+      return history_collection.deleteMany({ id: id }).then(() => {
+        return resolve({ deleted: _.result && _.result.n });
+      }).catch(err2 => {
         logger.error('Error with AllergyIntolerance.remove');
         return reject({
           // Must be 405 (Method Not Allowed) or 409 (Conflict)
@@ -383,28 +382,18 @@ module.exports.remove = (args) =>
           // 409 if you can't delete because of referential
           // integrity or some other reason
           code: 409,
-          message: err.message,
+          message: err2.message,
         });
-      }
-
-      // delete history as well.  You can chose to save history.  Up to you
-      let history_collection = db.collection(
-        `${COLLECTION.ALLERGYINTOLERANCE}_${base_version}_History`
-      );
-      return history_collection.deleteMany({ id: id }, (err2) => {
-        if (err2) {
-          logger.error('Error with AllergyIntolerance.remove');
-          return reject({
-            // Must be 405 (Method Not Allowed) or 409 (Conflict)
-            // 405 if you do not want to allow the delete
-            // 409 if you can't delete because of referential
-            // integrity or some other reason
-            code: 409,
-            message: err2.message,
-          });
-        }
-
-        return resolve({ deleted: _.result && _.result.n });
+      });
+    }).catch(err => {
+      logger.error('Error with AllergyIntolerance.remove');
+      return reject({
+        // Must be 405 (Method Not Allowed) or 409 (Conflict)
+        // 405 if you do not want to allow the delete
+        // 409 if you can't delete because of referential
+        // integrity or some other reason
+        code: 409,
+        message: err.message,
       });
     });
   });
@@ -423,21 +412,18 @@ module.exports.searchByVersionId = (args) =>
     );
 
     // Query our collection for this observation
-    history_collection.findOne(
-      { id: id.toString(), 'meta.versionId': `${version_id}` },
-      (err, allergyintolerance) => {
-        if (err) {
-          logger.error('Error with AllergyIntolerance.searchByVersionId: ', err);
-          return reject(err);
-        }
-
+    history_collection
+      .findOne({ id: id.toString(), 'meta.versionId': `${version_id}` })
+      .then(allergyintolerance => {
         if (allergyintolerance) {
           resolve(new AllergyIntolerance(allergyintolerance));
         }
 
         resolve();
-      }
-    );
+      }).catch(err => {
+      logger.error('Error with AllergyIntolerance.searchByVersionId: ', err);
+      return reject(err);
+    });
   });
 
 module.exports.history = (args) =>
@@ -463,12 +449,7 @@ module.exports.history = (args) =>
     let AllergyIntolerance = getAllergyIntolerance(base_version);
 
     // Query our collection for this observation
-    history_collection.find(query, (err, data) => {
-      if (err) {
-        logger.error('Error with AllergyIntolerance.history: ', err);
-        return reject(err);
-      }
-
+    history_collection.find(query).then(data => {
       // AllergyIntolerance is a allergyintolerance cursor, pull documents out before resolving
       data.toArray().then((allergyintolerances) => {
         allergyintolerances.forEach(function (element, i, returnArray) {
@@ -476,6 +457,9 @@ module.exports.history = (args) =>
         });
         resolve(allergyintolerances);
       });
+    }).catch(err => {
+      logger.error('Error with AllergyIntolerance.history: ', err);
+      return reject(err);
     });
   });
 
@@ -502,12 +486,7 @@ module.exports.historyById = (args) =>
     let AllergyIntolerance = getAllergyIntolerance(base_version);
 
     // Query our collection for this observation
-    history_collection.find(query, (err, data) => {
-      if (err) {
-        logger.error('Error with AllergyIntolerance.historyById: ', err);
-        return reject(err);
-      }
-
+    history_collection.find(query).then(data => {
       // AllergyIntolerance is a allergyintolerance cursor, pull documents out before resolving
       data.toArray().then((allergyintolerances) => {
         allergyintolerances.forEach(function (element, i, returnArray) {
@@ -515,5 +494,8 @@ module.exports.historyById = (args) =>
         });
         resolve(allergyintolerances);
       });
+    }).catch(err => {
+      logger.error('Error with AllergyIntolerance.historyById: ', err);
+      return reject(err);
     });
   });

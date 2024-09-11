@@ -10,7 +10,14 @@ This project is an example project built on `@bluehalo/node-fhir-server-core` an
 ## Getting Started with Docker
 
 1. Install the latest [Docker Community Edition](https://www.docker.com/community-edition) for your OS if you do not already have it installed.
-2. Run `docker compose up`.
+2. If you are testing with a private npm repository, uncomment the following from `Dockerfile`.  Note: if you have issues fetching files during the docker build, try deleting your yarn.lock.
+
+```
+# For private npm repo:
+yarn config set registry http://host.docker.internal:4873; \
+```
+
+3. Run `docker compose up`.
 
 ## Getting Started with Node
 

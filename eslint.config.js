@@ -11,12 +11,7 @@ const compat = new FlatCompat({
 module.exports = [
   ...compat.extends('eslint:recommended', 'prettier'),
   {
-    ignores: [
-      'eslint.config.js',
-      'coverage/**',
-      'node_modules/**',
-      '**/services/**',
-    ],
+    ignores: ['eslint.config.js', 'coverage/**', 'node_modules/**', '**/services/**'],
   },
   {
     languageOptions: {

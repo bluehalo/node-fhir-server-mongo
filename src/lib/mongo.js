@@ -5,17 +5,16 @@ const { MongoClient } = require('mongodb');
  * @summary Connect to Mongo
  * @param {string} url - URL connections string for mongo
  * @param {Object} options - Any options for Mongo
- * @return {Promise}
+ * @return {Promise<MongoClient>}
  */
 let connect = (url, options) =>
   new Promise((resolve, reject) => {
-    // Connect to mongo
-    MongoClient.connect(url, options, (err, client) => {
-      if (err) {
-        return reject(err);
-      }
+    try {
+      const client = new MongoClient(url, options);
       return resolve(client);
-    });
+    } catch (e) {
+      return reject(e);
+    }
   });
 
 module.exports = connect;

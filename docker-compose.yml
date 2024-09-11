@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   fhir:
     depends_on:
@@ -22,7 +20,7 @@ services:
     command: yarn nodemon
 
   mongo:
-    image: mongo:5.0.5
+    image: mongo:7.0.14
     ports:
       - '27017'
     volumes:

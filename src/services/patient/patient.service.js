@@ -434,12 +434,7 @@ module.exports.search = (args) =>
     let Patient = getPatient(base_version);
 
     // Query our collection for this observation
-    collection.find(query, (err, data) => {
-      if (err) {
-        logger.error('Error with Patient.search: ', err);
-        return reject(err);
-      }
-
+    collection.find(query).then( data => {
       // Patient is a patient cursor, pull documents out before resolving
       data.toArray().then((patients) => {
         patients.forEach(function (element, i, returnArray) {
@@ -447,6 +442,9 @@ module.exports.search = (args) =>
         });
         resolve(patients);
       });
+    }).catch(err => {
+      logger.error('Error with Patient.search: ', err);
+      return reject(err);
     });
   });
 
@@ -461,15 +459,14 @@ module.exports.searchById = (args) =>
     let db = globals.get(CLIENT_DB);
     let collection = db.collection(`${COLLECTION.PATIENT}_${base_version}`);
     // Query our collection for this observation
-    collection.findOne({ id: id.toString() }, (err, patient) => {
-      if (err) {
-        logger.error('Error with Patient.searchById: ', err);
-        return reject(err);
-      }
+    collection.findOne({ id: id.toString() }).then( patient => {
       if (patient) {
         resolve(new Patient(patient));
       }
       resolve();
+    }).catch(err => {
+      logger.error('Error with Patient.searchById: ', err);
+      return reject(err);
     });
   });
 
@@ -509,23 +506,22 @@ module.exports.create = (args, { req }) =>
     Object.assign(doc, { _id: id });
 
     // Insert our patient record
-    collection.insertOne(doc, (err) => {
-      if (err) {
-        logger.error('Error with Patient.create: ', err);
-        return reject(err);
-      }
+    collection.updateOne({ id: id }, {$set: doc},{ upsert: true })
+      .then(() => {
+        // Save the resource to history
+        let history_collection = db.collection(`${COLLECTION.PATIENT}_${base_version}_History`);
 
-      // Save the resource to history
-      let history_collection = db.collection(`${COLLECTION.PATIENT}_${base_version}_History`);
-
-      // Insert our patient record to history but don't assign _id
-      return history_collection.insertOne(history_doc, (err2) => {
-        if (err2) {
+        // Insert our patient record to history but don't assign _id
+        return history_collection.updateOne({ id: id }, {$set: history_collection},{ upsert: true })
+          .then(() => {
+            return resolve({ id: doc.id, resource_version: doc.meta.versionId });
+        }).catch(err2 => {
           logger.error('Error with PatientHistory.create: ', err2);
           return reject(err2);
-        }
-        return resolve({ id: doc.id, resource_version: doc.meta.versionId });
-      });
+        });
+    }).catch(err => {
+      logger.error('Error with Patient.create: ', err);
+      return reject(err);
     });
   });
 
@@ -543,12 +539,7 @@ module.exports.update = (args, { req }) =>
 
     // Get current record
     // Query our collection for this observation
-    collection.findOne({ id: id.toString() }, (err, data) => {
-      if (err) {
-        logger.error('Error with Patient.searchById: ', err);
-        return reject(err);
-      }
-
+    collection.findOne({ id: id.toString() }).then(data => {
       let Patient = getPatient(base_version);
       let patient = new Patient(resource);
 
@@ -569,31 +560,31 @@ module.exports.update = (args, { req }) =>
       let doc = Object.assign(cleaned, { _id: id });
 
       // Insert/update our patient record
-      collection.findOneAndUpdate({ id: id }, { $set: doc }, { upsert: true }, (err2, res) => {
-        if (err2) {
-          logger.error('Error with Patient.update: ', err2);
-          return reject(err2);
-        }
-
+      collection.findOneAndUpdate({ id: id }, { $set: doc }, { upsert: true }).then(res => {
         // save to history
         let history_collection = db.collection(`${COLLECTION.PATIENT}_${base_version}_History`);
 
         let history_patient = Object.assign(cleaned, { id: id });
 
         // Insert our patient record to history but don't assign _id
-        return history_collection.insertOne(history_patient, (err3) => {
-          if (err3) {
+        return history_collection.updateOne({ id: id }, {$set: history_patient},{ upsert: true })
+          .then( () => {
+            return resolve({
+              id: id,
+              created: res.lastErrorObject && !res.lastErrorObject.updatedExisting,
+              resource_version: doc.meta.versionId,
+            })
+          }).catch(err3 =>{
             logger.error('Error with PatientHistory.create: ', err3);
             return reject(err3);
-          }
-
-          return resolve({
-            id: id,
-            created: res.lastErrorObject && !res.lastErrorObject.updatedExisting,
-            resource_version: doc.meta.versionId,
           });
-        });
+      }).catch(err2 =>{
+          logger.error('Error with Patient.update: ', err2);
+          return reject(err2);
       });
+    }).catch(err =>{
+        logger.error('Error with Patient.searchById: ', err);
+        return reject(err);
     });
   });
 
@@ -607,8 +598,12 @@ module.exports.remove = (args, context) =>
     let db = globals.get(CLIENT_DB);
     let collection = db.collection(`${COLLECTION.PATIENT}_${base_version}`);
     // Delete our patient record
-    collection.deleteOne({ id: id }, (err, _) => {
-      if (err) {
+    collection.deleteOne({ id: id }).then(() => {
+      // delete history as well.  You can chose to save history.  Up to you
+      let history_collection = db.collection(`${COLLECTION.PATIENT}_${base_version}_History`);
+      return history_collection.deleteMany({ id: id }).then(() => {
+        return resolve({ deleted: _.result && _.result.n });
+      }).catch(err2=>{
         logger.error('Error with Patient.remove');
         return reject({
           // Must be 405 (Method Not Allowed) or 409 (Conflict)
@@ -616,26 +611,18 @@ module.exports.remove = (args, context) =>
           // 409 if you can't delete because of referential
           // integrity or some other reason
           code: 409,
-          message: err.message,
+          message: err2.message,
         });
-      }
-
-      // delete history as well.  You can chose to save history.  Up to you
-      let history_collection = db.collection(`${COLLECTION.PATIENT}_${base_version}_History`);
-      return history_collection.deleteMany({ id: id }, (err2) => {
-        if (err2) {
-          logger.error('Error with Patient.remove');
-          return reject({
-            // Must be 405 (Method Not Allowed) or 409 (Conflict)
-            // 405 if you do not want to allow the delete
-            // 409 if you can't delete because of referential
-            // integrity or some other reason
-            code: 409,
-            message: err2.message,
-          });
-        }
-
-        return resolve({ deleted: _.result && _.result.n });
+      });
+    }).catch(err => {
+      logger.error('Error with Patient.remove');
+      return reject({
+        // Must be 405 (Method Not Allowed) or 409 (Conflict)
+        // 405 if you do not want to allow the delete
+        // 409 if you can't delete because of referential
+        // integrity or some other reason
+        code: 409,
+        message: err.message,
       });
     });
   });
@@ -652,21 +639,16 @@ module.exports.searchByVersionId = (args, context) =>
     let history_collection = db.collection(`${COLLECTION.PATIENT}_${base_version}_History`);
 
     // Query our collection for this observation
-    history_collection.findOne(
-      { id: id.toString(), 'meta.versionId': `${version_id}` },
-      (err, patient) => {
-        if (err) {
-          logger.error('Error with Patient.searchByVersionId: ', err);
-          return reject(err);
-        }
-
+    history_collection.findOne({ id: id.toString(), 'meta.versionId': `${version_id}` })
+      .then(patient => {
         if (patient) {
           resolve(new Patient(patient));
         }
-
         resolve();
-      }
-    );
+      }).catch(err => {
+        logger.error('Error with Patient.searchByVersionId: ', err);
+        return reject(err);
+    });
   });
 
 module.exports.history = (args, context) =>
@@ -695,12 +677,7 @@ module.exports.history = (args, context) =>
     let Patient = getPatient(base_version);
 
     // Query our collection for this observation
-    history_collection.find(query, (err, data) => {
-      if (err) {
-        logger.error('Error with Patient.history: ', err);
-        return reject(err);
-      }
-
+    history_collection.find(query).then( data => {
       // Patient is a patient cursor, pull documents out before resolving
       data.toArray().then((patients) => {
         patients.forEach(function (element, i, returnArray) {
@@ -708,6 +685,9 @@ module.exports.history = (args, context) =>
         });
         resolve(patients);
       });
+    }).catch(err => {
+      logger.error('Error with Patient.history: ', err);
+      return reject(err);
     });
   });
 
@@ -737,18 +717,16 @@ module.exports.historyById = (args, context) =>
     let Patient = getPatient(base_version);
 
     // Query our collection for this observation
-    history_collection.find(query, (err, data) => {
-      if (err) {
-        logger.error('Error with Patient.historyById: ', err);
-        return reject(err);
-      }
-
+    history_collection.find(query).then( data => {
       // Patient is a patient cursor, pull documents out before resolving
       data.toArray().then((patients) => {
         patients.forEach(function (element, i, returnArray) {
           returnArray[i] = new Patient(element);
         });
         resolve(patients);
+      }).catch(err => {
+        logger.error('Error with Patient.historyById: ', err);
+        return reject(err);
       });
     });
   });
@@ -765,12 +743,7 @@ module.exports.patch = (args, context) =>
 
     // Get current record
     // Query our collection for this observation
-    collection.findOne({ id: id.toString() }, (err, data) => {
-      if (err) {
-        logger.error('Error with Patient.searchById: ', err);
-        return reject(err);
-      }
-
+    collection.findOne({ id: id.toString() }).then( data => {
       // Validate the patch
       let errors = jsonpatch.validate(patchContent, data);
       if (errors && Object.keys(errors).length > 0) {
@@ -797,29 +770,29 @@ module.exports.patch = (args, context) =>
       let doc = Object.assign(cleaned, { _id: id });
 
       // Insert/update our patient record
-      collection.findOneAndUpdate({ id: id }, { $set: doc }, { upsert: true }, (err2, res) => {
-        if (err2) {
-          logger.error('Error with Patient.update: ', err2);
-          return reject(err2);
-        }
-
+      collection.findOneAndUpdate({ id: id }, { $set: doc }, { upsert: true }).then( res => {
         // Save to history
         let history_collection = db.collection(`${COLLECTION.PATIENT}_${base_version}_History`);
         let history_patient = Object.assign(cleaned, { _id: id + cleaned.meta.versionId });
 
         // Insert our patient record to history but don't assign _id
-        return history_collection.insertOne(history_patient, (err3) => {
-          if (err3) {
+        return history_collection.updateOne({ id: id }, {$set: history_patient},{ upsert: true })
+          .then(() => {
+            return resolve({
+              id: doc.id,
+              created: res.lastErrorObject && !res.lastErrorObject.updatedExisting,
+              resource_version: doc.meta.versionId,
+            });
+          }).catch(err3 =>{
             logger.error('Error with PatientHistory.create: ', err3);
             return reject(err3);
-          }
-
-          return resolve({
-            id: doc.id,
-            created: res.lastErrorObject && !res.lastErrorObject.updatedExisting,
-            resource_version: doc.meta.versionId,
           });
-        });
+      }).catch(err2 => {
+        logger.error('Error with Patient.update: ', err2);
+        return reject(err2);
       });
+    }).catch(err => {
+      logger.error('Error with Patient.searchById: ', err);
+      return reject(err);
     });
   });
