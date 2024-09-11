@@ -6,7 +6,7 @@ const { COLLECTION, CLIENT_DB } = require('../../constants');
 const moment = require('moment-timezone');
 const globals = require('../../globals');
 
-const { handleError } =require('../../lib/mongo');
+const { handleError } = require('../../lib/mongo');
 const { getUuid } = require('../../utils/uid.util');
 
 const logger = require('@bluehalo/node-fhir-server-core').loggers.get();
@@ -209,7 +209,7 @@ module.exports.search = (args) =>
         });
       }).catch(err => {
         logger.error('Error with AllergyIntolerance.search: ', err);
-        return reject(handleError(error=err));
+        return reject(handleError({error: err}));
     });
   });
 
@@ -232,7 +232,7 @@ module.exports.searchById = (args) =>
         resolve();
       }).catch(err => {
         logger.error('Error with AllergyIntolerance.searchById: ', err);
-        return reject(handleError(error=err));
+        return reject(handleError({error: err}));
     });
   });
 
@@ -272,7 +272,7 @@ module.exports.create = (args, { req }) =>
     Object.assign(doc, { _id: id });
 
     // Insert our allergyIntolerance record
-    collection.updateOne({ id: id }, {$set: doc},{ upsert: true })
+    collection.updateOne({ id: id }, {$set: doc}, { upsert: true })
       .then(() => {
         // Save the resource to history
         let history_collection = db.collection(
@@ -280,16 +280,16 @@ module.exports.create = (args, { req }) =>
         );
 
         // Insert our allergyIntolerance record to history but don't assign _id
-        return history_collection.updateOne({ id: id }, {$set: history_collection},{ upsert: true })
+        return history_collection.updateOne({ id: id }, {$set: history_collection}, { upsert: true })
           .then(() => {
             return resolve({ id: doc.id, resource_version: doc.meta.versionId });
         }).catch(err2 => {
           logger.error('Error with AllergyIntoleranceHistory.create: ', err2);
-          return reject(handleError(error=err2));
+          return reject(handleError({error: err2}));
       });
     }).catch(err => {
       logger.error('Error with AllergyIntolerance.create: ', err);
-      return reject(handleError(error=err));
+      return reject(handleError({error: err}));
     });
   });
 
@@ -337,7 +337,7 @@ module.exports.update = (args, { req }) =>
         let history_allergyIntolerance = Object.assign(cleaned, { id: id });
 
         // Insert our allergyIntolerance record to history but don't assign _id
-        return history_collection.updateOne({ id: id }, {$set: history_allergyIntolerance},{ upsert: true })
+        return history_collection.updateOne({ id: id }, {$set: history_allergyIntolerance}, { upsert: true })
           .then(() => {
             return resolve({
               id: id,
@@ -346,15 +346,15 @@ module.exports.update = (args, { req }) =>
             });
           }).catch(err3 => {
             logger.error('Error with AllergyIntoleranceHistory.create: ', err3);
-            return reject(handleError(error=err3));
+            return reject(handleError({error: err3}));
           });
       }).catch(err2 => {
         logger.error('Error with AllergyIntolerance.update: ', err2);
-        return reject(handleError(error=err2));
+        return reject(handleError({error: err2}));
       });
     }).catch(err =>{
       logger.error('Error with AllergyIntolerance.searchById: ', err);
-      return reject(handleError(error=err));
+      return reject(handleError({error: err}));
     });
   });
 
@@ -368,7 +368,7 @@ module.exports.remove = (args) =>
     let db = globals.get(CLIENT_DB);
     let collection = db.collection(`${COLLECTION.ALLERGYINTOLERANCE}_${base_version}`);
     // Delete our allergyintolerance record
-    collection.deleteOne({ id: id }).then(() => {
+    collection.deleteOne({ id: id }).then((_) => {
       // delete history as well.  You can chose to save history.  Up to you
       let history_collection = db.collection(
         `${COLLECTION.ALLERGYINTOLERANCE}_${base_version}_History`
@@ -381,7 +381,7 @@ module.exports.remove = (args) =>
         // 405 if you do not want to allow the delete
         // 409 if you can't delete because of referential
         // integrity or some other reason
-        return reject(handleError(code=490, message= err2.message));
+        return reject(handleError({code: 490, message: err2.message}));
       });
     }).catch(err => {
       logger.error('Error with AllergyIntolerance.remove');
@@ -389,7 +389,7 @@ module.exports.remove = (args) =>
       // 405 if you do not want to allow the delete
       // 409 if you can't delete because of referential
       // integrity or some other reason
-      return reject(handleError(code=490, message= err.message));
+      return reject(handleError({code: 490, message: err.message}));
     });
   });
 
@@ -417,7 +417,7 @@ module.exports.searchByVersionId = (args) =>
         resolve();
       }).catch(err => {
       logger.error('Error with AllergyIntolerance.searchByVersionId: ', err);
-      return reject(handleError(err));
+      return reject(handleError({error: err}));
     });
   });
 
@@ -454,7 +454,7 @@ module.exports.history = (args) =>
       });
     }).catch(err => {
       logger.error('Error with AllergyIntolerance.history: ', err);
-      return reject(handleError(err));
+      return reject(handleError({error: err}));
     });
   });
 
@@ -491,6 +491,6 @@ module.exports.historyById = (args) =>
       });
     }).catch(err => {
       logger.error('Error with AllergyIntolerance.historyById: ', err);
-      return reject(handleError(err));
+      return reject(handleError({error: err}));
     });
   });

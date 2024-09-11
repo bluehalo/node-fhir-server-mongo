@@ -25,7 +25,8 @@ let connect = (url, options) =>
  * @param message The error message
  * @returns Promise.reject
  */
-let handleError = (error = null, code = 400, message = null) => {
+let handleError = (params = {}) => {
+  let { error = null, code = 400, message = null } = params;
   // Customize based on error types
   if (!message) {
     if (error.name === 'MongoNetworkError') {
