@@ -12,7 +12,7 @@ jobs:
       options: --privileged
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4.1.7
 
       - name: Set up Docker Compose
         run: |
@@ -22,7 +22,7 @@ jobs:
         run: docker compose up -d
 
       - name: Lint
-        run: docker compose run fhir npm run test:lint
+        run: docker compose run fhir yarn run test:lint
 
       - name: Prettier
-        run: docker compose run fhir npm run prettier-check
+        run: docker compose run fhir yarn run prettier-check
