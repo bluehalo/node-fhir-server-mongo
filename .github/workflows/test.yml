@@ -30,6 +30,7 @@ jobs:
             # Increment the attempt counter
             attempt=$((attempt + 1))
 
+            # Break out of the loop after too many attempts
             if [ "$attempt" -ge "$max_attempts" ]; then
               break
             fi
@@ -41,6 +42,9 @@ jobs:
       - name: Test curl requests
         run: |
           CONTAINER_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' "${FHIR_CONTAINER_NAME}")
-          sh ./scripts/curlRequests/new_patient_test.sh docker
-          sh ./scripts/curlRequests/patient_get_test.sh "$CONTAINER_IP"
-          sh ./scripts/curlRequests/patient_get_fail_test.sh "$CONTAINER_IP"
+          docker info
+          echo "${CONTAINER_IP}"
+          curl "http://${CONTAINER_IP}:3000"
+          sh ./scripts/curlRequests/new_patient_test.sh "${CONTAINER_IP}"
+          sh ./scripts/curlRequests/patient_get_test.sh "${CONTAINER_IP}"
+          sh ./scripts/curlRequests/patient_get_fail_test.sh "${CONTAINER_IP}"
