@@ -41,7 +41,6 @@ jobs:
       - name: Test curl requests
         run: |
           CONTAINER_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' "${FHIR_CONTAINER_NAME}")
-          echo $CONTAINER_IP
-          sh ./scripts/curlRequests/new_patient_test.sh "localhost"
-          sh ./scripts/curlRequests/patient_get_test.sh $CONTAINER_IP
-          sh ./scripts/curlRequests/patient_get_fail_test.sh $CONTAINER_IP
+          sh ./scripts/curlRequests/new_patient_test.sh "$CONTAINER_IP"
+          sh ./scripts/curlRequests/patient_get_test.sh "$CONTAINER_IP"
+          sh ./scripts/curlRequests/patient_get_fail_test.sh "$CONTAINER_IP"
