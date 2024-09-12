@@ -11,6 +11,9 @@ jobs:
       image: docker:latest
       options: --privileged
 
+    env: # Define global environment variables here
+      FHIR_CONTAINER_NAME: "node-fhir-server-mongo-fhir-1"
+
     steps:
       - uses: actions/checkout@v4.1.7
 
@@ -25,7 +28,7 @@ jobs:
           max_attempts=12
           attempt=0
           echo "Waiting for the application to be ready..."
-          while ! docker logs "node-fhir-server-mongo-fhir-1" 2>&1 | grep "Server is up and running!"; do
+          while ! docker logs "${FHIR_CONTAINER_NAME}" 2>&1 | grep "Server is up and running!"; do
             # Increment the attempt counter
             attempt=$((attempt + 1))
 
@@ -36,18 +39,10 @@ jobs:
             echo "Waiting..."
             sleep 5
           done
-          echo "fhir container logs:"
-          docker logs "node-fhir-server-mongo-fhir-1"
-          echo "fhir container logs end"
 
-      - name: Test new patient request
-        run: ls -la && ls -la ./scripts
-
-      - name: Test new patient request
-        run: sh ./scripts/curlRequests/new_patient_test.sh
-
-      - name: Test get patient request
-        run: sh ./scripts/curlRequests/patient_get_test.sh
-
-      - name: Test get non-existing patient request
-        run: sh ./scripts/curlRequests/patient_get_fail_test.sh
+      - name: Test curl requests
+        run: |
+          CONTAINER_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' "${FHIR_CONTAINER_NAME}")
+          sh ./scripts/curlRequests/new_patient_test.sh $CONTAINER_IP
+          sh ./scripts/curlRequests/patient_get_test.sh $CONTAINER_IP
+          sh ./scripts/curlRequests/patient_get_fail_test.sh $CONTAINER_IP

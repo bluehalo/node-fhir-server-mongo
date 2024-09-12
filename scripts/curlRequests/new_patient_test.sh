@@ -1,6 +1,12 @@
 #!/bin/bash
 
-URL="http://localhost:3000/4_0_0/Patient/example"
+# Check if exactly one argument is provided
+if [ "$#" -ne 1 ]; then
+    echo "Usage: $0 <IP Address>"
+    exit 1
+fi
+
+URL="http://$1:3000/4_0_0/Patient/example"
 DATA='{
   "resourceType": "Patient",
   "id": "example",
