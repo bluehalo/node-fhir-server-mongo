@@ -13,33 +13,28 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4.1.7
+        with:
+          fetch-depth: 0
 
-      - name: Set up Docker Compose
-        run: |
-          apk add --no-cache docker-compose
+      - name: Set up Docker Compose and curl
+        run: apk add --no-cache docker-compose curl
 
       - name: Build
         run: docker compose up -d
 
       - name: Wait for application to be ready
-        run: sleep 30
-
-#      - name: Wait for application to be ready
-#        run: |
-#          # Define the container name
-#          CONTAINER_NAME="node-fhir-server-mongo-fhir-1"
-#          READY_STATEMENT="Server is up and running!"
-#
-#          echo "Waiting for the application to be ready..."
-#          while ! docker logs "$CONTAINER_NAME" 2>&1 | grep "${READY_STATEMENT}"; do
-#            echo "Waiting..."
-#            echo "$(docker ps)"
-#            sleep 5
-#          done
-#          echo "${READY_STATEMENT}"
+        run: |
+          echo "Waiting for the application to be ready..."
+          while ! docker logs "node-fhir-server-mongo-fhir-1" 2>&1 | grep "Server is up and running!"; do
+            echo "Waiting..."
+            sleep 5
+          done
 
       - name: Test new patient request
-        run: ./scripts/curlRequests/new_patient_test.sh
+        run: sh ./scripts/curlRequests/new_patient_test.sh
 
       - name: Test get patient request
-        run: ./scripts/curlRequests/patient_get_test.sh
+        run: sh ./scripts/curlRequests/patient_get_test.sh
+
+      - name: Test get non-existing patient request
+        run: sh ./scripts/curlRequests/patient_get_fail_test.sh
