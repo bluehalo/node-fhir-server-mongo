@@ -38,6 +38,7 @@ jobs:
             echo "Waiting..."
             sleep 5
           done
+          docker ps
 
       - name: Extract Container IP Address
         run: |
@@ -56,10 +57,12 @@ jobs:
             exit 1
           fi
 
-      #curl -X PUT -H "Content-Type: application/json" -T scripts/curlRequests/example_patient.json "http://${CONTAINER_IP}:3000/4_0_0/Patient/example"
+      - name: Test curl request
+        run: |
+          curl -X PUT -H "Content-Type: application/json" -T scripts/curlRequests/example_patient.json "http://${CONTAINER_IP}:3000/4_0_0/Patient/example"
+
       - name: Test new patient curl request
         run: |
-
           # Perform the GET request and store the HTTP status code
           response=$(curl -s -o /dev/null -w "%{http_code}" -X PUT -H "Content-Type: application/json" -T scripts/curlRequests/example_patient.json "http://${CONTAINER_IP}:3000/4_0_0/Patient/example")
 
