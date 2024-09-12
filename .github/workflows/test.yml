@@ -21,5 +21,21 @@ jobs:
       - name: Build
         run: docker compose up -d
 
-      - name: Test
-        run: docker compose run fhir yarn test
+      - name: Wait for application to be ready
+        run: |
+          # Define the container name
+          CONTAINER_NAME="node-fhir-server-mongo-fhir-1"
+          READY_STATEMENT="Server is up and running!"
+
+          echo "Waiting for the application to be ready..."
+          while ! docker logs "$CONTAINER_NAME" 2>&1 | grep -q "${READY_STATEMENT}"; do
+            echo "Waiting..."
+            sleep 5
+          done
+          echo "${READY_STATEMENT}"
+
+      - name: Test new patient request
+        run: ./scripts/curlRequests/new_patient_test.sh
+
+      - name: Test get patient request
+        run: ./scripts/curlRequests/patient_get_test.sh
