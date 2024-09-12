@@ -39,11 +39,60 @@ jobs:
             sleep 5
           done
 
-      - name: Test curl requests
+      - name: Extract Container IP Address
         run: |
-          CONTAINER_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' "${FHIR_CONTAINER_NAME}")
-          docker info
-          echo "${CONTAINER_IP}"
-          curl "http://${CONTAINER_IP}:3000/4_0_0/metadata"
-          curl -X PUT -H "Content-Type: application/json" -T scripts/curlRequests/example_patient.json "http://${CONTAINER_IP}:3000/4_0_0/Patient/example"
-          curl -X GET -H "Content-Type: application/json" "http://${CONTAINER_IP}:3000/4_0_0/Patient/example"
+          echo "CONTAINER_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' "${FHIR_CONTAINER_NAME}")" >> $GITHUB_ENV
+
+      - name: Test metadata curl request
+        run: |
+          # Perform the GET request and store the HTTP status code
+          response=$(curl -s -o /dev/null -w "%{http_code}" -X GET -H "Content-Type: application/json" "http://${CONTAINER_IP}:3000/4_0_0/metadata")
+
+          # Check if the HTTP status code is 200
+          if [ "$response" -eq 200 ]; then
+            echo "Request succeeded with status code 200."
+          else
+            echo "Request failed with status code $response."
+            exit 1
+          fi
+
+      #curl -X PUT -H "Content-Type: application/json" -T scripts/curlRequests/example_patient.json "http://${CONTAINER_IP}:3000/4_0_0/Patient/example"
+      - name: Test new patient curl request
+        run: |
+
+          # Perform the GET request and store the HTTP status code
+          response=$(curl -s -o /dev/null -w "%{http_code}" -X PUT -H "Content-Type: application/json" -T scripts/curlRequests/example_patient.json "http://${CONTAINER_IP}:3000/4_0_0/Patient/example")
+
+          # Check if the HTTP status code is 200
+          if [ "$response" -eq 200 ]; then
+            echo "Request succeeded with status code 200."
+          else
+            echo "Request failed with status code $response."
+            exit 1
+          fi
+
+      - name: Test get patient curl request
+        run: |
+          # Perform the GET request and store the HTTP status code
+          response=$(curl -s -o /dev/null -w "%{http_code}" -X GET -H "Content-Type: application/json" "http://${CONTAINER_IP}:3000/4_0_0/Patient/example")
+
+          # Check if the HTTP status code is 200
+          if [ "$response" -eq 200 ]; then
+            echo "Request succeeded with status code 200."
+          else
+            echo "Request failed with status code $response."
+            exit 1
+          fi
+
+      - name: Test get non-existing patient curl request
+        run: |
+          # Perform the GET request and store the HTTP status code
+          response=$(curl -s -o /dev/null -w "%{http_code}" -X GET -H "Content-Type: application/json" "http://${CONTAINER_IP}:3000/4_0_0/Patient/ghost")
+
+          # Check if the HTTP status code is NOT 200
+          if [ "$response" -ne 200 ]; then
+            echo "Request successsfully failed with status code $response."
+          else
+            echo "Request failed with status code $response."
+            exit 1
+          fi
