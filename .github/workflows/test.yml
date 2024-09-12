@@ -41,6 +41,9 @@ jobs:
           echo "fhir container logs end"
 
       - name: Test new patient request
+        run: ls -la && ls -la ./scripts
+
+      - name: Test new patient request
         run: sh ./scripts/curlRequests/new_patient_test.sh
 
       - name: Test get patient request
