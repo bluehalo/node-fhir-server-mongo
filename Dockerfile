@@ -1,6 +1,6 @@
 FROM node:lts-alpine
 
-ENV APP_HOME=/srv
+ENV APP_HOME=/src
 
 WORKDIR ${APP_HOME}
 

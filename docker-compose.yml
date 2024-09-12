@@ -15,8 +15,6 @@ services:
       INTROSPECTION_URL: https://myauthzserver.com/introspect
     ports:
       - '3000:3000'
-    volumes:
-      - ./src:/srv/src
     command: yarn nodemon
 
   mongo:

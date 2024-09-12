@@ -13,10 +13,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4.1.7
-        with:
-          fetch-depth: 0
 
-      - name: Set up Docker Compose and curl
+      - name: Set up Docker Compose and Curl
         run: apk add --no-cache docker-compose curl
 
       - name: Build
