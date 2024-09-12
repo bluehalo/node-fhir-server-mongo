@@ -7,18 +7,16 @@ jobs:
     name: Run Tests
     runs-on: ubuntu-latest
 
-    container:
-      image: docker:latest
-      options: --privileged
+    services:
+      docker:
+        image: docker:latest
+        options: --privileged
 
     env: # Define global environment variables here
       FHIR_CONTAINER_NAME: "node-fhir-server-mongo-fhir-1"
 
     steps:
       - uses: actions/checkout@v4.1.7
-
-      - name: Set up Docker Compose and Curl
-        run: apk add --no-cache docker-compose curl
 
       - name: Build
         run: docker compose up -d
@@ -43,6 +41,7 @@ jobs:
       - name: Test curl requests
         run: |
           CONTAINER_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' "${FHIR_CONTAINER_NAME}")
-          sh ./scripts/curlRequests/new_patient_test.sh $CONTAINER_IP
+          echo $CONTAINER_IP
+          sh ./scripts/curlRequests/new_patient_test.sh "localhost"
           sh ./scripts/curlRequests/patient_get_test.sh $CONTAINER_IP
           sh ./scripts/curlRequests/patient_get_fail_test.sh $CONTAINER_IP
