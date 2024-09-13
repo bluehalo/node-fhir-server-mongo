@@ -50,7 +50,7 @@ jobs:
           # Extract docker container IP address
           echo "CONTAINER_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' "${FHIR_CONTAINER_NAME}")" >> $GITHUB_ENV
 
-      - name: Test metadata curl request
+      - name: Test curl request for patient metadata
         run: |
           # Perform GET request for metadata
           response=$(curl -s -o /dev/null -w "%{http_code}" -X GET \
@@ -65,7 +65,7 @@ jobs:
             exit 1
           fi
 
-      - name: Test new patient curl request
+      - name: Test curl request to add new patient
         run: |
           # Perform PUT request to add a new patient
           response=$(curl -s -o /dev/null -w "%{http_code}" -X PUT \
@@ -81,7 +81,7 @@ jobs:
             exit 1
           fi
 
-      - name: Test get patient curl request
+      - name: Test curl request for existing patient
         run: |
           # Perform GET request get the newly added patient
           response=$(curl -s -o /dev/null -w "%{http_code}" -X GET \
@@ -96,7 +96,7 @@ jobs:
             exit 1
           fi
 
-      - name: Test get patient curl request
+      - name: Test curl request for non-existing patient to fail
         run: |
           # Perform GET request for a non-existing patient
           response=$(curl -s -o /dev/null -w "%{http_code}" -X GET \
