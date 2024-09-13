@@ -1,6 +1,6 @@
 {
   "resourceType": "AllergyIntolerance",
-  "id": "example",
+  "id": "example_allergyintolerance",
   "identifier": [
     {
       "system": "http://acme.com/ids/patients/risks",
