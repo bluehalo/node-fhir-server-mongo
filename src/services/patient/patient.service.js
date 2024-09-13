@@ -434,18 +434,21 @@ module.exports.search = (args) =>
     let Patient = getPatient(base_version);
 
     // Query our collection for this observation
-    collection.find(query).then( data => {
-      // Patient is a patient cursor, pull documents out before resolving
-      data.toArray().then((patients) => {
-        patients.forEach(function (element, i, returnArray) {
-          returnArray[i] = new Patient(element);
+    collection
+      .find(query)
+      .then((data) => {
+        // Patient is a patient cursor, pull documents out before resolving
+        data.toArray().then((patients) => {
+          patients.forEach(function (element, i, returnArray) {
+            returnArray[i] = new Patient(element);
+          });
+          resolve(patients);
         });
-        resolve(patients);
+      })
+      .catch((err) => {
+        logger.error('Error with Patient.search: ', err);
+        return reject(handleError({ error: err }));
       });
-    }).catch(err => {
-      logger.error('Error with Patient.search: ', err);
-      return reject(handleError({error: err}));
-    });
   });
 
 module.exports.searchById = (args) =>
@@ -459,15 +462,18 @@ module.exports.searchById = (args) =>
     let db = globals.get(CLIENT_DB);
     let collection = db.collection(`${COLLECTION.PATIENT}_${base_version}`);
     // Query our collection for this observation
-    collection.findOne({ id: id.toString() }).then( patient => {
-      if (patient) {
-        resolve(new Patient(patient));
-      }
-      resolve();
-    }).catch(err => {
-      logger.error('Error with Patient.searchById: ', err);
-      return reject(handleError({error: err}));
-    });
+    collection
+      .findOne({ id: id.toString() })
+      .then((patient) => {
+        if (patient) {
+          resolve(new Patient(patient));
+        }
+        resolve();
+      })
+      .catch((err) => {
+        logger.error('Error with Patient.searchById: ', err);
+        return reject(handleError({ error: err }));
+      });
   });
 
 module.exports.create = (args, { req }) =>
@@ -506,23 +512,27 @@ module.exports.create = (args, { req }) =>
     Object.assign(doc, { _id: id });
 
     // Insert our patient record
-    collection.updateOne({ id: id }, {$set: doc}, { upsert: true })
+    collection
+      .updateOne({ id: id }, { $set: doc }, { upsert: true })
       .then(() => {
         // Save the resource to history
         let history_collection = db.collection(`${COLLECTION.PATIENT}_${base_version}_History`);
 
         // Insert our patient record to history but don't assign _id
-        return history_collection.updateOne({ id: id }, {$set: history_collection}, { upsert: true })
+        return history_collection
+          .updateOne({ id: id }, { $set: history_collection }, { upsert: true })
           .then(() => {
             return resolve({ id: doc.id, resource_version: doc.meta.versionId });
-        }).catch(err2 => {
-          logger.error('Error with PatientHistory.create: ', err2);
-          return reject(handleError({error: err2}));
-        });
-    }).catch(err => {
-      logger.error('Error with Patient.create: ', err);
-      return reject(handleError({error: err}));
-    });
+          })
+          .catch((err2) => {
+            logger.error('Error with PatientHistory.create: ', err2);
+            return reject(handleError({ error: err2 }));
+          });
+      })
+      .catch((err) => {
+        logger.error('Error with Patient.create: ', err);
+        return reject(handleError({ error: err }));
+      });
   });
 
 module.exports.update = (args, { req }) =>
@@ -539,53 +549,62 @@ module.exports.update = (args, { req }) =>
 
     // Get current record
     // Query our collection for this observation
-    collection.findOne({ id: id.toString() }).then(data => {
-      let Patient = getPatient(base_version);
-      let patient = new Patient(resource);
+    collection
+      .findOne({ id: id.toString() })
+      .then((data) => {
+        let Patient = getPatient(base_version);
+        let patient = new Patient(resource);
 
-      if (data && data.meta) {
-        let foundPatient = new Patient(data);
-        let meta = foundPatient.meta;
-        meta.versionId = `${parseInt(foundPatient.meta.versionId) + 1}`;
-        patient.meta = meta;
-      } else {
-        let Meta = getMeta(base_version);
-        patient.meta = new Meta({
-          versionId: '1',
-          lastUpdated: moment.utc().format('YYYY-MM-DDTHH:mm:ssZ'),
-        });
-      }
-
-      let cleaned = JSON.parse(JSON.stringify(patient));
-      let doc = Object.assign(cleaned, { _id: id });
-
-      // Insert/update our patient record
-      collection.findOneAndUpdate({ id: id }, { $set: doc }, { upsert: true }).then(res => {
-        // save to history
-        let history_collection = db.collection(`${COLLECTION.PATIENT}_${base_version}_History`);
-
-        let history_patient = Object.assign(cleaned, { id: id });
-
-        // Insert our patient record to history but don't assign _id
-        return history_collection.updateOne({ id: id }, {$set: history_patient}, { upsert: true })
-          .then( () => {
-            return resolve({
-              id: id,
-              created: res && res.lastErrorObject ? !res.lastErrorObject.updatedExisting : false,
-              resource_version: doc.meta.versionId,
-            });
-          }).catch(err3 =>{
-            logger.error('Error with PatientHistory.create: ', err3);
-            return reject(handleError({error: err3}));
+        if (data && data.meta) {
+          let foundPatient = new Patient(data);
+          let meta = foundPatient.meta;
+          meta.versionId = `${parseInt(foundPatient.meta.versionId) + 1}`;
+          patient.meta = meta;
+        } else {
+          let Meta = getMeta(base_version);
+          patient.meta = new Meta({
+            versionId: '1',
+            lastUpdated: moment.utc().format('YYYY-MM-DDTHH:mm:ssZ'),
           });
-      }).catch(err2 =>{
-          logger.error('Error with Patient.update: ', err2);
-          return reject(handleError({error: err2}));
-      });
-    }).catch(err =>{
+        }
+
+        let cleaned = JSON.parse(JSON.stringify(patient));
+        let doc = Object.assign(cleaned, { _id: id });
+
+        // Insert/update our patient record
+        collection
+          .findOneAndUpdate({ id: id }, { $set: doc }, { upsert: true })
+          .then((res) => {
+            // save to history
+            let history_collection = db.collection(`${COLLECTION.PATIENT}_${base_version}_History`);
+
+            let history_patient = Object.assign(cleaned, { id: id });
+
+            // Insert our patient record to history but don't assign _id
+            return history_collection
+              .updateOne({ id: id }, { $set: history_patient }, { upsert: true })
+              .then(() => {
+                return resolve({
+                  id: id,
+                  created:
+                    res && res.lastErrorObject ? !res.lastErrorObject.updatedExisting : false,
+                  resource_version: doc.meta.versionId,
+                });
+              })
+              .catch((err3) => {
+                logger.error('Error with PatientHistory.create: ', err3);
+                return reject(handleError({ error: err3 }));
+              });
+          })
+          .catch((err2) => {
+            logger.error('Error with Patient.update: ', err2);
+            return reject(handleError({ error: err2 }));
+          });
+      })
+      .catch((err) => {
         logger.error('Error with Patient.searchById: ', err);
-        return reject(handleError({error: err}));
-    });
+        return reject(handleError({ error: err }));
+      });
   });
 
 module.exports.remove = (args, context) =>
@@ -598,27 +617,33 @@ module.exports.remove = (args, context) =>
     let db = globals.get(CLIENT_DB);
     let collection = db.collection(`${COLLECTION.PATIENT}_${base_version}`);
     // Delete our patient record
-    collection.deleteOne({ id: id }).then((_) => {
-      // delete history as well.  You can chose to save history.  Up to you
-      let history_collection = db.collection(`${COLLECTION.PATIENT}_${base_version}_History`);
-      return history_collection.deleteMany({ id: id }).then(() => {
-        return resolve({ deleted: _.result && _.result.n });
-      }).catch(err2=>{
+    collection
+      .deleteOne({ id: id })
+      .then((_) => {
+        // delete history as well.  You can chose to save history.  Up to you
+        let history_collection = db.collection(`${COLLECTION.PATIENT}_${base_version}_History`);
+        return history_collection
+          .deleteMany({ id: id })
+          .then(() => {
+            return resolve({ deleted: _.result && _.result.n });
+          })
+          .catch((err2) => {
+            logger.error('Error with Patient.remove');
+            // Must be 405 (Method Not Allowed) or 409 (Conflict)
+            // 405 if you do not want to allow the delete
+            // 409 if you can't delete because of referential
+            // integrity or some other reason
+            return reject(handleError({ error: err2, code: 409 }));
+          });
+      })
+      .catch((err) => {
         logger.error('Error with Patient.remove');
         // Must be 405 (Method Not Allowed) or 409 (Conflict)
         // 405 if you do not want to allow the delete
         // 409 if you can't delete because of referential
         // integrity or some other reason
-        return reject(handleError({error: err2, code: 409}));
+        return reject(handleError({ error: err, code: 409 }));
       });
-    }).catch(err => {
-      logger.error('Error with Patient.remove');
-      // Must be 405 (Method Not Allowed) or 409 (Conflict)
-      // 405 if you do not want to allow the delete
-      // 409 if you can't delete because of referential
-      // integrity or some other reason
-      return reject(handleError({error: err, code: 409}));
-    });
   });
 
 module.exports.searchByVersionId = (args, context) =>
@@ -633,16 +658,18 @@ module.exports.searchByVersionId = (args, context) =>
     let history_collection = db.collection(`${COLLECTION.PATIENT}_${base_version}_History`);
 
     // Query our collection for this observation
-    history_collection.findOne({ id: id.toString(), 'meta.versionId': `${version_id}` })
-      .then(patient => {
+    history_collection
+      .findOne({ id: id.toString(), 'meta.versionId': `${version_id}` })
+      .then((patient) => {
         if (patient) {
           resolve(new Patient(patient));
         }
         resolve();
-      }).catch(err => {
+      })
+      .catch((err) => {
         logger.error('Error with Patient.searchByVersionId: ', err);
-        return reject(handleError({error: err}));
-    });
+        return reject(handleError({ error: err }));
+      });
   });
 
 module.exports.history = (args, context) =>
@@ -671,18 +698,21 @@ module.exports.history = (args, context) =>
     let Patient = getPatient(base_version);
 
     // Query our collection for this observation
-    history_collection.find(query).then( data => {
-      // Patient is a patient cursor, pull documents out before resolving
-      data.toArray().then((patients) => {
-        patients.forEach(function (element, i, returnArray) {
-          returnArray[i] = new Patient(element);
+    history_collection
+      .find(query)
+      .then((data) => {
+        // Patient is a patient cursor, pull documents out before resolving
+        data.toArray().then((patients) => {
+          patients.forEach(function (element, i, returnArray) {
+            returnArray[i] = new Patient(element);
+          });
+          resolve(patients);
         });
-        resolve(patients);
+      })
+      .catch((err) => {
+        logger.error('Error with Patient.history: ', err);
+        return reject(handleError({ error: err }));
       });
-    }).catch(err => {
-      logger.error('Error with Patient.history: ', err);
-      return reject(handleError({error: err}));
-    });
   });
 
 module.exports.historyById = (args, context) =>
@@ -711,17 +741,20 @@ module.exports.historyById = (args, context) =>
     let Patient = getPatient(base_version);
 
     // Query our collection for this observation
-    history_collection.find(query).then( data => {
+    history_collection.find(query).then((data) => {
       // Patient is a patient cursor, pull documents out before resolving
-      data.toArray().then((patients) => {
-        patients.forEach(function (element, i, returnArray) {
-          returnArray[i] = new Patient(element);
+      data
+        .toArray()
+        .then((patients) => {
+          patients.forEach(function (element, i, returnArray) {
+            returnArray[i] = new Patient(element);
+          });
+          resolve(patients);
+        })
+        .catch((err) => {
+          logger.error('Error with Patient.historyById: ', err);
+          return reject(handleError({ error: err }));
         });
-        resolve(patients);
-      }).catch(err => {
-        logger.error('Error with Patient.historyById: ', err);
-        return reject(handleError({error: err}));
-      });
     });
   });
 
@@ -737,56 +770,67 @@ module.exports.patch = (args, context) =>
 
     // Get current record
     // Query our collection for this observation
-    collection.findOne({ id: id.toString() }).then( data => {
-      // Validate the patch
-      let errors = jsonpatch.validate(patchContent, data);
-      if (errors && Object.keys(errors).length > 0) {
-        logger.error('Error with patch contents');
-        return reject(handleError({error: errors}));
-      }
-      // Make the changes indicated in the patch
-      let resource = jsonpatch.applyPatch(data, patchContent).newDocument;
+    collection
+      .findOne({ id: id.toString() })
+      .then((data) => {
+        // Validate the patch
+        let errors = jsonpatch.validate(patchContent, data);
+        if (errors && Object.keys(errors).length > 0) {
+          logger.error('Error with patch contents');
+          return reject(handleError({ error: errors }));
+        }
+        // Make the changes indicated in the patch
+        let resource = jsonpatch.applyPatch(data, patchContent).newDocument;
 
-      let Patient = getPatient(base_version);
-      let patient = new Patient(resource);
+        let Patient = getPatient(base_version);
+        let patient = new Patient(resource);
 
-      if (data && data.meta) {
-        let foundPatient = new Patient(data);
-        let meta = foundPatient.meta;
-        meta.versionId = `${parseInt(foundPatient.meta.versionId) + 1}`;
-        patient.meta = meta;
-      } else {
-        return reject(handleError({message: 'Unable to patch resource. Missing either data or metadata.'}));
-      }
+        if (data && data.meta) {
+          let foundPatient = new Patient(data);
+          let meta = foundPatient.meta;
+          meta.versionId = `${parseInt(foundPatient.meta.versionId) + 1}`;
+          patient.meta = meta;
+        } else {
+          return reject(
+            handleError({ message: 'Unable to patch resource. Missing either data or metadata.' })
+          );
+        }
 
-      // Same as update from this point on
-      let cleaned = JSON.parse(JSON.stringify(patient));
-      let doc = Object.assign(cleaned, { _id: id });
+        // Same as update from this point on
+        let cleaned = JSON.parse(JSON.stringify(patient));
+        let doc = Object.assign(cleaned, { _id: id });
 
-      // Insert/update our patient record
-      collection.findOneAndUpdate({ id: id }, { $set: doc }, { upsert: true }).then( res => {
-        // Save to history
-        let history_collection = db.collection(`${COLLECTION.PATIENT}_${base_version}_History`);
-        let history_patient = Object.assign(cleaned, { _id: id + cleaned.meta.versionId });
+        // Insert/update our patient record
+        collection
+          .findOneAndUpdate({ id: id }, { $set: doc }, { upsert: true })
+          .then((res) => {
+            // Save to history
+            let history_collection = db.collection(`${COLLECTION.PATIENT}_${base_version}_History`);
+            let history_patient = Object.assign(cleaned, { _id: id + cleaned.meta.versionId });
 
-        // Insert our patient record to history but don't assign _id
-        return history_collection.updateOne({ id: id }, {$set: history_patient}, { upsert: true })
-          .then(() => {
-            return resolve({
-              id: doc.id,
-              created: res && res.lastErrorObject ? !res.lastErrorObject.updatedExisting : false,
-              resource_version: doc.meta.versionId,
-            });
-          }).catch(err3 =>{
-            logger.error('Error with PatientHistory.create: ', err3);
-            return reject(handleError({error: err3}));
+            // Insert our patient record to history but don't assign _id
+            return history_collection
+              .updateOne({ id: id }, { $set: history_patient }, { upsert: true })
+              .then(() => {
+                return resolve({
+                  id: doc.id,
+                  created:
+                    res && res.lastErrorObject ? !res.lastErrorObject.updatedExisting : false,
+                  resource_version: doc.meta.versionId,
+                });
+              })
+              .catch((err3) => {
+                logger.error('Error with PatientHistory.create: ', err3);
+                return reject(handleError({ error: err3 }));
+              });
+          })
+          .catch((err2) => {
+            logger.error('Error with Patient.update: ', err2);
+            return reject(handleError({ error: err2 }));
           });
-      }).catch(err2 => {
-        logger.error('Error with Patient.update: ', err2);
-        return reject(handleError({error: err2}));
+      })
+      .catch((err) => {
+        logger.error('Error with Patient.searchById: ', err);
+        return reject(handleError({ error: err }));
       });
-    }).catch(err => {
-      logger.error('Error with Patient.searchById: ', err);
-      return reject(handleError({error: err}));
-    });
   });
