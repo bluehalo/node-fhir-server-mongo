@@ -58,8 +58,7 @@ jobs:
           fi
 
       - name: Test curl request
-        run: |
-          curl -X PUT -H "Content-Type: application/json" -T scripts/curlRequests/example_patient.json "http://${CONTAINER_IP}:3000/4_0_0/Patient/example"
+        run: sh ./scripts/curlRequests/patient_get_test.sh $CONTAINER_IP
 
       - name: Test new patient curl request
         run: |
