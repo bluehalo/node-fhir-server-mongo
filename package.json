@@ -1,6 +1,6 @@
 {
   "name": "@bluehalo/node-fhir-server-mongo",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "FHIR Facade Server implementing @bluehalo/node-fhir-server-core",
   "main": "src/index.js",
   "repository": "https://github.com/BlueHalo/node-fhir-server-mongo.git",
@@ -36,19 +36,21 @@
     ]
   },
   "dependencies": {
-    "@bluehalo/node-fhir-server-core": "^2.2.5",
+    "@bluehalo/node-fhir-server-core": "^2.3.0",
     "fast-json-patch": "^3.1.1",
-    "moment-timezone": "^0.5.40",
-    "mongo": "^0.1.0",
+    "moment-timezone": "^0.5.45",
+    "mongodb": "^6.8.1",
     "object-hash": "^3.0.0",
     "var": "^0.4.0"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
-    "eslint": "^8.33.0",
-    "jest": "^29.4.1",
-    "nodemon": "^2.0.20",
-    "prettier": "^2.8.3"
+    "eslint": "^9.9",
+    "eslint-config-prettier": "^9.1.0",
+    "globals": "^15.9.0",
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.4",
+    "prettier": "^3.3.3"
   },
   "private": false
 }

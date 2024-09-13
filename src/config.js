@@ -8,11 +8,7 @@ const env = require('var');
 let mongoConfig = {
   connection: `mongodb://${env.MONGO_HOSTNAME}`,
   db_name: env.MONGO_DB_NAME,
-  options: {
-    auto_reconnect: true,
-    useUnifiedTopology: true,
-    useNewUrlParser: true,
-  },
+  options: {},
 };
 
 // Set up whitelist
@@ -22,6 +18,8 @@ let whitelist_env = (env.WHITELIST && env.WHITELIST.split(',').map((host) => hos
 // If it's length is 1, set it to a string, so * works
 // If there are multiple, keep them as an array
 let whitelist = whitelist_env && whitelist_env.length === 1 ? whitelist_env[0] : whitelist_env;
+
+let PROFILE_VERSIONS = [VERSIONS['4_0_0']];
 
 /**
  * @name fhirServerConfig
@@ -80,27 +78,27 @@ let fhirServerConfig = {
   profiles: {
     Account: {
       service: './src/services/account/account.service.js',
-      versions: [VERSIONS['4_0_0']],
+      versions: PROFILE_VERSIONS,
     },
     AllergyIntolerance: {
       service: './src/services/allergyintolerance/allergyintolerance.service.js',
-      versions: [VERSIONS['4_0_0']],
+      versions: PROFILE_VERSIONS,
     },
     Claim: {
       service: './src/services/claim/claim.service.js',
-      versions: [VERSIONS['4_0_0']],
+      versions: PROFILE_VERSIONS,
     },
     Organization: {
       service: './src/services/organization/organization.service.js',
-      versions: [VERSIONS['4_0_0']],
+      versions: PROFILE_VERSIONS,
     },
     Condition: {
       service: './src/services/condition/condition.service.js',
-      versions: [VERSIONS['4_0_0']],
+      versions: PROFILE_VERSIONS,
     },
     Patient: {
       service: './src/services/patient/patient.service.js',
-      versions: [VERSIONS['4_0_0']],
+      versions: PROFILE_VERSIONS,
     },
   },
 };

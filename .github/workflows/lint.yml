@@ -3,18 +3,23 @@ name: Lint
 on: push
 
 jobs:
-  run-tests:
-    name: Run Linter(s)
+  run-linter:
+    name: Run Linters
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v4.1.7
 
-      - name: Build
-        run: docker compose up -d
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '20'
 
-      - name: Lint
-        run: docker compose run fhir npm run test:lint
+      - name: Install Dependencies
+        run: yarn install
+
+      - name: Run Linters
+        run: yarn test:lint
 
       - name: Prettier
-        run: docker compose run fhir npm run prettier-check
+        run: yarn prettier-check

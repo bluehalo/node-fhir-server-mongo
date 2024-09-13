@@ -1,7 +1,7 @@
 const FHIRServer = require('@bluehalo/node-fhir-server-core');
 const logger = require('@bluehalo/node-fhir-server-core').loggers.get();
 const asyncHandler = require('./lib/async-handler');
-const mongoClient = require('./lib/mongo');
+const { connect: mongoClient } = require('./lib/mongo');
 const globals = require('./globals');
 
 const { fhirServerConfig, mongoConfig } = require('./config');
