@@ -14,15 +14,20 @@ jobs:
 
     env:
       FHIR_CONTAINER_NAME: 'node-fhir-server-mongo-fhir-1'
+      VERSION: '4_0_0'
+      PORT: '3000'
 
     steps:
       - uses: actions/checkout@v4.1.7
 
       - name: Build
-        run: docker compose up -d
+        run: |
+          # Start up the docker in docker
+          docker compose up -d
 
       - name: Wait for application to be ready
         run: |
+          # Wait up to a minute for the server to start
           max_attempts=12
           attempt=0
           echo "Waiting for the application to be ready..."
@@ -42,16 +47,19 @@ jobs:
 
       - name: Extract Container IP Address
         run: |
+          # Extract docker container IP address
           echo "CONTAINER_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' "${FHIR_CONTAINER_NAME}")" >> $GITHUB_ENV
 
       - name: Test metadata curl request
         run: |
-          # Perform the GET request for basic metadata
-          response=$(curl -s -o /dev/null -w "%{http_code}" -X GET -H "Content-Type: application/json" "http://${CONTAINER_IP}:3000/4_0_0/metadata")
+          # Perform GET request for metadata
+          response=$(curl -s -o /dev/null -w "%{http_code}" -X GET \
+            -H "Content-Type: application/json" \
+            "http://${CONTAINER_IP}:${PORT}/${VERSION}/metadata")
 
           # Check if the HTTP status code is 200
           if [ "$response" -eq 200 ]; then
-            echo "Request succeeded with status code 200."
+            echo "Request successful with status code 200."
           else
             echo "Request failed with status code $response."
             exit 1
@@ -59,42 +67,46 @@ jobs:
 
       - name: Test new patient curl request
         run: |
-          # Perform the PUT request to add a new patient
-          response=$(curl -s -o /dev/null -w "%{http_code}" -X PUT -H "Content-Type: application/json" -T scripts/curlRequests/example_patient.json "http://${CONTAINER_IP}:3000/4_0_0/Patient/example")
+          # Perform PUT request to add a new patient
+          response=$(curl -s -o /dev/null -w "%{http_code}" -X PUT \
+            -T sample_data/example_patient.json
+            -H "Content-Type: application/json" \
+            "http://${CONTAINER_IP}:${PORT}/${VERSION}/Patient/example")
 
           # Check if the HTTP status code is 200
           if [ "$response" -eq 200 ]; then
-            echo "Request succeeded with status code 200."
+            echo "Request successful with status code 200."
           else
             echo "Request failed with status code $response."
             exit 1
           fi
 
       - name: Test get patient curl request
-        run: sh ./scripts/curlRequests/patient_get_test.sh "${CONTAINER_IP}"
-
-      - name: Test get patient curl request
         run: |
-          # Perform the GET request to get the patient
-          response=$(curl -s -o /dev/null -w "%{http_code}" -X GET -H "Content-Type: application/json" "http://${CONTAINER_IP}:3000/4_0_0/Patient/example")
+          # Perform GET request get the newly added patient
+          response=$(curl -s -o /dev/null -w "%{http_code}" -X GET \
+            -H "Content-Type: application/json" \
+            "http://${CONTAINER_IP}:${PORT}/${VERSION}/Patient/example")
 
           # Check if the HTTP status code is 200
           if [ "$response" -eq 200 ]; then
-            echo "Request succeeded with status code 200."
+            echo "Request successful with status code 200."
           else
             echo "Request failed with status code $response."
             exit 1
           fi
 
-      - name: Test get non-existing patient curl request
+      - name: Test get patient curl request
         run: |
-          # Perform the GET request to get a non existing patient
-          response=$(curl -s -o /dev/null -w "%{http_code}" -X GET -H "Content-Type: application/json" "http://${CONTAINER_IP}:3000/4_0_0/Patient/ghost")
+          # Perform GET request for a non-existing patient
+          response=$(curl -s -o /dev/null -w "%{http_code}" -X GET \
+            -H "Content-Type: application/json" \
+            "http://${CONTAINER_IP}:${PORT}/${VERSION}/Patient/no_show")
 
-          # Check if the HTTP status code is NOT 200
+          # Check if the HTTP status code is 200
           if [ "$response" -ne 200 ]; then
-            echo "Request successsfully failed with status code $response."
+            echo "Request successful with status code $response (non 200)."
           else
-            echo "Request failed with status code $response."
+            echo "Request failed with undesired status code 200."
             exit 1
           fi
