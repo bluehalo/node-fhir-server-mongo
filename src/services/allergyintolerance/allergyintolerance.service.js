@@ -354,7 +354,7 @@ module.exports.update = (args, { req }) =>
               .then(() => {
                 return resolve({
                   id: id,
-                  created: res.lastErrorObject && !res.lastErrorObject.updatedExisting,
+                  created: res && res.lastErrorObject ? !res.lastErrorObject.updatedExisting : false,
                   resource_version: doc.meta.versionId,
                 });
               })
