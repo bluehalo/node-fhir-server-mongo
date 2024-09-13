@@ -73,7 +73,7 @@ jobs:
             response=$(curl -s -o /dev/null -w "%{http_code}" -X PUT \
               -T ${filename_with_extension_and_path} \
               -H "Content-Type: application/json" \
-              "http://${CONTAINER_IP}:${PORT}/${VERSION}/${filename}/example")
+              "http://${CONTAINER_IP}:${PORT}/${VERSION}/${filename}/example_${filename}")
 
             # Check if the HTTP status code is 200
             if [ "$response" -eq 200 ]; then
@@ -93,7 +93,7 @@ jobs:
             echo "Perform GET request get the newly added ${filename}"
             response=$(curl -s -o /dev/null -w "%{http_code}" -X GET \
               -H "Content-Type: application/json" \
-              "http://${CONTAINER_IP}:${PORT}/${VERSION}/${filename}/example")
+              "http://${CONTAINER_IP}:${PORT}/${VERSION}/${filename}/example_${filename}")
 
             # Check if the HTTP status code is 200
             if [ "$response" -eq 200 ]; then
@@ -113,7 +113,7 @@ jobs:
             echo "Perform GET request for a non-existing ${filename}"
             response=$(curl -s -o /dev/null -w "%{http_code}" -X GET \
               -H "Content-Type: application/json" \
-              "http://${CONTAINER_IP}:${PORT}/${VERSION}/Patient/no_show")
+              "http://${CONTAINER_IP}:${PORT}/${VERSION}/Patient/missing_${filename}")
 
             # Check if the HTTP status code is 200
             if [ "$response" -ne 200 ]; then
