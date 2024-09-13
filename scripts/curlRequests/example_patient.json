@@ -31,24 +31,16 @@
     {
       "use": "official",
       "family": "Chalmers",
-      "given": [
-        "Peter",
-        "James"
-      ]
+      "given": ["Peter", "James"]
     },
     {
       "use": "usual",
-      "given": [
-        "Jim"
-      ]
+      "given": ["Jim"]
     },
     {
       "use": "maiden",
       "family": "Windsor",
-      "given": [
-        "Peter",
-        "James"
-      ],
+      "given": ["Peter", "James"],
       "period": {
         "end": "2002"
       }
@@ -95,9 +87,7 @@
       "use": "home",
       "type": "both",
       "text": "534 Erewhon St PeasantVille, Rainbow, Vic  3999",
-      "line": [
-        "534 Erewhon St"
-      ],
+      "line": ["534 Erewhon St"],
       "city": "PleasantVille",
       "district": "Rainbow",
       "state": "Vic",
@@ -129,9 +119,7 @@
             }
           ]
         },
-        "given": [
-          "Bénédicte"
-        ]
+        "given": ["Bénédicte"]
       },
       "telecom": [
         {
@@ -142,9 +130,7 @@
       "address": {
         "use": "home",
         "type": "both",
-        "line": [
-          "534 Erewhon St"
-        ],
+        "line": ["534 Erewhon St"],
         "city": "PleasantVille",
         "district": "Rainbow",
         "state": "Vic",

@@ -13,7 +13,7 @@ jobs:
         options: --privileged
 
     env:
-      FHIR_CONTAINER_NAME: "node-fhir-server-mongo-fhir-1"
+      FHIR_CONTAINER_NAME: 'node-fhir-server-mongo-fhir-1'
 
     steps:
       - uses: actions/checkout@v4.1.7
@@ -46,7 +46,7 @@ jobs:
 
       - name: Test metadata curl request
         run: |
-          # Perform the GET request and store the HTTP status code
+          # Perform the GET request for basic metadata
           response=$(curl -s -o /dev/null -w "%{http_code}" -X GET -H "Content-Type: application/json" "http://${CONTAINER_IP}:3000/4_0_0/metadata")
 
           # Check if the HTTP status code is 200
@@ -57,12 +57,9 @@ jobs:
             exit 1
           fi
 
-      - name: Test curl request
-        run: sh ./scripts/curlRequests/patient_get_test.sh $CONTAINER_IP
-
       - name: Test new patient curl request
         run: |
-          # Perform the GET request and store the HTTP status code
+          # Perform the PUT request to add a new patient
           response=$(curl -s -o /dev/null -w "%{http_code}" -X PUT -H "Content-Type: application/json" -T scripts/curlRequests/example_patient.json "http://${CONTAINER_IP}:3000/4_0_0/Patient/example")
 
           # Check if the HTTP status code is 200
@@ -74,8 +71,11 @@ jobs:
           fi
 
       - name: Test get patient curl request
+        run: sh ./scripts/curlRequests/patient_get_test.sh "${CONTAINER_IP}"
+
+      - name: Test get patient curl request
         run: |
-          # Perform the GET request and store the HTTP status code
+          # Perform the GET request to get the patient
           response=$(curl -s -o /dev/null -w "%{http_code}" -X GET -H "Content-Type: application/json" "http://${CONTAINER_IP}:3000/4_0_0/Patient/example")
 
           # Check if the HTTP status code is 200
@@ -88,7 +88,7 @@ jobs:
 
       - name: Test get non-existing patient curl request
         run: |
-          # Perform the GET request and store the HTTP status code
+          # Perform the GET request to get a non existing patient
           response=$(curl -s -o /dev/null -w "%{http_code}" -X GET -H "Content-Type: application/json" "http://${CONTAINER_IP}:3000/4_0_0/Patient/ghost")
 
           # Check if the HTTP status code is NOT 200
