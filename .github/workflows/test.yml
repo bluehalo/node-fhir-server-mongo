@@ -57,9 +57,9 @@ jobs:
 
           # Check if the HTTP status code is 200
           if [ "$response" -eq 200 ]; then
-            echo "Request ${filename} successful with status code 200."
+            echo "Request successful with status code 200."
           else
-            echo "Request ${filename} failed with status code $response."
+            echo "Request failed with status code $response."
             exit 1
           fi
 
