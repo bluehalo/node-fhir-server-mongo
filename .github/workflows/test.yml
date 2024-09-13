@@ -69,7 +69,7 @@ jobs:
         run: |
           # Perform PUT request to add a new patient
           response=$(curl -s -o /dev/null -w "%{http_code}" -X PUT \
-            -T sample_data/example_patient.json
+            -T sample_data/example_patient.json \
             -H "Content-Type: application/json" \
             "http://${CONTAINER_IP}:${PORT}/${VERSION}/Patient/example")
 
