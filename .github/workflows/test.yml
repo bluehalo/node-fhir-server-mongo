@@ -20,10 +20,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4.1.7
 
-      - name: Build
-        run: |
-          # Start up the docker in docker
-          docker compose up -d
+      - name: Create containers with docker compose
+        run: docker compose up -d
 
       - name: Wait for application to be ready
         run: |
@@ -65,48 +63,66 @@ jobs:
             exit 1
           fi
 
-      - name: Test curl request to add new patient
+      - name: Test curl request to add new service
         run: |
-          # Perform PUT request to add a new patient
-          response=$(curl -s -o /dev/null -w "%{http_code}" -X PUT \
-            -T sample_data/example_patient.json \
-            -H "Content-Type: application/json" \
-            "http://${CONTAINER_IP}:${PORT}/${VERSION}/Patient/example")
+          for filename_with_extension_and_path in sample_data/*.json; do
+            filename_with_extension="${filename_with_extension_and_path##*/}"
+            filename="${filename_with_extension%%.*}"
 
-          # Check if the HTTP status code is 200
-          if [ "$response" -eq 200 ]; then
-            echo "Request successful with status code 200."
-          else
-            echo "Request failed with status code $response."
-            exit 1
-          fi
+            echo "Perform PUT request to add a new ${filename}"
+            response=$(curl -s -o /dev/null -w "%{http_code}" -X PUT \
+              -T ${filename_with_extension_and_path} \
+              -H "Content-Type: application/json" \
+              "http://${CONTAINER_IP}:${PORT}/${VERSION}/${filename}/example_${filename}")
 
-      - name: Test curl request for existing patient
+            # Check if the HTTP status code is 200
+            if [ "$response" -eq 200 ]; then
+              echo "Request ${filename} successful with status code 200."
+            else
+              echo "Request ${filename} failed with status code $response."
+              exit 1
+            fi
+          done
+
+      - name: Test curl request for existing service
         run: |
-          # Perform GET request get the newly added patient
-          response=$(curl -s -o /dev/null -w "%{http_code}" -X GET \
-            -H "Content-Type: application/json" \
-            "http://${CONTAINER_IP}:${PORT}/${VERSION}/Patient/example")
+          for filename_with_extension_and_path in sample_data/*.json; do
+            filename_with_extension="${filename_with_extension_and_path##*/}"
+            filename="${filename_with_extension%%.*}"
 
-          # Check if the HTTP status code is 200
-          if [ "$response" -eq 200 ]; then
-            echo "Request successful with status code 200."
-          else
-            echo "Request failed with status code $response."
-            exit 1
-          fi
+            echo "Perform GET request get the newly added ${filename}"
+            response=$(curl -s -o /dev/null -w "%{http_code}" -X GET \
+              -H "Content-Type: application/json" \
+              "http://${CONTAINER_IP}:${PORT}/${VERSION}/${filename}/example_${filename}")
+
+            # Check if the HTTP status code is 200
+            if [ "$response" -eq 200 ]; then
+              echo "Request ${filename} successful with status code 200."
+            else
+              echo "Request ${filename} failed with status code $response."
+              exit 1
+            fi
+          done
 
       - name: Test curl request for non-existing patient to fail
         run: |
-          # Perform GET request for a non-existing patient
-          response=$(curl -s -o /dev/null -w "%{http_code}" -X GET \
-            -H "Content-Type: application/json" \
-            "http://${CONTAINER_IP}:${PORT}/${VERSION}/Patient/no_show")
+          for filename_with_extension_and_path in sample_data/*.json; do
+            filename_with_extension="${filename_with_extension_and_path##*/}"
+            filename="${filename_with_extension%%.*}"
 
-          # Check if the HTTP status code is 200
-          if [ "$response" -ne 200 ]; then
-            echo "Request successful with status code $response (non 200)."
-          else
-            echo "Request failed with undesired status code 200."
-            exit 1
-          fi
+            echo "Perform GET request for a non-existing ${filename}"
+            response=$(curl -s -o /dev/null -w "%{http_code}" -X GET \
+              -H "Content-Type: application/json" \
+              "http://${CONTAINER_IP}:${PORT}/${VERSION}/Patient/missing_${filename}")
+
+            # Check if the HTTP status code is 200
+            if [ "$response" -ne 200 ]; then
+              echo "Request ${filename} successful with status code $response (non 200)."
+            else
+              echo "Request ${filename} failed with undesired status code 200."
+              exit 1
+            fi
+          done
+
+      - name: Shutdown containers with docker compose
+        run: docker compose down
